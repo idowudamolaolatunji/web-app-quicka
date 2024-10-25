@@ -16,7 +16,10 @@ function OverviewChart() {
             { name: 'Offline Sales', data: new Array(12).fill(null), color: '#994020' },
         ];
 
-        orders.forEach((data) => {
+        // WE ONLY TRACK SALES FOR COMPLETED ORDERS ALONE
+        const completedOrders = orders?.filter(order => order.orderStatus == "completed")
+
+        completedOrders.forEach((data) => {
             const orderDate = new Date(data.orderDate);
             const month = orderDate.getMonth(); // 0-11
             const sales = data.products.reduce((sum, product) => sum + product.price, 0);

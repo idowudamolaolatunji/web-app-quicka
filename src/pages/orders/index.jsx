@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { capitalizeFirstLetter, formatDate, formatNumber } from '../../utils/helper';
+import { capitalizeFirstLetter, formatDate, formatNumber, isWithinLast7Days } from '../../utils/helper';
 import { useWindowSize } from 'react-use';
 import Insight from '../../components/Insight';
 import { TbNotes, TbNotesOff } from 'react-icons/tb';
@@ -24,7 +24,7 @@ const emptyBtns = [
 function imgString(imgType) {
     if (imgType === 'online store') return online_store;
     if (imgType === 'facebook') return facebook;
-    if (imgType === 'physical store') return physical_store;
+    if (imgType === 'physical shop') return physical_store;
     if (imgType === 'instagram') return instagram;
     if (imgType === 'whatsapp') return whatsapp;
     if (imgType === 'twitter') return twitter;
@@ -41,6 +41,11 @@ function index() {
     const { showInsights, } = useDataContext();
     const { loader, error, orders, handleFetchUserStoreOrders } = useFetchedContext()
     const [tableSearch, setTableSearch] = useState('');
+
+    const completedOrders = orders?.filter(order => order.orderStatus == "completed");
+    const unCompletedOrders = orders?.filter(order => order.orderStatus != "completed");
+    const newOrders = orders?.filter(order => order.channel == "online store" && order.orderStatus != "completed" && isWithinLast7Days(order.orderDate));
+
 
     const columns = [
         {
@@ -157,9 +162,9 @@ function index() {
             {showInsights?.order && (
                 <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && { width: '85%' }) }}>
                     <Insight title='Total Orders' loader={loader?.order} value={orders?.length} icon={<MdOutlineShoppingBag />} />
-                    <Insight title='New Orders' loader={loader?.order} value={0} icon={<MdOutlineNoteAlt />} />
-                    <Insight title='Completed Orders' loader={loader?.order} value={0} icon={<TbNotes />} />
-                    <Insight title='Uncompleted Orders' loader={loader?.order} value={0} icon={<TbNotesOff />} />
+                    <Insight title='New Orders' loader={loader?.order} value={newOrders?.length} icon={<MdOutlineNoteAlt />} />
+                    <Insight title='Completed Orders' loader={loader?.order} value={completedOrders?.length} icon={<TbNotes />} />
+                    <Insight title='Uncompleted Orders' loader={loader?.order} value={unCompletedOrders?.length} icon={<TbNotesOff />} />
                 </div>
             )}
 

@@ -516,7 +516,7 @@ button.menu--button {
 /*  */
 /* ========================================== */
 .content--block {
-    padding: 3.6rem 2.4rem 6.4rem;
+    padding: 3.6rem 2.4rem 4rem;
     overflow-x: hidden;
     overflow-y: scroll;
     height: 90vh;
@@ -549,7 +549,7 @@ button.menu--button {
         height: auto;
     }
     .content--block {
-        padding: 10rem 2rem 6rem;
+        padding: 10rem 2rem 4rem;
         height: fit-content;
         overflow-y: unset;
     }

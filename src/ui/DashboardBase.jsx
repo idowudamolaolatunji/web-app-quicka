@@ -27,6 +27,8 @@ function DashboardBase({ children }) {
 
                 <section className='content--block'>
                     {children}
+
+                    <p className='copyright--text'>&copy; Quicka Inc <img src="../../favicon.png" /> 2024, All right reserved.</p>
                 </section>
             </section>
         </Fragment>

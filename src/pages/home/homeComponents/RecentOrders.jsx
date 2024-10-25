@@ -13,7 +13,7 @@ import { useWindowSize } from 'react-use';
 function imgString(imgType) {
     if (imgType === 'online store') return online_store;
     if (imgType === 'facebook') return facebook;
-    if (imgType === 'physical store') return physical_store;
+    if (imgType === 'physical shop') return physical_store;
     if (imgType === 'instagram') return instagram;
     if (imgType === 'whatsapp') return whatsapp;
     if (imgType === 'twitter') return twitter;
@@ -129,9 +129,10 @@ const columns = [
 function RecentOrders() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { orders, loader, error } = useFetchedContext();
+    const { orders, error } = useFetchedContext();
 
     const isData = orders?.length > 0;
+    const recentOrders = orders?.slice(0, 5);
 
     return (
         <div className='card recent-section' style={{ padding: 0 }}>
@@ -151,7 +152,7 @@ function RecentOrders() {
                 {(orders && !error?.order) && (
                     <div className="table-h">
                         <DataTable
-                            data={orders}
+                            data={recentOrders}
                             columns={columns}
                             pointerOnHover={true}
                             customStyles={customStyles}

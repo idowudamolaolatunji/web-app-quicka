@@ -140,7 +140,7 @@ export function validateOrderForm(data, _) {
 	if (data.orderProducts.length < 1) {
 		errors.orderProducts = "Product(s) ordered is required";
 	}
-	if (data.paymentMethod.length < 1 && !data.paymentMethod.value) {
+	if (data.paymentStatus != "unpaid" && data.paymentMethod.length < 1 && !data.paymentMethod.value) {
 		errors.paymentMethod = "Payment method is required";
 	}
 	if (data.deliveryStatus.length < 1 && !data.deliveryStatus.value) {

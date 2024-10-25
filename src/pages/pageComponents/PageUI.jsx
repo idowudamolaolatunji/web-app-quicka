@@ -19,7 +19,6 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
     const { handleToggleInsights, showInsights } = useDataContext();
 
     // CHECK THIS AGAIN LATER....
-    // const widthandItem500 = (items && items.length > 0 && width < 500 && insights);
     const widthandItem500 = (items && items.length > 0 && width < 500);
 
     const [showMoreActions, setShowMoreActions] = useState(false);
@@ -81,7 +80,7 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
 
             {children}
 
-            <div className="page__section--main card" style={{ padding: 0, ...(!insights && { boxShadow: "unset", border: "none", padding: 0 })  }}>
+            <div className="page__section--main card" style={{ padding: 0, ...((!insights && data?.length < 1) && { boxShadow: "unset", border: "none", padding: 0 })  }}>
                 <TableUI
                     data={data}
                     columns={columns}
