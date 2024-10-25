@@ -30,10 +30,6 @@ function TopSalesChannelsChart() {
     const [ApexSeriesData, ApexLebelData, MUIChartData] = processChannels();
 
 
-
-      
-
-
     // FOR THE MOBIE DOUNOT PIE CHART IN APEXCHART
     // const [series] = useState([44, 55, 41, 17, 15]);
     const [series] = useState(ApexSeriesData);
@@ -67,7 +63,7 @@ function TopSalesChannelsChart() {
                 breakpoint: 480,
                 options: {
                     chart: {
-                        height: 250
+                        height: 220
                     },
                 },
             },
@@ -75,21 +71,14 @@ function TopSalesChannelsChart() {
                 breakpoint: 400,
                 options: {
                     chart: {
-                        height: 280
+                        height: 240
                     },
                     legend: {
                         position: 'bottom',
                     },
                 },
             },
-            {
-                breakpoint: 340,
-                options: {
-                    chart: {
-                        height: 310
-                    },
-                },
-            },
+            
         ],
         dataLabels: {
             enabled: true,
@@ -184,7 +173,7 @@ function TopSalesChannelsChart() {
             ) : ( 
                 <>
                     <div id="chart" className='dougnot-chart'>
-                        <ReactApexChart options={options} series={series} type="donut" height={280} />
+                        <ReactApexChart options={options} series={series} type="donut" height={250} />
                     </div>
                     <div id="html-dist"></div>
                 </>

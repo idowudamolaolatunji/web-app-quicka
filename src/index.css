@@ -316,6 +316,10 @@ input::-webkit-inner-spin-button {
     background-color: #f1f1f1;
     color: #888;
 }
+.status--in-transit p {
+    background-color: #fff2e8;
+    color: #F8CBA6;
+}
 
 
 .flex {

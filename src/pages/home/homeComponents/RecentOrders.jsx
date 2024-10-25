@@ -139,7 +139,7 @@ function RecentOrders() {
 
                 <div className="section--heading">
                     <h2>Recent Order </h2>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing.</p>
+                    <p>Lorem ipsum dolor sit amet.</p>
                 </div>
 
                 <Link to="/dashboard/orders/">View-more</Link>

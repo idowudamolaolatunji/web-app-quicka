@@ -7,61 +7,33 @@ import { useFetchedContext } from '../../../context/FetchedContext';
 function OverviewChart() {
     const { width } = useWindowSize();
     const { orders } = useFetchedContext();
-
-    // I DONNO HOW YOU'D DO IT BUT THIS STATE BELOW HERE SHOULD BE THE GUY HOLDING THE CHART DATA
     const isData = orders?.length > 0 ? true : false;
-    
-
-    const series = [
-        {
-            name: 'Total Sales',
-            // data: [104500, 52700, 52200, 45500, 105350, 92500, 104100, 98300, 45600, null, null, null],
-            data: [null, null, null, null, null, null, null, null, null, 0, 0, 0],
-            color: '#ff7a49'
-        },
-        {
-            name: 'Online Sales',
-            // data: [94300, 41900, 8700, 41200, 95600, 9800, 52100, 5100, 3600, null, null, null],
-            data: [null, null, null, null, null, null, null, null, null, 0, 0, 0],
-            color: '#ffb59a'
-        },
-        {
-            name: 'Offline Sales',
-            // data: [9600, 8500, 41200, 4300, 9700, 82100, 43600, 92700, 41900, null, null, null],
-            data: [null, null, null, null, null, null, null, null, null, 0, 0, 0],
-            color: '#994020'
-        }          
-    ];
-
 
     const processChart = () => {
-        const salesData = orders.reduce((acc, curr) => {
-            const month = new Date(curr.orderDate).getMonth();
-            const sales = curr.products.reduce((sum, product) => sum + product.amount, 0);
-        
-            if (curr.channel === 'online store') {
-              acc[0].data[month] = (acc[0].data[month] || 0) + sales;
-              acc[1].data[month] = (acc[1].data[month] || 0) + sales;
-            } else {
-              acc[2].data[month] = (acc[2].data[month] || 0) + sales;
-            }
-        
-            acc[0].data[month] = (acc[0].data[month] || 0) + sales;
-        
-            return acc;
-          }, [
+        const series = [
             { name: 'Total Sales', data: new Array(12).fill(null), color: '#ff7a49' },
             { name: 'Online Sales', data: new Array(12).fill(null), color: '#ffb59a' },
             { name: 'Offline Sales', data: new Array(12).fill(null), color: '#994020' },
-          ]);
-        
-          return salesData;
-        
+        ];
+
+        orders.forEach((data) => {
+            const orderDate = new Date(data.orderDate);
+            const month = orderDate.getMonth(); // 0-11
+            const sales = data.products.reduce((sum, product) => sum + product.price, 0);
+
+            series[0].data[month] += sales; // Total Sales
+            if (data.channel === 'online store') {
+                series[1].data[month] += sales; // Online Sales
+            } else {
+                series[2].data[month] += sales; // Offline Sales
+            }
+        });
+
+        return series;
     };
 
-    console.log(processChart())
-    // const [series] = processChart()
-      
+    const series = processChart();
+    console.log(series)
 
     const options = {
         chart: {
@@ -126,10 +98,10 @@ function OverviewChart() {
             },
         },
         xaxis: {
-            categories: [ 'Jan', 'Feb', 'Mar', "Apr", 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
+            categories: ['Jan', 'Feb', 'Mar', "Apr", 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             labels: {
                 style: {
-                    fontSize: '11px',
+                    fontSize: '12px',
                     fontWeight: 500,
                     fontFamily: 'inherit',
                     colors: '#444',
@@ -160,7 +132,7 @@ function OverviewChart() {
     return (
         <div className='sales-overview'>
             <div id="chart" className='bar-chart'>
-                <ReactApexChart options={options} series={series} type='bar' height={isData ? 320 : (width < 850) ? 270 : 300} />
+                <ReactApexChart options={options} series={series} type='bar' height={isData ? 320 : (width < 850) ? 270 : 290} />
             </div>
             <div id="html-dist"></div>
         </div>

@@ -21,6 +21,7 @@ const emptyBtns = [
 ];
 
 function index() {
+    const { width } = useWindowSize();
     const { loader, error, deliveryRates, handleFetchUserStoreDeliveryRates } = useFetchedContext();
 
     const columns = [
@@ -29,7 +30,7 @@ function index() {
             selector: row => <span className='table--info'>
                 <h3>{row?.title}</h3>
             </span>,
-            width: "25%"
+            width: width > 600 && "25%",
         },
         {
             name: 'Type',

@@ -8,8 +8,7 @@ import { useFetchedContext } from '../../../context/FetchedContext';
 
 function TopSalesChannels() {
     const navigate = useNavigate();
-    const [salesChannels, setSalesChannels] = useState(true);
-    const { order } = useFetchedContext()
+    const { orders } = useFetchedContext()
 
     return (
         <div className='card sales-channel-section'>
@@ -20,8 +19,7 @@ function TopSalesChannels() {
                 </div>
             </div>
 
-            {/* {(order && order?.length > 0) ? ( */}
-            {salesChannels ? (
+            {(orders && orders?.length > 0) ? (
                 <TopSalesChannelsChart />
             ) : (
                 <div className="no--channel">

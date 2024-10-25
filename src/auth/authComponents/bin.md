@@ -275,3 +275,28 @@ export default index
 <option>Restaurant</option>
 <option>Toys & Games</option>
 <option>Womens Fashion</option>
+
+
+
+
+
+ // const series = [
+    //     {
+    //         name: 'Total Sales',
+    //         data: [104500, 52700, 52200, 45500, 105350, 92500, 104100, 98300, 45600, null, null, null],
+    //         // data: [null, null, null, null, null, null, null, null, null, 0, 0, 0],
+    //         color: '#ff7a49'
+    //     },
+    //     {
+    //         name: 'Online Sales',
+    //         data: [94300, 41900, 8700, 41200, 95600, 9800, 52100, 5100, 3600, null, null, null],
+    //         // data: [null, null, null, null, null, null, null, null, null, 0, 0, 0],
+    //         color: '#ffb59a'
+    //     },
+    //     {
+    //         name: 'Offline Sales',
+    //         data: [9600, 8500, 41200, 4300, 9700, 82100, 43600, 92700, 41900, null, null, null],
+    //         // data: [null, null, null, null, null, null, null, null, null, 0, 0, 0],
+    //         color: '#994020'
+    //     }
+    // ];
