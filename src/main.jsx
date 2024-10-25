@@ -5,7 +5,6 @@ import { DataProvider } from './context/DataContext.jsx';
 import { FetchedProvider } from './context/FetchedContext.jsx';
 
 import App from './App.jsx';
-// import 'rsuite/dist/rsuite.min.css';
 import './index.css';
 
 createRoot(document.getElementById('root')).render(

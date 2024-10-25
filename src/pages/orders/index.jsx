@@ -107,7 +107,7 @@ function index() {
                 <TooltipUI placement='top' title={formatDate(row.orderDate)}>
                     <p>{formatDate(row.orderDate)}</p>
                 </TooltipUI>
-            ), width: '150px'
+            ),
         },
     ];
 

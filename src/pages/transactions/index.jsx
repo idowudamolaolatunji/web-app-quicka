@@ -8,6 +8,9 @@ import { GrTag } from 'react-icons/gr';
 import { TbArrowWaveRightDown } from 'react-icons/tb';
 import { LuClipboardList } from 'react-icons/lu';
 import emptyImg from '../../assets/images/illustrations/transactions.png'
+import { MdOutlineRefresh } from 'react-icons/md';
+import TooltipUI from '../../components/TooltipUI';
+import { formatNumber } from '../../utils/helper';
 
 
 ///////////////////////////////////////////////
@@ -34,16 +37,42 @@ function index() {
             )
         },
         {
-            name: "Transaction Type",
-            selector: row => row.transactionType
+            name: "Payment Type",
+            selector: row => (
+                <span className="status status--success">
+                    <p>{row.paymentType}</p>
+                </span>
+            )
         },
         {
-            name: "Transaction Id",
+            name: "Amount",
             selector: row => (
-                <p className='value'>{row.transactionId}</p>
+                <p className="value">₦{formatNumber(row.amount)}</p>
             )
+        },
+        {
+            name: 'Status', 
+            selector: row => (
+                <span className={`status status--${row.status}`}>
+                    <p>{row.status}</p>
+                </span>
+            ),
+            // width: '120px'
         }
     ]
+
+
+    const HeadTabs = function() {
+        return (
+            <div className='content'>
+                <span className='flex'>
+                    <TooltipUI placement='top' title="Refresh">
+                        <button className='table--btn' onClick={handleFetchUserStoreTransactions}><MdOutlineRefresh /></button>
+                    </TooltipUI>
+                </span>
+            </div>
+        );
+    }
     
 
     useEffect(function() {
@@ -67,6 +96,7 @@ function index() {
             goto={false}
             emptyClassName="empty--others"
             loader={loader} error={error}
+            headTabs={<HeadTabs />}
         >
 
             {showInsights?.transaction && (

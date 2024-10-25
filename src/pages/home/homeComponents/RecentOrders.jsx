@@ -8,6 +8,7 @@ import TooltipUI from '../../../components/TooltipUI';
 import Empty from '../../../components/Empty';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { useWindowSize } from 'react-use';
+import TableError from '../../../components/TableError';
 
 
 function imgString(imgType) {
@@ -35,20 +36,20 @@ const customStyles = {
 			fontSize: "13px",
 			fontWeight: "bold",
 			color: "#eee",
-            height: '45px'
+            height: '50px'
 		},
 	},
 	rows: {
         style: {
-            minHeight: '65px',
+            minHeight: '70px',
             cursor: 'pointer'
         },
     },
     headCells: {
 		style: {
 			paddingRight: '5px',
-            backgroundColor: '#444',
-            height: '45px'
+            backgroundColor: '#333',
+            height: '50px'
 		},
 	},
     cells: {
@@ -149,14 +150,13 @@ function RecentOrders() {
             <>
                 {(error?.order && !isData) && <TableError text="Unable to fetch, Check Your Connection" />}
                 
-                {(orders && !error?.order) && (
-                    <div className="table-h">
+                {(isData && !error?.order) && (
+                    <div className="table-h" style={(orders && orders?.length < 3) ? { paddingBottom: "4rem" } : {} }>
                         <DataTable
                             data={recentOrders}
                             columns={columns}
                             pointerOnHover={true}
                             customStyles={customStyles}
-                            highlightOnHover={width > 600 ? true : false}
                             onRowClicked={(row) => navigate(`/dashboard/orders/${row.id}`)}
                             noDataComponent={<Empty customStyle={{ margin: "3rem 0" }} text="recent orders yet!" />}
                         />

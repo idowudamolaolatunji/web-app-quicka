@@ -4,13 +4,16 @@ import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/Insight';
-import { FiUser, FiUsers } from 'react-icons/fi';
+import { FiUsers } from 'react-icons/fi';
 import emptyImg from '../../assets/images/illustrations/customer.png'
 // import emptyImg from '../../assets/svgs/undraw_add_user_re_5oib.svg'
 import { TbUserSquare } from 'react-icons/tb';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { todayDate } from '../../utils/helper';
+import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
+import { MdOutlineRefresh } from 'react-icons/md';
+import TooltipUI from '../../components/TooltipUI';
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const emptyTitle = "Add new customer!";
 const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
@@ -24,7 +27,50 @@ function index() {
     const { showInsights } = useDataContext();
     const { loader, error, customers, handleFetchUserStoreCustomers } = useFetchedContext();
 
-    const columns = [];
+    const columns = [
+        {
+            name: "Customer Name",
+            selector: row => `${row?.firstname} ${row?.lastname}`
+        },
+        {
+            name: "Email",
+            selector: row => row?.contact?.email,
+        },
+        {
+            name: "Phone Number",
+            selector: row => `+${row?.contact?.phone}`
+        },
+        {
+            name: "Location",
+            selector: row => `${row?.shippingAddress?.state ? row?.shippingAddress?.state + ", " : ""} ${row?.shippingAddress.country}`
+        },
+        {
+            name: "Date Added",
+            selector: row => todayDate(row.createdAt)
+        },
+        {
+            selector: () => (
+                <span className='table--actions'>
+                    <button className='table--btn'><RiEdit2Line /></button>
+                    <button className='table--btn'><RiDeleteBin5Line /></button>
+                </span>
+            ),
+        }
+    ];
+
+
+    const HeadTabs = function() {
+        return (
+            <div className='content'>
+                <span className='flex'>
+                    <TooltipUI placement='top' title="Refresh">
+                        <button className='table--btn' onClick={handleFetchUserStoreCustomers}><MdOutlineRefresh /></button>
+                    </TooltipUI>
+                </span>
+            </div>
+        );
+    }
+
 
     useEffect(function() {
         document.title = "Quicka | Customers";
@@ -48,18 +94,15 @@ function index() {
             emptyImg={emptyImg}
             emptyTitle={emptyTitle}
             emptyClassName="empty--product"
-            // headTabs={<HeadTabs />}
+            headTabs={<HeadTabs />}
             loader={loader} error={error}
-            // loader={loader?.customer} error={error?.customer}
         >
-            
             {showInsights?.customer && (
                 <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && {width: '90%'}) }}>
                     <Insight title='Total Customers' loader={loader?.customer} value={customers?.length || 0} icon={<FiUsers />} />
                     <Insight title='Newsletter Customers' loader={loader?.customer} value={0} icon={<TbUserSquare />} />
                 </div>
             )}
-
         </PageUI>
     )
 }

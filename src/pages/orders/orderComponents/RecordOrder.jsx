@@ -27,7 +27,6 @@ import ConfettiUI from '../../../components/ConfettiUI';
 
 import { truncateString } from '../../../utils/helper.js';
 import { validateOrderForm } from '../../../utils/validationHelper.js';
-import { DatePicker, Stack } from 'rsuite';
 import { useNavigate } from 'react-router-dom';
 
 
