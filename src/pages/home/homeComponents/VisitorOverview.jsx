@@ -75,7 +75,7 @@ function VisitorOverview() {
         <div className='card visitor-section'>
             <div className="section--heading" >
                 <h2>Website Visitors</h2>
-                <p>Lorem ipsum dolor sit amet.</p>
+                <p>See how many person visit your wesite.</p>
             </div>
 
 

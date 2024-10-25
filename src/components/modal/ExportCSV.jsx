@@ -10,12 +10,18 @@ import { LuCheckCircle } from 'react-icons/lu'
 import { validateExportCsvInput } from '../../utils/validationHelper'
 import CustomAlert from '../CustomAlert'
 
-function ExportCSV({ title, data, setClose }) {
 
-    const { width } = useWindowSize();
-    const { store } = useAuthContext();
-    const { isPremium } = store?.isPremium;
-    const hasConvert = store?.csvConvertions;
+const BASE_API_URL = import.meta.env.VITE_API_URL
+
+function ExportCSV({ title, data, setClose }) {
+    const { store, token } = useAuthContext();
+    const { isPremium, csvConvertions } = store;
+    const hasConvert = csvConvertions;
+
+    const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+    }
 
     const [modalInputError, setModalImputError] = useState("");
     const [email, setEmail] = useState("");
@@ -26,22 +32,42 @@ function ExportCSV({ title, data, setClose }) {
         setClose(false)
     }
 
-    function handleSendExport() {
+    async function handleSendExport() {
+        if (!hasConvert) {
+            return setResponse({ status: "error", message: "Free Exports Used Up!" })
+        }
+
         const newError = validateExportCsvInput(email);
         console.log(newError)
         setModalImputError(newError);
         if (newError) return;
 
+        setLoading(true);
 
-        // others...
+        // try {
+        //     const res = await fetch(`${BASE_API_URL}/${title}s/exports-csv/csv`, 
+        //         { method: "GET", headers }
+        //     );
+        //     const data = await res.json();
+        //     if(!res.ok) throw new Error();
+        //     if(data.status == "fail") throw new Error();
+
+        //     console.log(data)
+
+        // } catch(err) {
+
+        // } finally {
+        //     setLoading(false);
+        // }
+
+
     }
 
 
     function handleDownloadExport() {
-        if(!hasConvert) {
+        if (!hasConvert) {
             return setResponse({ status: "error", message: "Free Exports Used Up!" })
         }
-
 
         setResponse({ status: "success", message: "success!" })
     }
@@ -72,7 +98,7 @@ function ExportCSV({ title, data, setClose }) {
 
                                 {!hasConvert && (
                                     <Link to='/dashboard/subscription' className='upgrade--link'
-                                    style={{ color: "brown", padding: 0, backgroundColor: "transparent", fontSize: "1.3rem", textTransform: "capitalize", fontWeight: "600", marginLeft: ".4rem" }}>
+                                        style={{ color: "brown", padding: 0, backgroundColor: "transparent", fontSize: "1.3rem", textTransform: "capitalize", fontWeight: "600", marginLeft: ".4rem" }}>
                                         Try upgrading <LuCheckCircle />
                                     </Link>
                                 )}
@@ -80,14 +106,15 @@ function ExportCSV({ title, data, setClose }) {
                         )}
                     </p>
 
-                    <div className='modal--form'>
-                        <span>
+                    <div>
+                        <div className='modal--form'>
                             <input type="email" className='form--input' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Provide email address for CSV export' {...(!hasConvert && { readOnly: true, disabled: true })} />
-                            <span className="form--error-message">
-                                {modalInputError && modalInputError}
-                            </span>
+
+                            <button onClick={handleSendExport} {...(!hasConvert && { disabled: true })}>Export to email! <SiMinutemailer /></button>
+                        </div>
+                        <span className="form--error-message">
+                            {modalInputError && modalInputError}
                         </span>
-                        <button onClick={handleSendExport} {...(!hasConvert && { disabled: true })}>Export to email! <SiMinutemailer /></button>
                     </div>
 
                     <div className='modal--others'>

@@ -65,7 +65,7 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
 
     return (
         <>
-            {(error && !isData && !loader) && <TableError text="Unable to fetch, Check Connection" />}
+            {(error && !isData && !loader) && <TableError text="Unable to fetch, Check Your Connection" />}
             {((!isData && !error && !loader) && <>{emptyComponent}</>)}
 
             {loader && (

@@ -25,7 +25,7 @@ function CustomAlert({ type, message, duration=5000, style="filled" }) {
     };
 
     return (
-        <Snackbar 
+        <Snackbar
             open={open} autoHideDuration={duration} onClose={handleClose} anchorOrigin={origin}
         >
             <Alert

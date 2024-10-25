@@ -16,22 +16,30 @@ export default FetchedContext;
 export const FetchedProvider = ({ children }) => {
     const { token, user } = useAuthContext();
 
+    // DOCUMENT STATES
     const [collections, setCollections] = useState([]);
     const [products, setProducts] = useState([]);
     const [customers, setCustomers] = useState([]);
     const [orders, setOrders] = useState([]);
     const [deliveryRates, setDeliveryRates] = useState([]);
     const [storeCategories, setStoreCategories] = useState([]);
+    const [transactions, setTransactions] = useState([]);
 
+    // LOADER STATES
     const [orderLoader, setOrderLoader] = useState(true);
     const [productLoader, setProductLoader] = useState(true);
     const [deliveryLoader, setDeliveryLoader] = useState(true);
     const [customerLoader, setCustomerLoader] = useState(true);
     const [collectionLoader, setCollectionLoader] = useState(true);
+    const [transactionLoader, setTransactionLoader] = useState(true);
 
-    const [error, setError] = useState({
-        order: false, product: false, customer: false, collection: false, delivery: false,
-    });
+    // ERROR STATES
+    const [orderError, setOrderError] = useState(false);
+    const [productError, setProductError] = useState(false);
+    const [deliveryError, setDeliveryError] = useState(false);
+    const [customerError, setCustomerError] = useState(false);
+    const [collectionError, setCollectionError] = useState(false);
+    const [transactionError, setTransactionError] = useState(false);
 
     // SETTING LOADER THIS WAY IS BETTER THAN THE PREVIOUS
     const loader = {
@@ -40,6 +48,15 @@ export const FetchedProvider = ({ children }) => {
         delivery: deliveryLoader,
         customer: customerLoader,
         collection: collectionLoader,
+        transaction: transactionLoader,
+    }
+    const error = {
+        order: orderError,
+        product: productError,
+        delivery: deliveryError,
+        customer: customerError,
+        collection: collectionError,
+        transaction: transactionError,
     }
 
     const headers = {
@@ -47,10 +64,7 @@ export const FetchedProvider = ({ children }) => {
         Authorization: `Bearer ${token}`
     }
 
-    function handleError(name, value) {
-        setError({...error, [name]: value});
-    }
-
+    // FETCH UNPROTECTED STORE CATEGORIES
     async function handleFetchStoreCategories() {
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/category`);
@@ -61,9 +75,11 @@ export const FetchedProvider = ({ children }) => {
         }
     }
 
+
+    // FETCH PROTECTED STORE COLLECTION
     async function handleFetchUserStoreCollection() {
         try {
-            handleError("collection", false);
+            setCollectionError(false);
             setCollectionLoader(true);
             setCollections([]);
 
@@ -73,15 +89,17 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setCollections(data?.data?.collections);
         } catch(err) {
-            handleError("collection", true);
+            setCollectionError(true);
         } finally {
             setCollectionLoader(false);
         }
     }
 
+
+    // FETCH PROTECTED STORE PRODUCTS
     async function handleFetchUserStoreProducts() {
         try {
-            handleError("product", false);
+            setProductError(false);
             setProductLoader(true);
             setProducts([]);
 
@@ -91,15 +109,17 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setProducts(data?.data?.products);
         } catch (err) {
-            handleError("product", true);
+            setProductError(true);
         } finally {
             setProductLoader(false);
         }
     }
 
+
+    // FETCH PROTECTED STORE SALES AND ORDERS
     async function handleFetchUserStoreOrders() {
         try {
-            handleError("order", false);
+            setOrderError(false);
             setOrderLoader(true);
             setOrders([]);
 
@@ -109,16 +129,18 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setOrders(data?.data?.orders);
         } catch (err) {
-            handleError("order", true);
+            setOrderError(true);
         } finally {
             setOrderLoader(false);
         }
 
     }
 
+
+    // FETCH PROTECTED STORE CUSTOMERS
     async function handleFetchUserStoreCustomers() {
         try {
-            handleError("customer", false);
+            setCustomerError(false);
             setCustomerLoader(true);
             setCustomers([]);
 
@@ -128,16 +150,17 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setCustomers(data?.data?.customers);
         } catch (err) {
-            handleError("customer", true);
+            setCustomerError(true);
         } finally {
             setCustomerLoader(false);
         }
     }
 
 
+    // FETCH PROTECTED STIRE DELIVERY RATES
     async function handleFetchUserStoreDeliveryRates () {
         try {
-            handleError("delivery", false);
+            setDeliveryError(false);
             setDeliveryLoader(true);
             setDeliveryRates([]);
 
@@ -147,9 +170,29 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setDeliveryRates(data?.data?.rates);
         } catch (err) {
-            handleError("delivery", true);
+            setDeliveryError(true);
         } finally {
             setDeliveryLoader(false);
+        }
+    }
+
+
+    // FETCH PROTECTED STORE SALES TRANSACTIONS
+    async function handleFetchUserStoreTransactions () {
+        try {
+            setTransactionError(false);
+            setTransactionLoader(true);
+            setTransactions([]);
+
+            const res = await fetch(`${BASE_API_URL}/transactions/mine/transactions`, { method: "GET", headers });
+            const data = await res.json();
+            if(!res.ok) throw new Error();
+            if(data.status == "fail") throw new Error();
+            if (data?.data) setTransactions(data?.data?.transactions);
+        } catch (err) {
+            setTransactionError(true);
+        } finally {
+            setTransactionLoader(false);
         }
     }
 
@@ -185,6 +228,7 @@ export const FetchedProvider = ({ children }) => {
         setOrders([]);
         setCustomers([]);
         setDeliveryRates([]);
+        setTransactions([]);
 
         if(token && user) {
             handleFetchUserStoreOrders();
@@ -192,6 +236,7 @@ export const FetchedProvider = ({ children }) => {
             handleFetchUserStoreCustomers();
             handleFetchUserStoreCollection();
             handleFetchUserStoreDeliveryRates();
+            handleFetchUserStoreTransactions();
         }
     }, [token, user])
 
@@ -205,11 +250,13 @@ export const FetchedProvider = ({ children }) => {
         products,
         customers,
         collections,
+        transactions,
         deliveryRates,
         handleFetchUserStoreOrders,
         handleFetchUserStoreProducts,
         handleFetchUserStoreCustomers,
         handleFetchUserStoreCollection,
+        handleFetchUserStoreTransactions,
         handleFetchUserStoreDeliveryRates,
 
         

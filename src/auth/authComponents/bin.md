@@ -300,3 +300,9 @@ export default index
     //         color: '#994020'
     //     }
     // ];
+
+
+
+
+     // const totalSales = allSales.map((sale) => sale.products.reduce((sum, product) => sum + product.price, 0)).reduce((acc, sale) => acc + sale, 0);
+    // const totalOfflineSales = offlineSales.map((sale) => sale.products.reduce((sum, product) => sum + product.price, 0)).reduce((acc, sale) => acc + sale, 0);

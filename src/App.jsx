@@ -80,15 +80,9 @@ import CreateDelivery from './pages/delivery/deliveryComponents/CreateDelivery';
 function App() {
 
     // COME BACK AND REMODIFY THIS OR NOT
-    if (
-        window.location.pathname === '/verify-otp' ||
-        window.location.pathname === '/onboarding'
-    ) {
-        window.onbeforeunload = function () {
-            return "Are you sure you want to leave this page?";
-        };
+    if (window.location.pathname === '/verify-otp' || window.location.pathname === '/onboarding') {
+        window.onbeforeunload = () => "Are you sure you want to leave this page?";;
     }
-
 
     return (
 

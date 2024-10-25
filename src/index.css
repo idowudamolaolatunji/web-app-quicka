@@ -291,7 +291,7 @@ input::-webkit-inner-spin-button {
 .status p {
 	min-width: 80px;
 	display: inline-block;
-	padding: 0.6rem 1.2rem;
+	padding: 0.6rem 1rem;
 	border-radius: 0.6rem;
 	font-weight: 500;
 	font-size: 1.2rem;
@@ -389,9 +389,11 @@ input::-webkit-inner-spin-button {
 }
 
 .empty--box p {
-	font-size: 1.4rem;
+	font-size: 1.34rem;
+	line-height: 1.4;
 	font-weight: 500;
 	color: #888;
+	text-align: center;
 }
 
 /* ================== */

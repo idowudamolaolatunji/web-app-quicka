@@ -75,7 +75,7 @@ function index() {
         },
         {
             name: 'Amount', selector: row => (
-                <span className='value'>₦{formatNumber((row?.products || []).reduce((acc, item) => acc + item?.price, 0) || 0)}</span>
+                <span className='value'>₦{formatNumber(row?.orderPrice)}</span>
             ), width: '100px'
         },
         {

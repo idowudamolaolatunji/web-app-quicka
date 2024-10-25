@@ -9,7 +9,7 @@ function OverviewChart() {
     const { orders } = useFetchedContext();
     const isData = orders?.length > 0 ? true : false;
 
-    const processChart = () => {
+    const processChart = function() {
         const series = [
             { name: 'Total Sales', data: new Array(12).fill(null), color: '#ff7a49' },
             { name: 'Online Sales', data: new Array(12).fill(null), color: '#ffb59a' },
@@ -17,18 +17,16 @@ function OverviewChart() {
         ];
 
         // WE ONLY TRACK SALES FOR COMPLETED ORDERS ALONE
-        const completedOrders = orders?.filter(order => order.orderStatus == "completed")
-
-        completedOrders.forEach((data) => {
-            const orderDate = new Date(data.orderDate);
+        orders?.filter(order => order.orderStatus == "completed").forEach(order => {
+            const orderDate = new Date(order.orderDate);
             const month = orderDate.getMonth(); // 0-11
-            const sales = data.products.reduce((sum, product) => sum + product.price, 0);
+            const sales = order.orderPrice; // Access orderPrice directly
 
-            series[0].data[month] += sales; // Total Sales
-            if (data.channel === 'online store') {
-                series[1].data[month] += sales; // Online Sales
+            series[0].data[month] = (series[0].data[month] || 0) + sales; // Total Sales
+            if (order.channel === 'online store') {
+                series[1].data[month] = (series[1].data[month] || 0) + sales; // Online Sales
             } else {
-                series[2].data[month] += sales; // Offline Sales
+                series[2].data[month] = (series[2].data[month] || 0) + sales; // Offline Sales
             }
         });
 
@@ -36,7 +34,6 @@ function OverviewChart() {
     };
 
     const series = processChart();
-    console.log(series)
 
     const options = {
         chart: {

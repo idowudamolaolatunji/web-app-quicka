@@ -51,12 +51,15 @@ export function formatDate(givenDate) {
 	const inputDate = moment(givenDate);
 
 	const diffInSeconds = moment().diff(inputDate, "seconds");
+	if (diffInSeconds < 0) {
+		return `Today by ${inputDate.format("h:mm A")}`;
+	}
 	if (diffInSeconds === 0) {
 		return "Just now";
 	}
 	if (diffInSeconds < 60) {
 		return `${diffInSeconds} secs ago`;
-	}
+	} 
 
 	const diffInMins = moment().diff(inputDate, "minutes");
 	if (diffInMins < 60) {

@@ -22,7 +22,7 @@ const emptyBtns = [
 function index() {
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
-    const { loader, error, customers } = useFetchedContext();
+    const { loader, error, customers, handleFetchUserStoreCustomers } = useFetchedContext();
 
     const columns = [];
 
@@ -30,7 +30,9 @@ function index() {
         document.title = "Quicka | Customers";
         window.scrollTo(0, 0);
 
-        if(customers?.length < 1 && error?.customer) {}
+        if(customers?.length < 1 && error?.customer) {
+            handleFetchUserStoreCustomers();
+        }
     }, []);
 
 

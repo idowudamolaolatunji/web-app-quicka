@@ -12,7 +12,8 @@ function TopSalesChannelsChart() {
 
     const isCollapsedBtw1000and1100 = !isMenuCollapsed && (width >= 1000 && width < 1100 );
 
-    const processChannels = () => {
+    // YOU NEED TO FUTHER UNDERSTAND WHAT'S GOING ON HERE!!
+    const processChannels = function() {
         const channelCounts = orders?.reduce((acc, curr) => {
           acc[curr.channel] = (acc[curr.channel] || 0) + 1;
           return acc;

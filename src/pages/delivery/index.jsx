@@ -7,7 +7,7 @@ import emptyImg from '../../assets/images/illustrations/delivery.png';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
-import { formatNumber } from '../../utils/helper';
+import { formatDate, formatNumber } from '../../utils/helper';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 
@@ -48,7 +48,7 @@ function index() {
         },
         {
             name: 'Date',
-            selector: row => row?.createdAt,
+            selector: row => formatDate(row?.createdAt),
         },
         {
             selector: () => (

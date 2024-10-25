@@ -15,7 +15,7 @@ function TopSalesChannels() {
             <div className="section--top">
                 <div className="section--heading">
                     <h2>Top five sales channels</h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
+                    <p>Your top five most profitting sales channel.</p>
                 </div>
             </div>
 

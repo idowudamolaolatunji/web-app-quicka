@@ -87,7 +87,7 @@ const columns = [
     },
     {
         name: 'Amount', selector: row => (
-            <span className='value'>₦{formatNumber((row?.products || []).reduce((acc, item) => acc + item?.price, 0) || 0)}</span>
+            <span className='value'>₦{formatNumber(row?.orderPrice)}</span>
         ),
         width: '100px'
     },
@@ -140,14 +140,14 @@ function RecentOrders() {
 
                 <div className="section--heading">
                     <h2>Recent Order </h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
+                    <p>Five most recent order for you!</p>
                 </div>
 
                 <Link to="/dashboard/orders/">View-more</Link>
             </div>
 
             <>
-                {(error?.order && !isData) && <TableError text="Unable to fetch, Check Connection" />}
+                {(error?.order && !isData) && <TableError text="Unable to fetch, Check Your Connection" />}
                 
                 {(orders && !error?.order) && (
                     <div className="table-h">

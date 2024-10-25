@@ -20,17 +20,39 @@ const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
 function index() {
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
-    const { loader, error, transactions } = useFetchedContext();
+    const { loader, error, transactions, handleFetchUserStoreTransactions } = useFetchedContext();
 
+    const webTransactions = transactions?.filter(transaction => transaction.transactionType == "web")?.reduce((sum, transaction) => sum + transaction.amount, 0);
+    const offlineTransactions = transactions?.filter(transaction => transaction.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction.amount, 0);
+    console.log(offlineTransactions)
 
-    const columns = []
-
+    const columns = [
+        {
+            name: "Transaction Id",
+            selector: row => (
+                <p className='value'>{row.transactionId}</p>
+            )
+        },
+        {
+            name: "Transaction Type",
+            selector: row => row.transactionType
+        },
+        {
+            name: "Transaction Id",
+            selector: row => (
+                <p className='value'>{row.transactionId}</p>
+            )
+        }
+    ]
+    
 
     useEffect(function() {
         document.title = "Quicka | All Transactions";
         window.scrollTo(0, 0);
 
-        // if(customers?.length < 1 && error?.customer) {}
+        if(transactions?.length < 1 && error?.transaction) {
+            handleFetchUserStoreTransactions();
+        }
     }, []);
 
     return (
@@ -42,6 +64,7 @@ function index() {
             emptyText={emptyText}
             emptyImg={emptyImg}
             emptyTitle={emptyTitle}
+            goto={false}
             emptyClassName="empty--others"
             loader={loader} error={error}
         >
@@ -49,8 +72,8 @@ function index() {
             {showInsights?.transaction && (
                 <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && { width: '90%' }) }}>
                     <Insight loader={loader?.transaction} title='Pending Settlement' pre='₦' value={0} icon={<LuClipboardList />} />
-                    <Insight loader={loader?.transaction} title='Total Website transaction' value={0} icon={<GrTag />} />
-                    <Insight loader={loader?.transaction} title='Total Offline transaction' value={0} icon={<TbArrowWaveRightDown />} />
+                    <Insight loader={loader?.transaction} title='Total Website transaction' pre='₦' value={webTransactions} icon={<GrTag />} />
+                    <Insight loader={loader?.transaction} title='Total Offline transaction' pre='₦' value={offlineTransactions} icon={<TbArrowWaveRightDown />} />
                 </div>
             )}
         </PageUI>

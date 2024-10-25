@@ -39,6 +39,8 @@ function RecordOrder() {
     const { token } = useAuthContext();
     const { products, customers, handleFetchUserStoreOrders } = useFetchedContext();
 
+    const publishedProducts = products?.filter(product => product.status == "published");
+
     const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -74,6 +76,8 @@ function RecordOrder() {
 
     const [showConfetti, setShowConfetti] = useState(false)
     const [salesFormErrors, setSalesFormErrors] = useState({})
+
+    // ((stockAmount)) down here
 
     // const transformedProducts = products?.map(product => ({
     //     label: (
@@ -147,7 +151,7 @@ function RecordOrder() {
         // SET LOADER
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
-        const products = orderProducts?.map(product => product._id)
+        const selectedProducts = orderProducts?.map(product => product._id)
         
         // MAKE REQUEST
         try {
@@ -155,10 +159,10 @@ function RecordOrder() {
                 headers,
                 method: "POST",
                 body: JSON.stringify({
-                    products,
                     description,
                     ...orderData,
                     channel: channel[0]?.value,
+                    products: selectedProducts,
                     paymentMethod: paymentMethod[0]?.value,
                     customer: orderCustomer[0]?._id || null,
                     deliveryStatus: deliveryStatus[0]?.value,
@@ -241,7 +245,7 @@ function RecordOrder() {
                             <div className="form--item">
                                 <label className="form--label">Product <Asterisk /></label>
 
-                                <MainDropdownSelect title="Product" options={products} field="name" value={orderProducts} setValue={setOrderProducts} noDataLabel="No product found!" multiple={true} />
+                                <MainDropdownSelect title="Product" options={publishedProducts} field="name" value={orderProducts} setValue={setOrderProducts} noDataLabel="No product found!" multiple={true} />
                                 <span className="form--error-message">
                                     {salesFormErrors.orderProducts && salesFormErrors.orderProducts}
                                 </span>
@@ -276,7 +280,7 @@ function RecordOrder() {
 
                                 <div className="form--item">
                                     <label id='date' className="form--label">Order Date <Asterisk /></label>
-                                    <input type="date" className='form--input' placeholder='Select date' max={new Date().toISOString().split('T')[0]} name="orderDate" id="date" value={orderData.orderDate} onChange={handleOrderDataChange} />
+                                    <input type="datetime-local" className='form--input' placeholder='Select date' max={new Date().toISOString().slice(0, 16)} name="orderDate" id="date" value={orderData.orderDate} onChange={handleOrderDataChange} />
                                     {/* <DatePicker format="MM/dd/yyyy" className='form--input' placeholder="Select date" /> */}
                                     <span className="form--error-message">
                                         {salesFormErrors.orderDate && salesFormErrors.orderDate}

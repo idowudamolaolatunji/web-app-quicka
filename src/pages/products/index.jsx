@@ -36,9 +36,8 @@ function index() {
     const { showInsights, activeDisplayTab, handleDisplayTab } = useDataContext();
     const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
 
-    const productsSold = 2;
-    const outOfStock = 0;
-    const collectionAmount = collections?.length;
+    const productsSold = 0;
+    const outOfStock = products?.filter(product => product.trackInventory && product.stockAmount <= 1);
     const totalInventoryWorth = products?.reduce((acc, product) => acc + product.price, 0);
 
     const columns = [
@@ -156,8 +155,8 @@ function index() {
                 <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && {width: '85%'}) }}>
                     <Insight loader={loader?.product} title='Total Inventory worth' pre='₦' value={totalInventoryWorth} dec={totalInventoryWorth ? 0 : 2} icon={<LuClipboardList />} />
                     <Insight loader={loader?.product} title='Total Products Sold' value={productsSold} icon={<GrTag />} />
-                    <Insight loader={loader?.product} title='Total Collection' value={collectionAmount} icon={<TbListSearch />} />
-                    <Insight loader={loader?.product} title='Out of stock' value={outOfStock} icon={<TbArrowWaveRightDown />} />
+                    <Insight loader={loader?.product} title='Total Collection' value={collections?.length} icon={<TbListSearch />} />
+                    <Insight loader={loader?.product} title='Out of stock' value={outOfStock?.length} icon={<TbArrowWaveRightDown />} />
                 </div>
             )}
 
