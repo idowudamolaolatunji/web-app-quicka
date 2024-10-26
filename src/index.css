@@ -326,7 +326,7 @@ input::-webkit-inner-spin-button {
 .copyright--text {
 	font-size: 1rem;
 	color: #555;
-	margin-top: 6rem;
+	margin-top: 6.8rem;
 
 	display: flex;
 	align-items: center;
@@ -659,7 +659,7 @@ input::-webkit-inner-spin-button {
 
 @media screen and (max-width: 450px) {
 	.copyright--text {
-		margin-top: 8rem;
+		margin-top: 10rem;
 	}
 	.empty--others,
 	.empty--order,

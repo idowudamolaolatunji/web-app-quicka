@@ -9,48 +9,48 @@ import TableError from './TableError';
 import ProductCardSkeleton from './ProductCardSkeleton';
 import { TableHeadSkeleton, TableSkeleton } from './TableSkeleton';
 
-const customStyles = {
-    table: {
-        style: {
-            overflowX: 'auto',
-            fontFamily: "inherit",
-            color: "inherit",
-        },
-    },
-    head: {
-        style: {
-            fontSize: "15px",
-            fontWeight: "600",
-            height: '65px',
-        },
-    },
-    rows: {
-        style: {
-            minHeight: '75px',
-            cursor: 'pointer',
-        },
-    },
-    headCells: {
-        style: {
-            paddingRight: '5px',
-            backgroundColor: '#333',
-            color: '#fff',
-            height: '65px'
-        },
-    },
-    cells: {
-        style: {
-            textAlign: 'center'
-        }
-    }
-};
-
 
 function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectableRows, headTabs, displayType = "table", loader, error }) {
     const isData = data?.length > 0;
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const [selectedRowsId, setSelectedRowsId] = useState([]);
+
+    const customStyles = {
+        table: {
+            style: {
+                overflowX: 'auto',
+                fontFamily: "inherit",
+                color: "inherit",
+            },
+        },
+        head: {
+            style: {
+                fontSize: "14px",
+                fontWeight: "500",
+                height: '55px',
+            },
+        },
+        rows: {
+            style: {
+                minHeight: name == "product" ? "80px" : "70px",
+                cursor: 'pointer',
+            },
+        },
+        headCells: {
+            style: {
+                paddingRight: '5px',
+                backgroundColor: '#333',
+                color: '#fff',
+                height: '55px'
+            },
+        },
+        cells: {
+            style: {
+                textAlign: 'center'
+            }
+        }
+    };
     
 
     const handleSelectedRow = function ({ allSelected, selectedCount, selectedRows }) {
@@ -80,7 +80,7 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
                         </div>
                     ) : (
                         <div style={{ overflow: "hidden" }}>
-                            <TableSkeleton />
+                            <TableSkeleton title={name} />
                         </div>
                     )}
                 </>

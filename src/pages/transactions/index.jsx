@@ -10,7 +10,23 @@ import { LuClipboardList } from 'react-icons/lu';
 import emptyImg from '../../assets/images/illustrations/transactions.png'
 import { MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
-import { formatNumber } from '../../utils/helper';
+import { capitalizeFirstLetter, formatNumber } from '../../utils/helper';
+import { facebook, online_store, physical_store, instagram, whatsapp, twitter, flutterwave_store, others, jiji, jumia, konga } from "../../assets/images/index";
+
+
+function imgString(imgType) {
+    if (imgType === 'online store') return online_store;
+    if (imgType === 'facebook') return facebook;
+    if (imgType === 'physical shop') return physical_store;
+    if (imgType === 'instagram') return instagram;
+    if (imgType === 'whatsapp') return whatsapp;
+    if (imgType === 'twitter') return twitter;
+    if (imgType === 'flutterwave store') return flutterwave_store;
+    if (imgType === 'jiji') return jiji;
+    if (imgType === 'jumia') return jumia;
+    if (imgType === 'konga') return konga;
+    if (imgType === 'others') return others;
+}
 
 
 ///////////////////////////////////////////////
@@ -27,7 +43,7 @@ function index() {
 
     const webTransactions = transactions?.filter(transaction => transaction.transactionType == "web")?.reduce((sum, transaction) => sum + transaction.amount, 0);
     const offlineTransactions = transactions?.filter(transaction => transaction.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction.amount, 0);
-    console.log(offlineTransactions)
+
 
     const columns = [
         {
@@ -45,6 +61,17 @@ function index() {
             )
         },
         {
+            name: "Payment Type",
+            selector: row => row?.order?.customer || "-- Not Added --"
+        },
+        {
+            name: 'Sales Channel', selector: row => (
+                <TooltipUI placement='top' title={capitalizeFirstLetter(row?.order?.channel)}>
+                    <img width={'40px'} alt={row?.order?.channel} src={imgString(row?.order?.channel)} />
+                </TooltipUI>
+            ), width: '100px'
+        },
+        {
             name: "Amount",
             selector: row => (
                 <p className="value">₦{formatNumber(row.amount)}</p>
@@ -54,7 +81,7 @@ function index() {
             name: 'Status', 
             selector: row => (
                 <span className={`status status--${row.status}`}>
-                    <p>{row.status}</p>
+                    <p>{row.status == "success" && "Successful"}</p>
                 </span>
             ),
             // width: '120px'

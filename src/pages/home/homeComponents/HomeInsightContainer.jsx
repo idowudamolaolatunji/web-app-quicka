@@ -19,12 +19,17 @@ function HomeInsightContainer() {
     return (
         <div className={`insight--container ${width > 500 ? 'card' : ''}`}>
             <div className="section--top">
-                <div className="section--heading">
-                    <h2>Brief Overview</h2>
+                <div className="section--heading" style={ width < 450 ? { width: "100%"} : {}}>
+
+                    <span className='flex' style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                        <h2>Brief Overview</h2>
+                        {width <= 450 && <SelectAutoWidthDropdown menus={datePeriods} />}
+                    </span>
+
                     <p>This is what <span>{store?.name}</span> is up to today!</p>
                 </div>
 
-                <SelectAutoWidthDropdown menus={datePeriods} />
+                {width > 450 && <SelectAutoWidthDropdown menus={datePeriods} />}
             </div>
 
             {/* THE CARDS THEMSELVES */}

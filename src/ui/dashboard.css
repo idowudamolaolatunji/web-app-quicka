@@ -549,7 +549,7 @@ button.menu--button {
         height: auto;
     }
     .content--block {
-        padding: 10rem 2rem 4rem;
+        padding: 10rem 2rem .6rem;
         height: fit-content;
         overflow-y: unset;
     }

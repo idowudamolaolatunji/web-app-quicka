@@ -2,21 +2,25 @@ import React from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { useWindowSize } from 'react-use'
 
-export function TableSkeleton() {
+export function TableSkeleton({ title }) {
+    const count = (title == "product") ? 4 : 3;
+    const height = 9;
+
+
     return (
         <div style={{ minWidth: "90rem" }}>
-            <Skeleton height={60} />
+            <Skeleton height={55} />
             <div className='table--grid' style={{ marginTop: "1rem" }}>
-                <Skeleton height={10} count={4} />
-                <Skeleton height={10} count={4} />
-                <Skeleton height={10} count={4} />
-                <Skeleton height={10} count={4} />
+                <Skeleton height={height} count={count} />
+                <Skeleton height={height} count={count} />
+                <Skeleton height={height} count={count} />
+                <Skeleton height={height} count={count} />
             </div>
             <div className='table--grid'>
-                <Skeleton height={10} count={4} />
-                <Skeleton height={10} count={4} />
-                <Skeleton height={10} count={4} />
-                <Skeleton height={10} count={4} />
+                <Skeleton height={height} count={count} />
+                <Skeleton height={height} count={count} />
+                <Skeleton height={height} count={count} />
+                <Skeleton height={height} count={count} />
             </div>
 
             <div style={{ padding: "1rem 2rem 2rem", marginLeft: "auto", width: "54rem" }}>
@@ -60,10 +64,6 @@ export function TableHeadSkeleton({ title }) {
                     </div>
                 </div>
             )}
-
-
-
-
         </>
     )
 }

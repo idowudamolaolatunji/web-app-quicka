@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom';
 import { useWindowSize } from 'react-use';
 import BackButton from '../../../components/button/BackButton';
 import { RiBankLine } from 'react-icons/ri';
 import MainDropdownSelect from '../../../components/MainDropdownSelect';
 import Asterisk from '../../../components/Asterisk.jsx';
-import CurrencyInput from 'react-currency-input-field';
 import Line from '../../../components/Line.jsx';
 import Info from '../../../components/Info.jsx';
 import { useAuthContext } from '../../../context/AuthContext.jsx';
 import { validateBankForm } from '../../../utils/validationHelper.js';
 import CustomAlert from '../../../components/CustomAlert.jsx';
 import Spinner from '../../../components/spinner/spinner_two';
-
 import { banks } from '../../../utils/data.js';
-import { createPortal } from 'react-dom';
 
 
 function BankDetails({ isnew, close }) {
@@ -106,7 +104,6 @@ function BankDetails({ isnew, close }) {
             });
 
             if (!res.ok) throw new Error('Something went wrong! Check intenet connection');
-            console.log(res)
 
             const data = await res.json();
             const { status, message } = data;

@@ -93,7 +93,6 @@ function RecordOrder() {
     
     function handleOrderDataChange(e) {
         const { name, value } = e?.target;
-        console.log(name, value)
         setOrderData({
             ...orderData,
             [name]: value,

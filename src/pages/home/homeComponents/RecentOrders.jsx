@@ -33,10 +33,10 @@ const customStyles = {
     },    
 	head: {
 		style: {
-			fontSize: "13px",
-			fontWeight: "bold",
+			fontSize: "14px",
+			fontWeight: "500",
 			color: "#eee",
-            height: '50px'
+            height: '45px'
 		},
 	},
 	rows: {
@@ -49,7 +49,7 @@ const customStyles = {
 		style: {
 			paddingRight: '5px',
             backgroundColor: '#333',
-            height: '50px'
+            height: '45px'
 		},
 	},
     cells: {
@@ -137,21 +137,24 @@ function RecentOrders() {
 
     return (
         <div className='card recent-section' style={{ padding: 0 }}>
-            <div className="section--top" style={{ padding: '2rem' }}>
+            <div className="section--top" style={{ padding: '2rem', width: "100%" }}>
 
-                <div className="section--heading">
-                    <h2>Recent Order </h2>
+                <div className="section--heading" style={ width < 450 ? { width: "100%"} : {}}>
+                    <span className='flex' style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                        <h2>Recent Order </h2>
+                        {width < 450 && <Link to="/dashboard/orders/">View-more</Link>}
+                    </span>
                     <p>Five most recent order for you!</p>
                 </div>
 
-                <Link to="/dashboard/orders/">View-more</Link>
+                {width > 450 && <Link to="/dashboard/orders/">View-more</Link>}
             </div>
 
             <>
                 {(error?.order && !isData) && <TableError text="Unable to fetch, Check Your Connection" />}
                 
                 {(isData && !error?.order) && (
-                    <div className="table-h" style={(orders && orders?.length < 3) ? { paddingBottom: "4rem" } : {} }>
+                    <div className="table-h" style={(orders && orders?.length < 3) ? { paddingBottom: width < 850 ? "2.8rem" : "4.8rem" } : {} }>
                         <DataTable
                             data={recentOrders}
                             columns={columns}
