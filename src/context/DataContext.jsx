@@ -22,10 +22,10 @@ export const DataProvider = ({ children }) => {
 
     const [showInsights, setShowInsights] = useState(
         localStorage.getItem("show_ins") ? JSON.parse(localStorage.getItem("show_ins")) : {
-        product: false,
-        order: false,
-        customer: false,
-        transaction: false
+        product: true,
+        order: true,
+        customer: true,
+        transaction: true
     });
 
     const [location, setLocation] = useState({

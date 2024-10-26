@@ -8,7 +8,7 @@ import TooltipUI from '../../../components/TooltipUI';
 import Empty from '../../../components/Empty';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { useWindowSize } from 'react-use';
-import TableError from '../../../components/TableError';
+import ErrorComponent from '../../../components/ErrorComponent';
 
 
 function imgString(imgType) {
@@ -133,25 +133,25 @@ function RecentOrders() {
     const { orders, error } = useFetchedContext();
 
     const isData = orders?.length > 0;
-    const recentOrders = orders?.slice(0, 5);
+    const recentOrders = orders?.slice(0, 3);
 
     return (
         <div className='card recent-section' style={{ padding: 0 }}>
-            <div className="section--top" style={{ padding: '2rem', width: "100%" }}>
+            <div className="section--top" style={{ padding: '2rem' }}>
 
                 <div className="section--heading" style={ width < 450 ? { width: "100%"} : {}}>
                     <span className='flex' style={{ justifyContent: "space-between", flexDirection: "row" }}>
                         <h2>Recent Order </h2>
                         {width < 450 && <Link to="/dashboard/orders/">View-more</Link>}
                     </span>
-                    <p>Five most recent order for you!</p>
+                    <p>Three new & recent order for you!</p>
                 </div>
 
                 {width > 450 && <Link to="/dashboard/orders/">View-more</Link>}
             </div>
 
             <>
-                {(error?.order && !isData) && <TableError text="Unable to fetch, Check Your Connection" />}
+                {(error?.order && !isData) && <ErrorComponent text="Unable to fetch orders, Check Your Connection" />}
                 
                 {(isData && !error?.order) && (
                     <div className="table-h" style={(orders && orders?.length < 3) ? { paddingBottom: width < 850 ? "2.8rem" : "4.8rem" } : {} }>

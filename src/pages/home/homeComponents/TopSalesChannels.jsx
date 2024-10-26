@@ -2,13 +2,17 @@ import React, { useState } from 'react'
 import TopSalesChannelsChart from './TopSalesChannelsChart'
 import { useNavigate } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
+import ErrorComponent from '../../../components/ErrorComponent';
 
 
 
 
 function TopSalesChannels() {
     const navigate = useNavigate();
-    const { orders } = useFetchedContext()
+    const { orders, error } = useFetchedContext()
+
+    const isOrders = orders && orders?.length > 0;
+    const isError = error?.order;
 
     return (
         <div className='card sales-channel-section'>
@@ -19,13 +23,18 @@ function TopSalesChannels() {
                 </div>
             </div>
 
-            {(orders && orders?.length > 0) ? (
-                <TopSalesChannelsChart />
-            ) : (
-                <div className="no--channel">
-                    <button onClick={() => navigate('/dashboard/orders/record')}>Record new sales</button>
-                    <p className="">There's no sales data yet!</p>
-                </div>
+            {(!isOrders && isError) && <ErrorComponent text="Cannot get channels, Check Connection" />}
+
+            {(orders && !isError) && (
+                <>
+                    {isOrders && <TopSalesChannelsChart />}
+                    {!isOrders && (
+                        <div className="no--channel">
+                            <button onClick={() => navigate('/dashboard/orders/record')}>Record new sales</button>
+                            <p className="">There's no sales data yet!</p>
+                        </div>
+                    )}
+                </>
             )}
         </div>
     )

@@ -13,7 +13,14 @@
     padding: 1.8rem 2rem;
     border-radius: .48rem;
 
-    background-color: #333;
+    /* background-color: #333; */
+
+    /* =========================== */
+    background-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1)), url("../../assets/images/resources/new-mask.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    /* =========================== */
+
     color: #fff;
     display: flex;
     align-items: center;
@@ -353,7 +360,12 @@
     min-height: 10rem;
 }
 
-
+.home--grid .empty--box {
+    padding: 1rem 0 2rem !important;
+}
+.recent-section .empty--box {
+    padding-top: 0;
+}
 
 
 /* ============================================= */
@@ -395,6 +407,7 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: .5rem;
+    width: 100%;
 }
 .section--top a {
     font-size: 1.2rem;
@@ -641,6 +654,17 @@
 
 
 
+.news-section {
+    background-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1)), url("../../assets/images/resources/new-mask.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    color: #fff;
+
+}
+
+
+
 
 
 
@@ -656,9 +680,6 @@
 }
 .collapsed .recent-section {
     min-width: 100%;
-}
-.recent-section .empty--box {
-    padding: 0 0 2rem !important;
 }
 
 

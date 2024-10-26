@@ -28,6 +28,7 @@
 	display: flex;
 	align-items: center;
 	gap: 1.2rem;
+	width: 100%;
 }
 .page__section-top-btn {
 	justify-content: center;

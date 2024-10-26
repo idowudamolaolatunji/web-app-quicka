@@ -5,7 +5,7 @@ import { useWindowSize } from 'react-use';
 import CheckBoxInput from '../../components/CheckBoxInput';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import ProductCard from '../../components/ProductCard';
-import TableError from '../../components/TableError';
+import ErrorComponent from '../../components/ErrorComponent';
 import ProductCardSkeleton from '../../components/ProductCardSkeleton';
 import { TableHeadSkeleton, TableSkeleton } from '../../components/TableSkeleton';
 
@@ -65,7 +65,7 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
 
     return (
         <>
-            {(error && !isData && !loader) && <TableError text="Unable to fetch, Check Your Connection" />}
+            {(error && !isData && !loader) && <ErrorComponent text="Unable to fetch, Check Your Connection" />}
             {((!isData && !error && !loader) && <>{emptyComponent}</>)}
 
             {loader && (

@@ -8,6 +8,7 @@ import VisitorOverview from './VisitorOverview'
 import TopProducts from './TopProducts'
 import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../../context/DataContext';
+import NewsBox from './NewsBox';
 
 function HomeLayoutGrid() {
     const { width } = useWindowSize();
@@ -21,6 +22,7 @@ function HomeLayoutGrid() {
                 <HomeInsightContainer />
                 <SalesOverview />
                 <RecentOrders />
+                <NewsBox />
             </div>
 
             <div className="grid--right">

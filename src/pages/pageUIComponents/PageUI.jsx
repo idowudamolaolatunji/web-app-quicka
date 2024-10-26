@@ -19,7 +19,8 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
     const { handleToggleInsights, showInsights } = useDataContext();
 
     // CHECK THIS AGAIN LATER....
-    const widthandItem500 = (items && items.length > 0 && width < 500);
+    const isItem = items && items.length > 0;
+    const width500andIsItem = (isItem && width < 500);
 
     const [showMoreActions, setShowMoreActions] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
@@ -27,7 +28,7 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
 
 
     function handleShowExportModal() {
-        if (!items || items?.length == 0) {
+        if (!isItem) {
             setResponse({ status: "error", message: `No ${pageName} data to export! ` });
             setTimeout(() => setResponse({ status: null, message: null }), 2500)
         } else {
@@ -41,13 +42,13 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            <div className='page__section--heading' style={widthandItem500 ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
+            <div className='page__section--heading' style={width500andIsItem ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
                 <h2 className="page__section--title">{pageName == "delivery" ? "delivery rate" : pageName}s</h2>
                     
 
-                <span className='page__section--btns' style={(widthandItem500 && insights) ? { width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr" } : { width: width < 500 ? "100%" : "auto"}}>
+                <span className='page__section--btns' style={(width500andIsItem && insights) ? { width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
 
-                    {(items && items?.length > 0 && addUrl) && (
+                    {(isItem && addUrl) && (
                         <button className="page__section-top-btn add" onClick={() => navigate(`/dashboard/${addUrl}`)}>
                             {pageName == "order" ? "Record" : "Add"} {pageName == "delivery" ? "delivery rate" : pageName} 
                             <BiPlus />
@@ -55,7 +56,7 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
                     )}
 
                     {insights && (
-                        <span className="page__section--action" onMouseLeave={() => setShowMoreActions(false)} style={{ marginLeft: "auto"}}>
+                        <span className="page__section--action" onMouseLeave={() => setShowMoreActions(false)} style={ !width500andIsItem ? { marginLeft: "auto" } : {} }>
                             <button onClick={() => setShowMoreActions(!showMoreActions)} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
 
                             {showMoreActions && (

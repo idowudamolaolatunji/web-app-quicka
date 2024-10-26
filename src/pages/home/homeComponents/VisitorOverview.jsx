@@ -72,8 +72,8 @@ const options = {
 
 function VisitorOverview() {
     return (
-        <div className='card visitor-section'>
-            <div className="section--heading" >
+        <div className='card visitor-section' style={{ paddingBottom: 0 }}>
+            <div className="section--heading">
                 <h2>Website Visitors</h2>
                 <p>See how many person visit your wesite.</p>
             </div>

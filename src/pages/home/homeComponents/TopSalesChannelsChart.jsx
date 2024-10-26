@@ -10,21 +10,22 @@ function TopSalesChannelsChart() {
     const { orders } = useFetchedContext();
     const { isMenuCollapsed } = useDataContext()
 
-    const isCollapsedBtw1000and1100 = !isMenuCollapsed && (width >= 1000 && width < 1100 );
+    const isCollapsedBtw1000and1100 = !isMenuCollapsed && (width >= 1000 && width < 1100);
+
 
     // YOU NEED TO FUTHER UNDERSTAND WHAT'S GOING ON HERE!!
-    const processChannels = function() {
+    const processChannels = function () {
         const channelCounts = orders?.reduce((acc, curr) => {
-          acc[curr.channel] = (acc[curr.channel] || 0) + 1;
-          return acc;
+            acc[curr.channel] = (acc[curr.channel] || 0) + 1;
+            return acc;
         }, {});
-      
+
         const sortedChannels = Object.entries(channelCounts).sort((a, b) => b[1] - a[1]);
-      
+
         return [
-          sortedChannels.slice(0, 5).map(([_, count]) => count),
-          sortedChannels.slice(0, 5).map(([channel]) => channel),
-          sortedChannels.slice(0, 5).map(([channel, count]) => ({ label: channel, value: count })),
+            sortedChannels.slice(0, 5).map(([_, count]) => count),
+            sortedChannels.slice(0, 5).map(([channel]) => channel),
+            sortedChannels.slice(0, 5).map(([channel, count]) => ({ label: channel, value: count })),
         ];
     };
 
@@ -79,7 +80,7 @@ function TopSalesChannelsChart() {
                     },
                 },
             },
-            
+
         ],
         dataLabels: {
             enabled: true,
@@ -136,42 +137,41 @@ function TopSalesChannelsChart() {
     // ];
 
     return (
-
         <>
             {width > 850 ? (
                 <div id="chart">
                     <PieChart
                         colors={['#ff7a49', '#A7B4F5', '#F8CBA6', '#EB4747', '#444444']}
                         slotProps={{
-                            legend: { 
+                            legend: {
                                 hidden: isCollapsedBtw1000and1100,
                             },
                         }}
                         series={[
                             {
                                 data: MUIChartData,
-                                ...( width <= 500 && { arcLabel: (item) => `${item.value}` }),
+                                ...(width <= 500 && { arcLabel: (item) => `${item.value}` }),
                                 highlightScope: { fade: 'global', highlight: 'item' },
                                 donut: { innerRadius: 30 },
                                 faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-                                ...( width > 1200 && {  cx: 80, cy: 80 }),
-                                ...( isCollapsedBtw1000and1100 && {  cx: 100, cy: 80 }),
-                                ...( width <= 380 && {  cx: 70, cy: 80 }),
+                                ...(width > 1200 && { cx: 80, cy: 80 }),
+                                ...(isCollapsedBtw1000and1100 && { cx: 100, cy: 80 }),
+                                ...(width <= 380 && { cx: 70, cy: 80 }),
                                 innerRadius: 40,
                                 paddingAngle: 2.5,
                             },
                         ]}
                         sx={{
                             [`& .${pieArcLabelClasses.root}`]: {
-                              fontWeight: 'bold',
-                              fontSize: '10px',
-                              color: '#fff'
+                                fontWeight: 'bold',
+                                fontSize: '10px',
+                                color: '#fff'
                             },
                         }}
                         height={160}
                     />
-                </div> 
-            ) : ( 
+                </div>
+            ) : (
                 <>
                     <div id="chart" className='dougnot-chart'>
                         <ReactApexChart options={options} series={series} type="donut" height={250} />
