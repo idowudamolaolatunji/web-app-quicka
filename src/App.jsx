@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './utils/ProtectedRoute';
 import 'react-loading-skeleton/dist/skeleton.css'
-import './pages/generalStyle.css';
 
 
 /////////////////////////////////////////////////////////////////////////////////////

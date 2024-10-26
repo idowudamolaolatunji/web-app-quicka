@@ -3,13 +3,10 @@ import { useWindowSize } from 'react-use';
 
 import Asterisk from '../../../components/Asterisk';
 import QuillEditor from '../../../components/QuillEditor';
-import BackButton from '../../../components/button/BackButton';
-import SimpleModal from '../../../components/modal/Simple';
 
 import { MdOutlineShoppingBag } from 'react-icons/md';
 import { useAuthContext } from '../../../context/AuthContext';
 import Line from '../../../components/Line';
-import '../../uploadStyle.css';
 import { AiOutlinePlus } from 'react-icons/ai';
 import Info from '../../../components/Info';
 import MainDropdownSelect from '../../../components/MainDropdownSelect';
@@ -21,13 +18,9 @@ import FullScreen from '../../../components/modal/FullScreen';
 import Drawer from '../../../components/modal/Drawer';
 import AddCustomer from './AddCustomer';
 
-import Spinner from '../../../components/spinner/spinner_two';
-import CustomAlert from '../../../components/CustomAlert';
-import ConfettiUI from '../../../components/ConfettiUI';
-
-import { truncateString } from '../../../utils/helper.js';
 import { validateOrderForm } from '../../../utils/validationHelper.js';
 import { useNavigate } from 'react-router-dom';
+import AddPageUI from '../../pageUIComponents/AddPageUI.jsx';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -90,7 +83,7 @@ function RecordOrder() {
     //     ),
     //     value: product._id
     // }));
-    
+
     function handleOrderDataChange(e) {
         const { name, value } = e?.target;
         setOrderData({
@@ -130,7 +123,7 @@ function RecordOrder() {
 
     async function handleRecordOrder() {
         // FORM VALIDATIONS 
-        let formData = { 
+        let formData = {
             channel,
             ...orderData,
             orderProducts,
@@ -150,7 +143,7 @@ function RecordOrder() {
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
         const selectedProducts = orderProducts?.map(product => product._id)
-        
+
         // MAKE REQUEST
         try {
             const res = await fetch(`${BASE_API_URL}/orders/record`, {
@@ -166,13 +159,13 @@ function RecordOrder() {
                     deliveryStatus: deliveryStatus[0]?.value,
                 })
             });
-            if(!res.ok) throw new Error('Something went wrong! Check intenet connection');
+            if (!res.ok) throw new Error('Something went wrong! Check intenet connection');
 
             const data = await res.json();
             console.log(res, data)
-            
+
             const { status, message } = data;
-            if(status !== 'success') throw new Error(message);
+            if (status !== 'success') throw new Error(message);
 
             // SET RESPONSE MESSAGE
             setResponse({ status: "success", message });
@@ -180,11 +173,11 @@ function RecordOrder() {
 
             window.scrollTo(0, 0);
             handleClearFields();
-            
+
             setTimeout(() => navigate(-1), 3000);
             handleFetchUserStoreOrders()
 
-        } catch(err) {
+        } catch (err) {
             setResponse({ status: "error", message: err.message });
         } finally {
             setLoading({ ...loading, mainLoading: false })
@@ -194,14 +187,6 @@ function RecordOrder() {
 
     return (
         <>
-
-            {showConfetti &&  <ConfettiUI />}
-            {loading.mainLoading && <Spinner />}
-
-            {(response.message || response.status) && (
-                <CustomAlert type={response.status} message={response.message} />
-            )}
-
             {showModal.product && (
                 <FullScreen style={{ maxWidth: '105rem', margin: '0 auto' }}>
                     <UploadProduct isModal close={() => handleCloseModal("product")} />
@@ -214,21 +199,16 @@ function RecordOrder() {
                 </Drawer>
             )}
 
-            <section className='product__upload-section'>
-                <div className='page__section--heading'>
-                    <span className='flex'>
-                        <BackButton />
-                        <h2 className="page__section--title">Record Orders<MdOutlineShoppingBag /></h2>
-                    </span>
-
-                    {width > 600 && (
-                        <div className="page__section--actions">
-                            <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
-                            <button className='button submit--button' onClick={handleRecordOrder}>Submit</button>
-                        </div>
-                    )}
-                </div>
-
+            <AddPageUI
+                PageTitle="Record Orders"
+                pageIcon={<MdOutlineShoppingBag />}
+                close={close} 
+                mainLoader={loading.mainLoading}
+                response={response}
+                handleClear={handleClearFields}
+                handleSubmit={handleRecordOrder}
+                confetti={showConfetti}
+            >
 
                 <div className="product__upload--container">
                     <div className='left--container containers'>
@@ -358,15 +338,8 @@ function RecordOrder() {
                         </div>
                     </div>
                 </div>
+            </AddPageUI>
 
-
-                {width < 600 && (
-                    <div className="page__section--actions" style={{ marginTop: "4rem" }}>
-                        <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
-                        <button className='button submit--button' onClick={handleRecordOrder}>Submit</button>
-                    </div>
-                )}
-            </section>
         </>
     )
 }

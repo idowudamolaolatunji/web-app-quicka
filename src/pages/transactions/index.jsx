@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import PageUI from '../pageComponents/PageUI'
+import PageUI from '../pageUIComponents/PageUI'
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
@@ -10,7 +10,7 @@ import { LuClipboardList } from 'react-icons/lu';
 import emptyImg from '../../assets/images/illustrations/transactions.png'
 import { MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
-import { capitalizeFirstLetter, formatNumber } from '../../utils/helper';
+import { capitalizeFirstLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
 import { facebook, online_store, physical_store, instagram, whatsapp, twitter, flutterwave_store, others, jiji, jumia, konga } from "../../assets/images/index";
 
 
@@ -49,19 +49,11 @@ function index() {
         {
             name: "Transaction Id",
             selector: row => (
-                <p className='value'>{row.transactionId}</p>
+                <p className='value'>{row?.transactionId}</p>
             )
         },
         {
-            name: "Payment Type",
-            selector: row => (
-                <span className="status status--success">
-                    <p>{row.paymentType}</p>
-                </span>
-            )
-        },
-        {
-            name: "Payment Type",
+            name: "Customer",
             selector: row => row?.order?.customer || "-- Not Added --"
         },
         {
@@ -74,17 +66,42 @@ function index() {
         {
             name: "Amount",
             selector: row => (
-                <p className="value">₦{formatNumber(row.amount)}</p>
+                <p className="value">₦{formatNumber(row.order.orderPrice)}</p>
+            )
+        },
+        {
+            name: "Payment Type",
+            selector: row => (
+                <span className="status status--success">
+                    <p>{row?.paymentType}</p>
+                </span>
             )
         },
         {
             name: 'Status', 
             selector: row => (
-                <span className={`status status--${row.status}`}>
-                    <p>{row.status == "success" && "Successful"}</p>
+                <span className={`status status--${row?.status}`}>
+                    <p>{row?.status == "success" && "Successful"}</p>
                 </span>
             ),
-            // width: '120px'
+        },
+        {
+            name: "Transaction Type",
+            selector: row => (
+                <TooltipUI placement='top' title="Offline transaction">
+                <span className={`status status--draft`}>
+                    <p>{row?.transactionType}</p>
+                </span>
+                </TooltipUI>
+            )
+        },
+        {
+            name: "Date",
+            selector: row => (
+                <TooltipUI placement='top' title={dateTimeFormat(row?.createdAt)}>
+                    <p>{dateTimeFormat(row?.createdAt)}</p>
+                </TooltipUI>
+            ),
         }
     ]
 

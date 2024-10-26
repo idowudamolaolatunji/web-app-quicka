@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
-import CheckBoxInput from './CheckBoxInput';
+import CheckBoxInput from '../../components/CheckBoxInput';
 import { RiDeleteBin5Line } from 'react-icons/ri';
-import ProductCard from './ProductCard';
-import TableError from './TableError';
-import ProductCardSkeleton from './ProductCardSkeleton';
-import { TableHeadSkeleton, TableSkeleton } from './TableSkeleton';
+import ProductCard from '../../components/ProductCard';
+import TableError from '../../components/TableError';
+import ProductCardSkeleton from '../../components/ProductCardSkeleton';
+import { TableHeadSkeleton, TableSkeleton } from '../../components/TableSkeleton';
 
 
 function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectableRows, headTabs, displayType = "table", loader, error }) {
@@ -112,12 +112,12 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
                             columns={columns}
                             pagination
                             pointerOnHover
-                            highlightOnHover={width > 600 ? true : false}
                             persistTableHead
                             noDataComponent={false}
                             customStyles={customStyles}
                             selectableRows={selectableRows}
                             onSelectedRowsChange={handleSelectedRow}
+                            {...( goto && { highlightOnHover: width > 600 ? true : false })}
                             {...(goto && { onRowClicked: (row) => handleNavigate(row) })}
                         />
                     )}

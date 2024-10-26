@@ -12,7 +12,7 @@ import { MdOutlineFilterList, MdOutlineRefresh, MdTableRows } from 'react-icons/
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { BsFillGrid3X3GapFill, BsFillGridFill, BsTable } from 'react-icons/bs';
 import TooltipUI from '../../components/TooltipUI';
-import PageUI from '../pageComponents/PageUI';
+import PageUI from '../pageUIComponents/PageUI';
 // import emptyImg from '../../assets/images/resources/orange-woman-with-packages-in-shopping-cart.png';
 import emptyImg from '../../assets/images/illustrations/add-product.png';
 import { Link } from 'react-router-dom';
@@ -148,7 +148,6 @@ function index() {
             headTabs={<HeadTabs />}
             loader={loader} error={error}
             activeDisplayTab={activeDisplayTab}
-            // loader={loader?.product} error={error?.product}
         >
 
             {showInsights?.product && (

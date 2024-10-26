@@ -12,6 +12,7 @@ import { validateBankForm } from '../../../utils/validationHelper.js';
 import CustomAlert from '../../../components/CustomAlert.jsx';
 import Spinner from '../../../components/spinner/spinner_two';
 import { banks } from '../../../utils/data.js';
+import AddPageUI from '../../pageUIComponents/AddPageUI.jsx';
 
 
 function BankDetails({ isnew, close }) {
@@ -126,75 +127,62 @@ function BankDetails({ isnew, close }) {
     }
 
     return (
-        <>
-            {loading.mainLoading && (isnew ? createPortal(<Spinner />, document.body) : <Spinner />)}
+        <AddPageUI
+            PageTitle="Payment Details"
+            pageIcon={<RiBankLine />}
+            close={close} isnew={isnew}
+            isModal={isModal}
+            mainLoader={loading.mainLoading}
+            response={response}
+            handleClear={handleClearFields}
+            handleSubmit={handleCreateCustomer}
+            confetti={showConfetti}
+        >
 
-            {(response.message || response.status) && (
-                isnew ? createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
-                    : <CustomAlert type={response.status} message={response.message} />
-            )}
+            <div className="product__upload--container" style={{ gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "80rem", marginTop: width > 600 ? "4rem" : "0" }}>
+                <div className="card form">
+                    <div className="section--heading">
+                        <h2>Bank Details</h2>
+                        {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+                    </div>
 
-            <section className='product__upload-section bank--section'>
-                <div className='page__section--heading'>
-                    <span className='flex'>
-                        <BackButton close={close} />
-                        <h2 className="page__section--title">Payment Details<RiBankLine /></h2>
-                    </span>
-                </div>
+                    <div className="form--item">
+                        <label className="form--label">Bank Name <Asterisk /></label>
+                        <MainDropdownSelect title="Bank" options={banks} field="bankname" value={bankName} setValue={setBankName} noDataLabel="No Bank found with that name" disabled={bank?.bankname ? true : false} />
+                        <span className="form--error-message">
+                            {bankFormErrors.bankName && bankFormErrors.bankName}
+                        </span>
+                    </div>
 
 
-                <div className="product__upload--container" style={{ gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "80rem", marginTop: width > 600 ? "4rem" : "0" }}>
-                    <div className="card form">
-                        <div className="section--heading">
-                            <h2>Bank Details</h2>
-                            {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
-                        </div>
-
+                    <div className="form--grid">
                         <div className="form--item">
-                            <label className="form--label">Bank Name <Asterisk /></label>
-                            <MainDropdownSelect title="Bank" options={banks} field="bankname" value={bankName} setValue={setBankName} noDataLabel="No Bank found with that name" disabled={bank?.bankname ? true : false} />
+                            <label htmlFor='number' className="form--label">Account Number <Asterisk /></label>
+
+                            <input type="number" name="accountNumber" id="number" className='form--input' value={bankData.accountNumber} onChange={handleBankFormChange} placeholder='1234567890' readOnly={bank?.accountNumber ? true : false} />
                             <span className="form--error-message">
-                                {bankFormErrors.bankName && bankFormErrors.bankName}
+                                {bankFormErrors.accountNumber && bankFormErrors.accountNumber}
                             </span>
                         </div>
 
-
-                        <div className="form--grid">
-                            <div className="form--item">
-                                <label htmlFor='number' className="form--label">Account Number <Asterisk /></label>
-
-                                <input type="number" name="accountNumber" id="number" className='form--input' value={bankData.accountNumber} onChange={handleBankFormChange} placeholder='1234567890' readOnly={bank?.accountNumber ? true : false} />
+                        <div className="form--item">
+                            <label htmlFor='name' className="form--label">Account Name <Asterisk /></label>
+                            <input type="text" name="accountName" id="name" className='form--input' value={bankData.accountName} onChange={handleBankFormChange} placeholder='Jane Doe Martha' readOnly={bank?.accountName ? true : false} />
+                            {bankFormErrors.accountName && (
                                 <span className="form--error-message">
-                                    {bankFormErrors.accountNumber && bankFormErrors.accountNumber}
+                                    {bankFormErrors.accountName}
                                 </span>
-                            </div>
+                            )}
 
-                            <div className="form--item">
-                                <label htmlFor='name' className="form--label">Account Name <Asterisk /></label>
-                                <input type="text" name="accountName" id="name" className='form--input' value={bankData.accountName} onChange={handleBankFormChange} placeholder='Jane Doe Martha' readOnly={bank?.accountName ? true : false} />
-                                {bankFormErrors.accountName && (
-                                    <span className="form--error-message">
-                                        {bankFormErrors.accountName}
-                                    </span>
-                                )}
+                            <Info text="Account name should be as on BVN" />
 
-                                <Info text="Account name should be as on BVN" />
-
-                                {/* this right here is just to help us buy space, to avoid our content from jumping up and down */}
-                                {!bankFormErrors.accountName && <span className="form--error-message" />}
-                            </div>
+                            {/* this right here is just to help us buy space, to avoid our content from jumping up and down */}
+                            {!bankFormErrors.accountName && <span className="form--error-message" />}
                         </div>
                     </div>
                 </div>
-
-                {(!bank.bankname || !bank.accountName || !bank.accountName) && (
-                    <div className="page__section--actions" style={{ marginTop: "4rem", justifyContent: width > 600 ? "flex-end" : "" }}>
-                        <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
-                        <button className='button submit--button' onClick={handleSubmitDetails}>Submit</button>
-                    </div>
-                )}
-            </section>
-        </>
+            </div>
+        </AddPageUI>
     )
 }
 

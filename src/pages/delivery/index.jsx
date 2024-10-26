@@ -1,19 +1,16 @@
 import React, { useEffect } from 'react'
-import PageUI from '../pageComponents/PageUI'
-import { useDataContext } from '../../context/DataContext';
+import PageUI from '../pageUIComponents/PageUI'
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import emptyImg from '../../assets/images/illustrations/delivery.png';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
-import { formatDate, formatNumber } from '../../utils/helper';
+import { formatNumber, ymdDateFormat } from '../../utils/helper';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 
 ///////////////////////////////////////////////
-const BASE_URL = import.meta.env.VITE_BASE_URL
-
 const emptyTitle = "Add Delivery Rates";
 const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const emptyBtns = [
@@ -48,7 +45,11 @@ function index() {
         },
         {
             name: 'Date',
-            selector: row => formatDate(row?.createdAt),
+            selector: row => (
+                <TooltipUI placement='top' title={ymdDateFormat(row?.createdAt)}>
+                    <p>{ymdDateFormat(row?.createdAt)}</p>
+                </TooltipUI>
+            ),
         },
         {
             selector: () => (

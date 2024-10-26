@@ -5,11 +5,11 @@ import { useDataContext } from '../../context/DataContext';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import { PiShareFatFill } from 'react-icons/pi';
 import { BiChevronDown, BiPlus } from 'react-icons/bi';
-import TableUI from '../../components/TableUI';
 import EmptyTableComponent from '../../components/EmptyTableComponent';
-import Spinner from '../../components/spinner/spinner_two';
 import ExportCSV from '../../components/modal/ExportCSV';
 import CustomAlert from '../../components/CustomAlert';
+import TableUI from './TableUI';
+import './generalStyle.css';
 
 
 function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, emptyClassName, headTabs, error, loader, activeDisplayTab = null, insights = true, children }) {

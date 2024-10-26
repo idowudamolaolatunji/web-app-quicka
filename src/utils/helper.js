@@ -10,6 +10,17 @@ export function todayDate() {
 	return moment().format("dddd, MMMM D, YYYY");
 }
 
+export function dateTimeFormat(givenDate) {
+	const date = moment(givenDate);
+  	return date.format("D MMM YYYY, h:mm A");
+}
+
+export function ymdDateFormat(givenDate) {
+	const date = moment(givenDate);
+	return date.format("YYYY-MM-DD");
+} 
+
+
 export function truncateString(input, num=25) {
     if (input?.length > num) {
         return input.substring(0, num) + "...";

@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
-import PageUI from '../pageComponents/PageUI'
+import PageUI from '../pageUIComponents/PageUI'
 import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/Insight';
 import { FiUsers } from 'react-icons/fi';
 import emptyImg from '../../assets/images/illustrations/customer.png'
-// import emptyImg from '../../assets/svgs/undraw_add_user_re_5oib.svg'
 import { TbUserSquare } from 'react-icons/tb';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { todayDate } from '../../utils/helper';
+import { ymdDateFormat } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
@@ -46,7 +45,7 @@ function index() {
         },
         {
             name: "Date Added",
-            selector: row => todayDate(row.createdAt)
+            selector: row => ymdDateFormat(row.createdAt)
         },
         {
             selector: () => (

@@ -6,7 +6,7 @@ import { TbNotes, TbNotesOff } from 'react-icons/tb';
 import { MdOutlineFilterList, MdOutlineNoteAlt, MdOutlineRefresh, MdOutlineShoppingBag } from 'react-icons/md';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
-import PageUI from '../pageComponents/PageUI';
+import PageUI from '../pageUIComponents/PageUI';
 import TooltipUI from '../../components/TooltipUI';
 import { facebook, online_store, physical_store, instagram, whatsapp, twitter, flutterwave_store, others, jiji, jumia, konga } from "../../assets/images/index";
 import emptyImg from '../../assets/images/illustrations/sales.png';
