@@ -55,7 +55,7 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
                     )}
 
                     {insights && (
-                        <span className="page__section--action" onMouseLeave={() => setShowMoreActions(false)}>
+                        <span className="page__section--action" onMouseLeave={() => setShowMoreActions(false)} style={{ marginLeft: "auto"}}>
                             <button onClick={() => setShowMoreActions(!showMoreActions)} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
 
                             {showMoreActions && (
