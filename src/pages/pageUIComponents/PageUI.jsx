@@ -46,17 +46,18 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
                 <h2 className="page__section--title">{pageName == "delivery" ? "delivery rate" : pageName}s</h2>
                     
 
-                <span className='page__section--btns' style={(width500andIsItem && insights) ? { width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
+                <span className='page__section--btns' style={(width500andIsItem && insights) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
 
                     {(isItem && addUrl) && (
                         <button className="page__section-top-btn add" onClick={() => navigate(`/dashboard/${addUrl}`)}>
-                            {pageName == "order" ? "Record" : "Add"} {pageName == "delivery" ? "delivery rate" : pageName} 
+                            {pageName == "order" ? "Record" : pageName == "delivery" ? "Set" : "Add"}
+                            {" "}{pageName == "delivery" ? "delivery rate" : pageName} 
                             <BiPlus />
                         </button>
                     )}
 
                     {insights && (
-                        <span className="page__section--action" onMouseLeave={() => setShowMoreActions(false)} style={ !width500andIsItem ? { marginLeft: "auto" } : {} }>
+                        <span className="page__section--action" onMouseLeave={() => setShowMoreActions(false)}>
                             <button onClick={() => setShowMoreActions(!showMoreActions)} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
 
                             {showMoreActions && (

@@ -9,16 +9,18 @@ import { useOutsideClick } from '../hooks/useOutsideClick';
 
 import { ImDisplay } from 'react-icons/im';
 import { IoLogOutOutline, IoSettingsOutline } from 'react-icons/io5';
+import { createPortal } from 'react-dom';
 
 
 function Dropdown({ setIsShown }) {
     const { user, signoutUser } = useAuthContext();
     
-    const [isLoading, setIsLoading] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [response, setResponse] = useState({ status: "", message: "" });
     const ref = useOutsideClick(handleClose);
     
     function handleClose() {
+        if(loading) return;
         setIsShown(false);
     }
 
@@ -28,19 +30,21 @@ function Dropdown({ setIsShown }) {
         };
     }
 
-    function handleLogout() {
+    async function handleLogout() {
         // LOGOUT LOGIC
-        setIsLoading(true);
-        setIsSuccess(true);
-        setTimeout(function() {
-            signoutUser();
-        }, 2000);
+        setLoading(true);
+        
+        const result = await signoutUser();
+        setLoading(true);
+        if(!result) return setResponse({ status: "error", message: "Error logging out!" })
+        setResponse({ status: "success", message: "Logout successful!" });
+        
     }
 
     return (
         <>
-            {isLoading && <Spinner />}
-            {isSuccess && <CustomAlert type="success" message="Logout successful!" />}
+            {loading && <Spinner />}
+            {(response.status || response.message) && <CustomAlert type={response.status} message={response.message} />}
 
 
             <div className={`dropdown`} ref={ref} onClick={handleCloseByLink}>

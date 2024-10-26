@@ -22,10 +22,15 @@ function TopSalesChannelsChart() {
 
         const sortedChannels = Object.entries(channelCounts).sort((a, b) => b[1] - a[1]);
 
+        const totalCount = sortedChannels.slice(0, 5).reduce((acc, [_, count]) => acc + count, 0);
+
         return [
             sortedChannels.slice(0, 5).map(([_, count]) => count),
             sortedChannels.slice(0, 5).map(([channel]) => channel),
-            sortedChannels.slice(0, 5).map(([channel, count]) => ({ label: channel, value: count })),
+            sortedChannels.slice(0, 5).map(([channel, count]) => ({
+                label: channel,
+                value: (count / totalCount) * 100
+            })),
         ];
     };
 
@@ -150,7 +155,12 @@ function TopSalesChannelsChart() {
                         series={[
                             {
                                 data: MUIChartData,
-                                ...(width <= 500 && { arcLabel: (item) => `${item.value}` }),
+                                // arcLabel: (item) => `${item.value}%`,
+                                valueFormatter: (item) => (
+                                    <p style={{ fontSize: "1.2rem", fontWeight: "500" }}>
+                                        <span className='value'>{item.value}%</span>{" "}of your sales
+                                    </p>
+                                ),
                                 highlightScope: { fade: 'global', highlight: 'item' },
                                 donut: { innerRadius: 30 },
                                 faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },

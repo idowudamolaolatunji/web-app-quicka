@@ -14,7 +14,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 const emptyTitle = "Add Delivery Rates";
 const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const emptyBtns = [
-    { title: <><AiOutlinePlus />Add Delivery</>, link: "/dashboard/delivery-rates/add" },
+    { title: <><AiOutlinePlus />Set Delivery Rates</>, link: "/dashboard/delivery-rates/add" },
 ];
 
 function index() {

@@ -153,7 +153,7 @@ function RecentOrders() {
             <>
                 {(error?.order && !isData) && <ErrorComponent text="Unable to fetch orders, Check Your Connection" />}
                 
-                {(isData && !error?.order) && (
+                {(orders && !error?.order) && (
                     <div className="table-h" style={(orders && orders?.length < 3) ? { paddingBottom: width < 850 ? "2.8rem" : "4.8rem" } : {} }>
                         <DataTable
                             data={recentOrders}
@@ -161,7 +161,7 @@ function RecentOrders() {
                             pointerOnHover={true}
                             customStyles={customStyles}
                             onRowClicked={(row) => navigate(`/dashboard/orders/${row.id}`)}
-                            noDataComponent={<Empty customStyle={{ margin: "3rem 0" }} text="recent orders yet!" />}
+                            noDataComponent={<Empty text="recent orders yet!" />}
                         />
                     </div>
                 )}

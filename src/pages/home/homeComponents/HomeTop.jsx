@@ -8,29 +8,36 @@ import { useAuthContext } from '../../../context/AuthContext';
 import { RiDiscountPercentFill } from 'react-icons/ri';
 import { AiOutlineClose } from 'react-icons/ai';
 import { LuCheckCircle } from 'react-icons/lu';
+import moment from 'moment';
 
 
 function HomeTop() {
-    const { user, store } = useAuthContext();
-    const { width } = useWindowSize();
+    const offer_tenue = 60;
     const navigate = useNavigate();
+    const { width } = useWindowSize();
+    const { user, store } = useAuthContext();
+    const { storeBasicSetup, storeFinalSetup } = user;
 
     const [showSub, setShowSub] = useState(true);
 
-    ///////////////////////////////////////////////////////
-    const dateCreated = new Date(user.createdAt).getTime();
-    const todaysDate = Date.now();
-    const oneDayAgo = todaysDate - (24 * 60 * 60 * 1000) / 2;
-    ///////////////////////////////////////////////////////
-
+    const daysToReach = function() {
+        const createdAtMoment = moment(user?.createdAt)
+    
+        // Calculate remainingDates to end offer from createdAt date
+        const daysRemaining = createdAtMoment.clone().add(offer_tenue, 'days').diff(moment(), 'days');
+        return daysRemaining;
+    }
+    
     return (
 
         <>
-
             {(!store.isPremium && showSub) && (
                 <div className='home--sub'>
                     <div className="sub--mini">
-                        <p className='sub--text'>Select a plan and get your first year at a whooping 🥳 <span style={{ fontWeight: 600, fontSize: '1.6rem' }}>70%</span> discount</p>
+                        <p className='sub--text'>
+                            Select a plan and get your first year at a whooping 🥳 <span style={{ fontWeight: 600, fontSize: '1.6rem' }}>70%</span> discount!
+                            <p className='sub--text-sub'>Promo offer expired in {daysToReach()} day{daysToReach() < 2 ? "" : "s"}..</p>
+                        </p>
                         <RiDiscountPercentFill style={{ fontSize: '2.4rem' }} />
                     </div>
 
@@ -44,10 +51,10 @@ function HomeTop() {
 
             <div className='home--top'>
                 <div className='top--heading'>
-                    {(dateCreated > oneDayAgo) ? (
-                        <p className='heading--name'>Welcome Back, {user.firstname}! 👋🏿</p>
-                    ) : (
+                    {(storeBasicSetup && storeFinalSetup) ? (
                         <p className='heading--name'>{getGreeting()},{" "}{user.firstname}! {getExpression()}</p>
+                    ) : (
+                        <p className='heading--name'>Welcome Back, {user.firstname}! 👋🏿</p>
                     )}
                     <p className='heading--date'>{todayDate()}.</p>
                 </div>

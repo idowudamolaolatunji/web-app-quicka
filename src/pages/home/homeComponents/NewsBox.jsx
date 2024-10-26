@@ -1,7 +1,5 @@
 import React from 'react';
 
-// import news_mask from "../../../assets/images/resources/new-mask.png"
-
 function NewsBox() {
     return (
         <section className='card news-section'>
@@ -10,7 +8,6 @@ function NewsBox() {
                 <p>Three new & recent order for you!</p>
             </div>
 
-            {/* <img src={news_mask} alt="" style={{ marginTop: "2rem", borderRadius: "0.4rem"}} /> */}
         </section>
     )
 }

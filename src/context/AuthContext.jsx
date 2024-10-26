@@ -30,17 +30,17 @@ export const AuthProvider = ({ children }) => {
     }
 
     async function signoutUser() {
-        try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/users/logout`);
-            if (!res.ok) throw new Error('Check internet connection');
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/users/logout`);
+        if (!res.ok) return false;
 
+        setTimeout(function() {
             handleChange(null, null);
             Cookies.remove("q_user_obj");
             Cookies.remove("q_user_jwt_token");
             Cookies.remove("q_user_store");
-        } catch (err) {
-            console.log(err.message);
-        }
+        }, 2000);
+
+        return true
     }
 
     function shouldKick(e) {

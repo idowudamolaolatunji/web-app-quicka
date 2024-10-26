@@ -1,3 +1,4 @@
+
 .page__section--heading {
 	display: flex;
 	justify-content: space-between;
@@ -27,8 +28,8 @@
 .page__section--btns {
 	display: flex;
 	align-items: center;
+	justify-content: flex-end;
 	gap: 1.2rem;
-	width: 100%;
 }
 .page__section-top-btn {
 	justify-content: center;
@@ -407,6 +408,14 @@
 }
 
 
+@media screen and (max-width: 500px) {
+	.page__section--btns,
+	.page__section-top-btn {
+		width: 100%;
+	}
+}
+
+
 @media screen and (max-width: 450px) {
 	.page__section-top-btn {
 		font-size: 1.34rem;
@@ -464,7 +473,10 @@
 		align-items: flex-start;
 		gap: 1.2rem;
 	}
-
+	.page__section--action {
+		width: 100%;
+	}
+	
 	.product__grid {
 		grid-template-columns: 1fr;
 	}
@@ -476,4 +488,5 @@
 	.product__figure img {
 		max-height: 24rem;
 	}
+
 }

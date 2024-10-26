@@ -12,29 +12,35 @@
     width: 100%;
     padding: 1.8rem 2rem;
     border-radius: .48rem;
-
-    /* background-color: #333; */
-
-    /* =========================== */
-    background-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1)), url("../../assets/images/resources/new-mask.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    /* =========================== */
-
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    /* background-color: #333; */
+    background-image: linear-gradient(rgba(255, 255, 255, .03), rgba(255, 255, 255, .03)),
+    url("../../assets/images/resources/new-mask.png");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .sub--mini {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
+}
+.sub--mini:last-child {
+    align-items: center;
 }
 .sub--text {
     font-size: 1.4rem;
     font-weight: 500;
     line-height: 1.4;
+}
+.sub--text-sub {
+    font-size: 1.2;
+    font-weight: 500;
+    margin-top: .28rem;
+    opacity: .8;
 }
 .sub--btn {
     font-size: 1.4rem;
@@ -360,11 +366,12 @@
     min-height: 10rem;
 }
 
-.home--grid .empty--box {
-    padding: 1rem 0 2rem !important;
+.home--grid .error.empty--box {
+    /* this here is important for a reason 🎉 */
+    padding: 2rem 0 0;
 }
 .recent-section .empty--box {
-    padding-top: 0;
+    padding: 0 2rem 2rem !important; 
 }
 
 
@@ -655,10 +662,11 @@
 
 
 .news-section {
-    background-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1)), url("../../assets/images/resources/new-mask.png");
+    background-image: linear-gradient(rgba(255, 255, 255, .15), rgba(255, 255, 255, .15)),
+    url("../../assets/images/resources/new-mask.png");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 100%;
+    background-size: cover;
     color: #fff;
 
 }
@@ -784,17 +792,12 @@
         width: 105%;
         margin-left: -.72rem;
     }
-    .sub--mini:first-child {
-        flex-direction: row-reverse;
-        /* align-items: flex-start; */
-    }
     .sub--mini:first-child svg {
         display: none;
     }
     .sub--mini:last-child {
         width: 100%;
         justify-content: space-between;
-        align-items: flex-start;
     }
     .sub--btn {
         font-size: 1.34rem;
@@ -908,6 +911,9 @@
 @media screen and (max-width: 28.125em) {
     .get-started-tabs {
         max-width: 80%;
+    }
+    .sub--text-sub{
+        margin-top: .4rem;
     }
 
     .prog--grid {
