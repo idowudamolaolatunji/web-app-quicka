@@ -249,6 +249,7 @@
     width: 100% !important;
     padding: 2.1rem !important;
     padding-left: 4.2rem !important;
+    background-color: var(--color-brand-10) !important;
 }
 .phone-input:hover,
 .phone-input:focus {

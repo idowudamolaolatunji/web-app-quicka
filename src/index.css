@@ -83,6 +83,15 @@ input::-webkit-inner-spin-button {
 	margin: 0;
 }
 
+textarea {
+	height: 8rem;
+	resize: none;
+    scrollbar-width: none;
+}
+textarea::placeholder {
+	line-height: 1.4;
+}
+
 ::-webkit-scrollbar {
 	width: 0.4rem;
 	height: 0.4rem;
@@ -326,7 +335,7 @@ input::-webkit-inner-spin-button {
 .copyright--text {
 	font-size: 1rem;
 	color: #555;
-	margin-top: 6.8rem;
+	margin-top: 8.4rem;
 
 	display: flex;
 	align-items: center;
@@ -571,6 +580,7 @@ input::-webkit-inner-spin-button {
 	font-size: 1.4rem !important;
 	font-weight: 500;
 	color: #888;
+	margin: 0 !important;
 }
 
 .react-dropdown-select.form--select:focus,

@@ -250,7 +250,7 @@ function UploadProduct({ isnew, isModal, close }) {
                 handleClear={handleClearFields}
                 handleSubmit={handleCreateProduct}
                 confetti={showConfetti}
-            ></AddPageUI>
+            >
 
 
             <form className="product__upload--container" onSubmit={e => e.preventDefault()}>
@@ -428,7 +428,7 @@ function UploadProduct({ isnew, isModal, close }) {
 
                         <div className="form--item">
                             <label htmlFor="discount-price" className="form--label">Discount Type (optional)</label>
-                            <div className="form--clicks" style={width < 500 ? { gridTemplateColumns: "repeat(2, 1fr)" } : { gridTemplateColumns: "repeat(3, 1fr)" }}>
+                            <div className="form--clicks" style={width < 500 ? { gridTemplateColumns: "repeat(2, 1fr)" } : {}}>
                                 <div className={`form--click ${productData.discountType == "no-discount" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "no-discount" })}
                                 >No Discount<span></span>
                                 </div>
@@ -544,6 +544,7 @@ function UploadProduct({ isnew, isModal, close }) {
                     </div>
                 </div>
             </form>
+            </AddPageUI>
 
             {cropModal && (
                 <SimpleModal setClose={setCropModal} title="Crop Image" icon={<AiOutlineClose />}>

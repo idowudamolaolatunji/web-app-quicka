@@ -45,7 +45,7 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
                 <h2 className="page__section--title">{pageName == "delivery" ? "delivery rate" : pageName}s</h2>
                     
 
-                <span className='page__section--btns' style={(widthandItem500 && insights) ? { width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
+                <span className='page__section--btns' style={(widthandItem500 && insights) ? { width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr" } : { width: width < 500 ? "100%" : "auto"}}>
 
                     {(items && items?.length > 0 && addUrl) && (
                         <button className="page__section-top-btn add" onClick={() => navigate(`/dashboard/${addUrl}`)}>
@@ -106,7 +106,6 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
             </div>
 
 
-
             {showExportModal && (
                 <ExportCSV
                     data={data}
@@ -114,9 +113,7 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
                     setClose={setShowExportModal}
                 />
             )}
-
         </>
-
     )
 }
 

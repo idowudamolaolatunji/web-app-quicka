@@ -202,7 +202,7 @@ function RecordOrder() {
             <AddPageUI
                 PageTitle="Record Orders"
                 pageIcon={<MdOutlineShoppingBag />}
-                close={close} 
+                close={() => navigate(-1)} 
                 mainLoader={loading.mainLoading}
                 response={response}
                 handleClear={handleClearFields}

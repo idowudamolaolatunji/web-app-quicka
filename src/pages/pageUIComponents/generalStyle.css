@@ -160,6 +160,7 @@
 	font-weight: 500;
 }
 .table--flex .table--info span,
+.product__figure--collection,
 .p-input--item span {
 	font-size: 1.28rem;
 	background-color: var(--color-brand-50);
@@ -315,6 +316,10 @@
 	line-height: 1.3;
 	color: #444;
 }
+.product__figure--collection {
+	margin-top: 0.4rem;
+	width: fit-content;
+}
 .product__figure--price {
 	font-weight: 500;
 	font-size: 1.28rem;
@@ -339,7 +344,12 @@
 	align-items: center;
 	gap: 0.5rem;
 }
-
+.product__figure--actions .table--btn {
+	transition: all .3s;
+}
+.product__figure--actions .table--btn:hover {
+	color: var(--color-brand-500);
+}
 
 
 
@@ -409,7 +419,7 @@
 	}
 
 	.product__grid {
-		padding: 2rem 0;
+		padding: 1.2rem 0 2rem;
 		gap: 1.2rem;
 	}
 
@@ -427,6 +437,14 @@
 
 	.product__figure--img {
 		min-height: 12rem;
+	}
+
+	.product__figure--actions .table--btn:hover {
+		color: none;
+	}
+	.product__figure--actions .table--btn {
+		color: var(--color-brand-500);
+		background-color: var(--color-brand-50);
 	}
 }
 

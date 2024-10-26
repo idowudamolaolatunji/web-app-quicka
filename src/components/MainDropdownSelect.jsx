@@ -2,11 +2,11 @@ import React from 'react'
 import Select from 'react-dropdown-select'
 
 
-function MainDropdownSelect({ options, multiple=false, field, title, value, searchable = true, setValue, noDataLabel="No Data", disabled=false, clearOnSelect=false }) {
+function MainDropdownSelect({ options, multiple=false, field, title, value, searchable = true, setValue, noDataLabel="No Data", disabled=false, customClass="" }) {
     return (
         <div style={{ width: "100%", textTransform: "capitalize" }}>
             <Select
-                className='form--select'
+                className={`form--select ${customClass}`}
                 values={value}
                 searchBy={field}
                 multi={multiple}

@@ -9,7 +9,7 @@ import './uploadStyle.css';
 import { useWindowSize } from 'react-use';
 
 
-function AddPageUI({ PageTitle, pageIcon, close, isnew, isModal, mainLoader, response, handleClear, handleSubmit, confetti, children }) {
+function AddPageUI({ PageTitle, pageIcon, justify=false, close, isnew, isModal, mainLoader, response, handleClear, handleSubmit, confetti, children }) {
     const { width } = useWindowSize();
 
     return (
@@ -24,7 +24,7 @@ function AddPageUI({ PageTitle, pageIcon, close, isnew, isModal, mainLoader, res
 
             <section className='product__upload-section'>
                 <div className='page__section--heading'>
-                    <span className='flex justify'>
+                    <span className={`flex ${justify ? "justify" : ""}`}>
                         <BackButton close={close} />
                         <h2 className="page__section--title">{PageTitle} {pageIcon}</h2>
                     </span>
@@ -40,7 +40,7 @@ function AddPageUI({ PageTitle, pageIcon, close, isnew, isModal, mainLoader, res
                 <>{children}</>
 
                 {width < 600 && (
-                    <div className="page__section--actions" style={{ marginTop: "4rem" }}>
+                    <div className="page__section--actions" style={{ marginTop: "3rem" }}>
                         <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
                         <button className='button submit--button' onClick={handleSubmit}>Submit</button>
                     </div>

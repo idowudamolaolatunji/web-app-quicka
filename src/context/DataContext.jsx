@@ -108,6 +108,13 @@ export const DataProvider = ({ children }) => {
 
 
     useEffect(function() {
+        if(width <= 450) {
+            setActiveDisplayTab("grid")
+        }
+    }, [width])
+
+
+    useEffect(function() {
         closeNanimate();
     }, [pathname]);
 

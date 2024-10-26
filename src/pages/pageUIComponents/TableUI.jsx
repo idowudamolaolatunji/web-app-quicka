@@ -88,7 +88,7 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
 
             {(!loader && isData) && (
                 <>
-                    <div className='table--head'>
+                    <div className='table--head' style={displayType == "grid" ? { borderRadius: "0.4rem" } : {}}>
                         {selectedRowsId.length > 0 ? (
                             <span className='flex'>
                                 <p>Selected: {selectedRowsId.length}</p>

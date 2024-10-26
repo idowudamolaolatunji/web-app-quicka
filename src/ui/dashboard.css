@@ -516,7 +516,7 @@ button.menu--button {
 /*  */
 /* ========================================== */
 .content--block {
-    padding: 3.6rem 2.4rem 4rem;
+    padding: 3.6rem 2.4rem 2.4rem;
     overflow-x: hidden;
     overflow-y: scroll;
     height: 90vh;
@@ -633,6 +633,9 @@ button.menu--button {
         font-size: 1.38rem;
         font-weight: 500;
     }
+    .menu--icon svg {
+        font-size: 2.2rem;
+    }
     .content--block {
         padding-left:2rem;
         padding-right:2rem;
@@ -641,4 +644,9 @@ button.menu--button {
 
 
 /* 400px === 25em */
-/* @media screen and (max-width: 25em) {} */
+@media screen and (max-width: 25em) {
+    .menu--link, button.menu--button {
+        gap: .8rem;
+        padding: 1rem;
+    }
+}

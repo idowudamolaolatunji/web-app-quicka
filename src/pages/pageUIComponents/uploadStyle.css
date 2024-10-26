@@ -234,6 +234,12 @@
     width: 2rem;
     height: 2rem;
 }
+.select-width {
+    max-width: 20rem;
+}
+.collapsed .select-width {
+    max-width: 100%;
+}
 
 
 
@@ -242,10 +248,13 @@
 
 
 
-
-@media screen and (max-width: 850px) {
-    .product__upload--container .form--grid {
+@media screen and (max-width: 1000px) {
+    .product__upload--container .form--grid,
+    .product__upload--container .form--clicks {
         grid-template-columns: 1fr;
+    }
+    .select-width {
+        max-width: 100%;
     }
 }
 
@@ -258,6 +267,7 @@
         grid-template-columns: 1fr 1fr;
     }
     .product__upload--container .form--clicks {
+        grid-template-columns: repeat(3, 1fr);
         gap: 1.2rem;
     }
 
@@ -323,5 +333,16 @@
     }
     .form.card {
         gap: 1.8rem;
+    }
+}
+
+
+
+@media screen and (max-width: 370px) {
+    .product__upload--container .form--clicks {
+        grid-template-columns: 1fr 1fr;
+    }
+    .form--select {
+        width: 100%;
     }
 }

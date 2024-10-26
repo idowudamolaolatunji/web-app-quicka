@@ -23,12 +23,13 @@ function ProductCard({ product }) {
                     <span className="product__figure--name">
                         {truncateString(product?.name, width < 400 ? 25 : 18)}
                     </span>
+                    <p className='product__figure--collection'>{product?.productCollection}</p>
                     <p className='product__figure--price value'>₦{formatNumber(product.price)}</p>
                 </Link>
 
                 <div className="product__figure--details">
-                    <p>Variations<span>200</span></p>
-                    <p>Stock Amount<span>200</span></p>
+                    <p>Variations<span className='value'>{product?.variations.length}</span></p>
+                    <p>Stock Amount<span className='value'>{product?.stockAmount}</span></p>
                 </div>
 
                 <span className='product__figure--actions'>

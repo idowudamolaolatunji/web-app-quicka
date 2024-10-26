@@ -127,7 +127,7 @@ function CreateDelivery({ close, isnew, isModal }) {
             PageTitle="Set Delivery Rate"
             pageIcon={<TbTruckDelivery />}
             close={close} isnew={isnew}
-            isModal={isModal}
+            justify isModal={isModal}
             mainLoader={loading.mainLoading}
             response={response}
             handleClear={handleClearFields}
