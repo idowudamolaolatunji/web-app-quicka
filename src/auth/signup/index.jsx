@@ -49,11 +49,12 @@ function index() {
     const navigate = useNavigate();
 
     const handleFormChange = function (e, val, opts) {
-        console.log(e, val, opts)
         if (!e && (val || opts)) {
-            let num = val?.slice(0, 4).includes("0") ? opts?.dialCode + val?.slice(4) : val;
-            console.log(num)
-            setFormData({ ...formData, phone: num, phoneNumber: val?.slice(3), dialCode: opts?.dialCode, countryCode: opts?.countryCode, country: opts?.name });
+            const { dialCode, countryCode, name } = opts;
+            const phone = val?.startsWith(dialCode + '0') ? val?.replace(dialCode + '0', dialCode) : val;
+            const phoneNumber = phone?.replace(dialCode, "");
+
+            setFormData({ ...formData, phone, phoneNumber, dialCode, countryCode, country: name });
             return;
         }
         const { name, value } = e?.target;
@@ -229,14 +230,13 @@ function index() {
 
                         <PhoneInput
                             country={'ng'}
-                            defaultErrorMessage="Only Nigeria and Ghana"
+                            regions={'africa'}
                             value={formData.phone}
                             inputProps={{ name: 'phone', id: 'phone' }}
-                            onChange={(phone, country) => handleFormChange(null, phone, country)}
+                            onChange={(num, countryOpts) => handleFormChange(null, num, countryOpts)}
                             inputClass='phone-input'
-                            onlyCountries={['gh', 'ng']}
                             buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
-                            countryCodeEditable={true}
+                            countryCodeEditable={false}
                             dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
                         />
 

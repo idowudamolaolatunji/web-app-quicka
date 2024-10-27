@@ -69,7 +69,8 @@ function RecordOrder() {
     const [showConfetti, setShowConfetti] = useState(false)
     const [salesFormErrors, setSalesFormErrors] = useState({})
 
-    // ((stockAmount)) down here
+    // back end "products" is expecting an array of objects
+    // ((stockAmount)) down here (not to show product that are low on stock)
 
     // const transformedProducts = products?.map(product => ({
     //     label: (

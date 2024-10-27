@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
@@ -8,6 +8,7 @@ import { MdArrowBackIosNew } from 'react-icons/md';
 import logo_black from '../../assets/images/logo/logo-black.png'
 import logo_white from '../../assets/images/logo/logo-white.png'
 import '../auth.css'
+import CopyrightText from '../../components/CopyrightText';
 
 function AuthsUI({ heading, backText, backLink, dataimg, centered=true, overflowLeft=false, children, extras }) {
     const { width } = useWindowSize();
@@ -16,6 +17,11 @@ function AuthsUI({ heading, backText, backLink, dataimg, centered=true, overflow
         backgroundImage: `linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .4)), url(${dataimg})`,
         ...extras
     }
+
+
+    useEffect(function() {
+        window.scrollTo(0, 0)
+    }, [])
 
 
     return (
@@ -44,6 +50,8 @@ function AuthsUI({ heading, backText, backLink, dataimg, centered=true, overflow
                 <div className={`auth--left-container ${centered ? 'centered' : ''}`}>
                     {children}
                 </div>
+                
+                { width < 850 && <CopyrightText customStyle={{ justifyContent: "center" }} />}
             </div>
 
             <div className="auth--right" style={style}>
@@ -54,6 +62,8 @@ function AuthsUI({ heading, backText, backLink, dataimg, centered=true, overflow
                 <p className='auth--right-text'>Take Control, Grow, Manage, market, and succeed with easy-to-use tools designed for entrepreneurs like you. Trusted by 100+ businesses</p>
 
                 <AuthUserRating />
+
+                <CopyrightText white customStyle={{ justifyContent: "flex-start", paddingTop: "1.4rem", color: "#fff" }} />
             </div>
         </section>
     )

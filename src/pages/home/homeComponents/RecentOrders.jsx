@@ -1,6 +1,6 @@
 import React from 'react'
 import DataTable from 'react-data-table-component'
-import { capitalizeFirstLetter, formatDate, formatNumber } from '../../../utils/helper';
+import { capitalizeFirstLetter, formatDate, formatNumber, truncateString } from '../../../utils/helper';
 import { Link, useNavigate } from 'react-router-dom';
 
 import TooltipUI from '../../../components/TooltipUI';
@@ -9,6 +9,7 @@ import { useFetchedContext } from '../../../context/FetchedContext';
 import { useWindowSize } from 'react-use';
 import ErrorComponent from '../../../components/ErrorComponent';
 import { imgString } from '../../../assets/images';
+import { GoDotFill } from 'react-icons/go';
 
 
 const customStyles = {
@@ -64,13 +65,22 @@ const columns = [
     },
     {
         name: 'Product', selector: row => (
-            <ul className='table--list'>
-                {row.products?.map(product => (
-                    <li key={product?.name}>{product?.name}</li>
-                ))}
-            </ul>
+            <TooltipUI placement='top' title={
+                <ul className='table--list'>
+                    {row.products?.map(({ _id, name }) => (
+                        <li key={_id}><GoDotFill /> {name}</li>
+                    ))}
+                </ul>
+            }>
+                <ul className='table--list'>
+                    {row.products?.slice(0, 3)?.map(({ _id, name }) => (
+                        <li key={_id}><GoDotFill /> {truncateString(name, 18)}</li>
+                    ))}
+                    {row.products?.length > 3 && <li>...</li>}
+                </ul>
+            </TooltipUI>
         ),
-        width: '150px'
+        width: '180px'
     },
     {
         name: 'Amount', selector: row => (

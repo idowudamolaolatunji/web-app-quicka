@@ -17,8 +17,10 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 function CreateCustomers({ close, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { token } = useAuthContext();
+    const { token, store } = useAuthContext();
     const { location, getContries, getStates, getCities, setLocation } = useDataContext();
+
+    const { countryCode } = store?.contact;
 
     const headers = {
         "Content-Type": "application/json",
@@ -53,14 +55,14 @@ function CreateCustomers({ close, isModal }) {
         zipCode: ""
     });
 
-    console.log(customerData, country, state)
-
 
     const handleCustomerData = function (e, val, opts) {
         if (!e && (val || opts)) {
-            let num = val?.slice(0, 4).includes("0") ? opts?.dialCode + val?.slice(4) : val;
-            let phoneNumber = val?.slice(0, 4).includes("0") ? val?.slice(3) : val;
-            setCustomerData({ ...customerData, phone: num, phoneNumber, dialCode: opts?.dialCode, countryCode: opts?.countryCode });
+            const { dialCode, countryCode } = opts;
+            const phone = val?.startsWith(dialCode + '0') ? val?.replace(dialCode + '0', dialCode) : val;
+            const phoneNumber = phone?.replace(dialCode, "");
+
+            setCustomerData({ ...customerData, phone: phone, phoneNumber, dialCode, countryCode });
             return;
         }
 
@@ -224,10 +226,10 @@ function CreateCustomers({ close, isModal }) {
                                 <label htmlFor="phone" className="form--label">Phone Number <Asterisk /></label>
 
                                 <PhoneInput
-                                    country={"ng"}
+                                    country={countryCode}
                                     value={customerData.phone}
                                     inputProps={{ name: 'phone', id: 'phone' }}
-                                    onChange={(phone, country) => handleCustomerData(null, phone, country)}
+                                    onChange={(num, countryOpts) => handleCustomerData(null, num, countryOpts)}
                                     inputClass='phone-input'
                                     buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
                                     countryCodeEditable={true}

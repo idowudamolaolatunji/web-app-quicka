@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
         <AuthProvider>
             <DataProvider>
                 <FetchedProvider>
-                <App />
+                    <App />
                 </FetchedProvider>
             </DataProvider>
         </AuthProvider>

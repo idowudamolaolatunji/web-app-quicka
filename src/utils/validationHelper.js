@@ -58,10 +58,8 @@ export function validateAuthForm(data, type) {
 
 		if (!data.phone.trim()) {
 			errors.phone = "Phone number is required";
-		} else if (!["234", "233"].includes(data.phone.slice(0, 3))) {
-			errors.phone = "Quicka is only allowed in Nigeria and Ghana";
-		} else if (data.phone.length < 13) {
-			errors.phone = `Phone number must have 10 numbers after +${data.phone.slice(0, 3)}`;
+		} else if (data.phone.length < 12) {
+			errors.phone = `Phone number must have 9 - 10 numbers after +${data.dialCode}`;
 		}
 
 		if (!data.password) {
@@ -190,8 +188,8 @@ export function validateCustomerForm(data, _) {
 
 	if (!data.phone.trim()) {
 		errors.phone = "Phone number is required";
-	} else if (data.phone.length < 13) {
-		errors.phone = `Phone number must have 10 numbers after +${data.countryCode}`;
+	} else if (data.phone.length < 12) {
+		errors.phone = `Phone number must have 9 - 10 numbers after +${data.dialCode}`;
 	}
 
 	if (data.country.length < 1) {

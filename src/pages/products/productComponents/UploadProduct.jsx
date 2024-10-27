@@ -472,7 +472,7 @@ function UploadProduct({ isnew, isModal, close }) {
                                 <div id="checkbox" className={checks.trackInventory ? 'is-selected' : ''}>
                                     {checks.trackInventory && <FaCheck />}
                                 </div>
-                                <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Track Inventory</label>
+                                <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Track My Inventory</label>
                             </div>
                         </div>
 

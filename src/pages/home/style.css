@@ -21,7 +21,8 @@
     background-image: linear-gradient(rgba(255, 255, 255, .03), rgba(255, 255, 255, .03)),
     url("../../assets/images/resources/new-mask.png");
     background-repeat: no-repeat;
-    background-position: center;
+    /* background-position: center; */
+    background-position: top;
 }
 .sub--mini {
     display: flex;
@@ -914,6 +915,9 @@ a.upgrade--link:hover {
 
 /* 450px === 28.125em */
 @media screen and (max-width: 28.125em) {
+    .home--sub {
+        background-size: 280%;
+    }
     .get-started-tabs {
         max-width: 80%;
     }
