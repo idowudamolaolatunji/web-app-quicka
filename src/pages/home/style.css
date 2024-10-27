@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: space-between;
 
-    /* background-color: #333; */
+    background-color: #333;
     background-image: linear-gradient(rgba(255, 255, 255, .03), rgba(255, 255, 255, .03)),
     url("../../assets/images/resources/new-mask.png");
     background-repeat: no-repeat;
@@ -90,13 +90,18 @@
     font-weight: 600;
     border-radius: .4rem;
     padding: .8rem 1.4rem;
-    /* background-color: var(--color-brand-500); */
     color: #fff;
     background-color: #333;
     text-transform: capitalize;
+    transition: opacity .3s;
 }
 .upgrade--link svg {
     font-size: 1.8rem;
+}
+
+a.upgrade--link:hover {
+    color: #fff;
+    opacity: 0.9;
 }
 /* ============================================= */
 

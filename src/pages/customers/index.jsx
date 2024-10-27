@@ -4,11 +4,11 @@ import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/Insight';
-import { FiUsers } from 'react-icons/fi';
+import { FiUser, FiUsers } from 'react-icons/fi';
 import emptyImg from '../../assets/images/illustrations/customer.png'
 import { TbUserSquare } from 'react-icons/tb';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { ymdDateFormat } from '../../utils/helper';
+import { ymdDateFormat, ymdDateSlashTimeFormat } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
@@ -17,7 +17,7 @@ import TooltipUI from '../../components/TooltipUI';
 const emptyTitle = "Add new customer!";
 const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const emptyBtns = [
-    { title: <><AiOutlinePlus /> Add new Customer</>, link: "/dashboard/customers/add" },
+    { title: <><AiOutlinePlus /> Add Customer</>, link: "/dashboard/customers/add" },
 ];
 
 
@@ -29,7 +29,12 @@ function index() {
     const columns = [
         {
             name: "Customer Name",
-            selector: row => `${row?.firstname} ${row?.lastname}`
+            selector: row => (
+                <span className="flex">
+                    {/* <span className=''><FiUser /></span> */}
+                    <p>{`${row?.firstname} ${row?.lastname}`}</p>
+                </span>
+            )
         },
         {
             name: "Email",
@@ -45,7 +50,11 @@ function index() {
         },
         {
             name: "Date Added",
-            selector: row => ymdDateFormat(row.createdAt)
+            selector: row => (
+                <TooltipUI placement='top' title={ymdDateSlashTimeFormat(row.createdAt)}>
+                    <p>{ymdDateSlashTimeFormat(row.createdAt)}</p>
+                </TooltipUI>
+            )
         },
         {
             selector: () => (

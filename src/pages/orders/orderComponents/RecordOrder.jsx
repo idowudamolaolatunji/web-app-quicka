@@ -134,8 +134,8 @@ function RecordOrder() {
         const newErrors = validateOrderForm(formData);
         setSalesFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) {
-            setResponse({ status: "error", message: "Fill up all required fields!" });
-            setTimeout(() => setResponse({ status: "", message: "" }), 1500);
+            setResponse({ status: "error", message: "Fill required fields to proceed!" });
+            setTimeout(() => setResponse({ status: "", message: "" }), 3000);
             return;
         };
 

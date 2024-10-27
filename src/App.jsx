@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useLayoutEffect } from 'react'
+import React, { lazy, Suspense, useEffect, useLayoutEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './utils/ProtectedRoute';
@@ -73,24 +73,18 @@ import CommunityForums from './pages/communityForums';
 import ProductItem from './pages/products/productComponents/ProductItem';
 import OrderItem from './pages/orders/orderComponents/OrderItem';
 import CreateDelivery from './pages/delivery/deliveryComponents/CreateDelivery';
-import { useLocation } from 'react-use';
+import { useLocation, useWindowScroll } from 'react-use';
 
 
 
 function App() {
     const { pathname } = useLocation();
-    // console.log(pathname)
+    let { x, y } = useWindowScroll();
 
     // COME BACK AND REMODIFY THIS OR NOT
-    if (window.location.pathname === '/verify-otp' || window.location.pathname === '/onboarding') {
-        window.onbeforeunload = () => "Are you sure you want to leave this page?";;
+    if (pathname === '/verify-otp' || pathname === '/onboarding') {
+        window.onbeforeunload = () => "Are you sure you want to leave this page?";
     }
-
-
-    // useLayoutEffect(function() {
-    //     console.log(pathname)
-    // } [pathname])
-
 
     return (
 
