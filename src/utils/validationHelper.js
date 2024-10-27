@@ -130,7 +130,6 @@ export function validateProductForm(data, _) {
 	return errors;
 }
 
-
 export function validateOrderForm(data, _) {
 	const errors = {};
 
@@ -164,6 +163,39 @@ export function validateDeliveryForm(data, _) {
 	
 	if (data.deliveryType == "paid" && !+data.fee) {
 		errors.fee = "A fee is required";
+	}
+
+	return errors;
+}
+
+export function validateCustomerForm(data, _) {
+	const errors = {};
+
+	if (!data.firstname.trim()) {
+		errors.firstname = "Firstname is required";
+	} else if (data.firstname.length < 3) {
+		errors.firstname = "Firstname must be at least 3 characters long";
+	}
+	if (!data.lastname.trim()) {
+		errors.lastname = "Lastname is required";
+	} else if (data.lastname.length < 3) {
+		errors.lastname = "Lastname must be at least 3 characters long";
+	}
+
+	if (!data.email.trim()) {
+		errors.email = "Email is required";
+	} else if (!/\S+@\S+\.\S+/.test(data.email)) {
+		errors.email = "Email is invalid";
+	}
+
+	if (!data.phone.trim()) {
+		errors.phone = "Phone number is required";
+	} else if (data.phone.length < 13) {
+		errors.phone = `Phone number must have 10 numbers after +${data.countryCode}`;
+	}
+
+	if (data.country.length < 1) {
+		errors.country = "Country is required";
 	}
 
 	return errors;

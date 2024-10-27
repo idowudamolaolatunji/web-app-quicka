@@ -8,25 +8,10 @@ import { GrTag } from 'react-icons/gr';
 import { TbArrowWaveRightDown } from 'react-icons/tb';
 import { LuClipboardList } from 'react-icons/lu';
 import emptyImg from '../../assets/images/illustrations/transactions.png'
-import { MdOutlineRefresh } from 'react-icons/md';
+import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
 import { capitalizeFirstLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
-import { facebook, online_store, physical_store, instagram, whatsapp, twitter, flutterwave_store, others, jiji, jumia, konga } from "../../assets/images/index";
-
-
-function imgString(imgType) {
-    if (imgType === 'online store') return online_store;
-    if (imgType === 'facebook') return facebook;
-    if (imgType === 'physical shop') return physical_store;
-    if (imgType === 'instagram') return instagram;
-    if (imgType === 'whatsapp') return whatsapp;
-    if (imgType === 'twitter') return twitter;
-    if (imgType === 'flutterwave store') return flutterwave_store;
-    if (imgType === 'jiji') return jiji;
-    if (imgType === 'jumia') return jumia;
-    if (imgType === 'konga') return konga;
-    if (imgType === 'others') return others;
-}
+import { imgString } from '../../assets/images';
 
 
 ///////////////////////////////////////////////
@@ -112,6 +97,15 @@ function index() {
                 <span className='flex'>
                     <TooltipUI placement='top' title="Refresh">
                         <button className='table--btn' onClick={handleFetchUserStoreTransactions}><MdOutlineRefresh /></button>
+                    </TooltipUI>
+                </span>
+
+
+                <span className="flex">
+                    <button className='table--btn'>Clear filter</button>
+
+                    <TooltipUI placement='top' title="Filters">
+                        <button className='table--btn'><MdOutlineFilterList /></button>
                     </TooltipUI>
                 </span>
             </div>

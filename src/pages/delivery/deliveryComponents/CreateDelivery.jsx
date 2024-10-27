@@ -101,7 +101,8 @@ function CreateDelivery({ close, isnew, isModal }) {
             console.log(store, owner)
 
             // SET RESPONSE MESSAGE
-            setShowConfetti(true);
+            window.scrollTo(0, 0);
+            isnew && setShowConfetti(true);
             setResponse({ status: "success", message });
 
             // MODIFY THE USER OBJECT AND STORE IN THE COOKIE and clear the form

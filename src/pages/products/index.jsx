@@ -140,6 +140,7 @@ function index() {
             columns={columns}
             data={products}
             addUrl="products/upload"
+            addBtnStr={(width < 377 && width > 364) ? "Add product" : "Upload product"}
             emptyText={emptyText}
             emptyBtns={emptyBtns}
             emptyImg={emptyImg}

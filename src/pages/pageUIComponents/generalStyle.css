@@ -408,8 +408,8 @@
 }
 
 
-@media screen and (max-width: 500px) {
-	.page__section--btns,
+@media screen and (max-width: 499px) {
+	.page__section--btns:has(.page__section-top-btn),
 	.page__section-top-btn {
 		width: 100%;
 	}
@@ -419,7 +419,6 @@
 @media screen and (max-width: 450px) {
 	.page__section-top-btn {
 		font-size: 1.34rem;
-		width: 100%;
 		padding: 0.6rem 1.2rem;
 	}
 
@@ -473,8 +472,12 @@
 		align-items: flex-start;
 		gap: 1.2rem;
 	}
+
 	.page__section--action {
 		width: 100%;
+	}
+	.page__section--btns {
+		grid-template-columns: 1fr !important;
 	}
 	
 	.product__grid {

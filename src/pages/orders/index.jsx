@@ -8,9 +8,9 @@ import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import PageUI from '../pageUIComponents/PageUI';
 import TooltipUI from '../../components/TooltipUI';
-import { facebook, online_store, physical_store, instagram, whatsapp, twitter, flutterwave_store, others, jiji, jumia, konga } from "../../assets/images/index";
 import emptyImg from '../../assets/images/illustrations/sales.png';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { imgString } from '../../assets/images';
 
 
 //////////////////////////////////////////////////////
@@ -18,22 +18,8 @@ import { AiOutlinePlus } from 'react-icons/ai';
 const emptyTitle = "Record a new sale!";
 const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const emptyBtns = [
-    { title: <><AiOutlinePlus />Record Order</>, link: "/dashboard/orders/record" },
+    { title: <><AiOutlinePlus />Record new sales</>, link: "/dashboard/orders/record" },
 ];
-
-function imgString(imgType) {
-    if (imgType === 'online store') return online_store;
-    if (imgType === 'facebook') return facebook;
-    if (imgType === 'physical shop') return physical_store;
-    if (imgType === 'instagram') return instagram;
-    if (imgType === 'whatsapp') return whatsapp;
-    if (imgType === 'twitter') return twitter;
-    if (imgType === 'flutterwave store') return flutterwave_store;
-    if (imgType === 'jiji') return jiji;
-    if (imgType === 'jumia') return jumia;
-    if (imgType === 'konga') return konga;
-    if (imgType === 'others') return others;
-}
 
 
 function index() {
@@ -149,6 +135,7 @@ function index() {
             columns={columns}
             data={orders}
             addUrl="orders/record"
+            addBtnStr="Record sales"
             emptyText={emptyText}
             emptyBtns={emptyBtns}
             emptyImg={emptyImg}
@@ -156,7 +143,6 @@ function index() {
             emptyClassName="empty--order"
             headTabs={<HeadTabs />}
             loader={loader} error={error}
-        // loader={loader?.order} error={error?.order}
         >
 
             {showInsights?.order && (

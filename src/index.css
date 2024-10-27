@@ -414,6 +414,10 @@ textarea::placeholder {
 	gap: 6rem;
 	padding: 3rem 2.4rem;
 }
+.empty--order .empty--img,
+.empty--product .empty--img {
+	min-height: 24rem;
+}
 
 .empty--others {
 	padding: 4rem 2.4rem 3rem;
@@ -721,6 +725,7 @@ textarea::placeholder {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		min-height: 20rem !important;
 	}
 
 	.export .modal--head {

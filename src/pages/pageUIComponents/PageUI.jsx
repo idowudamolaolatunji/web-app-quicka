@@ -12,7 +12,7 @@ import TableUI from './TableUI';
 import './generalStyle.css';
 
 
-function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, emptyClassName, headTabs, error, loader, activeDisplayTab = null, insights = true, children }) {
+function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, emptyClassName, headTabs, error, loader, activeDisplayTab = null, insights = true, children }) {
 
     const navigate = useNavigate();
     const { width } = useWindowSize();
@@ -42,17 +42,15 @@ function PageUI({ items, pageName, columns, data, addUrl, goto=true, emptyTitle,
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            <div className='page__section--heading' style={width500andIsItem ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
+            <div className='page__section--heading' style={(width500andIsItem && addUrl) ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
                 <h2 className="page__section--title">{pageName == "delivery" ? "delivery rate" : pageName}s</h2>
                     
 
-                <span className='page__section--btns' style={(width500andIsItem && insights) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
+                <span className='page__section--btns' style={(width500andIsItem && insights && addUrl) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
 
                     {(isItem && addUrl) && (
                         <button className="page__section-top-btn add" onClick={() => navigate(`/dashboard/${addUrl}`)}>
-                            {pageName == "order" ? "Record" : pageName == "delivery" ? "Set" : "Add"}
-                            {" "}{pageName == "delivery" ? "delivery rate" : pageName} 
-                            <BiPlus />
+                            {addBtnStr}<BiPlus />
                         </button>
                     )}
 

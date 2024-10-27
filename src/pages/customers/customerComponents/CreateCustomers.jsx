@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { useDataContext } from '../../../context/DataContext';
 import MainDropdownSelect from '../../../components/MainDropdownSelect';
-import { FiUser, FiUsers } from 'react-icons/fi';
+import { FiUsers } from 'react-icons/fi';
 import { useWindowSize } from 'react-use';
 import Line from '../../../components/Line';
 import AddPageUI from '../../pageUIComponents/AddPageUI';
 import Asterisk from '../../../components/Asterisk';
-import CurrencyInput from 'react-currency-input-field';
 import PhoneInput from 'react-phone-input-2';
+import { validateCustomerForm } from '../../../utils/validationHelper';
+import { useAuthContext } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
+
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function CreateCustomers({ close, isModal }) {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { token } = useAuthContext();
     const { location, getContries, getStates, getCities, setLocation } = useDataContext();
 
-    const [showConfetti, setShowConfetti] = useState(false)
+    const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+    }
+
     const [loading, setLoading] = useState({
         mainLoading: false,
         imageLoading: false
@@ -33,39 +43,75 @@ function CreateCustomers({ close, isModal }) {
     const [customerData, setCustomerData] = useState({
         firstname: "",
         lastname: "",
+        email: "",
+        phone: "",
+        phoneNumber: "",
+        dialCode: "",
+        countryCode: "",
+        description: "",
+        address: "",
+        zipCode: ""
     });
 
-    function handleCustomerData(e) {
+    console.log(customerData, country, state)
+
+
+    const handleCustomerData = function (e, val, opts) {
+        if (!e && (val || opts)) {
+            let num = val?.slice(0, 4).includes("0") ? opts?.dialCode + val?.slice(4) : val;
+            let phoneNumber = val?.slice(0, 4).includes("0") ? val?.slice(3) : val;
+            setCustomerData({ ...customerData, phone: num, phoneNumber, dialCode: opts?.dialCode, countryCode: opts?.countryCode });
+            return;
+        }
+
         const { name, value } = e?.target;
-        setCustomerData({ 
+        setCustomerData({
             ...customerData,
-            [name]: value
+            [name]: value,
         });
-    }
-
-    function handleClearFields() { }
+    };
 
 
-    function handleClearLocation() {
+    const handleClearFields = function() {
+        setCustomerData({
+            firstname: "",
+            lastname: "",
+            email: "",
+            phone: "",
+            phoneNumber: "",
+            dialCode: "",
+            countryCode: "",
+            description: "",
+            address: "",
+            zipCode: ""
+        });
+
+        setCountry([]);
         setState([]);
         setCity([]);
-        setLocation({ ...location, state: [], city: [] })
     }
 
+
     useEffect(function () {
-        handleClearLocation()
+        setState([]);
+        setCity([]);
+        setLocation({ ...location, state: [], city: [] });
+
         getContries()
     }, []);
 
 
     useEffect(function () {
-        handleClearLocation();
+        setState([]);
+        setCity([]);
+        setLocation({ ...location, state: [], city: [] });
 
         if (country.length > 0) {
             getStates(country[0]?.iso2)
         }
     }, [country[0]]);
 
+    
     useEffect(function () {
         setCity([]);
         setLocation({ ...location, city: [] });
@@ -76,20 +122,69 @@ function CreateCustomers({ close, isModal }) {
     }, [country[0], state[0]]);
 
 
-    function handleCreateCustomer() { }
+
+    async function handleCreateCustomer() {
+        const formData = { ...customerData, country }
+        // FORM VALIDATIONS 
+        const newErrors = validateCustomerForm(formData);
+        setCustomerFormErrors(newErrors);
+
+        if (Object.keys(newErrors).length >= 1) {
+            setResponse({ status: "error", message: "Fill up all required fields!" });
+            setTimeout(() => setResponse({ status: "", message: "" }), 1500);
+            return;
+        };
+
+        // SET LOADER
+        setResponse({ status: "", message: "" });
+        setLoading({ ...loading, mainLoading: true });
+
+        const { countryCode, dialCode, phoneNumber, phone, email, address, zipCode, firstname, lastname, description } = customerData;
+        const contact = { countryCode, dialCode, phoneNumber, phone, email };
+        const shippingAddress = { address, zipCode, country: country[0]?.name, state: state[0]?.name, city: city[0]?.name }
+
+        // MAKE REQUEST
+        try {
+            const res = await fetch(`${BASE_API_URL}/customers`, {
+                headers,
+                method: "POST",
+                body: JSON.stringify({
+                    contact, shippingAddress,
+                    firstname, lastname, description
+                })
+            });
+
+            if (!res.ok) throw new Error('Something went wrong! Check intenet connection');
+            console.log(res)
+
+            const data = await res.json();
+            const { status, message } = data;
+            if (!status || status != 'success') throw new Error(message);
+
+            // SET RESPONSE MESSAGE
+            setResponse({ status, message });
+            handleClearFields();
+            
+            setTimeout(() => navigate(-1), 5000);
+
+        } catch (err) {
+            setResponse({ status: "error", message: err.message });
+        } finally {
+            setLoading({ ...loading, mainLoading: false })
+        }
+    }
 
 
     return (
         <AddPageUI
-            PageTitle="Record Customer"
+            PageTitle="Add Customer"
             pageIcon={<FiUsers />}
-            close={close}
+            close={close} 
             isModal={isModal}
             mainLoader={loading.mainLoading}
             response={response}
             handleClear={handleClearFields}
             handleSubmit={handleCreateCustomer}
-            confetti={showConfetti}
         >
 
             <div className="product__upload--container">
@@ -126,20 +221,18 @@ function CreateCustomers({ close, isModal }) {
                             </div>
 
                             <div className="form--item">
-                                <label htmlFor="phone" className="form--label">Lastname <Asterisk /></label>
+                                <label htmlFor="phone" className="form--label">Phone Number <Asterisk /></label>
 
                                 <PhoneInput
                                     country={"ng"}
                                     value={customerData.phone}
                                     inputProps={{ name: 'phone', id: 'phone' }}
-                                    onChange={(phone, country) => console.log(null, phone, country)}
+                                    onChange={(phone, country) => handleCustomerData(null, phone, country)}
                                     inputClass='phone-input'
                                     buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
                                     countryCodeEditable={true}
                                     dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
                                 />
-
-
                                 <span className="form--error-message">
                                     {customerFormErrors?.phone && customerFormErrors?.phone}
                                 </span>
@@ -147,14 +240,14 @@ function CreateCustomers({ close, isModal }) {
                         </div>
 
                         <div className="form--item">
-                            <label htmlFor='description' className="form--label">Addtional Note(optional)</label>
-                            <textarea name="description" id="description" placeholder='Additional...' className='form--input' />
+                            <label htmlFor='description' className="form--label">Addtional Note (optional)</label>
+                            <textarea name="description" id="description" placeholder='Additional...' className='form--input' value={customerData.description} onChange={handleCustomerData} />
                         </div>
 
                     </div>
                 </div>
 
-
+                {width < 400 && <Line border={1.4} />}
 
                 <div className='right--container containers'>
                     <div className="card form">
@@ -164,31 +257,38 @@ function CreateCustomers({ close, isModal }) {
                         </div>
 
                         <div className="form--item">
-                            <label className="form--label">Delivery Address (optional)</label>
+                            <label htmlFor='address' className="form--label">Delivery Address (optional)</label>
                             
-                            <textarea id='address' name='address' className="form--input" placeholder='Block 12, Flat 3, Libra Estate, Lagos State Nigeria ' />
+                            <textarea id='address' name='address' className="form--input" placeholder='Block 12, Flat 3, Libra Estate, Lagos State Nigeria' value={customerData.address} onChange={handleCustomerData} />
                         </div>
+
                         <div className="form--grid">
                             <div className="form--item">
                                 <label className="form--label">Country <Asterisk /></label>
-                                <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} clearOnSelect={true} customClass='select-width' />
+
+                                <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} customClass='select-width' />
+                                <span className="form--error-message">
+                                    {customerFormErrors?.country && customerFormErrors?.country}
+                                </span>
                             </div>
 
                             <div className="form--item">
                                 <label className="form--label">State (optional)</label>
-                                <MainDropdownSelect title="a state" options={location?.state} field="name" value={state} setValue={setState} noDataLabel='No states' clearOnSelect={true} disabled={country?.length < 1} customClass='select-width' />
+
+                                <MainDropdownSelect title="a state" options={location?.state} field="name" value={state} setValue={setState} noDataLabel='No states' disabled={country?.length < 1} customClass='select-width' />
                             </div>
 
                             <div className="form--item">
                                 <label className="form--label">City (optional)</label>
-                                <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} noDataLabel='No Cities' clearOnSelect={true} disabled={state?.length < 1} customClass='select-width' />
+
+                                <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} noDataLabel='No Cities' disabled={state?.length < 1} customClass='select-width' />
                             </div>
 
 
                             <div className="form--item">
-                                <label className="form--label">ZipCode (optional)</label>
+                                <label htmlFor='zip' className="form--label">Zip Code (optional)</label>
 
-                                <input type='number' placeholder='Zipcode' className='form--input' />
+                                <input type='number' id='zip' name='zipCode' placeholder='Zipcode' className='form--input' value={customerData.zipCode} onChange={handleCustomerData} />
                             </div>
 
                         </div>

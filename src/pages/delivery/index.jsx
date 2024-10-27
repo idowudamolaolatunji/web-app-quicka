@@ -6,7 +6,7 @@ import emptyImg from '../../assets/images/illustrations/delivery.png';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
-import { formatNumber, ymdDateFormat } from '../../utils/helper';
+import { formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 
@@ -47,7 +47,7 @@ function index() {
             name: 'Date',
             selector: row => (
                 <TooltipUI placement='top' title={ymdDateFormat(row?.createdAt)}>
-                    <p>{ymdDateFormat(row?.createdAt)}</p>
+                    <p className='value'>{ymdDateSlashFormat(row?.createdAt)}</p>
                 </TooltipUI>
             ),
         },
@@ -87,6 +87,7 @@ function index() {
             data={deliveryRates}
             items={deliveryRates}
             pageName="delivery"
+            addBtnStr="Set new delivery rates"
             emptyText={emptyText}
             emptyImg={emptyImg}
             emptyBtns={emptyBtns}

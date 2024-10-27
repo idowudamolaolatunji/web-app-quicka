@@ -36,7 +36,7 @@ export function TableHeadSkeleton({ title }) {
 
     return (
         <>
-            {(title == "delivery" || title == "transaction") ? (
+            {(title == "delivery") ? (
                 <div className='table--head'>
                     <div className='content'>
                         <Skeleton height={40} width={50} />

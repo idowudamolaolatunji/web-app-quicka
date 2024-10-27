@@ -1,17 +1,17 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect } from 'react'
+import { useWindowSize } from 'react-use';
+import { useAuthContext } from '../context/AuthContext';
+import { useDataContext } from '../context/DataContext';
+import CopyrightText from '../components/CopyrightText';
 import DashboardHead from './uiComponents/DashboardHead';
 import DashboardMenu from './uiComponents/DashboardMenu';
 import './dashboard.css';
-import { useDataContext } from '../context/DataContext';
 
-import { useWindowSize } from 'react-use';
-import { useAuthContext } from '../context/AuthContext';
 
 function DashboardBase({ children }) {
     const { width } = useWindowSize();
     const { user, store } = useAuthContext() ;
     const { isMenuCollapsed } = useDataContext();
-
 
     useEffect(function() {
         document.title = `Quicka | ${user?.firstname}'s store dashboard ✨`
@@ -28,7 +28,7 @@ function DashboardBase({ children }) {
                 <section className='content--block'>
                     {children}
 
-                    <p className='copyright--text'>&copy; Quicka Inc <img src="../../favicon.png" /> 2024, All right reserved.</p>
+                    <CopyrightText />
                 </section>
             </section>
         </Fragment>

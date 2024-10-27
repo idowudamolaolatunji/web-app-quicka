@@ -263,7 +263,7 @@ span.item--user-img {
     align-items: center;
     justify-content: center;
     font-size: 1.6rem;
-    background-color: var(--color-brand-500);
+    background-color: var(--color-brand-700);
     color: #fff;
     text-transform: uppercase;
 }

@@ -3,27 +3,13 @@ import DataTable from 'react-data-table-component'
 import { capitalizeFirstLetter, formatDate, formatNumber } from '../../../utils/helper';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { facebook, online_store, physical_store, instagram,whatsapp, twitter, flutterwave_store, others, jiji, jumia, konga } from '../../../assets/images/index';
 import TooltipUI from '../../../components/TooltipUI';
 import Empty from '../../../components/Empty';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { useWindowSize } from 'react-use';
 import ErrorComponent from '../../../components/ErrorComponent';
+import { imgString } from '../../../assets/images';
 
-
-function imgString(imgType) {
-    if (imgType === 'online store') return online_store;
-    if (imgType === 'facebook') return facebook;
-    if (imgType === 'physical shop') return physical_store;
-    if (imgType === 'instagram') return instagram;
-    if (imgType === 'whatsapp') return whatsapp;
-    if (imgType === 'twitter') return twitter;
-    if (imgType === 'flutterwave store') return flutterwave_store;
-    if (imgType === 'jiji') return jiji;
-    if (imgType === 'jumia') return jumia;
-    if (imgType === 'konga') return konga;
-    if (imgType === 'others') return others;
-}
 
 const customStyles = {
     table: {
@@ -124,7 +110,6 @@ const columns = [
         ), width: '150px'
     },
 ];
-
 
 
 function RecentOrders() {

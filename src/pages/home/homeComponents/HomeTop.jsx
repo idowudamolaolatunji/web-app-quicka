@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getExpression, getGreeting, todayDate } from '../../../utils/helper';
 import { TiStarburstOutline } from 'react-icons/ti';
 import { useWindowSize } from 'react-use';
-import { MdOutlineWorkspacePremium } from 'react-icons/md';
+import { MdOutlineClose, MdOutlineWorkspacePremium } from 'react-icons/md';
 import { useAuthContext } from '../../../context/AuthContext';
 import { RiDiscountPercentFill } from 'react-icons/ri';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -36,14 +36,14 @@ function HomeTop() {
                     <div className="sub--mini">
                         <p className='sub--text'>
                             Select a plan and get your first year at a whooping 🥳 <span style={{ fontWeight: 600, fontSize: '1.6rem' }}>70%</span> discount!
-                            <p className='sub--text-sub'>Promo offer expired in {daysToReach()} day{daysToReach() < 2 ? "" : "s"}..</p>
+                            <p className='sub--text-sub'>Promo offer expired in {daysToReach()} day{daysToReach() < 2 ? "" : "s"}.</p>
                         </p>
                         <RiDiscountPercentFill style={{ fontSize: '2.4rem' }} />
                     </div>
 
                     <div className="sub--mini" style={{ gap: '2rem' }}>
                         <button onClick={() => navigate('/dashboard/subscription')}className='sub--btn'>Select a plan</button>
-                        <AiOutlineClose style={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => setShowSub(false)} /> 
+                        <MdOutlineClose style={{ fontSize: '2.4rem', cursor: 'pointer' }} onClick={() => setShowSub(false)} /> 
                     </div>
                 </div>
             )}

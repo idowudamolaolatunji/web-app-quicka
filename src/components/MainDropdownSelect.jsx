@@ -13,7 +13,7 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                 options={options}
                 labelField={field}
                 valueField={field}
-                disabled={disabled}
+                // disabled={disabled}
                 searchable={searchable}
                 separator
                 clearable
