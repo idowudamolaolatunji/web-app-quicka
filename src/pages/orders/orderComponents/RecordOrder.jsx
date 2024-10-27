@@ -269,7 +269,7 @@ function RecordOrder() {
 
                             <div className="form--item">
                                 <label className="form--label">Customer (optional)</label>
-                                <MainDropdownSelect title="Customer" options={customers} field="name" value={orderCustomer} setValue={setOrderCustomer} noDataLabel='No customer found!' />
+                                <MainDropdownSelect title="Customer" options={customers} field="fullname" value={orderCustomer} setValue={setOrderCustomer} noDataLabel='No customer found!' />
                                 <Info text="If you don't have customer's details, Leave blank" />
 
                                 <button className='form--add' onClick={() => setShowModal({ ...showModal, customer: true })}>

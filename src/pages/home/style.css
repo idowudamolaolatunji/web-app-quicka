@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: space-between;
 
-    background-color: #333;
+    background-color: #242424;
     background-image: linear-gradient(rgba(255, 255, 255, .03), rgba(255, 255, 255, .03)),
     url("../../assets/images/resources/new-mask.png");
     background-repeat: no-repeat;
@@ -40,7 +40,7 @@
     font-size: 1.2;
     font-weight: 500;
     margin-top: .28rem;
-    opacity: .8;
+    opacity: .85;
 }
 .sub--btn {
     font-size: 1.4rem;

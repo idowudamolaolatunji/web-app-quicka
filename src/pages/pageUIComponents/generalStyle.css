@@ -256,11 +256,19 @@
 .table--list {
 	display: inline-flex !important;
 	flex-direction: column;
-	gap: .4rem;
-	list-style: disc !important;
-	list-style-type: disc !important;
+	gap: .6rem;
+	padding: .3rem 0;
 }
-.customer-icon {
+.table--list li {
+	display: flex;
+	align-items: center;
+	gap: .2rem;
+}
+.table--list li svg {
+	font-size: 1rem;
+}
+
+.table-customer {
 	width: 2.4rem;
 	height: 2.4rem;
 	border-radius: 50%;
@@ -269,9 +277,8 @@
 	align-items: center;
 	justify-content: center;
 	color: var(--color-brand-500);
-	margin-right: -.25rem;
 }
-.customer-icon svg {
+.table-customer svg {
 	font-size: 1.6rem;
 }
 

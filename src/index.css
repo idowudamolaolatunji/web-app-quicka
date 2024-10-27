@@ -300,7 +300,7 @@ textarea::placeholder {
 .status p {
 	min-width: 80px;
 	display: inline-block;
-	padding: 0.6rem 1rem;
+	padding: 0.6rem;
 	border-radius: 0.6rem;
 	font-weight: 500;
 	font-size: 1.3rem;
@@ -345,6 +345,20 @@ textarea::placeholder {
 .copyright--text img {
 	width: 1.6rem;
 }
+
+
+.grid {
+	display: grid;
+	align-items: center;
+	gap: .8rem;
+}
+.grid-1fr {
+	grid-template-columns: 1fr 1fr;
+}
+.grid-2-4rem-1fr {
+	grid-template-columns: 2.4rem 1fr;
+}
+
 
 .flex {
 	display: flex;

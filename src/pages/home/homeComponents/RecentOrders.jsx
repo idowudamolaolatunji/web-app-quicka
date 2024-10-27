@@ -139,7 +139,7 @@ function RecentOrders() {
                 {(error?.order && !isData) && <ErrorComponent text="Unable to fetch orders, Check Your Connection" />}
                 
                 {(orders && !error?.order) && (
-                    <div className="table-h" style={(orders && orders?.length < 3) ? { paddingBottom: width < 850 ? "2.8rem" : "4.8rem" } : {} }>
+                    <div className="table-h" style={(orders && orders?.length < 2) ? { paddingBottom: width < 850 ? "1.8rem" : "2.8rem" } : {} }>
                         <DataTable
                             data={recentOrders}
                             columns={columns}

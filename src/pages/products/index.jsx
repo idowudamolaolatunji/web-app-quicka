@@ -58,7 +58,7 @@ function index() {
         { 
             name: 'Price',
             selector: row => (
-                <p className='value' style={{ fontSize: "1.3rem" }}>{'₦'+formatNumber(row?.price)}</p>
+                <p className='value'>{'₦'+formatNumber(row?.price)}</p>
             ),
             width: width > 600 ? "10%" : ""
         },
@@ -66,9 +66,9 @@ function index() {
             name: 'Inventory',
             selector: row => (
                 <span className="flex table--info" style={{ gap: ".4rem", alignItems: "center" }}>
-                    <p  className='value'>{row?.stockAmount} <span>Stocks</span></p>
+                    <p className='value'>{row?.stockAmount} <span>Stocks</span></p>
                     <span>/</span>
-                    <p  className='value'>{row?.variations.length} <span>Variations</span></p>
+                    <p className='value'>{row?.variations.length} <span>Variations</span></p>
                 </span>
             ),
             width: width > 600 ? "18%" : ""

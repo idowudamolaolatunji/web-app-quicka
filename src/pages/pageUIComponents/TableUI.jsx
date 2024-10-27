@@ -26,23 +26,25 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
         },
         head: {
             style: {
-                fontSize: "14px",
+                fontSize: "1.48rem",
                 fontWeight: "500",
-                height: '55px',
+                height: '5.5rem',
             },
         },
         rows: {
             style: {
-                minHeight: name == "product" ? "80px" : "70px",
+                minHeight: width < 450 ? "8.5rem" : (name == "product" ? "8.5rem" : "7.5rem"),
                 cursor: 'pointer',
+                fontSize: "1.32rem",
+                color: "#444"
             },
         },
         headCells: {
             style: {
-                paddingRight: '5px',
+                paddingRight: '0.5rem',
                 backgroundColor: '#333',
                 color: '#fff',
-                height: '55px'
+                height: '5.5rem'
             },
         },
         cells: {

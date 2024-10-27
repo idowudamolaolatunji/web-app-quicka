@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { capitalizeFirstLetter, formatDate, formatNumber, isWithinLast7Days } from '../../utils/helper';
+import { capitalizeFirstLetter, formatDate, formatNumber, isWithinLast7Days, truncateString } from '../../utils/helper';
 import { useWindowSize } from 'react-use';
 import Insight from '../../components/Insight';
 import { TbNotes, TbNotesOff } from 'react-icons/tb';
@@ -11,6 +11,7 @@ import TooltipUI from '../../components/TooltipUI';
 import emptyImg from '../../assets/images/illustrations/sales.png';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { imgString } from '../../assets/images';
+import { GoDotFill } from 'react-icons/go';
 
 
 //////////////////////////////////////////////////////
@@ -50,14 +51,23 @@ function index() {
             name: 'Custumer Name', selector: row => row.customer?.name || "-- Not Added --", width: '150px'
         },
         {
-            name: 'Product', selector: row => (
-                <ul className='table--list'>
-                    {row.products?.map(product => (
-                        <li>{product?.name}</li>
-                    ))}
-                </ul>
+            name: 'Product(s)', selector: row => (
+                <TooltipUI placement='top' title={
+                    <ul className='table--list'>
+                        {row.products?.map(({ _id, name }) => (
+                            <li key={_id}><GoDotFill /> {name}</li>
+                        ))}
+                    </ul>
+                }>
+                    <ul className='table--list'>
+                        {row.products?.slice(0, 3)?.map(({ _id, name }) => (
+                            <li key={_id}><GoDotFill /> {truncateString(name, 18)}</li>
+                        ))}
+                        {row.products?.length > 3 && <li>...</li>}
+                    </ul>
+                </TooltipUI>
             ),
-            width: '150px'
+            width: '180px'
         },
         {
             name: 'Amount', selector: row => (

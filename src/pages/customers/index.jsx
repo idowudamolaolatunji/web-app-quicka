@@ -30,11 +30,12 @@ function index() {
         {
             name: "Customer Name",
             selector: row => (
-                <span className="flex">
-                    <span className='customer-icon'><FiUser /></span>
+                <span className="grid grid-2-4rem-1fr">
+                    <span className='table-customer'><FiUser /></span>
                     <p>{`${row?.firstname} ${row?.lastname}`}</p>
                 </span>
-            )
+            ),
+            width: width < 450 ? "180px" : ""
         },
         {
             name: "Email",
@@ -42,7 +43,9 @@ function index() {
         },
         {
             name: "Phone Number",
-            selector: row => `+${row?.contact?.phone}`
+            selector: row => (
+                <p className='value'>+{row?.contact?.phone}</p>
+            ),
         },
         {
             name: "Location",
