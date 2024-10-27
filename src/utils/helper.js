@@ -17,7 +17,7 @@ export function dateTimeFormat(givenDate) {
 
 export function ymdDateSlashTimeFormat(givenDate) {
 	const date = moment(givenDate);
-	return date.format("DD / MM / YYYY, h:mm a");
+	return date.format("DD / MM / YYYY, h:mm A");
 } 
 
 export function ymdDateSlashFormat(givenDate) {

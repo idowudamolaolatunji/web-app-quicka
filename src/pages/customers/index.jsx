@@ -8,7 +8,7 @@ import { FiUser, FiUsers } from 'react-icons/fi';
 import emptyImg from '../../assets/images/illustrations/customer.png'
 import { TbUserSquare } from 'react-icons/tb';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { ymdDateFormat, ymdDateSlashTimeFormat } from '../../utils/helper';
+import { ymdDateFormat, ymdDateSlashFormat, ymdDateSlashTimeFormat } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
@@ -31,7 +31,7 @@ function index() {
             name: "Customer Name",
             selector: row => (
                 <span className="flex">
-                    {/* <span className=''><FiUser /></span> */}
+                    <span className='customer-icon'><FiUser /></span>
                     <p>{`${row?.firstname} ${row?.lastname}`}</p>
                 </span>
             )
@@ -52,7 +52,7 @@ function index() {
             name: "Date Added",
             selector: row => (
                 <TooltipUI placement='top' title={ymdDateSlashTimeFormat(row.createdAt)}>
-                    <p>{ymdDateSlashTimeFormat(row.createdAt)}</p>
+                    <p className='value'>{ymdDateSlashFormat(row.createdAt)}</p>
                 </TooltipUI>
             )
         },
@@ -108,7 +108,7 @@ function index() {
             columns={columns}
             data={customers}
             addUrl="customers/add"
-            addBtnStr="Add new customer"
+            addBtnStr="Add customer"
             emptyText={emptyText}
             emptyBtns={emptyBtns}
             emptyImg={emptyImg}
