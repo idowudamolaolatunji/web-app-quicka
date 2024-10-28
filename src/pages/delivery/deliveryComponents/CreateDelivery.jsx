@@ -56,6 +56,7 @@ function CreateDelivery({ close, isnew, isModal }) {
         });
 
         setDescription("");
+        window.scrollTo(0, 0)
     }
 
     useEffect(function () {

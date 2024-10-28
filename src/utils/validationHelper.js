@@ -192,7 +192,7 @@ export function validateCustomerForm(data, _) {
 		errors.phone = `Phone number must have 9 - 10 numbers after +${data.dialCode}`;
 	}
 
-	if (data.country.length < 1) {
+	if (!data.country || data.country.length < 1) {
 		errors.country = "Country is required";
 	}
 

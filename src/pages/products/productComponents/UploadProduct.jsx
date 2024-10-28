@@ -28,6 +28,8 @@ import AddPageUI from '../../pageUIComponents/AddPageUI';
 import Drawer from '../../../components/modal/Drawer';
 import CollectionFormSm from './CollectionFormSm';
 import { createPortal } from 'react-dom';
+import { units } from '../../../utils/data';
+import { RiDeleteBin5Line, RiDeleteBin6Line } from 'react-icons/ri';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -53,6 +55,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     const [variations, setVariations] = useState([]);
     const [description, setDescription] = useState('');
     const [productCollection, setProductCollection] = useState([]);
+    const [unit, setUnit] = useState([]);
 
     const [productFormErrors, setProductFormErrors] = useState({})
     const [productData, setProductData] = useState({
@@ -82,21 +85,21 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     const [images, setImages] = useState([]);
     const imageFiles = images.map(img => img.file);
 
-    function handleOnChangeImage(imageList, addUpdateIndex) {
+    const handleOnChangeImage = function(imageList, addUpdateIndex) {
         console.log(imageList, addUpdateIndex);
         setImages(imageList);
     };
 
-    function handleEdit(img) {
+    const handleEdit = function(img) {
         setCropModal(true);
         setSelectedImage(img)
     }
 
-    function onCropChange(crop) {
+    const onCropChange = function(crop) {
         setCrop(crop)
     }
 
-    function onZoomChange(zoom) {
+    const onZoomChange = function(zoom) {
         console.log(zoom)
         setZoom(Number(zoom))
     }
@@ -105,7 +108,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         setCroppedAreaPixels(croppedAreaPixels);
     };
 
-    function handleProductDataChange(e) {
+    const handleProductDataChange = function(e) {
         const { name, value } = e?.target;
         console.log(name, value)
         setProductData({
@@ -114,11 +117,11 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         });
     }
 
-    function handleToggleModal(name) {
+    const handleToggleModal = function(name) {
         setShowModal({...showModal, [name]: !showModal[name] })
     }
 
-    function handleClearFields() {
+    const handleClearFields = function() {
         setProductData({
             ...productData,
             name: "",
@@ -129,6 +132,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             stockAmount: null,
             status: "published"
         });
+        setVariations([]);
         setDescription("")
         setProductCollection([])
         setChecks({
@@ -143,7 +147,33 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         setSelectedImage(null)
         setCrop({ x: 0, y: 0 })
         setZoom(1)
-        setCroppedAreaPixels(null)
+        setCroppedAreaPixels(null);
+        
+        window.scrollTo(0, 0)
+    }
+
+
+    const handleChangeVariant = function(e, index) {
+        const { name, value } = e?.target;
+        console.log(name, value)
+        setVariations(prev => prev.map((item, i) =>
+              i === index ? { ...item, [name]: value } : item
+            )
+        );        
+    }
+
+    const handleAddVariant = function() {
+        const lastVariant = variations[variations.length - 1];
+
+        if (lastVariant && (lastVariant.type === "" || lastVariant.value === "")) {
+            return setTimeout(() => setResponse({ status: "error", message: `Variant ${lastVariant?.type == "" ? "type" : "value"} left empty` }), 2000);
+        }
+        
+        setVariations([...variations, { type: "", value: "", quantity: "" }]);
+    }
+
+    const handleDeleteVariant = function(selectedIndex) {
+        setVariations(prev => prev.filter((_, index) => index !== selectedIndex))
     }
 
     useEffect(function () {
@@ -178,6 +208,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
 
         // GET COLLECTION NAMES
         const names = productCollection.map(collection => collection.name);
+        const itemUnit = unit[0]?.value;
 
         const end_point = isnew ? "onboard/product" : "";
 
@@ -188,8 +219,10 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                 method: "POST",
                 body: JSON.stringify({
                     ...checks,
+                    variations,
                     description,
                     ...productData,
+                    unit: itemUnit,
                     price: +productData.price,
                     itemCost: +productData.itemCost,
                     discount: +productData.discount,
@@ -326,10 +359,11 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                                                 <button onClick={() => onImageUpdate(index)}><RxUpdate /> </button>
                                                             </TooltipUI>
                                                             <TooltipUI placement='bottom' title="Remove Image">
-                                                                <button onClick={() => onImageRemove(index)}><IoTrashBinOutline /></button>
+                                                                <button onClick={() => onImageRemove(index)}><RiDeleteBin6Line /></button>
                                                             </TooltipUI>
                                                             <TooltipUI placement='bottom' title="Crop Image">
-                                                                <button onClick={() => handleEdit(image.data_url)}><PiFrameCorners /> </button>
+                                                                {/* <button onClick={() => handleEdit(image.data_url)}><PiFrameCorners /> </button> */}
+                                                                <button><PiFrameCorners /> </button>
                                                             </TooltipUI>
                                                         </div>
                                                     </div>
@@ -437,7 +471,6 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                             </div>
                         </div>
 
-
                         <div className="form--item">
                             <label htmlFor="discount-price" className="form--label">Discount Type (optional)</label>
                             <div className="form--clicks" style={width < 500 ? { gridTemplateColumns: "repeat(2, 1fr)" } : {}}>
@@ -505,23 +538,17 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                             </span>
                         </div>
 
-                    </div>
-
-
-                    {width < 400 && <Line border={1.4} />}
-
-
-                    <div className="card form">
-                        <div className="section--heading">
-                            <div className="flex" style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                                <h2>Product Status</h2>
-                                <span className={`status--dot ${productData.status}`}></span>
-                            </div>
-                            {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+                        <div className="form--item">
+                            <label className="form--label">Unit (optional) </label>
+                            <MainDropdownSelect title="Unit" options={units} field="name" value={unit} setValue={setUnit} noDataLabel="No Unit data!" />
                         </div>
 
+
                         <div className="form--item">
-                            <label htmlFor='status' className='form--label'>Set Status</label>
+                            <label htmlFor='status' className='form--label flex' style={{ flexDirection: "row"}}>
+                                Set Status 
+                                <span className={`status--dot ${productData.status}`}></span>
+                            </label>
                             <select name="status" id='status' value={productData.status} className="form--select" onChange={handleProductDataChange}>
                                 <option value="published">Publish</option>
                                 <option value="draft">Draft</option>
@@ -536,7 +563,9 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                 <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product <Info /></label>
                             </div>
                         )}
+
                     </div>
+                    
 
                     {width < 400 && <Line border={1.4} />}
 
@@ -546,10 +575,32 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                             {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                         </div>
 
+                        {variations?.length > 0 && (
+                            <div className='form--variation'>
+                                {variations.map((variant, i) => (
+                                    <div className='form--variant' key={i}>
+                                        <div className='form--item'>
+                                            <label htmlFor="variantType" className='form--label'>Option type</label>
+                                            <input type='text' name='type' id='variantType' className='form--input' placeholder='Like: color, size, etc' value={variant?.type} onChange={e => handleChangeVariant(e, i)} />
+                                        </div>
+                                        <div className="form--item">
+                                            <label htmlFor="variantVal" className='form--label'>Option value</label>
+                                            <input type='text' name='value' id='variantVal' className='form--input' placeholder='Like: red, 34, big, etc' value={variant?.value} onChange={e => handleChangeVariant(e, i)} />
+                                        </div>
+                                        <div className="form--item">
+                                            <label htmlFor="variantQt" className='form--label'>Qt.</label>
+                                            <CurrencyInput prefix='Qt.' name='quantity' id='variantQt' className='form--input' placeholder='Qt 1' value={variant?.quantity} onValueChange={(value, name, _) => handleChangeVariant({ target: { name, value } }, i)} />
+                                        </div>
+                                        <button onClick={() => handleDeleteVariant(i)}><RiDeleteBin5Line /></button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
                         <div className="form--item">
-                            <button className="form--add">
+                            <button className="form--add" onClick={handleAddVariant}>
                                 <AiOutlinePlus />
-                                <p>Add options like size or color</p>
+                                <p>Add {variations.length > 0 ? "more options" : "options like size or color"}</p>
                             </button>
                         </div>
 
@@ -558,7 +609,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             </form>
             </AddPageUI>
 
-            {cropModal && (
+            {/* {cropModal && (
                 <SimpleModal setClose={setCropModal} title="Crop Image" icon={<AiOutlineClose />}>
                     <div className='crop--container' style={{ height: width < 600 ? 250 : 300, background: "#333" }}>
                         <Cropper
@@ -578,16 +629,16 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                             <Slider sx={{ color: '#ff7a49', width: "50%" }} max={3} min={1} step={0.1} value={zoom} onChange={(e) => onZoomChange(e.target.value)} />
                         </div>
                         <div className="button-area">
-                            {/* <button onClick={onCancel}>Cancel</button>
+                            <button onClick={onCancel}>Cancel</button>
                             <button onClick={onResetImage}>Reset</button>
-                            <button onClick={onCrop}>Crop</button> */}
+                            <button onClick={onCrop}>Crop</button>
                             <button onClick={() => setCropModal(false)}>Cancel</button>
                             <button>Reset</button>
                             <button>Crop</button>
                         </div>
                     </div>
                 </SimpleModal>
-            )}
+            )} */}
         </>
     )
 }

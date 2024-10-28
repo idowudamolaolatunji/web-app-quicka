@@ -93,6 +93,7 @@ function CreateCustomers({ close, isModal }) {
         setCountry([]);
         setState([]);
         setCity([]);
+        window.scrollTo(0, 0)
     }
 
 

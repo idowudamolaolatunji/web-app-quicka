@@ -103,6 +103,8 @@ function RecordOrder() {
         setOrderCustomer([]);
         setOrderProducts([]);
         setChannel([]);
+
+        window.scrollTo(0, 0)
     };
 
 

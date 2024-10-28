@@ -1,4 +1,3 @@
-
 export const banks = [
 	{ bankname: "9mobile 9Payment Service Bank", slug: "9mobile-9payment-service-bank-ng", code: "120001" },
 	{ bankname: "Abbey Mortgage Bank", slug: "abbey-mortgage-bank", code: "801" },
@@ -127,15 +126,32 @@ export const banks = [
 	{ bankname: "Zenith Bank", slug: "zenith-bank", code: "057" },
 ];
 
-
-
 export const goalOptions = [
-    { id: 'automate-my-sales-and-orders', label: 'Automate my sales and orders' },
-    { id: 'get-well-detailed-analytics', label: 'Get well-detailed analytics' },
-    { id: 'instant-notification-on-new-order', label: 'Instant notification on new order' },
-    { id: 'create-store-website-and-run-sales', label: 'Create store website and run sales' },
-    { id: 'record-new-customer-for-future-sales', label: 'Record new customer for future sales' },
-    { id: 'track-store-visitor-and-purchases', label: 'Track store visitor and purchases' },
-    { id: 'record-daily-sales-and-expenses', label: 'Record Daily sales and expenses' },
-    { id: 'manage-inventory-and-track-low-stocks', label: 'Manage inventory and track low stocks' },
-]; 
+	{ id: "automate-my-sales-and-orders", label: "Automate my sales and orders" },
+	{ id: "get-well-detailed-analytics", label: "Get well-detailed analytics" },
+	{ id: "instant-notification-on-new-order", label: "Instant notification on new order" },
+	{ id: "create-store-website-and-run-sales", label: "Create store website and run sales" },
+	{ id: "record-new-customer-for-future-sales", label: "Record new customer for future sales" },
+	{ id: "track-store-visitor-and-purchases", label: "Track store visitor and purchases" },
+	{ id: "record-daily-sales-and-expenses", label: "Record Daily sales and expenses" },
+	{ id: "manage-inventory-and-track-low-stocks", label: "Manage inventory and track low stocks" },
+];
+
+export const units = [
+	{ name: "pair", value: "pair" },
+	{ name: "box", value: "box" },
+	{ name: "pc", value: "pc" },
+	{ name: "pack", value: "pack" },
+	{ name: "kg", value: "kg" },
+	{ name: "bottle", value: "bottle" },
+	{ name: "bag", value: "bag" },
+	{ name: "cm", value: "cm" },
+	{ name: "ft", value: "ft" },
+	{ name: "in", value: "in" },
+	{ name: "yard", value: "yard" },
+	{ name: "portion", value: "portion" },
+	{ name: "lb", value: "lb" },
+	{ name: "km", value: "km" },
+	{ name: "plate", value: "plate" },
+	{ name: "g", value: "g" },
+];
