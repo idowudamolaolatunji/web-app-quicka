@@ -22,6 +22,7 @@ import AddCustomerFormSm from './AddCustomerFormSm.jsx';
 import { createPortal } from 'react-dom';
 import UploadProduct from '../../products/productComponents/UploadProduct.jsx';
 import FullScreen from '../../../components/modal/FullScreen.jsx';
+import ProductQuantityCard from '../../../components/ProductQuantityCard.jsx';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -228,16 +229,24 @@ function RecordOrder() {
 
 
                             <div className="form--item">
-                                <label className="form--label">Product <Asterisk /></label>
+                                <label className="form--label">Product(s) <Asterisk /></label>
 
                                 <MainDropdownSelect title="Product" options={publishedProducts} field="name" value={orderProducts} setValue={setOrderProducts} noDataLabel="No product found!" multiple={true} />
                                 <span className="form--error-message">
                                     {salesFormErrors.orderProducts && salesFormErrors.orderProducts}
                                 </span>
 
+                                {orderProducts?.length > 0 && (
+                                    <div className='product--quantity-grid'>
+                                        {orderProducts?.map(product => (
+                                            <ProductQuantityCard product={product} />
+                                        ))}
+                                    </div>
+                                )}
+
                                 <button className='form--add' onClick={() => setShowModal({ ...showModal, product: true })}>
                                     <AiOutlinePlus />
-                                    <p>Add New Product</p>
+                                    <p>Add {orderProducts?.length > 0 ? "More" : "New"} Product</p>
                                 </button>
                             </div>
                         </div>

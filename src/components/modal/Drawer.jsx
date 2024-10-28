@@ -4,13 +4,14 @@ import BackButton from '../button/BackButton'
 import Line from '../Line'
 
 function Drawer({ title, children, setClose }) {
+
     function handleClose() {
         setClose(false)
     }
 
     return (
         <>
-            <Overlay custom={{ height: "" }} handleClose={handleClose} />
+            <Overlay handleClose={handleClose} />
             <div className="drawer--modal">
                 <div className="drawer--head">
                     <span className='flex' style={{ flexDirection: "row" }}>

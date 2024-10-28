@@ -122,9 +122,7 @@ function AddCustomerFormSm({ close }) {
                 <input type='text' id='country' name='country' placeholder='Enter Country' className='form--input' value={customerData.country} onChange={handleCustomerData} />
             </div>
 
-            <div style={{ marginBottom: "2rem" }} />
-
-            <div className="page__section--actions">
+            <div className="page__section--actions" style={{ marginTop: "2.4rem" }}>
                 <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
                 <button className='button submit--button' onClick={handleSubmitCustomer}>{loading ? <Spinner /> : "Submit"}</button>
             </div>

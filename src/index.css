@@ -112,7 +112,7 @@ textarea::placeholder {
 }
 
 .global--overlay {
-	position: absolute;
+	position: fixed;
 	overflow: hidden;
 	top: 0;
 	left: 0;
@@ -120,7 +120,7 @@ textarea::placeholder {
 	bottom: 0;
 	width: 100%;
 	height: 100vh;
-	z-index: 150;
+	z-index: 100;
 
 	background-color: rgba(0, 0, 0, 0.15);
 	-webkit-backdrop-filter: blur(4px);
@@ -137,7 +137,7 @@ textarea::placeholder {
 	left: 50%;
 	transform: translate(-50%, -50%) scale(1);
 	box-shadow: 0 0 2px #00000040, 0 0 10px #0000000d;
-	z-index: 150;
+	z-index: 100;
 	animation: zoom-in 1s ease-in-out;
 }
 
@@ -166,7 +166,7 @@ textarea::placeholder {
 	min-width: 45rem;
 	transform: translateX(0);
 	animation: drawer-side .35s ease-in-out;
-	z-index: 150;
+	z-index: 100;
 	overflow-y: auto;
 }
 @keyframes drawer-side {

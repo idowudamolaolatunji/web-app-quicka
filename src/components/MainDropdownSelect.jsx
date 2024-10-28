@@ -13,6 +13,7 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                 options={options}
                 labelField={field}
                 valueField={field}
+                closeOnSelect
                 // disabled={disabled}
                 searchable={searchable}
                 separator
@@ -22,6 +23,8 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                 placeholder={`Select ${title}`}
                 clearOnSelect={true}
                 noDataLabel={noDataLabel}
+                addPlaceholder={multiple ? " + add." : ""}
+                
             />
         </div>
     )
