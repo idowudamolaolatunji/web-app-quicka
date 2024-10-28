@@ -82,7 +82,7 @@ function AddCustomerFormSm({ close }) {
 
         if (Object.keys(newErrors).length >= 1) {
             setResponse({ status: "error", message: "Fill required fields to proceed!" });
-            setTimeout(() => setResponse({ status: "", message: "" }), 3000);
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
             return;
         };
 

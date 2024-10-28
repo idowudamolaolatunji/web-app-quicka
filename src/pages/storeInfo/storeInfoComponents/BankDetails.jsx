@@ -74,7 +74,7 @@ function BankDetails({ isnew, close }) {
         setBankFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) {
             setResponse({ status: "error", message: "Fill required fields to proceed!" });
-            setTimeout(() => setResponse({ status: "", message: "" }), 3000);
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
             return;
         };
 
@@ -114,7 +114,7 @@ function BankDetails({ isnew, close }) {
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
-            }, 5000);
+            }, 2500);
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

@@ -10,6 +10,7 @@ import { useAuthContext } from '../../../context/AuthContext';
 import { validateDeliveryForm } from '../../../utils/validationHelper';
 import { useNavigate } from 'react-router-dom';
 import AddPageUI from '../../pageUIComponents/AddPageUI';
+import { useFetchedContext } from '../../../context/FetchedContext';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -20,6 +21,7 @@ function CreateDelivery({ close, isnew, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { token, handleUser, handleStore } = useAuthContext();
+    const { handleFetchUserStoreDeliveryRates } = useFetchedContext();
 
     const headers = {
         "Content-Type": "application/json",
@@ -71,7 +73,7 @@ function CreateDelivery({ close, isnew, isModal }) {
 
         if (Object.keys(newErrors).length >= 1) {
             setResponse({ status: "error", message: "Fill required fields to proceed!" });
-            setTimeout(() => setResponse({ status: "", message: "" }), 3000);
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
             return;
         };
 
@@ -105,6 +107,7 @@ function CreateDelivery({ close, isnew, isModal }) {
             window.scrollTo(0, 0);
             isnew && setShowConfetti(true);
             setResponse({ status: "success", message });
+            handleFetchUserStoreDeliveryRates()
             
             if(isnew) {
                 const { store, owner } = data?.useful;
@@ -116,7 +119,7 @@ function CreateDelivery({ close, isnew, isModal }) {
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
-            }, 5000);
+            }, 2500);
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

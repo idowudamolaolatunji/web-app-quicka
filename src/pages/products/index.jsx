@@ -15,7 +15,7 @@ import TooltipUI from '../../components/TooltipUI';
 import PageUI from '../pageUIComponents/PageUI';
 // import emptyImg from '../../assets/images/resources/orange-woman-with-packages-in-shopping-cart.png';
 import emptyImg from '../../assets/images/illustrations/add-product.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchInput from '../../components/SearchInput';
 import { AiOutlinePlus } from 'react-icons/ai';
 
@@ -32,12 +32,13 @@ const emptyBtns = [
 
 
 function index() {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
     const { showInsights, activeDisplayTab, handleDisplayTab } = useDataContext();
     const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleDeleteOneItem } = useFetchedContext();
 
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
-    const outOfStock = products?.filter(product => product?.isSoldout || product?.stockAmount <= 1);
+    const outOfStock = products?.filter(product => product?.trackInventory && product?.stockAmount <= 1);
     const totalInventoryWorth = products?.reduce((acc, product) => acc + product?.price, 0);
 
     ////////////////////////////////////////////////////////
@@ -102,7 +103,7 @@ function index() {
         { 
             selector: row => (
                 <span className='table--actions'>
-                    <button className='table--btn'><RiEdit2Line /></button>
+                    <button className='table--btn' onClick={() => navigate(`edit/${row?.productId}`)}><RiEdit2Line /></button>
                     <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
@@ -188,8 +189,9 @@ function index() {
                 fn: deleteItem,
                 title: "product",
                 close: setShowModal,
-                open: showModal ,
-                loader: deleteLoader
+                show: showModal,
+                loader: deleteLoader,
+                open: handleShowModal
             }}
         >
 

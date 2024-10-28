@@ -12,6 +12,7 @@ import { ymdDateFormat, ymdDateSlashFormat, ymdDateSlashTimeFormat } from '../..
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
+import { useNavigate } from 'react-router-dom';
 
 
 const emptyTitle = "Add new customer!";
@@ -22,6 +23,7 @@ const emptyBtns = [
 
 
 function index() {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
     const { loader, error, customers, handleDeleteOneItem, handleFetchUserStoreCustomers } = useFetchedContext();
@@ -72,7 +74,7 @@ function index() {
         {
             selector: row => (
                 <span className='table--actions'>
-                    <button className='table--btn'><RiEdit2Line /></button>
+                    <button className='table--btn' onClick={() => navigate(`edit/${row?._id}`)}><RiEdit2Line /></button>
                     <button className='table--btn' onClick={() => handleShowModal(row._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
@@ -147,7 +149,7 @@ function index() {
                 fn: deleteItem,
                 title: "customer",
                 close: setShowModal,
-                open: showModal,
+                show: showModal,
                 loader: deleteLoader
             }}
         >

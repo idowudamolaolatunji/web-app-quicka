@@ -128,7 +128,7 @@ function RecordOrder() {
         setSalesFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) {
             setResponse({ status: "error", message: "Fill required fields to proceed!" });
-            setTimeout(() => setResponse({ status: "", message: "" }), 3000);
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
             return;
         };
 
@@ -169,7 +169,7 @@ function RecordOrder() {
             window.scrollTo(0, 0);
             handleClearFields();
 
-            setTimeout(() => navigate(-1), 3000);
+            setTimeout(() => navigate(-1), 2500);
             handleFetchUserStoreOrders();
             handleFetchUserStoreProducts()
 

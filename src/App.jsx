@@ -105,18 +105,21 @@ function App() {
                     <Route path='/dashboard/orders' element={<Orders />}></Route>
                     <Route path='/dashboard/products' element={<Products />}></Route>
                     <Route path='/dashboard/customers' element={<Customers />}></Route>
+                    <Route path='/dashboard/delivery-rates' element={<Delivery />}></Route>
+                    <Route path='/dashboard/transactions' element={<Transaction />}></Route>
 
                     <Route path='/dashboard/orders/record' element={<RecordOrders />}></Route>
                     <Route path='/dashboard/products/upload' element={<UploadProduct />}></Route>
                     <Route path='/dashboard/customers/add' element={<CreateCustomers />}></Route>
+                    <Route path='/dashboard/delivery-rates/add' element={<CreateDelivery />}></Route>
+                    <Route path='/dashboard/products/edit/:id' element={<UploadProduct />}></Route>
+                    <Route path='/dashboard/customers/edit/:id' element={<CreateCustomers />}></Route>
+                    <Route path='/dashboard/delivery-rates/edit/:id' element={<CreateDelivery />}></Route>
 
                     <Route path='/dashboard/products/:id' element={<ProductItem />}></Route>
                     <Route path='/dashboard/orders/:id' element={<OrderItem />}></Route>
                     <Route path='/dashboard/customers/:id' element={<CustomerItem />}></Route>
-                    <Route path='/dashboard/delivery-rates' element={<Delivery />}></Route>
-                    <Route path='/dashboard/delivery-rates/add' element={<CreateDelivery />}></Route>
 
-                    <Route path='/dashboard/transactions' element={<Transaction />}></Route>
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/custom-domain' element={<CustomDomain />}></Route>
                     <Route path='/dashboard/connected-apps' element={<ConnectedApps />}></Route>

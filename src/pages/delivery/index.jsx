@@ -8,6 +8,7 @@ import TooltipUI from '../../components/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
 import { formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 
 ///////////////////////////////////////////////
@@ -18,6 +19,7 @@ const emptyBtns = [
 ];
 
 function index() {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
     const { loader, error, deliveryRates, handleDeleteOneItem, handleFetchUserStoreDeliveryRates } = useFetchedContext();
 
@@ -64,7 +66,7 @@ function index() {
         {
             selector: row => (
                 <span className='table--actions'>
-                    <button className='table--btn'><RiEdit2Line /></button>
+                    <button className='table--btn' onClick={() => navigate(`edit/${row?._id}`)}><RiEdit2Line /></button>
                     <button className='table--btn' onClick={() => handleShowModal(row._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
@@ -128,7 +130,7 @@ function index() {
                 fn: deleteItem,
                 title: "delivery rate",
                 close: setShowModal,
-                open: showModal,
+                show: showModal,
                 loader: deleteLoader
             }}
         />

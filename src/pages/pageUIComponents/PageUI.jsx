@@ -48,8 +48,7 @@ function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, 
         <>
             {/* THIS IS A REUSABLE DELETE IMPLEMENTATION */}
             {deleteObj?.loader && <Spinner />}
-            {deleteObj?.open && <Delete {...deleteObj} />}
-            {console.log(deleteObj.loader)}
+            {deleteObj?.show && <Delete {...deleteObj} />}
             {/* ======================================== */}
 
             {(response.message || response.status) && (
@@ -115,10 +114,9 @@ function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, 
                             customStyle={!insights ? { padding: "3rem 0" } : {}}
                         />
                     }
-                    {...(activeDisplayTab && { displayType: activeDisplayTab })}
+                    {...(activeDisplayTab && { displayType: activeDisplayTab, open: deleteObj?.open })}
                 />
             </div>
-
 
             {showExportModal && (
                 <ExportCSV

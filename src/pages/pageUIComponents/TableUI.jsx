@@ -10,7 +10,7 @@ import ProductCardSkeleton from '../../components/ProductCardSkeleton';
 import { TableHeadSkeleton, TableSkeleton } from '../../components/TableSkeleton';
 
 
-function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectableRows, headTabs, displayType = "table", loader, error }) {
+function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectableRows, headTabs, displayType = "table", open, loader, error }) {
     const isData = data?.length > 0;
     const navigate = useNavigate();
     const { width } = useWindowSize();
@@ -109,7 +109,7 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
                     {displayType == "grid" ? (
                         <div className='product__grid'>
                             {data.map(data => (
-                                <ProductCard key={data._id} product={data} />
+                                <ProductCard key={data._id} product={data} open={open} />
                             ))}
                         </div>
                     ) : (

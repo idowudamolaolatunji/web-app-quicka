@@ -198,7 +198,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         setProductFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) {
             setResponse({ status: "error", message: "Fill required fields to proceed!" });
-            setTimeout(() => setResponse({ status: "", message: "" }), 3000);
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
             return;
         };
 
@@ -260,7 +260,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             setTimeout(function () {
                 if (isnew || ismodal) close();
                 else navigate(-1)
-            }, 3000);
+            }, 2500);
             handleFetchUserStoreProducts()
 
         } catch (err) {
