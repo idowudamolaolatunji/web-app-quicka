@@ -23,8 +23,10 @@ import { createPortal } from 'react-dom';
 import UploadProduct from '../../products/productComponents/UploadProduct.jsx';
 import FullScreen from '../../../components/modal/FullScreen.jsx';
 import ProductQuantityCard from '../../../components/ProductQuantityCard.jsx';
+import { BiMinus, BiPlus } from 'react-icons/bi';
 
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
 const BASE_API_URL = import.meta.env.VITE_API_URL
 
 function RecordOrder() {
@@ -62,32 +64,22 @@ function RecordOrder() {
     const [paymentMethod, setPaymentMethod] = useState([]);
     const [deliveryStatus, setDeliveryStatus] = useState([]);
     const [channel, setChannel] = useState([]);
-
-    const [showModal, setShowModal] = useState({
-        product: false,
-        customer: false
-    });
-
     const [showConfetti, setShowConfetti] = useState(false)
+    
     const [salesFormErrors, setSalesFormErrors] = useState({})
+    const [showModal, setShowModal] = useState({ product: false, customer: false });
 
-    // back end "products" is expecting an array of objects
-    // ((stockAmount)) down here (not to show product that are low on stock)
+    const [productQuantities, setProductQuantities] = useState([]);
+    ////////////////////////////////////////////////////////////////////////////////
 
-    // const transformedProducts = products?.map(product => ({
-    //     label: (
-    //         <span className='flex align' key={product?._id}>
-    //             <img src={BASE_URL + product?.images[0]} />
-    //             <span className='p-input--item'>
-    //                 <p>{width < 450 ? truncateString(product?.name, 30) : product?.name }</p>
-    //                 <span>{product?.productCollection}</span>
-    //             </span>
-    //         </span>
-    //     ),
-    //     value: product._id
-    // }));
+    console.log(productQuantities)
 
-    function handleOrderDataChange(e) {
+
+    const handleQuantityChange = function(productId, newQuantity) {
+        setProductQuantities((prev) => prev.map((item) => (item.id === productId ? { ...item, quantity: newQuantity } : item)));
+    }
+
+    const handleOrderDataChange = function(e) {
         const { name, value } = e?.target;
         setOrderData({
             ...orderData,
@@ -95,11 +87,11 @@ function RecordOrder() {
         });
     }
 
-    function handleToggleModal(name) {
+    const handleToggleModal = function(name) {
         setShowModal({ ...showModal, [name]: !showModal[name] })
     }
 
-    function handleClearFields() {
+    const handleClearFields = function() {
         setOrderData({
             paymentStatus: "paid",
             orderDate: ""
@@ -111,7 +103,8 @@ function RecordOrder() {
         setOrderCustomer([]);
         setOrderProducts([]);
         setChannel([]);
-    }
+    };
+
 
     useEffect(function () {
         window.scrollTo(0, 0);
@@ -122,6 +115,15 @@ function RecordOrder() {
             setPaymentMethod([]);
         }
     }, [orderData.paymentStatus]);
+
+    // THIS EFFECT HERE IS VERY IMPORTANT FOR THE PRODUCT QUANTITY INITIAL VALUE
+    useEffect(function() {
+        const initQuantities = orderProducts.map((product) => ({
+            id: product._id,
+            quantity: 1,
+        }));
+        setProductQuantities(initQuantities);
+    }, [orderProducts])
 
 
     async function handleRecordOrder() {
@@ -145,7 +147,9 @@ function RecordOrder() {
         // SET LOADER
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
-        const selectedProducts = orderProducts?.map(product => product._id)
+        
+        // PRODUCTQUANTITIES, CONTAINS THE ID AND THE QUANTITY OF THAT ID. (AND THAT IS JUST WHAT THE BACKEND NEEDS)
+        const products = productQuantities;
 
         // MAKE REQUEST
         try {
@@ -153,12 +157,12 @@ function RecordOrder() {
                 headers,
                 method: "POST",
                 body: JSON.stringify({
+                    products,
                     description,
                     ...orderData,
                     channel: channel[0]?.value,
-                    products: selectedProducts,
                     paymentMethod: paymentMethod[0]?.value,
-                    customer: orderCustomer[0]?._id || null,
+                    customer: orderCustomer[0]?._id,
                     deliveryStatus: deliveryStatus[0]?.value,
                 })
             });
@@ -238,8 +242,13 @@ function RecordOrder() {
 
                                 {orderProducts?.length > 0 && (
                                     <div className='product--quantity-grid'>
-                                        {orderProducts?.map(product => (
-                                            <ProductQuantityCard product={product} />
+                                        {orderProducts?.map((product) => (
+                                            <ProductQuantityCard
+                                                key={product._id}
+                                                product={product}
+                                                quantity={productQuantities?.find(item => item.id == product._id)?.quantity}
+                                                onQuantityChange={(newQuantity) => handleQuantityChange(product._id, newQuantity)}
+                                            />
                                         ))}
                                     </div>
                                 )}
