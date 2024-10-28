@@ -51,7 +51,8 @@ function AuthsUI({ heading, backText, backLink, dataimg, centered=true, overflow
                     {children}
                 </div>
                 
-                { width < 850 && <CopyrightText customStyle={{ justifyContent: "center", paddingTop: centered ? "2rem" : "" }} />}
+                {/* { width < 850 && <CopyrightText customStyle={{ justifyContent: "center", paddingTop: centered ? "2rem" : "" }} />} */}
+                { width < 850 && <CopyrightText customStyle={{ justifyContent: "center" }} />}
             </div>
 
             <div className="auth--right" style={style}>

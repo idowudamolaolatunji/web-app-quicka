@@ -9,37 +9,29 @@ import Line from '../../../components/Line.jsx';
 import Info from '../../../components/Info.jsx';
 import { useAuthContext } from '../../../context/AuthContext.jsx';
 import { validateBankForm } from '../../../utils/validationHelper.js';
-import CustomAlert from '../../../components/CustomAlert.jsx';
-import Spinner from '../../../components/spinner/spinner_two';
 import { banks } from '../../../utils/data.js';
 import AddPageUI from '../../pageUIComponents/AddPageUI.jsx';
 
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function BankDetails({ isnew, close }) {
     const { width } = useWindowSize();
-    const { bank, token } = useAuthContext();
+    const { token, handleStore, handleUser } = useAuthContext();
 
     const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
     }
 
-    const [loading, setLoading] = useState({
-        mainLoading: false,
-        imageLoading: false
-    });
-
-    const [response, setResponse] = useState({
-        status: null,
-        message: null
-    });
-
-    const [bankName, setBankName] = useState(bank?.bankname ? [bank] : []);
+    const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
+    const [response, setResponse] = useState({ status: null, message: null });
+    const [showConfetti, setShowConfetti] = useState(false);
+    const [bankName, setBankName] = useState([]);
     const [bankFormErrors, setBankFormErrors] = useState({})
 
     const [bankData, setBankData] = useState({
-        accountNumber: bank?.accountNumber || "",
-        accountName: bank?.accountName || ""
+        accountNumber: "",
+        accountName: ""
     });
 
     function handleClearFields() {
@@ -91,36 +83,41 @@ function BankDetails({ isnew, close }) {
         handleLoading("mainLoading", true);
 
         // GET COLLECTION NAMES
-        const [bankname, slug, code] = bankName;
+        const { bankname, slug, code } = bankName[0];
+        console.log(bankname)
 
         try {
-            const res = await fetch(`${BASE_API_URL}/stores/add-payment-details/${bank._id}`, {
-                method: "PATCH",
+            const res = await fetch(`${BASE_API_URL}/stores/onboard/bank`, {
+                method: "POST",
                 headers,
                 body: JSON.stringify({
-                    bankname,
-                    slug, code,
-                    ...bankData,
+                    ...bankData, bankname, slug, code, 
                 })
             });
 
-            if (!res.ok) throw new Error('Something went wrong! Check intenet connection');
+            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
             const { status, message } = data;
             if (!status || status != 'success') throw new Error(message);
 
             // SET RESPONSE MESSAGE
+            handleClearFields();
             setResponse({ status: "success", message });
+            setShowConfetti(true);
+
+            // MODIFY THE USER OBJECT AND STORE IN THE COOKIE
+            const { store, owner } = data?.useful;
+            handleStore(store);
+            handleUser(owner);
 
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
             }, 5000);
 
-
         } catch (err) {
-
+            setResponse({ status: "error", message: err.message });
         } finally {
             handleLoading("mainLoading", false);
         }
@@ -131,11 +128,10 @@ function BankDetails({ isnew, close }) {
             PageTitle="Payment Details"
             pageIcon={<RiBankLine />}
             close={close} isnew={isnew}
-            isModal={isModal}
             mainLoader={loading.mainLoading}
             response={response}
             handleClear={handleClearFields}
-            handleSubmit={handleCreateCustomer}
+            handleSubmit={handleSubmitDetails}
             confetti={showConfetti}
         >
 
@@ -148,7 +144,7 @@ function BankDetails({ isnew, close }) {
 
                     <div className="form--item">
                         <label className="form--label">Bank Name <Asterisk /></label>
-                        <MainDropdownSelect title="Bank" options={banks} field="bankname" value={bankName} setValue={setBankName} noDataLabel="No Bank found with that name" disabled={bank?.bankname ? true : false} />
+                        <MainDropdownSelect title="Bank" options={banks} field="bankname" value={bankName} setValue={setBankName} noDataLabel="No Bank found with that name" />
                         <span className="form--error-message">
                             {bankFormErrors.bankName && bankFormErrors.bankName}
                         </span>
@@ -159,7 +155,7 @@ function BankDetails({ isnew, close }) {
                         <div className="form--item">
                             <label htmlFor='number' className="form--label">Account Number <Asterisk /></label>
 
-                            <input type="number" name="accountNumber" id="number" className='form--input' value={bankData.accountNumber} onChange={handleBankFormChange} placeholder='1234567890' readOnly={bank?.accountNumber ? true : false} />
+                            <input type="number" name="accountNumber" id="number" className='form--input' value={bankData.accountNumber} onChange={handleBankFormChange} placeholder='1234567890' />
                             <span className="form--error-message">
                                 {bankFormErrors.accountNumber && bankFormErrors.accountNumber}
                             </span>
@@ -167,7 +163,7 @@ function BankDetails({ isnew, close }) {
 
                         <div className="form--item">
                             <label htmlFor='name' className="form--label">Account Name <Asterisk /></label>
-                            <input type="text" name="accountName" id="name" className='form--input' value={bankData.accountName} onChange={handleBankFormChange} placeholder='Jane Doe Martha' readOnly={bank?.accountName ? true : false} />
+                            <input type="text" name="accountName" id="name" className='form--input' value={bankData.accountName} onChange={handleBankFormChange} placeholder='Jane Doe Martha' />
                             {bankFormErrors.accountName && (
                                 <span className="form--error-message">
                                     {bankFormErrors.accountName}

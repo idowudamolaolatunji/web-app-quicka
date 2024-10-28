@@ -10,6 +10,7 @@ import PhoneInput from 'react-phone-input-2';
 import { validateCustomerForm } from '../../../utils/validationHelper';
 import { useAuthContext } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useFetchedContext } from '../../../context/FetchedContext';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -18,6 +19,7 @@ function CreateCustomers({ close, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { token, store } = useAuthContext();
+    const { handleFetchUserStoreCustomers } = useFetchedContext();
     const { location, getContries, getStates, getCities, setLocation } = useDataContext();
 
     const { countryCode } = store?.contact;
@@ -156,7 +158,7 @@ function CreateCustomers({ close, isModal }) {
                 })
             });
 
-            if (!res.ok) throw new Error('Something went wrong! Check intenet connection');
+            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
             console.log(res)
 
             const data = await res.json();
@@ -167,7 +169,8 @@ function CreateCustomers({ close, isModal }) {
             setResponse({ status, message });
             handleClearFields();
             
-            setTimeout(() => navigate(-1), 5000);
+            setTimeout(() => navigate(-1), 3000);
+            handleFetchUserStoreCustomers()
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

@@ -114,7 +114,7 @@ function GetStarted() {
                     <p>{
                         // HERE WE MODIFY THE TEXT BASED ON THE COMPLETED STEPS
                         (completedSteps?.length < 5) ? (
-                            <><span style={{ fontFamily: "sans-serif" }}>{completedSteps.length}<strong>/</strong>5</span> completed - <strong>{completedSteps.length == 4 ? 'Final' : 'Next'} Step 👉🏿</strong> {stepsSorted[completedSteps.length]?.shortText}</>
+                            <><span style={{ fontFamily: "sans-serif" }}>{completedSteps.length}<strong>/</strong>5</span> completed - <strong>{completedSteps.length == 4 ? 'Final step' : 'Next'} 👉🏿</strong> {stepsSorted[completedSteps.length]?.shortText}</>
                         ) : (
                             <>Completed all Step 🎉 - <strong>Click Finish!</strong> </>
                         )
@@ -155,7 +155,7 @@ function GetStarted() {
                         ) : (
                             <div className="opts--btns">
                                 <button name='product' onClick={handleOpenModal}>Add product</button>
-                                <div onClick={() => navigate('/dashboard/products/import/add')}>Import product</div>
+                                {/* <div onClick={() => navigate('/dashboard/products/import/add')}>Import product</div> */}
                             </div>
                         )}
                     </div>

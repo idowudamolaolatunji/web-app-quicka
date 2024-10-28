@@ -78,10 +78,11 @@ function CreateDelivery({ close, isnew, isModal }) {
         // SET LOADER
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
+        const end_point = isnew ? "onboard/rate" : ""
 
         // MAKE REQUEST
         try {
-            const res = await fetch(`${BASE_API_URL}/delivery-rates`, {
+            const res = await fetch(`${BASE_API_URL}/delivery-rates/${end_point}`, {
                 headers,
                 method: "POST",
                 body: JSON.stringify({
@@ -91,24 +92,25 @@ function CreateDelivery({ close, isnew, isModal }) {
                 })
             });
 
-            if (!res.ok) throw new Error('Something went wrong! Check intenet connection');
+            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
             console.log(res)
 
             const data = await res.json();
             const { status, message } = data;
             if (!status || status != 'success') throw new Error(message);
-            const { store, owner } = data?.useful?.data;
-            console.log(store, owner)
-
+            
             // SET RESPONSE MESSAGE
+            handleClearFields();
             window.scrollTo(0, 0);
             isnew && setShowConfetti(true);
             setResponse({ status: "success", message });
-
-            // MODIFY THE USER OBJECT AND STORE IN THE COOKIE and clear the form
-            handleStore(store);
-            handleUser(owner);
-            handleClearFields();
+            
+            if(isnew) {
+                const { store, owner } = data?.useful;
+                // MODIFY THE USER OBJECT AND STORE IN THE COOKIE
+                handleStore(store);
+                handleUser(owner);
+            }
 
             setTimeout(function () {
                 if (isnew) close();

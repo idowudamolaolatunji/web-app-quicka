@@ -202,7 +202,7 @@ function index() {
                 })
             });
 
-            if(!res.ok) throw new Error('Something went wrong! Check intenet connection');
+            if(!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
             const { status, message, token} = data;

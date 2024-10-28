@@ -207,7 +207,7 @@ export function validateBankForm(data, _) {
 	}
 
 	if (!data.accountNumber) {
-		errors.accountNumber = "Password is required";
+		errors.accountNumber = "Account Number is required";
 	} else if (data.accountNumber.length < 10) {
 		errors.accountNumber = "Account Number must be 10 Numbers";
 	}
@@ -221,7 +221,6 @@ export function validateBankForm(data, _) {
 	return errors;
 }
 
-
 export function validateExportCsvInput(email) {
 	let error;
 
@@ -229,6 +228,19 @@ export function validateExportCsvInput(email) {
 		error = "An email address is required";
 	} else if (!/\S+@\S+\.\S+/.test(email)) {
 		error = "Email address is invalid!";
+	}
+
+	return error;
+}
+
+
+export function validateCollectionForm(name) {
+	let error;
+
+	if (!name.trim()) {
+		error = "Collection name is required";
+	} else if (name.length < 3) {
+		error = "Collection name must be at least 3 characters long";
 	}
 
 	return error;

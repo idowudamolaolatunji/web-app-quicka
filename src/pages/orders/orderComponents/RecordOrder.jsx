@@ -160,7 +160,7 @@ function RecordOrder() {
                     deliveryStatus: deliveryStatus[0]?.value,
                 })
             });
-            if (!res.ok) throw new Error('Something went wrong! Check intenet connection');
+            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
             console.log(res, data)
@@ -189,15 +189,11 @@ function RecordOrder() {
     return (
         <>
             {showModal.product && (
-                <FullScreen style={{ maxWidth: '105rem', margin: '0 auto' }}>
-                    <UploadProduct isModal close={() => handleCloseModal("product")} />
-                </FullScreen>
+               <p></p>
             )}
 
             {showModal.customer && (
-                <Drawer title='Add Customer'>
-                    <AddCustomer />
-                </Drawer>
+               <p></p>
             )}
 
             <AddPageUI
@@ -217,7 +213,6 @@ function RecordOrder() {
                             <div className="section--heading">
                                 <h2>Order Item</h2>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
-
                             </div>
 
 
@@ -234,7 +229,6 @@ function RecordOrder() {
                                     <p>Add New Product</p>
                                 </button>
                             </div>
-
                         </div>
 
 

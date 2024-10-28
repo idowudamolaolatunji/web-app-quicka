@@ -25,11 +25,14 @@ import { IoCloseOutline, IoCloudDownloadOutline, IoTrashBinOutline } from 'react
 import { validateProductForm } from '../../../utils/validationHelper';
 import { useNavigate } from 'react-router-dom';
 import AddPageUI from '../../pageUIComponents/AddPageUI';
+import Drawer from '../../../components/modal/Drawer';
+import CollectionFormSm from './CollectionFormSm';
+import { createPortal } from 'react-dom';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
-function UploadProduct({ isnew, isModal, close }) {
+function UploadProduct({ isnew, close }) {
     const currency = "₦";
     const maxNumber = 4;
     const navigate = useNavigate();
@@ -42,24 +45,15 @@ function UploadProduct({ isnew, isModal, close }) {
         Authorization: `Bearer ${token}`
     }
 
-    const [loading, setLoading] = useState({
-        mainLoading: false,
-        imageLoading: false
-    });
-
-    const [response, setResponse] = useState({
-        status: null,
-        message: null
-    });
-
-    const [cropModal, setCropModal] = useState(false);
-    const [selectedImage, setSelectedImage] = useState(null);
-
-    const [crop, setCrop] = useState({ x: 0, y: 0 })
-    const [zoom, setZoom] = useState(1);
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-
+    const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
+    const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false)
+    const [showModal, setShowModal] = useState({ collection: false, others: false });
+
+    const [variations, setVariations] = useState([]);
+    const [description, setDescription] = useState('');
+    const [productCollection, setProductCollection] = useState([]);
+
     const [productFormErrors, setProductFormErrors] = useState({})
     const [productData, setProductData] = useState({
         name: "",
@@ -78,9 +72,13 @@ function UploadProduct({ isnew, isModal, close }) {
         isVisible: false,
     });
 
-    const [variations, setVariations] = useState([]);
-    const [description, setDescription] = useState('');
-    const [productCollection, setProductCollection] = useState([]);
+    const [cropModal, setCropModal] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const [crop, setCrop] = useState({ x: 0, y: 0 })
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
     const [images, setImages] = useState([]);
     const imageFiles = images.map(img => img.file);
 
@@ -116,6 +114,10 @@ function UploadProduct({ isnew, isModal, close }) {
         });
     }
 
+    function handleOpenModal(name) {
+        setShowModal({...showModal, [name]: !showModal[name] })
+    }
+
     function handleClearFields() {
         setProductData({
             ...productData,
@@ -143,12 +145,6 @@ function UploadProduct({ isnew, isModal, close }) {
         setZoom(1)
         setCroppedAreaPixels(null)
     }
-
-
-    useEffect(function () {
-        (!isnew || !isModal) && window.scrollTo(0, 0);
-    }, []);
-
 
     useEffect(function () {
         const type = productData.discountType;
@@ -183,9 +179,11 @@ function UploadProduct({ isnew, isModal, close }) {
         // GET COLLECTION NAMES
         const names = productCollection.map(collection => collection.name);
 
+        const end_point = isnew ? "onboard/product" : "";
+
         // MAKE REQUEST
         try {
-            const res = await fetch(`${BASE_API_URL}/products`, {
+            const res = await fetch(`${BASE_API_URL}/products/${end_point}`, {
                 headers,
                 method: "POST",
                 body: JSON.stringify({
@@ -199,7 +197,7 @@ function UploadProduct({ isnew, isModal, close }) {
                     productCollection: names,
                 })
             });
-            if (!res.ok) throw new Error('Something went wrong! Check intenet connection');
+            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
 
@@ -219,13 +217,15 @@ function UploadProduct({ isnew, isModal, close }) {
             window.scrollTo(0, 0);
             handleClearFields();
 
-            // MODIFY THE USER OBJECT AND STORE IN THE COOKIE
-            // const { store, owner } = data.useful.data;
-            // handleStore(store);
-            // handleUser(owner);
+            // MODIFY THE USER OBJECT AND STORE IN THE COOKIE, if new
+            if(isnew) {
+                const { store, owner } = data?.useful;
+                handleStore(store);
+                handleUser(owner);
+            }
 
             setTimeout(function () {
-                if (isnew || isModal) close();
+                if (isnew) close();
                 else navigate(-1)
             }, 3000);
             handleFetchUserStoreProducts()
@@ -240,11 +240,22 @@ function UploadProduct({ isnew, isModal, close }) {
 
     return (
         <>
+            {showModal.collection && (
+                createPortal(
+                    <Drawer
+                        title="Create Collection" 
+                        setClose={() => handleOpenModal("collection")}
+                    >
+                        <CollectionFormSm close={() => handleOpenModal("collection")} />
+                    </Drawer>,
+                    document.body
+                )
+            )}
+
             <AddPageUI
                 PageTitle="Upload Product"
                 pageIcon={<LuTags />}
                 close={close} isnew={isnew}
-                isModal={isModal}
                 mainLoader={loading.mainLoading}
                 response={response}
                 handleClear={handleClearFields}
@@ -371,7 +382,7 @@ function UploadProduct({ isnew, isModal, close }) {
                                 {productFormErrors.productCollection && productFormErrors.productCollection}
                             </span>
 
-                            <button className='form--add'>
+                            <button className='form--add' onClick={() => handleOpenModal("collection")}>
                                 <AiOutlinePlus />
                                 <p>Create Collection</p>
                             </button>
