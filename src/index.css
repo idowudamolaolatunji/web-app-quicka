@@ -163,10 +163,11 @@ textarea::placeholder {
 	right: 0;
 	bottom: 0;
 	height: 100vh;
-	min-width: 40rem;
+	min-width: 45rem;
 	transform: translateX(0);
 	animation: drawer-side .35s ease-in-out;
 	z-index: 150;
+	overflow-y: auto;
 }
 @keyframes drawer-side {
     0% { opacity: 1; transform: translateX(10rem); }

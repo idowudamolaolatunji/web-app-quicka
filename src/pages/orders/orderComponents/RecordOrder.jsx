@@ -13,14 +13,15 @@ import MainDropdownSelect from '../../../components/MainDropdownSelect';
 
 import { paymentMethodData, deliveryStatusData, channelData } from '../../../utils/data.jsx'
 import { useFetchedContext } from '../../../context/FetchedContext';
-import UploadProduct from '../../products/productComponents/UploadProduct';
-import FullScreen from '../../../components/modal/FullScreen';
 import Drawer from '../../../components/modal/Drawer';
-import AddCustomer from './AddCustomer';
 
 import { validateOrderForm } from '../../../utils/validationHelper.js';
 import { useNavigate } from 'react-router-dom';
 import AddPageUI from '../../pageUIComponents/AddPageUI.jsx';
+import AddCustomerFormSm from './AddCustomerFormSm.jsx';
+import { createPortal } from 'react-dom';
+import UploadProduct from '../../products/productComponents/UploadProduct.jsx';
+import FullScreen from '../../../components/modal/FullScreen.jsx';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -93,8 +94,8 @@ function RecordOrder() {
         });
     }
 
-    function handleCloseModal(name) {
-        setShowModal({ ...showModal, [name]: false });
+    function handleToggleModal(name) {
+        setShowModal({ ...showModal, [name]: !showModal[name] })
     }
 
     function handleClearFields() {
@@ -189,17 +190,27 @@ function RecordOrder() {
     return (
         <>
             {showModal.product && (
-               <p></p>
+                <FullScreen style={{ maxWidth: '108rem', margin: '0 auto' }}>
+                    <UploadProduct ismodal close={() => handleToggleModal("product")} />
+                </FullScreen>
             )}
 
             {showModal.customer && (
-               <p></p>
+                createPortal(
+                    <Drawer
+                        title="Add Customer"
+                        setClose={() => handleToggleModal("customer")}
+                    >
+                        <AddCustomerFormSm close={() => handleToggleModal("customer")} />
+                    </Drawer>,
+                    document.body
+                )
             )}
 
             <AddPageUI
                 PageTitle="Record Orders"
                 pageIcon={<MdOutlineShoppingBag />}
-                close={() => navigate(-1)} 
+                close={() => navigate(-1)}
                 mainLoader={loading.mainLoading}
                 response={response}
                 handleClear={handleClearFields}

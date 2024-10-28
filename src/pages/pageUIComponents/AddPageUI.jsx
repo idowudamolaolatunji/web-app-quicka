@@ -9,16 +9,16 @@ import './uploadStyle.css';
 import { useWindowSize } from 'react-use';
 
 
-function AddPageUI({ PageTitle, pageIcon, justify=false, close, isnew, isModal, mainLoader, response, handleClear, handleSubmit, confetti, children }) {
+function AddPageUI({ PageTitle, pageIcon, justify=false, close, isnew, ismodal, mainLoader, response, handleClear, handleSubmit, confetti, children }) {
     const { width } = useWindowSize();
 
     return (
         <>
             {confetti && <ConfettiUI />}
-            {mainLoader && ((isnew || isModal) ? createPortal(<Spinner />, document.body) : <Spinner />)}
+            {mainLoader && ((isnew || ismodal) ? createPortal(<Spinner />, document.body) : <Spinner />)}
 
             {(response.message || response.status) && (
-                (isnew || isModal) ? createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
+                (isnew || ismodal) ? createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
                 : <CustomAlert type={response.status} message={response.message} />
             )}
 

@@ -32,7 +32,7 @@ import { createPortal } from 'react-dom';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
-function UploadProduct({ isnew, close }) {
+function UploadProduct({ isnew, close, ismodal=false }) {
     const currency = "₦";
     const maxNumber = 4;
     const navigate = useNavigate();
@@ -114,7 +114,7 @@ function UploadProduct({ isnew, close }) {
         });
     }
 
-    function handleOpenModal(name) {
+    function handleToggleModal(name) {
         setShowModal({...showModal, [name]: !showModal[name] })
     }
 
@@ -225,7 +225,7 @@ function UploadProduct({ isnew, close }) {
             }
 
             setTimeout(function () {
-                if (isnew) close();
+                if (isnew || ismodal) close();
                 else navigate(-1)
             }, 3000);
             handleFetchUserStoreProducts()
@@ -244,9 +244,9 @@ function UploadProduct({ isnew, close }) {
                 createPortal(
                     <Drawer
                         title="Create Collection" 
-                        setClose={() => handleOpenModal("collection")}
+                        setClose={() => handleToggleModal("collection")}
                     >
-                        <CollectionFormSm close={() => handleOpenModal("collection")} />
+                        <CollectionFormSm close={() => handleToggleModal("collection")} />
                     </Drawer>,
                     document.body
                 )
@@ -256,6 +256,7 @@ function UploadProduct({ isnew, close }) {
                 PageTitle="Upload Product"
                 pageIcon={<LuTags />}
                 close={close} isnew={isnew}
+                ismodal={ismodal}
                 mainLoader={loading.mainLoading}
                 response={response}
                 handleClear={handleClearFields}
@@ -382,7 +383,7 @@ function UploadProduct({ isnew, close }) {
                                 {productFormErrors.productCollection && productFormErrors.productCollection}
                             </span>
 
-                            <button className='form--add' onClick={() => handleOpenModal("collection")}>
+                            <button className='form--add' onClick={() => handleToggleModal("collection")}>
                                 <AiOutlinePlus />
                                 <p>Create Collection</p>
                             </button>
