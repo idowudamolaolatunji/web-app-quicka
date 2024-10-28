@@ -27,12 +27,6 @@
 
 
 
-body:has(.dashboard--base) {
-    height: 100vh;
-    overflow: hidden;
-}
-
-
 
 /* ========================================== */
 /* DASHBOARD HEAD */
@@ -41,8 +35,12 @@ body:has(.dashboard--base) {
     display: grid;
     grid-template-columns: 24rem 1fr;
     height: 7rem;
-    position: relative;
-    z-index: 80;
+    background-color: #fff;
+    z-index: 50;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 }   
 .logo--container {
     border-right: 1.2px solid var(--border-color);
@@ -75,13 +73,6 @@ body:has(.dashboard--base) {
     font-size: 2.2rem;
     color: var(--grey-1);
 }
-
-/* .x{
-    transition: background-color 1500ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.x:active {
-    background-color: var(--grey-1);
-} */
 
 .nav--container {
     width: 100%;
@@ -185,7 +176,6 @@ body:has(.dashboard--base) {
 /* ========================================== */
 .dropdown {
     min-width: 26rem;
-    /* padding: 2.4rem 1.8rem; */
     padding: 1.2rem 0 0;
     background-color: var(--white-1);
     border-radius: .4rem;
@@ -289,30 +279,32 @@ span.item--user-img {
 /* DASHBOARD BASE */
 /* ========================================== */
 .dashboard--base {
-    display: grid;
-    grid-template-columns: 24rem 1fr;
     transition: all .3s ease;
+    margin-top: 7rem;
 }
-.dashboard--base.collapsed {
-    grid-template-columns: 6rem 1fr;
-}
+
 .dashboard--menu {
     padding: 2.5rem 1.8rem;
     display: flex;
     flex-direction: column;
     gap: 1.4rem;
     border-right: 1.2px solid var(--border-color);
-
-    height: 90vh;
     overflow-y: auto;
     scrollbar-width: none;
-
     transition: all .3s ease;
 
+    height: calc(100vh - 7rem);
+    position: fixed;
+    top: 7rem;
+    left: 0;
+    bottom: 0;
+    width: 24rem;
 }
 .collapsed .dashboard--menu {
     padding: 2.5rem .8rem;
+    width: 6rem;
 }
+
 /* ========================================== */
 
 
@@ -371,7 +363,10 @@ span.item--user-img {
 }
 /* ========================================== */
 
-/* transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms cubic-bezier(0.4, 0, 0.2, 1), color 250ms cubic-bezier(0.4, 0, 0.2, 1); */
+
+
+
+
 
 /* ========================================== */
 /*  */
@@ -444,7 +439,6 @@ button.menu--button {
 }
 .menu--list.last--menu {
     margin-top: 2.4rem;
-    /* margin-top: auto; */
 }
 /* ========================================== */
 
@@ -516,10 +510,14 @@ button.menu--button {
 /*  */
 /* ========================================== */
 .content--block {
-    padding: 3.6rem 2.4rem 2.4rem;
+    padding: 3rem 2.4rem 2.4rem;
     overflow-x: hidden;
-    overflow-y: scroll;
-    height: 90vh;
+    width: calc(100% - 24rem);
+    margin-left: auto;
+    transition: all .3s;
+}
+.collapsed .content--block {
+    width: calc(100% - 6rem);
 }
 /* ========================================== */
 
@@ -543,28 +541,18 @@ button.menu--button {
     body {
         position: relative;
     }
-    body:has(.dashboard--base) {
-        overflow-x: hidden;
-        overflow-y: unset;
-        height: auto;
-    }
     .content--block {
-        padding: 10rem 2rem .6rem;
-        height: fit-content;
-        overflow-y: unset;
+        padding: 2.4rem 2rem .6rem;
+        margin-left: unset;
+        width: 100%;
     }
 
     .dashboard--header {
         grid-template-columns: 18rem 1fr;
         border-bottom: 1.3px solid var(--border-color);
-        height: auto;
         padding: 1.4rem 1.6rem;
         justify-content: space-between;
 
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
         background-color: #fff;
         z-index: 99;
     }
@@ -573,7 +561,6 @@ button.menu--button {
 
         display: flex;
         flex-direction: row-reverse;
-        /* gap: 2rem; */
         gap: 1rem;
         padding: 0;
     }

@@ -23,10 +23,8 @@ import { createPortal } from 'react-dom';
 import UploadProduct from '../../products/productComponents/UploadProduct.jsx';
 import FullScreen from '../../../components/modal/FullScreen.jsx';
 import ProductQuantityCard from '../../../components/ProductQuantityCard.jsx';
-import { BiMinus, BiPlus } from 'react-icons/bi';
 
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
 const BASE_API_URL = import.meta.env.VITE_API_URL
 
 function RecordOrder() {
@@ -42,20 +40,10 @@ function RecordOrder() {
         Authorization: `Bearer ${token}`
     }
 
-    const [orderData, setOrderData] = useState({
-        paymentStatus: "paid",
-        orderDate: ""
-    });
+    const [orderData, setOrderData] = useState({ paymentStatus: "paid", orderDate: "" });
 
-    const [loading, setLoading] = useState({
-        mainLoading: false,
-        imageLoading: false
-    });
-
-    const [response, setResponse] = useState({
-        status: null,
-        message: null
-    });
+    const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
+    const [response, setResponse] = useState({ status: null, message: null });
 
     const [description, setDescription] = useState('');
     const [orderProducts, setOrderProducts] = useState([]);
@@ -72,11 +60,12 @@ function RecordOrder() {
     const [productQuantities, setProductQuantities] = useState([]);
     ////////////////////////////////////////////////////////////////////////////////
 
-    console.log(productQuantities)
-
-
     const handleQuantityChange = function(productId, newQuantity) {
         setProductQuantities((prev) => prev.map((item) => (item.id === productId ? { ...item, quantity: newQuantity } : item)));
+    }
+
+    const handleRemoveItem = function(id) {
+        setOrderProducts(prev => prev?.filter(product => product._id !== id))
     }
 
     const handleOrderDataChange = function(e) {
@@ -250,6 +239,7 @@ function RecordOrder() {
                                                 product={product}
                                                 quantity={productQuantities?.find(item => item.id == product._id)?.quantity}
                                                 onQuantityChange={(newQuantity) => handleQuantityChange(product._id, newQuantity)}
+                                                removeItem={handleRemoveItem}
                                             />
                                         ))}
                                     </div>
@@ -257,7 +247,7 @@ function RecordOrder() {
 
                                 <button className='form--add' onClick={() => setShowModal({ ...showModal, product: true })}>
                                     <AiOutlinePlus />
-                                    <p>Add {orderProducts?.length > 0 ? "More" : "New"} Product</p>
+                                    <p>Add New Product</p>
                                 </button>
                             </div>
                         </div>
@@ -285,13 +275,11 @@ function RecordOrder() {
                                 <div className="form--item">
                                     <label id='date' className="form--label">Order Date <Asterisk /></label>
                                     <input type="datetime-local" className='form--input' placeholder='Select date' max={new Date().toISOString().slice(0, 16)} name="orderDate" id="date" value={orderData.orderDate} onChange={handleOrderDataChange} />
-                                    {/* <DatePicker format="MM/dd/yyyy" className='form--input' placeholder="Select date" /> */}
                                     <span className="form--error-message">
                                         {salesFormErrors.orderDate && salesFormErrors.orderDate}
                                     </span>
                                 </div>
                             </div>
-
 
                             <div className="form--item">
                                 <label className="form--label">Customer (optional)</label>
@@ -365,7 +353,6 @@ function RecordOrder() {
                     </div>
                 </div>
             </AddPageUI>
-
         </>
     )
 }

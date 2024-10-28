@@ -26,8 +26,8 @@ function index() {
     const { showInsights } = useDataContext();
     const { loader, error, transactions, handleFetchUserStoreTransactions } = useFetchedContext();
 
-    const webTransactions = transactions?.filter(transaction => transaction.transactionType == "web")?.reduce((sum, transaction) => sum + transaction.amount, 0);
-    const offlineTransactions = transactions?.filter(transaction => transaction.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction.amount, 0);
+    const webTransactions = transactions?.filter(transaction => transaction.transactionType == "web")?.reduce((sum, transaction) => sum + transaction.order.orderAmount, 0);
+    const offlineTransactions = transactions?.filter(transaction => transaction.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction.order.orderAmount, 0);
 
 
     const columns = [
@@ -51,7 +51,7 @@ function index() {
         {
             name: "Amount",
             selector: row => (
-                <p className="value">₦{formatNumber(row.order.orderPrice)}</p>
+                <p className="value">₦{formatNumber(row?.order?.orderAmount)}</p>
             )
         },
         {

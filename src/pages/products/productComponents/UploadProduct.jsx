@@ -419,7 +419,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
 
                             <button className='form--add' onClick={() => handleToggleModal("collection")}>
                                 <AiOutlinePlus />
-                                <p>Create Collection</p>
+                                <p>Create New Collection</p>
                             </button>
                         </div>
                     </div>

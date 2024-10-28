@@ -17,25 +17,22 @@ function ProgressGrid() {
     const totalSettlements = 0;
 
     // WE CALCULATED FOR THE TOTAL SALE AND TOTAL OFFLINE SALES, BY MAPPING AND REDUCING..
-    const totalSales = allSales.reduce((acc, sale) => acc + sale?.orderPrice, 0);
-    const totalOfflineSales = offlineSales.reduce((acc, sale) => acc + sale?.orderPrice, 0);
+    const totalSales = allSales.reduce((acc, sale) => acc + sale?.orderAmount, 0);
+    const totalOfflineSales = offlineSales.reduce((acc, sale) => acc + sale?.orderAmount, 0);
 
 
     // CALCULATED TODAY TOTAL SALE AND YESTERDAY'S JUST TO COMPARE THE VALUE
     function compareSalesByPercentage(array) {
-        const todaySales = array?.filter((sale) => moment(sale.orderDate).isSameOrAfter(moment().startOf('day'))).reduce((acc, sale) => acc + sale?.orderPrice, 0);
+        const todaySales = array?.filter((sale) => moment(sale.orderDate).isSameOrAfter(moment().startOf('day'))).reduce((acc, sale) => acc + sale?.orderAmount, 0);
     
-        const yesterdaySales = array?.filter((sale) => moment(sale.orderDate).isBetween(moment().subtract(1, 'day').startOf('day'), moment().subtract(1, 'day').endOf('day'))).reduce((acc, sale) => acc + sale?.orderPrice, 0);
+        const yesterdaySales = array?.filter((sale) => moment(sale.orderDate).isBetween(moment().subtract(1, 'day').startOf('day'), moment().subtract(1, 'day').endOf('day'))).reduce((acc, sale) => acc + sale?.orderAmount, 0);
 
         const salesPercent = yesterdaySales !== 0 ? ((todaySales - yesterdaySales) / yesterdaySales) * 100 : 0;
         return salesPercent;
     }
 
-    // 
     const allSalesPercent = compareSalesByPercentage(allSales);
     const offlineSalesPercent = compareSalesByPercentage(offlineSales);
-
-
 
     return (
         <div className='prog--grid'>

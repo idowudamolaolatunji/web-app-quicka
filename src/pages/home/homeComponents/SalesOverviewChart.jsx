@@ -20,7 +20,7 @@ function OverviewChart() {
         orders?.filter(order => order.orderStatus == "completed").forEach(order => {
             const orderDate = new Date(order.orderDate);
             const month = orderDate.getMonth(); // 0-11
-            const sales = order.orderPrice; // Access orderPrice directly
+            const sales = order.orderAmount; // Access orderAmount directly
 
             series[0].data[month] = (series[0].data[month] || 0) + sales; // Total Sales
             if (order.channel === 'online store') {

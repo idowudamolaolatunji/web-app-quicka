@@ -84,13 +84,13 @@ const columns = [
     },
     {
         name: 'Amount', selector: row => (
-            <span className='value'>₦{formatNumber(row?.orderPrice)}</span>
+            <span className='value'>₦{formatNumber(row?.orderAmount)}</span>
         ),
         width: '100px'
     },
     {
         name: 'Payment', selector: row => (
-            <span className={`status status--${( row.paymentStatus != "unpaid" ? "success" : "pending" )}`}>
+            <span className={`status status--${( row?.paymentStatus != "unpaid" ? "success" : "pending" )}`}>
                 <p>{row.paymentStatus}</p>
             </span>
         ),

@@ -36,9 +36,9 @@ function index() {
     const { showInsights, activeDisplayTab, handleDisplayTab } = useDataContext();
     const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
 
-    const productsSold = 0;
-    const outOfStock = products?.filter(product => product.trackInventory && product.stockAmount <= 1);
-    const totalInventoryWorth = products?.reduce((acc, product) => acc + product.price, 0);
+    const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
+    const outOfStock = products?.filter(product => product?.isSoldout || product?.stockAmount <= 1);
+    const totalInventoryWorth = products?.reduce((acc, product) => acc + product?.price, 0);
 
     const columns = [
         { 
@@ -129,7 +129,10 @@ function index() {
         document.title = "Quicka | Orders";
         window.scrollTo(0, 0);
 
-        if(products?.length < 1 && error?.product) handleFetchUserStoreProducts();
+        if(products?.length < 1 && error?.product) {
+            handleFetchUserStoreProducts();
+            handleFetchUserStoreCollections();
+        }
     }, []);
 
 

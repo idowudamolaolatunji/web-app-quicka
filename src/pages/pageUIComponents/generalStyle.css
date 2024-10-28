@@ -395,6 +395,11 @@
 	.product__grid {
 		grid-template-columns: repeat(4, 1fr);
 	}
+
+	.page__section--insights.insight--grid {
+		width: 100% !important;
+	}
+
 }
 
 @media screen and (max-width: 780px) {

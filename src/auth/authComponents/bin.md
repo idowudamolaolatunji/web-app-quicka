@@ -304,5 +304,83 @@ export default index
 
 
 
-     // const totalSales = allSales.map((sale) => sale.products.reduce((sum, product) => sum + product.price, 0)).reduce((acc, sale) => acc + sale, 0);
-    // const totalOfflineSales = offlineSales.map((sale) => sale.products.reduce((sum, product) => sum + product.price, 0)).reduce((acc, sale) => acc + sale, 0);
+// const totalSales = allSales.map((sale) => sale.products.reduce((sum, product) => sum + product.price, 0)).reduce((acc, sale) => acc + sale, 0);
+// const totalOfflineSales = offlineSales.map((sale) => sale.products.reduce((sum, product) => sum + product.price, 0)).reduce((acc, sale) => acc + sale, 0);
+
+
+<!--  -->
+
+body:has(.dashboard--base) {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.dashboard--header {
+    display: grid;
+    grid-template-columns: 24rem 1fr;
+    height: 7rem;
+    position: relative;
+    z-index: 80;
+}   
+
+.dashboard--base {
+    transition: all .3s ease;
+    display: grid;
+    grid-template-columns: 24rem 1fr;
+}
+.dashboard--base.collapsed {
+    grid-template-columns: 6rem 1fr;
+}
+
+
+.dashboard--menu {
+    height: 90vh;
+    padding: 2.5rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    border-right: 1.2px solid var(--border-color);
+    overflow-y: auto;
+    scrollbar-width: none;
+    transition: all .3s ease;
+}
+
+.content--block {
+    padding: 3.6rem 2.4rem 2.4rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 90vh;
+}
+
+
+
+==============900
+
+body:has(.dashboard--base) {
+    overflow-x: hidden;
+    overflow-y: unset;
+    height: auto;
+} 
+.content--block {
+    padding: 10rem 2rem .6rem;
+    height: fit-content;
+    overflow-y: unset;
+    margin-left: unset;
+}
+
+
+
+.dashboard--header {
+    grid-template-columns: 18rem 1fr;
+    border-bottom: 1.3px solid var(--border-color);
+    height: auto;
+    padding: 1.4rem 1.6rem;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    z-index: 99;
+}
+
