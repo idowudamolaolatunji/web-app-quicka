@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageUI from '../pageUIComponents/PageUI'
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
@@ -19,7 +19,17 @@ const emptyBtns = [
 
 function index() {
     const { width } = useWindowSize();
-    const { loader, error, deliveryRates, handleFetchUserStoreDeliveryRates } = useFetchedContext();
+    const { loader, error, deliveryRates, handleDeleteOneItem, handleFetchUserStoreDeliveryRates } = useFetchedContext();
+
+    ////////////////////////////////////////////////////////
+    const [deleteLoader, setDeleteLoader] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShowModal = function(id) {
+        setShowModal(true);
+        setSelectedId(id);
+    }
 
     const columns = [
         {
@@ -52,10 +62,10 @@ function index() {
             ),
         },
         {
-            selector: () => (
+            selector: row => (
                 <span className='table--actions'>
                     <button className='table--btn'><RiEdit2Line /></button>
-                    <button className='table--btn'><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowModal(row._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
         },
@@ -76,10 +86,25 @@ function index() {
 
     useEffect(function() {
         document.title = "Quicka | Delivery Rates";
-        window.scrollTo(0, 0);
 
-        if(deliveryRates?.length < 1 && error?.delivery) handleFetchUserStoreDeliveryRates()
+        if(deliveryRates?.length < 1 && error?.delivery) {
+            handleFetchUserStoreDeliveryRates();
+        }
     }, []);
+    
+
+    async function deleteItem() {
+        try {
+            setDeleteLoader(true)
+            await handleDeleteOneItem("delivery-rates", selectedId);
+            handleFetchUserStoreDeliveryRates();
+            setShowModal(false)
+        } catch(err) {
+            console.log(err);
+        } finally {
+            setDeleteLoader(false);
+        }
+    }
 
     return (
         <PageUI
@@ -98,6 +123,14 @@ function index() {
             goto={false}
             insights={false}
             headTabs={<HeadTabs />}
+
+            deleteObj={{ 
+                fn: deleteItem,
+                title: "delivery rate",
+                close: setShowModal,
+                open: showModal,
+                loader: deleteLoader
+            }}
         />
     )
 }

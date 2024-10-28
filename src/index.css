@@ -174,10 +174,13 @@ textarea::placeholder {
     100% { transform: translateX(0rem); }
 }
 
+.modal.delete,
 .modal.export {
 	min-height: 28rem;
 	width: 60rem;
 }
+
+.modal.delete,
 .modal.simple,
 .modal.export {
 	border-radius: 0.6rem;
@@ -294,6 +297,69 @@ textarea::placeholder {
 	background-color: var(--color-brand-500);
 }
 
+.modal.delete {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	align-items: center;
+	width: 45rem;
+	padding: 3rem 2rem;
+	text-align: center;
+}
+.delete--icon {
+	width: 6rem;
+	height: 6rem;
+	background-color: #ff9797b7;
+	color: red;
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.delete--icon svg {
+	font-size: 4rem;
+}
+.delete--title {
+	font-size: 2.4rem;
+	font-weight: 600;
+	margin: 1rem 0;
+}
+.delete--text {
+	font-size: 1.6rem;
+	line-height: 1.4;
+}
+.delete--actions {
+	display: flex;
+	flex-direction: column;
+	align-self: stretch;
+	gap: 1.4rem;
+	margin-top: .4rem;
+}
+.delete--actions .btn {
+	padding: 1rem 1.4rem;
+	font-size: 1.6rem;
+	font-weight: 500;
+	border: none;
+	border-radius: .4rem;
+	cursor: pointer;
+	transition: opacity .3s;
+}
+.delete--btn {
+	background-color: red;
+	color: #fff;
+}
+.cancel--btn {
+	box-shadow: inset 0 0 0 .14rem #ccc;
+	background-color: transparent;
+}
+.delete--actions .btn:hover {
+	opacity: .7;
+}
+
+
+
 .spinner--container {
 	width: 100%;
 	height: 100vh;
@@ -336,10 +402,11 @@ textarea::placeholder {
 	padding: 0.6rem;
 	border-radius: 0.6rem;
 	font-weight: 500;
-	/* font-size: 1.3rem; */
+	font-size: 1.32rem;
 	text-transform: capitalize;
 }
 
+.status--inactive p,
 .status--failed p {
 	background-color: #ff9797b7;
 	color: red;

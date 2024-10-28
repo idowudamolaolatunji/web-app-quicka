@@ -31,7 +31,7 @@ function RecordOrder() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { token } = useAuthContext();
-    const { products, customers, handleFetchUserStoreOrders } = useFetchedContext();
+    const { products, customers, handleFetchUserStoreOrders, handleFetchUserStoreProducts } = useFetchedContext();
 
     const publishedProducts = products?.filter(product => product.status == "published");
 
@@ -98,10 +98,6 @@ function RecordOrder() {
 
 
     useEffect(function () {
-        window.scrollTo(0, 0);
-    }, []);
-
-    useEffect(function () {
         if (orderData.paymentStatus == "unpaid") {
             setPaymentMethod([]);
         }
@@ -125,6 +121,7 @@ function RecordOrder() {
             orderProducts,
             paymentMethod,
             deliveryStatus,
+            productQuantities,
         }
 
         const newErrors = validateOrderForm(formData);
@@ -173,7 +170,8 @@ function RecordOrder() {
             handleClearFields();
 
             setTimeout(() => navigate(-1), 3000);
-            handleFetchUserStoreOrders()
+            handleFetchUserStoreOrders();
+            handleFetchUserStoreProducts()
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

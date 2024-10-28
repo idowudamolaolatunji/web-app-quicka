@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom';
 import ConfettiUI from '../../components/ConfettiUI';
 import CustomAlert from '../../components/CustomAlert';
@@ -11,6 +11,10 @@ import { useWindowSize } from 'react-use';
 
 function AddPageUI({ PageTitle, pageIcon, justify=false, close, isnew, ismodal, mainLoader, response, handleClear, handleSubmit, confetti, children }) {
     const { width } = useWindowSize();
+
+    useEffect(function() {
+        window.scrollTo(0, 0)
+    }, [])
 
     return (
         <>

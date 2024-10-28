@@ -36,7 +36,8 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
                 minHeight: width < 450 ? "8.5rem" : (name == "product" ? "8.5rem" : "7.5rem"),
                 cursor: 'pointer',
                 fontSize: "1.32rem",
-                color: "#444"
+                fontWeight: 500,
+                color: "#444444"
             },
         },
         headCells: {

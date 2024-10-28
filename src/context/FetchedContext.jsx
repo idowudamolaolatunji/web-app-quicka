@@ -85,7 +85,6 @@ export const FetchedProvider = ({ children }) => {
 
             const res = await fetch(`${BASE_API_URL}/collections/mine/collections`, { method: "GET", headers })
             const data = await res.json();
-            if(!res.ok) throw new Error();
             if(data.status == "fail") throw new Error();
             if (data?.data) setCollections(data?.data?.collections);
         } catch(err) {
@@ -105,7 +104,6 @@ export const FetchedProvider = ({ children }) => {
 
             const res = await fetch(`${BASE_API_URL}/products/mine/products`, { method: "GET", headers });
             const data = await res.json();
-            if(!res.ok) throw new Error();
             if(data.status == "fail") throw new Error();
             if (data?.data) setProducts(data?.data?.products);
         } catch (err) {
@@ -125,7 +123,6 @@ export const FetchedProvider = ({ children }) => {
 
             const res = await fetch(`${BASE_API_URL}/orders/mine/orders`, { method: "GET", headers });
             const data = await res.json();
-            if(!res.ok) throw new Error();
             if(data.status == "fail") throw new Error();
             if (data?.data) setOrders(data?.data?.orders);
         } catch (err) {
@@ -146,7 +143,6 @@ export const FetchedProvider = ({ children }) => {
 
             const res = await fetch(`${BASE_API_URL}/customers/mine/customers`, { method: "GET", headers });
             const data = await res.json();
-            if(!res.ok) throw new Error();
             if(data.status == "fail") throw new Error();
             if (data?.data) setCustomers(data?.data?.customers);
         } catch (err) {
@@ -166,7 +162,6 @@ export const FetchedProvider = ({ children }) => {
 
             const res = await fetch(`${BASE_API_URL}/delivery-rates/mine/delivery-rates`, { method: "GET", headers });
             const data = await res.json();
-            if(!res.ok) throw new Error();
             if(data.status == "fail") throw new Error();
             if (data?.data) setDeliveryRates(data?.data?.rates);
         } catch (err) {
@@ -186,7 +181,6 @@ export const FetchedProvider = ({ children }) => {
 
             const res = await fetch(`${BASE_API_URL}/transactions/mine/transactions`, { method: "GET", headers });
             const data = await res.json();
-            if(!res.ok) throw new Error();
             if(data.status == "fail") throw new Error();
             if (data?.data) setTransactions(data?.data?.transactions);
         } catch (err) {
@@ -194,6 +188,11 @@ export const FetchedProvider = ({ children }) => {
         } finally {
             setTransactionLoader(false);
         }
+    }
+
+    
+    async function handleDeleteOneItem(title, id) {
+        await fetch(`${BASE_API_URL}/${title}/${id}`, { method: "DELETE", headers });
     }
 
 
@@ -258,11 +257,15 @@ export const FetchedProvider = ({ children }) => {
         handleFetchUserStoreCollection,
         handleFetchUserStoreTransactions,
         handleFetchUserStoreDeliveryRates,
-
+        //////////////////////////////////
         
         storeCategories,
         handleImageUpload,
-        handleFetchStoreCategories
+        handleFetchStoreCategories,
+        ///////////////////////////
+
+
+        handleDeleteOneItem,
     }
 
 

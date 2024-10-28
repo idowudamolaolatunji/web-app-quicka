@@ -34,11 +34,21 @@ const emptyBtns = [
 function index() {
     const { width } = useWindowSize();
     const { showInsights, activeDisplayTab, handleDisplayTab } = useDataContext();
-    const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
+    const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleDeleteOneItem } = useFetchedContext();
 
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
     const outOfStock = products?.filter(product => product?.isSoldout || product?.stockAmount <= 1);
     const totalInventoryWorth = products?.reduce((acc, product) => acc + product?.price, 0);
+
+    ////////////////////////////////////////////////////////
+    const [deleteLoader, setDeleteLoader] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShowModal = function(id) {
+        setShowModal(true);
+        setSelectedId(id);
+    }
 
     const columns = [
         { 
@@ -65,11 +75,19 @@ function index() {
         { 
             name: 'Inventory',
             selector: row => (
-                <span className="flex table--info" style={{ gap: ".4rem", alignItems: "center" }}>
-                    <p className='value'>{row?.stockAmount} <span>Stocks</span></p>
-                    <span>/</span>
-                    <p className='value'>{row?.variations.length} <span>Variations</span></p>
-                </span>
+                <>
+                    {row?.trackInventory ? (
+                        <span className="flex table--info" style={{ gap: ".4rem", alignItems: "center" }}>
+                            <p className='value'>{row?.stockAmount} <span>Stocks</span></p>
+                            <span>/</span>
+                            <p className='value'>{row?.variations.length} <span>Variations</span></p>
+                        </span>
+                    ) : (
+                        <span className="flex table--info">
+                            Inventory not tracked
+                        </span>
+                    )}
+                </>
             ),
             width: width > 600 ? "18%" : ""
         },
@@ -82,10 +100,10 @@ function index() {
             ),
         },
         { 
-            selector: () => (
+            selector: row => (
                 <span className='table--actions'>
                     <button className='table--btn'><RiEdit2Line /></button>
-                    <button className='table--btn'><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
         },
@@ -127,13 +145,26 @@ function index() {
 
     useEffect(function() {
         document.title = "Quicka | Orders";
-        window.scrollTo(0, 0);
 
         if(products?.length < 1 && error?.product) {
             handleFetchUserStoreProducts();
             handleFetchUserStoreCollections();
         }
     }, []);
+
+
+    async function deleteItem() {
+        try {
+            setDeleteLoader(true)
+            await handleDeleteOneItem("products", selectedId);
+            handleFetchUserStoreProducts();
+            setShowModal(false)
+        } catch(err) {
+            console.log(err);
+        } finally {
+            setDeleteLoader(false);
+        }
+    }
 
 
     return (
@@ -152,6 +183,14 @@ function index() {
             headTabs={<HeadTabs />}
             loader={loader} error={error}
             activeDisplayTab={activeDisplayTab}
+
+            deleteObj={{ 
+                fn: deleteItem,
+                title: "product",
+                close: setShowModal,
+                open: showModal ,
+                loader: deleteLoader
+            }}
         >
 
             {showInsights?.product && (

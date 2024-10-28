@@ -7,7 +7,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem }) {
-    const inStock = product?.stockAmount > quantity;
+    const inStock = product?.stockAmount >= quantity;
     const [loader, setLoader] = useState(true);
 
     useEffect(function() {

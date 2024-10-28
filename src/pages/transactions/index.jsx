@@ -115,7 +115,6 @@ function index() {
 
     useEffect(function() {
         document.title = "Quicka | All Transactions";
-        window.scrollTo(0, 0);
 
         if(transactions?.length < 1 && error?.transaction) {
             handleFetchUserStoreTransactions();

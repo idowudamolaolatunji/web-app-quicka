@@ -134,9 +134,19 @@ export function validateOrderForm(data, _) {
 	if (!data.orderDate.trim()) {
 		errors.orderDate = "Order date is required";
 	}
+	
 	if (data.orderProducts.length < 1) {
 		errors.orderProducts = "Product(s) ordered is required";
+	} else {
+		data?.orderProducts.forEach((product, i) => {
+			if(product?.stockAmount < 1) {
+				errors.orderProducts = `Item ${i+1} is out of stock`;
+			} else if(product?.stockAmount < data?.productQuantities[i]?.quantity) {
+				errors.orderProducts = `Cannot sell more the stock amount for item ${i+1}`;
+			}
+		})
 	}
+
 	if (data.paymentStatus != "unpaid" && data.paymentMethod.length < 1 && !data.paymentMethod.value) {
 		errors.paymentMethod = "Payment method is required";
 	}

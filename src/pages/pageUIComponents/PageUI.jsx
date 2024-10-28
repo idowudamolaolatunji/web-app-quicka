@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
@@ -10,9 +10,12 @@ import ExportCSV from '../../components/modal/ExportCSV';
 import CustomAlert from '../../components/CustomAlert';
 import TableUI from './TableUI';
 import './generalStyle.css';
+import Delete from '../../components/modal/Delete';
+import Spinner from '../../components/spinner/spinner_two';
 
 
-function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, emptyClassName, headTabs, error, loader, activeDisplayTab = null, insights = true, children }) {
+
+function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, emptyClassName, headTabs, error, loader, activeDisplayTab = null, insights = true, children, deleteObj }) {
 
     const navigate = useNavigate();
     const { width } = useWindowSize();
@@ -36,8 +39,19 @@ function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, 
         }
     }
 
+    useEffect(function() {
+        window.scrollTo(0, 0);
+    }, [])
+
+
     return (
         <>
+            {/* THIS IS A REUSABLE DELETE IMPLEMENTATION */}
+            {deleteObj?.loader && <Spinner />}
+            {deleteObj?.open && <Delete {...deleteObj} />}
+            {console.log(deleteObj.loader)}
+            {/* ======================================== */}
+
             {(response.message || response.status) && (
                 <CustomAlert type={response.status} message={response.message} />
             )}

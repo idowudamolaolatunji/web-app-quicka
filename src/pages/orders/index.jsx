@@ -26,13 +26,13 @@ const emptyBtns = [
 function index() {
     const { width } = useWindowSize();
     const { showInsights, } = useDataContext();
-    const { loader, error, orders, handleFetchUserStoreOrders } = useFetchedContext()
+    const { loader, error, orders, handleFetchUserStoreOrders, handleDeleteOneItem } = useFetchedContext()
+    
     const [tableSearch, setTableSearch] = useState('');
-
     const completedOrders = orders?.filter(order => order.orderStatus == "completed");
     const unCompletedOrders = orders?.filter(order => order.orderStatus != "completed");
     const newOrders = orders?.filter(order => order.channel == "online store" && order.orderStatus != "completed" && isWithinLast7Days(order.orderDate));
-
+    
 
     const columns = [
         {
@@ -131,9 +131,10 @@ function index() {
 
     useEffect(function () {
         document.title = "Quicka | Orders";
-        window.scrollTo(0, 0);
 
-        if (orders?.length < 1 && error.order) handleFetchUserStoreOrders();
+        if (orders?.length < 1 && error.order) {
+            handleFetchUserStoreOrders();
+        }
     }, []);
 
 

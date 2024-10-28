@@ -8,6 +8,8 @@ import moment from 'moment'
 
 function ProgressGrid() {
     const { orders } = useFetchedContext();
+    const noData = !orders || orders?.length < 1;
+    const noSettle = true;
 
     // FILTERED HERE TO GET ALL COMPLETED SALES AND ALL COMPLETED OFFLINE SALES
     const allSales = orders?.filter(order => order.orderStatus == 'completed');
@@ -33,12 +35,13 @@ function ProgressGrid() {
 
     const allSalesPercent = compareSalesByPercentage(allSales);
     const offlineSalesPercent = compareSalesByPercentage(offlineSales);
+    const settlementPercent = 0
 
     return (
         <div className='prog--grid'>
-            <HomeProgressCard title='Total Sales' icon={<MdAddChart />} value={totalSales} percent={allSalesPercent} upTrend={allSalesPercent > 0} days={1} />
-            <HomeProgressCard title='Total Settlements' icon={<GiPayMoney />} value={totalSettlements} percent={0} upTrend={true} days={1} />
-            <HomeProgressCard title='Offline Sales' icon={<LuArchiveRestore />} value={totalOfflineSales} percent={offlineSalesPercent} upTrend={offlineSalesPercent > 0} days={1} />
+            <HomeProgressCard title='Total Sales' icon={<MdAddChart />} value={totalSales} percent={allSalesPercent} upTrend={noData || allSalesPercent > 0} days={1} />
+            <HomeProgressCard title='Total Settlements' icon={<GiPayMoney />} value={totalSettlements} percent={settlementPercent} upTrend={noSettle || settlementPercent > 0} days={1} />
+            <HomeProgressCard title='Offline Sales' icon={<LuArchiveRestore />} value={totalOfflineSales} percent={offlineSalesPercent} upTrend={noData || offlineSalesPercent > 0} days={1} />
         </div>
     )
 }

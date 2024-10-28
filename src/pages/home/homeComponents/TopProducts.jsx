@@ -13,23 +13,27 @@ const datePeriods = [
     { value: 'this-month', title: 'This Month' },
 ]
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 function ProductFigure({ product }) {
     const { width } = useWindowSize();
-    const percentageSold = ((product?.soldAmount / product?.stockAmount) * 100).toFixed(0)
+    const { soldAmount, stockAmount, images, name } = product;
+    const totalStock = (soldAmount + stockAmount);
+
+    const percentageSold = ((soldAmount / totalStock) * 100).toFixed(0)
 
     return (
         <figure className='top-product--figure'>
-            <img className='top-product--img' src={img_item} alt="" />
+            <img className='top-product--img' src={`${BASE_URL}${images[0]}`} alt="" />
             <figcaption className='top-product--details'>
                 <div className='top-product--info'>
                     <p className='product--info-text'>
-                        {truncateString(product?.name, width < 800 ? 
+                        {truncateString(name, width < 800 ? 
                         (width < 500 ? (width < 450 ? 20 : 28) : 40) : 15 )}
                     </p>
                     <span className='product--info-value'>
-                        <TooltipUI placement='top' title={`Sold ${product?.soldAmount} out of ${product?.stockAmount}`}>
-                            <span className='value'>{product?.soldAmount}/{product?.stockAmount}</span> 
+                        <TooltipUI placement='top' title={`Sold ${soldAmount} out of ${totalStock}`}>
+                            <span className='value'>{soldAmount}/{totalStock}</span> 
                         </TooltipUI>
                         <span><p className='value'>{percentageSold}</p>%</span>
                     </span>

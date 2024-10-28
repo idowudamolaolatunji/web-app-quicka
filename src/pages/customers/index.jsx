@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageUI from '../pageUIComponents/PageUI'
 import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
@@ -24,7 +24,17 @@ const emptyBtns = [
 function index() {
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
-    const { loader, error, customers, handleFetchUserStoreCustomers } = useFetchedContext();
+    const { loader, error, customers, handleDeleteOneItem, handleFetchUserStoreCustomers } = useFetchedContext();
+
+    ////////////////////////////////////////////////////////
+    const [deleteLoader, setDeleteLoader] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShowModal = function(id) {
+        setShowModal(true);
+        setSelectedId(id);
+    }
 
     const columns = [
         {
@@ -60,10 +70,10 @@ function index() {
             )
         },
         {
-            selector: () => (
+            selector: row => (
                 <span className='table--actions'>
                     <button className='table--btn'><RiEdit2Line /></button>
-                    <button className='table--btn'><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowModal(row._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
         }
@@ -96,12 +106,25 @@ function index() {
 
     useEffect(function () {
         document.title = "Quicka | Customers";
-        window.scrollTo(0, 0);
 
         if (customers?.length < 1 && error?.customer) {
             handleFetchUserStoreCustomers();
         }
     }, []);
+
+
+    async function deleteItem() {
+        try {
+            setDeleteLoader(true)
+            await handleDeleteOneItem("customers", selectedId);
+            handleFetchUserStoreCustomers();
+            setShowModal(false)
+        } catch(err) {
+            console.log(err);
+        } finally {
+            setDeleteLoader(false);
+        }
+    }
 
 
     return (
@@ -119,6 +142,14 @@ function index() {
             emptyClassName="empty--product"
             headTabs={<HeadTabs />}
             loader={loader} error={error}
+
+            deleteObj={{ 
+                fn: deleteItem,
+                title: "customer",
+                close: setShowModal,
+                open: showModal,
+                loader: deleteLoader
+            }}
         >
 
             {showInsights?.customer && (
