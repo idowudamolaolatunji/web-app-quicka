@@ -8,6 +8,7 @@ import Spinner from "../../../components/spinner/simple";
 import { createPortal } from 'react-dom';
 import CustomAlert from '../../../components/CustomAlert';
 import { useAuthContext } from '../../../context/AuthContext';
+import ImageUploadUI from '../../../components/ImageUploadUI';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -108,20 +109,7 @@ function CollectionFormSm({ close }) {
                 <div className="form--item">
                     <label className="form--label">Collection Image (optional)</label>
 
-                    <span className={`form--img-box ${imagePreview ? "img--preview" : ""} `}>
-                        <input type='file' id='form-image' name='image' accept="image/*" onChange={handleImageChange} />
-                        <label htmlFor='form-image'>
-                            {imagePreview ? (
-                                <img src={imagePreview} alt='Preview' className='img' />
-                            ) : (
-                                <>
-                                    <IoCloudDownloadOutline style={{ color: '#ff7a49' }} />
-                                    <h3>Click to upload image</h3>
-                                    <p>Recommend format (png, jpeg, jpg)</p>
-                                </>
-                            )}
-                        </label>
-                    </span>
+                    <ImageUploadUI preview={imagePreview} handleChange={handleImageChange} />
                 </div>
 
                 <div className="form--item">

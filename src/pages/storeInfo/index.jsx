@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+
+import "./style.css";
 
 function index() {
   return (
@@ -7,10 +9,6 @@ function index() {
       <h2 className="page__section--title">Store Information</h2>
     </div>
 
-
-    <div className='page__section--heading'>
-      <h2 className="page__section--title">Payment Details</h2>
-    </div>
 
     </>
   )

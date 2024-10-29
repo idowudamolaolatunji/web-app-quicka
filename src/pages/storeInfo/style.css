@@ -1,0 +1,43 @@
+
+
+.custom--head {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+
+.custom--img {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    background-color: #eee;
+}
+.custom--img img {
+    width: 12rem;
+}
+
+.custom--item {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr;
+    gap: 8rem;
+}
+
+
+
+@media screen and (max-width: 900px) {
+    .custom--item {
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+    }
+
+}
+
+
+
+@media screen and (max-width: 500px) {
+    .custom--item {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
