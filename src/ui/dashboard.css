@@ -26,6 +26,9 @@
 /* ========================================== */
 
 
+body:has(.dashboard--base) {
+    overflow-x: hidden;
+}
 
 
 /* ========================================== */
@@ -36,7 +39,7 @@
     grid-template-columns: 24rem 1fr;
     height: 7rem;
     background-color: #fff;
-    z-index: 20;
+    z-index: 2;
     position: fixed;
     top: 0;
     left: 0;
@@ -280,7 +283,7 @@ span.item--user-img {
 /* ========================================== */
 .dashboard--base {
     transition: all .3s ease;
-    margin-top: 7rem;
+    padding-top: 7rem;
 }
 
 .dashboard--menu {
@@ -546,15 +549,12 @@ button.menu--button {
         margin-left: unset;
         width: 100%;
     }
-
     .dashboard--header {
         grid-template-columns: 18rem 1fr;
         border-bottom: 1.3px solid var(--border-color);
         padding: 1.4rem 1.6rem;
         justify-content: space-between;
-
         background-color: #fff;
-        z-index: 99;
     }
     .logo--container {
         border: none;
@@ -624,8 +624,8 @@ button.menu--button {
         font-size: 2.2rem;
     }
     .content--block {
-        padding-left:2rem;
-        padding-right:2rem;
+        padding-left: 1.8rem;
+        padding-right: 1.8rem;
     }
 }
 

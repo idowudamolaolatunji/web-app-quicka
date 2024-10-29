@@ -37,11 +37,9 @@ function index() {
         storeUrl: "",
         isRegistered: "no",
         regType: "",
-        
-
     });
+    
     const [selectedCategory, setSelectedCategory] = useState([]);
-
 
     const [onboardTabNum, setOnboardTabNum] = useState(localStorage.getItem("tab_num") ? JSON.parse(localStorage.getItem("tab_num")) : 1);
     const [image, setImage] = useState({
@@ -190,8 +188,7 @@ function index() {
 
         setIsLoading(true);
         try {
-            const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/users/onboarding-store/${userId}`
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/users/onboarding-store/${userId}`
             , {
                 method: 'PATCH',
                 headers: { "Content-type": "application/json" },

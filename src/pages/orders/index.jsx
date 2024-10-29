@@ -8,10 +8,11 @@ import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import PageUI from '../pageUIComponents/PageUI';
 import TooltipUI from '../../components/TooltipUI';
-import emptyImg from '../../assets/images/illustrations/sales.png';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { imgString } from '../../assets/images';
 import { GoDotFill } from 'react-icons/go';
+import emptyImg from '../../assets/images/illustrations/sales.png';
+// import emptyImg from '../../assets/images/illustrations/trials.png';
 
 
 //////////////////////////////////////////////////////

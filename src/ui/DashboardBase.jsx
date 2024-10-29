@@ -10,7 +10,7 @@ import './dashboard.css';
 
 function DashboardBase({ children }) {
     const { width } = useWindowSize();
-    const { user, store } = useAuthContext() ;
+    const { user } = useAuthContext() ;
     const { isMenuCollapsed } = useDataContext();
 
     useEffect(function() {

@@ -166,7 +166,8 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         const lastVariant = variations[variations.length - 1];
 
         if (lastVariant && (lastVariant.type === "" || lastVariant.value === "")) {
-            return setTimeout(() => setResponse({ status: "error", message: `Variant ${lastVariant?.type == "" ? "type" : "value"} left empty` }), 2000);
+            setResponse({ status: "error", message: `Variant ${lastVariant?.type == "" ? "type" : "value"} left empty` })
+            return setTimeout(() => setResponse({ message: "", status: "" }), 5000);
         }
         
         setVariations([...variations, { type: "", value: "", quantity: "" }]);
@@ -239,14 +240,14 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             if (status !== 'success') throw new Error(message);
 
             // SET RESPONSE MESSAGE
-            if (width < 600) window.scrollY = 0;
             setResponse({ status: "success", message });
-            setShowConfetti(true)
+            ismodal || setShowConfetti(true);
 
             // UPLOAD PRODUCT IMAGES
             const url = `products/upload-image/${product._id}`
             await handleImageUpload(imageFiles, url);
 
+            // SCROLL AND CLEAR
             window.scrollTo(0, 0);
             handleClearFields();
 
@@ -260,7 +261,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             setTimeout(function () {
                 if (isnew || ismodal) close();
                 else navigate(-1)
-            }, 2500);
+            }, isnew ? 5000 : 3000);
             handleFetchUserStoreProducts()
 
         } catch (err) {
@@ -297,316 +298,315 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                 confetti={showConfetti}
             >
 
+                <form className="product__upload--container" onSubmit={e => e.preventDefault()}>
+                    <div className='left--container containers'>
+                        <div className="card form">
+                            <div className="section--heading">
+                                <h2>Product Details</h2>
+                                {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+                            </div>
 
-            <form className="product__upload--container" onSubmit={e => e.preventDefault()}>
-                <div className='left--container containers'>
-                    <div className="card form">
-                        <div className="section--heading">
-                            <h2>Product Details</h2>
-                            {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
-                        </div>
+                            <div className="form--item">
+                                <label htmlFor="name" className="form--label">Title <Asterisk /></label>
+                                <input type="text" name="name" id="name" value={productData.name} onChange={handleProductDataChange} className="form--input" placeholder='White Flat Shoe - Big Size 39, 42' />
+                                <span className="form--error-message">
+                                    {productFormErrors.name && productFormErrors.name}
+                                </span>
+                            </div>
 
-                        <div className="form--item">
-                            <label htmlFor="name" className="form--label">Title <Asterisk /></label>
-                            <input type="text" name="name" id="name" value={productData.name} onChange={handleProductDataChange} className="form--input" placeholder='White Flat Shoe - Big Size 39, 42' />
-                            <span className="form--error-message">
-                                {productFormErrors.name && productFormErrors.name}
-                            </span>
-                        </div>
+                            <div className="form--item">
+                                <label className="form--label">Product Images (Min 1 & Max 4) <Asterisk /></label>
 
-                        <div className="form--item">
-                            <label className="form--label">Product Images (Min 1 & Max 4) <Asterisk /></label>
+                                <ReactImageUploading
+                                    multiple
+                                    value={images}
+                                    maxNumber={maxNumber}
+                                    dataURLKey="data_url"
+                                    acceptType={["jpg", "png", "jpeg"]}
+                                    onChange={handleOnChangeImage}
+                                >
+                                    {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps
+                                    }) => (
+                                        <div className='form--image'>
+                                            {(imageList.length > 2 && width > 600) && (
+                                                <button type='button' style={{ margin: '-3.4rem 0 .6rem auto' }} onClick={onImageRemoveAll}>Remove All Images <IoCloseOutline /></button>
+                                            )}
 
-                            <ReactImageUploading
-                                multiple
-                                value={images}
-                                maxNumber={maxNumber}
-                                dataURLKey="data_url"
-                                acceptType={["jpg", "png", "jpeg"]}
-                                onChange={handleOnChangeImage}
-                            >
-                                {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps
-                                }) => (
-                                    <div className='form--image'>
-                                        {(imageList.length > 2 && width > 600) && (
-                                            <button type='button' style={{ margin: '-3.4rem 0 .6rem auto' }} onClick={onImageRemoveAll}>Remove All Images <IoCloseOutline /></button>
-                                        )}
+                                            {imageList?.length < 1 && (
+                                                <div onClick={onImageUpload} className={`form--img-box ${isDragging ? 'dropping' : ''}`} {...dragProps}>
+                                                    {isDragging ? (
+                                                        <span className='img--container'>
+                                                            <GoStack />
+                                                            <h3>Drop It</h3>
+                                                        </span>
+                                                    ) : (
+                                                        <span className='img--container' {...dragProps}>
+                                                            <IoCloudDownloadOutline style={{ color: '#ff7a49' }} />
+                                                            <h3>Click to upload or Drag n drop Image</h3>
+                                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, cumque.</p>
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
 
-                                        {imageList?.length < 1 && (
-                                            <div onClick={onImageUpload} className={`form--img-box ${isDragging ? 'dropping' : ''}`} {...dragProps}>
-                                                {isDragging ? (
-                                                    <span className='img--container'>
-                                                        <GoStack />
-                                                        <h3>Drop It</h3>
-                                                    </span>
-                                                ) : (
-                                                    <span className='img--container' {...dragProps}>
-                                                        <IoCloudDownloadOutline style={{ color: '#ff7a49' }} />
-                                                        <h3>Click to upload or Drag n drop Image</h3>
-                                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, cumque.</p>
-                                                    </span>
-                                                )}
-                                            </div>
-                                        )}
-
-                                        {imageList.length > 0 && (
-                                            <div className='img--grid'>
-                                                {imageList?.map((image, index) => (
-                                                    <div key={index} className="img--item">
-                                                        <img src={image.data_url} />
-                                                        <div className="img--item-btns">
-                                                            <TooltipUI placement='bottom' title="Change Image">
-                                                                <button onClick={() => onImageUpdate(index)}><RxUpdate /> </button>
-                                                            </TooltipUI>
-                                                            <TooltipUI placement='bottom' title="Remove Image">
-                                                                <button onClick={() => onImageRemove(index)}><RiDeleteBin6Line /></button>
-                                                            </TooltipUI>
-                                                            <TooltipUI placement='bottom' title="Crop Image">
-                                                                {/* <button onClick={() => handleEdit(image.data_url)}><PiFrameCorners /> </button> */}
-                                                                <button><PiFrameCorners /> </button>
-                                                            </TooltipUI>
+                                            {imageList.length > 0 && (
+                                                <div className='img--grid'>
+                                                    {imageList?.map((image, index) => (
+                                                        <div key={index} className="img--item">
+                                                            <img src={image.data_url} />
+                                                            <div className="img--item-btns">
+                                                                <TooltipUI placement='bottom' title="Change Image">
+                                                                    <button onClick={() => onImageUpdate(index)}><RxUpdate /> </button>
+                                                                </TooltipUI>
+                                                                <TooltipUI placement='bottom' title="Remove Image">
+                                                                    <button onClick={() => onImageRemove(index)}><RiDeleteBin6Line /></button>
+                                                                </TooltipUI>
+                                                                <TooltipUI placement='bottom' title="Crop Image">
+                                                                    {/* <button onClick={() => handleEdit(image.data_url)}><PiFrameCorners /> </button> */}
+                                                                    <button><PiFrameCorners /> </button>
+                                                                </TooltipUI>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    ))}
 
-                                                {imageList.length < maxNumber && (
-                                                    <div onClick={onImageUpload} className={`form--img-box ${isDragging ? 'dropping' : ''}`} {...dragProps}>
-                                                        {isDragging ? (
-                                                            <span className='img--container'>
-                                                                <GoStack />
-                                                                <h3>Drop It</h3>
-                                                            </span>
-                                                        ) : (
-                                                            <span className='img--container' {...dragProps}>
-                                                                <IoCloudDownloadOutline />
-                                                                <p>Click or drop more!</p>
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
+                                                    {imageList.length < maxNumber && (
+                                                        <div onClick={onImageUpload} className={`form--img-box ${isDragging ? 'dropping' : ''}`} {...dragProps}>
+                                                            {isDragging ? (
+                                                                <span className='img--container'>
+                                                                    <GoStack />
+                                                                    <h3>Drop It</h3>
+                                                                </span>
+                                                            ) : (
+                                                                <span className='img--container' {...dragProps}>
+                                                                    <IoCloudDownloadOutline />
+                                                                    <p>Click or drop more!</p>
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
 
-                                        {(imageList.length > 2 && width < 600) && (
-                                            <button type='button' style={{ marginTop: '1rem' }} onClick={onImageRemoveAll}>Remove All Images <IoCloseOutline /></button>
-                                        )}
-                                    </div>
-                                )}
-                            </ReactImageUploading>
-                            <span className="form--error-message">
-                                {productFormErrors.images && productFormErrors.images}
-                            </span>
-                        </div>
+                                            {(imageList.length > 2 && width < 600) && (
+                                                <button type='button' style={{ marginTop: '1rem' }} onClick={onImageRemoveAll}>Remove All Images <IoCloseOutline /></button>
+                                            )}
+                                        </div>
+                                    )}
+                                </ReactImageUploading>
+                                <span className="form--error-message">
+                                    {productFormErrors.images && productFormErrors.images}
+                                </span>
+                            </div>
 
-                        <div className="form--item">
-                            <label htmlFor="short-des" className="form--label">Short Description</label>
-                            <input type="text" name="shortDescription" id="short-des" value={productData.shortDescription} onChange={handleProductDataChange} className="form--input" placeholder='Lorem ipsum dolor sit amet consectetur.' />
-                        </div>
-                        <div className="form--item">
-                            <label htmlFor="" className="form--label">Product Description <Asterisk /></label>
-                            <QuillEditor value={description} setValue={setDescription} />
-                            <span className="form--error-message">
-                                {productFormErrors.description && productFormErrors.description}
-                            </span>
-                        </div>
+                            <div className="form--item">
+                                <label htmlFor="short-des" className="form--label">Short Description</label>
+                                <input type="text" name="shortDescription" id="short-des" value={productData.shortDescription} onChange={handleProductDataChange} className="form--input" placeholder='Lorem ipsum dolor sit amet consectetur.' />
+                            </div>
+                            <div className="form--item">
+                                <label htmlFor="" className="form--label">Product Description <Asterisk /></label>
+                                <QuillEditor value={description} setValue={setDescription} />
+                                <span className="form--error-message">
+                                    {productFormErrors.description && productFormErrors.description}
+                                </span>
+                            </div>
 
-                        <div className="form--item">
-                            <label htmlFor="category" className="form--label">Collection <Asterisk /></label>
-                            <MainDropdownSelect title="Collection" options={collections} field="name" value={productCollection} setValue={setProductCollection} multiple={true} noDataLabel="No collection found!" />
-                            <span className="form--error-message">
-                                {productFormErrors.productCollection && productFormErrors.productCollection}
-                            </span>
+                            <div className="form--item">
+                                <label htmlFor="category" className="form--label">Collection <Asterisk /></label>
+                                <MainDropdownSelect title="Collection" options={collections} field="name" value={productCollection} setValue={setProductCollection} multiple={true} noDataLabel="No collection found!" />
+                                <span className="form--error-message">
+                                    {productFormErrors.productCollection && productFormErrors.productCollection}
+                                </span>
 
-                            <button className='form--add' onClick={() => handleToggleModal("collection")}>
-                                <AiOutlinePlus />
-                                <p>Create New Collection</p>
-                            </button>
+                                <button className='form--add' onClick={() => handleToggleModal("collection")}>
+                                    <AiOutlinePlus />
+                                    <p>Create New Collection</p>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                {width < 400 && <Line border={1.4} />}
-
-                <div className='right--container containers'>
-                    <div className="card form">
-                        <div className="section--heading">
-                            <h2>Pricings & Inventory</h2>
-                            {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
-                        </div>
-
-
-                        <div className="form--grid">
-                            <div className="form--item">
-                                <label htmlFor="" className="form--label">Price per item <Asterisk /></label>
-                                <CurrencyInput
-                                    id="price"
-                                    name="price"
-                                    className="form--input"
-                                    placeholder="₦15,000"
-                                    prefix={currency}
-                                    decimalsLimit={2}
-                                    value={productData.price}
-                                    onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
-                                />
-                                <span className="form--error-message">
-                                    {productFormErrors.price && productFormErrors.price}
-                                </span>
-                            </div>
-
-                            <div className="form--item">
-                                <label htmlFor="cost-price" className="form--label">Cost per item (optional)</label>
-                                <CurrencyInput
-                                    id="cost-price"
-                                    name="itemCost"
-                                    className="form--input"
-                                    placeholder="₦10,000"
-                                    prefix={currency}
-                                    decimalsLimit={2}
-                                    value={productData.itemCost}
-                                    onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
-                                />
-                                <span className="form--error-message">
-                                    {productFormErrors.itemCost && productFormErrors.itemCost}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div className="form--item">
-                            <label htmlFor="discount-price" className="form--label">Discount Type (optional)</label>
-                            <div className="form--clicks" style={width < 500 ? { gridTemplateColumns: "repeat(2, 1fr)" } : {}}>
-                                <div className={`form--click ${productData.discountType == "no-discount" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "no-discount" })}
-                                >No Discount<span></span>
-                                </div>
-                                <div className={`form--click ${productData.discountType == "percentage" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "percentage" })}
-                                >Percentage {width < 750 && "%"}<span></span>
-                                </div>
-                                <div className={`form--click ${productData.discountType == "fixed-price" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "fixed-price" })}
-                                >Fixed Price {width < 750 && "₦"}<span></span>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        {(productData.discountType !== "no-discount") && (
-                            <div className="form--item">
-                                <label htmlFor="discount-price" className="form--label">Discount Price <Asterisk /></label>
-                                <CurrencyInput
-                                    id="discount-price"
-                                    name="discount"
-                                    className="form--input"
-                                    placeholder={productData.discountType == "fixed-price" ? "₦7,000" : "20%"}
-                                    value={productData.discount}
-                                    {...(productData.discountType == "fixed-price") ? { prefix: currency } : { suffix: "%" }}
-                                    decimalsLimit={productData.discountType == "fixed-price" ? 2 : 0}
-                                    onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
-                                />
-                                <span className="form--error-message">
-                                    {productFormErrors.discount && productFormErrors.discount}
-                                </span>
-                            </div>
-                        )}
-
-                        <div className="form--grid">
-                            <div className="form--item-flex" onClick={() => setChecks({ ...checks, isPhysical: !checks.isPhysical })}>
-                                <div id="checkbox" className={checks.isPhysical ? 'is-selected' : ''}>
-                                    {checks.isPhysical && <FaCheck />}
-                                </div>
-                                <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>This is a physical product</label>
-                            </div>
-                            <div className="form--item-flex" onClick={() => setChecks({ ...checks, trackInventory: !checks.trackInventory })}>
-                                <div id="checkbox" className={checks.trackInventory ? 'is-selected' : ''}>
-                                    {checks.trackInventory && <FaCheck />}
-                                </div>
-                                <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Track My Inventory</label>
-                            </div>
-                        </div>
-
-                        <div className="form--item">
-                            <label htmlFor="quantity" className="form--label">Stock Quantity {checks.trackInventory ? <Asterisk /> : "(optional)"}</label>
-                            <CurrencyInput
-                                id="quantity"
-                                name="stockAmount"
-                                className="form--input"
-                                placeholder="Quantity"
-                                prefix="Qty. "
-                                decimalsLimit={0}
-                                value={productData.stockAmount}
-                                onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
-                            />
-                            <span className="form--error-message">
-                                {productFormErrors.stockAmount && productFormErrors.stockAmount}
-                            </span>
-                        </div>
-
-                        <div className="form--item">
-                            <label className="form--label">Unit (optional) </label>
-                            <MainDropdownSelect title="Unit" options={units} field="name" value={unit} setValue={setUnit} noDataLabel="No Unit data!" />
-                        </div>
-
-
-                        <div className="form--item">
-                            <label htmlFor='status' className='form--label flex' style={{ flexDirection: "row"}}>
-                                Set Status 
-                                <span className={`status--dot ${productData.status}`}></span>
-                            </label>
-                            <select name="status" id='status' value={productData.status} className="form--select" onChange={handleProductDataChange}>
-                                <option value="published">Publish</option>
-                                <option value="draft">Draft</option>
-                            </select>
-                        </div>
-
-                        {productData.status == "published" && (
-                            <div className="form--item-flex" onClick={() => setChecks({ ...checks, isVisible: !checks.isVisible })}>
-                                <div id="checkbox" className={checks.isVisible ? 'is-selected' : ''}>
-                                    {checks.isVisible && <FaCheck />}
-                                </div>
-                                <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product <Info /></label>
-                            </div>
-                        )}
-
-                    </div>
-                    
 
                     {width < 400 && <Line border={1.4} />}
 
-                    <div className="card form">
-                        <div className="section--heading">
-                            <h2>Product Variations</h2>
-                            {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
-                        </div>
-
-                        {variations?.length > 0 && (
-                            <div className='form--variation'>
-                                {variations.map((variant, i) => (
-                                    <div className='form--variant' key={i}>
-                                        <div className='form--item'>
-                                            <label htmlFor="variantType" className='form--label'>Option type</label>
-                                            <input type='text' name='type' id='variantType' className='form--input' placeholder='Like: color, size, etc' value={variant?.type} onChange={e => handleChangeVariant(e, i)} />
-                                        </div>
-                                        <div className="form--item">
-                                            <label htmlFor="variantVal" className='form--label'>Option value</label>
-                                            <input type='text' name='value' id='variantVal' className='form--input' placeholder='Like: red, 34, big, etc' value={variant?.value} onChange={e => handleChangeVariant(e, i)} />
-                                        </div>
-                                        <div className="form--item">
-                                            <label htmlFor="variantQt" className='form--label'>Qt.</label>
-                                            <CurrencyInput prefix='Qt.' name='quantity' id='variantQt' className='form--input' placeholder='Qt 1' value={variant?.quantity} onValueChange={(value, name, _) => handleChangeVariant({ target: { name, value } }, i)} />
-                                        </div>
-                                        <button onClick={() => handleDeleteVariant(i)}><RiDeleteBin5Line /></button>
-                                    </div>
-                                ))}
+                    <div className='right--container containers'>
+                        <div className="card form">
+                            <div className="section--heading">
+                                <h2>Pricings & Inventory</h2>
+                                {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
-                        )}
 
-                        <div className="form--item">
-                            <button className="form--add" onClick={handleAddVariant}>
-                                <AiOutlinePlus />
-                                <p>Add {variations.length > 0 ? "more options" : "options like size or color"}</p>
-                            </button>
+
+                            <div className="form--grid">
+                                <div className="form--item">
+                                    <label htmlFor="" className="form--label">Price per item <Asterisk /></label>
+                                    <CurrencyInput
+                                        id="price"
+                                        name="price"
+                                        className="form--input"
+                                        placeholder="₦15,000"
+                                        prefix={currency}
+                                        decimalsLimit={2}
+                                        value={productData.price}
+                                        onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
+                                    />
+                                    <span className="form--error-message">
+                                        {productFormErrors.price && productFormErrors.price}
+                                    </span>
+                                </div>
+
+                                <div className="form--item">
+                                    <label htmlFor="cost-price" className="form--label">Cost per item (optional)</label>
+                                    <CurrencyInput
+                                        id="cost-price"
+                                        name="itemCost"
+                                        className="form--input"
+                                        placeholder="₦10,000"
+                                        prefix={currency}
+                                        decimalsLimit={2}
+                                        value={productData.itemCost}
+                                        onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
+                                    />
+                                    <span className="form--error-message">
+                                        {productFormErrors.itemCost && productFormErrors.itemCost}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="form--item">
+                                <label htmlFor="discount-price" className="form--label">Discount Type (optional)</label>
+                                <div className="form--clicks" style={width < 500 ? { gridTemplateColumns: "repeat(2, 1fr)" } : {}}>
+                                    <div className={`form--click ${productData.discountType == "no-discount" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "no-discount" })}
+                                    >No Discount<span></span>
+                                    </div>
+                                    <div className={`form--click ${productData.discountType == "percentage" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "percentage" })}
+                                    >Percentage {width < 750 && "%"}<span></span>
+                                    </div>
+                                    <div className={`form--click ${productData.discountType == "fixed-price" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "fixed-price" })}
+                                    >Fixed Price {width < 750 && "₦"}<span></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            {(productData.discountType !== "no-discount") && (
+                                <div className="form--item">
+                                    <label htmlFor="discount-price" className="form--label">Discount Price <Asterisk /></label>
+                                    <CurrencyInput
+                                        id="discount-price"
+                                        name="discount"
+                                        className="form--input"
+                                        placeholder={productData.discountType == "fixed-price" ? "₦7,000" : "20%"}
+                                        value={productData.discount}
+                                        {...(productData.discountType == "fixed-price") ? { prefix: currency } : { suffix: "%" }}
+                                        decimalsLimit={productData.discountType == "fixed-price" ? 2 : 0}
+                                        onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
+                                    />
+                                    <span className="form--error-message">
+                                        {productFormErrors.discount && productFormErrors.discount}
+                                    </span>
+                                </div>
+                            )}
+
+                            <div className="form--grid">
+                                <div className="form--item-flex" onClick={() => setChecks({ ...checks, isPhysical: !checks.isPhysical })}>
+                                    <div id="checkbox" className={checks.isPhysical ? 'is-selected' : ''}>
+                                        {checks.isPhysical && <FaCheck />}
+                                    </div>
+                                    <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>This is a physical product</label>
+                                </div>
+                                <div className="form--item-flex" onClick={() => setChecks({ ...checks, trackInventory: !checks.trackInventory })}>
+                                    <div id="checkbox" className={checks.trackInventory ? 'is-selected' : ''}>
+                                        {checks.trackInventory && <FaCheck />}
+                                    </div>
+                                    <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Track My Inventory</label>
+                                </div>
+                            </div>
+
+                            <div className="form--item">
+                                <label htmlFor="quantity" className="form--label">Stock Quantity {checks.trackInventory ? <Asterisk /> : "(optional)"}</label>
+                                <CurrencyInput
+                                    id="quantity"
+                                    name="stockAmount"
+                                    className="form--input"
+                                    placeholder="Quantity"
+                                    prefix="Qty. "
+                                    decimalsLimit={0}
+                                    value={productData.stockAmount}
+                                    onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
+                                />
+                                <span className="form--error-message">
+                                    {productFormErrors.stockAmount && productFormErrors.stockAmount}
+                                </span>
+                            </div>
+
+                            <div className="form--item">
+                                <label className="form--label">Unit (optional) </label>
+                                <MainDropdownSelect title="Unit" options={units} field="name" value={unit} setValue={setUnit} noDataLabel="No Unit data!" />
+                            </div>
+
+
+                            <div className="form--item">
+                                <label htmlFor='status' className='form--label flex' style={{ flexDirection: "row"}}>
+                                    Set Status 
+                                    <span className={`status--dot ${productData.status}`}></span>
+                                </label>
+                                <select name="status" id='status' value={productData.status} className="form--select" onChange={handleProductDataChange}>
+                                    <option value="published">Publish</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                            </div>
+
+                            {productData.status == "published" && (
+                                <div className="form--item-flex" onClick={() => setChecks({ ...checks, isVisible: !checks.isVisible })}>
+                                    <div id="checkbox" className={checks.isVisible ? 'is-selected' : ''}>
+                                        {checks.isVisible && <FaCheck />}
+                                    </div>
+                                    <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product <Info /></label>
+                                </div>
+                            )}
+
                         </div>
+                        
 
+                        {width < 400 && <Line border={1.4} />}
+
+                        <div className="card form">
+                            <div className="section--heading">
+                                <h2>Product Variations</h2>
+                                {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+                            </div>
+
+                            {variations?.length > 0 && (
+                                <div className='form--variation'>
+                                    {variations.map((variant, i) => (
+                                        <div className='form--variant' key={i}>
+                                            <div className='form--item'>
+                                                <label htmlFor="variantType" className='form--label'>Option type</label>
+                                                <input type='text' name='type' id='variantType' className='form--input' placeholder='Like: color, size, etc' value={variant?.type} onChange={e => handleChangeVariant(e, i)} />
+                                            </div>
+                                            <div className="form--item">
+                                                <label htmlFor="variantVal" className='form--label'>Option value</label>
+                                                <input type='text' name='value' id='variantVal' className='form--input' placeholder='Like: red, 34, big, etc' value={variant?.value} onChange={e => handleChangeVariant(e, i)} />
+                                            </div>
+                                            <div className="form--item">
+                                                <label htmlFor="variantQt" className='form--label'>Qt.</label>
+                                                <CurrencyInput prefix='Qt.' name='quantity' id='variantQt' className='form--input' placeholder='Qt 1' value={variant?.quantity} onValueChange={(value, name, _) => handleChangeVariant({ target: { name, value } }, i)} />
+                                            </div>
+                                            <button onClick={() => handleDeleteVariant(i)}><RiDeleteBin5Line /></button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            <div className="form--item">
+                                <button className="form--add" onClick={handleAddVariant}>
+                                    <AiOutlinePlus />
+                                    <p>Add {variations.length > 0 ? "more options" : "options like size or color"}</p>
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
             </AddPageUI>
 
             {/* {cropModal && (

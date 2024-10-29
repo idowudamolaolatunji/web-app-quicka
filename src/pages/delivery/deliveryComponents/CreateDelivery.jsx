@@ -119,7 +119,7 @@ function CreateDelivery({ close, isnew, isModal }) {
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
-            }, 2500);
+            }, isnew ? 5000 : 3000);
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

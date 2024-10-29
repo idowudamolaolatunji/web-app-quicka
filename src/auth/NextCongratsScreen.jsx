@@ -33,6 +33,7 @@ function NextCongratsScreen() {
 
 
     useEffect(function() {
+        window.scrollTo(0, 0);
         const userId = localStorage.getItem("user_id");
         const accessKey = localStorage.getItem(`${import.meta.env.VITE_CONGRATS_KEY}`);
 

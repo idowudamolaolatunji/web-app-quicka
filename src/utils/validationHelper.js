@@ -68,9 +68,11 @@ export function validateAuthForm(data, type) {
 			errors.password = "Password must be at least 8 characters long";
 		}
 
-		// if (data.confirmPassword !== data.password) {
-		// 	errors.confirmPassword = "Passwords do not match";
-		// }
+		if (!data.passwordConfirm) {
+			errors.passwordConfirm = "Password comfirmation is required";
+		} else if (data.passwordConfirm !== data.password) {
+			errors.passwordConfirm = "Passwords do not match";
+		}
 
 		return errors;
 	}

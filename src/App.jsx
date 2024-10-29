@@ -79,8 +79,6 @@ import { useLocation, useWindowScroll } from 'react-use';
 
 function App() {
     const { pathname } = useLocation();
-    let { x, y } = useWindowScroll();
-
     // COME BACK AND REMODIFY THIS OR NOT
     if (pathname === '/verify-otp' || pathname === '/onboarding') {
         window.onbeforeunload = () => "Are you sure you want to leave this page?";

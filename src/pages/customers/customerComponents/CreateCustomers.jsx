@@ -170,7 +170,7 @@ function CreateCustomers({ close, isModal }) {
             setResponse({ status, message });
             handleClearFields();
             
-            setTimeout(() => navigate(-1), 2500);
+            setTimeout(() => navigate(-1), 3000);
             handleFetchUserStoreCustomers()
 
         } catch (err) {

@@ -169,7 +169,7 @@ function RecordOrder() {
             window.scrollTo(0, 0);
             handleClearFields();
 
-            setTimeout(() => navigate(-1), 2500);
+            setTimeout(() => navigate(-1), 3000);
             handleFetchUserStoreOrders();
             handleFetchUserStoreProducts()
 

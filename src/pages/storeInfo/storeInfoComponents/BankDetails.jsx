@@ -94,7 +94,6 @@ function BankDetails({ isnew, close }) {
                     ...bankData, bankname, slug, code, 
                 })
             });
-
             if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
@@ -104,7 +103,7 @@ function BankDetails({ isnew, close }) {
             // SET RESPONSE MESSAGE
             handleClearFields();
             setResponse({ status: "success", message });
-            setShowConfetti(true);
+            isnew && setShowConfetti(true);
 
             // MODIFY THE USER OBJECT AND STORE IN THE COOKIE
             const { store, owner } = data?.useful;
@@ -114,7 +113,7 @@ function BankDetails({ isnew, close }) {
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
-            }, 2500);
+            }, isnew ? 5000 : 3000);
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

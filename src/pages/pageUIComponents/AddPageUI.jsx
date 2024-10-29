@@ -13,7 +13,7 @@ function AddPageUI({ PageTitle, pageIcon, justify=false, close, isnew, ismodal, 
     const { width } = useWindowSize();
 
     useEffect(function() {
-        window.scrollTo(0, 0)
+        isnew || window.scrollTo(0, 0)
     }, [])
 
     return (

@@ -20,17 +20,11 @@ import Asterisk from '../../components/Asterisk';
 const headingText = "The Power to Manage Your Business, at Your Fingertips."
 
 function index() {
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState({ main: false, confirm: false });
     const [isChecked, setIsChecked] = useState(false);
     const [formErrors, setFormErrors] = useState({});
-    const [loading, setLoading] = useState({
-        authLoading: false,
-        mainLoading: false
-    });
-    const [response, setResponse] = useState({
-        status: '',
-        message: ''
-    })
+    const [loading, setLoading] = useState({ authLoading: false, mainLoading: false });
+    const [response, setResponse] = useState({ status: '', message: '' })
 
     const [formData, setFormData] = useState({
         firstname: '',
@@ -44,6 +38,7 @@ function index() {
         password: '',
         passwordConfirm: ''
     });
+
     
     const { width } = useWindowSize();
     const navigate = useNavigate();
@@ -74,23 +69,20 @@ function index() {
         setResponse({ status: '', message: '' });
     }
 
+    const handlePasswordShown = function(name) {
+        setShowPassword({ ...showPassword, [name]: !showPassword[name] })
+    }
+
 
     const storeInUserInStorage = function() {
         const otpUser = { email: formData.email, name: formData.firstname }
         localStorage.setItem("otp_user", JSON.stringify(otpUser));
     }
-
     
 
     useEffect(function() {
         document.title = "Quicka | Create an Account 🎉";
-    }, [])
-
-
-    useEffect(function () {
-        setFormData(prev => ({ ...prev, passwordConfirm: prev.password }));
-    }, [formData.password]);
-
+    }, []);
 
     useEffect(function() {
         if(loading.mainLoading) {
@@ -104,16 +96,18 @@ function index() {
 
         const newErrors = validateAuthForm(formData, 'signup');
         setFormErrors(newErrors);
-
-        if (Object.keys(newErrors).length >= 1) return;
-        
+        if (Object.keys(newErrors).length >= 1) {
+            setResponse({ status: "error", message: "Fill required fields to proceed!" });
+            setTimeout(() => handleResetResponse(), 5000);
+            return
+        };
 
         // NEXT, IMPLEMENT THE LOGIN REQUEST
         try {
             if(!isChecked) {
                 // IF THE CHECKED IS NOT CHECKED
                 setResponse({ status: "error", message: "Accept terms and conditions" });
-                setTimeout(() => handleResetResponse(), 2000);
+                setTimeout(() => handleResetResponse(), 5000);
                 return;
             }
 
@@ -250,7 +244,7 @@ function index() {
                         <label className='form--label' htmlFor="password">Password <Asterisk /></label>
                         <div className="form--input-box">
                             <input
-                                type={showPassword ? "text" : "password"}
+                                type={showPassword.main ? "text" : "password"}
                                 name='password'
                                 id="password"
                                 className='form--input'
@@ -258,12 +252,33 @@ function index() {
                                 value={formData.password}
                                 onChange={handleFormChange}
                             />
-                            <div className='form--input-icon' onClick={() => setShowPassword(!showPassword)}>
-                                {showPassword ? <ImEye /> : <ImEyeBlocked />}
+                            <div className='form--input-icon' onClick={() => handlePasswordShown("main")}>
+                                {showPassword.main ? <ImEye /> : <ImEyeBlocked />}
                             </div>
                         </div>
                         <span className="form--error-message">
-                            {formErrors.password ? formErrors.password : ''}
+                            {formErrors.password && formErrors.password}
+                        </span>
+                    </div>
+
+                    <div className="form--item">
+                        <label className='form--label' htmlFor="password-confirm">Password Confirm <Asterisk /></label>
+                        <div className="form--input-box">
+                            <input
+                                type={showPassword.confirm ? "text" : "password"}
+                                name='passwordConfirm'
+                                id="password-confirm"
+                                className='form--input'
+                                placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                                value={formData.passwordConfirm}
+                                onChange={handleFormChange}
+                            />
+                            <div className='form--input-icon' onClick={() => handlePasswordShown("confirm")}>
+                                {showPassword.confirm ? <ImEye /> : <ImEyeBlocked />}
+                            </div>
+                        </div>
+                        <span className="form--error-message">
+                            {formErrors.passwordConfirm && formErrors.passwordConfirm}
                         </span>
                     </div>
 

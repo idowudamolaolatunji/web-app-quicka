@@ -12,9 +12,10 @@ function ConfettiUI() {
     return (
         <Confetti
             width={width}
-            height={height}
+            height={height + 200}
             numberOfPieces={width < 600 ? 100 : 150}
             gravity={0.08}
+            tweenDuration={5000}
         />
     )
 }
