@@ -287,7 +287,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             )}
 
             <AddPageUI
-                PageTitle="Upload Product"
+                pageTitle="Upload Product"
                 pageIcon={<LuTags />}
                 close={close} isnew={isnew}
                 ismodal={ismodal}
@@ -299,6 +299,8 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             >
 
                 <form className="product__upload--container" onSubmit={e => e.preventDefault()}>
+                    {width < 400 && <Line border={1.4} />}
+
                     <div className='left--container containers'>
                         <div className="card form">
                             <div className="section--heading">

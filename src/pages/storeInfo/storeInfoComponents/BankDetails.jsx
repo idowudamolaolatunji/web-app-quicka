@@ -124,7 +124,7 @@ function BankDetails({ isnew, close }) {
 
     return (
         <AddPageUI
-            PageTitle="Payment Details"
+            pageTitle="Payment Details"
             pageIcon={<RiBankLine />}
             close={close} isnew={isnew}
             mainLoader={loading.mainLoading}
@@ -135,6 +135,8 @@ function BankDetails({ isnew, close }) {
         >
 
             <div className="product__upload--container" style={{ gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "80rem", marginTop: width > 600 ? "4rem" : "0" }}>
+                {width < 400 && <Line border={1.4} />}
+
                 <div className="card form">
                     <div className="section--heading">
                         <h2>Bank Details</h2>

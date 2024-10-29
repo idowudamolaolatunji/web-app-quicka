@@ -183,7 +183,7 @@ function CreateCustomers({ close, isModal }) {
 
     return (
         <AddPageUI
-            PageTitle="Add Customer"
+            pageTitle="Add Customer"
             pageIcon={<FiUsers />}
             close={close} 
             isModal={isModal}
@@ -194,6 +194,8 @@ function CreateCustomers({ close, isModal }) {
         >
 
             <div className="product__upload--container">
+                {width < 400 && <Line border={1.4} />}
+
                 <div className='left--container containers'>
                     <div className="card form">
                         <div className="section--heading">
@@ -272,7 +274,7 @@ function CreateCustomers({ close, isModal }) {
                             <div className="form--item">
                                 <label className="form--label">Country <Asterisk /></label>
 
-                                <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} customClass='select-width' />
+                                <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} customClass='select-width' noDataLabel='Loading...' />
                                 <span className="form--error-message">
                                     {customerFormErrors?.country && customerFormErrors?.country}
                                 </span>
@@ -281,13 +283,13 @@ function CreateCustomers({ close, isModal }) {
                             <div className="form--item">
                                 <label className="form--label">State (optional)</label>
 
-                                <MainDropdownSelect title="a state" options={location?.state} field="name" value={state} setValue={setState} noDataLabel='No states' disabled={country?.length < 1} customClass='select-width' />
+                                <MainDropdownSelect title="a state" options={location?.state} field="name" value={state} setValue={setState} disabled={country?.length < 1} customClass='select-width' noDataLabel='Loading...' />
                             </div>
 
                             <div className="form--item">
                                 <label className="form--label">City (optional)</label>
 
-                                <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} noDataLabel='No Cities' disabled={state?.length < 1} customClass='select-width' />
+                                <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} disabled={state?.length < 1} customClass='select-width' noDataLabel='Loading...' />
                             </div>
 
 

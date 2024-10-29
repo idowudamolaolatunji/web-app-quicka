@@ -184,7 +184,7 @@ function AddCustomerFormSm({ close }) {
                     </span>
                 </div>
 
-                <div className="page__section--actions" style={{ marginTop: "2.4rem" }}>
+                <div className="page__section--actions">
                     <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
                     <button className='button submit--button' onClick={handleCreateCustomer}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>

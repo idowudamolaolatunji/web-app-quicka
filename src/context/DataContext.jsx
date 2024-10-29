@@ -110,6 +110,8 @@ export const DataProvider = ({ children }) => {
     useEffect(function() {
         if(width <= 450) {
             setActiveDisplayTab("grid")
+        } else {
+            setActiveDisplayTab("table");
         }
     }, [width])
 

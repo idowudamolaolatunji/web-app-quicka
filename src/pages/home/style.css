@@ -33,14 +33,14 @@
     align-items: center;
 }
 .sub--text {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 500;
     line-height: 1.4;
 }
 .sub--text-sub {
-    font-size: 1.2;
+    font-size: 1.3rem;
     font-weight: 500;
-    margin-top: .28rem;
+    margin-top: .6rem;
     opacity: .85;
 }
 .sub--btn {
@@ -928,7 +928,7 @@ a.upgrade--link:hover {
         max-width: 80%;
     }
     .sub--text-sub{
-        margin-top: .4rem;
+        margin-top: .64rem;
     }
     .opts--items button svg {
         font-size: 1.6rem;

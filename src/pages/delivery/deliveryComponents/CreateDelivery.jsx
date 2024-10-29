@@ -131,7 +131,7 @@ function CreateDelivery({ close, isnew, isModal }) {
 
     return (
         <AddPageUI
-            PageTitle="Set Delivery Rate"
+            pageTitle="Set Delivery Rate"
             pageIcon={<TbTruckDelivery />}
             close={close} isnew={isnew}
             justify isModal={isModal}
@@ -143,6 +143,7 @@ function CreateDelivery({ close, isnew, isModal }) {
         >
 
             <div className="product__upload--container">
+                {width < 400 && <Line border={1.4} />}
 
                 <div className='left--container containers'>
                     <div className="card form">

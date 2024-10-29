@@ -202,7 +202,7 @@ function RecordOrder() {
             )}
 
             <AddPageUI
-                PageTitle="Record Orders"
+                pageTitle="Record Orders"
                 pageIcon={<MdOutlineShoppingBag />}
                 close={() => navigate(-1)}
                 mainLoader={loading.mainLoading}
@@ -213,6 +213,8 @@ function RecordOrder() {
             >
 
                 <div className="product__upload--container">
+                    {width < 400 && <Line border={1.4} />}
+
                     <div className='left--container containers'>
                         <div className="card form">
                             <div className="section--heading">
