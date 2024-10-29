@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthContext } from '../../../context/AuthContext'
-import { MdOutlineDeliveryDining, MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
+import { useWindowSize } from 'react-use';
+import { MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
 import { RiBankLine } from 'react-icons/ri';
 import TooltipUI from '../../../components/TooltipUI';
 import { IoCheckmarkDone } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
 import { TbTruckDelivery } from 'react-icons/tb';
 import Spinner from '../../../components/spinner/spinner_two'
 import FullScreen from '../../../components/modal/FullScreen';
@@ -14,6 +14,7 @@ import BankDetails from '../../storeInfo/storeInfoComponents/BankDetails';
 import StoreCustom from '../../storeInfo/storeInfoComponents/StoreCustom';
 
 function GetStarted() {
+    const { width } = useWindowSize();
     const { store } = useAuthContext();
     const [loading, setLoading] = useState({
         mainLoading: false,
@@ -99,13 +100,13 @@ function GetStarted() {
         <>
             {loading.mainLoading && <Spinner />}
             <div className="get-started">
-                <h2 className='get-started-title'>Let get you started selling</h2>
-                <p className='get-started-subtitle'>Finalize your setup to make your website visible to the world.</p>
+                <h2 className='get-started-title'>Let's get you {/*started */} selling in 5 mins!</h2>
+                <p className='get-started-subtitle'>Finalize your setup to get your store up & running, and make your website visible to the world.</p>
                 <span className='get-started-nums'>
                     <p>{
                         // HERE WE MODIFY THE TEXT BASED ON THE COMPLETED STEPS
                         (completedSteps?.length < 5) ? (
-                            <><span style={{ fontFamily: "sans-serif" }}>{completedSteps.length}<strong>/</strong>5</span> completed - <strong>{completedSteps.length == 4 ? 'Final step' : 'Next'} 👉🏿</strong> {stepsSorted[completedSteps.length]?.shortText}</>
+                            <><span style={{ fontFamily: "sans-serif" }}>{completedSteps.length}<strong>/</strong>5</span> completed - <strong>{completedSteps.length == 4 ? 'Final step' : 'Next'}{width > 370 && " step"} 👉🏿</strong> {stepsSorted[completedSteps.length]?.shortText}</>
                         ) : (
                             <>Completed all Step 🎉 - <strong>Click Finish!</strong> </>
                         )

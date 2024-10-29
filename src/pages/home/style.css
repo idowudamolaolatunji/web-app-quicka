@@ -117,15 +117,16 @@ a.upgrade--link:hover {
 .get-started-title {
     font-size: 2rem;
     font-weight: 500;
-    margin-bottom: .8rem;
+    margin-bottom: .5rem;
 }
 .get-started-subtitle {
     font-size: 1.5rem;
+    line-height: 1.3;
     margin-bottom: 1rem;
     color: #888;
 }
 .get-started-nums {
-    font-size: 1.34rem;
+    font-size: 1.28rem;
     padding: .28rem 0;
     border-radius: .4rem;
     font-weight: 500;
@@ -834,7 +835,7 @@ a.upgrade--link:hover {
         margin-bottom: .48rem;
     }
     .get-started-subtitle {
-        margin-bottom: .6rem;
+        margin-bottom: 1rem;
     }
     .get-started-tabs {
         max-width: 55%;
@@ -859,7 +860,7 @@ a.upgrade--link:hover {
         line-height: 1.3;
     }
     .get-started-subtitle {
-        font-size: 1.4rem;
+        font-size: 1.34rem;
         line-height: 1.3;
     }
     .opts--items p {
@@ -928,6 +929,9 @@ a.upgrade--link:hover {
     }
     .sub--text-sub{
         margin-top: .4rem;
+    }
+    .opts--items button svg {
+        font-size: 1.6rem;
     }
 
     .prog--grid {

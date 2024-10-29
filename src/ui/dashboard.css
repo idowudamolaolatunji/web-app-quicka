@@ -552,7 +552,7 @@ button.menu--button {
     .dashboard--header {
         grid-template-columns: 18rem 1fr;
         border-bottom: 1.3px solid var(--border-color);
-        padding: 1.4rem 1.6rem;
+        padding: 1.4rem;
         justify-content: space-between;
         background-color: #fff;
     }
