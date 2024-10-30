@@ -49,7 +49,7 @@ function DashboardHead() {
                 <div className=""></div>
 
                 <div className="nav--others">
-                    <a href={store?.storeUrl} target='_blank' className='store--btn'>
+                    <a href={`https://${store?.storeUrl}`} target='_blank' className='store--btn'>
                         View Store <MdOutlineStorefront />
                     </a>
 

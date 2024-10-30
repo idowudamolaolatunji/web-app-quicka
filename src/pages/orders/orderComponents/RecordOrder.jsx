@@ -31,7 +31,7 @@ function RecordOrder() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { token } = useAuthContext();
-    const { products, customers, handleFetchUserStoreOrders, handleFetchUserStoreProducts } = useFetchedContext();
+    const { products, customers, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers } = useFetchedContext();
 
     const publishedProducts = products?.filter(product => product.status == "published");
 
@@ -96,6 +96,12 @@ function RecordOrder() {
         window.scrollTo(0, 0)
     };
 
+    useEffect(function() {
+        document.title = "Quicka | Record sales";
+
+        handleFetchUserStoreCustomers();
+        handleFetchUserStoreProducts()
+    }, [])
 
     useEffect(function () {
         if (orderData.paymentStatus == "unpaid") {

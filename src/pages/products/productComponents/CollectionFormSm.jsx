@@ -109,7 +109,7 @@ function CollectionFormSm({ close }) {
                 <div className="form--item">
                     <label className="form--label">Collection Image (optional)</label>
 
-                    <ImageUploadUI preview={imagePreview} handleChange={handleImageChange} />
+                    <ImageUploadUI preview={imagePreview} handleChange={handleImageChange} text="Recommend format (png, jpeg, jpg)" />
                 </div>
 
                 <div className="form--item">

@@ -145,7 +145,7 @@ function index() {
     }
 
     useEffect(function() {
-        document.title = "Quicka | Orders";
+        document.title = "Quicka | Your products";
 
         if(products?.length < 1 && error?.product) {
             handleFetchUserStoreProducts();
