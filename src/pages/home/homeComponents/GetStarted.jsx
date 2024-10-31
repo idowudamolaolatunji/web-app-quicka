@@ -27,7 +27,7 @@ function GetStarted() {
     ]);
 
     const [showModal, setShowModal] = useState({
-        store: true,
+        store: false,
         product: false,
         bank: false,
         delivery: false
