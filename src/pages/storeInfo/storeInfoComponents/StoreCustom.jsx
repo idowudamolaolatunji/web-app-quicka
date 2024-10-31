@@ -14,29 +14,40 @@ import ColorBox from '../../../components/ColorBox';
 
 import sample from "../../../assets/images/themes/original-5fd4642ef1335c41fba6b920ab037b3d.png"
 import LinkInput from '../../../components/LinkInput';
+import { Switch } from '@mui/material';
+import QuillEditor from '../../../components/QuillEditor';
 
 const colors = ["red", "black", "lightblue", "violet", "gold", "pink", "#CCDDDD", "#008B02"]
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 
 function StoreCustom({ isnew, close }) {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { socialProfiles, } = store;
+    const { socialProfiles, customDesign, logo, otherPages } = store;
+
+    const logoImg = `${BASE_URL}${logo}`;
+    const bannerImg = `${BASE_URL}${customDesign?.banner}`;
+    const width450False = width < 450 ? false : true;
+
 
     const [imagePreview, setImagePreview] = useState({ banner: null, logo: null });
     const [imageFile, setImageFile] = useState({ banner: null, logo: null });
     const [selectedColor, setSelectedColor] = useState("");
     const [customColor, setCustomColor] = useState({ color: "", isValid: false });
-    const [showSocialInput, setShowSocialInput] = useState([
-       { facebook: false }, { instagram: false }, { twitter: false }, { whatsapp: true }
-    ]);
 
     const [storeData, setStoreData] = useState({
         name: store?.name || "",
         storeUrl: store?.storeUrl?.replace(".quicka.store", "") || "",
 
-        bannerHeading: "",
-        bannerSubheading: "",
+        bannerHeading: customDesign?.bannerHeading || "",
+        bannerSubheading: customDesign?.bannerSubheading || "",
+        brandColor: customDesign?.brandColor || "",
 
+        aboutPage: otherPages?.aboutPage || width450False,
+        returnPolicyPage: otherPages?.returnPolicyPage || width450False,
+        aboutDescription: otherPages?.aboutDescription || "",
+        returnPolicyDescription: otherPages?.returnPolicyDescription || "",
 
         instagram: socialProfiles?.instagram || "",
         whatsapp: socialProfiles?.whatsapp || "",
@@ -67,11 +78,20 @@ function StoreCustom({ isnew, close }) {
 
     function handleCustomColor(e) {
         const color = e.target.value
-        setCustomColor({ ...customColor, color })
+        setCustomColor({ ...customColor, color });
+    }
+
+    const handleStoreClicks = function(name) {
+        setStoreData({ ...storeData, [name]: !storeData[name] })
+    }
+
+    const handleStoreDescriptions = function(name, value) {
+        setStoreData({ ...storeData, [name]: value });
     }
 
     const handleStoreDataChange = function (e) {
         const { name, value } = e?.target;
+        console.log(name, value)
         let sanitizedValue;
 
         // HERE SANITIZES THE TEXT AND THE URL
@@ -97,6 +117,7 @@ function StoreCustom({ isnew, close }) {
         setStoreData({ ...storeData, storeUrl: sanitizedUrl })
     }, [storeData?.name]);
 
+    // SET COLORS BUT CHECK IF COLOR IS VALID FIRST
     useEffect(function() {
         const color = customColor.color;
         const check  = new Option().style;
@@ -104,12 +125,21 @@ function StoreCustom({ isnew, close }) {
         
         if(check.color.length > 0) {
             setCustomColor({ ...customColor, isValid: true });
-            setSelectedColor("")
+            setSelectedColor("");
         } else {
             setCustomColor({ ...customColor, isValid: false });
         }
-    }, [customColor.color])
+    }, [customColor.color]);
 
+    // SET THE BRAND COLOR
+    useEffect(function() {
+        if((customColor.color && customColor.isValid) || selectedColor) {
+            setStoreData({ ...storeData, brandColor: (customColor.color || selectedColor) });
+        } else {
+            setStoreData({ ...storeData, brandColor: "" });
+        }
+    }, [customColor, selectedColor]);
+    console.log(storeData.brandColor)
 
     useEffect(function () {
         !isnew && window.scrollTo(0, 0);
@@ -125,18 +155,18 @@ function StoreCustom({ isnew, close }) {
             </div>
 
 
-            <div className="product__upload--container" style={{ gridTemplateColumns: "1fr", margin: "0 auto", gap: "2.8rem" }}>
-                {width < 600 && <Line border={1.4} />}
+            <div className="product__upload--container custom">
 
+                {width < 600 && <Line border={1.4} />}
 
                 <div className='custom--head'>
                     <div className="form--element">
-                        <span><img src={imagePreview.logo || noImg} alt="brand logo" /></span>
+                        <span><img src={logo ? logoImg : (imagePreview.logo || noImg)} alt="brand logo" /></span>
 
                         <div className='form--item'>
                             <input type='file' id='logo' name='logo' onChange={handleImageChange} accept="image/*" />
 
-                            <div className="flex justify">
+                            <div className="flex" style={{ flexDirection: "row"}}>
                                 <label htmlFor="logo" className='form--upload-btn'>{(store?.logo || imagePreview.logo) ? "Change" : "Upload"} Logo</label>
 
                                 {imagePreview.logo && <button onClick={() => handleRemoveImage("logo")} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
@@ -198,7 +228,7 @@ function StoreCustom({ isnew, close }) {
                         <ImageUploadUI 
                             handleChange={handleImageChange}
                             name='banner'
-                            preview={imagePreview.banner}
+                            preview={customDesign?.banner ? bannerImg : imagePreview.banner}
                             height={{ height: width < 650 ? "14rem" : "20rem", width: "100%", padding: width < 400 ? 0 : "1rem 0", overflow: "hidden" }}
                             text="Recommended dimension: 1440 x 350"
                         />
@@ -265,11 +295,51 @@ function StoreCustom({ isnew, close }) {
 
                 <Line border={1.4} />
 
+                        
+                <div className="custom--item">
+                    <span className="custom--labels">
+                        <label className='form--label'>About Section (optional)</label>
+                        <p className="custom--subtext">Add about section to your store, section on your website that talks about your business</p>
+                    </span>
+                    
+                    <div className='custom--description'>
+                        <Switch color='#ff7a49' 
+                            checked={storeData.aboutPage}
+                            onClick={() => handleStoreClicks("aboutPage")}
+                        />
+                        
+                        {storeData.aboutPage && <QuillEditor value={storeData.aboutDescription} setValue={(value) => handleStoreDescriptions("aboutDescription", value) } />}
+                    </div>
+                </div>
+                
+
+                <Line border={1.4} />
+
+
+                <div className="custom--item">
+                    <span className="custom--labels">
+                        <label className='form--label'>Return Policy Section (optional)</label>
+                        <p className="custom--subtext">Add policy to your store, section on your website that explains your policy</p>
+                    </span>
+                    
+                    <div className='custom--description'>
+                        <Switch color='#ff7a49'
+                        checked={storeData.returnPolicyPage}
+                        onClick={() => handleStoreClicks("returnPolicyPage")} />
+                        
+                        {storeData.returnPolicyPage && <QuillEditor value={storeData.returnPolicyDescription} setValue={(value) => handleStoreDescriptions("returnPolicyDescription", value)} />}
+                    </div>
+                </div>
+                
+
+
+                <Line border={1.4} />
+
                 
                 <div className="custom--item">
                     <span className="custom--labels">
-                        <label className='form--label'>Social Accounts (optional)</label>
-                        <p className="custom--subtext">Give more credibility by providing your social links</p>
+                        <label className='form--label'>Social media Accounts (optional)</label>
+                        <p className="custom--subtext">Social icons will be diplayed on your store website to give more credibility about your business</p>
                     </span>
 
                     <div className="form--item">
@@ -282,6 +352,11 @@ function StoreCustom({ isnew, close }) {
 
 
                 <Line border={1.4} />
+
+                <div className="page__section--actions" style={ width > 450 ? { marginLeft: "auto" } : {}}>
+                    <button className='button clear--button' onClick={close}>Cancel</button>
+                    <button className='button submit--button'>Save</button>
+                </div>
 
            </div>
 

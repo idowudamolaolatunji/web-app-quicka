@@ -40,7 +40,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { token, handleUser, handleStore } = useAuthContext();
-    const { collections, handleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollection } = useFetchedContext();
+    const { collections, handleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
 
     const headers = {
         "Content-Type": "application/json",
@@ -180,7 +180,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     useEffect(function() {
         document.title = "Quicka | Upload new product";
 
-        handleFetchUserStoreCollection()
+        handleFetchUserStoreCollections()
     }, [])
 
     useEffect(function () {

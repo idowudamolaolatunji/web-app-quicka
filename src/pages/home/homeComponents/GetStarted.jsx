@@ -104,7 +104,7 @@ function GetStarted() {
                     <p>{
                         // HERE WE MODIFY THE TEXT BASED ON THE COMPLETED STEPS
                         (completedSteps?.length < 5) ? (
-                            <><span style={{ fontFamily: "sans-serif" }}>{completedSteps.length}<strong>/</strong>5</span> completed - <strong>{completedSteps.length == 4 ? 'Final step' : 'Next'}{width > 370 && " step"} 👉🏿</strong> {stepsSorted[completedSteps.length]?.shortText}</>
+                            <><span style={{ fontFamily: "sans-serif" }}>{completedSteps.length}<strong>/</strong>5</span> completed - <strong>{completedSteps.length == 4 ? 'Final' : 'Next'}{width > 370 && " step"} 👉🏿</strong> {stepsSorted[completedSteps.length]?.shortText}</>
                         ) : (
                             <>Completed all Step 🎉 - <strong>Click Finish!</strong> </>
                         )
@@ -123,6 +123,7 @@ function GetStarted() {
                     </div>
                 </span>
 
+                {/* GET STARTED ITEMS */}
                 <div className="get-started-opts">
                     <div className={`opts--items ${handleCheckIfCompleted("hasCustomisedStore") ? 'is-completed' : ''}`}>
                         <div className="opts--heading">

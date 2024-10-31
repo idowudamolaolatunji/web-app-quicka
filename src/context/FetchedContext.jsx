@@ -77,7 +77,7 @@ export const FetchedProvider = ({ children }) => {
 
 
     // FETCH PROTECTED STORE COLLECTION
-    async function handleFetchUserStoreCollection() {
+    async function handleFetchUserStoreCollections() {
         try {
             setCollectionError(false);
             setCollectionLoader(true);
@@ -233,7 +233,7 @@ export const FetchedProvider = ({ children }) => {
             handleFetchUserStoreOrders();
             handleFetchUserStoreProducts();
             handleFetchUserStoreCustomers();
-            handleFetchUserStoreCollection();
+            handleFetchUserStoreCollections();
             handleFetchUserStoreDeliveryRates();
             handleFetchUserStoreTransactions();
         }
@@ -254,7 +254,7 @@ export const FetchedProvider = ({ children }) => {
         handleFetchUserStoreOrders,
         handleFetchUserStoreProducts,
         handleFetchUserStoreCustomers,
-        handleFetchUserStoreCollection,
+        handleFetchUserStoreCollections,
         handleFetchUserStoreTransactions,
         handleFetchUserStoreDeliveryRates,
         //////////////////////////////////

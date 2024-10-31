@@ -663,6 +663,7 @@ textarea::placeholder {
 /* the editor field itself */
 .quill .ql-editor {
 	width: 100% !important;
+	min-height: 10rem !important;
 	font-family: inherit !important;
 }
 .quill .ql-editor * {

@@ -1,4 +1,10 @@
 
+.product__upload--container.custom {
+    grid-template-columns: 1fr;
+    margin: 0 auto;
+    gap: 2.8rem;
+}
+
 
 .custom--head {
     display: flex;
@@ -47,6 +53,12 @@
 .custom--subtext {
     font-size: 1.4rem;
     line-height: 1.4;
+}
+.custom--description {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
 }
 
 
@@ -182,8 +194,17 @@
     .custom--subtext {
         font-size: 1.28rem;
     }
-
+    
     .custom--title {
         font-size: 2.4rem;
     }
+}
+
+
+
+@media screen and (max-width: 400px) {
+    .product__upload--container.custom {
+        gap: 3.4rem;
+    }
+
 }

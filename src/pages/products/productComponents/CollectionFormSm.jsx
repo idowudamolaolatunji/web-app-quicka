@@ -14,7 +14,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function CollectionFormSm({ close }) {
     const { token } = useAuthContext();
-    const { handleFetchUserStoreCollection } = useFetchedContext();
+    const { handleFetchUserStoreCollections } = useFetchedContext();
 
     const headers = {
         "Content-Type": "application/json",
@@ -81,7 +81,7 @@ function CollectionFormSm({ close }) {
             // await handleImageUpload(imageFile, url);
             // }
 
-            handleFetchUserStoreCollection()
+            handleFetchUserStoreCollections()
             setTimeout(() => close(), 1000);
 
         } catch (err) {
