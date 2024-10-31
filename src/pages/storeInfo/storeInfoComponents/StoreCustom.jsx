@@ -176,7 +176,8 @@ function StoreCustom({ isnew, close }) {
                                 {imagePreview.logo && <button onClick={() => handleRemoveImage("logo")} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
 
                             </div>
-                            <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>png or jpg up to 2MB. Recommended size 256x256</p>
+                            <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>
+                                png or jpg up to 2MB.<br />Recommended size 256x256</p>
                         </div>
                     </div>
                     
@@ -235,6 +236,7 @@ function StoreCustom({ isnew, close }) {
                             preview={customDesign?.banner ? bannerImg : imagePreview.banner}
                             height={{ height: width < 650 ? "14rem" : "20rem", width: "100%", padding: width < 400 ? 0 : "1rem 0", overflow: "hidden" }}
                             text="Recommended dimension: 1440 x 350"
+                            handleRemove={() => handleRemoveImage("banner")}
                         />
                     </div>
                 </div>

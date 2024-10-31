@@ -417,6 +417,12 @@ button.onboard--next {
     font-size: 1.34rem;
     border: none;
 }
+.form--upload-btn.delete {
+    padding: .45rem .68rem;
+    font-size: 2rem;
+    color: red;
+    background-color: #eee;
+}
 .form--element {
     align-items: center;
     gap: 2rem;

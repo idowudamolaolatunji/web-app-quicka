@@ -1,7 +1,8 @@
 import React from 'react'
+import { AiOutlineDelete } from 'react-icons/ai'
 import { IoCloudDownloadOutline } from 'react-icons/io5'
 
-function ImageUploadUI({ text, name="image", preview, handleChange, height }) {
+function ImageUploadUI({ text, name="image", preview, handleChange, height, handleRemove }) {
     return (
         <span className={`upload form--img-box ${preview ? "img--preview" : ""} `} style={height}>
             <input type='file' id='form-image' name={name} accept="image/*" onChange={handleChange} />
@@ -16,6 +17,8 @@ function ImageUploadUI({ text, name="image", preview, handleChange, height }) {
                     </>
                 )}
             </label>
+
+            {preview && <button onClick={handleRemove} className='form--upload-btn delete'><AiOutlineDelete /></button>}
         </span>
     )
 }
