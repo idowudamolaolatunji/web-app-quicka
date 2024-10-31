@@ -21,12 +21,22 @@
 
 .custom--item {
     display: grid;
-    grid-template-columns: 1.5fr 2fr 0.64fr;
+    grid-template-columns: 1fr 2fr;
     gap: 8rem;
 }
+.custom--title {
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
 .custom--link {
-    font-size: 1.2rem;
+    font-size: 1.28rem;
+    font-weight: 500;
     color: var(--color-brand-500);
+
+    display: flex;
+    align-items: center;
+    gap: .4rem;
 }
 
 .custom--labels {
@@ -44,6 +54,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 .color-box {
     width: 3rem;
@@ -75,9 +86,40 @@
     border-radius: 0;
     transition: all .3s;
 }
-.custom--item .form--input:hover + .url--box {
+.custom--item .form--input:hover + .url--box,
+.custom--item .form--input-box:hover .url--box {
     border-color: var(--color-brand-500);
 }
+
+.form--input-box.start {
+    position: unset;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+
+    background-color: var(--color-brand-10);
+    border-radius: .4rem;
+    border: 1.4px solid #eee;
+    transition: all .3s;
+
+}
+.form--input-box.start .form--input {
+    border: none;
+    background-color: transparent;
+}
+.form--input-box.start .url--box {
+    position: unset;
+    padding-right: .8rem;
+    border: 0;
+    border-right: 1.4px solid #eee;
+    transform: translate(0);
+    color: #555;
+}
+.form--input-box.start:hover {
+    border-color: var(--color-brand-500);
+}
+
+
 
 
 .custom--interface {
@@ -114,9 +156,7 @@
 
 
 @media screen and (max-width: 750px) {
-    .custom--item {
-        gap: 2rem;
-    }
+    
     .custom--labels {
         gap: 0.5rem;
     }
@@ -126,7 +166,7 @@
 @media screen and (max-width: 650px) {
     .custom--item {
         grid-template-columns: 1fr;
-        gap: 1.6rem;
+        gap: 2rem;
     }
     
 }

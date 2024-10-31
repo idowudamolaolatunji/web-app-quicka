@@ -13,22 +13,37 @@ import { AiOutlineLink } from 'react-icons/ai';
 import ColorBox from '../../../components/ColorBox';
 
 import sample from "../../../assets/images/themes/original-5fd4642ef1335c41fba6b920ab037b3d.png"
+import LinkInput from '../../../components/LinkInput';
 
 const colors = ["red", "black", "lightblue", "violet", "gold", "pink", "#CCDDDD", "#008B02"]
 
 function StoreCustom({ isnew, close }) {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
+    const { socialProfiles, } = store;
 
     const [imagePreview, setImagePreview] = useState({ banner: null, logo: null });
     const [imageFile, setImageFile] = useState({ banner: null, logo: null });
     const [selectedColor, setSelectedColor] = useState("");
     const [customColor, setCustomColor] = useState({ color: "", isValid: false });
+    const [showSocialInput, setShowSocialInput] = useState([
+       { facebook: false }, { instagram: false }, { twitter: false }, { whatsapp: true }
+    ]);
 
     const [storeData, setStoreData] = useState({
         name: store?.name || "",
-        storeUrl: store?.storeUrl?.replace(".quicka.store", "") || ""
-    })
+        storeUrl: store?.storeUrl?.replace(".quicka.store", "") || "",
+
+        bannerHeading: "",
+        bannerSubheading: "",
+
+
+        instagram: socialProfiles?.instagram || "",
+        whatsapp: socialProfiles?.whatsapp || "",
+        facebook: socialProfiles?.facebook || "",
+        twitter: socialProfiles?.twitter || "",
+    });
+
 
     const handleImageChange = function (event) {
         const name = event.target.name;
@@ -116,15 +131,15 @@ function StoreCustom({ isnew, close }) {
                         <div className='form--item'>
                             <input type='file' id='logo' name='logo' onChange={handleImageChange} accept="image/*" />
 
-                            <label htmlFor="logo" className='form--upload-btn'>{store?.logo ? "Change" : "Upload"} Logo</label>
+                            <label htmlFor="logo" className='form--upload-btn'>{(store?.logo || imagePreview.logo) ? "Change" : "Upload"} Logo</label>
                             <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>png or jpg up to 2MB. Recommended size 256x256</p>
                         </div>
                     </div>
                     
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <span className='custom--labels' style={{ gap: ".2rem"}}>
-                            <h3>{storeData.name || store?.name}</h3>
-                            <Link className='custom--link' to={`https://${store?.storeUrl}`}>www.{storeData.storeUrl || store?.storeUrl} <AiOutlineLink /></Link>
+                            <h3 className='custom--title'>{storeData.name || store?.name}</h3>
+                            <Link className='custom--link' to={`https://${store?.storeUrl}`}>www.{(storeData.storeUrl  + ".quicka.store") || store?.storeUrl} {storeData.storeUrl && <AiOutlineLink />}</Link>
                         </span>
 
                         {width > 500 && (
@@ -142,16 +157,19 @@ function StoreCustom({ isnew, close }) {
 
                 <div className="custom--item">
                     <span className="custom--labels">
-                        <label className='form--label'>Business name <Asterisk /></label>
+                        <label className='form--label'>Business Info (Required) <Asterisk /></label>
                         <p className="custom--subtext">Lorem ipsum dolor sit amet consectetur.</p>
                     </span>
 
                     <div className="form--item">
-                        <input type="text" name="name" className="form--input" placeholder='Business name' value={storeData.name} onChange={handleStoreDataChange} />
+                        <div className="form--item">
+                            <label className='form--label'>Name <Asterisk /></label>
+                            <input type="text" name="name" className="form--input" placeholder='Business name' value={storeData.name} onChange={handleStoreDataChange} />
+                        </div>
                         
-                        <div className="form--input-box">
-                            <input type="text" id='storeUrl' className="form--input" placeholder='Store url' name='storeUrl' value={storeData.storeUrl} onChange={handleStoreDataChange} />
-                            <span className='url--box'>.quicka.store</span>
+                        <div className="form--item">
+                            <label className='form--label'>URL <Asterisk /></label>
+                            <LinkInput url='.quicka.store' name="storeUrl" value={storeData.storeUrl} handleChange={handleStoreDataChange} linkPosition="end" />
                         </div>
                     </div>
                 </div>
@@ -160,7 +178,7 @@ function StoreCustom({ isnew, close }) {
                 <Line border={1.4} />
 
 
-                <div className="custom--item" style={{ gridTemplateColumns: width < 800 ? "1fr" : "1fr 2fr" }}>
+                <div className="custom--item" style={width < 800 ? { gridTemplateColumns: "1fr", gap: "2rem" } : {}}>
                     <span className="custom--labels">
                         <label className='form--label'>Store Banner (optional)</label>
                         <p className="custom--subtext">This is the image on the top sectio of your website. (Max size: 5MB)</p>
@@ -177,14 +195,40 @@ function StoreCustom({ isnew, close }) {
                     </div>
                 </div>
 
+
                 <Line border={1.4} />
 
-                <div className="custom--item" style={{ gridTemplateColumns: width > 900 ? "1fr 2fr" : ""}}>
+
+                <div className="custom--item">
+                    <span className="custom--labels">
+                        <label className='form--label'>Banner Text and Headlines (optional)</label>
+                        <p className="custom--subtext">Texts will be visible on the store banner.</p>
+                    </span>
+
+
+                    <div className="form--item">
+                        <div className="form--item">
+                            <label className="form--label">Heading</label>
+                            <input type="text" name="bannerHeading" className="form--input" placeholder='Banner Heading' value={storeData.bannerHeading} onChange={handleStoreDataChange} />
+                        </div>
+
+                        <div className="form--item">
+                            <label className="form--label">Sub Heading</label>
+                            <input type="text" name="bannerSubheading" className="form--input" placeholder='Banner Subheading' value={storeData.bannerSubheading} onChange={handleStoreDataChange} />
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <Line border={1.4} />
+
+
+                <div className="custom--item">
                     <span className="custom--labels">
                         <label className='form--label'>Theme / Brand color (optional)</label>
                         <p className="custom--subtext">Select or customize your brand color.</p>
                     </span>
-
 
                     <div className='custom--interface'>
                         <div className="form--item" style={{ gap: "2rem" }}>
@@ -207,6 +251,25 @@ function StoreCustom({ isnew, close }) {
                         </div>
                     </div>
                 </div>
+
+
+                <Line border={1.4} />
+
+                
+                <div className="custom--item">
+                    <span className="custom--labels">
+                        <label className='form--label'>Social Accounts (optional)</label>
+                        <p className="custom--subtext">Give more credibility by providing your social links</p>
+                    </span>
+
+                    <div className="form--item">
+                        <LinkInput url='www.facebook/' name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                        <LinkInput url='www.instagram/' name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                        <LinkInput url='www.twitter/' name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                        <LinkInput url='www.https://wa.me/' name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                    </div>
+                </div>
+
 
                 <Line border={1.4} />
 
