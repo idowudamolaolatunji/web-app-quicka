@@ -4,7 +4,6 @@ import { useWindowSize } from 'react-use'
 import BackButton from '../../../components/button/BackButton';
 import Line from '../../../components/Line';
 
-import noImg from '../../../assets/images/png_elements/flutterwave-store.png'
 import { Link } from 'react-router-dom';
 import ImageUploadUI from '../../../components/ImageUploadUI';
 import { useAuthContext } from '../../../context/AuthContext';
@@ -12,13 +11,15 @@ import Asterisk from '../../../components/Asterisk';
 import { AiOutlineDelete, AiOutlineLink } from 'react-icons/ai';
 import ColorBox from '../../../components/ColorBox';
 
-import sample from "../../../assets/images/themes/original-5fd4642ef1335c41fba6b920ab037b3d.png"
 import LinkInput from '../../../components/LinkInput';
 import { Switch } from '@mui/material';
 import QuillEditor from '../../../components/QuillEditor';
+import TemplateUI from "../../../ui/templateUI";
+import Info from '../../../components/Info';
 
 const colors = ["red", "black", "lightblue", "violet", "gold", "pink", "#CCDDDD", "#008B02"]
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+const noLogo = "../../../../faviconB.png"
 
 
 function StoreCustom({ isnew, close }) {
@@ -40,6 +41,7 @@ function StoreCustom({ isnew, close }) {
         name: store?.name || "",
         storeUrl: store?.storeUrl?.replace(".quicka.store", "") || "",
 
+        headline: store?.headline || "",
         bannerHeading: customDesign?.bannerHeading || "",
         bannerSubheading: customDesign?.bannerSubheading || "",
         brandColor: customDesign?.brandColor || "",
@@ -73,7 +75,10 @@ function StoreCustom({ isnew, close }) {
     }
 
     function handleSelectColor(color) {
-        setSelectedColor(color)
+        setSelectedColor(color);
+        if(customColor.color) {
+            setCustomColor({ color: "", isValid: false });
+        }
     }
 
     function handleCustomColor(e) {
@@ -121,7 +126,7 @@ function StoreCustom({ isnew, close }) {
     useEffect(function() {
         const color = customColor.color;
         const check  = new Option().style;
-        check.color = color
+        check.color = color;
         
         if(check.color.length > 0) {
             setCustomColor({ ...customColor, isValid: true });
@@ -139,7 +144,6 @@ function StoreCustom({ isnew, close }) {
             setStoreData({ ...storeData, brandColor: "" });
         }
     }, [customColor, selectedColor]);
-    console.log(storeData.brandColor)
 
     useEffect(function () {
         !isnew && window.scrollTo(0, 0);
@@ -161,7 +165,7 @@ function StoreCustom({ isnew, close }) {
 
                 <div className='custom--head'>
                     <div className="form--element">
-                        <span><img src={logo ? logoImg : (imagePreview.logo || noImg)} alt="brand logo" /></span>
+                        <span><img src={logo ? logoImg : (imagePreview.logo || noLogo)} alt="brand logo" /></span>
 
                         <div className='form--item'>
                             <input type='file' id='logo' name='logo' onChange={handleImageChange} accept="image/*" />
@@ -242,22 +246,30 @@ function StoreCustom({ isnew, close }) {
                 <div className="custom--item">
                     <span className="custom--labels">
                         <label className='form--label'>Banner Text and Headlines (optional)</label>
-                        <p className="custom--subtext">Texts will be visible on the store banner.</p>
+                        <p className="custom--subtext">
+                            <div><Info /> Top banner headline is the first section of your website.</div><br />
+
+                            <div><Info />Banner headings and texts will be visible on the store front banner.</div>
+                        </p>
                     </span>
 
 
                     <div className="form--item">
                         <div className="form--item">
-                            <label className="form--label">Heading</label>
-                            <input type="text" name="bannerHeading" className="form--input" placeholder='Banner Heading' value={storeData.bannerHeading} onChange={handleStoreDataChange} />
+                            <label className="form--label">Top Banner Headlines</label>
+                            <input type="text" name="headline" className="form--input" placeholder='Shop here on luxeware and get 2% discount' value={storeData.headline} onChange={handleStoreDataChange} />
                         </div>
 
                         <div className="form--item">
-                            <label className="form--label">Sub Heading</label>
-                            <input type="text" name="bannerSubheading" className="form--input" placeholder='Banner Subheading' value={storeData.bannerSubheading} onChange={handleStoreDataChange} />
+                            <label className="form--label">Banner Heading</label>
+                            <input type="text" name="bannerHeading" className="form--input" placeholder='Welcome to' value={storeData.bannerHeading} onChange={handleStoreDataChange} />
+                        </div>
+
+                        <div className="form--item">
+                            <label className="form--label">Banner text</label>
+                            <input type="text" name="bannerSubheading" className="form--input" placeholder='Luxewares' value={storeData.bannerSubheading} onChange={handleStoreDataChange} />
                         </div>
                     </div>
-
                 </div>
 
 
@@ -287,7 +299,15 @@ function StoreCustom({ isnew, close }) {
 
 
                         <div className="custom--display">
-                            <img src={sample} alt="" />
+                            <TemplateUI 
+                                logo={logo ? logoImg : (imagePreview.logo || noLogo)}
+                                color={storeData.brandColor}
+                                headline={storeData.headline}
+                                banner={customDesign?.banner ? bannerImg : imagePreview.banner}
+                                heading={storeData.bannerHeading}
+                                text={storeData.bannerSubheading}
+                                about={storeData.aboutPage}
+                            />
                         </div>
                     </div>
                 </div>

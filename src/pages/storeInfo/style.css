@@ -54,6 +54,15 @@
     font-size: 1.4rem;
     line-height: 1.4;
 }
+.custom--subtext:has(div) {
+    line-height: 1.1;
+}
+.custom--subtext div {
+    display: flex;
+    align-items: flex-start;
+    gap: .4rem;
+}
+
 .custom--description {
     width: 100%;
     display: flex;
@@ -142,9 +151,42 @@
 
 .custom--display {
     max-width: 40rem;
-    height: 20rem;
-    overflow: hidden;
+    height: 22rem;
+    border: 7px solid #333;
+    border-top-width: 14px;
+    border-radius: .8rem;
+
+    position: relative;
 }
+.custom--display::before,
+.custom--display::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    top: -0.6rem;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+}
+
+
+.custom--display::before {
+    background-color: #fff;
+    width: .34rem;
+    height: .34rem;
+
+    left: 46%;
+}
+
+.custom--display::after {
+    background-color: #aaa;
+    width: .68rem;
+    height: .68rem;
+
+    left: 50%;
+
+}
+
 
 
 
