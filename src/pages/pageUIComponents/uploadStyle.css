@@ -3,18 +3,18 @@
 .product__upload--container {
     display: grid;
     grid-template-columns: 2.2fr 1.6fr;
-    gap: 1.1rem;
+    gap: 1.3rem;
 }
 .product__upload--container .containers {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 1.4rem;
 }
 
 .page__section--actions {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 1.4rem;
 }
 
 .page__section--actions .button {
@@ -419,7 +419,7 @@
 
     .product__upload--container,
     .product__upload--container .containers {
-        gap: 2.8rem;
+        gap: 3.4rem;
     }
     
     .product__upload--container .form--grid {

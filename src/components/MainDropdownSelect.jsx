@@ -14,7 +14,6 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                 labelField={field}
                 valueField={field}
                 closeOnSelect
-                // disabled={disabled}
                 searchable={searchable}
                 separator
                 clearable

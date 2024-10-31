@@ -164,12 +164,12 @@ textarea::placeholder {
 	height: 100vh;
 	min-width: 45rem;
 	transform: translateX(0);
-	animation: drawer-side .35s ease-in-out;
+	animation: drawer-side-in .35s ease-in-out;
 	z-index: 100;
 	overflow-y: auto;
 }
-@keyframes drawer-side {
-    0% { opacity: 1; transform: translateX(10rem); }
+@keyframes drawer-side-in {
+    0% { opacity: 1; transform: translateX(50rem); }
     100% { transform: translateX(0rem); }
 }
 
