@@ -155,3 +155,21 @@ export const units = [
 	{ name: "plate", value: "plate" },
 	{ name: "g", value: "g" },
 ];
+
+
+export const colors = [
+    "#FF69B4", // Pastel Pink
+    "#2E865F", // Forest Green
+    "#754975", // Rich Plum
+    "#03A9F4", // Calm Blue
+    "#FFA07A", // Warm Peach
+    "#452B1F", // Burgundy
+    "#8BC34A", // Minty Green
+    "#8B0A0A", // Deep Red
+    "#4D3A7D", // Deep Lavender
+    "#F2C464", // Vibrant Coral
+    "#1A1D23", // Dark Charcoal
+    "#66CCCC", // Soft Teal
+    "#A83731", // Burnt Orange
+    "#5C6BC0", // Dusky Blue
+];

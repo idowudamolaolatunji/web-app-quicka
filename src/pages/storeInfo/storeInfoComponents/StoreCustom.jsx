@@ -4,7 +4,6 @@ import { useWindowSize } from 'react-use'
 import BackButton from '../../../components/button/BackButton';
 import Line from '../../../components/Line';
 
-import { Link } from 'react-router-dom';
 import ImageUploadUI from '../../../components/ImageUploadUI';
 import { useAuthContext } from '../../../context/AuthContext';
 import { AiOutlineDelete, AiOutlineLink } from 'react-icons/ai';
@@ -15,8 +14,8 @@ import { Switch } from '@mui/material';
 import QuillEditor from '../../../components/QuillEditor';
 import TemplateUI from "../../../ui/templateUI";
 import Info from '../../../components/Info';
-
-const colors = ["orangered", "black", "lightblue", "violet", "gold", "pink", "#CCDDDD", "#008B02", "#697888"]
+import { colors } from '../../../utils/data';  
+  
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const noLogo = "../../../../faviconB.png"
 

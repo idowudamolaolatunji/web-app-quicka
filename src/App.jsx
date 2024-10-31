@@ -73,7 +73,7 @@ import CommunityForums from './pages/communityForums';
 import ProductItem from './pages/products/productComponents/ProductItem';
 import OrderItem from './pages/orders/orderComponents/OrderItem';
 import CreateDelivery from './pages/delivery/deliveryComponents/CreateDelivery';
-import { useLocation, useWindowScroll } from 'react-use';
+import { useLocation } from 'react-use';
 
 
 
@@ -110,9 +110,9 @@ function App() {
                     <Route path='/dashboard/products/upload' element={<UploadProduct />}></Route>
                     <Route path='/dashboard/customers/add' element={<CreateCustomers />}></Route>
                     <Route path='/dashboard/delivery-rates/add' element={<CreateDelivery />}></Route>
-                    <Route path='/dashboard/products/edit/:id' element={<UploadProduct />}></Route>
-                    <Route path='/dashboard/customers/edit/:id' element={<CreateCustomers />}></Route>
-                    <Route path='/dashboard/delivery-rates/edit/:id' element={<CreateDelivery />}></Route>
+                    <Route path='/dashboard/products/:id/edit' element={<UploadProduct />}></Route>
+                    <Route path='/dashboard/customers/:id/edit' element={<CreateCustomers />}></Route>
+                    <Route path='/dashboard/delivery-rates/:id/edit' element={<CreateDelivery />}></Route>
 
                     <Route path='/dashboard/products/:id' element={<ProductItem />}></Route>
                     <Route path='/dashboard/orders/:id' element={<OrderItem />}></Route>
