@@ -4,7 +4,7 @@ import { formatNumber } from '../../../utils/helper';
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../../context/FetchedContext';
 
-function OverviewChart() {
+function OverviewChart({ isHorizontal=false }) {
     const { width } = useWindowSize();
     const { orders } = useFetchedContext();
     const isData = orders?.length > 0 ? true : false;

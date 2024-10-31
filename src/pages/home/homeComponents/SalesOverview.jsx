@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SalesOverviewChart from './SalesOverviewChart'
 import SelectAutoWidthDropdown from '../../../components/SelectAutoWidthDropdown'
+import { AiOutlineRotateLeft, AiOutlineRotateRight } from 'react-icons/ai'
 
 
 const datePeriods = [
@@ -9,6 +10,12 @@ const datePeriods = [
 ]
 
 function SalesOverview() {
+    const [isHorizontal, setIsHorizontal] = useState(false);
+    const [period, setPeriod] = useState("")
+
+    const handleChangeView = function() {
+        setIsHorizontal(!isHorizontal)
+    }
 
     return (
         <div className='card sales-section'>
@@ -17,10 +24,18 @@ function SalesOverview() {
                     <h2>Your Business Yearly Sales Perfomance</h2>
                     <p>View your sales performance through a well detailed & accurate chart.</p>
                 </div>
-                <SelectAutoWidthDropdown menus={datePeriods} />
+
+                <div className='flex'>
+                    <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod}  />
+
+                    {/* <span className='rotate--icon' onClick={handleChangeView}>
+                        { isHorizontal ? <AiOutlineRotateLeft  /> : <AiOutlineRotateRight  /> }
+                    </span> */}
+                </div>
             </span>
 
-            <SalesOverviewChart />
+
+            <SalesOverviewChart {...isHorizontal} />
         </div>
     )
 }

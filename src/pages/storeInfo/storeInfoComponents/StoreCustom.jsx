@@ -7,7 +7,6 @@ import Line from '../../../components/Line';
 import { Link } from 'react-router-dom';
 import ImageUploadUI from '../../../components/ImageUploadUI';
 import { useAuthContext } from '../../../context/AuthContext';
-import Asterisk from '../../../components/Asterisk';
 import { AiOutlineDelete, AiOutlineLink } from 'react-icons/ai';
 import ColorBox from '../../../components/ColorBox';
 
@@ -17,7 +16,7 @@ import QuillEditor from '../../../components/QuillEditor';
 import TemplateUI from "../../../ui/templateUI";
 import Info from '../../../components/Info';
 
-const colors = ["red", "black", "lightblue", "violet", "gold", "pink", "#CCDDDD", "#008B02"]
+const colors = ["orangered", "black", "lightblue", "violet", "gold", "pink", "#CCDDDD", "#008B02", "#697888"]
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const noLogo = "../../../../faviconB.png"
 
@@ -38,9 +37,8 @@ function StoreCustom({ isnew, close }) {
     const [customColor, setCustomColor] = useState({ color: "", isValid: false });
 
     const [storeData, setStoreData] = useState({
-        name: store?.name || "",
-        storeUrl: store?.storeUrl?.replace(".quicka.store", "") || "",
-
+        // name: store?.name || "",
+        // storeUrl: store?.storeUrl?.replace(".quicka.store", "") || "",
         headline: store?.headline || "",
         bannerHeading: customDesign?.bannerHeading || "",
         bannerSubheading: customDesign?.bannerSubheading || "",
@@ -177,14 +175,18 @@ function StoreCustom({ isnew, close }) {
 
                             </div>
                             <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>
-                                png or jpg up to 2MB.<br />Recommended size 256x256</p>
+                                png or jpg up to 2MB. {width < 450 && <br />}Recommended size 256x256</p>
                         </div>
                     </div>
                     
+
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        <span className='custom--labels' style={{ gap: ".2rem"}}>
-                            <h3 className='custom--title'>{storeData.name || store?.name}</h3>
-                            <Link className='custom--link' to={`https://${store?.storeUrl}`}>https://{(storeData.storeUrl  + ".quicka.store") || store?.storeUrl} {storeData.storeUrl && <AiOutlineLink />}</Link>
+                        <span className='custom--labels' style={{ gap: ".6rem"}}>
+                            <h3 className='custom--title'>{store?.name}</h3>
+
+                            <a className='custom--link' target='_blank' href={`https://${store?.storeUrl}`} >
+                                https://{store?.storeUrl} <AiOutlineLink />
+                            </a>
                         </span>
 
                         {width > 500 && (
@@ -197,7 +199,7 @@ function StoreCustom({ isnew, close }) {
                 </div>
 
 
-                <Line border={1.4} />
+                {/* <Line border={1.4} />
 
 
                 <div className="custom--item">
@@ -208,16 +210,16 @@ function StoreCustom({ isnew, close }) {
 
                     <div className="form--item">
                         <div className="form--item">
-                            <label className='form--label'>Name <Asterisk /></label>
-                            <input type="text" name="name" className="form--input" placeholder='Business name' value={storeData.name} onChange={handleStoreDataChange} />
+                            <label className='form--label'>Business Name</label>
+                            <input type="text" name="name" className="form--input" placeholder='Business name' value={storeData.name} onChange={handleStoreDataChange} readOnly />
                         </div>
                         
                         <div className="form--item">
-                            <label className='form--label'>URL <Asterisk /></label>
-                            <LinkInput url='.quicka.store' name="storeUrl" value={storeData.storeUrl} handleChange={handleStoreDataChange} linkPosition="end" />
+                            <label className='form--label'>Store URL</label>
+                            <LinkInput url='.quicka.store' name="storeUrl" value={storeData.storeUrl} handleChange={handleStoreDataChange} linkPosition="end" readOnly={true} />
                         </div>
                     </div>
-                </div>
+                </div> */}
 
 
                 <Line border={1.4} />
@@ -247,18 +249,18 @@ function StoreCustom({ isnew, close }) {
 
                 <div className="custom--item">
                     <span className="custom--labels">
-                        <label className='form--label'>Banner Text and Headlines (optional)</label>
+                        <label className='form--label'>Website Headline and Banner Texts (optional)</label>
                         <p className="custom--subtext">
-                            <div><Info /> Top banner headline is the first section of your website.</div><br />
+                            <div><Info /> Website headline is the first section of your website.</div><br />
 
-                            <div><Info />Banner headings and texts will be visible on the store front banner.</div>
+                            <div><Info />Banner headings and texts will be visible on the store banner.</div>
                         </p>
                     </span>
 
 
                     <div className="form--item">
                         <div className="form--item">
-                            <label className="form--label">Top Banner Headlines</label>
+                            <label className="form--label">Custom Headlines message</label>
                             <input type="text" name="headline" className="form--input" placeholder='Shop here on luxeware and get 2% discount' value={storeData.headline} onChange={handleStoreDataChange} />
                         </div>
 

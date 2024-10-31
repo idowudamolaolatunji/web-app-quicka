@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SelectAutoWidthDropdown from '../../../components/SelectAutoWidthDropdown';
 
 import img_item from '../../../assets/images/resources/IMG_5336.jpg'
@@ -51,6 +51,8 @@ function TopProducts() {
 
     const topThreeProducts = products.filter(product => product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, 3);
 
+    const [period, setPeriod] = useState("");
+
     return (
         <div className='card top-product-section'>
             <div className="section--top" style={ width < 450 ? { flexDirection: "column", textAlign: "center", width: "100%", alignItems: "center" } : {} }>
@@ -59,7 +61,7 @@ function TopProducts() {
                     <p>Items that are selling most.</p>
                 </div>
 
-                <SelectAutoWidthDropdown menus={datePeriods} />
+                <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />
             </div>
 
             <div className='top-product--container'>

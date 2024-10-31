@@ -32,6 +32,7 @@ a,
 a:link,
 a:visited {
 	text-decoration: none;
+	transition: all .3s;
 }
 
 form,
@@ -433,6 +434,14 @@ textarea::placeholder {
 	width: 1.6rem;
 }
 
+.rotate--icon {
+	padding: .8rem;
+	background-color: #eee;
+	color: var(--color-brand-500);
+}
+.rotate--icon svg {
+	font-size: 2rem;
+}
 
 .grid {
 	display: grid;

@@ -46,8 +46,8 @@ const MenuStyled = styled(MenuItem)(({ theme }) => ({
 }));
 
 
-export default function SelectAutoWidthDropdown({ menus }) {
-  const [period, setPeriod] = React.useState('');
+export default function SelectAutoWidthDropdown({ menus, period, setPeriod }) {
+  // const [period, setPeriod] = React.useState('');
 
   const handleChange = (event) => {
     setPeriod(event.target.value);

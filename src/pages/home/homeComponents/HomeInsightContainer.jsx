@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HomeProgressGrid from './HomeProgressGrid';
 import SelectAutoWidthDropdown from '../../../components/SelectAutoWidthDropdown';
 import InsightGrid from './InsightGrid';
@@ -14,7 +14,9 @@ const datePeriods = [
 
 function HomeInsightContainer() {
     const { width } = useWindowSize();
-    const { store } = useAuthContext()
+    const { store } = useAuthContext();
+
+    const [period, setPeriod] = React.useState("");
 
     return (
         <div className={`insight--container ${width > 500 ? 'card' : ''}`}>
@@ -23,17 +25,18 @@ function HomeInsightContainer() {
 
                     <span className='flex' style={{ justifyContent: "space-between", flexDirection: "row" }}>
                         <h2>Brief Overview</h2>
-                        {width <= 450 && <SelectAutoWidthDropdown menus={datePeriods} />}
+
+                        {width <= 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />}
                     </span>
 
                     <p>This is what <span>{store?.name}</span> is up to today!</p>
                 </div>
 
-                {width > 450 && <SelectAutoWidthDropdown menus={datePeriods} />}
+                {width > 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />}
             </div>
 
             {/* THE CARDS THEMSELVES */}
-            <InsightGrid />
+            <InsightGrid period={period} />
 
             {width <= 500 && <HomeProgressGrid />}
         </div>
