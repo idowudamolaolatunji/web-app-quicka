@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import ImageUploadUI from '../../../components/ImageUploadUI';
 import { useAuthContext } from '../../../context/AuthContext';
 import Asterisk from '../../../components/Asterisk';
-import { AiOutlineLink } from 'react-icons/ai';
+import { AiOutlineDelete, AiOutlineLink } from 'react-icons/ai';
 import ColorBox from '../../../components/ColorBox';
 
 import sample from "../../../assets/images/themes/original-5fd4642ef1335c41fba6b920ab037b3d.png"
@@ -55,6 +55,11 @@ function StoreCustom({ isnew, close }) {
             setImagePreview({ ...imagePreview, [name]: imageUrl });
         }
     };
+
+    const handleRemoveImage = function(name) {
+        setImagePreview({ ...imagePreview, [name]: null });
+        setImageFile({ ...imageFile, [name]: null });
+    }
 
     function handleSelectColor(color) {
         setSelectedColor(color)
@@ -131,7 +136,12 @@ function StoreCustom({ isnew, close }) {
                         <div className='form--item'>
                             <input type='file' id='logo' name='logo' onChange={handleImageChange} accept="image/*" />
 
-                            <label htmlFor="logo" className='form--upload-btn'>{(store?.logo || imagePreview.logo) ? "Change" : "Upload"} Logo</label>
+                            <div className="flex justify">
+                                <label htmlFor="logo" className='form--upload-btn'>{(store?.logo || imagePreview.logo) ? "Change" : "Upload"} Logo</label>
+
+                                {imagePreview.logo && <button onClick={() => handleRemoveImage("logo")} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
+
+                            </div>
                             <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>png or jpg up to 2MB. Recommended size 256x256</p>
                         </div>
                     </div>
@@ -139,7 +149,7 @@ function StoreCustom({ isnew, close }) {
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <span className='custom--labels' style={{ gap: ".2rem"}}>
                             <h3 className='custom--title'>{storeData.name || store?.name}</h3>
-                            <Link className='custom--link' to={`https://${store?.storeUrl}`}>www.{(storeData.storeUrl  + ".quicka.store") || store?.storeUrl} {storeData.storeUrl && <AiOutlineLink />}</Link>
+                            <Link className='custom--link' to={`https://${store?.storeUrl}`}>https://{(storeData.storeUrl  + ".quicka.store") || store?.storeUrl} {storeData.storeUrl && <AiOutlineLink />}</Link>
                         </span>
 
                         {width > 500 && (
