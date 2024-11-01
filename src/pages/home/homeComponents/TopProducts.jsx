@@ -7,6 +7,8 @@ import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { truncateString } from '../../../utils/helper';
 import TooltipUI from '../../../components/TooltipUI';
+import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const datePeriods = [
     { value: 'this-week', title: 'This Week' },
@@ -16,6 +18,7 @@ const datePeriods = [
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 function ProductFigure({ product }) {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
     const { soldAmount, stockAmount, images, name } = product;
     const totalStock = (soldAmount + stockAmount);
@@ -23,7 +26,7 @@ function ProductFigure({ product }) {
     const percentageSold = ((soldAmount / totalStock) * 100).toFixed(0)
 
     return (
-        <figure className='top-product--figure'>
+        <figure className='top-product--figure' onClick={() => navigate(`/dashboard/products/${product.productId}`)}>
             <img className='top-product--img' src={`${BASE_URL}${images[0]}`} alt="" />
             <figcaption className='top-product--details'>
                 <div className='top-product--info'>
@@ -38,7 +41,7 @@ function ProductFigure({ product }) {
                         <span><p className='value'>{percentageSold}</p>%</span>
                     </span>
                 </div>
-                <div className='top-product--scale'><span style={{ width: '10%' }} /></div>
+                <div className='top-product--scale'><span style={{ width: `${percentageSold}%` }} /></div>
             </figcaption>
         </figure>
     )
@@ -48,10 +51,10 @@ function TopProducts() {
     const { width } = useWindowSize();
     const { products } = useFetchedContext();
     const threshold = 3;
-
     const topThreeProducts = products.filter(product => product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, 3);
 
     const [period, setPeriod] = useState("");
+
 
     return (
         <div className='card top-product-section'>

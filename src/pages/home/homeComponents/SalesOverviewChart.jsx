@@ -3,21 +3,43 @@ import ReactApexChart from 'react-apexcharts';
 import { formatNumber } from '../../../utils/helper';
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../../context/FetchedContext';
+import moment from 'moment';
 
-function OverviewChart({ isHorizontal=false }) {
+
+function OverviewChart({ period }) {
     const { width } = useWindowSize();
     const { orders } = useFetchedContext();
     const isData = orders?.length > 0 ? true : false;
+    const completedOrders = orders?.filter(order => order.orderStatus == "completed");
 
-    const processChart = function() {
+    const handleGetYearlyData = function() {
+        const now = moment();
+        let startDate, endDate;
+
+        if (period === 'this-year') {
+            startDate = moment('01-01-' + now.year(), 'DD-MM-YYYY');
+            endDate = moment('31-12-' + now.year(), 'DD-MM-YYYY').endOf('day');
+        } else if (period === 'last-year') {
+            startDate = now.clone().subtract(1, 'year').startOf('year');
+            endDate = now.clone().subtract(1, 'year').endOf('year');
+        }
+
+        return completedOrders.filter((order) => {
+            const orderDate = moment(order.orderDate, 'YYYY-MM-DD');
+            return orderDate.isValid() && orderDate.isBetween(startDate, endDate, null, '[)');
+        });
+    }
+
+    const orderChartData = handleGetYearlyData();
+
+    const handleProcessChart = function() {
         const series = [
             { name: 'Total Sales', data: new Array(12).fill(null), color: '#ff7a49' },
             { name: 'Online Sales', data: new Array(12).fill(null), color: '#ffb59a' },
             { name: 'Offline Sales', data: new Array(12).fill(null), color: '#994020' },
         ];
 
-        // WE ONLY TRACK SALES FOR COMPLETED ORDERS ALONE
-        orders?.filter(order => order.orderStatus == "completed").forEach(order => {
+        orderChartData?.forEach(order => {
             const orderDate = new Date(order.orderDate);
             const month = orderDate.getMonth(); // 0-11
             const sales = order.orderAmount; // Access orderAmount directly
@@ -33,7 +55,7 @@ function OverviewChart({ isHorizontal=false }) {
         return series;
     };
 
-    const series = processChart();
+    const series = handleProcessChart();
 
     const options = {
         chart: {

@@ -40,7 +40,7 @@ function ProductCard({ product, open, base }) {
                 )}
 
                 <span className='product__figure--actions'>
-                    <button className='table--btn' onClick={() => navigate(`edit/${product?.productId}`)}><RiEdit2Line />{width > 500 ? "Edit" : ""}</button>
+                    <button className='table--btn' onClick={() => navigate(`${product?.productId}/edit`)}><RiEdit2Line />{width > 500 ? "Edit" : ""}</button>
                     <button className='table--btn' onClick={() => open(product?._id)}><RiDeleteBin5Line />{width > 500 ? "Delete" : ""}</button>
                 </span>
 

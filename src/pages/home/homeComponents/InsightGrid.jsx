@@ -34,13 +34,13 @@ function InsightGrid({ period }) {
 
     return (
         <div className='insight--grid'>
-            <Insight title='Website Visits' value={websiteVisitorInsight} dec={!websiteVisitorInsight && 1} icon={<LuMousePointerClick />} />
+            <Insight title='Website Visits' value={websiteVisitorInsight} icon={<LuMousePointerClick />} />
 
-            <Insight title='Orders' value={ordersInsight} dec={!ordersInsight && 1} icon={<MdOutlineShoppingBag />} link='/orders' />
+            <Insight title='Orders' value={ordersInsight} icon={<MdOutlineShoppingBag />} link='/orders' />
 
-            <Insight title='Products Sold' value={productSoldInsight} dec={!productSoldInsight && 1} icon={<LuTags />} link='/products' />
+            <Insight title='Products Sold' value={productSoldInsight} icon={<LuTags />} link='/products' />
 
-            <Insight title='Customer' value={customersInsight} dec={!customersInsight && 1} icon={<FiUsers />} link='/customers' />
+            <Insight title='Customer' value={customersInsight} icon={<FiUsers />} link='/customers' />
         </div>
     )
 }

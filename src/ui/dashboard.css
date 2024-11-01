@@ -28,6 +28,10 @@
 
 body:has(.dashboard--base) {
     overflow-x: hidden;
+
+    /* material ui */
+    padding-right: 0 !important;
+    overflow-y: auto !important;
 }
 
 

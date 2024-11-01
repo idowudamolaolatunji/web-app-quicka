@@ -5,72 +5,68 @@ import Select from '@mui/material/Select';
 import { styled } from '@mui/material/styles';
 
 const SelectStyled = styled(Select)(({ theme }) => ({
-  fontSize: 13,
-  fontWeight: 500,
-  fontFamily: 'inherit',
+    fontSize: 13,
+    fontWeight: 500,
+    fontFamily: 'inherit',
 
-  '&.Mui-focused': {
-    borderColor: 'transparent',
-    boxShadow: 'none',
-  },
-  '&:hover': {
-    borderColor: 'transparent',
-  },
-  '& fieldset': {
-    borderColor: 'transparent',
-  },
-  '&:hover fieldset': {
-    borderColor: 'transparent',
-  },
-  '&.MuiOutlinedInput-root': {
+    '&.Mui-focused': {
+        borderColor: 'transparent',
+        boxShadow: 'none',
+    },
+    '&:hover': {
+        borderColor: 'transparent',
+    },
     '& fieldset': {
-      borderColor: 'transparent',
+        borderColor: 'transparent',
     },
     '&:hover fieldset': {
-      borderColor: 'transparent',
+        borderColor: 'transparent',
     },
-    '&.Mui-focused fieldset': {
-      borderColor: 'transparent',
-      borderWidth: 0,
-      boxShadow: 'none',
+    '&.MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: 'transparent',
+        },
+        '&:hover fieldset': {
+            borderColor: 'transparent',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: 'transparent',
+            borderWidth: 0,
+            boxShadow: 'none',
+        },
     },
-  },
 
 }));
 
 
 const MenuStyled = styled(MenuItem)(({ theme }) => ({
-  fontSize: 13,
-  fontWeight: 500,
-  fontFamily: 'inherit',
+    fontSize: 13,
+    fontWeight: 500,
+    fontFamily: 'inherit',
 }));
 
 
 export default function SelectAutoWidthDropdown({ menus, period, setPeriod }) {
-  // const [period, setPeriod] = React.useState('');
+    const handleChange = (event) => {
+        setPeriod(event.target.value);
+    };
 
-  const handleChange = (event) => {
-    setPeriod(event.target.value);
-  };
+    React.useEffect(function () {
+        setPeriod(menus[0].value);
+    }, [])
 
-  React.useEffect(function() {
-    setPeriod(menus[0].value);
-  }, [])
-
-  return (
-    <div>
-      <FormControl>
-        <SelectStyled
-          value={period}
-          onChange={handleChange}
-          displayEmpty
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          {menus.map(menu => (
-            <MenuStyled key={menu.value} value={`${menu.value}`}>{menu.title}</MenuStyled>
-          ))}
-        </SelectStyled>
-      </FormControl>
-    </div>
-  );
+    return (
+        <FormControl>
+            <SelectStyled
+                value={period}
+                onChange={handleChange}
+                displayEmpty
+                inputProps={{ 'aria-label': 'Without label' }}
+            >
+                {menus.map(menu => (
+                    <MenuStyled key={menu.value} value={`${menu.value}`}>{menu.title}</MenuStyled>
+                ))}
+            </SelectStyled>
+        </FormControl>
+    );
 }

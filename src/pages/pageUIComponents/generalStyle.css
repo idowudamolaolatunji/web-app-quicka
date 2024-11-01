@@ -352,6 +352,7 @@
 	flex-direction: column;
 	gap: 0.6rem;
 	font-size: 1.3rem;
+	line-height: 1.4;
 }
 .product__figure--details p {
 	color: #555;

@@ -719,4 +719,9 @@ button.onboard--next {
     .form--clicks {
         gap: 1rem;
     }
+
+    .form--element {
+        grid-template-columns: 11rem 1fr;
+        gap: 1.2rem;
+    }
 }

@@ -174,7 +174,8 @@ function StoreCustom({ isnew, close }) {
 
                             </div>
                             <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>
-                                png or jpg up to 2MB. {width < 450 && <br />}Recommended size 256x256</p>
+                                Recommended size <i className='value'> 256x256</i> {width < 450 && <br />}png or jpg up to 2MB.
+                            </p>
                         </div>
                     </div>
                     

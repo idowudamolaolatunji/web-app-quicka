@@ -3,8 +3,8 @@ import ReactApexChart from 'react-apexcharts';
 
 const series = [
     {
-        name: 'Total Sales',
-        data: [ null, null, null, null, null ],
+        name: 'Website Visitors',
+        data: [ null, 0, 5, 4, null ],
         color: '#FF6B35'
     },
 ];
@@ -27,7 +27,7 @@ const options = {
         },
     },
     stroke: {
-        width: 1.5,
+        width: 1.6,
         curve: 'smooth'
     },
     dataLabels: {
@@ -47,7 +47,7 @@ const options = {
         },
     },
     xaxis: {
-        categories: [ 'Jul', 'Aug', 'Sep', 'Oct', 'Nov' ],
+        categories: [ 'Aug', 'Sep', 'Oct', 'Nov', "Dec" ],
         labels: {
             style: {
                 fontSize: '11px',

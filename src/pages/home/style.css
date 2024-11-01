@@ -561,6 +561,7 @@ a.upgrade--link:hover {
     grid-template-columns: 1fr 5fr;
     align-items: center;
     gap: .8rem;
+    cursor: pointer;
 }
 .top-product--img {
     width: 100%;

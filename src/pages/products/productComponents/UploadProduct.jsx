@@ -23,7 +23,7 @@ import { PiFrameCorners } from 'react-icons/pi';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { IoCloseOutline, IoCloudDownloadOutline, IoTrashBinOutline } from 'react-icons/io5';
 import { validateProductForm } from '../../../utils/validationHelper';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import AddPageUI from '../../pageUIComponents/AddPageUI';
 import Drawer from '../../../components/modal/Drawer';
 import CollectionFormSm from './CollectionFormSm';
@@ -38,6 +38,8 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     const currency = "₦";
     const maxNumber = 4;
     const navigate = useNavigate();
+    const { id } = useParams();
+
     const { width } = useWindowSize();
     const { token, handleUser, handleStore } = useAuthContext();
     const { collections, handleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
@@ -51,11 +53,12 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false)
     const [showModal, setShowModal] = useState({ collection: false, others: false });
-
+    
     const [variations, setVariations] = useState([]);
     const [description, setDescription] = useState('');
     const [productCollection, setProductCollection] = useState([]);
     const [unit, setUnit] = useState([]);
+    const [checks, setChecks] = useState({ trackInventory: false, isPhysical: true, isVisible: false, });
 
     const [productFormErrors, setProductFormErrors] = useState({})
     const [productData, setProductData] = useState({
@@ -69,43 +72,14 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         discountType: "no-discount",
     });
 
-    const [checks, setChecks] = useState({
-        trackInventory: false,
-        isPhysical: true,
-        isVisible: false,
-    });
-
-    const [cropModal, setCropModal] = useState(false);
-    const [selectedImage, setSelectedImage] = useState(null);
-
-    const [crop, setCrop] = useState({ x: 0, y: 0 })
-    const [zoom, setZoom] = useState(1);
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-
     const [images, setImages] = useState([]);
     const imageFiles = images.map(img => img.file);
 
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     const handleOnChangeImage = function(imageList, addUpdateIndex) {
         console.log(imageList, addUpdateIndex);
         setImages(imageList);
-    };
-
-    const handleEdit = function(img) {
-        setCropModal(true);
-        setSelectedImage(img)
-    }
-
-    const onCropChange = function(crop) {
-        setCrop(crop)
-    }
-
-    const onZoomChange = function(zoom) {
-        console.log(zoom)
-        setZoom(Number(zoom))
-    }
-
-    const onCropComplete = (croppedArea, croppedAreaPixels) => {
-        setCroppedAreaPixels(croppedAreaPixels);
     };
 
     const handleProductDataChange = function(e) {
@@ -121,6 +95,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         setShowModal({...showModal, [name]: !showModal[name] })
     }
 
+    // CLEAR FIELDS
     const handleClearFields = function() {
         setProductData({
             ...productData,
@@ -141,27 +116,22 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             isVisible: false,
         });
         setProductFormErrors({});
-
         setImages([])
-        setCropModal(false)
-        setSelectedImage(null)
-        setCrop({ x: 0, y: 0 })
-        setZoom(1)
-        setCroppedAreaPixels(null);
         
         window.scrollTo(0, 0)
     }
 
 
+    // HANDLE VARIATION INPUTS
     const handleChangeVariant = function(e, index) {
         const { name, value } = e?.target;
-        console.log(name, value)
         setVariations(prev => prev.map((item, i) =>
               i === index ? { ...item, [name]: value } : item
             )
         );        
     }
 
+    // ADD ITEM NEW VARIATIONS
     const handleAddVariant = function() {
         const lastVariant = variations[variations.length - 1];
 
@@ -173,19 +143,21 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         setVariations([...variations, { type: "", value: "", quantity: "" }]);
     }
 
+    // DELETE ITEM VARIATIONS
     const handleDeleteVariant = function(selectedIndex) {
         setVariations(prev => prev.filter((_, index) => index !== selectedIndex))
     }
+
+
 
     useEffect(function() {
         document.title = "Quicka | Upload new product";
 
         handleFetchUserStoreCollections()
-    }, [])
+    }, []);
 
     useEffect(function () {
         const type = productData.discountType;
-        console.log(type)
         if (type != "no-discount") {
             setProductData({ ...productData, discount: "" });
         }
@@ -616,37 +588,6 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                     </div>
                 </form>
             </AddPageUI>
-
-            {/* {cropModal && (
-                <SimpleModal setClose={setCropModal} title="Crop Image" icon={<AiOutlineClose />}>
-                    <div className='crop--container' style={{ height: width < 600 ? 250 : 300, background: "#333" }}>
-                        <Cropper
-                            image={selectedImage}
-                            crop={crop}
-                            zoom={zoom}
-                            aspect={1}
-                            onCropChange={onCropChange}
-                            onCropComplete={onCropComplete}
-                            onZoomChange={onZoomChange}
-                        />
-                    </div>
-
-                    <div className="controls">
-                        <div className="form--item" style={{ gap: 0, marginTop: '1rem' }}>
-                            <label className="form--label">Zoom</label>
-                            <Slider sx={{ color: '#ff7a49', width: "50%" }} max={3} min={1} step={0.1} value={zoom} onChange={(e) => onZoomChange(e.target.value)} />
-                        </div>
-                        <div className="button-area">
-                            <button onClick={onCancel}>Cancel</button>
-                            <button onClick={onResetImage}>Reset</button>
-                            <button onClick={onCrop}>Crop</button>
-                            <button onClick={() => setCropModal(false)}>Cancel</button>
-                            <button>Reset</button>
-                            <button>Crop</button>
-                        </div>
-                    </div>
-                </SimpleModal>
-            )} */}
         </>
     )
 }
