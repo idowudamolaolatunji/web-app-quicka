@@ -14,6 +14,10 @@ import BankDetails from '../../storeInfo/storeInfoComponents/BankDetails';
 import StoreCustom from '../../storeInfo/storeInfoComponents/StoreCustom';
 import CustomAlert from '../../../components/CustomAlert';
 
+
+const BASE_API_URL = import.meta.env.VITE_API_URL;
+
+
 function GetStarted() {
     const { width } = useWindowSize();
     const { store, token, handleUser, handleStore } = useAuthContext();
@@ -103,6 +107,7 @@ function GetStarted() {
 
 
     async function handleFinalizeOnboarding() {
+        console.log(completedSteps.length)
         if(completedSteps.length < 5) {
             setResponse({ status: "error", message: "Complete all onboarding Steps!!" });
             setTimeout(() => setResponse({ status: "", message: "" }), 5000);
@@ -125,6 +130,8 @@ function GetStarted() {
             const { store, owner } = data?.data;
             handleUser(owner);
             handleStore(store);
+
+            window.scrollTo(0, 0);
 
         } catch(err) {
             setResponse({ status: "error", message: err?.message });
@@ -215,7 +222,7 @@ function GetStarted() {
                     </div>
                 </div>
 
-                <button className={`get-started-btn ${completedSteps.length < 5 ? 'disabled' : ''}`} disabled onClick={handleFinalizeOnboarding}>Finish!</button>
+                <button className={`get-started-btn ${completedSteps.length < 5 ? 'disabled' : ''}`} disabled={completedSteps.length < 5} onClick={handleFinalizeOnboarding}>Finish!</button>
             </div>
 
 

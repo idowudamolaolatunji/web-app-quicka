@@ -4,9 +4,9 @@ import ReactApexChart from 'react-apexcharts';
 const series = [
     {
         name: 'Website Visitors',
-        data: [ null, 0, 5, 4, null ],
-        color: '#FF6B35'
-    },
+        data: [ null, null, null, null, null ],
+        color: '#FF6B30'
+    }
 ];
 
 
