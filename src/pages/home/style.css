@@ -46,13 +46,11 @@
 .sub--btn {
     font-size: 1.4rem;
     font-weight: 600;
-    border: none;
     color: #333;
     border-radius: .4rem;
 
     background-color: #fff;
     padding: .8rem 1rem;
-    cursor: pointer;
 }
 .home--top {
     display: flex;
@@ -210,11 +208,9 @@ a.upgrade--link:hover {
 .opts--items button {
     padding: .8rem 1.2rem;
     border-radius: .4rem;
-    border: none;
     color: #fff;
     font-size: 1.4rem;
     font-weight: 500;
-    cursor: pointer;
     transition: opacity .3s;
 }
 .opts--items button {
@@ -637,7 +633,6 @@ a.upgrade--link:hover {
 }
 
 .quick-container button {
-    border: none;
     display: flex;
     align-items: center;
     gap: .6rem;
@@ -647,7 +642,6 @@ a.upgrade--link:hover {
     font-family: inherit !important;
 
     padding: .9rem 1.2rem;
-    cursor: pointer;
     border-radius: .4rem;
     color: inherit;
 }
@@ -716,14 +710,12 @@ a.upgrade--link:hover {
 }
 
 .no--channel button {
-    border: none;
     background-color: var(--color-brand-500);
     color: #fff;
     font-size: 1.42rem;
     font-weight: 400;
     padding: .8rem 1.4rem;
     border-radius: .4rem;
-    cursor: pointer;
     transition: all .3s;
 }
 

@@ -19,12 +19,10 @@
 
 .page__section--actions .button {
     padding: 1rem 1.6rem;
-    border: none;
     border-radius: .4rem;
     font-size: 1.4rem;
     font-weight: 500;
     color: #fff;
-    cursor: pointer;
     transition: all .3s;
 }
 .page__section--actions .button:hover {
@@ -154,14 +152,12 @@
 
 .form--image button {
     padding: .6rem 1.2rem;
-    border: none;
     border-radius: .4rem;
     font-size: 1.3rem;
     font-weight: 500;
     display: flex;
     align-items: center;
     gap: .6rem;
-    cursor: pointer;
 }
 .form--image button svg {
     font-size: 2rem;
@@ -184,7 +180,6 @@
 }
 
 .form--add {
-    border: none;
     display: flex;
     align-items: center;
     gap: .6rem;
@@ -246,7 +241,6 @@
     width: 1.2rem;
     height: 1.2rem;
     border-radius: 50%;
-    border: none;
     transition: all .3s;
 }
 .status--dot.publish {
@@ -343,9 +337,7 @@
 .product--quantity-figure button {
     padding: .6rem;
     border-radius: .4rem;
-    border: none;
     font-size: 1.6rem;
-    cursor: pointer;
     transition: all .3s;
 }
 .product--quantity-figure button:hover {

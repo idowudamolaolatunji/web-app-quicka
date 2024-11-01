@@ -28,10 +28,14 @@
 
 body:has(.dashboard--base) {
     overflow-x: hidden;
+}
 
-    /* material ui */
-    padding-right: 0 !important;
-    overflow-y: auto !important;
+@media screen and (min-width: 600px) {
+    body:has(.dashboard--base) {
+        /* material ui */
+        padding-right: 0 !important;
+        overflow-y: auto !important;
+    }
 }
 
 
@@ -343,6 +347,8 @@ span.item--user-img {
     justify-content: center;
     background-color: var(--white-2);
     cursor: pointer;
+    font-size: 2rem;
+    color: #555;
 } 
 .collapsed .heading--icon {
     position: relative;

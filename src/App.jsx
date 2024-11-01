@@ -120,7 +120,7 @@ function App() {
 
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/custom-domain' element={<CustomDomain />}></Route>
-                    <Route path='/dashboard/connected-apps' element={<ConnectedApps />}></Route>
+                    <Route path='/dashboard/integrated-apps' element={<ConnectedApps />}></Route>
                     <Route path='/dashboard/store-customisation' element={<StoreCustomisation />}></Route>
                     <Route path='/dashboard/bank-details' element={<BankDetails />}></Route>
                     <Route path='/dashboard/store-info' element={<StoreInformation />}></Route>

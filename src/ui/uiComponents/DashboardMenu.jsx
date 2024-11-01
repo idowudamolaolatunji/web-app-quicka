@@ -9,14 +9,15 @@ import { MdChatBubble, MdOutlineChatBubbleOutline, MdOutlineDarkMode, MdOutlineD
 import { BiCustomize, BiLineChart } from 'react-icons/bi';
 import { HiOutlineSquare3Stack3D } from 'react-icons/hi2';
 import { useDataContext } from '../../context/DataContext';
-import { RiBankLine, RiCloseFill, RiCoupon3Line } from 'react-icons/ri';
+import { RiAppsLine, RiBankLine, RiCloseFill, RiCoupon3Line } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import Overlay from '../../components/Overlay';
 import MenuButton from './MenuButton';
 import { openWidget } from '../../utils/helper';
 import DefaultButton from '../../components/button/DefaultButton';
-import { TbTruckDelivery } from 'react-icons/tb';
+import { TbTransactionDollar, TbTruckDelivery } from 'react-icons/tb';
 import { useLocation } from 'react-router-dom';
+import TooltipUI from '../../components/TooltipUI';
 
 
 function DashboardMenu() {
@@ -60,26 +61,28 @@ function DashboardMenu() {
                             <MenuLink icon={<BiLineChart />} title='Store Analytics' link='/analytics' />
                             <MenuLink icon={<RiCoupon3Line />} title='Run sales and coupon' link='/run-sales' />
                             <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
-                            <MenuLink icon={<LuRotate3D />} title='All Transactions' link='/transactions' />
-                            <MenuLink icon={<MdOutlineWebhook />} title='Connected platforms' link='/connected-apps' />
+                            <MenuLink icon={<TbTransactionDollar />} title='All Transactions' link='/transactions' />
+                            <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                         </ul>
                     </div>
 
                     <div className={`menu--block settings ${showRemains ? 'menu-animate' : ''}`}>
                         <Line where={'Bottom'} value={'0.34rem'} />
 
-                        {!isMenuCollapsed ? (
-                            <span className='block--heading' onClick={handleShowRemains}>
-                                <p className='heading--text' style={{ cursor: 'pointer' }}>Store Settings</p>
-                                <div className='heading--icon'>
-                                    {showRemains ? <AiOutlineMinus /> : <AiOutlinePlus />}
-                                </div>
-                            </span>
-                        ) : (
-                            <div className='heading--icon' onClick={handleShowRemains}>
-                                {showRemains ? <AiOutlineMinus /> : <AiOutlinePlus />}
-                            </div>
-                        )}
+                            {!isMenuCollapsed ? (
+                                <span className='block--heading' onClick={handleShowRemains}>
+                                    <p className='heading--text' style={{ cursor: 'pointer' }}>Store Settings</p>
+                                    <div className='heading--icon'>
+                                        {showRemains ? <AiOutlineMinus /> : <AiOutlinePlus />}
+                                    </div>
+                                </span>
+                            ) : (
+                                <TooltipUI placement='right' title={showRemains ? "Show Less" : "Show More"}>
+                                    <div className='heading--icon' onClick={handleShowRemains}>
+                                        {showRemains ? <AiOutlineMinus /> : <AiOutlinePlus />}
+                                    </div>
+                                </TooltipUI>
+                            )}
 
                         {showRemains && (
                             <ul className={`menu--list ${showRemains ? 'menu-animate' : 'menu-unanimate'}`}>
@@ -136,8 +139,8 @@ function DashboardMenu() {
                                 <MenuLink icon={<BiLineChart />} title='Store Analytics' link='/analytics' />
                                 <MenuLink icon={<RiCoupon3Line />} title='Run sales / coupon' link='/run-sales' />
                                 <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
-                                <MenuLink icon={<LuRotate3D />} title='Transactions' link='/transactions' />
-                                <MenuLink icon={<MdOutlineWebhook />} title='Connected platforms' link='/connected-apps' />
+                                <MenuLink icon={<TbTransactionDollar />} title='All Transactions' link='/transactions' />
+                                <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                             </ul>
                         </div>
 

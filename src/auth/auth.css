@@ -167,9 +167,7 @@
     transition: text-shadow .35s;
 }
 .form--info button {
-    border: none;
     background-color: transparent;
-    cursor: pointer;
 }
 
 .form--info button:hover,
@@ -193,7 +191,6 @@
     font-weight: 500;
     color: #fff;
     border-radius: .4rem;
-    cursor: pointer;
     transition: background-color .35s;
 }
 .form--submit:hover {
@@ -389,8 +386,6 @@
 .onboarding--actions button {
     padding: 1rem 1.8rem;
     background-color: transparent;
-    border: none;
-    cursor: pointer;
     font-size: 1.4rem;
     font-weight: 500;
     color: #fff;
@@ -476,7 +471,6 @@ button.onboard--next {
     align-items: center;
     font-size: 1.8rem;
     justify-content: center;
-    cursor: pointer;
 }
 
 

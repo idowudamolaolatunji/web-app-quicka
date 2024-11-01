@@ -92,6 +92,11 @@ textarea::placeholder {
 	line-height: 1.4;
 }
 
+button {
+	border: none;
+	cursor: pointer;
+}
+
 ::-webkit-scrollbar {
 	width: 0.4rem;
 	height: 0.4rem;
@@ -264,14 +269,12 @@ textarea::placeholder {
 }
 .export button {
 	padding: 1.2rem 1rem;
-	border: none;
 	border-radius: 0.4rem;
 	font-weight: 600;
 	font-size: 1.38rem;
 	color: #fff;
 	background-color: #333;
 	align-self: stretch;
-	cursor: pointer;
 
 	display: flex;
 	align-items: center;
@@ -329,9 +332,7 @@ textarea::placeholder {
 	padding: 1rem 1.4rem;
 	font-size: 1.6rem;
 	font-weight: 500;
-	border: none;
 	border-radius: .4rem;
-	cursor: pointer;
 	transition: opacity .3s;
 }
 .delete--btn {
@@ -434,14 +435,6 @@ textarea::placeholder {
 	width: 1.6rem;
 }
 
-.rotate--icon {
-	padding: .8rem;
-	background-color: #eee;
-	color: var(--color-brand-500);
-}
-.rotate--icon svg {
-	font-size: 2rem;
-}
 
 .grid {
 	display: grid;
@@ -485,7 +478,6 @@ textarea::placeholder {
 	color: #fff;
 	border-radius: 0.4rem;
 
-	cursor: pointer;
 	transition: all 0.3s;
 }
 .general--btn:hover {
@@ -576,7 +568,6 @@ textarea::placeholder {
 .empty--btns button {
 	font-size: 1.4rem;
 	font-weight: 500;
-	cursor: pointer;
 	transition: opacity 0.3s;
 
 	display: flex;
@@ -592,13 +583,11 @@ textarea::placeholder {
 .empty--btns button:nth-child(1) {
 	padding: 0.6rem 1rem;
 	border-radius: 0.4rem;
-	border: none;
 	color: #fff;
 	background-color: #333;
 }
 .empty--btns button:nth-child(2) {
 	padding: 0;
-	border: none;
 	background-color: transparent;
 }
 /* ================== */
