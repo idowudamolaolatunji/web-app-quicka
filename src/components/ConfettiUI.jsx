@@ -6,15 +6,15 @@ import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
 
 
-function ConfettiUI() {
+function ConfettiUI({ customHeight, customGv }) {
     const { width, height } = useWindowSize();
 
     return (
         <Confetti
             width={width}
-            height={height + 200}
+            height={customHeight || height}
             numberOfPieces={width < 600 ? 100 : 150}
-            gravity={0.08}
+            gravity={customGv || 0.08}
             tweenDuration={5000}
         />
     )

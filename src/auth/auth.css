@@ -387,10 +387,17 @@
     padding: 1rem 1.8rem;
     background-color: transparent;
     font-size: 1.4rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #fff;
     border-radius: .4rem;
     transition: all .35s;
+
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+.onboarding--actions button svg {
+    font-size: 1.8rem;
 }
 button.onboard--prev {
     background-color: #333;

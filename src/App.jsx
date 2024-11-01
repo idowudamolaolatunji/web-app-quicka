@@ -80,7 +80,8 @@ import { useLocation } from 'react-use';
 function App() {
     const { pathname } = useLocation();
     // COME BACK AND REMODIFY THIS OR NOT
-    if (pathname === '/verify-otp' || pathname === '/onboarding') {
+    // if (pathname === '/verify-otp' || pathname === '/onboarding') {
+    if (pathname === '/verify-otp') {
         window.onbeforeunload = () => "Are you sure you want to leave this page?";
     }
 

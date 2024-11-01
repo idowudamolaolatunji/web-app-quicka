@@ -42,7 +42,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
 
     const { width } = useWindowSize();
     const { token, handleUser, handleStore } = useAuthContext();
-    const { collections, handleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
+    const { collections, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
 
     const headers = {
         "Content-Type": "application/json",
@@ -223,17 +223,16 @@ function UploadProduct({ isnew, close, ismodal=false }) {
 
             // UPLOAD PRODUCT IMAGES
             const url = `products/upload-image/${product._id}`
-            await handleImageUpload(imageFiles, url);
+            await handleMultipleImageUpload(imageFiles, url);
 
             // SCROLL AND CLEAR
             window.scrollTo(0, 0);
             handleClearFields();
 
-            // MODIFY THE USER OBJECT AND STORE IN THE COOKIE, if new
+            // MODIFY THE STORE IN THE COOKIE, if new
             if(isnew) {
-                const { store, owner } = data?.useful;
+                const { store } = data?.data;
                 handleStore(store);
-                handleUser(owner);
             }
 
             setTimeout(function () {

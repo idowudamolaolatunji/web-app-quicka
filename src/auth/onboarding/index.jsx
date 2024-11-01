@@ -13,6 +13,7 @@ import { validateOnboardForm } from '../../utils/validationHelper';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { goalOptions } from '../../utils/data';
 import MainDropdownSelect from '../../components/MainDropdownSelect';
+import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
  
 
 
@@ -41,7 +42,7 @@ function index() {
     
     const [selectedCategory, setSelectedCategory] = useState([]);
 
-    const [onboardTabNum, setOnboardTabNum] = useState(localStorage.getItem("tab_num") ? JSON.parse(localStorage.getItem("tab_num")) : 1);
+    const [onboardTabNum, setOnboardTabNum] = useState(1);
     const [image, setImage] = useState({
         file: null,
         preview: null
@@ -89,6 +90,10 @@ function index() {
             setImage({ file, preview: imageUrl });
         }
     };
+
+    const handleImageRemove = function() {
+        setImage({ file: null, preview: null })
+    }
 
     // HNADLE GOING TO THE PREVIOUS FORM TAB
     function handlePrevTab() {
@@ -140,7 +145,7 @@ function index() {
     
     
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo(0, 0);
     }, [onboardTabNum]);
 
 
@@ -176,12 +181,6 @@ function index() {
     }, [onboardingData?.storeUrl]);
 
 
-    // KEEP TRACK OF THE TAB NUMBER
-    useEffect(function () {
-        localStorage.setItem("tab_num", JSON.stringify(onboardTabNum));
-    }, [onboardTabNum]);
-
-
     async function handleOnboading() {
         // RESET THE RESPONSE STATE HERE
         handleResetResponse();
@@ -213,14 +212,13 @@ function index() {
             // IF THER'S A LOGO, UPLOAD LOGO
             if(image.file) {
                 const url = `stores/upload-logo/${store._id}`
-                await handleImageUpload(image, url)
+                await handleImageUpload(image.file, url, token);
             }
 
             setTimeout(function () {
                 handleChange(user, token);
                 handleStore(store);
 
-                localStorage.removeItem("tab_num");
                 navigate('/congratulations?next=dashboard');
             }, 1000);
         } catch (err) {
@@ -264,7 +262,7 @@ function index() {
                     <div className="auth--form" style={{ width: '100%', gap: '2.4rem' }}>
                         {onboardTabNum === 1 && (
                             <>
-                                <div className="form--item">
+                                <form className="form--item">
                                     <label className="form--label" htmlFor='logo'>Business Logo (Optional)</label>
                                     <div className="form--element">
                                         <span>
@@ -273,11 +271,19 @@ function index() {
 
                                         <div className='form--item'>
                                             <input type='file' id='logo' name='image' onChange={handleImageChange} accept="image/*" />
-                                            <label htmlFor="logo" className='form--upload-btn'>Upload Image</label>
-                                            <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>png or jpg up to 2MB. Recommended size 256x256</p>
+
+                                            <div className="flex" style={{ flexDirection: "row" }}>
+                                                <label htmlFor="logo" className='form--upload-btn'>{(image.preview) ? "Change" : "Upload"} Logo</label>
+
+                                                {image.preview && <button onClick={handleImageRemove} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
+                                            </div>
+
+                                            <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>
+                                                Recommended size <i className='value'> 256x256</i> <br />PNG, SVG or JPG up to 2MB.
+                                            </p>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
 
                                 <div className="form--item">
                                     <label htmlFor="name" className="form--label">Business Name <Asterisk /></label>
@@ -384,13 +390,14 @@ function index() {
                         <div className="form--item">
                             <span className='onboarding--actions'>
                                 {onboardTabNum > 1 ? (
-                                    <button className='onboard--prev'
-                                        onClick={handlePrevTab}>Go Back
+                                    <button className='onboard--prev'onClick={handlePrevTab}>
+                                        <AiOutlineArrowLeft /> Go Back
                                     </button>
                                 ) : <p></p>}
 
                                 <button className='onboard--next'
                                     onClick={handleNextTab}>{onboardTabNum === 2 ? 'Finish' : 'Next Step'}
+                                    <AiOutlineArrowRight />
                                 </button>
                             </span>
                         </div>

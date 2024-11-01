@@ -477,6 +477,7 @@ button {
 	font-weight: 500;
 	color: #fff;
 	border-radius: 0.4rem;
+	min-width: 4rem;
 
 	transition: all 0.3s;
 }

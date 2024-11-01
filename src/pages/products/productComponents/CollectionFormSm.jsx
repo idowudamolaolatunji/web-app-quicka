@@ -14,7 +14,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function CollectionFormSm({ close }) {
     const { token } = useAuthContext();
-    const { handleFetchUserStoreCollections } = useFetchedContext();
+    const { handleFetchUserStoreCollections, handleImageUpload } = useFetchedContext();
 
     const headers = {
         "Content-Type": "application/json",
@@ -55,6 +55,11 @@ function CollectionFormSm({ close }) {
         setImagePreview(null);
     }
 
+    const handleRemoveImage = function() {
+        setImageFile(null);
+        setImagePreview(null);
+    }
+
 
     async function handleSubmitCollection() {
         const newError = validateCollectionForm(collectionData.name);
@@ -76,10 +81,10 @@ function CollectionFormSm({ close }) {
             setResponse({ status: "success", message });
 
             // UPLOAD PRODUCT IMAGES
-            // if(imageFile) {
-            // const url = `collections/upload-image/${collection._id}`
-            // await handleImageUpload(imageFile, url);
-            // }
+            if(imageFile) {
+                const url = `collections/upload-image/${collection._id}`
+                await handleImageUpload(imageFile, url);
+            }
 
             handleFetchUserStoreCollections()
             setTimeout(() => close(), 1000);
@@ -109,7 +114,7 @@ function CollectionFormSm({ close }) {
                 <div className="form--item">
                     <label className="form--label">Collection Image (optional)</label>
 
-                    <ImageUploadUI preview={imagePreview} handleChange={handleImageChange} text="Recommend format (png, jpeg, jpg)" />
+                    <ImageUploadUI preview={imagePreview} handleChange={handleImageChange} text="Recommend format (png, jpeg, jpg)" height={{ height: "18rem" }} handleRemove={handleRemoveImage} />
                 </div>
 
                 <div className="form--item">

@@ -105,10 +105,9 @@ function BankDetails({ isnew, close }) {
             setResponse({ status: "success", message });
             isnew && setShowConfetti(true);
 
-            // MODIFY THE USER OBJECT AND STORE IN THE COOKIE
-            const { store, owner } = data?.useful;
+            // MODIFY THE STORE IN THE COOKIE
+            const { store } = data?.data
             handleStore(store);
-            handleUser(owner);
 
             setTimeout(function () {
                 if (isnew) close();

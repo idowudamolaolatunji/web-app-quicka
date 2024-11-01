@@ -109,11 +109,10 @@ function CreateDelivery({ close, isnew, isModal }) {
             setResponse({ status: "success", message });
             handleFetchUserStoreDeliveryRates()
             
+            // MODIFY THE STORE IN THE COOKIE
             if(isnew) {
-                const { store, owner } = data?.useful;
-                // MODIFY THE USER OBJECT AND STORE IN THE COOKIE
+                const { store } = data?.data;
                 handleStore(store);
-                handleUser(owner);
             }
 
             setTimeout(function () {

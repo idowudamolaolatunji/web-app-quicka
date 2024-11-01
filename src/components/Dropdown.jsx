@@ -20,8 +20,11 @@ function Dropdown({ setIsShown }) {
     const ref = useOutsideClick(handleClose);
     
     function handleClose() {
-        if(loading) return;
-        setIsShown(false);
+        if(loading) {
+            return null;
+        } else {
+            setIsShown(false);
+        }
     }
 
     function handleCloseByLink(e) {
@@ -43,7 +46,7 @@ function Dropdown({ setIsShown }) {
 
     return (
         <>
-            {loading && <Spinner />}
+            {loading && createPortal(<Spinner />, document.body)}
             {(response.status || response.message) && <CustomAlert type={response.status} message={response.message} />}
 
 

@@ -12,11 +12,19 @@ import UploadProduct from '../../products/productComponents/UploadProduct';
 import CreateDelivery from '../../delivery/deliveryComponents/CreateDelivery';
 import BankDetails from '../../storeInfo/storeInfoComponents/BankDetails';
 import StoreCustom from '../../storeInfo/storeInfoComponents/StoreCustom';
+import CustomAlert from '../../../components/CustomAlert';
 
 function GetStarted() {
     const { width } = useWindowSize();
-    const { store } = useAuthContext();
+    const { store, token, handleUser, handleStore } = useAuthContext();
+
+    const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+    }
+
     const [loading, setLoading] = useState({ mainLoading: false, miniLoading: false });
+    const [response, setResponse] = useState({ status: null, message: null });
     
     const [stepsToComplete, setStepsToComplete] = useState(localStorage.getItem("steps_progress") ? JSON.parse(localStorage.getItem("steps_progress")) : [
         { id: 1, name: 'Onboard', tipText: 'Store and Dashboard Created!', completed: true },
@@ -93,10 +101,45 @@ function GetStarted() {
         setTimeout(() => handleLoading("mainLoading", false), 200);
     }, [showModal]);
 
+
+    async function handleFinalizeOnboarding() {
+        if(completedSteps.length < 5) {
+            setResponse({ status: "error", message: "Complete all onboarding Steps!!" });
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
+            return;
+        }
+        handleLoading("mainLoading", true);
+
+        try {
+            const res = await fetch(`${BASE_API_URL}/stores/finalize-onboarding/store`, {
+                method: "PATCH", headers 
+            });
+            if(!res.ok) throw new Error("Something went wrong, Server Error");
+            const data = await res.json();
+
+            const { status, message } = data;
+            if (!status || status != 'success') throw new Error(message);
+
+            setResponse({ status: "success", message });
+
+            const { store, owner } = data?.data;
+            handleUser(owner);
+            handleStore(store);
+
+        } catch(err) {
+            setResponse({ status: "error", message: err?.message });
+        } finally {
+            handleLoading("mainLoading", false);
+        }
+        
+    }
+
     return (
 
         <>
             {loading.mainLoading && <Spinner />}
+            <CustomAlert type={response.status} message={response.message} />
+
             <div className="get-started">
                 <h2 className='get-started-title'>Let's get you selling in just 5 mins!</h2>
                 <p className='get-started-subtitle'>Finalize your setup to get your store up & running, and make your website visible to the world.</p>
@@ -170,7 +213,7 @@ function GetStarted() {
                     </div>
                 </div>
 
-                <button className={`get-started-btn ${completedSteps.length < 5 ? 'disabled' : ''}`} disabled>Finish!</button>
+                <button className={`get-started-btn ${completedSteps.length < 5 ? 'disabled' : ''}`} disabled onClick={handleFinalizeOnboarding}>Finish!</button>
             </div>
 
 

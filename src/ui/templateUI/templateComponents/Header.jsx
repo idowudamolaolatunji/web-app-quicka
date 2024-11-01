@@ -7,7 +7,7 @@ import { IoMdHeartEmpty } from 'react-icons/io';
 import { IoSearchOutline } from 'react-icons/io5';
 
 
-function Header({ Logo, about }) {
+function Header({ Logo, about, color }) {
 
     return (
         <header className="header main--desktop">
@@ -43,12 +43,12 @@ function Header({ Logo, about }) {
                 </div>
                 <span className="header__icon">
                     <IoMdHeartEmpty className="icon__el" />
-                    <p className="icon--detail">{12}</p>
+                    <p className="icon--detail" style={{ backgroundColor: color }}>{12}</p>
                 </span>
 
                 <span className="header__icon" onClick={() => navigate('/cart')}>
                     <AiOutlineShoppingCart className="icon__el" />
-                    <p className="icon--detail">{2}</p>
+                    <p className="icon--detail" style={{ backgroundColor: color }}>{2}</p>
                 </span>
             </div>
         </header>

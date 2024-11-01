@@ -23,7 +23,7 @@ function index({ logo, color, about, headline, banner, heading, text }) {
   return (
     <div className='store__template'>
       <TopHeadline color={color} headline={headline} />
-      <Header Logo={logo} about={about} />
+      <Header Logo={logo} about={about} color={color} />
       <TopBanner banner={banner} text={text} heading={heading} />
       <CollectionLists color={color} />
       <div className="template__products">

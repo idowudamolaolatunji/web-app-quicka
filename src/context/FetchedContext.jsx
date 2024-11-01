@@ -196,15 +196,13 @@ export const FetchedProvider = ({ children }) => {
     }
 
 
-    async function handleImageUpload(Imgfile, url) {
+    async function handleMultipleImageUpload(Imgfiles, url) {
         const formData = new FormData();
-        if (Array.isArray(Imgfile)) {
-            for (let i = 0; i < Imgfile.length; i++) {
-                console.log(Imgfile[i])
-                formData.append("images", Imgfile[i]);
+        if (Array.isArray(Imgfiles)) {
+            for (let i = 0; i < Imgfiles.length; i++) {
+                console.log(Imgfiles[i])
+                formData.append("images", Imgfiles[i]);
             }
-        } else {
-            formData.append("image", Imgfile);
         }
 
         const res = await fetch(`${BASE_API_URL}/${url}`, {
@@ -221,6 +219,26 @@ export const FetchedProvider = ({ children }) => {
     }
 
 
+    async function handleImageUpload(Imgfile, url, tk=null) {
+        console.log(Imgfile, url, tk);
+        const formData = new FormData();
+        formData.append("image", Imgfile);
+
+
+        const res = await fetch(`${BASE_API_URL}/${url}`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${tk || token}`
+            },
+            body: formData,
+        });
+
+        if (!res.ok) return 'Something went wrong!';
+        const data = await res.json();
+        console.log(data, res)
+    }
+
+    
     useEffect(function () {
         setCollections([]);
         setProducts([]);
@@ -261,6 +279,7 @@ export const FetchedProvider = ({ children }) => {
         
         storeCategories,
         handleImageUpload,
+        handleMultipleImageUpload,
         handleFetchStoreCategories,
         ///////////////////////////
 
