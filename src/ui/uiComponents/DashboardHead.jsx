@@ -13,72 +13,82 @@ import { Link } from 'react-router-dom';
 import DefaultButton from '../../components/button/DefaultButton';
 import { useAuthContext } from '../../context/AuthContext';
 import UserIntialsImage from '../../components/UserIntialsImage';
+import CustomAlert from '../../components/CustomAlert';
+import Spinner from '../../components/spinner/spinner_two'
 
 
 function DashboardHead() {
-    const [isShownDropdown, setIsShownDropdown] = useState(false);
-
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
     const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
 
-    function handleShowDropdown() {
-        setIsShownDropdown(true)
+    const [isShownDropdown, setIsShownDropdown] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [response, setResponse] = useState({ status: "", message: "" });
+
+
+    const handleShowDropdown = function () {
+        setIsShownDropdown(true);
     }
 
     return (
-        <header className='dashboard--header'>
-            <div className='logo--container' style={isMenuCollapsed ? { borderBottomColor: '#d4d7db' } : {}}>
-                <Link to='/'>
-                    <img src={logo_img} alt='Quick logo' />
-                </Link>
+        <>
+            {loading && <Spinner />}
+            {(response.status || response.message) && <CustomAlert type={response.status} message={response.message} />}
 
-                <DefaultButton>
-                    <span className='hamburger--icon' onClick={(width > 900) ? handleMenuCollapse : handleShowSidemenu}>
-                        {(width > 900) ? (
-                            isMenuCollapsed ? <LuPanelRightClose style={{ fontSize: '2rem' }} /> : <LuPanelLeftClose style={{ fontSize: '2rem' }} />
-                        ) : (
-                            <RiMenu3Fill />
-                        )}
-                    </span>
-                </DefaultButton>
-            </div>
-
-
-            <div className='nav--container'>
-                <div className=""></div>
-
-                <div className="nav--others">
-                    <a href={`https://${store?.storeUrl}`} target='_blank' className='store--btn'>
-                        View Store <MdOutlineStorefront />
-                    </a>
+            <header className='dashboard--header'>
+                <div className='logo--container' style={isMenuCollapsed ? { borderBottomColor: '#d4d7db' } : {}}>
+                    <Link to='/'>
+                        <img src={logo_img} alt='Quick logo' />
+                    </Link>
 
                     <DefaultButton>
-                        <div className="nav--icon notification--icon">
-                            <LuBell />
-                        </div>
+                        <span className='hamburger--icon' onClick={(width > 900) ? handleMenuCollapse : handleShowSidemenu}>
+                            {(width > 900) ? (
+                                isMenuCollapsed ? <LuPanelRightClose style={{ fontSize: '2rem' }} /> : <LuPanelLeftClose style={{ fontSize: '2rem' }} />
+                            ) : (
+                                <RiMenu3Fill />
+                            )}
+                        </span>
                     </DefaultButton>
-
-                    <DefaultButton customStyle={{ fontFamily: 'inherit' }}>
-                        <div className='nav--user' onClick={handleShowDropdown}>
-                            <div className="user--box">
-                                <UserIntialsImage />
-                            </div>
-                            <div className='user--info'>
-                                <p className='user--name'>{`${user.firstname} ${user.lastname}`}</p>
-                                <IoChevronDownSharp />
-                            </div>
-                        </div>
-                    </DefaultButton>
-
-                    {/* DROPDOWN MENU */}
-                    {isShownDropdown && (
-                        <Dropdown isShown={isShownDropdown} setIsShown={setIsShownDropdown} />
-                    )}
                 </div>
 
-            </div>
-        </header>
+                <div className='nav--container'>
+                    <div className=""></div>
+
+                    <div className="nav--others">
+                        <a href={`https://${store?.storeUrl}`} target='_blank' className='store--btn'>
+                            View Store <MdOutlineStorefront />
+                        </a>
+
+                        <DefaultButton>
+                            <div className="nav--icon notification--icon">
+                                <LuBell />
+                            </div>
+                        </DefaultButton>
+
+                        <DefaultButton customStyle={{ fontFamily: 'inherit' }}>
+                            <div className='nav--user' onClick={handleShowDropdown}>
+                                <div className="user--box">
+                                    <UserIntialsImage />
+                                </div>
+                                <div className='user--info'>
+                                    <p className='user--name'>{`${user.firstname} ${user.lastname}`}</p>
+                                    <IoChevronDownSharp />
+                                </div>
+                            </div>
+                        </DefaultButton>
+
+                        {/* DROPDOWN MENU */}
+                        {isShownDropdown && (
+                            <Dropdown isShown={isShownDropdown} setIsShown={setIsShownDropdown} setLoading={setLoading} setResponse={setResponse} />
+                        )}
+                    </div>
+
+                </div>
+            </header>
+
+        </>
     )
 }
 

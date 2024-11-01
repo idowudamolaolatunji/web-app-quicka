@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useWindowSize } from 'react-use';
 import { useAuthContext } from '../../context/AuthContext';
 import { useFetchedContext } from '../../context/FetchedContext';
@@ -15,19 +15,22 @@ import './style.css';
 function index() {
     const { width } = useWindowSize();
     const { user } = useAuthContext();
-    const { loader, orders } = useFetchedContext();
+    const { loader } = useFetchedContext();
     
     const { storeBasicSetup, storeFinalSetup } = user;
     const userStoreIsSetup = (storeBasicSetup && storeFinalSetup);
 
+    useEffect(function() {
+        window.scrollTo(0, 0)
+    }, [])
+
     return (
         <section className='home--section'>
-
             <HomeTop />
 
             {userStoreIsSetup ? (
                 <>
-                    {loader?.order && <Spinner />}
+                    {loader?.order && <Spinner />}s
                     <Line border={1.4} />
                     {width > 500 && <HomeProgressGrid />}
                     <HomeLayoutGrid />

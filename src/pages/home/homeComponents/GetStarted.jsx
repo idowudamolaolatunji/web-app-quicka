@@ -13,6 +13,8 @@ import CreateDelivery from '../../delivery/deliveryComponents/CreateDelivery';
 import BankDetails from '../../storeInfo/storeInfoComponents/BankDetails';
 import StoreCustom from '../../storeInfo/storeInfoComponents/StoreCustom';
 import CustomAlert from '../../../components/CustomAlert';
+import BgSimple from '../../../components/modal/BgSimple';
+import Welcome from './Welcome';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -42,7 +44,8 @@ function GetStarted() {
         store: false,
         product: false,
         bank: false,
-        delivery: false
+        delivery: false,
+        welcome: true
     })
 
     const completedSteps = stepsToComplete.filter(step => step.completed);
@@ -142,7 +145,6 @@ function GetStarted() {
     }
 
     return (
-
         <>
             {loading.mainLoading && <Spinner />}
             {(response.status || response.message) && (
@@ -224,7 +226,12 @@ function GetStarted() {
 
                 <button className={`get-started-btn ${completedSteps.length < 5 ? 'disabled' : ''}`} disabled={completedSteps.length < 5} onClick={handleFinalizeOnboarding}>Finish!</button>
             </div>
-
+            
+            {showModal.welcome && (
+                <BgSimple setClose={() => handleCloseModal("welcome")}>
+                    <Welcome setClose={() => handleCloseModal("welcome")} />
+                </BgSimple>
+            )}
 
             {(showModal.bank || showModal.delivery || showModal.product || showModal.store) && (
                 <FullScreen style={{ maxWidth: '105rem', margin: '0 auto' }}>

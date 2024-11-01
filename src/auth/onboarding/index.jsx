@@ -21,6 +21,8 @@ function index() {
     const navigate = useNavigate();
     const { handleChange, handleStore } = useAuthContext();
     const { handleImageUpload, storeCategories, handleFetchStoreCategories } = useFetchedContext();
+
+    const headers = { "Content-type": "application/json" }
     
     const [isLoading, setIsLoading] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
@@ -184,16 +186,14 @@ function index() {
     async function handleOnboading() {
         // RESET THE RESPONSE STATE HERE
         handleResetResponse();
-
         setIsLoading(true);
+
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/users/onboarding-store/${userId}`
             , {
-                method: 'PATCH',
-                headers: { "Content-type": "application/json" },
+                method: 'PATCH',headers,
                 body: JSON.stringify({
-                    goalsChoosen,
-                    ...onboardingData, 
+                    ...onboardingData, goalsChoosen,
                     category: selectedCategory.slug
                 })
             });
@@ -207,7 +207,7 @@ function index() {
             // SET THE ACCESS STORAGE FOR THE CONGRATS PAGE
             localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
             setResponse({ status: data.status, message: data.message });
-            const { user, store } = data.data;
+            const { user, store } = data?.data;
 
             // IF THER'S A LOGO, UPLOAD LOGO
             if(image.file) {

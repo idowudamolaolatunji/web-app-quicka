@@ -179,11 +179,41 @@ button {
     100% { transform: translateX(0rem); }
 }
 
+.modal.bg-simple,
 .modal.delete,
 .modal.export {
 	min-height: 28rem;
 	width: 60rem;
 }
+
+.modal.bg-simple .icon--box {
+	width: 3rem;
+	height: 3rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: .4rem;
+
+	position: absolute;
+	top: 1.6rem;
+	right: 1.6rem;
+	transition: all .3s;
+	cursor: pointer;
+}
+.modal.bg-simple .icon--box svg {
+	font-size: 2.2rem;
+	color: #555;
+	transition: all .3s;
+}
+.modal.bg-simple .icon--box:hover {
+	background-color: #eee;
+}
+.modal.bg-simple .icon--box:hover svg {
+	transform: rotate(180deg);
+	color: var(--color-brand-500);
+}
+
+
 
 .modal.delete,
 .modal.simple,
@@ -769,6 +799,12 @@ button {
 	.modal {
 		width: 100% !important;
 		height: 100%;
+	}
+
+	.modal.bg-simple {
+		min-height: 28rem;
+		width: 95% !important;
+		height: unset;
 	}
 }
 

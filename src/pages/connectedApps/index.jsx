@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Line from '../../components/Line';
+import AppFigure from './connectedComponents/AppFigure';
 
 import paystack from "../../assets/images/png_elements/paystack.png"
 import whatsapp from "../../assets/images/png_elements/whatsapp-business-icon.webp"
 import flutterwave from "../../assets/images/png_elements/flutterwave-store.png"
 import fb_pixel from "../../assets/images/png_elements/facebook-pixel-icon.webp"
-import { HiCheckBadge, HiOutlineCheckCircle } from 'react-icons/hi2';
-import { VscDebugDisconnect } from 'react-icons/vsc';
 
 const integrations = [
     { name: "Paystack", by: "paystack", tag: "payment", text: "Connect to recieve payment with paystack.", icon: paystack, connected: false, },
@@ -16,11 +15,6 @@ const integrations = [
 ]
 
 function index() {
-    const [isHovered, setIsHovered] = useState(false);
-
-    const handleHovered = () => setIsHovered(true);
-    const handleNotHovered = () => setIsHovered(false);
-
 
     return (
         <>
@@ -40,26 +34,7 @@ function index() {
 
             <div className="page__section--main connected__grid">
                 {integrations?.map(app => (
-                    <figure className={`connected--figure ${app?.connected ? "connected" : ""}`} key={app?.name}>
-                        <div className='connected--top'>
-                            <img className='img' src={app?.icon} alt={app?.name} />
-                            <button onMouseEnter={handleHovered} onMouseLeave={handleNotHovered} className={(app?.connected && isHovered) ? "disconnect" : ""}>
-                                {app?.connected ?
-                                    (isHovered ? <>Disconnect <VscDebugDisconnect /></> : <>Connected <HiOutlineCheckCircle /></>) 
-                                    : ( <>connect</> )
-                                }
-                            </button>
-                        </div>
-
-                        <div className="connected--details">
-                            <span className='connected--heading'>
-                                <p className='heading'>{app?.name}</p>
-                                <span><HiCheckBadge /> by {app?.by}</span>
-                            </span>
-
-                            <p className='connected--text'>{app?.text}</p>
-                        </div>
-                    </figure>
+                    <AppFigure app={app} key={app?.name} />
                 ))}
             </div>
         </>

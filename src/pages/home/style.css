@@ -678,6 +678,40 @@ a.upgrade--link:hover {
 
 
 
+.welcome--container {
+    padding: 2rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.4rem;
+    text-align: center;
+}
+.welcome--heading {
+    font-size: 3.4rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+}
+.welcome--emoji {
+    display: inline-block;
+    background-color: #ddd;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.welcome--text {
+    font-size: 1.4rem;
+    line-height: 1.4;
+}
+
+
 
 
 /* ============================================= */
@@ -926,6 +960,13 @@ a.upgrade--link:hover {
     }
     .opts--items button svg {
         font-size: 1.6rem;
+    }
+
+    .welcome--container {
+        padding: 3.4rem .6rem;
+    }
+    .welcome--heading {
+        font-size: 3rem;
     }
 
     .prog--grid {

@@ -22,7 +22,7 @@ function HomeLayoutGrid() {
                 <HomeInsightContainer />
                 <SalesOverview />
                 <RecentOrders />
-                <NewsBox />
+                {/* <NewsBox /> */}
             </div>
 
             <div className="grid--right">

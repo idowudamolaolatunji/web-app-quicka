@@ -36,6 +36,7 @@ function StoreCustom({ isnew, close }) {
     const { handleImageUpload } = useFetchedContext();
 
     const logoImg = `${BASE_URL}${store?.logo}`;
+    console.log(logoImg)
     const width450False = width < 450 ? false : true;
 
     const headers = {
@@ -213,7 +214,7 @@ function StoreCustom({ isnew, close }) {
         <>
 
             {showConfetti && <ConfettiUI customHeight={2500} customGv={0.1} />}
-            {loading.mainLoader && <Spinner />}
+            {loading.mainLoading && createPortal(<Spinner />, document.body)}
             {(response.message || response.status) && (
                 createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
             )}

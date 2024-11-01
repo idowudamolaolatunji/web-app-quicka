@@ -85,6 +85,10 @@ function App() {
         window.onbeforeunload = () => "Are you sure you want to leave this page?";
     }
 
+    useEffect(function() {
+        window.scrollTo(0, 0)
+    }, [])
+
     return (
 
         <BrowserRouter>

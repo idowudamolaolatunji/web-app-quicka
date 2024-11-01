@@ -1,34 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
-
-import CustomAlert from './CustomAlert';
-import Spinner from './spinner/spinner_two'
 import UserIntialsImage from './UserIntialsImage';
 import { useAuthContext } from '../context/AuthContext';
 import { useOutsideClick } from '../hooks/useOutsideClick';
 
 import { ImDisplay } from 'react-icons/im';
 import { IoLogOutOutline, IoSettingsOutline } from 'react-icons/io5';
-import { createPortal } from 'react-dom';
 
 
-function Dropdown({ setIsShown }) {
+function Dropdown({ setIsShown, setLoading, setResponse }) {
     const { user, signoutUser } = useAuthContext();
-    
-    const [loading, setLoading] = useState(false);
-    const [response, setResponse] = useState({ status: "", message: "" });
+
     const ref = useOutsideClick(handleClose);
-    
+
     function handleClose() {
-        if(loading) {
-            return null;
-        } else {
-            setIsShown(false);
-        }
+        setIsShown(false);
     }
 
     function handleCloseByLink(e) {
-        if(e.target.closest('.dropdown--item').tagName === 'A') {
+        if (e.target.closest('.dropdown--item').tagName === 'A') {
             setIsShown(false);
         };
     }
@@ -36,35 +26,29 @@ function Dropdown({ setIsShown }) {
     async function handleLogout() {
         // LOGOUT LOGIC
         setLoading(true);
-        
+
         const result = await signoutUser();
         setLoading(true);
-        if(!result) return setResponse({ status: "error", message: "Error logging out!" })
+        if (!result) return setResponse({ status: "error", message: "Error logging out!" })
         setResponse({ status: "success", message: "Logout successful!" });
-        
+
     }
 
     return (
-        <>
-            {loading && createPortal(<Spinner />, document.body)}
-            {(response.status || response.message) && <CustomAlert type={response.status} message={response.message} />}
-
-
-            <div className={`dropdown`} ref={ref} onClick={handleCloseByLink}>
-                <Link className='dropdown--item' to='/dashboard/profile'>
-                    <span className='item--user'>
-                        <UserIntialsImage />
-                        <span className='item--user-info'>
-                            <p>{user?.fullname}</p>
-                            <p>{user.email}</p>
-                        </span>
+        <div className={`dropdown`} ref={ref} onClick={handleCloseByLink}>
+            <Link className='dropdown--item' to='/dashboard/profile'>
+                <span className='item--user'>
+                    <UserIntialsImage />
+                    <span className='item--user-info'>
+                        <p>{user?.fullname}</p>
+                        <p>{user.email}</p>
                     </span>
-                </Link>
-                <div className='dropdown--item'><ImDisplay /> Maintenance Status</div>
-                <Link className='dropdown--item' to='/dashboard/settings'><IoSettingsOutline /> Settings</Link>
-                <div className='dropdown--item' onClick={handleLogout}><IoLogOutOutline /> Logout</div>
-            </div>
-        </>
+                </span>
+            </Link>
+            <div className='dropdown--item'><ImDisplay /> Maintenance Status</div>
+            <Link className='dropdown--item' to='/dashboard/settings'><IoSettingsOutline /> Settings</Link>
+            <div className='dropdown--item' onClick={handleLogout}><IoLogOutOutline /> Logout</div>
+        </div>
     )
 }
 
