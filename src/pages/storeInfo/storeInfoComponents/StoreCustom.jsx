@@ -36,22 +36,20 @@ function StoreCustom({ isnew, close }) {
     const [customColor, setCustomColor] = useState({ color: "", isValid: false });
 
     const [storeData, setStoreData] = useState({
-        // name: store?.name || "",
-        // storeUrl: store?.storeUrl?.replace(".quicka.store", "") || "",
-        headline: store?.headline || "",
-        bannerHeading: customDesign?.bannerHeading || "",
-        bannerSubheading: customDesign?.bannerSubheading || "",
-        brandColor: customDesign?.brandColor || "",
+        headline: "",
+        bannerHeading: "",
+        bannerSubheading: "",
+        brandColor: "",
 
-        aboutPage: otherPages?.aboutPage || width450False,
-        returnPolicyPage: otherPages?.returnPolicyPage || width450False,
-        aboutDescription: otherPages?.aboutDescription || "",
-        returnPolicyDescription: otherPages?.returnPolicyDescription || "",
+        aboutPage: width450False,
+        returnPolicyPage: width450False,
+        aboutDescription: "",
+        returnPolicyDescription: "",
 
-        instagram: socialProfiles?.instagram || "",
-        whatsapp: socialProfiles?.whatsapp || "",
-        facebook: socialProfiles?.facebook || "",
-        twitter: socialProfiles?.twitter || "",
+        instagram: "",
+        whatsapp: "",
+        facebook: "",
+        twitter: "",
     });
 
 
@@ -78,11 +76,6 @@ function StoreCustom({ isnew, close }) {
         }
     }
 
-    function handleCustomColor(e) {
-        const color = e.target.value
-        setCustomColor({ ...customColor, color });
-    }
-
     const handleStoreClicks = function(name) {
         setStoreData({ ...storeData, [name]: !storeData[name] })
     }
@@ -93,31 +86,13 @@ function StoreCustom({ isnew, close }) {
 
     const handleStoreDataChange = function (e) {
         const { name, value } = e?.target;
-        console.log(name, value)
-        let sanitizedValue;
-
-        // HERE SANITIZES THE TEXT AND THE URL
-        if (name === "name") {
-            sanitizedValue = value.replace(/[^a-zA-Z0-9\s]/g, '').replace(/^\s+/, '');
-        } else if (name === "storeUrl") {
-            sanitizedValue = value.replace(/[^a-zA-Z0-9-]/g, '').replace(/^\s+|\s+$/g, '');
-        } else {
-            sanitizedValue = value;
-        }
-
-        console.log(value, sanitizedValue)
-
-        setStoreData({
-            ...storeData,
-            [name]: sanitizedValue || value,
-        });
+        setStoreData({ ...storeData, [name]: value });
     };
 
-    // SANITIZE THE NAME AS THE LINK, REPLACING SPACES WITH -
-    useEffect(function () {
-        const sanitizedUrl = storeData?.name?.replace(/\s+/g, '-').toLowerCase();
-        setStoreData({ ...storeData, storeUrl: sanitizedUrl })
-    }, [storeData?.name]);
+    function handleCustomColor(e) {
+        const color = e.target.value
+        setCustomColor({ ...customColor, color });
+    }
 
     // SET COLORS BUT CHECK IF COLOR IS VALID FIRST
     useEffect(function() {
@@ -142,9 +117,15 @@ function StoreCustom({ isnew, close }) {
         }
     }, [customColor, selectedColor]);
 
+
+
     useEffect(function () {
         !isnew && window.scrollTo(0, 0);
     }, []);
+
+    async function handleSubmitCustomStore() {
+        
+    }
 
   return (
     <section className='product__upload-section'>
@@ -197,29 +178,6 @@ function StoreCustom({ isnew, close }) {
                         )}
                     </div>
                 </div>
-
-
-                {/* <Line border={1.4} />
-
-
-                <div className="custom--item">
-                    <span className="custom--labels">
-                        <label className='form--label'>Business Info (Required) <Asterisk /></label>
-                        <p className="custom--subtext">Lorem ipsum dolor sit amet consectetur.</p>
-                    </span>
-
-                    <div className="form--item">
-                        <div className="form--item">
-                            <label className='form--label'>Business Name</label>
-                            <input type="text" name="name" className="form--input" placeholder='Business name' value={storeData.name} onChange={handleStoreDataChange} readOnly />
-                        </div>
-                        
-                        <div className="form--item">
-                            <label className='form--label'>Store URL</label>
-                            <LinkInput url='.quicka.store' name="storeUrl" value={storeData.storeUrl} handleChange={handleStoreDataChange} linkPosition="end" readOnly={true} />
-                        </div>
-                    </div>
-                </div> */}
 
 
                 <Line border={1.4} />

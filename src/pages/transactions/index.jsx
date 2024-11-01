@@ -39,7 +39,7 @@ function index() {
         },
         {
             name: "Customer",
-            selector: row => row?.order?.customer || "-- Not Added --"
+            selector: row => row?.order?.customer?.fullname || "-- Not Added --"
         },
         {
             name: 'Sales Channel', selector: row => (
@@ -83,8 +83,8 @@ function index() {
         {
             name: "Date",
             selector: row => (
-                <TooltipUI placement='top' title={dateTimeFormat(row?.createdAt)}>
-                    <p>{dateTimeFormat(row?.createdAt)}</p>
+                <TooltipUI placement='top' title={dateTimeFormat(row?.order?.orderDate)}>
+                    <p>{dateTimeFormat(row?.order?.orderDate)}</p>
                 </TooltipUI>
             ),
         }

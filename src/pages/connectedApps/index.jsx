@@ -1,10 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Line from '../../components/Line';
 
-import img from "../../assets/images/png_elements/facebook-48.png"
-import { HiCheckBadge } from 'react-icons/hi2';
+import paystack from "../../assets/images/png_elements/paystack.png"
+import whatsapp from "../../assets/images/png_elements/whatsapp-business-icon.webp"
+import flutterwave from "../../assets/images/png_elements/flutterwave-store.png"
+import fb_pixel from "../../assets/images/png_elements/facebook-pixel-icon.webp"
+import { HiCheckBadge, HiOutlineCheckCircle } from 'react-icons/hi2';
+import { VscDebugDisconnect } from 'react-icons/vsc';
+
+const integrations = [
+    { name: "Paystack", by: "paystack", tag: "payment", text: "Connect to recieve payment with paystack.", icon: paystack, connected: false, },
+    { name: "Whatsapp", by: "meta", tag: "social", text: "Connect your whatsapp to recieve realtime notification for payment and sales.", icon: whatsapp, connected: false, },
+    { name: "Flutterwave", by: "flutterwave", tag: "payment", text: "Connect to recieve payment with flutterwave.", icon: flutterwave, connected: false, },
+    { name: "Facebook Pixel", by: "meta", tag: "ads", text: "Conntect facebook pixel for analytics and better ads experience.", icon: fb_pixel, connected: true, },
+]
 
 function index() {
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleHovered = () => setIsHovered(true);
+    const handleNotHovered = () => setIsHovered(false);
+
+
     return (
         <>
             <div className='page__section--heading'>
@@ -22,107 +39,29 @@ function index() {
 
 
             <div className="page__section--main connected__grid">
-                
-                <figure className="connected--figure">
-                    <div className='connected--top'>
-                        <img className='img' src={img} alt="" />
-                        <button>Connect</button>
-                    </div>
+                {integrations?.map(app => (
+                    <figure className={`connected--figure ${app?.connected ? "connected" : ""}`} key={app?.name}>
+                        <div className='connected--top'>
+                            <img className='img' src={app?.icon} alt={app?.name} />
+                            <button onMouseEnter={handleHovered} onMouseLeave={handleNotHovered} className={(app?.connected && isHovered) ? "disconnect" : ""}>
+                                {app?.connected ?
+                                    (isHovered ? <>Disconnect <VscDebugDisconnect /></> : <>Connected <HiOutlineCheckCircle /></>) 
+                                    : ( <>connect</> )
+                                }
+                            </button>
+                        </div>
 
-                    <div className="connected--details">
-                        <span className='connected--heading'>
-                            <p className='heading'>Facebook</p>
-                            <span><HiCheckBadge /> by meta</span>
-                        </span>
+                        <div className="connected--details">
+                            <span className='connected--heading'>
+                                <p className='heading'>{app?.name}</p>
+                                <span><HiCheckBadge /> by {app?.by}</span>
+                            </span>
 
-                        <p className='connected--text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, debitis.</p>
-                    </div>
-                </figure>
-                    
-                <figure className="connected--figure">
-                    <div className='connected--top'>
-                        <img className='img' src={img} alt="" />
-                        <button>Connect</button>
-                    </div>
-
-                    <div className="connected--details">
-                        <span className='connected--heading'>
-                            <p className='heading'>Facebook</p>
-                            <span><HiCheckBadge /> by meta</span>
-                        </span>
-
-                        <p className='connected--text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, debitis.</p>
-                    </div>
-                </figure>
-
-                <figure className="connected--figure">
-                    <div className='connected--top'>
-                        <img className='img' src={img} alt="" />
-                        <button>Connect</button>
-                    </div>
-
-                    <div className="connected--details">
-                        <span className='connected--heading'>
-                            <p className='heading'>Facebook</p>
-                            <span><HiCheckBadge /> by meta</span>
-                        </span>
-
-                        <p className='connected--text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, debitis.</p>
-                    </div>
-                </figure>
-
-                <figure className="connected--figure">
-                    <div className='connected--top'>
-                        <img className='img' src={img} alt="" />
-                        <button>Connect</button>
-                    </div>
-
-                    <div className="connected--details">
-                        <span className='connected--heading'>
-                            <p className='heading'>Facebook</p>
-                            <span><HiCheckBadge /> by meta</span>
-                        </span>
-
-                        <p className='connected--text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, debitis.</p>
-                    </div>
-                </figure>
-                    
-                <figure className="connected--figure">
-                    <div className='connected--top'>
-                        <img className='img' src={img} alt="" />
-                        <button>Connect</button>
-                    </div>
-
-                    <div className="connected--details">
-                        <span className='connected--heading'>
-                            <p className='heading'>Facebook</p>
-                            <span><HiCheckBadge /> by meta</span>
-                        </span>
-
-                        <p className='connected--text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, debitis.</p>
-                    </div>
-                </figure>
-
-                <figure className="connected--figure">
-                    <div className='connected--top'>
-                        <img className='img' src={img} alt="" />
-                        <button>Connect</button>
-                    </div>
-
-                    <div className="connected--details">
-                        <span className='connected--heading'>
-                            <p className='heading'>Facebook</p>
-                            <span><HiCheckBadge /> by meta</span>
-                        </span>
-
-                        <p className='connected--text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, debitis.</p>
-                    </div>
-                    
-
-                </figure>
-
+                            <p className='connected--text'>{app?.text}</p>
+                        </div>
+                    </figure>
+                ))}
             </div>
-
         </>
     )
 }
