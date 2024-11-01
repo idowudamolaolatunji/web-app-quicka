@@ -138,7 +138,9 @@ function GetStarted() {
 
         <>
             {loading.mainLoading && <Spinner />}
-            <CustomAlert type={response.status} message={response.message} />
+            {(response.status || response.message) && (
+                <CustomAlert type={response.status} message={response.message} />
+            )}
 
             <div className="get-started">
                 <h2 className='get-started-title'>Let's get you selling in just 5 mins!</h2>
