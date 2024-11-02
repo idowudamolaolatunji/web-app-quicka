@@ -24,7 +24,13 @@ function DashboardHead() {
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
     const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
-    const { handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreTransactions } = useFetchedContext()
+    const {
+        error,
+        handleFetchUserStoreOrders,
+        handleFetchUserStoreProducts,
+        handleFetchUserStoreCustomers,
+        handleFetchUserStoreTransactions
+    } = useFetchedContext()
 
     const [isShownDropdown, setIsShownDropdown] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -38,6 +44,7 @@ function DashboardHead() {
     const handleRefreshAll = function() {
         handleFetchUserStoreOrders();
         handleFetchUserStoreProducts();
+        handleFetchUserStoreCustomers();
         handleFetchUserStoreTransactions();
     }
 
@@ -67,7 +74,7 @@ function DashboardHead() {
                     <div className=""></div>
 
                     <div className="nav--others">
-                        {width > 600 && (
+                        {(width > 600 && !error.order) && (
                             <DefaultButton>
                                 <TooltipUI placement='top' title="Refresh all">
                                     <div className="nav--icon notification--icon" onClick={handleRefreshAll}>

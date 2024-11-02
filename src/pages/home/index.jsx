@@ -10,12 +10,13 @@ import HomeProgressGrid from './homeComponents/HomeProgressGrid';
 import HomeLayoutGrid from './homeComponents/HomeLayoutGrid';
 import Spinner from "../../components/spinner/spinner_two"
 import './style.css';
+import HomeNoConnection from './homeComponents/HomeNoConnection';
 
 
 function index() {
     const { width } = useWindowSize();
     const { user } = useAuthContext();
-    const { loader } = useFetchedContext();
+    const { loader, error } = useFetchedContext();
     
     const { storeBasicSetup, storeFinalSetup } = user;
     const userStoreIsSetup = (storeBasicSetup && storeFinalSetup);
@@ -26,18 +27,19 @@ function index() {
 
     return (
         <section className='home--section'>
+            {(error.order) && <HomeNoConnection /> }
             <HomeTop />
+            <Line border={1.4} />
+
 
             {userStoreIsSetup ? (
                 <>
-                    {loader?.order && <Spinner />}
-                    <Line border={1.4} />
-                    {width > 500 && <HomeProgressGrid />}
+                    {(loader?.order) && <Spinner />}
+                    {(width > 500) && <HomeProgressGrid />}
                     <HomeLayoutGrid />
                 </>
             ) : (
                 <>
-                    <Line border={1.4} />
                     <GetStarted />
                 </>
             )}

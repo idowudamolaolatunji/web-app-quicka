@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import SelectAutoWidthDropdown from '../../../components/SelectAutoWidthDropdown';
 
-import img_item from '../../../assets/images/resources/IMG_5336.jpg'
 import Empty from '../../../components/Empty';
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { truncateString } from '../../../utils/helper';
 import TooltipUI from '../../../components/TooltipUI';
-import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import ErrorComponent from '../../../components/ErrorComponent';
 
 const datePeriods = [
     { value: 'this-week', title: 'This Week' },
@@ -49,9 +48,11 @@ function ProductFigure({ product }) {
 
 function TopProducts() {
     const { width } = useWindowSize();
-    const { products } = useFetchedContext();
+    const { products, error } = useFetchedContext();
+
     const threshold = 3;
     const topThreeProducts = products.filter(product => product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, 3);
+    const noError = (!error.order && !error.product)
 
     const [period, setPeriod] = useState("");
 
@@ -69,11 +70,15 @@ function TopProducts() {
 
             <div className='top-product--container'>
 
+                {(!noError && products?.length < 1) && (
+                    <ErrorComponent text="Cannot get products, Check Connection" />
+                )}
+
                 {topThreeProducts?.length > 0 && topThreeProducts?.map(product => (
                     <ProductFigure product={product} key={product._id} />
                 ))}
 
-                {(!topThreeProducts || topThreeProducts.length < 1) && (
+                {((!topThreeProducts || topThreeProducts.length < 1) && noError) && (
                     <Empty text="best selling product yet!" />
                 )}
             </div>

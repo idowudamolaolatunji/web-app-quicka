@@ -24,6 +24,14 @@
     /* background-position: center; */
     background-position: top;
 }
+.home--sub.error {
+    background-image: unset;
+    background-position: unset;
+    background-repeat: unset;
+    background-color: #ff9797b7;
+	color: red;
+    margin-bottom: -1rem;
+}
 .sub--mini {
     display: flex;
     align-items: flex-start;
@@ -1002,6 +1010,10 @@ a.upgrade--link:hover {
     .grid--right,
     .insights--container {
         gap: 2rem;
+    }
+
+    .home--grid .error.empty--box img {
+        width: 8rem;
     }
     .recent-section .section--heading {
         width: 19rem;
