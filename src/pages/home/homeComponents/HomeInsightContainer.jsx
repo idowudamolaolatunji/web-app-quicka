@@ -22,13 +22,13 @@ function HomeInsightContainer() {
         <div className={`insight--container ${width > 500 ? 'card' : ''}`}>
             <div className="section--top">
                 <div className="section--heading" style={ width < 450 ? { width: "100%"} : {}}>
-                    <span className='flex' style={{ justifyContent: "space-between", flexDirection: "row", marginBottom: "-.2rem" }}>
+                    <span className='flex' style={{ justifyContent: "space-between", flexDirection: "row" }}>
                         <h2>Brief Overview</h2>
 
                         {width <= 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />}
                     </span>
 
-                    <p>This is what <span>{store?.name}</span> is up to today!</p>
+                    <p>This is what <span>{store?.name}</span> {period != "today" ? "has" : "is"} up to {period?.replace("-", " ")}!</p>
                 </div>
 
                 {width > 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />}

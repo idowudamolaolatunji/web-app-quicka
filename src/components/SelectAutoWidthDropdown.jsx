@@ -5,7 +5,7 @@ import Select from '@mui/material/Select';
 import { styled } from '@mui/material/styles';
 
 const SelectStyled = styled(Select)(({ theme }) => ({
-    fontSize: 13,
+    fontSize: 13.6,
     fontWeight: 500,
     fontFamily: 'inherit',
 
@@ -40,7 +40,7 @@ const SelectStyled = styled(Select)(({ theme }) => ({
 
 
 const MenuStyled = styled(MenuItem)(({ theme }) => ({
-    fontSize: 13,
+    fontSize: 13.6,
     fontWeight: 500,
     fontFamily: 'inherit',
 }));

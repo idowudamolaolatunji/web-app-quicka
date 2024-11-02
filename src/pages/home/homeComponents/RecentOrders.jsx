@@ -137,12 +137,12 @@ function RecentOrders() {
                 <div className="section--heading" style={ width < 450 ? { width: "100%"} : {}}>
                     <span className='flex' style={{ justifyContent: "space-between", flexDirection: "row" }}>
                         <h2>Recent Order </h2>
-                        {width < 450 && <Link to="/dashboard/orders/">View-more</Link>}
+                        {(width < 450 && isData) && <Link to="/dashboard/orders/">View more</Link>}
                     </span>
                     <p>Three new & recent order for you!</p>
                 </div>
 
-                {width > 450 && <Link to="/dashboard/orders/">View-more</Link>}
+                {(width > 450 && isData) && <Link to="/dashboard/orders/">View more</Link>}
             </div>
 
             <>
