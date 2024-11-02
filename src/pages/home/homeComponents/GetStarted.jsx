@@ -128,20 +128,21 @@ function GetStarted() {
             const { status, message } = data;
             if (!status || status != 'success') throw new Error(message);
 
-            setResponse({ status: "success", message });
-
             const { store, owner } = data?.data;
-            handleUser(owner);
-            handleStore(store);
+            setResponse({ status, message });
 
-            window.scrollTo(0, 0);
+            setTimeout(function() {
+                handleUser(owner);
+                handleStore(store);
+
+                window.scrollTo(0, 0);
+                handleLoading("mainLoading", false);
+            }, 3000);
 
         } catch(err) {
             setResponse({ status: "error", message: err?.message });
-        } finally {
             handleLoading("mainLoading", false);
-        }
-        
+        } 
     }
 
     return (

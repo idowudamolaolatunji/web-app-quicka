@@ -30,7 +30,7 @@ function index() {
 
             {userStoreIsSetup ? (
                 <>
-                    {loader?.order && <Spinner />}s
+                    {loader?.order && <Spinner />}
                     <Line border={1.4} />
                     {width > 500 && <HomeProgressGrid />}
                     <HomeLayoutGrid />

@@ -22,8 +22,7 @@ function HomeInsightContainer() {
         <div className={`insight--container ${width > 500 ? 'card' : ''}`}>
             <div className="section--top">
                 <div className="section--heading" style={ width < 450 ? { width: "100%"} : {}}>
-
-                    <span className='flex' style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                    <span className='flex' style={{ justifyContent: "space-between", flexDirection: "row", marginBottom: "-1rem" }}>
                         <h2>Brief Overview</h2>
 
                         {width <= 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />}

@@ -235,7 +235,7 @@ export const FetchedProvider = ({ children }) => {
 
         if (!res.ok) return 'Something went wrong!';
         const data = await res.json();
-        console.log(data, res)
+        return data
     }
 
     

@@ -207,12 +207,14 @@ function index() {
             // SET THE ACCESS STORAGE FOR THE CONGRATS PAGE
             localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
             setResponse({ status: data.status, message: data.message });
-            const { user, store } = data?.data;
+            const { user } = data?.data;
+            let store = data?.data?.store;
 
             // IF THER'S A LOGO, UPLOAD LOGO
             if(image.file) {
                 const url = `stores/upload-logo/${store._id}`
-                await handleImageUpload(image.file, url, token);
+                const { data } = await handleImageUpload(image.file, url, token);
+                store = data?.document;
             }
 
             setTimeout(function () {

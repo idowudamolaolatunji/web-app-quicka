@@ -431,11 +431,11 @@ a.upgrade--link:hover {
 }
 .section--heading h2 {
     font-weight: 600;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     text-transform: capitalize;
 }
 .section--heading p {
-    font-size: 1.32rem;
+    font-size: 1.34rem;
     line-height: 1.3;
     color: #888;
     font-weight: 500;
@@ -884,12 +884,12 @@ a.upgrade--link:hover {
 
     .section--heading h2,
     .opts--items h3 {
-        font-size: 1.52rem;
+        font-size: 1.56rem;
         line-height: 1.3;
     }
     .get-started-subtitle {
-        font-size: 1.34rem;
-        line-height: 1.3;
+        font-size: 1.36rem;
+        line-height: 1.4;
     }
     .opts--items p {
         font-size: 1.34rem;
@@ -928,13 +928,13 @@ a.upgrade--link:hover {
         font-size: 2rem;
     }
     .prog-figure-value, .insight--info .value {
-        font-size: 1.72rem;
+        font-size: 1.8rem;
     }
     .prog-figure-value {
         opacity: .85;
     }
     .prog-figure-title {
-        font-size: 1.36rem;
+        font-size: 1.4rem;
     }
     .sales-section .section--top {
         flex-direction: column;

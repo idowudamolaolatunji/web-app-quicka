@@ -216,14 +216,15 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             const { status, message } = data;
             const { product } = data.data;
             if (status !== 'success') throw new Error(message);
-
-            // SET RESPONSE MESSAGE
-            setResponse({ status: "success", message });
-            ismodal || setShowConfetti(true);
-
+            
+            
             // UPLOAD PRODUCT IMAGES
             const url = `products/upload-image/${product._id}`
             await handleMultipleImageUpload(imageFiles, url);
+            
+            // SET RESPONSE MESSAGE
+            setResponse({ status: "success", message });
+            ismodal || setShowConfetti(true);
 
             // SCROLL AND CLEAR
             window.scrollTo(0, 0);
