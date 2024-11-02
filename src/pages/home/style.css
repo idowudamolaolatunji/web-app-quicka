@@ -768,6 +768,7 @@ a.upgrade--link:hover {
 .MuiFormControl-root {
     border: 1.4px solid #eee !important;
     border-radius: .4rem !important;
+    padding: 0 !important;
 }
 .MuiButtonBase-root.MuiMenuItem-root.Mui-selected,
 .MuiButtonBase-root.MuiMenuItem-root.Mui-selected:hover {
