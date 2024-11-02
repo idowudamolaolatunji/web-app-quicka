@@ -179,13 +179,16 @@ button {
     100% { transform: translateX(0rem); }
 }
 
-.modal.bg-simple,
 .modal.delete,
 .modal.export {
 	min-height: 28rem;
 	width: 60rem;
 }
 
+.modal.bg-simple {
+	width: 65rem;
+	min-height: 30rem;
+}
 .modal.bg-simple .icon--box {
 	width: 3rem;
 	height: 3rem;
@@ -509,10 +512,17 @@ button {
 	border-radius: 0.4rem;
 	min-width: 4rem;
 
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+
 	transition: all 0.3s;
 }
 .general--btn:hover {
 	opacity: 0.85;
+}
+.general--btn svg {
+	font-size: 1.8rem;
 }
 
 .empty--box {

@@ -1,23 +1,28 @@
 import React from 'react'
+import { IoSend } from 'react-icons/io5'
+import { useWindowSize } from 'react-use'
+import { capitalizeFirstLetter } from '../../../utils/helper';
 
-function Welcome({ setClose }) {
-  return (
-    <div className='welcome--container'>
-        <h2 className='welcome--heading'>
-            Welcome to Quicka 
-            <span className='welcome--emoji'>
-                <picture>
-                    <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f389/512.webp" type="image/webp" />
-                    <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f389/512.gif" alt="🎉" width="48" height="48" />
-                </picture>
-            </span>
-        </h2>
+function Welcome({ firstname, setClose }) {
+    const { width } = useWindowSize();
 
-        <p className='welcome--text'>Finalize your setup in a few steps to get your store up & running, and make your website visible to the world.</p>
+    return (
+        <div className='welcome--container'>
+            <h2 className='welcome--heading'>
+                Hi, {capitalizeFirstLetter(firstname)}. {(width <= 450) && <br />} Welcome to Quicka
+            </h2>
 
-        <button className="general--btn" onClick={setClose}>Let's Go!</button>
-    </div>
-  )
+            <div className="welcome--video">
+                <video controls width="100%" height={width <= 450 ? "100%" : "330"}>
+                    <source src='https://res.cloudinary.com/dy3bwvkeb/video/upload/v1730551904/original-60dad17677eecdfdb5bc2a979f141c23_dkemi9.mp4' />
+                </video>
+            </div>
+
+            <p className='welcome--text'>Finalize your setup in a few steps to get your store up & running, and make your website visible to the world.</p>
+
+            <button className="general--btn" style={{ fontWeight: "600" }} onClick={setClose}>Let's Go <IoSend /></button>
+        </div>
+    )
 }
 
 export default Welcome

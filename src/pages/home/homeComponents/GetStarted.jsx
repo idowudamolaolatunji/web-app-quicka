@@ -22,7 +22,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function GetStarted() {
     const { width } = useWindowSize();
-    const { store, token, handleUser, handleStore } = useAuthContext();
+    const { user, store, token, handleUser, handleStore } = useAuthContext();
 
     const headers = {
         "Content-Type": "application/json",
@@ -230,7 +230,7 @@ function GetStarted() {
             
             {showModal.welcome && (
                 <BgSimple setClose={() => handleCloseModal("welcome")}>
-                    <Welcome setClose={() => handleCloseModal("welcome")} />
+                    <Welcome firstname={user?.firstname} setClose={() => handleCloseModal("welcome")} />
                 </BgSimple>
             )}
 

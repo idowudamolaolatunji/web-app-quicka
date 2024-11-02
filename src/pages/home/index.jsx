@@ -39,9 +39,7 @@ function index() {
                     <HomeLayoutGrid />
                 </>
             ) : (
-                <>
-                    <GetStarted />
-                </>
+                <GetStarted />
             )}
         </section>
     )
