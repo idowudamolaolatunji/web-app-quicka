@@ -28,7 +28,7 @@ function HomeInsightContainer() {
                         {width <= 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />}
                     </span>
 
-                    <p>This is what <span>{store?.name}</span> {period != "today" ? "has" : "is"} up to {period?.replace("-", " ")}!</p>
+                    <p>This is what <span>{store?.name}</span> {period != "today" ? "has been" : "is"} up to {period?.replace("-", " ")}!</p>
                 </div>
 
                 {width > 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />}

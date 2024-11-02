@@ -428,7 +428,7 @@ a.upgrade--link:hover {
 .section--heading {
     display: flex;
     flex-direction: column;
-    gap: .8rem;
+    gap: .6rem;
 }
 .section--heading h2 {
     font-weight: 600;
@@ -767,14 +767,16 @@ a.upgrade--link:hover {
 
 .MuiFormControl-root {
     border: 1.4px solid #eee !important;
-    border-radius: .4rem !important;
-    padding: 0 !important;
+    border-radius: .4rem;
 }
 .MuiButtonBase-root.MuiMenuItem-root.Mui-selected,
 .MuiButtonBase-root.MuiMenuItem-root.Mui-selected:hover {
     background-color: var(--color-brand-50);
 }
-
+.MuiSelect-select.MuiSelect-outlined.MuiInputBase-input {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
 
 
 
@@ -929,11 +931,6 @@ a.upgrade--link:hover {
     }
     .insight--grid {
         grid-template-columns: repeat(3, 1fr);
-    }
-
-
-    .section--heading:has(.MuiFormControl-root) {
-        gap: 0.4rem;
     }
 }
 /* 500px === 31.25em */
