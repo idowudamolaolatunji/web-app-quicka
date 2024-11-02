@@ -29,15 +29,20 @@ function ProductFigure({ product }) {
             <img className='top-product--img' src={`${BASE_URL}${images[0]}`} alt="" />
             <figcaption className='top-product--details'>
                 <div className='top-product--info'>
-                    <p className='product--info-text'>
-                        {truncateString(name, width < 800 ? 
-                        (width < 500 ? (width < 450 ? 20 : 28) : 40) : 15 )}
-                    </p>
+                    <TooltipUI placement='top' title={name}>
+                        <p className='product--info-text'>
+                            {truncateString(name, width < 800 ? 
+                            (width < 500 ? (width < 450 ? 20 : 28) : 40) : 15 )}
+                        </p>
+                    </TooltipUI>
+
                     <span className='product--info-value'>
                         <TooltipUI placement='top' title={`Sold ${soldAmount} out of ${totalStock}`}>
                             <span className='value'>{soldAmount}/{totalStock}</span> 
                         </TooltipUI>
-                        <span><p className='value'>{percentageSold}</p>%</span>
+                        <TooltipUI placement='top' title={<span className='value'>{percentageSold}% Sold</span>}>
+                            <span><p className='value'>{percentageSold}</p>%</span>
+                        </TooltipUI>
                     </span>
                 </div>
                 <div className='top-product--scale'><span style={{ width: `${percentageSold}%` }} /></div>

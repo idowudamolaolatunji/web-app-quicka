@@ -893,6 +893,7 @@ a.upgrade--link:hover {
     .get-started-title {
         font-size: 1.84rem;
         margin-bottom: .48rem;
+        font-weight: 600;
     }
     .get-started-subtitle {
         margin-bottom: 1rem;
