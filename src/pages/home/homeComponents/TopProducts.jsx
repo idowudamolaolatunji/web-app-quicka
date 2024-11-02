@@ -52,7 +52,7 @@ function TopProducts() {
 
     const threshold = 3;
     const topThreeProducts = products.filter(product => product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, 3);
-    const noError = (!error.order && !error.product)
+    const noError = (!error.order || !error.product)
 
     const [period, setPeriod] = useState("");
 

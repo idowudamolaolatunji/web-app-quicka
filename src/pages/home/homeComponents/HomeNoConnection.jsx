@@ -6,23 +6,10 @@ import { useWindowSize } from 'react-use'
 function HomeNoConnection() {
     const { width } = useWindowSize();
 
-    const { 
-        handleFetchUserStoreOrders,
-        handleFetchUserStoreProducts,
-        handleFetchUserStoreTransactions,
-        handleFetchUserStoreCustomers,
-        handleFetchUserStoreCollections,
-        handleFetchUserStoreDeliveryRates
-    } = useFetchedContext()
-
+    const { handleGlobalRefetch } = useFetchedContext()
 
     const handleRefreshAll = function () {
-        handleFetchUserStoreOrders();
-        handleFetchUserStoreProducts();
-        handleFetchUserStoreCustomers()
-        handleFetchUserStoreTransactions();
-        handleFetchUserStoreCollections()
-        handleFetchUserStoreDeliveryRates()
+        handleGlobalRefetch();
     }
 
     return (
@@ -30,7 +17,7 @@ function HomeNoConnection() {
             <div className="sub--mini">
                 <MdSignalWifiConnectedNoInternet0 style={{ fontSize: '2.4rem' }} />
                 <p className='sub--text'>
-                    Ophs! No Internet Connection!!
+                    Oops! No Internet Connection!!
                     <p className='sub--text-sub'>Please check your internect connection and try again</p>
                 </p>
             </div>

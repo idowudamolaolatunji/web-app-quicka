@@ -73,17 +73,10 @@ import CommunityForums from './pages/communityForums';
 import ProductItem from './pages/products/productComponents/ProductItem';
 import OrderItem from './pages/orders/orderComponents/OrderItem';
 import CreateDelivery from './pages/delivery/deliveryComponents/CreateDelivery';
-import { useLocation } from 'react-use';
 
 
 
 function App() {
-    const { pathname } = useLocation();
-    // COME BACK AND REMODIFY THIS OR NOT
-    // if (pathname === '/verify-otp' || pathname === '/onboarding') {
-    if (pathname === '/verify-otp') {
-        window.onbeforeunload = () => "Are you sure you want to leave this page?";
-    }
 
     useEffect(function() {
         window.scrollTo(0, 0)

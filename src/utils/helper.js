@@ -135,29 +135,52 @@ export function getInitials(fullName) {
 }
 
 
+
+export function getRemainingMinutes(dateTimeStr) {
+	const currentTime = new Date(Date.now());
+	const expiresTime = new Date(dateTimeStr);
+	const timeDiff = expiresTime - currentTime;
+	let remainingTime;
+  
+	const minutes = Math.floor(timeDiff / 60000);
+	const seconds = Math.floor((timeDiff % 60000) / 1000);
+
+	if (timeDiff <= 0) {
+		return "00:00";
+	}
+
+  	return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+}
+  
+
 let intervalId = null
-export function countdownTimer(duration=120, callback) {
+
+export function countdownTimer(dateTimeStr, callback) {
 	if (intervalId) {
-		clearInterval(intervalId);
-	  }
-	
-	  let secondsLeft = duration;
-	  intervalId = setInterval(() => {
-		callback(`${Math.floor(secondsLeft / 60).toString().padStart(2, '0')}:${(secondsLeft % 60).toString().padStart(2, '0')}`);
-		secondsLeft--;
-		if (secondsLeft === 0) {
-		  clearInterval(intervalId);
-		  intervalId = null;
-		  callback("00:00");
-		}
-	  }, 1000);
-	
-	  // Return a function to reset the timer
-	  return (newDuration) => {
+	  clearInterval(intervalId);
+	}
+  
+	let timeLeft = getRemainingMinutes(dateTimeStr);
+	let initialTimeLeft = timeLeft;
+  
+	intervalId = setInterval(() => {
+	  timeLeft = getRemainingMinutes(dateTimeStr);
+	  
+	  if (timeLeft !== "00:00") {
+		callback(timeLeft);
+	  } else {
 		clearInterval(intervalId);
 		intervalId = null;
-		countdownTimer(newDuration, callback);
-	  };
-	
-	
-}
+		callback("00:00");
+	  }
+	}, 1000);
+  
+	// Return a function to reset the timer
+	return (newDateTimeStr) => {
+	  clearInterval(intervalId);
+	  intervalId = null;
+	  countdownTimer(newDateTimeStr, callback);
+	};
+  }
+  

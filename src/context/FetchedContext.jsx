@@ -64,6 +64,20 @@ export const FetchedProvider = ({ children }) => {
         Authorization: `Bearer ${token}`
     }
 
+
+    // GLOBAL ERROR & GLOBAL REFETCH
+    const globalInternetError = (orderError || productError || transactionError || collectionError || customerError || deliveryError);
+
+    const handleGlobalRefetch = function() {
+        handleFetchUserStoreOrders();
+        handleFetchUserStoreProducts();
+        handleFetchUserStoreCustomers()
+        handleFetchUserStoreTransactions();
+        handleFetchUserStoreCollections()
+        handleFetchUserStoreDeliveryRates()
+    }
+
+
     // FETCH UNPROTECTED STORE CATEGORIES
     async function handleFetchStoreCategories() {
         try {
@@ -262,6 +276,8 @@ export const FetchedProvider = ({ children }) => {
     let contextData = {
         error,
         loader,
+        globalInternetError,
+        handleGlobalRefetch,
         
         orders,
         products,

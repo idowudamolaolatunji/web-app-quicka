@@ -30,10 +30,10 @@ function index() {
     const [goalsChoosen, setGoalsChoosen] = useState([]);
 
     const [onboardingErrors, setOnboardingErrors] = useState({});
-    const [response, setResponse] = useState({
-        status: null,
-        message: null
-    });
+    const [response, setResponse] = useState({ status: null, message: null });
+    const [onboardTabNum, setOnboardTabNum] = useState(1);
+    const [image, setImage] = useState({ file: null, preview: null });
+    const [selectedCategory, setSelectedCategory] = useState([]);
 
     const [onboardingData, setOnboardingData] = useState({
         name: "",
@@ -42,14 +42,8 @@ function index() {
         regType: "",
     });
     
-    const [selectedCategory, setSelectedCategory] = useState([]);
-
-    const [onboardTabNum, setOnboardTabNum] = useState(1);
-    const [image, setImage] = useState({
-        file: null,
-        preview: null
-    });
-
+    //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
     const handleResetResponse = function () {
         setResponse({ status: null, message: null });
     }

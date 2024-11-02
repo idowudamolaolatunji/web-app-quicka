@@ -24,13 +24,7 @@ function DashboardHead() {
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
     const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
-    const {
-        error,
-        handleFetchUserStoreOrders,
-        handleFetchUserStoreProducts,
-        handleFetchUserStoreCustomers,
-        handleFetchUserStoreTransactions
-    } = useFetchedContext()
+    const { error, handleGlobalRefetch } = useFetchedContext()
 
     const [isShownDropdown, setIsShownDropdown] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -42,10 +36,7 @@ function DashboardHead() {
     }
 
     const handleRefreshAll = function() {
-        handleFetchUserStoreOrders();
-        handleFetchUserStoreProducts();
-        handleFetchUserStoreCustomers();
-        handleFetchUserStoreTransactions();
+        handleGlobalRefetch();
     }
 
     return (

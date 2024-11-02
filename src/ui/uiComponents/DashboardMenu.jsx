@@ -5,7 +5,7 @@ import Line from '../../components/Line';
 import { AiOutlineBank, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { LuGlobe, LuLayoutPanelLeft, LuRotate3D, LuTags } from 'react-icons/lu';
 import { FiUsers } from 'react-icons/fi';
-import { MdChatBubble, MdOutlineChatBubbleOutline, MdOutlineDarkMode, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineSsidChart, MdOutlineStorefront, MdOutlineWebhook } from 'react-icons/md';
+import { MdChatBubble, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineSsidChart, MdOutlineStorefront, MdOutlineWebhook } from 'react-icons/md';
 import { BiCustomize, BiLineChart } from 'react-icons/bi';
 import { HiOutlineSquare3Stack3D } from 'react-icons/hi2';
 import { useDataContext } from '../../context/DataContext';
@@ -14,7 +14,6 @@ import { useWindowSize } from 'react-use';
 import Overlay from '../../components/Overlay';
 import MenuButton from './MenuButton';
 import { openWidget } from '../../utils/helper';
-import DefaultButton from '../../components/button/DefaultButton';
 import { TbTransactionDollar, TbTruckDelivery } from 'react-icons/tb';
 import { useLocation } from 'react-router-dom';
 import TooltipUI from '../../components/TooltipUI';
@@ -87,7 +86,6 @@ function DashboardMenu() {
                         {showRemains && (
                             <ul className={`menu--list ${showRemains ? 'menu-animate' : 'menu-unanimate'}`}>
                                 <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-info' />
-                                {/* <MenuLink icon={<RiBankLine />} title='Bank Details' link='/bank-details' /> */}
                                 <MenuLink icon={<TbTruckDelivery />} title='Delivery and Rates' link='/delivery-rates' />
                                 <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                                 <MenuLink icon={<HiOutlineSquare3Stack3D />} title='Subscription' link='/subscription' />
@@ -104,7 +102,6 @@ function DashboardMenu() {
                         <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' />
                         <MenuLink icon={<MdOutlineSettings />} title='Settings' link='/settings' />
                         <MenuButton icon={<MdOutlineHelpOutline />} title='Help Center'action={openWidget} />
-                        {/* <MenuButton icon={<MdOutlineDarkMode />} title='Dark Mode' /> */}
                     </ul>
                 </div>
             )}

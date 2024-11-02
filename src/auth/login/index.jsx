@@ -21,26 +21,16 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { user, store, handleChange, handleStore } = useAuthContext();
-
     
     const [showPassword, setShowPassword] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [formErrors, setFormErrors] = useState({});
-    const [loading, setLoading] = useState({
-        authLoading: false,
-        mainLoading: false
-    });
-    const [response, setResponse] = useState({
-        status: '',
-        message: ''
-    })
+    const [loading, setLoading] = useState({ authLoading: false, mainLoading: false });
+    const [response, setResponse] = useState({ status: "", message: "" })
+    const [formData, setFormData] = useState({ email: "", password: "" });
 
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
-
-
+    ///////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
     const handleFormChange = function (e) {
         const { name, value } = e.target;
         setFormData({
@@ -50,9 +40,7 @@ function index() {
     };
 
     const handleLoading = function (key, value) {
-        setLoading({
-            ...loading, [key]: value,
-        });
+        setLoading({ ...loading, [key]: value, });
     }
 
     const handleResetResponse = function() {
@@ -61,7 +49,7 @@ function index() {
 
     useEffect(function() {
         document.title = "Quicka | Welcome back 👋🏿";
-    }, [])
+    }, []);
 
     
     async function handleSubmit(e) {
@@ -91,22 +79,23 @@ function index() {
 
             const data = await res.json();
             const { status, message, token } = data;
-            if(status !== 'success') {
+            if(!status || status !== 'success') {
                 // IF THE USER IS NOT VERIFIED, REDIRECT THE TO THE VERIFICATION PAGE
-                if(data.message.startsWith("Account not verified.")) {
-                    localStorage.setItem("otp_user", JSON.stringify({ ...data.data.user, message: "not_verified" }));
+                if(message.startsWith("Account not verified.")) {
+                    const { user } = data?.data;
+                    localStorage.setItem("otp_user", JSON.stringify({ ...user, message: "not_verified" }));
 
                     setTimeout(function() {
                         navigate('/verify-otp');
-                    }, 1000)
+                    }, 1500);
                 }
 
                 // IF AND ELSE THROW NEW ERROR
                 throw new Error(message);
             }
-            const { user, store } = data?.data;
-
+            
             // USER MUST HAVE SETUP THEIR STORE TO LOGIN
+            const { user, store } = data?.data;
             if(!user.storeBasicSetup) {
                 localStorage.setItem("user_id", user._id);
 

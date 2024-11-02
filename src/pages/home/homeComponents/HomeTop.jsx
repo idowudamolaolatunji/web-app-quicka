@@ -39,7 +39,7 @@ function HomeTop() {
                             Select a plan and get your first year at a whooping 🥳 <span className='value' style={{ fontSize: '1.6rem' }}>{offer_percent}</span>% discount!
                             <p className='sub--text-sub'>Promo offer expired in <span className='value'>{daysToReach()}</span> day{daysToReach() < 2 ? "" : "s"}.</p>
                         </p>
-                        <RiDiscountPercentFill style={{ fontSize: '2.4rem' }} />
+                        <RiDiscountPercentFill style={{ fontSize: '2.6rem' }} />
                     </div>
 
                     <div className="sub--mini" style={{ gap: '2rem' }}>

@@ -72,12 +72,6 @@ function index() {
     const handlePasswordShown = function(name) {
         setShowPassword({ ...showPassword, [name]: !showPassword[name] })
     }
-
-
-    const storeInUserInStorage = function() {
-        const otpUser = { email: formData.email, name: formData.firstname }
-        localStorage.setItem("otp_user", JSON.stringify(otpUser));
-    }
     
 
     useEffect(function() {
@@ -102,14 +96,15 @@ function index() {
             return
         };
 
+        if(!isChecked) {
+            // IF THE CHECKED IS NOT CHECKED
+            setResponse({ status: "error", message: "Accept terms and conditions" });
+            setTimeout(() => handleResetResponse(), 5000);
+            return;
+        }
+
         // NEXT, IMPLEMENT THE LOGIN REQUEST
         try {
-            if(!isChecked) {
-                // IF THE CHECKED IS NOT CHECKED
-                setResponse({ status: "error", message: "Accept terms and conditions" });
-                setTimeout(() => handleResetResponse(), 5000);
-                return;
-            }
 
             // RUN THE LOADING SPINNER
             handleLoading('mainLoading', true);
@@ -129,18 +124,21 @@ function index() {
             handleResetResponse();
 
             const data = await res.json();
-            if (data.status !== 'success') {
+            const { status, message } = data;
+            if (!status || status !== 'success') {
                 throw new Error(data.message);
             }
 
             // SAVE USER NEEDED INFO IN LOCALSTORAGE
-            storeInUserInStorage();
+            const { user } = data?.data;
+            localStorage.setItem("otp_user", JSON.stringify(user));
 
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
             setResponse({ status: data.status, message: data.message });
             setTimeout(function () {
                 navigate('/verify-otp');
             }, 1000);
+            
         } catch (err) {
             console.log(err.message)
             setResponse({ status: 'error', message: err.message })
