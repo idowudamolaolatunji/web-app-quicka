@@ -120,7 +120,6 @@ function index() {
             emptyBtns={emptyBtns}
             emptyTitle={emptyTitle}
             addUrl="delivery-rates/add"
-            emptyClassName="empty--others"
             loader={loader} error={error}
             goto={false}
             insights={false}

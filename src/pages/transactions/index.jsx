@@ -131,7 +131,6 @@ function index() {
             emptyImg={emptyImg}
             emptyTitle={emptyTitle}
             goto={false}
-            emptyClassName="empty--others"
             loader={loader} error={error}
             headTabs={<HeadTabs />}
         >

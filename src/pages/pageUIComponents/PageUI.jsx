@@ -15,7 +15,7 @@ import Spinner from '../../components/spinner/spinner_two';
 
 
 
-function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, emptyClassName, headTabs, error, loader, activeDisplayTab = null, insights = true, children, deleteObj }) {
+function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, headTabs, error, loader, activeDisplayTab = null, insights = true, children, deleteObj }) {
 
     const navigate = useNavigate();
     const { width } = useWindowSize();
@@ -93,7 +93,7 @@ function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, 
 
             {children}
 
-            <div className="page__section--main card" style={{ padding: 0, ...((!insights && data?.length < 1) && { boxShadow: "unset", border: "none", padding: 0 })  }}>
+            <div className="page__section--main" style={{ padding: 0 }}>
                 <TableUI
                     data={data}
                     columns={columns}
@@ -110,7 +110,7 @@ function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, 
                             text={emptyText}
                             btns={emptyBtns}
                             title={emptyTitle}
-                            className={emptyClassName}
+                            className="empty--main"
                             customStyle={!insights ? { padding: "3rem 0" } : {}}
                         />
                     }

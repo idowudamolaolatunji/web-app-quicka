@@ -552,21 +552,8 @@ button {
 }
 
 /* ================== */
-.empty--order,
-.empty--product {
-	display: flex;
-	flex-direction: row-reverse;
-	align-items: center;
-	gap: 6rem;
-	padding: 3rem 2.4rem;
-}
-.empty--order .empty--img,
-.empty--product .empty--img {
-	min-height: 24rem;
-}
-
-.empty--others {
-	padding: 4rem 2.4rem 3rem;
+.empty--main {
+	padding: 4rem 2.4rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -575,18 +562,6 @@ button {
 	margin: 0 auto;
 	text-align: center;
 }
-.empty--others .empty--img {
-	padding: 0.8rem;
-}
-.empty--others .empty--img img {
-	width: 10rem;
-}
-.empty--others .empty--btns {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
 .empty--info h3 {
 	font-size: 1.8rem;
 	margin-bottom: 1.2rem;
@@ -596,18 +571,19 @@ button {
 	line-height: 1.4;
 }
 .empty--img {
-	padding: 3rem;
+	padding: 0.8rem;
 	background-color: #f5f5f5;
 	border-radius: 0.4rem;
 }
 .empty--img img {
-	width: 40rem;
+	width: 10rem;
 }
 .empty--btns {
 	display: flex;
 	align-items: center;
 	gap: 2rem;
 	margin-top: 1.2rem;
+	justify-content: center;
 }
 .empty--btns button {
 	font-size: 1.4rem;
@@ -818,23 +794,15 @@ button {
 		font-size: 66%;
 	}
 
-	.empty--order,
-	.empty--product {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 4rem;
-	}
-
-	.empty--others .empty--img,
+	/* .empty--main .empty--img,
 	.empty--img {
 		max-width: 22rem;
 		padding: 2.4rem;
 	}
-
-	.empty--others .empty--img img,
+	.empty--main .empty--img img,
 	.empty--img img {
 		width: 18rem;
-	}
+	} */
 
 	.modal {
 		width: 100% !important;
@@ -852,25 +820,19 @@ button {
 	.copyright--text {
 		margin-top: 10rem;
 	}
-	.empty--others,
-	.empty--order,
-	.empty--product {
-		padding: 0 !important;
+	.empty--main {
+		padding: 5rem 0 0;
+		/* align-items: center; */
+		/* text-align: left; */
 	}
-
-	.empty--others {
-		align-items: stretch;
-		text-align: left;
-	}
-	.empty--others .empty--btns {
+	/* .empty--main .empty--btns {
 		display: block;
-	}
+	} */
 
 	.modal {
 		padding: 2rem 1.4rem;
 	}
 	.modal.full--screen {
-		/* padding: 4.8rem 2rem; */
 		padding: 4.8rem 1.8rem;
 	}
 	.drawer--modal {
@@ -900,15 +862,6 @@ button {
 	.justify {
 		align-items: flex-start;
 		flex-direction: column;
-	}
-
-	.empty--others .empty--img,
-	.empty--img {
-		max-width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 20rem !important;
 	}
 
 	.export .modal--head {

@@ -141,7 +141,6 @@ function index() {
             emptyBtns={emptyBtns}
             emptyImg={emptyImg}
             emptyTitle={emptyTitle}
-            emptyClassName="empty--product"
             headTabs={<HeadTabs />}
             loader={loader} error={error}
 
