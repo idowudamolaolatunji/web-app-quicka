@@ -553,7 +553,7 @@ button {
 
 /* ================== */
 .empty--main {
-	padding: 4rem 2.4rem;
+	padding: 2.4rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -574,9 +574,10 @@ button {
 	padding: 0.8rem;
 	background-color: #f5f5f5;
 	border-radius: 0.4rem;
+	width: 12rem;
 }
 .empty--img img {
-	width: 10rem;
+	width: 12rem;
 }
 .empty--btns {
 	display: flex;
@@ -793,17 +794,6 @@ button {
 	html {
 		font-size: 66%;
 	}
-
-	/* .empty--main .empty--img,
-	.empty--img {
-		max-width: 22rem;
-		padding: 2.4rem;
-	}
-	.empty--main .empty--img img,
-	.empty--img img {
-		width: 18rem;
-	} */
-
 	.modal {
 		width: 100% !important;
 		height: 100%;

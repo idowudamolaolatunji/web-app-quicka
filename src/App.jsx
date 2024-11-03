@@ -28,7 +28,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 // const CustomDomain = lazy(() => import('./pages/customDomain'));
 // const StoreInformation = lazy(() => import('./pages/storeInfo'));
 // const Customers = lazy(() => import('./pages/customers'));
-// const RunSales = lazy(() => import('./pages/salesAndCoupon'));
+// const DisCountCouponSales = lazy(() => import('./pages/salesAndCoupon'));
 // const BankDetails = lazy(() => import('./pages/bankDetails'));
 // const Delivery = lazy(() => import('./pages/delivery'));
 // const Subscription = lazy(() => import('./pages/subscription'));
@@ -58,13 +58,14 @@ import Transaction from './pages/transactions';
 import Settings from './pages/settings';
 import Profile from './pages/profile';
 import ConnectedApps from './pages/connectedApps';
+import Campaigns from './pages/campaigns';
 import StoreCustomisation from './pages/storeCustomization';
 import CustomDomain from './pages/customDomain';
 import StoreInformation from './pages/storeInfo';
 import Customers from './pages/customers';
 import CreateCustomers from './pages/customers/customerComponents/CreateCustomers';
 import CustomerItem from './pages/customers';
-import RunSales from './pages/salesAndCoupon';
+import DisCountCouponSales from './pages/DisCountCouponSales';
 import BankDetails from './pages/bankDetails';
 import Delivery from './pages/delivery';
 import Subscription from './pages/subscription';
@@ -119,11 +120,12 @@ function App() {
 
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/custom-domain' element={<CustomDomain />}></Route>
+                    <Route path='/dashboard/campaigns' element={<Campaigns />}></Route>
                     <Route path='/dashboard/integrated-apps' element={<ConnectedApps />}></Route>
                     <Route path='/dashboard/store-customisation' element={<StoreCustomisation />}></Route>
                     <Route path='/dashboard/bank-details' element={<BankDetails />}></Route>
                     <Route path='/dashboard/store-info' element={<StoreInformation />}></Route>
-                    <Route path='/dashboard/run-sales' element={<RunSales />}></Route>
+                    <Route path='/dashboard/discount-coupon' element={<DisCountCouponSales />}></Route>
                     <Route path='/dashboard/subscription' element={<Subscription />}></Route>
                     <Route path='/dashboard/profile' element={<Profile />}></Route>
                     <Route path='/dashboard/analytics' element={<Analytics />}></Route>
