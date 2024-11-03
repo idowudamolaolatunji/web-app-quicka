@@ -557,17 +557,17 @@ button {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 2rem;
+	gap: 2.4rem;
 	max-width: 50rem;
 	margin: 0 auto;
 	text-align: center;
 }
 .empty--info h3 {
-	font-size: 1.8rem;
-	margin-bottom: 1.2rem;
+	font-size: 2rem;
+	margin-bottom: 1.1rem;
 }
 .empty--info p {
-	font-size: 1.46rem;
+	font-size: 1.48rem;
 	line-height: 1.4;
 }
 .empty--img {
@@ -582,7 +582,7 @@ button {
 	display: flex;
 	align-items: center;
 	gap: 2rem;
-	margin-top: 1.2rem;
+	margin-top: 1.4rem;
 	justify-content: center;
 }
 .empty--btns button {
@@ -818,16 +818,11 @@ button {
 
 @media screen and (max-width: 450px) {
 	.copyright--text {
-		margin-top: 10rem;
+		margin-top: 11rem;
 	}
 	.empty--main {
-		padding: 5rem 0 0;
-		/* align-items: center; */
-		/* text-align: left; */
+		padding: 6.4rem 0 0;
 	}
-	/* .empty--main .empty--btns {
-		display: block;
-	} */
 
 	.modal {
 		padding: 2rem 1.4rem;
