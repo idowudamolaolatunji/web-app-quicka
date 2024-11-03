@@ -78,6 +78,15 @@ export const FetchedProvider = ({ children }) => {
     }
 
 
+    async function handleFetchItem(title, id) {
+        const ifProduct = title == "product" ? "slug/id/" : "";
+        const url = `${import.meta.env.VITE_API_URL}/${title}s/${ifProduct}${id}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        return data?.data[title];
+    }
+
+
     // FETCH UNPROTECTED STORE CATEGORIES
     async function handleFetchStoreCategories() {
         try {
@@ -299,7 +308,7 @@ export const FetchedProvider = ({ children }) => {
         handleFetchStoreCategories,
         ///////////////////////////
 
-
+        handleFetchItem,
         handleDeleteOneItem,
     }
 

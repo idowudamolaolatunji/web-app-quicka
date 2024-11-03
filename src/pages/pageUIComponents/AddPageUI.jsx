@@ -7,13 +7,15 @@ import BackButton from '../../components/button/BackButton'
 import './uploadStyle.css';
 
 import { useWindowSize } from 'react-use';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, mainLoader, response, handleClear, handleSubmit, confetti, children }) {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const { width } = useWindowSize();
 
-    const excludes = ["Payment Details", "Store Info"];
-    // excludes.includes(pageTitle)
+    console.log(id)
 
     useEffect(function() {
         isnew || window.scrollTo(0, 0)
@@ -38,9 +40,12 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
 
                     {(width > 600) && (
                         <div className="page__section--actions">
-                            
-                            <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
-                            <button className='button submit--button' onClick={handleSubmit}>Submit</button>
+                            {id ? (
+                                <button className='button clear--button' onClick={() => navigate(-1)}>Cancel</button>
+                            ) : (
+                                <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
+                            )}
+                            <button className='button submit--button' onClick={handleSubmit}>{id ? "Edit" : "Submit"}</button>
                         </div>
                     )}
                 </div>
@@ -49,8 +54,12 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
 
                 {(width < 600) && (
                     <div className="page__section--actions" style={{ marginTop: "3rem" }}>
-                        <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
-                        <button className='button submit--button' onClick={handleSubmit}>Submit</button>
+                        {id ? (
+                            <button className='button clear--button' onClick={() => navigate(-1)}>Cancel</button>
+                        ) : (
+                            <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
+                        )}
+                        <button className='button submit--button' onClick={handleSubmit}>{id ? "Edit" : "Submit"}</button>
                     </div>
                 )}
             </section>

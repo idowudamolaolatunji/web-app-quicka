@@ -113,7 +113,7 @@ function index() {
         return (
             <div className='content'>
                 <span className='flex'>
-                    <TooltipUI placement='top' title="Refresh">
+                    <TooltipUI placement='top' title="Refresh table">
                         <button className='table--btn' onClick={handleFetchUserStoreOrders}><MdOutlineRefresh /></button>
                     </TooltipUI>
                     <input type="text" className="table--input form--input" placeholder='search..' />

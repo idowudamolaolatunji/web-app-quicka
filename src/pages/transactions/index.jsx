@@ -95,7 +95,7 @@ function index() {
         return (
             <div className='content'>
                 <span className='flex'>
-                    <TooltipUI placement='top' title="Refresh">
+                    <TooltipUI placement='top' title="Refresh table">
                         <button className='table--btn' onClick={handleFetchUserStoreTransactions}><MdOutlineRefresh /></button>
                     </TooltipUI>
                 </span>

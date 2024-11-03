@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Slider } from '@mui/material';
-import Cropper from 'react-easy-crop';
 import { useWindowSize } from 'react-use';
 import CurrencyInput from 'react-currency-input-field';
 import ReactImageUploading from 'react-images-uploading';
@@ -10,7 +8,6 @@ import Line from '../../../components/Line';
 import Asterisk from '../../../components/Asterisk';
 import TooltipUI from '../../../components/TooltipUI';
 import QuillEditor from '../../../components/QuillEditor';
-import SimpleModal from '../../../components/modal/Simple';
 import { useAuthContext } from '../../../context/AuthContext';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import MainDropdownSelect from '../../../components/MainDropdownSelect';
@@ -20,7 +17,7 @@ import { GoStack } from 'react-icons/go';
 import { FaCheck } from 'react-icons/fa';
 import { RxUpdate } from 'react-icons/rx';
 import { PiFrameCorners } from 'react-icons/pi';
-import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { IoCloseOutline, IoCloudDownloadOutline, IoTrashBinOutline } from 'react-icons/io5';
 import { validateProductForm } from '../../../utils/validationHelper';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -33,6 +30,7 @@ import { RiDeleteBin5Line, RiDeleteBin6Line } from 'react-icons/ri';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function UploadProduct({ isnew, close, ismodal=false }) {
     const currency = "₦";
@@ -41,8 +39,8 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     const { id } = useParams();
 
     const { width } = useWindowSize();
-    const { token, handleUser, handleStore } = useAuthContext();
-    const { collections, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
+    const { token, handleStore } = useAuthContext();
+    const { collections, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleFetchItem, fetchedItem } = useFetchedContext();
 
     const headers = {
         "Content-Type": "application/json",
@@ -84,7 +82,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
 
     const handleProductDataChange = function(e) {
         const { name, value } = e?.target;
-        console.log(name, value)
+
         setProductData({
             ...productData,
             [name]: value,
@@ -161,6 +159,45 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             setProductData({ ...productData, discount: "" });
         }
     }, [productData.discountType]);
+
+    useEffect(function() {
+        (async () => {
+            if(id) {
+                setLoading({...loading, mainLoading: true});
+                const fetchedItem = await handleFetchItem("product", id);
+
+                if(fetchedItem) {
+                    setLoading({...loading, mainLoading: false})
+        
+                    setProductData({
+                        name: fetchedItem?.name || "",
+                        shortDescription: fetchedItem?.shortDescription || "",
+                        price: fetchedItem?.price || null,
+                        itemCost: fetchedItem?.itemCost ||null,
+                        discount: fetchedItem?.discount || null,
+                        stockAmount: fetchedItem?.stockAmount || null,
+                        status: fetchedItem?.status || "published",
+                        discountType: fetchedItem?.discountType || "no-discount",
+                    });
+                    setVariations(fetchedItem?.variations);
+                    setDescription(fetchedItem?.description || "")
+                    setProductCollection(fetchedItem?.productCollection?.map((collection, i) => (
+                        { name: collection, id: i }
+                    )))
+                    setChecks({
+                        trackInventory: fetchedItem?.trackInventory || false,
+                        isPhysical: fetchedItem?.isPhysical || true,
+                        isVisible: fetchedItem?.isVisible || false,
+                    });
+                    setImages(fetchedItem?.images?.map(img => (
+                        { data_url: `${BASE_URL}/${img}`, file: null}
+                    )));
+                    setUnit([{ name: fetchedItem?.unit, id: 0 }]);
+                }
+            }
+        })();
+
+    }, [id]);
 
 
     async function handleCreateProduct(e) {
