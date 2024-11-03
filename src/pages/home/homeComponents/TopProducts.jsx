@@ -56,7 +56,8 @@ function TopProducts() {
     const { products, error } = useFetchedContext();
 
     const threshold = 3;
-    const topThreeProducts = products.filter(product => product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, 3);
+    const topTwoProducts = products.filter(product => product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, 2);
+    const itemLength = topTwoProducts?.length
     const noError = (!error.order || !error.product)
 
     const [period, setPeriod] = useState("");
@@ -67,7 +68,7 @@ function TopProducts() {
             <div className="section--top" style={ width < 450 ? { flexDirection: "column", textAlign: "center", width: "100%", alignItems: "center" } : {} }>
                 <div className="section--heading">
                     <h2>Best Selling Products </h2>
-                    <p>Items that are selling most.</p>
+                    <p>Top <label className='value'>{itemLength || ""}</label> item{itemLength != 1 ? "s" : ""} that {itemLength != 1 ? "are" : "is"} selling the most.</p>
                 </div>
 
                 <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />
@@ -79,11 +80,11 @@ function TopProducts() {
                     <ErrorComponent text="Cannot get products, Check Connection" />
                 )}
 
-                {topThreeProducts?.length > 0 && topThreeProducts?.map(product => (
+                {itemLength > 0 && topTwoProducts?.map(product => (
                     <ProductFigure product={product} key={product._id} />
                 ))}
 
-                {((!topThreeProducts || topThreeProducts.length < 1) && noError) && (
+                {((!topTwoProducts || topTwoProducts.length < 1) && noError) && (
                     <Empty text="best selling product yet!" />
                 )}
             </div>

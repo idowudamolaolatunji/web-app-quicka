@@ -6,6 +6,7 @@ import paystack from "../../assets/images/png_elements/paystack.png"
 import whatsapp from "../../assets/images/png_elements/whatsapp-business-icon.webp"
 import flutterwave from "../../assets/images/png_elements/flutterwave-store.png"
 import fb_pixel from "../../assets/images/png_elements/facebook-pixel-icon.webp"
+import Tab from '../../components/Tab';
 
 const integrations = [
     { name: "Paystack", by: "paystack", tag: "payment", text: "Connect to recieve payment with paystack.", icon: paystack, connected: false, },
@@ -23,9 +24,9 @@ function index() {
             </div>
 
             <div className="page--tabs" style={{ marginTop: "-2rem" }}>
-                <button className='page--tab active'>All (<span className='value'>10</span>)</button>
-                <button className='page--tab'>Socials (<span className='value'>2</span>)</button>
-                <button className='page--tab'>Others (<span className='value'>4</span>)</button>
+                <Tab title="All" active onClick="" value={10} />
+                <Tab title="Socials" onClick="" value={2} />
+                <Tab title="Others" onClick="" value={4} />
             </div>
 
 

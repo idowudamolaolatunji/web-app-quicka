@@ -400,7 +400,7 @@
     font-size: 1.8rem;
 }
 button.onboard--prev {
-    background-color: #333;
+    background-color: #343434;
 }
 button.onboard--next {
     background-color: var(--color-brand-500);

@@ -36,7 +36,7 @@
     font-weight: 500;
     padding: 1.2rem 2.4rem;
     text-transform: capitalize;
-    /* background-color: #333; */
+    /* background-color: #343434; */
     background-color: var(--color-brand-500);
     color: #fff !important;
     align-self: center;

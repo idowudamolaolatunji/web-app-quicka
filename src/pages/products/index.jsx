@@ -17,6 +17,7 @@ import emptyImg from '../../assets/images/illustrations/product.png';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchInput from '../../components/SearchInput';
 import { AiOutlinePlus } from 'react-icons/ai';
+import Tab from '../../components/Tab';
 
 
 //////////////////////////////////////////////////////
@@ -201,6 +202,12 @@ function index() {
                     <Insight loader={loader?.product} title='Out of stock' value={outOfStock?.length} icon={<TbArrowWaveRightDown />} />
                 </div>
             )}
+
+
+            <div className="page--tabs" style={{ margin: "-1rem 0 2rem" }}>
+                <Tab title="Products" active onClick="" />
+                <Tab title="Collections" onClick="" />
+            </div>
 
         </PageUI>
     )

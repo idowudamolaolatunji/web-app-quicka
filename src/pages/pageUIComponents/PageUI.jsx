@@ -12,13 +12,20 @@ import TableUI from './TableUI';
 import './generalStyle.css';
 import Delete from '../../components/modal/Delete';
 import Spinner from '../../components/spinner/spinner_two';
+import { useFetchedContext } from '../../context/FetchedContext';
+import NoInternetConnection from '../../components/NoInternetConnection';
 
 
 
-function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, headTabs, error, loader, activeDisplayTab = null, insights = true, children, deleteObj }) {
+function PageUI({ 
+    items, pageName, columns, data, addUrl, addBtnStr, 
+    goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, headTabs,
+    error, loader, activeDisplayTab = null, insights = true, children, deleteObj 
+}) {
 
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { globalInternetError } = useFetchedContext();
     const { handleToggleInsights, showInsights } = useDataContext();
 
     // CHECK THIS AGAIN LATER....
@@ -54,6 +61,8 @@ function PageUI({ items, pageName, columns, data, addUrl, addBtnStr, goto=true, 
             {(response.message || response.status) && (
                 <CustomAlert type={response.status} message={response.message} />
             )}
+
+            {globalInternetError && <NoInternetConnection /> }
 
             <div className='page__section--heading' style={(width500andIsItem && addUrl) ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
                 <h2 className="page__section--title">{pageName == "delivery" ? "delivery rate" : pageName}s</h2>

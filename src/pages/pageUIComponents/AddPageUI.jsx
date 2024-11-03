@@ -15,8 +15,6 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
     const navigate = useNavigate();
     const { width } = useWindowSize();
 
-    console.log(id)
-
     useEffect(function() {
         isnew || window.scrollTo(0, 0)
     }, [])

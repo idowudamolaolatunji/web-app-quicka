@@ -48,7 +48,7 @@ function DashboardMenu() {
                     <ul className={`menu--list`}>
                         <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-info' />
                         <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
-                        <MenuLink icon={<TbTruckDelivery />} title='Delivery and Rates' link='/delivery-rates' />
+                        <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                         <MenuLink icon={<MdOutlineCampaign />} title='Campaigns' link='/campaigns' />
                         <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                         <MenuLink icon={<BiCustomize />} title='Store Customisation' link='/store-customisation' />
@@ -105,7 +105,7 @@ function DashboardMenu() {
                         <ul className='menu--list'>
                             <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-info' />
                             <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
-                            <MenuLink icon={<TbTruckDelivery />} title='Delivery and Rates' link='/delivery-rates' />
+                            <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                             <MenuLink icon={<MdOutlineCampaign />} title='Campaigns' link='/campaigns' />
                             <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                             <MenuLink icon={<BiCustomize />} title='Site Customisation' link='/store-customisation' />

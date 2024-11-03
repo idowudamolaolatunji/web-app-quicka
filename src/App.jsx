@@ -65,7 +65,7 @@ import StoreInformation from './pages/storeInfo';
 import Customers from './pages/customers';
 import CreateCustomers from './pages/customers/customerComponents/CreateCustomers';
 import CustomerItem from './pages/customers';
-import DisCountCouponSales from './pages/DisCountCouponSales';
+import DisCountCouponSales from './pages/discountCouponSales';
 import BankDetails from './pages/bankDetails';
 import Delivery from './pages/delivery';
 import Subscription from './pages/subscription';

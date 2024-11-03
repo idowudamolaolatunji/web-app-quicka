@@ -10,7 +10,12 @@ import ProductCardSkeleton from '../../components/ProductCardSkeleton';
 import { TableHeadSkeleton, TableSkeleton } from '../../components/TableSkeleton';
 
 
-function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectableRows, headTabs, displayType = "table", open, loader, error }) {
+function TableUI({ 
+    name, columns, data, toLink, goto,
+    emptyComponent, selectableRows, headTabs,
+    displayType = "table", open, loader, error
+}) {
+    
     const isData = data?.length > 0;
     const navigate = useNavigate();
     const { width } = useWindowSize();
@@ -28,12 +33,12 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
             style: {
                 fontSize: "1.48rem",
                 fontWeight: "500",
-                height: '5.5rem',
+                height: '5rem',
             },
         },
         rows: {
             style: {
-                minHeight: width < 450 ? "8.5rem" : (name == "product" ? "8.5rem" : "7.5rem"),
+                minHeight: width < 450 ? "8.5rem" : (name == "product" ? "8rem" : "7rem"),
                 cursor: 'pointer',
                 fontSize: "1.32rem",
                 fontWeight: 500,
@@ -43,9 +48,9 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent, selectable
         headCells: {
             style: {
                 paddingRight: '0.5rem',
-                backgroundColor: '#333',
+                backgroundColor: '#343434',
                 color: '#fff',
-                height: '5.5rem'
+                height: '5rem'
             },
         },
         cells: {

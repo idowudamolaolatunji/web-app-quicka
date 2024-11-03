@@ -46,7 +46,7 @@
 }
 
 .page__section-top-btn.more {
-	background-color: #333;
+	background-color: #343434;
 }
 .page__section-top-btn.add {
 	background-color: transparent;
@@ -266,7 +266,7 @@
 .table-customer {
 	width: 2.4rem;
 	height: 2.4rem;
-	border-radius: 50%;
+	border-radius: .4rem;
 	background-color: #eee;
 	display: flex;
 	align-items: center;
@@ -274,7 +274,7 @@
 	color: var(--color-brand-500);
 }
 .table-customer svg {
-	font-size: 1.6rem;
+	font-size: 1.8rem;
 }
 
 
@@ -283,7 +283,7 @@
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 1.6rem;
-	padding: 2.8rem 1.4rem;
+	padding: 2rem 0rem;
 }
 .product__figure {
 	width: 100%;
@@ -388,7 +388,7 @@
 }
 
 .page--tab {
-	padding: 1rem 1.4rem;
+	padding: 0.95rem 1.2rem;
 	border-radius: 100rem;
 	font-size: 1.4rem;
 	font-weight: 500;

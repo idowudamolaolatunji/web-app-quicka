@@ -29,7 +29,7 @@
     opacity: .9;
 }
 .page__section--actions .clear--button {
-    background-color: #333;
+    background-color: #343434;
 }
 .page__section--actions .submit--button {
     background-color: var(--color-brand-500);
@@ -176,7 +176,7 @@
 
 .img--item-btns button {
     padding: .4rem .8rem;
-    background-color: #333;
+    background-color: #343434;
     color: #fff;
 }
 

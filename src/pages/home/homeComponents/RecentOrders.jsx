@@ -23,20 +23,20 @@ const customStyles = {
 			fontSize: "14px",
 			fontWeight: "500",
 			color: "#eee",
-            height: '45px'
+            height: '4.5rem'
 		},
 	},
 	rows: {
         style: {
-            minHeight: '70px',
+            minHeight: '7rem',
             cursor: 'pointer'
         },
     },
     headCells: {
 		style: {
 			paddingRight: '5px',
-            backgroundColor: '#333',
-            height: '45px'
+            backgroundColor: '#343434',
+            height: '4.5rem'
 		},
 	},
     cells: {
@@ -139,7 +139,7 @@ function RecentOrders() {
                         <h2>Recent Order </h2>
                         {(width < 450 && isData) && <Link to="/dashboard/orders/">View more</Link>}
                     </span>
-                    <p>Three new & recent order for you!</p>
+                    <p>Three most recent order for you!</p>
                 </div>
 
                 {(width > 450 && isData) && <Link to="/dashboard/orders/">View more</Link>}
