@@ -1,11 +1,10 @@
 import React from 'react'
 import { MdSignalWifiConnectedNoInternet0 } from 'react-icons/md'
-import { useFetchedContext } from '../../../context/FetchedContext'
+import { useFetchedContext } from '../context/FetchedContext'
 import { useWindowSize } from 'react-use'
 
-function HomeNoConnection() {
+function NoInternetConnection() {
     const { width } = useWindowSize();
-
     const { handleGlobalRefetch } = useFetchedContext()
 
     const handleRefreshAll = function () {
@@ -13,7 +12,7 @@ function HomeNoConnection() {
     }
 
     return (
-        <div className="home--sub error">
+        <div className="top--bar error">
             <div className="sub--mini">
                 <MdSignalWifiConnectedNoInternet0 style={{ fontSize: '2.4rem' }} />
                 <p className='sub--text'>
@@ -30,4 +29,4 @@ function HomeNoConnection() {
     )
 }
 
-export default HomeNoConnection
+export default NoInternetConnection

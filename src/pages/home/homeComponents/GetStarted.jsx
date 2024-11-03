@@ -15,6 +15,7 @@ import StoreCustom from '../../storeInfo/storeInfoComponents/StoreCustom';
 import CustomAlert from '../../../components/CustomAlert';
 import BgSimple from '../../../components/modal/BgSimple';
 import Welcome from './Welcome';
+import { useFetchedContext } from '../../../context/FetchedContext';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -22,6 +23,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function GetStarted() {
     const { width } = useWindowSize();
+    const { globalInternetError } = useFetchedContext();
     const { user, store, token, handleUser, handleStore } = useAuthContext();
 
     const headers = {
@@ -45,7 +47,7 @@ function GetStarted() {
         product: false,
         bank: false,
         delivery: false,
-        welcome: true
+        welcome: globalInternetError ? false : true,
     })
 
     const completedSteps = stepsToComplete.filter(step => step.completed);
@@ -235,7 +237,7 @@ function GetStarted() {
             )}
 
             {(showModal.bank || showModal.delivery || showModal.product || showModal.store) && (
-                <FullScreen style={{ maxWidth: '105rem', margin: '0 auto' }}>
+                <FullScreen style={{ maxWidth: '108rem', margin: '0 auto' }}>
                     {showModal.bank && <BankDetails isnew close={() => handleCloseModal('bank')} />}
                     {showModal.store && <StoreCustom isnew  close={() => handleCloseModal('store')} />}
                     {showModal.product && <UploadProduct isnew close={() => handleCloseModal('product')} />}

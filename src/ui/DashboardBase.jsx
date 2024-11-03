@@ -2,16 +2,20 @@ import React, { Fragment, useEffect } from 'react'
 import { useWindowSize } from 'react-use';
 import { useAuthContext } from '../context/AuthContext';
 import { useDataContext } from '../context/DataContext';
-import CopyrightText from '../components/CopyrightText';
-import DashboardHead from './uiComponents/DashboardHead';
-import DashboardMenu from './uiComponents/DashboardMenu';
-import './dashboard.css';
+import { useFetchedContext } from '../context/FetchedContext';
 
+import CopyrightText from '../components/CopyrightText';
+import DashboardMenu from './uiComponents/DashboardMenu';
+import DashboardHead from './uiComponents/DashboardHead';
+import NoInternetConnection from '../components/NoInternetConnection';
+
+import './dashboard.css';
 
 function DashboardBase({ children }) {
     const { width } = useWindowSize();
     const { user } = useAuthContext() ;
     const { isMenuCollapsed } = useDataContext();
+    const { globalInternetError } = useFetchedContext();
 
     useEffect(function() {
         document.title = `Quicka | ${user?.firstname}'s store dashboard ✨`
@@ -26,6 +30,8 @@ function DashboardBase({ children }) {
                 <DashboardMenu />
 
                 <section className='content--block'>
+                    {globalInternetError && <NoInternetConnection /> }
+
                     {children}
 
                     <CopyrightText />

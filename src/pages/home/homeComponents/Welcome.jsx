@@ -20,9 +20,11 @@ function Welcome({ firstname, setClose }) {
 
             <p className='welcome--text'>Finalize your setup in a few steps to get your store up & running, and make your website visible to the world.</p>
 
-            <button className="general--btn" style={{ fontWeight: "600" }} onClick={setClose}>Let's Go <IoSend /></button>
+            <button className="general--btn" style={{ fontWeight: "600" }} onClick={setClose}>
+                Let's Go <IoSend />
+            </button>
         </div>
     )
 }
 
-export default Welcome
+export default Welcome;

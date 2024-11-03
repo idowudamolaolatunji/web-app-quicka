@@ -5,7 +5,7 @@ import { useDataContext } from '../../context/DataContext';
 import { IoChevronDownSharp } from 'react-icons/io5';
 import { MdOutlineStorefront } from 'react-icons/md';
 import { RiMenu3Fill } from 'react-icons/ri';
-import { LuBell, LuPanelLeftClose, LuPanelRightClose, LuRefreshCcw, LuUser } from 'react-icons/lu';
+import { LuBell, LuPanelLeftClose, LuPanelRightClose, LuRefreshCcw } from 'react-icons/lu';
 
 import { useWindowSize } from 'react-use';
 import Dropdown from '../../components/Dropdown';
@@ -15,7 +15,6 @@ import { useAuthContext } from '../../context/AuthContext';
 import UserIntialsImage from '../../components/UserIntialsImage';
 import CustomAlert from '../../components/CustomAlert';
 import Spinner from '../../components/spinner/spinner_two'
-import { Tooltip } from '@mui/material';
 import TooltipUI from '../../components/TooltipUI';
 import { useFetchedContext } from '../../context/FetchedContext';
 
@@ -24,7 +23,9 @@ function DashboardHead() {
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
     const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
-    const { error, handleGlobalRefetch } = useFetchedContext()
+    const { error, handleGlobalRefetch } = useFetchedContext();
+
+    const userStoreIsSetup = (user?.storeBasicSetup && user?.storeFinalSetup);
 
     const [isShownDropdown, setIsShownDropdown] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -65,7 +66,7 @@ function DashboardHead() {
                     <div className=""></div>
 
                     <div className="nav--others">
-                        {(width > 600 && !error.order) && (
+                        {(width > 600 && !error.order && userStoreIsSetup) && (
                             <DefaultButton>
                                 <TooltipUI placement='top' title="Refresh all">
                                     <div className="nav--icon notification--icon" onClick={handleRefreshAll}>

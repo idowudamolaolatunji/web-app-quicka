@@ -12,7 +12,7 @@ import ColorBox from '../../../components/ColorBox';
 import LinkInput from '../../../components/LinkInput';
 import { Switch } from '@mui/material';
 import QuillEditor from '../../../components/QuillEditor';
-import TemplateUI from "../../../ui/templateUI";
+import Template1 from "../../../ui/templateUI/Template1";
 import Info from '../../../components/Info';
 import { colors } from '../../../utils/data';
 import Asterisk from '../../../components/Asterisk';
@@ -352,7 +352,7 @@ function StoreCustom({ isnew, close }) {
 
 
                             <div className="custom--display">
-                                <TemplateUI
+                                <Template1
                                     logo={imagePreview.logo || (store?.logo ? logoImg : noLogo)}
                                     color={storeData.brandColor}
                                     headline={storeData.headline}

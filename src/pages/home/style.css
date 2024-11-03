@@ -8,6 +8,7 @@
     width: 100%;
 }
 
+.top--bar,
 .home--sub {
     width: 100%;
     padding: 1.8rem 2rem;
@@ -16,7 +17,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+}
+.home--sub {
     background-color: #242424;
     background-image: linear-gradient(rgba(255, 255, 255, .03), rgba(255, 255, 255, .03)),
     url("../../assets/images/resources/new-mask.png");
@@ -24,23 +26,30 @@
     /* background-position: center; */
     background-position: top;
 }
-.home--sub.error,
-.home--sub.success,
-.home--sub.warning {
+
+/* THE TOP BAR MESSAGE IN THE HOME PAGE */
+.top--bar + .home--section .home--sub {
+    margin-top: -1rem;
+}
+/* //////////////////////////////////// */
+
+.top--bar.error,
+.top--bar.success,
+.top--bar.warning {
     background-image: unset;
     background-position: unset;
     background-repeat: unset;
-    margin-bottom: -1rem;
+    margin-bottom: 2.4rem;
 }
-.home--sub.success {
+.top--bar.success {
     color: #008001;
 	background-color: #d7ecd1b7;
 }
-.home--sub.error {
+.top--bar.error {
     background-color: #ff9797b7;
     color: red;
 }
-.home--sub.warning {
+.top--bar.warning {
     background-color: #FFFFE0;
     color: #ffcc00;
 }
@@ -369,7 +378,7 @@ a.upgrade--link:hover {
 }
 .home--grid {
     display: grid;
-    grid-template-columns: 4fr 2fr;
+    grid-template-columns: 4fr s2fr;
     gap: 1.4rem;
 }
 .grid--left,
@@ -701,7 +710,7 @@ a.upgrade--link:hover {
 
 
 .welcome--container {
-    padding: 2.4rem 0rem 0;
+    padding: 2rem 0rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -710,7 +719,7 @@ a.upgrade--link:hover {
     text-align: center;
 }
 .welcome--heading {
-    font-size: 3.2rem;
+    font-size: 3rem;
 
     display: flex;
     flex-direction: column;
@@ -852,6 +861,7 @@ a.upgrade--link:hover {
     .top--heading {
         gap: .6rem;
     }
+    .top--bar,
     .home--sub {
         padding: 1rem;
         flex-direction: column;
@@ -986,6 +996,7 @@ a.upgrade--link:hover {
 
 /* 450px === 28.125em */
 @media screen and (max-width: 28.125em) {
+    .top--bar,
     .home--sub {
         background-size: 280%;
         padding-bottom: 1.24rem;

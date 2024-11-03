@@ -149,7 +149,6 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     }
 
 
-
     useEffect(function() {
         document.title = "Quicka | Upload new product";
 
@@ -323,7 +322,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                                         <span className='img--container' {...dragProps}>
                                                             <IoCloudDownloadOutline style={{ color: '#ff7a49' }} />
                                                             <h3>Click to upload or Drag n drop Image</h3>
-                                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, cumque.</p>
+                                                            <p>Recommeded formats: PNG, JPEG, and JPG | Max Size 4Mb</p>
                                                         </span>
                                                     )}
                                                 </div>
@@ -380,7 +379,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
 
                             <div className="form--item">
                                 <label htmlFor="short-des" className="form--label">Short Description</label>
-                                <input type="text" name="shortDescription" id="short-des" value={productData.shortDescription} onChange={handleProductDataChange} className="form--input" placeholder='Lorem ipsum dolor sit amet consectetur.' />
+                                <input type="text" name="shortDescription" id="short-des" value={productData.shortDescription} onChange={handleProductDataChange} className="form--input" placeholder='Unisex and big fitting.' />
                             </div>
                             <div className="form--item">
                                 <label htmlFor="" className="form--label">Product Description <Asterisk /></label>

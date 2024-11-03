@@ -10,13 +10,12 @@ import HomeProgressGrid from './homeComponents/HomeProgressGrid';
 import HomeLayoutGrid from './homeComponents/HomeLayoutGrid';
 import Spinner from "../../components/spinner/spinner_two"
 import './style.css';
-import HomeNoConnection from './homeComponents/HomeNoConnection';
 
 
 function index() {
     const { width } = useWindowSize();
     const { user } = useAuthContext();
-    const { loader, globalInternetError } = useFetchedContext();
+    const { loader } = useFetchedContext();
     
     const { storeBasicSetup, storeFinalSetup } = user;
     const userStoreIsSetup = (storeBasicSetup && storeFinalSetup);
@@ -27,7 +26,6 @@ function index() {
 
     return (
         <section className='home--section'>
-            {(globalInternetError) && <HomeNoConnection /> }
             <HomeTop />
             <Line border={1.4} />
 

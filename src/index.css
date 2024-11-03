@@ -153,11 +153,13 @@ button {
 	overflow-y: auto;
 }
 
+/* SIMPLE NORMAL MODAL */
 .modal.simple {
 	min-height: 40rem;
 	width: 50rem;
 }
 
+/* RIGHT SIDE MODAL  */
 .drawer--modal {
 	padding: 4rem 2.4rem 2.4rem;
 	background-color: #fff;
@@ -179,6 +181,7 @@ button {
     100% { transform: translateX(0rem); }
 }
 
+/* MODALS TO DELETE OR EXPORT */
 .modal.delete,
 .modal.export {
 	min-height: 28rem;
@@ -186,7 +189,7 @@ button {
 }
 
 .modal.bg-simple {
-	width: 65rem;
+	width: 60rem;
 	min-height: 30rem;
 }
 .modal.bg-simple .icon--box {
@@ -641,11 +644,38 @@ button {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	transition: all .3s;
 }
 
 .page__section-back svg {
 	font-size: 2.4rem;
+	transform: rotate(0);
+	transition: all .3s;
 }
+.page__section-back:hover {
+	background-color: var(--color-brand-50);
+}
+.page__section-back:hover svg {
+	animation: shake .75s ease-in-out;
+}
+
+@keyframes shake {
+	0% { 
+		transform: rotate(-30deg);
+	} 25% {
+		transform: rotate(30deg);
+	} 50% {
+		transform: rotate(-15deg);
+	} 75% {
+		transform: rotate(15deg);
+	} 100% {
+		transform: rotate(0deg);
+	}
+}
+
+
+
+
 
 /* ============================================= */
 /* QUILL RICH TEXT EDITOR STYLES */

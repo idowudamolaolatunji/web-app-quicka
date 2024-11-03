@@ -9,10 +9,11 @@ import { RiDiscountPercentFill } from 'react-icons/ri';
 import { AiOutlineClose } from 'react-icons/ai';
 import { LuCheckCircle } from 'react-icons/lu';
 import moment from 'moment';
+import { useFetchedContext } from '../../../context/FetchedContext';
 
 
 function HomeTop() {
-    const offer_tenue = 60;
+    const offer_tenue = 30;
     const offer_percent = 70;
     const navigate = useNavigate();
     const { width } = useWindowSize();
