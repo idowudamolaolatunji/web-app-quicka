@@ -16,7 +16,7 @@ function ProductCard({ product, open, base }) {
                 <span className={`product__figure--stat status status--${(product?.status)}`}>
                     <p style={{ minWidth: "0" }}>{product?.status}</p>
                 </span>
-                <img src={base != "dummy" ? BASE_URL + product?.images[0] : product?.images[0]} />
+                <img src={base != "dummy" ? BASE_URL + product?.images?.at(0) : product?.images?.at(0)} />
             </Link>
 
             <figcaption className="product__details">

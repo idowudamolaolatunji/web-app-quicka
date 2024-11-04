@@ -579,6 +579,7 @@ button {
 	background-color: #f5f5f5;
 	border-radius: 0.4rem;
 	width: 12rem;
+	min-height: 12rem;
 }
 .empty--img img {
 	width: 12rem;

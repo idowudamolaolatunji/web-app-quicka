@@ -392,7 +392,7 @@ span.item--user-img {
 .collapsed .menu--list {
     gap: .8rem;
 }
-.menu--link, button.menu--button {
+.menu--link, .menu--button {
     width: 100%;
     display: flex;
     align-self: center;
@@ -413,7 +413,7 @@ span.item--user-img {
     position: relative;
 }
 
-button.menu--button {
+.menu--button {
     border: none !important;
 }
 
@@ -441,6 +441,7 @@ button.menu--button {
 }
 .menu--icon svg {
     font-size: 2rem;
+    align-self: center;
 }
 .menu--text {
     font-size: 1.288rem;
@@ -642,7 +643,7 @@ button.menu--button {
 
 /* 400px === 25em */
 @media screen and (max-width: 25em) {
-    .menu--link, button.menu--button {
+    .menu--link, .menu--button {
         gap: .8rem;
         padding: 1rem;
     }

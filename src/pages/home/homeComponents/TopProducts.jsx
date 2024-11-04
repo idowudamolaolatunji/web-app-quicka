@@ -55,9 +55,10 @@ function TopProducts() {
     const { width } = useWindowSize();
     const { products, error } = useFetchedContext();
 
-    const threshold = 3;
-    const topTwoProducts = products.filter(product => product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, 2);
-    const itemLength = topTwoProducts?.length
+    const threshold = 2;
+    const amount = 3;
+    const topProducts = products.filter(product => product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, amount);
+    const itemLength = topProducts?.length
     const noError = (!error.order || !error.product)
 
     const [period, setPeriod] = useState("");
@@ -80,11 +81,11 @@ function TopProducts() {
                     <ErrorComponent text="Cannot get products, Check Connection" />
                 )}
 
-                {itemLength > 0 && topTwoProducts?.map(product => (
+                {itemLength > 0 && topProducts?.map(product => (
                     <ProductFigure product={product} key={product._id} />
                 ))}
 
-                {((!topTwoProducts || topTwoProducts.length < 1) && noError) && (
+                {((!topProducts || topProducts.length < 1) && noError) && (
                     <Empty text="best selling product yet!" />
                 )}
             </div>

@@ -54,6 +54,7 @@ import Orders from './pages/orders';
 import RecordOrders from './pages/orders/orderComponents/RecordOrder';
 import Products from './pages/products';
 import UploadProduct from './pages/products/productComponents/UploadProduct';
+// import Collections from './pages/products/productComponents/CollectionPage';
 import Transaction from './pages/transactions';
 import Settings from './pages/settings';
 import Profile from './pages/profile';
@@ -101,6 +102,7 @@ function App() {
                     <Route path='/dashboard' element={<DashboardHome />}></Route>
                     <Route path='/dashboard/orders' element={<Orders />}></Route>
                     <Route path='/dashboard/products' element={<Products />}></Route>
+                    <Route path='/dashboard/products/collections' element={<Products />}></Route>
                     <Route path='/dashboard/customers' element={<Customers />}></Route>
                     <Route path='/dashboard/delivery-rates' element={<Delivery />}></Route>
                     <Route path='/dashboard/transactions' element={<Transaction />}></Route>

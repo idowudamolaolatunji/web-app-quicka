@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getExpression, getGreeting, todayDate } from '../../../utils/helper';
-import { TiStarburstOutline } from 'react-icons/ti';
 import { useWindowSize } from 'react-use';
-import { MdOutlineClose, MdOutlineWorkspacePremium } from 'react-icons/md';
+import { MdOutlineClose } from 'react-icons/md';
 import { useAuthContext } from '../../../context/AuthContext';
 import { RiDiscountPercentFill } from 'react-icons/ri';
-import { AiOutlineClose } from 'react-icons/ai';
 import { LuCheckCircle } from 'react-icons/lu';
 import moment from 'moment';
-import { useFetchedContext } from '../../../context/FetchedContext';
 
 
 function HomeTop() {
@@ -36,10 +33,10 @@ function HomeTop() {
             {(!store.isPremium && showSub) && (
                 <div className='home--sub'>
                     <div className="sub--mini">
-                        <p className='sub--text'>
+                        <span className='sub--text'>
                             Select a plan and get your first year at a whooping 🥳 <span className='value' style={{ fontSize: '1.6rem' }}>{offer_percent}</span>% discount!
                             <p className='sub--text-sub'>Promo offer expired in <span className='value'>{daysToReach()}</span> day{daysToReach() < 2 ? "" : "s"}.</p>
-                        </p>
+                        </span>
                         <RiDiscountPercentFill style={{ fontSize: '2.6rem' }} />
                     </div>
 

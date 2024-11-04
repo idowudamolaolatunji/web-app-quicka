@@ -29,7 +29,7 @@ function HomeLayoutGrid() {
                 <VisitorOverview />
                 <TopProducts />
                 <TopSalesChannels />
-                <QuickActions />
+                {/* <QuickActions /> */}
             </div>
         </div>
     )

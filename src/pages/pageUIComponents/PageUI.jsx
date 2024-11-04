@@ -82,7 +82,7 @@ function PageUI({
 
                             {showMoreActions && (
                                 <ul className="page__section--dropdown">
-                                    <li onClick={() => handleToggleInsights(pageName)}>
+                                    <li onClick={() => handleToggleInsights((pageName == "collection" || pageName == "product") ? "product" : pageName)}>
                                         <span>
                                             {showInsights?.[pageName] ? <ImEyeBlocked /> : <ImEye />}
                                         </span>
@@ -98,7 +98,6 @@ function PageUI({
                     )}
                 </span>
             </div>
-
 
             {children}
 

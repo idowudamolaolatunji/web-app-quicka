@@ -16,17 +16,17 @@ function MenuButton({ title, icon, action }) {
                     {isMenuCollapsed ? (
                         <DefaultButton>
                             <TooltipUI title={title}>
-                                <button className='menu--button' onClick={action}>
+                                <div className='menu--button' onClick={action}>
                                     <span className='menu--icon'>{icon}</span>
-                                </button>
+                                </div>
                             </TooltipUI>
                         </DefaultButton>
                     ) : (
                         <DefaultButton customStyle={{ width: '100%', fontFamily: "inherit" }}>
-                            <button className='menu--button' style={{ alignItems: 'center' }} onClick={action}>
+                            <div className='menu--button' style={{ alignItems: 'center' }} onClick={action}>
                                 <span className='menu--icon'>{icon}</span>
                                 <p className='menu--text'>{title}</p>
-                            </button>
+                            </div>
                         </DefaultButton>
                     )}
                 </>

@@ -136,7 +136,7 @@ function index() {
                 loader: deleteLoader
             }}
       >
-            <div className="page--tabs" style={{ margin: "-1.4rem 0 2rem" }}>
+            <div className="page--tabs" style={{ margin: "0 0 1rem" }}>
                 <Tab active title="Discount" onClick={() => {}} />
                 <Tab title="Coupon" onClick={() => {}} />
                 <Tab title="Run Sales" onClick={() => {}} />
