@@ -82,11 +82,11 @@ function PageUI({
 
                             {showMoreActions && (
                                 <ul className="page__section--dropdown">
-                                    <li onClick={() => handleToggleInsights((pageName == "collection" || pageName == "product") ? "product" : pageName)}>
+                                    <li onClick={() => handleToggleInsights(pageName == "collection" ? "product" : pageName)}>
                                         <span>
-                                            {showInsights?.[pageName] ? <ImEyeBlocked /> : <ImEye />}
+                                            {showInsights?.[pageName == "collection" ? "product" : pageName] ? <ImEyeBlocked /> : <ImEye />}
                                         </span>
-                                        {showInsights?.[pageName] ? 'Hide' : 'Show'} Insights
+                                        {showInsights?.[pageName == "collection" ? "product" : pageName] ? 'Hide' : 'Show'} Insights
                                     </li>
 
                                     <li onClick={handleShowExportModal}>

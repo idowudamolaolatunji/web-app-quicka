@@ -132,7 +132,9 @@ function index() {
 
     const collection_columns = [];
 
-    const HeadTabs = function() {
+
+    // 
+    const ProductHeadTabs = function() {
         return (
             <div className='content'>
                 <span className='flex'>
@@ -165,6 +167,16 @@ function index() {
             </div>
         );
     }
+
+    // 
+    const ComllectionHeadTabs = function() {
+        return (
+            <p>Hi</p>
+        )
+    }
+
+
+
 
     useEffect(function() {
         document.title = `Quicka | ${tabShown == "product" ?
@@ -211,7 +223,7 @@ function index() {
             emptyTitle={tabShown == "products" ? product_emptyTitle : collection_emptyTitle}
             {...(tabShown == "products" && { activeDisplayTab })}
             loader={loader} error={error}
-            headTabs={tabShown == "products" ? <HeadTabs /> : <></>}
+            headTabs={tabShown == "products" ? <ProductHeadTabs /> : <ComllectionHeadTabs />}
             addBtnStr={tabShown == "products" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
             addUrl="products/upload"
             
