@@ -205,8 +205,8 @@ function index() {
 
 
             <div className="page--tabs" style={{ margin: "-1rem 0 2rem" }}>
-                <Tab title="Products" active onClick="" />
-                <Tab title="Collections" onClick="" />
+                <Tab title="Products" active onClick={() => {}} />
+                <Tab title="Collections" onClick={() => {}} />
             </div>
 
         </PageUI>

@@ -24,9 +24,9 @@ function index() {
             </div>
 
             <div className="page--tabs" style={{ marginTop: "-2rem" }}>
-                <Tab title="All" active onClick="" value={10} />
-                <Tab title="Socials" onClick="" value={2} />
-                <Tab title="Others" onClick="" value={4} />
+                <Tab title="All" active onClick={() => {}} value={10} />
+                <Tab title="Socials" onClick={() => {}} value={2} />
+                <Tab title="Others" onClick={() => {}} value={4} />
             </div>
 
 

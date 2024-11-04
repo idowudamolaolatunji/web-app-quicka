@@ -137,9 +137,9 @@ function index() {
             }}
       >
             <div className="page--tabs" style={{ margin: "-1.4rem 0 2rem" }}>
-                <Tab active title="Discount" onClick="" />
-                <Tab title="Coupon" onClick="" />
-                <Tab title="Run Sales" onClick="" />
+                <Tab active title="Discount" onClick={() => {}} />
+                <Tab title="Coupon" onClick={() => {}} />
+                <Tab title="Run Sales" onClick={() => {}} />
             </div>
 
       </PageUI>
