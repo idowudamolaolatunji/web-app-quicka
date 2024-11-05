@@ -14,13 +14,15 @@ import Delete from '../../components/modal/Delete';
 import Spinner from '../../components/spinner/spinner_two';
 import { useFetchedContext } from '../../context/FetchedContext';
 import NoInternetConnection from '../../components/NoInternetConnection';
+import Drawer from '../../components/modal/Drawer';
+import CollectionFormSm from '../products/productComponents/CollectionFormSm';
 
 
 
 function PageUI({ 
-    items, pageName, columns, data, addUrl, addBtnStr, 
-    goto=true, emptyTitle, emptyText, emptyImg, emptyBtns, headTabs,
-    error, loader, activeDisplayTab = null, insights = true, children, deleteObj 
+    items, pageName, columns, data, addUrl, addBtnStr, goto=true,
+    emptyTitle, emptyText, emptyImg, emptyBtns, headTabs, error, loader,
+    action, addAction, activeDisplayTab = null, insights = true, children, deleteObj 
 }) {
 
     const navigate = useNavigate();
@@ -64,14 +66,23 @@ function PageUI({
 
             {globalInternetError && <NoInternetConnection /> }
 
-            <div className='page__section--heading' style={(width500andIsItem && addUrl) ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
-                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rate" : pageName}s</h2>
-                    
+            {/* THIS IS FOR THE COLLECTION MODAL */}
+            {action && (
+                <Drawer title="Create Collection" setClose={addAction}>
+                    <CollectionFormSm close={addAction} />
+                </Drawer>
+            )}
 
-                <span className='page__section--btns' style={(width500andIsItem && insights && addUrl) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
+            {showExportModal && (
+                <ExportCSV data={data} title={pageName} setClose={setShowExportModal} />
+            )}
 
-                    {(isItem && addUrl) && (
-                        <button className="page__section-top-btn add" onClick={() => navigate(`/dashboard/${addUrl}`)}>
+            <div className='page__section--heading' style={(width500andIsItem && (addUrl || addAction)) ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
+                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rates" : pageName}s</h2>
+
+                <span className='page__section--btns' style={(width500andIsItem && insights && (addUrl || addAction)) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
+                    {(isItem && (addUrl || addAction)) && (
+                        <button className="page__section-top-btn add" onClick={() => pageName == "collection" ? addAction() : navigate(`/dashboard/${addUrl}`)}>
                             {addBtnStr}<BiPlus />
                         </button>
                     )}
@@ -120,19 +131,14 @@ function PageUI({
                             title={emptyTitle}
                             className="empty--main"
                             customStyle={!insights ? { padding: "3rem 0" } : {}}
+
+                            // THIS IS BECAUSE THE COLLECTION AND OTHER MODAL LIKE ACTION NEEDS IT.. 
+                            {...(addAction && { btnForAction: addAction })}
                         />
                     }
                     {...(activeDisplayTab && { displayType: activeDisplayTab, open: deleteObj?.open })}
                 />
             </div>
-
-            {showExportModal && (
-                <ExportCSV
-                    data={data}
-                    title={pageName}
-                    setClose={setShowExportModal}
-                />
-            )}
         </>
     )
 }

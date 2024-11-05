@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Asterisk from '../../../components/Asterisk'
 import { IoCloudDownloadOutline } from 'react-icons/io5';
 import { useFetchedContext } from '../../../context/FetchedContext';
@@ -12,7 +12,7 @@ import ImageUploadUI from '../../../components/ImageUploadUI';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
-function CollectionFormSm({ close }) {
+function CollectionFormSm({ close, editingItem }) {
     const { token } = useAuthContext();
     const { handleFetchUserStoreCollections, handleImageUpload } = useFetchedContext();
 
@@ -59,6 +59,11 @@ function CollectionFormSm({ close }) {
         setImageFile(null);
         setImagePreview(null);
     }
+
+
+    useEffect(function() {
+
+    }, [])
 
 
     async function handleSubmitCollection() {

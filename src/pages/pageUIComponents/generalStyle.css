@@ -543,8 +543,11 @@
 @media screen and (max-width: 580px) {
 	.table--head .content {
 		flex-direction: column;
-		gap: 1rem;
+		gap: .6rem;
 		align-items: stretch;
+	}
+	.table--head .flex {
+		gap: .6rem;
 	}
 
 	.table--head .content .table--tabs {
@@ -617,7 +620,15 @@
 }
 
 
-/* @media screen and (max-width: 400px) {} */
+@media screen and (max-width: 400px) {
+	.table--head {
+		padding: 1rem .8rem 1.4rem;
+	}
+	.table--grid {
+		gap: 1.4rem;
+		padding: 0.6rem 1rem;
+	}
+}
 
 @media screen and (max-width: 385px) {
 	.page__section--insights.insight--grid {

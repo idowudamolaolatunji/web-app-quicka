@@ -35,14 +35,14 @@ function index() {
 
     const columns = [
         {
-            name: 'Title',
+            name: 'Delivery Title',
             selector: row => <span className='table--info'>
                 <h3>{row?.title}</h3>
             </span>,
             width: width > 600 && "25%",
         },
         {
-            name: 'Type',
+            name: 'Delivery Type',
             selector: row => (
                 <span className="status status--pending">
                     <p>{row?.deliveryType}</p>
@@ -50,13 +50,13 @@ function index() {
             ),
         },
         {
-            name: 'Fee',
+            name: 'Delivery Fee',
             selector: row => (
                 <p className='value'>₦{formatNumber(row?.fee)}</p>
             ),
         },
         {
-            name: 'Date',
+            name: 'Created Date',
             selector: row => (
                 <TooltipUI placement='top' title={ymdDateFormat(row?.createdAt)}>
                     <p className='value'>{ymdDateSlashFormat(row?.createdAt)}</p>

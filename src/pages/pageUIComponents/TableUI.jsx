@@ -33,12 +33,12 @@ function TableUI({
             style: {
                 fontSize: "1.48rem",
                 fontWeight: "500",
-                height: '5rem',
+                height: width < 450 ? "4.5rem" : "5rem",
             },
         },
         rows: {
             style: {
-                minHeight: width < 450 ? "8.5rem" : (name == "product" ? "8rem" : "7rem"),
+                minHeight: width < 450 ? "6rem" : (name == "product" ? "8rem" : "7rem"),
                 cursor: 'pointer',
                 fontSize: "1.32rem",
                 fontWeight: 500,
@@ -50,7 +50,7 @@ function TableUI({
                 paddingRight: '0.5rem',
                 backgroundColor: '#343434',
                 color: '#fff',
-                height: '5rem'
+                height: width < 450 ? "4.5rem" : "5rem",
             },
         },
         cells: {

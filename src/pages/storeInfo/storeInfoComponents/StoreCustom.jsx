@@ -351,16 +351,20 @@ function StoreCustom({ isnew, close }) {
                             </div>
 
 
-                            <div className="custom--display">
-                                <Template1
-                                    logo={imagePreview.logo || (store?.logo ? logoImg : noLogo)}
-                                    color={storeData.brandColor}
-                                    headline={storeData.headline}
-                                    banner={imagePreview.banner}
-                                    heading={storeData.heading}
-                                    text={storeData.subHeading}
-                                    about={storeData.aboutPage}
-                                />
+                            <div className='form--item'>
+                                <label className="form--label">Default Templete</label>
+
+                                <div className="custom--display">
+                                    <Template1
+                                        logo={imagePreview.logo || (store?.logo ? logoImg : noLogo)}
+                                        color={storeData.brandColor}
+                                        headline={storeData.headline}
+                                        banner={imagePreview.banner}
+                                        heading={storeData.heading}
+                                        text={storeData.subHeading}
+                                        about={storeData.aboutPage}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

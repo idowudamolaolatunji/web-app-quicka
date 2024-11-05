@@ -26,9 +26,8 @@ function index() {
     const { showInsights } = useDataContext();
     const { loader, error, transactions, handleFetchUserStoreTransactions } = useFetchedContext();
 
-    const webTransactions = transactions?.filter(transaction => transaction.transactionType == "web")?.reduce((sum, transaction) => sum + transaction.order.orderAmount, 0);
-    const offlineTransactions = transactions?.filter(transaction => transaction.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction.order.orderAmount, 0);
-
+    const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
+    const offlineTransactions = transactions?.filter(transaction => transaction?.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
 
     const columns = [
         {
@@ -58,7 +57,7 @@ function index() {
             name: "Payment Type",
             selector: row => (
                 <span className="status status--success">
-                    <p>{row?.paymentType}</p>
+                    <p>{row?.paymentType == "bank-transfer" ? "transfer" : row?.paymentType}</p>
                 </span>
             )
         },
@@ -74,9 +73,9 @@ function index() {
             name: "Transaction Type",
             selector: row => (
                 <TooltipUI placement='top' title="Offline transaction">
-                <span className={`status status--draft`}>
-                    <p>{row?.transactionType}</p>
-                </span>
+                    <span className={`status status--draft`}>
+                        <p>{row?.transactionType}</p>
+                    </span>
                 </TooltipUI>
             )
         },
@@ -88,8 +87,7 @@ function index() {
                 </TooltipUI>
             ),
         }
-    ]
-
+    ];
 
     const HeadTabs = function() {
         return (
@@ -99,7 +97,6 @@ function index() {
                         <button className='table--btn' onClick={handleFetchUserStoreTransactions}><MdOutlineRefresh /></button>
                     </TooltipUI>
                 </span>
-
 
                 <span className="flex">
                     <button className='table--btn'>Clear filter</button>
@@ -112,7 +109,6 @@ function index() {
         );
     }
     
-
     useEffect(function() {
         document.title = "Quicka | All Transactions";
 

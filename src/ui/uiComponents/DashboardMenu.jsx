@@ -36,9 +36,9 @@ function DashboardMenu() {
                             <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
                             <MenuLink icon={<MdOutlineShoppingBag />} title='Your Orders' link='/orders' />
                             <MenuLink icon={<LuTags />} title='Your Products' link='/products' />
+                            <MenuLink icon={<TbDeviceAnalytics />} title='Analytics' link='/analytics' />
                             <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
-                            <MenuLink icon={<TbDeviceAnalytics />} title='Store Analytics' link='/analytics' />
-                            <MenuLink icon={<TbTransactionDollar />} title='All Transactions' link='/transactions' />
+                            <MenuLink icon={<TbTransactionDollar />} title='Transactions' link='/transactions' />
                             <MenuLink icon={<RiDiscountPercentLine />} title='Discount and coupon' link='/discount-coupon' />
                         </ul>
                     </div>
@@ -72,7 +72,7 @@ function DashboardMenu() {
                     <div className={`dashboard--sidemenu ${animateOut ? 'animate-out' : ''}`}>
 
                         <div className='menu--block'>
-                            <span className='hamburger--icon' onClick={handleShowSidemenu}>
+                            <span className='hamburger--icon icon--box' onClick={handleShowSidemenu}>
                                 <RiCloseFill />
                             </span>
 
@@ -93,9 +93,9 @@ function DashboardMenu() {
                                 <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
                                 <MenuLink icon={<MdOutlineShoppingBag />} title='Your Orders' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Your Products' link='/products' />
+                                <MenuLink icon={<TbDeviceAnalytics />} title='Analytics' link='/analytics' />
                                 <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
-                                <MenuLink icon={<TbDeviceAnalytics />} title='Store Analytics' link='/analytics' />
-                                <MenuLink icon={<TbTransactionDollar />} title='All Transactions' link='/transactions' />
+                                <MenuLink icon={<TbTransactionDollar />} title='Transactions' link='/transactions' />
                                 <MenuLink icon={<RiDiscountPercentLine />} title='Discount and coupon' link='/discount-coupon' />
                             </ul>
                         </div>

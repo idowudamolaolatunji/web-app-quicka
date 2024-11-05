@@ -3,14 +3,15 @@ import Skeleton from 'react-loading-skeleton'
 import { useWindowSize } from 'react-use'
 
 export function TableSkeleton({ title }) {
-    const count = (title == "product") ? 4 : 3;
+    const { width } = useWindowSize();
+    const count = (title == "product") ? 3 : 2;
     const height = 9;
 
 
     return (
         <div style={{ minWidth: "90rem" }}>
-            <Skeleton height={55} />
-            <div className='table--grid' style={{ marginTop: "1rem" }}>
+            <Skeleton height={45} />
+            <div className='table--grid' style={{ marginTop: "0.5rem" }}>
                 <Skeleton height={height} count={count} />
                 <Skeleton height={height} count={count} />
                 <Skeleton height={height} count={count} />
@@ -23,7 +24,7 @@ export function TableSkeleton({ title }) {
                 <Skeleton height={height} count={count} />
             </div>
 
-            <div style={{ padding: "1rem 2rem 2rem", marginLeft: "auto", width: "54rem" }}>
+            <div style={width <= 450 ? { padding: "1rem 0", marginLeft: "unset", width: "100%"} : { padding: "1rem 2rem 2rem", marginLeft: "auto", width: "54rem" }}>
                 <Skeleton height={15} width={500} />
             </div>
         </div>
@@ -36,7 +37,7 @@ export function TableHeadSkeleton({ title }) {
 
     return (
         <>
-            {(title == "delivery") ? (
+            {(title == "delivery" || title == "collection") ? (
                 <div className='table--head'>
                     <div className='content'>
                         <Skeleton height={40} width={50} />

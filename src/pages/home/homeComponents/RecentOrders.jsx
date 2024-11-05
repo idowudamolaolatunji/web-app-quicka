@@ -12,116 +12,6 @@ import { imgString } from '../../../assets/images';
 import { GoDotFill } from 'react-icons/go';
 
 
-const customStyles = {
-    table: {
-        style: {
-            overflowX: 'auto',
-        },
-    },    
-	head: {
-		style: {
-			fontSize: "14px",
-			fontWeight: "500",
-			color: "#eee",
-            height: '4.5rem'
-		},
-	},
-	rows: {
-        style: {
-            minHeight: '7rem',
-            cursor: 'pointer'
-        },
-    },
-    headCells: {
-		style: {
-			paddingRight: '5px',
-            backgroundColor: '#343434',
-            height: '4.5rem'
-		},
-	},
-    cells: {
-		style: {
-            textAlign: 'center'
-        }
-    }
-};
-
-const columns = [
-    {
-        name: 'Channel', selector: row => (
-            <TooltipUI placement='top' title={capitalizeFirstLetter(row.channel)}>
-                <img width={'40px'} alt={row.channel} src={imgString(row.channel)} />
-            </TooltipUI>
-        ), width: '70px'
-    },
-    {
-        name: 'Order Id', selector: row => (
-            <p className='value'>{row.orderId}</p>
-        ), width: '100px'
-    },
-    {
-        name: 'Custumer Name', selector: row => row.customer?.name || "-- Not Added --",
-        width: '150px'
-    },
-    {
-        name: 'Product', selector: row => (
-            <TooltipUI placement='top' title={
-                <ul className='table--list'>
-                    {row.products?.map(({ _id, name }) => (
-                        <li key={_id}><GoDotFill /> {name}</li>
-                    ))}
-                </ul>
-            }>
-                <ul className='table--list'>
-                    {row.products?.slice(0, 3)?.map(({ _id, name }) => (
-                        <li key={_id}><GoDotFill /> {truncateString(name, 18)}</li>
-                    ))}
-                    {row.products?.length > 3 && <li>...</li>}
-                </ul>
-            </TooltipUI>
-        ),
-        width: '180px'
-    },
-    {
-        name: 'Amount', selector: row => (
-            <span className='value'>₦{formatNumber(row?.orderAmount)}</span>
-        ),
-        width: '100px'
-    },
-    {
-        name: 'Payment', selector: row => (
-            <span className={`status status--${( row?.paymentStatus != "unpaid" ? "success" : "pending" )}`}>
-                <p>{row.paymentStatus}</p>
-            </span>
-        ),
-        width: '120px'
-    },
-    {
-        name: 'Delievery', selector: row => (
-            <span className={`status status--${(row.deliveryStatus)}`}>
-                <p>{row.deliveryStatus}</p>
-            </span>
-        ),
-        width: '135px'
-    },
-    {
-        name: 'Status', selector: row => (
-            <span className={`status status--${(row.orderStatus)}`}>
-                <p>{row.orderStatus}</p>
-            </span>
-        ),
-        width: '120px'
-    },
-    {
-        name: 'Date', selector: row => (
-            <TooltipUI placement='top' title={formatDate(row.orderDate)}>
-                <p>{formatDate(row.orderDate)}</p>
-            </TooltipUI>
-        ), width: '150px'
-    },
-];
-
-
 function RecentOrders() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
@@ -129,6 +19,117 @@ function RecentOrders() {
 
     const isData = orders?.length > 0;
     const recentOrders = orders?.slice(0, 3);
+    /////////////////////////////////////////////
+
+    const customStyles = {
+        table: {
+            style: {
+                overflowX: 'auto',
+            },
+        },    
+        head: {
+            style: {
+                fontSize: "14px",
+                fontWeight: "500",
+                color: "#eee",
+                height: width < 450 ? "4rem" : "4.5rem"
+            },
+        },
+        rows: {
+            style: {
+                minHeight: '7rem',
+                cursor: 'pointer'
+            },
+        },
+        headCells: {
+            style: {
+                paddingRight: '5px',
+                backgroundColor: '#343434',
+                height: width < 450 ? "4rem" : "4.5rem"
+            },
+        },
+        cells: {
+            style: {
+                textAlign: 'center'
+            }
+        }
+    };
+
+    const columns = [
+        {
+            name: 'Channel', selector: row => (
+                <TooltipUI placement='top' title={capitalizeFirstLetter(row.channel)}>
+                    <img width={'40px'} alt={row.channel} src={imgString(row.channel)} />
+                </TooltipUI>
+            ), width: '70px'
+        },
+        {
+            name: 'Order Id', selector: row => (
+                <p className='value'>{row.orderId}</p>
+            ), width: '100px'
+        },
+        {
+            name: 'Custumer Name', selector: row => row.customer?.name || "-- Not Added --",
+            width: '150px'
+        },
+        {
+            name: 'Product', selector: row => (
+                <TooltipUI placement='top' title={
+                    <ul className='table--list'>
+                        {row.products?.map(({ _id, name }) => (
+                            <li key={_id}><GoDotFill /> {name}</li>
+                        ))}
+                    </ul>
+                }>
+                    <ul className='table--list'>
+                        {row.products?.slice(0, 3)?.map(({ _id, name }) => (
+                            <li key={_id}><GoDotFill /> {truncateString(name, 18)}</li>
+                        ))}
+                        {row.products?.length > 3 && <li>...</li>}
+                    </ul>
+                </TooltipUI>
+            ),
+            width: '180px'
+        },
+        {
+            name: 'Amount', selector: row => (
+                <span className='value'>₦{formatNumber(row?.orderAmount)}</span>
+            ),
+            width: '100px'
+        },
+        {
+            name: 'Payment', selector: row => (
+                <span className={`status status--${( row?.paymentStatus != "unpaid" ? "success" : "pending" )}`}>
+                    <p>{row.paymentStatus}</p>
+                </span>
+            ),
+            width: '120px'
+        },
+        {
+            name: 'Delievery', selector: row => (
+                <span className={`status status--${(row.deliveryStatus)}`}>
+                    <p>{row.deliveryStatus}</p>
+                </span>
+            ),
+            width: '135px'
+        },
+        {
+            name: 'Status', selector: row => (
+                <span className={`status status--${(row.orderStatus)}`}>
+                    <p>{row.orderStatus}</p>
+                </span>
+            ),
+            width: '120px'
+        },
+        {
+            name: 'Date', selector: row => (
+                <TooltipUI placement='top' title={formatDate(row.orderDate)}>
+                    <p>{formatDate(row.orderDate)}</p>
+                </TooltipUI>
+            ), width: '150px'
+        },
+    ];
+
 
     return (
         <div className='card recent-section' style={{ padding: 0 }}>

@@ -33,7 +33,7 @@ export function ymdDateFormat(givenDate) {
 
 export function truncateString(input, num=25) {
     if (input?.length > num) {
-        return input.substring(0, num) + "...";
+        return input?.substring(0, num) + "...";
     } else {
         return input;
     }
@@ -117,7 +117,7 @@ export function formatDate(givenDate) {
 }
 
 export function capitalizeFirstLetter(string) {
-	return string.slice(0, 1).toUpperCase() + string.slice(1);
+	return string?.slice(0, 1)?.toUpperCase() + string?.slice(1);
 }
 
 
@@ -128,9 +128,9 @@ export function isWithinLast7Days(date) {
 
 
 export function getInitials(fullName) {
-	const nameArray = fullName.split(" ");
-	const firstInitial = nameArray[0].charAt(0);
-	const secondInitial = nameArray[1].charAt(0);
+	const nameArray = fullName?.split(" ");
+	const firstInitial = nameArray[0]?.charAt(0);
+	const secondInitial = nameArray[1]?.charAt(0);
 	return `${firstInitial}${secondInitial}`;
 }
 
@@ -149,7 +149,7 @@ export function getRemainingMinutes(dateTimeStr) {
 		return "00:00";
 	}
 
-  	return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  	return `${minutes?.toString().padStart(2, '0')}:${seconds?.toString().padStart(2, '0')}`;
 
 }
   

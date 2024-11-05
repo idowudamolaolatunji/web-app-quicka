@@ -116,7 +116,7 @@ function index() {
             columns={columns}
             data={deliveryRates}
             items={deliveryRates}
-            pageName="delivery"
+            pageName="dsicount"
             addBtnStr="Set New Discount"
             emptyText={emptyText}
             emptyImg={emptyImg}

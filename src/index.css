@@ -193,28 +193,32 @@ button {
 	min-height: 30rem;
 }
 .modal.bg-simple .icon--box {
+	position: absolute;
+	top: 1.6rem;
+	right: 1.6rem;
 	width: 3rem;
 	height: 3rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: .4rem;
-
-	position: absolute;
-	top: 1.6rem;
-	right: 1.6rem;
+}
+.icon--box {
 	transition: all .3s;
 	cursor: pointer;
 }
-.modal.bg-simple .icon--box svg {
+/* .modal.bg-simple .icon--box svg { */
+.icon--box svg {
 	font-size: 2.2rem;
 	color: #555;
 	transition: all .3s;
 }
-.modal.bg-simple .icon--box:hover {
+/* .modal.bg-simple .icon--box:hover { */
+.icon--box:hover {
 	background-color: #eee;
 }
-.modal.bg-simple .icon--box:hover svg {
+/* .modal.bg-simple .icon--box:hover svg { */
+.icon--box:hover svg {
 	transform: rotate(180deg);
 	color: var(--color-brand-500);
 }
@@ -576,7 +580,7 @@ button {
 }
 .empty--img {
 	padding: 0.8rem;
-	background-color: #f5f5f5;
+	background-color: #f9f9f9;
 	border-radius: 0.4rem;
 	width: 12rem;
 	min-height: 12rem;
