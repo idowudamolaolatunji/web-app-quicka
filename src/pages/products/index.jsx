@@ -103,9 +103,11 @@ function index() {
 
     // HELP FIND THE PRODUCTS LENGTH IN COLLECTION BY COLLECTION NAME
     const findProductsInCollection = function(name) {
-        const collectionProducts = products?.map(product => product?.productCollection === name);
+        const collectionProducts = products?.filter(product => product?.productCollection.includes(name));
         return collectionProducts?.length || 0;
     }
+
+    console.log(findProductsInCollection("Crocs"));
 
     const product_columns = [
         {
@@ -174,7 +176,7 @@ function index() {
         {
             name: 'Collection Products',
             selector: row => (
-                <span className="value">{findProductsInCollection(row?.name) || 0}</span>
+                <span className="value">{formatNumber(findProductsInCollection(row?.name) || 0)}</span>
             ),
         },
         {
@@ -256,10 +258,10 @@ function index() {
 
     // REFETCH IF THERE'S ERROR
     useEffect(function () {
-        if (products?.length < 1 && error?.product) {
-            handleFetchUserStoreProducts();
-            handleFetchUserStoreCollections();
-        }
+        // if (products?.length < 1 && error?.product) {
+        //     handleFetchUserStoreProducts();
+        //     handleFetchUserStoreCollections();
+        // }
     }, []);
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE

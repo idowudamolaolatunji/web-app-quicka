@@ -133,9 +133,9 @@ function index() {
     useEffect(function () {
         document.title = "Quicka | Your orders";
 
-        if (orders?.length < 1 && error.order) {
-            handleFetchUserStoreOrders();
-        }
+        // if (orders?.length < 1 && error.order) {
+        //     handleFetchUserStoreOrders();
+        // }
     }, []);
 
 

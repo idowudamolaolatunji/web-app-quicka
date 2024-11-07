@@ -10,18 +10,21 @@ import moment from 'moment'
 function InsightGrid({ period }) {
     const { orders, customers } = useFetchedContext();
 
-  const handleInsights = (docs, dateKey) => {
+    const handleInsights = function(docs, dateKey) {
         const startDate = moment();
         if (period === 'this-week') startDate.startOf('week');
+        else if (period === 'last-week') startDate.startOf('week').subtract(1, 'week');
         else if (period === 'this-month') startDate.startOf('month');
         else if (period === 'today') startDate.startOf('day'); 
         else startDate.startOf('year');
         
         return docs.filter((doc) => {
+            const docDate = moment(doc[dateKey], 'YYYY-MM-DD');
+
             if (period === 'today') {
-                return moment(doc[dateKey], 'YYYY-MM-DD').isSame(startDate);
+                return docDate.isSame(startDate);
             } else {
-                return moment(doc[dateKey], 'YYYY-MM-DD').isSameOrAfter(startDate);
+                return docDate.isSameOrAfter(startDate);
             }
         });
     }
@@ -45,4 +48,24 @@ function InsightGrid({ period }) {
     )
 }
 
-export default InsightGrid
+export default InsightGrid;
+
+
+
+// const endDate = moment();
+// if (period === 'this-week') {
+//     startDate.startOf('week');
+//     endDate.endOf('week');
+//   } else if (period === 'last-week') {
+//     startDate.endOf('week').subtract(1, 'week').startOf('week');
+//     endDate.endOf('week').subtract(1, 'week')
+//   } else if (period === 'this-month') {
+//     startDate.startOf('month');
+//     endDate.endOf('month');
+//   } else if (period === 'today') {
+//     startDate.startOf('day');
+//     endDate.endOf('day');
+//   } else {
+//     startDate.startOf('year');
+//     endDate.endOf('year');
+//   }

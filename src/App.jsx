@@ -120,6 +120,9 @@ function App() {
                     <Route path='/dashboard/orders/:id' element={<OrderItem />}></Route>
                     <Route path='/dashboard/customers/:id' element={<CustomerItem />}></Route>
 
+                    <Route path='/dashboard/discount-coupon' element={<DiscountCoupon />}></Route>
+                    <Route path='/dashboard/discount-coupon/:tab' element={<DiscountCoupon />}></Route>
+
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/custom-domain' element={<CustomDomain />}></Route>
                     <Route path='/dashboard/campaigns' element={<Campaigns />}></Route>
@@ -127,7 +130,6 @@ function App() {
                     <Route path='/dashboard/store-customisation' element={<StoreCustomisation />}></Route>
                     <Route path='/dashboard/bank-details' element={<BankDetails />}></Route>
                     <Route path='/dashboard/store-info' element={<StoreInformation />}></Route>
-                    <Route path='/dashboard/discount-coupon' element={<DiscountCoupon />}></Route>
                     <Route path='/dashboard/subscription' element={<Subscription />}></Route>
                     <Route path='/dashboard/profile' element={<Profile />}></Route>
                     <Route path='/dashboard/analytics' element={<Analytics />}></Route>

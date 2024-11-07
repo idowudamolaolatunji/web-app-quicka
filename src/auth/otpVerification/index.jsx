@@ -9,7 +9,7 @@ import { countdownTimer } from '../../utils/helper';
 import { validateAuthForm } from '../../utils/validationHelper';
 
 import { HiFingerPrint } from 'react-icons/hi';
-import data_img from '../../assets/images/resources/good-faces-lhMdsnK_KWk-unsplash.jpg'
+import data_img from '../../assets/images/resources/ali-mkumbwa-K-f_gTvdwTM-unsplash.jpg'
 
 const headingText = "Take Control of Your Business, Anywhere, Anytime";
 const headers = { "Content-Type": "application/json" }
@@ -40,12 +40,10 @@ function index() {
     useEffect(function() {
         document.title = "Quicka | OTP Verification";
 
-        if(!otpUser) {
-            navigate('/');
-        } else {
-            countdownTimer(otpUser?.expiresIn, setTimeLeft);
-            setFormData({ ...formData, email: otpUser?.email})
-        }
+        if(!otpUser) return navigate('/login');
+
+        countdownTimer(otpUser?.expiresIn, setTimeLeft);
+        setFormData({ ...formData, email: otpUser?.email})
     }, []);
 
     useEffect(function() {

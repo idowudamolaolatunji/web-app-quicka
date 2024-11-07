@@ -31,7 +31,7 @@ function RecordOrder() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { token } = useAuthContext();
-    const { products, customers, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers } = useFetchedContext();
+    const { products, customers, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers, handleFetchUserStoreTransactions } = useFetchedContext();
 
     const publishedProducts = products?.filter(product => product.status == "published");
 
@@ -100,7 +100,7 @@ function RecordOrder() {
         document.title = "Quicka | Record sales";
 
         handleFetchUserStoreCustomers();
-        handleFetchUserStoreProducts()
+        handleFetchUserStoreProducts();
     }, [])
 
     useEffect(function () {
@@ -177,7 +177,8 @@ function RecordOrder() {
 
             setTimeout(() => navigate(-1), 3000);
             handleFetchUserStoreOrders();
-            handleFetchUserStoreProducts()
+            handleFetchUserStoreProducts();
+            handleFetchUserStoreTransactions();
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

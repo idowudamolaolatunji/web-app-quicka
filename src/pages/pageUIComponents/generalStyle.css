@@ -617,6 +617,15 @@
 		color: var(--color-brand-500);
 		background-color: var(--color-brand-50);
 	}
+
+
+	.page--tabs {
+		gap: .6rem;
+	}
+	.page--tab {
+		font-size: 1.28rem;
+		font-weight: 600;
+	}
 }
 
 

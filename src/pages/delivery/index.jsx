@@ -89,9 +89,9 @@ function index() {
     useEffect(function() {
         document.title = "Quicka | Delivery Rates";
 
-        if(deliveryRates?.length < 1 && error?.delivery) {
-            handleFetchUserStoreDeliveryRates();
-        }
+        // if(deliveryRates?.length < 1 && error?.delivery) {
+        //     handleFetchUserStoreDeliveryRates();
+        // }
     }, []);
     
 

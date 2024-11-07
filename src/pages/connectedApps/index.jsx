@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Line from '../../components/Line';
 import AppFigure from './connectedComponents/AppFigure';
 
@@ -16,6 +16,16 @@ const integrations = [
 ]
 
 function index() {
+    const [activeTab, setActiveTab] = useState("all");
+
+    const all = integrations;
+    const ads = integrations?.filter(app => app.tag === "ads");
+    const socials = integrations?.filter(app => app.tag === "social");
+    const payments = integrations?.filter(app => app.tag === "payment");
+
+    const apps = activeTab == "all" ? all : integrations?.filter(app => app.tag === activeTab)
+
+    console.log(activeTab)
 
     return (
         <>
@@ -24,9 +34,10 @@ function index() {
             </div>
 
             <div className="page--tabs" style={{ marginTop: "-2rem" }}>
-                <Tab title="All" active onClick={() => {}} value={10} />
-                <Tab title="Socials" onClick={() => {}} value={2} />
-                <Tab title="Others" onClick={() => {}} value={4} />
+                <Tab title="All" active={activeTab == "all"} onClick={() => setActiveTab("all")} value={all?.length} />
+                <Tab title="Socials" active={activeTab == "social"}  onClick={() => setActiveTab("social")} value={socials?.length} />
+                <Tab title="Ads" active={activeTab == "ads"}  onClick={() => setActiveTab("ads")} value={ads?.length} />
+                <Tab title="Payments" active={activeTab == "payment"}  onClick={() => setActiveTab("payment")} value={payments?.length} />
             </div>
 
 
@@ -34,7 +45,7 @@ function index() {
 
 
             <div className="page__section--main connected__grid">
-                {integrations?.map(app => (
+                {apps.map(app => (
                     <AppFigure app={app} key={app?.name} />
                 ))}
             </div>

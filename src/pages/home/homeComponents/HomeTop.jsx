@@ -20,22 +20,27 @@ function HomeTop() {
     const [showSub, setShowSub] = useState(true);
 
     const daysToReach = function() {
-        const createdAtMoment = moment(user?.createdAt)
+        const createdAtMoment = moment(user?.createdAt);
     
         // Calculate remainingDates to end offer from createdAt date
         const daysRemaining = createdAtMoment.clone().add(offer_tenue, 'days').diff(moment(), 'days');
         return daysRemaining;
     }
+
+    const remaining = daysToReach();
     
     return (
-
         <>
             {(!store.isPremium && showSub) && (
                 <div className='home--sub'>
                     <div className="sub--mini">
                         <span className='sub--text'>
                             Select a plan and get your first year at a whooping 🥳 <span className='value' style={{ fontSize: '1.6rem' }}>{offer_percent}</span>% discount!
-                            <p className='sub--text-sub'>Promo offer expired in <span className='value'>{daysToReach()}</span> day{daysToReach() < 2 ? "" : "s"}.</p>
+                            {remaining ? (
+                                <p className='sub--text-sub'>Promo offer expires in <span className='value'>{remaining}</span> day{remaining < 2 ? "" : "s"}.</p>
+                            ) : (
+                                <p style={{ color: "orangered", fontWeight: "600" }} className='sub--text-sub'>Promo offer expired</p>
+                            )}
                         </span>
                         <RiDiscountPercentFill style={{ fontSize: '2.6rem' }} />
                     </div>

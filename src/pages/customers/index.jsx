@@ -109,9 +109,9 @@ function index() {
     useEffect(function () {
         document.title = "Quicka | Customers";
 
-        if (customers?.length < 1 && error?.customer) {
-            handleFetchUserStoreCustomers();
-        }
+        // if (customers?.length < 1 && error?.customer) {
+        //     handleFetchUserStoreCustomers();
+        // }
     }, []);
 
 

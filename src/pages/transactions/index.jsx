@@ -112,9 +112,9 @@ function index() {
     useEffect(function() {
         document.title = "Quicka | All Transactions";
 
-        if(transactions?.length < 1 && error?.transaction) {
-            handleFetchUserStoreTransactions();
-        }
+        // if(transactions?.length < 1 && error?.transaction) {
+        //     handleFetchUserStoreTransactions();
+        // }
     }, []);
 
     return (

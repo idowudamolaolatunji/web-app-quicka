@@ -8,6 +8,7 @@ import { useAuthContext } from '../../../context/AuthContext';
 const datePeriods = [
     { value: 'today', title: 'Today' },
     { value: 'this-week', title: 'This Week' },
+    // { value: 'last-week', title: 'Last Week' },
     { value: 'this-month', title: 'This Month' },
     { value: 'this-year', title: 'This Year' },
 ]
@@ -28,7 +29,7 @@ function HomeInsightContainer() {
                         {width <= 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />}
                     </span>
 
-                    <p>This is what <span>{store?.name}</span> {period != "today" ? "has been" : "is"} up to {period?.replace("-", " ")}!</p>
+                    <p>This is what <span>{store?.name}</span> {period == "today" ? "is" : period == "last-week" ? "was" : "has been"} up to {period?.replace("-", " ")}!</p>
                 </div>
 
                 {width > 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />}

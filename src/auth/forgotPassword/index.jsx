@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import AuthsUI from '../authComponents/AuthsUI';
 
-import data_img from '../../assets/images/resources/christina-wocintechchat-com-S3GrMiUhpNU-unsplash.jpg'
+// import data_img from '../../assets/images/resources/christina-wocintechchat-com-S3GrMiUhpNU-unsplash.jpg'
+import data_img from '../../assets/images/resources/good-faces-lhMdsnK_KWk-unsplash.jpg'
 
 const headingText = "The Power to Manage, at Your Fingertips."
 
