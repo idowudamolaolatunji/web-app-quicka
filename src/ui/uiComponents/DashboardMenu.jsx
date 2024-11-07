@@ -19,8 +19,7 @@ import { TbDeviceAnalytics, TbTransactionDollar, TbTruckDelivery } from 'react-i
 
 function DashboardMenu() {
     const { isMenuCollapsed, showSidemenu, handleShowSidemenu, animateOut } = useDataContext();
-    const { width } = useWindowSize()
-
+    const { width } = useWindowSize();
 
     return (
         <>

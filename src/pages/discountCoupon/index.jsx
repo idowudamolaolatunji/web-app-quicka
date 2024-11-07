@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PageUI from '../pageUIComponents/PageUI'
 import { useLocation, useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
-import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
+import { RiCoupon3Line, RiDeleteBin5Line, RiDiscountPercentLine, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
 import { formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
@@ -19,12 +19,12 @@ import store_sales_emptyImg from '../../assets/images/illustrations/store_sales.
 const discount_emptyTitle = "Add Discount";
 const discount_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const discount_emptyBtns = [
-    { title: <><AiOutlinePlus />Add Discount</>, link: "/dashboard/discounts/add" },
+    { title: <><RiDiscountPercentLine />Add Discount</>, link: "/dashboard/discounts/add" },
 ];
 const coupon_emptyTitle = "Add Coupon";
 const coupon_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const coupon_emptyBtns = [
-    { title: <><AiOutlinePlus />Add Coupon</>, link: "/dashboard/coupons/add" },
+    { title: <><RiCoupon3Line />Add Coupon</>, link: "/dashboard/coupons/add" },
 ];
 const store_sales_emptyTitle = "Run Store Sales";
 const store_sales_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
