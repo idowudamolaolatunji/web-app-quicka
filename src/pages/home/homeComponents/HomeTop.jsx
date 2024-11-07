@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getExpression, getGreeting, todayDate } from '../../../utils/helper';
 import { useWindowSize } from 'react-use';
-import { MdOutlineClose } from 'react-icons/md';
+import { MdOutlineClose, MdOutlineWorkspacePremium } from 'react-icons/md';
 import { useAuthContext } from '../../../context/AuthContext';
 import { RiDiscountPercentFill } from 'react-icons/ri';
 import { LuCheckCircle } from 'react-icons/lu';
@@ -33,17 +33,23 @@ function HomeTop() {
         <>
             {(!store.isPremium && showSub) && (
                 <div className='home--sub'>
-                    <div className="sub--mini">
-                        <span className='sub--text'>
-                            Select a plan and get your first year at a whooping 🥳 <span className='value' style={{ fontSize: '1.6rem' }}>{offer_percent}</span>% discount!
-                            {remaining ? (
+
+                    {remaining >= 1 ? (
+                        <div className="sub--mini">
+                            <span className='sub--text'>
+                                Select a plan and get your first year at a whooping 🥳 <span className='value' style={{ fontSize: '1.6rem' }}>{offer_percent}</span>% discount!
                                 <p className='sub--text-sub'>Promo offer expires in <span className='value'>{remaining}</span> day{remaining < 2 ? "" : "s"}.</p>
-                            ) : (
-                                <p style={{ color: "orangered", fontWeight: "600" }} className='sub--text-sub'>Promo offer expired</p>
-                            )}
-                        </span>
-                        <RiDiscountPercentFill style={{ fontSize: '2.6rem' }} />
-                    </div>
+                            </span>
+                            <RiDiscountPercentFill style={{ fontSize: '2.6rem' }} />
+                        </div>
+                    ) : (
+                        <div className="sub--mini">
+                            <span className='sub--text'>
+                                Want to experience more exclusive features?
+                                <p className='sub--text-sub'>Upgrade to premium, and Cancel anytime</p>
+                            </span>
+                        </div>
+                    )}
 
                     <div className="sub--mini" style={{ gap: '2rem' }}>
                         <button onClick={() => navigate('/dashboard/subscription')}className='sub--btn'>Select a plan</button>

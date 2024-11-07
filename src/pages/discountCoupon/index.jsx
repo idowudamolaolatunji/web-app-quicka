@@ -95,12 +95,18 @@ function index() {
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
     useEffect(function () {
-        if(tab == "store-sales") {
-            setTabShown("run store sales");
+        if(tab) {
+            if(tab == "store-sales") {
+                setTabShown("run store sales");
+            } else {
+                setTabShown(tab);
+            }
         } else {
-            setTabShown(tab);
+            setTabShown("discount")
         }
     }, [tab]);
+
+    console.log(tabShown)
 
 
     // async function deleteItem() {

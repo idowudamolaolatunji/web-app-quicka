@@ -27,6 +27,7 @@ import CollectionFormSm from './CollectionFormSm';
 import { createPortal } from 'react-dom';
 import { units } from '../../../utils/data';
 import { RiDeleteBin5Line, RiDeleteBin6Line } from 'react-icons/ri';
+import { Switch } from '@mui/material';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -68,7 +69,9 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         status: "published",
         discount: null,
         discountType: "no-discount",
+        MOQ: "",
     });
+    const [showMOQ, setShowMOQ] = useState(false);
 
     const [images, setImages] = useState([]);
     const imageFiles = images.map(img => img.file);
@@ -359,7 +362,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                                         <span className='img--container' {...dragProps}>
                                                             <IoCloudDownloadOutline style={{ color: '#ff7a49' }} />
                                                             <h3>Click to upload or Drag n drop Image</h3>
-                                                            <p>Recommeded formats: PNG, JPEG, and JPG | Max Size 4Mb</p>
+                                                            <p>Recommeded formats: PNG, JPEG, and JPG <br />Max Size 4Mb</p>
                                                         </span>
                                                     )}
                                                 </div>
@@ -537,6 +540,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                 </div>
                             </div>
 
+                            {/*  */}
                             <div className="form--item">
                                 <label htmlFor="quantity" className="form--label">Stock Quantity {checks.trackInventory ? <Asterisk /> : "(optional)"}</label>
                                 <CurrencyInput
@@ -552,6 +556,18 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                 <span className="form--error-message">
                                     {productFormErrors.stockAmount && productFormErrors.stockAmount}
                                 </span>
+                            </div>
+
+                            {/* MOQ / MAXIMUM AND MINIMUM ORDER QUANTITY */}
+                            <div className="form--item">
+                                <label htmlFor="MOQ" className="form--label flex">
+                                    Maximum Order Quantity 
+                                    <Switch color='#ff7a49' size="small" checked={showMOQ} onClick={() => setShowMOQ(!showMOQ)} />
+                                </label>
+                                {showMOQ && (
+                                    <input type="number" name="MOQ" id="MOQ" value={productData.MOQ} onChange={handleProductDataChange} className="form--input" placeholder="Set a minimum order quantity" />
+                                )}
+                                <Info text="What is Maximum Order Quantity?" />
                             </div>
 
                             <div className="form--item">
@@ -579,7 +595,6 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                     <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product <Info /></label>
                                 </div>
                             )}
-
                         </div>
                         
 
