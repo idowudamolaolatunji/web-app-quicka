@@ -500,7 +500,16 @@
 
 
 
-
+.url--label {
+	font-weight: 600;
+	font-size: 1.4rem;
+}
+.url--link {
+	padding: .4rem;
+	border-radius: .4rem;
+	background-color: #fff;
+	justify-self: flex-start;
+}
 
 
 

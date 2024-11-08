@@ -117,6 +117,11 @@ button {
 	font-family: "Montserrat", "Raleway", sans-serif;
 }
 
+.no-hyphens {
+	overflow-wrap: auto;
+	hyphens: unset;
+}
+
 .global--overlay {
 	position: fixed;
 	overflow: hidden;

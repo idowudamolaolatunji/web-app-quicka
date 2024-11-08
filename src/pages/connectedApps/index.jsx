@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Line from '../../components/Line';
 import AppFigure from './connectedComponents/AppFigure';
 
@@ -13,7 +13,7 @@ const integrations = [
     { name: "Whatsapp", by: "meta", tag: "social", text: "Connect your whatsapp to recieve realtime notification for payment and sales.", icon: whatsapp, connected: false, },
     { name: "Flutterwave", by: "flutterwave", tag: "payment", text: "Connect to recieve payment with flutterwave.", icon: flutterwave, connected: false, },
     { name: "Facebook Pixel", by: "meta", tag: "ads", text: "Conntect facebook pixel for analytics and better ads experience.", icon: fb_pixel, connected: false, },
-]
+];
 
 function index() {
     const [activeTab, setActiveTab] = useState("all");
@@ -23,9 +23,11 @@ function index() {
     const socials = integrations?.filter(app => app.tag === "social");
     const payments = integrations?.filter(app => app.tag === "payment");
 
-    const apps = activeTab == "all" ? all : integrations?.filter(app => app.tag === activeTab)
+    const apps = activeTab == "all" ? all : integrations?.filter(app => app.tag === activeTab);
 
-    console.log(activeTab)
+    useEffect(function() {
+        window.scrollTo(0, 0);
+    }, [])
 
     return (
         <>

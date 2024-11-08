@@ -69,6 +69,7 @@
 }
 .sub--text-sub {
     font-size: 1.34rem;
+    line-height: 1.4;
     font-weight: 500;
     margin-top: .8rem;
     opacity: .8;

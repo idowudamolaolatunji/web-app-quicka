@@ -14,8 +14,8 @@ function EmptyTableComponent({ img, title, text, className, btns, customStyle, b
                 <h3>{title}</h3>
                 <p>{text}</p>
                 <span className='empty--btns'>
-                    {btns?.map(btn => (
-                        <button key={btn.title} onClick={() => isSideLink ? btnForAction() : navigate(btn.link)}>
+                    {btns?.map((btn, index) => (
+                        <button key={index} onClick={() => isSideLink ? btnForAction() : navigate(btn.link)}>
                             {btn.title}
                         </button>
                     ))}
