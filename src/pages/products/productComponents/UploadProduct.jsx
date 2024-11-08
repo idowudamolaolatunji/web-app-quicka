@@ -34,15 +34,17 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function UploadProduct({ isnew, close, ismodal=false }) {
-    const currency = "₦";
-    const maxNumber = 4;
+    const maxImageAmount = 4;
     const navigate = useNavigate();
     const { id } = useParams();
 
     const { width } = useWindowSize();
-    const { token, handleStore } = useAuthContext();
+    const { token, handleStore, store } = useAuthContext();
     const { collections, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleFetchItem, fetchedItem } = useFetchedContext();
 
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
+    
     const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -339,7 +341,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                 <ReactImageUploading
                                     multiple
                                     value={images}
-                                    maxNumber={maxNumber}
+                                    maxNumber={maxImageAmount}
                                     dataURLKey="data_url"
                                     acceptType={["jpg", "png", "jpeg"]}
                                     onChange={handleOnChangeImage}
@@ -388,7 +390,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                                         </div>
                                                     ))}
 
-                                                    {imageList.length < maxNumber && (
+                                                    {imageList.length < maxImageAmount && (
                                                         <div onClick={onImageUpload} className={`form--img-box ${isDragging ? 'dropping' : ''}`} {...dragProps}>
                                                             {isDragging ? (
                                                                 <span className='img--container'>
@@ -461,7 +463,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                         id="price"
                                         name="price"
                                         className="form--input"
-                                        placeholder="₦15,000"
+                                        placeholder={`${currency}15,000`}
                                         prefix={currency}
                                         decimalsLimit={2}
                                         value={productData.price}
@@ -478,7 +480,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                         id="cost-price"
                                         name="itemCost"
                                         className="form--input"
-                                        placeholder="₦10,000"
+                                        placeholder={`${currency}10,000`}
                                         prefix={currency}
                                         decimalsLimit={2}
                                         value={productData.itemCost}
@@ -500,7 +502,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                     >Percentage {width < 750 && "%"}<span></span>
                                     </div>
                                     <div className={`form--click ${productData.discountType == "fixed-price" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "fixed-price" })}
-                                    >Fixed Price {width < 750 && "₦"}<span></span>
+                                    >Fixed Price {width < 750 && currency}<span></span>
                                     </div>
                                 </div>
                             </div>
@@ -513,7 +515,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                                         id="discount-price"
                                         name="discount"
                                         className="form--input"
-                                        placeholder={productData.discountType == "fixed-price" ? "₦7,000" : "20%"}
+                                        placeholder={productData.discountType == "fixed-price" ? `${currency}7,000` : "20%"}
                                         value={productData.discount}
                                         {...(productData.discountType == "fixed-price") ? { prefix: currency } : { suffix: "%" }}
                                         decimalsLimit={productData.discountType == "fixed-price" ? 2 : 0}

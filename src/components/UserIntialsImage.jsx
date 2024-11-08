@@ -8,8 +8,8 @@ function UserIntialsImage() {
 
     return (
         <>
-            {user.avatar ? (
-                <img className='item--user-img' src={`${BASE_URL}/${user.avatar}`} alt={user.fullname} />
+            {user?.image ? (
+                <img className='item--user-img' src={`${BASE_URL}/${user.image}`} alt={user.fullname} />
             ) : (
                 <span className='item--user-img'>{getInitials(user?.fullname)}</span>
             )}

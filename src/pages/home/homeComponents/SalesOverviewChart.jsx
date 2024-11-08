@@ -4,11 +4,17 @@ import { formatNumber } from '../../../utils/helper';
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import moment from 'moment';
+import { useAuthContext } from '../../../context/AuthContext';
 
 
 function OverviewChart({ period }) {
     const { width } = useWindowSize();
+    const { store } = useAuthContext();
     const { orders } = useFetchedContext();
+    const { currencies, mainCurrency } = store;
+
+    const currency = currencies[mainCurrency]?.symbol;
+
     const isData = orders?.length > 0 ? true : false;
     const completedOrders = orders?.filter(order => order.orderStatus == "completed");
 
@@ -96,7 +102,7 @@ function OverviewChart({ period }) {
                 highlightDataSeries: false,
             },
             y: {
-                formatter: val => '₦' + formatNumber(val),
+                formatter: val => currency + formatNumber(val),
             },
         },
         legend: {
@@ -140,11 +146,11 @@ function OverviewChart({ period }) {
                 },
                 formatter: (val) => {
                     if (val >= 1000000) {
-                        return '₦' + (val / 1000000).toFixed(val % 1000000 === 0 ? 0 : 1) + 'M';
+                        return currency + (val / 1000000).toFixed(val % 1000000 === 0 ? 0 : 1) + 'M';
                     } else if (val >= 1000) {
-                        return '₦' + (val / 1000).toFixed(val % 1000 === 0 ? 0 : 1) + 'k';
+                        return currency + (val / 1000).toFixed(val % 1000 === 0 ? 0 : 1) + 'k';
                     } else {
-                        return '₦' + val.toFixed(0);
+                        return currency + val.toFixed(0);
                     }
                 },
             },

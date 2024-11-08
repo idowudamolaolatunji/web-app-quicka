@@ -3,12 +3,16 @@ import { formatNumber, truncateString } from '../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthContext';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function ProductCard({ product, open, base }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { store } = useAuthContext();
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
 
     return (
         <figure className="product__figure">
@@ -25,7 +29,7 @@ function ProductCard({ product, open, base }) {
                         {truncateString(product?.name, width < 400 ? 25 : 18)}
                     </span>
                     <p className='product__figure--collection'>{product?.productCollection}</p>
-                    <p className='product__figure--price value'>₦{formatNumber(product?.price)}</p>
+                    <p className='product__figure--price value'>{currency}{formatNumber(product?.price)}</p>
                 </Link>
 
                 {product?.trackInventory ? (  

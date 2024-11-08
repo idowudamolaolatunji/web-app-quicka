@@ -21,6 +21,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import Tab from '../../components/Tab';
 import CollectionFormSm from './productComponents/CollectionFormSm';
 import Drawer from '../../components/modal/Drawer';
+import { useAuthContext } from '../../context/AuthContext';
 
 
 //////////////////////////////////////////////////////
@@ -43,9 +44,12 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { pathname } = useLocation();
+    const { store } = useAuthContext();
     const { showInsights, activeDisplayTab, handleDisplayTab } = useDataContext();
     const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleDeleteOneItem } = useFetchedContext();
 
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
     const route = pathname.split("/").at(-1);
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
     const outOfStock = products?.filter(product => product?.trackInventory && product?.stockAmount <= 1);
@@ -127,7 +131,7 @@ function index() {
         {
             name: 'Price',
             selector: row => (
-                <p className='value'>{'₦' + formatNumber(row?.price)}</p>
+                <p className='value'>{currency}{formatNumber(row?.price)}</p>
             ),
             width: width > 600 ? "10%" : ""
         },
@@ -331,7 +335,7 @@ function index() {
                 {/* THE INSIGHTS UI */}
                 {showInsights?.product && (
                     <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && { width: '85%' }) }}>
-                        <Insight loader={loader?.product} title='Total Inventory worth' pre='₦' value={totalInventoryWorth} dec={totalInventoryWorth ? 0 : 2} icon={<LuClipboardList />} />
+                        <Insight loader={loader?.product} title='Total Inventory worth' pre={currency} value={totalInventoryWorth} dec={totalInventoryWorth ? 0 : 2} icon={<LuClipboardList />} />
                         <Insight loader={loader?.product} title='Total Products Sold' value={productsSold} icon={<GrTag />} />
                         <Insight loader={loader?.product} title='Total Collection' value={collections?.length} icon={<TbListSearch />} />
                         <Insight loader={loader?.product} title='Out of stock' value={outOfStock?.length} icon={<TbArrowWaveRightDown />} />

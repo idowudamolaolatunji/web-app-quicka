@@ -10,12 +10,17 @@ import { useWindowSize } from 'react-use';
 import ErrorComponent from '../../../components/ErrorComponent';
 import { imgString } from '../../../assets/images';
 import { GoDotFill } from 'react-icons/go';
+import { useAuthContext } from '../../../context/AuthContext';
 
 
 function RecentOrders() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { store } = useAuthContext();
     const { orders, error } = useFetchedContext();
+    
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
 
     const isData = orders?.length > 0;
     const recentOrders = orders?.slice(0, 3);
@@ -93,7 +98,7 @@ function RecentOrders() {
         },
         {
             name: 'Amount', selector: row => (
-                <span className='value'>₦{formatNumber(row?.orderAmount)}</span>
+                <span className='value'>{currency}{formatNumber(row?.orderAmount)}</span>
             ),
             width: '100px'
         },

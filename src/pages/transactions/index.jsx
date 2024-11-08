@@ -12,6 +12,7 @@ import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
 import { capitalizeFirstLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
 import { imgString } from '../../assets/images';
+import { useAuthContext } from '../../context/AuthContext';
 
 
 ///////////////////////////////////////////////
@@ -23,8 +24,12 @@ const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
 
 function index() {
     const { width } = useWindowSize();
+    const { store } = useAuthContext();
     const { showInsights } = useDataContext();
     const { loader, error, transactions, handleFetchUserStoreTransactions } = useFetchedContext();
+
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
 
     const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
     const offlineTransactions = transactions?.filter(transaction => transaction?.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
@@ -50,7 +55,7 @@ function index() {
         {
             name: "Amount",
             selector: row => (
-                <p className="value">₦{formatNumber(row?.order?.orderAmount)}</p>
+                <p className="value">{currency}{formatNumber(row?.order?.orderAmount)}</p>
             )
         },
         {
@@ -133,9 +138,9 @@ function index() {
 
             {showInsights?.transaction && (
                 <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && { width: '90%' }) }}>
-                    <Insight loader={loader?.transaction} title='Pending Settlement' pre='₦' value={0} icon={<LuClipboardList />} />
-                    <Insight loader={loader?.transaction} title='Total Website transaction' pre='₦' value={webTransactions} icon={<GrTag />} />
-                    <Insight loader={loader?.transaction} title='Total Offline transaction' pre='₦' value={offlineTransactions} icon={<TbArrowWaveRightDown />} />
+                    <Insight loader={loader?.transaction} title='Pending Settlement' pre={currency} value={0} icon={<LuClipboardList />} />
+                    <Insight loader={loader?.transaction} title='Total Website transaction' pre={currency} value={webTransactions} icon={<GrTag />} />
+                    <Insight loader={loader?.transaction} title='Total Offline transaction' pre={currency} value={offlineTransactions} icon={<TbArrowWaveRightDown />} />
                 </div>
             )}
         </PageUI>

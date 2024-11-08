@@ -727,14 +727,200 @@ export default DashboardMenu
 
 ░░
 
-{/* <div className="form--item">
-                            <label className="form--label">Item Images</label>
-                            <input type="file" id="form-img" accept="image/*" multiple max={4} name='images' onChange={handleImageChange} />
-                            <label htmlFor="form-img" className='form--img-box'>
-                                <span className='img--container'>
-                                    <IoCloudDownloadOutline />
-                                    <h3>Click to upload or Drag n drop Image</h3>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, cumque.</p>
-                                </span>
-                            </label>
-                        </div> */}
+{/*
+<div className="form--item">
+    <label className="form--label">Item Images</label>
+    <input type="file" id="form-img" accept="image/*" multiple max={4} name='images' onChange={handleImageChange} />
+    <label htmlFor="form-img" className='form--img-box'>
+        <span className='img--container'>
+            <IoCloudDownloadOutline />
+            <h3>Click to upload or Drag n drop Image</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, cumque.</p>
+        </span>
+    </label>
+</div> 
+*/}
+
+
+
+
+
+
+
+
+
+{
+    "store": {
+        "id": 194908,
+        "user_id": 198813,
+        "name": "Idowu Olatunji",
+        "subdomain": "luxwares",
+        "domain": null,
+        "url": "luxwares.bumpa.shop",
+        "previous_url": null,
+        "phone": "+2349057643470",
+        "message_credits": "20.00",
+        "dialing_code": "+234",
+        "subtitle": null,
+        "description": null,
+        "logo": "luxwares.png",
+        "premium": false,
+        "custom": 0,
+        "currency": "NGN",
+        "template": "bumpa",
+        "address": {
+            "zip": "100215",
+            "city": "Lagos",
+            "phone": "+2349057643470",
+            "state": null,
+            "street": "Block 7, Millennium Estate, Oko-oba Agege Lagos",
+            "country": null
+        },
+        "settings": {
+            "currency": "NGN",
+            "charge_customer": true,
+            "currency_symbol": "\u20a6",
+            "payment_settings": {
+                "paystack": true,
+                "bank_transfer": false
+            },
+            "maintenance_message": "We would be back soon"
+        },
+        "currencies": [
+            {
+                "rate": "1",
+                "default": true,
+                "currency": "NGN",
+                "base_currency": 1,
+                "currency_name": "Naira",
+                "currency_symbol": "\u20a6"
+            }
+        ],
+        "meta": {
+            "medium": null,
+            "source": null,
+            "onBoard": {
+                "bank": true,
+                "completed": true,
+                "basic_setup": true,
+                "hasShipping": true,
+                "payment_method": true,
+                "subscription_intent": 4,
+                "completed_store_info": true,
+                "created_first_product": true
+            },
+            "have_staff": null,
+            "new_business": null,
+            "staff_number": "1-2",
+            "sell_in_naira": null,
+            "has_customized": true,
+            "physical_store": "No",
+            "business_sector": "fashion",
+            "orders_per_week": "0-10",
+            "number_of_stores": "0",
+            "products_in_stock": null,
+            "reason_for_starting": null,
+            "reason_for_starting_array": [
+                "website_run_sales",
+                "manage_staff_terminal",
+                "invoices_receipts"
+            ]
+        },
+        "created_at": "2024-09-09T08:41:33.000000Z",
+        "updated_at": "2024-10-29T21:34:35.000000Z",
+        "paystack_id": null,
+        "paystack_code": null,
+        "card_brand": null,
+        "card_last_four": null,
+        "trial_ends_at": null,
+        "country_id": 160,
+        "tx_fee": "0.00",
+        "suspended": 0,
+        "referral_code": "luxware907",
+        "flag": null,
+        "online": 1,
+        "sender_id": null,
+        "deleted_at": null,
+        "store_category_id": null,
+        "business_category": null,
+        "default_location_id": 195192,
+        "nbc": 0,
+        "nbc_locations": null,
+        "popup": 0,
+        "popup_locations": null,
+        "cac": null,
+        "cac_type": null,
+        "business_name": "luxwares",
+        "cac_image": null,
+        "cac_verified_at": null,
+        "image_path": "https:\/\/salescabal.s3.eu-west-3.amazonaws.com\/stores\/194908\/",
+        "address_formatted": "Block 7, Millennium Estate, Oko-oba Agege Lagos, Lagos, , . 100215",
+        "logo_url": "https:\/\/salescabal.s3.eu-west-3.amazonaws.com\/stores\/194908\/luxwares.png",
+        "url_link": "https:\/\/luxwares.bumpa.shop",
+        "meta_description": "Idowu Olatunji.  -- Powered by Bumpa!",
+        "login_url": "https:\/\/web.getbumpa.com\/customer\/login\/eyJpdiI6ImhkNzNDdjg5L0E3VWJLb3JZTFgrR3c9PSIsInZhbHVlIjoibW1LWDRnREtHZktGb0ZleGFMdk9VZz09IiwibWFjIjoiMmVlMTFhMmE1ZTBlYjhlNmNhMjE4YjhmYjA4MTExMGYwM2UxZWU0Y2E1YTc4OWFlZWI0ZjM5MjU3OWYwM2ZlOSIsInRhZyI6IiJ9",
+        "registration_url": "https:\/\/web.getbumpa.com\/customer\/register\/eyJpdiI6IlVVVnBBbkl1Y2V1bC9vcFFzbFgyN2c9PSIsInZhbHVlIjoiR2JYd1pQYlRYZE0yOGoyaGxKSXE2QT09IiwibWFjIjoiMTA0NzljMWRiZGZiODJjN2EwYzVmYTQxZWE5ODU2MDEyMDJlNmE2YzFkOGUxODNjNTQ3MzhjZGFmOTcyMjdjMCIsInRhZyI6IiJ9",
+        "subscription": [
+            {
+                "id": 192286,
+                "store_id": 194908,
+                "interval": "monthly",
+                "amount": "0.0000",
+                "start_date": "2024-09-09 09:41:33",
+                "ends_at": "2034-09-09 09:41:33",
+                "status": "success",
+                "is_addon": 0,
+                "channel": "card",
+                "cancelled_at": null,
+                "plan_id": 2,
+                "type": null,
+                "created_at": "2024-09-09T08:41:33.000000Z",
+                "updated_at": "2024-09-09T08:41:33.000000Z",
+                "has_subscribed": false,
+                "has_activated_trial": false,
+                "grace_period_ends_at": "2034-09-12T08:41:33.000000Z",
+                "remaining_amount": 0,
+                "plan": {
+                    "id": 2,
+                    "name": "Bumpa Basic",
+                    "plan_code": "BMP_0b2ce11ce7",
+                    "interval": "monthly",
+                    "description": "For new businesses",
+                    "status": "active",
+                    "amount": "0.0000",
+                    "initial_amount": "0.0000",
+                    "currency": "NGN",
+                    "is_trial": 0,
+                    "is_addon": 0,
+                    "type": "free",
+                    "slug": "free",
+                    "hierarchy": 0,
+                    "features": [
+                        "1 template business website.",
+                        "Can purchase custom domain",
+                        "Free SSL Certificate",
+                        "Add & manage 25 SKUs(products + variants)",
+                        "Unlimited sales records.",
+                        "Create 30 invoices\/receipts ",
+                        "Unlimited discounts & coupons",
+                        "Online payment gateway (1.5% transaction charge)",
+                        "Bumpa Wallet",
+                        "Bumpa Terminal",
+                        "Naira only payments",
+                        "25 messaging credits monthly",
+                        "Unlimited customer records",
+                        "Default customer groups (5)",
+                        "Limited Business Analytics",
+                        "Unlimited expense records",
+                        "1 store location",
+                        "Email\/In App Support"
+                    ],
+                    "created_at": null,
+                    "updated_at": null
+                }
+            }
+        ],
+        "terminal": null
+    },
+    "wrap": []
+}

@@ -145,5 +145,7 @@
 
 	.theme__figure--detail {
 		gap: 0.8rem;
+	    padding: 1rem .6rem;
+        height: auto;
 	}
 }

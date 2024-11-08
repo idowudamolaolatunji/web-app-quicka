@@ -1,8 +1,13 @@
 import React from 'react'
 import { HiMiniArrowTrendingDown, HiMiniArrowTrendingUp } from 'react-icons/hi2'
 import { formatNumber } from '../../../utils/helper'
+import { useAuthContext } from '../../../context/AuthContext';
 
 function HomeProgressCard({ title, icon, value, upTrend, percent, days }) {
+    const { store } = useAuthContext();
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
+
   return (
     <figure className='prog-figure'>
         <div className="prog-figure-top">
@@ -13,7 +18,7 @@ function HomeProgressCard({ title, icon, value, upTrend, percent, days }) {
         </div>
 
         <div className='prog-figure-bottom'>
-            <span className='prog-figure-value'>₦{formatNumber(value, 2)}</span>
+            <span className='prog-figure-value'>{currency}{formatNumber(value, 2)}</span>
             <div className='prog-figure-info'>
                 <span className='prog-figure-chart' style={ upTrend ? { color: 'green' } : { color: 'red' } }>
                     {upTrend ? <HiMiniArrowTrendingUp /> : <HiMiniArrowTrendingDown />}

@@ -9,6 +9,7 @@ import { MdOutlineRefresh } from 'react-icons/md';
 import { formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../context/AuthContext';
 
 
 ///////////////////////////////////////////////
@@ -21,7 +22,11 @@ const emptyBtns = [
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { store } = useAuthContext();
+    
     const { loader, error, deliveryRates, handleDeleteOneItem, handleFetchUserStoreDeliveryRates } = useFetchedContext();
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
 
     ////////////////////////////////////////////////////////
     const [deleteLoader, setDeleteLoader] = useState(false);
@@ -52,7 +57,7 @@ function index() {
         {
             name: 'Delivery Fee',
             selector: row => (
-                <p className='value'>₦{formatNumber(row?.fee)}</p>
+                <p className='value'>{currency}{formatNumber(row?.fee)}</p>
             ),
         },
         {

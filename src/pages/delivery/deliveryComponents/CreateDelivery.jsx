@@ -17,11 +17,13 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 
 function CreateDelivery({ close, isnew, isModal }) {
-    const currency = "₦";
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { token, handleUser, handleStore } = useAuthContext();
+    const { token, handleUser, store, handleStore } = useAuthContext();
     const { handleFetchUserStoreDeliveryRates } = useFetchedContext();
+
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
 
     const headers = {
         "Content-Type": "application/json",

@@ -12,6 +12,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { imgString } from '../../assets/images';
 import { GoDotFill } from 'react-icons/go';
 import emptyImg from '../../assets/images/illustrations/sales.png';
+import { useAuthContext } from '../../context/AuthContext';
 // import emptyImg from '../../assets/images/illustrations/trials.png';
 
 
@@ -26,8 +27,11 @@ const emptyBtns = [
 
 function index() {
     const { width } = useWindowSize();
+    const { store } = useAuthContext();
     const { showInsights, } = useDataContext();
     const { loader, error, orders, handleFetchUserStoreOrders, handleDeleteOneItem } = useFetchedContext()
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
     
     const [tableSearch, setTableSearch] = useState('');
     const completedOrders = orders?.filter(order => order.orderStatus == "completed");
@@ -72,7 +76,7 @@ function index() {
         },
         {
             name: 'Amount', selector: row => (
-                <span className='value'>₦{formatNumber(row?.orderAmount)}</span>
+                <span className='value'>{currency}{formatNumber(row?.orderAmount)}</span>
             ), width: '100px'
         },
         {
