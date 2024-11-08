@@ -77,7 +77,7 @@ import CreateDelivery from './pages/delivery/deliveryComponents/CreateDelivery';
 
 
 function App() {
-
+    
     useEffect(function() {
         window.scrollTo(0, 0)
     }, [])

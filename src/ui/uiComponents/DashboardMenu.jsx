@@ -56,7 +56,7 @@ function DashboardMenu() {
                     <Line where={'Top'} value={'0.34rem'} border={1.4} />
 
                     <ul className={`menu--list`}>
-                        <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' />
+                        {/* <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' /> */}
                         <MenuLink icon={<HiOutlineSquare3Stack3D />} title='Subscription' link='/subscription' />
                         <MenuLink icon={<MdOutlineSettings />} title='Settings' link='/settings' />
                         <MenuButton icon={<MdOutlineHelpOutline />} title='Help Center' action={openWidget} />
@@ -114,7 +114,7 @@ function DashboardMenu() {
 
 
                         <ul className='menu--list'>
-                            <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' />
+                            {/* <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' /> */}
                             <MenuLink icon={<HiOutlineSquare3Stack3D />} title='Subscription' link='/subscription' />
                             <MenuLink icon={<MdOutlineSettings />} title='Settings' link='/settings' />
                         </ul>

@@ -519,7 +519,45 @@
 
 
 
+.sub--details {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.sub--detail {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+}
+.sub--detail .subtitle {
+	font-size: 1.34rem;
+	font-weight: 500;
+}
 
+.sub--detail .heading {
+	font-size: 2rem;
+	font-weight: 600;
+	text-transform: capitalize;
+}
+.sub--details .sub--btns {
+	display: flex;
+	align-items: center;
+	gap: .6rem;
+}
+.sub--details .sub--btns button {
+	font-size: 1.3rem;
+	font-weight: 500;
+}
+.sub--details .sub--btns button:first-child {
+	background-color: transparent;
+	color: #DC3545;
+}
+.sub--details .sub--btns button:last-child {
+	border-radius: .4rem;
+	padding: .4rem;
+	background-color: var(--color-brand-50);
+	color: var(--color-brand-500);
+}
 
 
 
@@ -551,6 +589,11 @@
 @media screen and (max-width: 620px) {
 	.product__grid {
 		grid-template-columns: 1fr 1fr;
+	}
+
+	.sub--details.card {
+		padding: 0;
+		flex-wrap: wrap;
 	}
 }
 
@@ -651,6 +694,15 @@
 	.table--grid {
 		gap: 1.4rem;
 		padding: 0.6rem 1rem;
+	}
+
+	.sub--details.card {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.4rem;
+	}
+	.sub--detail {
+		gap: .24rem;
 	}
 }
 
