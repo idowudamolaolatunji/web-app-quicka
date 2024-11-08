@@ -19,12 +19,12 @@ import store_sales_emptyImg from '../../assets/images/illustrations/store_sales.
 const discount_emptyTitle = "Add Discount";
 const discount_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const discount_emptyBtns = [
-    { title: <><RiDiscountPercentLine />Add Discount</>, link: "/dashboard/discounts/add" },
+    { title: <><RiDiscountPercentLine />Create Discount</>, link: "/dashboard/discounts/create" },
 ];
 const coupon_emptyTitle = "Add Coupon";
 const coupon_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const coupon_emptyBtns = [
-    { title: <><RiCoupon3Line />Add Coupon</>, link: "/dashboard/coupons/add" },
+    { title: <><RiCoupon3Line />Create Coupon</>, link: "/dashboard/coupons/create" },
 ];
 const store_sales_emptyTitle = "Run Store Sales";
 const store_sales_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
@@ -49,7 +49,7 @@ function index() {
     const emptyText = tabShown == "discount" ? discount_emptyText : tabShown == "coupon" ? coupon_emptyText : store_sales_emptyText;
     const emptyTitle = tabShown == "discount" ? discount_emptyTitle : tabShown == "coupon" ? coupon_emptyTitle : store_sales_emptyTitle;
     const emptyBtns = tabShown == "discount" ? discount_emptyBtns : tabShown == "coupon" ? coupon_emptyBtns : store_sales_emptyBtns;
-    const addBtnStr = tabShown !== "run store sales" ? "Set New " + tabShown : "run new store sales";
+    const addBtnStr = tabShown !== "run store sales" ? "Create " + tabShown : "run new store sales";
     const emptyImg = tabShown == "discount" ? discount_emptyImg : tabShown == "coupon" ? coupon_emptyImg : store_sales_emptyImg;
 
     const handleShowModal = function(id) {

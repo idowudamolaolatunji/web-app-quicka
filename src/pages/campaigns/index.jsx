@@ -15,10 +15,11 @@ import { useNavigate } from 'react-router-dom';
 import emptyImg from '../../assets/images/illustrations/campaign.png'
 import { BsSendCheck } from 'react-icons/bs';
 import { useAuthContext } from '../../context/AuthContext';
+import { GiCrownCoin } from 'react-icons/gi';
 
 
 const emptyTitle = "Star a Campaign!";
-const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
+const emptyText = "Maximize customer engagement with strategically designed campaign messages, delivered through preferred communication channels, influencing purchasing decisions, and brand experiences always.";
 const emptyBtns = [
     { title: <><AiOutlinePlus /> Run your first campaign</>, link: "/dashboard/campaign/run" },
 ];
@@ -76,7 +77,6 @@ function index() {
             emptyTitle={emptyTitle}
             headTabs={<HeadTabs />}
             loader={loader} error={error}
-
         >
 
             {showInsights?.campaign && (
@@ -87,12 +87,13 @@ function index() {
                 </div>
             )}
 
-            <div className="top--bar success">
+            <div className="top--bar info">
                 <span>
-                    <p className='sub--text-sub no-hyphens'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta sit architecto assumenda, cumque quaerat amet esse vel reiciendis!.</p>
+                    <p className='sub--text-sub no-hyphens'>Effectively engage your customers by sending impactful and personalized campaign messages either by sms or email respectively.</p>
                     <p className="sub--text-sub flex">
-                        <span className='url--label'>Campaign credit</span>{" "}
-                        <p className='url--link'>{store?.storeCredits}</p>
+                        <span className='url--label'>Campaign credit <GiCrownCoin /> </span>{" "}
+                        <p className='url--link value'>{store?.storeCredits}</p>
+                        points.
                     </p>
                 </span>
             </div>

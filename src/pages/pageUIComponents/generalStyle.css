@@ -503,6 +503,12 @@
 .url--label {
 	font-weight: 600;
 	font-size: 1.4rem;
+	display: flex;
+	align-items: center;
+	gap: .4rem;
+}
+.url--label svg {
+	font-size: 1.8rem;
 }
 .url--link {
 	padding: .4rem;

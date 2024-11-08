@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BiChevronDown, BiPlus, BiPurchaseTagAlt } from 'react-icons/bi';
 import { PiPlugsConnectedBold } from 'react-icons/pi';
 import { useWindowSize } from 'react-use'
@@ -11,7 +11,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 
 
 const emptyTitle = "Add Custom Domain URL!";
-const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
+const emptyText = "Establish a lasting impression and trust with a custom domain, reinforcing your unique brand identity and ensuring consistency across all online platforms.";
 const emptyBtns = [
     { title: <><AiOutlinePlus />Add Domain</> },
     { title: <><BiPurchaseTagAlt />Buy Domain</> },
@@ -25,6 +25,10 @@ function index() {
 
     const columns = [];
 
+    useEffect(function() {
+        document.title = "Quicka | Custom Domain";
+        window.scrollTo(0, 0)
+    }, [])
 
     return (
         <>
@@ -38,7 +42,7 @@ function index() {
             </div>
 
 
-            <div className="top--bar success">
+            <div className="top--bar info">
                 <span>
                     <p className='sub--text-sub no-hyphens'>Your site is always accessible at a quicka.store subdomain based on the site name. Custom domains allow visitors to access your site at your own custom, branded, unique and memorable URL.</p>
 

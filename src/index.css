@@ -576,13 +576,13 @@ button {
 	margin: 0 auto;
 	text-align: center;
 }
-.empty--info h3 {
+.empty--info .heading {
 	font-size: 2rem;
 	margin-bottom: 1.1rem;
 }
-.empty--info p {
+.empty--info .text {
 	font-size: 1.48rem;
-	line-height: 1.4;
+	line-height: 1.5;
 }
 .empty--img {
 	padding: 0.8rem;
