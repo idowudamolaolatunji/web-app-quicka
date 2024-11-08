@@ -881,6 +881,9 @@ button {
 		align-items: flex-start;
 		flex-direction: column;
 	}
+	.theme__figure--detail .flex {
+		gap: .4rem;
+	}
 	.ql-toolbar.ql-snow .ql-formats {
 		margin-right: 2px;
 	}
