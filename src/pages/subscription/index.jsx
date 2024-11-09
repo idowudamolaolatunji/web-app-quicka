@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import EmptyTableComponent from '../../components/EmptyTableComponent'
 import TableUI from '../pageUIComponents/TableUI'
 import { useAuthContext } from '../../context/AuthContext';
@@ -15,6 +15,10 @@ function index() {
     const { plansHistory, error, loader, } = useFetchedContext();
     const columns = [];
 
+    useEffect(function() {
+        document.title = "Quicka | Subscription plans"
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <>
@@ -41,7 +45,7 @@ function index() {
             </div>
 
 
-            <div className="page__section--main card" style={{  marginTop: width < 450 ? "6rem" : "2rem" }}>
+            <div className="page__section--main" style={{  marginTop: "7rem" }}>
                 <TableUI
                     data={plansHistory}
                     columns={columns}

@@ -147,7 +147,7 @@ function index() {
             //     loader: deleteLoader
             // }}
       >
-            <div className="page--tabs" style={{ margin: "0 0 1rem" }}>
+            <div className="page--tabs">
                 <Tab title="Discounts" onClick={() => handleTabShown("discount")} active={tabShown == "discount"} value={discounts?.length > 0 && discounts?.length} />
                 <Tab title="Coupons" onClick={() => handleTabShown("coupon")} active={tabShown == "coupon"} value={coupons?.length > 0 && coupons?.length} />
                 <Tab title="Store Sales" onClick={() => handleTabShown("run store sales")} active={tabShown == "run store sales"} value={store_sales?.length > 0 && store_sales?.length} />

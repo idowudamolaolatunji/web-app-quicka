@@ -343,7 +343,7 @@ function index() {
                 )}
 
                 {/* THE TABS UI */}
-                <div className="page--tabs" style={{ margin: "0 0 1rem" }}>
+                <div className="page--tabs">
                     <Tab title="Products" onClick={() => handleTabShown("products")} active={tabShown == "products"} />
                     <Tab title="Collections" onClick={() => handleTabShown("collections")} active={tabShown == "collections"} />
                 </div>

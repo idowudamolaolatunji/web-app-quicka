@@ -77,7 +77,7 @@ import CreateDelivery from './pages/delivery/deliveryComponents/CreateDelivery';
 
 
 function App() {
-    
+
     useEffect(function() {
         window.scrollTo(0, 0)
     }, [])
@@ -107,6 +107,7 @@ function App() {
                     <Route path='/dashboard/delivery-rates' element={<Delivery />}></Route>
                     <Route path='/dashboard/transactions' element={<Transaction />}></Route>
                     <Route path='/dashboard/analytics' element={<Analytics />}></Route>
+                    <Route path='/dashboard/transactions/settlements' element={<Transaction />}></Route>
                     <Route path='/dashboard/products/collections' element={<Products />}></Route>
 
                     <Route path='/dashboard/orders/record' element={<RecordOrders />}></Route>

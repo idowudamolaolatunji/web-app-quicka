@@ -385,6 +385,7 @@
 	display: flex;
 	align-items: center;
 	gap: 1rem;
+	margin-bottom: 1rem;
 }
 
 .page--tab {
@@ -559,7 +560,6 @@
 	background-color: var(--color-brand-50);
 	color: var(--color-brand-500);
 }
-
 
 
 

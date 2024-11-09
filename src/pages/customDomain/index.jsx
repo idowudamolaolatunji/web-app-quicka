@@ -28,7 +28,7 @@ function index() {
     useEffect(function() {
         document.title = "Quicka | Custom Domain";
         window.scrollTo(0, 0)
-    }, [])
+    }, []);
 
     return (
         <>

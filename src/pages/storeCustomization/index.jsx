@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useWindowSize } from 'react-use';
 import Line from '../../components/Line';
-
-import more_themes from '../../assets/images/resources/dizzy-empty-browser-window-with-red-buttons.png'
-
-import './style.css'
-
 import Template1 from "../../ui/templateUI/Template1"
+import more_themes from '../../assets/images/illustrations/more_theme.png'
+import './style.css'
 
 
 function index() {
     const { width } = useWindowSize();
+
+    useEffect(function() {
+        document.title = "Quicka | Subscription plans"
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <>

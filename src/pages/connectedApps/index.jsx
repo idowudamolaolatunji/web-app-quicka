@@ -35,7 +35,7 @@ function index() {
                 <h2 className="page__section--title">Integrated App</h2>
             </div>
 
-            <div className="page--tabs" style={{ marginTop: "-2rem" }}>
+            <div className="page--tabs" style={{ margin: "-2rem 0 0" }}>
                 <Tab title="All" active={activeTab == "all"} onClick={() => setActiveTab("all")} value={all?.length} />
                 <Tab title="Socials" active={activeTab == "social"}  onClick={() => setActiveTab("social")} value={socials?.length} />
                 <Tab title="Ads" active={activeTab == "ads"}  onClick={() => setActiveTab("ads")} value={ads?.length} />

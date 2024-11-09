@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageUI from '../pageUIComponents/PageUI'
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
@@ -7,34 +7,60 @@ import Insight from '../../components/Insight';
 import { GrTag } from 'react-icons/gr';
 import { TbArrowWaveRightDown } from 'react-icons/tb';
 import { LuClipboardList } from 'react-icons/lu';
-import emptyImg from '../../assets/images/illustrations/transactions.png'
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
 import { capitalizeFirstLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
 import { imgString } from '../../assets/images';
 import { useAuthContext } from '../../context/AuthContext';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Tab from '../../components/Tab';
 
+import transaction_emptyImg from '../../assets/images/illustrations/transactions.png'
+import settlement_emptyImg from '../../assets/images/illustrations/settlements.png'
 
 ///////////////////////////////////////////////
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
-const emptyTitle = "Track transactions offline & online";
-const emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
+const transaction_emptyTitle = "Track transactions offline & online";
+const transaction_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
+
+const settlement_emptyTitle = "Online payments settlement";
+const settlement_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 
 
 function index() {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { pathname } = useLocation();
     const { store } = useAuthContext();
     const { showInsights } = useDataContext();
-    const { loader, error, transactions, handleFetchUserStoreTransactions } = useFetchedContext();
+    const { loader, error, transactions, settlements, handleFetchUserStoreTransactions, handleFetchUserStoreSettlements } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
+    const route = pathname.split("/").at(-1);
 
     const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
     const offlineTransactions = transactions?.filter(transaction => transaction?.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
 
-    const columns = [
+    /////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
+    const [tabShown, setTabShown] = useState("transactions");
+    
+    
+    /////////////////////////////////////////////////////////////////////
+    // THE FUNCTION THAT CHANGES THE ROUTE WHEN WE CLICK A DIFFERENT TAB
+    const handleTabShown = function (tab) {
+        setTabShown(tab);
+        if (tab == "transactions") {
+            navigate(`/dashboard/${tab}`);
+        } else {
+            navigate(`/dashboard/transactions/${tab}`);
+        }
+    }
+
+
+    const transaction_columns = [
         {
             name: "Transaction Id",
             selector: row => (
@@ -67,7 +93,7 @@ function index() {
             )
         },
         {
-            name: 'Status', 
+            name: 'Status',
             selector: row => (
                 <span className={`status status--${row?.status}`}>
                     <p>{row?.status == "success" && "Successful"}</p>
@@ -94,12 +120,15 @@ function index() {
         }
     ];
 
-    const HeadTabs = function() {
+    const settlement_columns = [];
+
+
+    const HeadTabs = function () {
         return (
             <div className='content'>
                 <span className='flex'>
                     <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={handleFetchUserStoreTransactions}><MdOutlineRefresh /></button>
+                        <button className='table--btn' onClick={tabShown == "transactions" ? handleFetchUserStoreTransactions : handleFetchUserStoreSettlements}><MdOutlineRefresh /></button>
                     </TooltipUI>
                 </span>
 
@@ -113,24 +142,27 @@ function index() {
             </div>
         );
     }
-    
-    useEffect(function() {
-        document.title = "Quicka | All Transactions";
 
-        // if(transactions?.length < 1 && error?.transaction) {
-        //     handleFetchUserStoreTransactions();
-        // }
+    useEffect(function () {
+        document.title = `Quicka | ${tabShown == "transactions" ? "All Transactions" : "Payment Settlements"}`;
     }, []);
+
+
+    // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
+    useEffect(function () {
+        setTabShown(route);
+    }, [route]);
+
 
     return (
         <PageUI
-            columns={columns}
-            data={transactions}
-            items={transactions}
-            pageName="transaction"
-            emptyText={emptyText}
-            emptyImg={emptyImg}
-            emptyTitle={emptyTitle}
+            items={tabShown == "transactions" ? transactions : settlements}
+            data={tabShown == "transactions" ? transactions : settlements}
+            pageName={tabShown == "transactions" ? "transaction" : "settlement"}
+            columns={tabShown == "transactions" ? transaction_columns : settlement_columns}
+            emptyText={tabShown == "transactions" ? transaction_emptyText : settlement_emptyText}
+            emptyImg={tabShown == "transactions" ? transaction_emptyImg : settlement_emptyImg}
+            emptyTitle={tabShown == "transactions" ? transaction_emptyTitle : settlement_emptyTitle}
             goto={false}
             loader={loader} error={error}
             headTabs={<HeadTabs />}
@@ -143,6 +175,12 @@ function index() {
                     <Insight loader={loader?.transaction} title='Total Offline transaction' pre={currency} value={offlineTransactions} icon={<TbArrowWaveRightDown />} />
                 </div>
             )}
+
+            {/* THE TABS UI */}
+            <div className="page--tabs">
+                <Tab title="Transactions" onClick={() => handleTabShown("transactions")} active={tabShown == "transactions"} />
+                <Tab title="Settlements" onClick={() => handleTabShown("settlements")} active={tabShown == "settlements"} />
+            </div>
         </PageUI>
     )
 }
