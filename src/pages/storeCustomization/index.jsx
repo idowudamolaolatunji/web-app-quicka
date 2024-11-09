@@ -36,6 +36,7 @@ function index() {
                     </div>
                 </div> */}
 
+                {width < 450 && <Line border={1.4} />}
 
 
                 {/* FREE THEMES CARD */}

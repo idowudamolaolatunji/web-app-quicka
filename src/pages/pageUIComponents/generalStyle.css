@@ -408,15 +408,16 @@
 
 
 
+
+
+
+/* CONNECTED APPS */
 .page__section--main.connected__grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 2rem;
 	margin-top: 4rem;
 }
-
-
-
 
 .connected--figure {
 	border: 1.4px solid #eee;
@@ -501,6 +502,8 @@
 
 
 
+
+/* TOP BANNER URLS */
 .url--label {
 	font-weight: 600;
 	font-size: 1.4rem;
@@ -520,6 +523,9 @@
 
 
 
+
+
+/* SUBSCRIPTION */
 .sub--details {
 	display: flex;
 	align-items: center;
@@ -529,25 +535,26 @@
 .sub--detail {
 	display: flex;
 	flex-direction: column;
-	gap: .5rem;
+	gap: .64rem;
 }
 .sub--detail .subtitle {
-	font-size: 1.34rem;
-	font-weight: 500;
+	font-size: 1.38rem;
+	font-weight: 600;
+	color: #888;
 }
 
 .sub--detail .heading {
-	font-size: 2rem;
+	font-size: 2.2rem;
 	font-weight: 600;
 	text-transform: capitalize;
 }
 .sub--details .sub--btns {
 	display: flex;
 	align-items: center;
-	gap: .6rem;
+	gap: 1.2rem;
 }
 .sub--details .sub--btns button {
-	font-size: 1.3rem;
+	font-size: 1.28rem;
 	font-weight: 500;
 }
 .sub--details .sub--btns button:first-child {
@@ -703,7 +710,7 @@
 	.sub--details {
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 1.6rem;
+		gap: 1.8rem;
 	}
 	.sub--detail {
 		gap: .24rem;
