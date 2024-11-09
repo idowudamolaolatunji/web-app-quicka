@@ -1,7 +1,7 @@
-import dummy1 from "../../assets/images/dummy_items/1.jpeg"
+import dummy1 from "../../assets/images/dummy_items/4.jpg";
 import dummy2 from "../../assets/images/dummy_items/2.jpeg"
 import dummy3 from "../../assets/images/dummy_items/3.jpg";
-import dummy4 from "../../assets/images/dummy_items/4.webp";
+import dummy4 from "../../assets/images/dummy_items/1.jpeg"
 
 
 export const products = [
