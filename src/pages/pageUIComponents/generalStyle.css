@@ -715,6 +715,13 @@
 	.sub--detail {
 		gap: .24rem;
 	}
+	.sub--detail .subtitle {
+		font-size: 1.24rem;
+	}
+	.sub--detail .heading {
+		font-size: 2rem;
+	}
+	
 }
 
 @media screen and (max-width: 385px) {

@@ -30,12 +30,12 @@ function index() {
             <div className="page__section--main card sub--details">
                 <span className='sub--detail'>
                     <p className='subtitle'>Plan</p>
-                    <h4 className='heading'>Quicka Essential</h4>
+                    <h4 className='heading'>Quicka Lite</h4>
                 </span>
 
                 <span className='sub--detail'>
                     <p className='subtitle'>Pricing</p>
-                    <h4 className='heading'>free</h4>
+                    <h4 className='heading'>free forever</h4>
                 </span>
 
                 <div className='sub--btns'>
