@@ -3,7 +3,7 @@ import Alert from '@mui/material/Alert';
 import { AlertTitle, Snackbar } from '@mui/material';
 import { useWindowSize } from 'react-use';
 
-function CustomAlert({ type, message, duration=5000, style="filled" }) {
+function CustomAlert({ type, message, duration=5000 }) {
     const [open, setOpen] = useState(true);
     const { width } = useWindowSize();
     const mobile = width <= 450;
