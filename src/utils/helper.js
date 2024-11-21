@@ -124,8 +124,6 @@ export function capitalizeFirstLetter(string) {
 export function isWithinLast7Days(date) {
 	return moment(date).isAfter(moment().subtract(7, 'days'));
 }
-  
-
 
 export function getInitials(fullName) {
 	const nameArray = fullName?.split(" ");
@@ -133,8 +131,6 @@ export function getInitials(fullName) {
 	const secondInitial = nameArray[1]?.charAt(0);
 	return `${firstInitial}${secondInitial}`;
 }
-
-
 
 export function getRemainingMinutes(dateTimeStr) {
 	const currentTime = new Date(Date.now());

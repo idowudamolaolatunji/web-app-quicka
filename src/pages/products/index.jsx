@@ -12,7 +12,7 @@ import { MdOutlineFilterList, MdOutlineRefresh, MdTableRows } from 'react-icons/
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { BsFillGrid3X3GapFill, BsFillGridFill, BsTable } from 'react-icons/bs';
 import TooltipUI from '../../components/TooltipUI';
-import PageUI from '../pageUIComponents/PageUI';
+import PageUI from '../../ui/PageUI/PageUI';
 import product_emptyImg from '../../assets/images/illustrations/product.png';
 import collection_emptyImg from '../../assets/images/illustrations/collection.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -22,6 +22,8 @@ import Tab from '../../components/Tab';
 import CollectionFormSm from './productComponents/CollectionFormSm';
 import Drawer from '../../components/modal/Drawer';
 import { useAuthContext } from '../../context/AuthContext';
+import CollectionHeadTabs from './productComponents/CollectionHeadTabs';
+import ProductHeadTabs from './productComponents/ProductHeadTabs';
 
 
 //////////////////////////////////////////////////////
@@ -45,7 +47,7 @@ function index() {
     const { width } = useWindowSize();
     const { pathname } = useLocation();
     const { store } = useAuthContext();
-    const { showInsights, activeDisplayTab, handleDisplayTab } = useDataContext();
+    const { showInsights, activeDisplayTab } = useDataContext();
     const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleDeleteOneItem } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
@@ -64,6 +66,7 @@ function index() {
     const [showCollectionForm, setShowCollectionForm] = useState(false);
     const [showCollectionEditForm, setShowCollectionEditForm] = useState(false);
     const [selectedCollection, setSelectedCollection] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
     ////////////////////////////////////////////////////////
 
     // THE FUNCTION THAT CHANGES THE ROUTE WHEN WE CLICK A DIFFERENT TAB
@@ -110,8 +113,6 @@ function index() {
         const collectionProducts = products?.filter(product => product?.productCollection.includes(name));
         return collectionProducts?.length || 0;
     }
-
-    console.log(findProductsInCollection("Crocs"));
 
     const product_columns = [
         {
@@ -202,57 +203,6 @@ function index() {
     ];
 
 
-    // PRODUCT TABLE HEAD
-    const ProductHeadTabs = function () {
-        return (
-            <div className='content'>
-                <span className='flex'>
-                    <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={handleFetchUserStoreProducts}><MdOutlineRefresh /></button>
-                    </TooltipUI>
-
-                    <SearchInput />
-                </span>
-
-
-                <span className="flex">
-                    <button className='table--btn'>Clear filter</button>
-
-                    <TooltipUI placement='top' title="Filters">
-                        <button className='table--btn'><MdOutlineFilterList /></button>
-                    </TooltipUI>
-
-                    <span className='table--tabs'>
-                        <TooltipUI placement='top' title="Table View">
-                            <span className={activeDisplayTab == "table" ? "active" : ""} onClick={() => handleDisplayTab("table")}><BsTable /> </span>
-                        </TooltipUI>
-
-
-                        <TooltipUI placement='top' title="Grid View">
-                            <span className={activeDisplayTab == "grid" ? "active" : ""} onClick={() => handleDisplayTab("grid")}>{width < 365 ? <MdTableRows /> : width <= 620 ? <BsFillGridFill /> : <BsFillGrid3X3GapFill />} </span>
-                        </TooltipUI>
-                    </span>
-                </span>
-            </div>
-        );
-    }
-
-    // COLLECTION TABLE HEAD
-    const CollectionHeadTabs = function () {
-        return (
-            <div className='content'>
-                <span className='flex'>
-                    <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={handleFetchUserStoreCollections}><MdOutlineRefresh /></button>
-                    </TooltipUI>
-
-                    <SearchInput />
-                </span>
-            </div>
-        )
-    }
-
-
     // DISPLAY THE DOCUMENT TITLE
     useEffect(function () {
         document.title = `Quicka | ${tabShown == "product" ?
@@ -271,6 +221,7 @@ function index() {
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
     useEffect(function () {
         setTabShown(route);
+        setSearchValue("")
     }, [route]);
 
 
@@ -312,7 +263,11 @@ function index() {
                 emptyBtns={tabShown == "products" ? product_emptyBtns : collection_emptyBtns}
                 emptyImg={tabShown == "products" ? product_emptyImg : collection_emptyImg}
                 emptyTitle={tabShown == "products" ? product_emptyTitle : collection_emptyTitle}
-                headTabs={tabShown == "products" ? <ProductHeadTabs /> : <CollectionHeadTabs />}
+                headTabs={tabShown == "products" ? (
+                    <ProductHeadTabs value={searchValue} setValue={setSearchValue} handleFetch={handleFetchUserStoreProducts}  />
+                ) : (
+                    <CollectionHeadTabs value={searchValue} setValue={setSearchValue} handleFetch={handleFetchUserStoreCollections}  />
+                )}
                 addBtnStr={tabShown == "products" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
                 loader={loader} error={error}
                 {...(tabShown == "products" && { activeDisplayTab })}
@@ -320,6 +275,7 @@ function index() {
                 // THIS PART HERE IS FOR THE PRODUCT COLLECTION SORT OF MODAL
                 {...(tabShown == "products" ? { addUrl: "products/upload" } : { addAction: handleShowCollectionForm, action: showCollectionForm })}
                 goto={tabShown == "products" ? true : false}
+                shouldSelect={true}
 
                 // THIS IS A RESUABLE DELECTING OBJECT (FOR BOTH THE PRODUCT AND COLLECTION)
                 deleteObj={{

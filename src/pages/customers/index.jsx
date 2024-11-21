@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PageUI from '../pageUIComponents/PageUI'
+import PageUI from '../../ui/PageUI/PageUI'
 import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
@@ -135,6 +135,7 @@ function index() {
             items={customers}
             columns={columns}
             data={customers}
+            shouldSelect={true}
             addUrl="customers/add"
             addBtnStr="Add customer"
             emptyText={emptyText}

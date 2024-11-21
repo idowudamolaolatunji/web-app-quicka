@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 
-import logo_img from '../../assets/images/logo/logo-black.png'
-import { useDataContext } from '../../context/DataContext';
+import logo_img from '../../../assets/images/logo/logo-black.png'
+import { useDataContext } from '../../../context/DataContext';
 import { IoChevronDownSharp } from 'react-icons/io5';
 import { MdOutlineStorefront } from 'react-icons/md';
 import { RiMenu3Fill } from 'react-icons/ri';
 import { LuBell, LuPanelLeftClose, LuPanelRightClose, LuRefreshCcw } from 'react-icons/lu';
 
 import { useWindowSize } from 'react-use';
-import Dropdown from '../../components/Dropdown';
+import Dropdown from '../../../components/Dropdown';
 import { Link } from 'react-router-dom';
-import DefaultButton from '../../components/button/DefaultButton';
-import { useAuthContext } from '../../context/AuthContext';
-import UserIntialsImage from '../../components/UserIntialsImage';
-import CustomAlert from '../../components/CustomAlert';
-import Spinner from '../../components/spinner/spinner_two'
-import TooltipUI from '../../components/TooltipUI';
-import { useFetchedContext } from '../../context/FetchedContext';
+import DefaultButton from '../../../components/button/DefaultButton';
+import { useAuthContext } from '../../../context/AuthContext';
+import UserIntialsImage from '../../../components/UserIntialsImage';
+import CustomAlert from '../../../components/CustomAlert';
+import Spinner from '../../../components/spinner/spinner_two'
+import TooltipUI from '../../../components/TooltipUI';
+import { useFetchedContext } from '../../../context/FetchedContext';
 
 
 function DashboardHead() {

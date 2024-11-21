@@ -16,14 +16,9 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function AddCustomerFormSm({ close }) {
 
-    const { token, store } = useAuthContext();
+    const { headers, store, shouldKick } = useAuthContext();
     const { handleFetchUserStoreCustomers } = useFetchedContext()
     const { countryCode } = store?.contact;
-
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
 
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
@@ -105,7 +100,8 @@ function AddCustomerFormSm({ close }) {
                 })
             });
 
-            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
+            shouldKick(res);
+            if (!res?.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
             const { status, message } = data;

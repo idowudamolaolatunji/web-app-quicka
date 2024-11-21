@@ -1,10 +1,11 @@
 import React from 'react';
 import { Rating } from '@mui/material';
 
-import img_user1 from '../../assets/images/resources/user-img.jpg'
-import img_user2 from '../../assets/images/resources/user-img2.jpg'
-import img_user3 from '../../assets/images/resources/user-img3.jpg'
-import img_user0 from '../../assets/images/resources/user-img4.jpg'
+import img_user1 from '../assets/images/user_faces/user-img.jpg'
+import img_user2 from '../assets/images/user_faces/user-img2.jpg'
+import img_user3 from '../assets/images/user_faces/user-img3.jpg'
+import img_user0 from '../assets/images/user_faces/user-img4.jpg'
+
 
 function AuthUserRating() {
     return (

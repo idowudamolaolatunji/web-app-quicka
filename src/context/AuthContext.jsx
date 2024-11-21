@@ -16,6 +16,11 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(Cookies.get('q_user_jwt_token') ? Cookies.get('q_user_jwt_token') : null);
     const [store, setStore] = useState(Cookies.get("q_user_store") ? JSON.parse(Cookies.get("q_user_store")) : null);
 
+    const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+    }
+
     function handleChange(user, token) {
         setUser(user);
         setToken(token);
@@ -43,8 +48,8 @@ export const AuthProvider = ({ children }) => {
         return true
     }
 
-    function shouldKick(e) {
-        if (e.response.status === 401 || e.response.status === 403) {
+    function shouldKick(res) {
+        if (res?.status === 401 || res?.status === 403) {
             Cookies.remove("q_user_obj");
             Cookies.remove("q_user_jwt_token");
             Cookies.remove("q_user_store");
@@ -63,6 +68,7 @@ export const AuthProvider = ({ children }) => {
     let contextData = {
         user,
         token,
+        headers,
         handleChange,
         handleUser,
         signoutUser,

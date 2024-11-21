@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PageUI from '../pageUIComponents/PageUI'
 import { useLocation, useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { RiCoupon3Line, RiDeleteBin5Line, RiDiscountPercentLine, RiEdit2Line } from 'react-icons/ri';
@@ -13,6 +12,7 @@ import { VscRunCoverage } from 'react-icons/vsc';
 import discount_emptyImg from '../../assets/images/illustrations/discounts.png';
 import coupon_emptyImg from '../../assets/images/illustrations/coupon.png';
 import store_sales_emptyImg from '../../assets/images/illustrations/store_sales.png';
+import PageUI from '../../ui/PageUI/PageUI';
 
 
 ///////////////////////////////////////////////

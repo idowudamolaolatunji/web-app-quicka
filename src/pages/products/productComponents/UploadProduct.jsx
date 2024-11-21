@@ -21,13 +21,13 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { IoCloseOutline, IoCloudDownloadOutline, IoTrashBinOutline } from 'react-icons/io5';
 import { validateProductForm } from '../../../utils/validationHelper';
 import { useNavigate, useParams } from 'react-router-dom';
-import AddPageUI from '../../pageUIComponents/AddPageUI';
 import Drawer from '../../../components/modal/Drawer';
 import CollectionFormSm from './CollectionFormSm';
 import { createPortal } from 'react-dom';
 import { units } from '../../../utils/data';
 import { RiDeleteBin5Line, RiDeleteBin6Line } from 'react-icons/ri';
 import { Switch } from '@mui/material';
+import AddPageUI from '../../../ui/PageUI/AddPageUI';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -39,16 +39,11 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     const { id } = useParams();
 
     const { width } = useWindowSize();
-    const { token, handleStore, store } = useAuthContext();
+    const { headers, shouldKick, handleStore, store } = useAuthContext();
     const { collections, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleFetchItem, fetchedItem } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
-    
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
 
     const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
     const [response, setResponse] = useState({ status: null, message: null });
@@ -250,6 +245,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                     productCollection: names,
                 })
             });
+            shouldKick(res);
             if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();

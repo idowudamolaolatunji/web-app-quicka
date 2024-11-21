@@ -29,7 +29,7 @@ function TopSalesChannelsChart() {
             sortedChannels.slice(0, 5).map(([channel]) => channel),
             sortedChannels.slice(0, 5).map(([channel, count]) => ({
                 label: channel,
-                value: (count / totalCount) * 100
+                value: Math.floor((count / totalCount) * 100)
             })),
         ];
     };

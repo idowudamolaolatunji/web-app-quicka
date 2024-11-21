@@ -9,8 +9,8 @@ import { TbTruckDelivery } from 'react-icons/tb';
 import { useAuthContext } from '../../../context/AuthContext';
 import { validateDeliveryForm } from '../../../utils/validationHelper';
 import { useNavigate } from 'react-router-dom';
-import AddPageUI from '../../pageUIComponents/AddPageUI';
 import { useFetchedContext } from '../../../context/FetchedContext';
+import AddPageUI from '../../../ui/PageUI/AddPageUI';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -19,16 +19,11 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 function CreateDelivery({ close, isnew, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { token, handleUser, store, handleStore } = useAuthContext();
+    const { headers, store, handleStore, shouldKick } = useAuthContext();
     const { handleFetchUserStoreDeliveryRates } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
-
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
 
     const [showConfetti, setShowConfetti] = useState(false)
     const [deliveryFormErrors, setdeliveryFormErrors] = useState({})
@@ -97,8 +92,8 @@ function CreateDelivery({ close, isnew, isModal }) {
                 })
             });
 
+            shouldKick(res)
             if (!res.ok) throw new Error('Something went wrong, Sever Error!');
-            console.log(res)
 
             const data = await res.json();
             const { status, message } = data;

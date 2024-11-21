@@ -17,12 +17,12 @@ import Drawer from '../../../components/modal/Drawer';
 
 import { validateOrderForm } from '../../../utils/validationHelper.js';
 import { useNavigate } from 'react-router-dom';
-import AddPageUI from '../../pageUIComponents/AddPageUI.jsx';
 import AddCustomerFormSm from './AddCustomerFormSm.jsx';
 import { createPortal } from 'react-dom';
 import UploadProduct from '../../products/productComponents/UploadProduct.jsx';
 import FullScreen from '../../../components/modal/FullScreen.jsx';
 import ProductQuantityCard from '../../../components/ProductQuantityCard.jsx';
+import AddPageUI from '../../../ui/PageUI/AddPageUI.jsx';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -30,16 +30,12 @@ const BASE_API_URL = import.meta.env.VITE_API_URL
 function RecordOrder() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { token } = useAuthContext();
+    const { headers, shouldKick } = useAuthContext();
     const { products, customers, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers, handleFetchUserStoreTransactions } = useFetchedContext();
-
     const publishedProducts = products?.filter(product => product.status == "published");
 
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
-
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
     const [orderData, setOrderData] = useState({ paymentStatus: "paid", orderDate: "" });
 
     const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
@@ -160,6 +156,7 @@ function RecordOrder() {
                     deliveryStatus: deliveryStatus[0]?.value,
                 })
             });
+            shouldKick(res);
             if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();

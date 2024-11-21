@@ -6,14 +6,13 @@ import { TbNotes, TbNotesOff } from 'react-icons/tb';
 import { MdOutlineFilterList, MdOutlineNoteAlt, MdOutlineRefresh, MdOutlineShoppingBag } from 'react-icons/md';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
-import PageUI from '../pageUIComponents/PageUI';
+import PageUI from '../../ui/PageUI/PageUI';
 import TooltipUI from '../../components/TooltipUI';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { imgString } from '../../assets/images';
+import { imgString } from '../../assets/images/png_elements';
 import { GoDotFill } from 'react-icons/go';
 import emptyImg from '../../assets/images/illustrations/sales.png';
 import { useAuthContext } from '../../context/AuthContext';
-// import emptyImg from '../../assets/images/illustrations/trials.png';
 
 
 //////////////////////////////////////////////////////
@@ -148,8 +147,9 @@ function index() {
         <PageUI
             pageName="order"
             items={orders}
-            columns={columns}
             data={orders}
+            columns={columns}
+            shouldSelect={true}
             addUrl="orders/record"
             addBtnStr="Record sales"
             emptyText={emptyText}

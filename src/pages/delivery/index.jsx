@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PageUI from '../pageUIComponents/PageUI'
+import PageUI from '../../ui/PageUI/PageUI'
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import emptyImg from '../../assets/images/illustrations/delivery.png';
@@ -119,6 +119,7 @@ function index() {
             data={deliveryRates}
             items={deliveryRates}
             pageName="delivery"
+            shouldSelect={true}
             addBtnStr="Set new delivery rates"
             emptyText={emptyText}
             emptyImg={emptyImg}

@@ -13,13 +13,9 @@ import ImageUploadUI from '../../../components/ImageUploadUI';
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function CollectionFormSm({ close, editingItem }) {
-    const { token } = useAuthContext();
+    const { headers, shouldKick } = useAuthContext();
     const { handleFetchUserStoreCollections, handleImageUpload } = useFetchedContext();
 
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
 
     const [imagePreview, setImagePreview] = useState(null);
     const [imageFile, setImageFile] = useState(null);
@@ -78,6 +74,9 @@ function CollectionFormSm({ close, editingItem }) {
                 method: "POST",
                 body: JSON.stringify({ ...collectionData })
             });
+            shouldKick(res);
+            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
+
             const data = await res.json();
             const { status, message } = data;
             const { collection } = data?.data;

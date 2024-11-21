@@ -4,13 +4,13 @@ import MainDropdownSelect from '../../../components/MainDropdownSelect';
 import { FiUsers } from 'react-icons/fi';
 import { useWindowSize } from 'react-use';
 import Line from '../../../components/Line';
-import AddPageUI from '../../pageUIComponents/AddPageUI';
 import Asterisk from '../../../components/Asterisk';
 import PhoneInput from 'react-phone-input-2';
 import { validateCustomerForm } from '../../../utils/validationHelper';
 import { useAuthContext } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
+import AddPageUI from '../../../ui/PageUI/AddPageUI';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -18,16 +18,11 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 function CreateCustomers({ close, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { token, store } = useAuthContext();
+    const { headers, store, shouldKick } = useAuthContext();
     const { handleFetchUserStoreCustomers } = useFetchedContext();
     const { location, getContries, getStates, getCities, setLocation } = useDataContext();
 
     const { countryCode } = store?.contact;
-
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
 
     const [loading, setLoading] = useState({
         mainLoading: false,
@@ -159,8 +154,8 @@ function CreateCustomers({ close, isModal }) {
                 })
             });
 
+            shouldKick(res);
             if (!res.ok) throw new Error('Something went wrong, Sever Error!');
-            console.log(res)
 
             const data = await res.json();
             const { status, message } = data;

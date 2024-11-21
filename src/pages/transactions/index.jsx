@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PageUI from '../pageUIComponents/PageUI'
+import PageUI from '../../ui/PageUI/PageUI'
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
@@ -10,7 +10,7 @@ import { LuClipboardList } from 'react-icons/lu';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
 import { capitalizeFirstLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
-import { imgString } from '../../assets/images';
+import { imgString } from '../../assets/images/png_elements';
 import { useAuthContext } from '../../context/AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Tab from '../../components/Tab';
@@ -130,6 +130,8 @@ function index() {
                     <TooltipUI placement='top' title="Refresh table">
                         <button className='table--btn' onClick={tabShown == "transactions" ? handleFetchUserStoreTransactions : handleFetchUserStoreSettlements}><MdOutlineRefresh /></button>
                     </TooltipUI>
+
+                    <input type="text" className="table--input form--input" placeholder='search..' />
                 </span>
 
                 <span className="flex">

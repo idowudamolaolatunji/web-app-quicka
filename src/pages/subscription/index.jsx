@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import EmptyTableComponent from '../../components/EmptyTableComponent'
-import TableUI from '../pageUIComponents/TableUI'
+import TableUI from '../../ui/PageUI/TableUI'
 import { useAuthContext } from '../../context/AuthContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Empty from '../../components/Empty';

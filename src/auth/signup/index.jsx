@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import AuthsUI from '../authComponents/AuthsUI';
-
 import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
 import { Link, useNavigate } from 'react-router-dom';
-
-import CustomAlert from '../../components/CustomAlert';
-import Spinner from '../../components/spinner/spinner_two'
-import AuthUserRating from '../authComponents/AuthUserRating';
 import { validateAuthForm } from '../../utils/validationHelper';
 
 import { useWindowSize } from 'react-use';
@@ -15,6 +8,8 @@ import { FaCheck } from 'react-icons/fa';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import data_img from '../../assets/images/resources/micheal-ogungbe-pBR_6uEh6F0-unsplash.jpg'
 import Asterisk from '../../components/Asterisk';
+import AuthUserRating from '../../components/AuthUserRating';
+import AuthsUI from '../../ui/authUI';
 
 
 const headingText = "The Power to Manage Your Business, at Your Fingertips."
@@ -149,14 +144,7 @@ function index() {
 
 
     return (
-        <>
-            {(response.message || response.status) && (
-                <CustomAlert type={response.status} message={response.message} />
-            )}
-
-            {loading.mainLoading && <Spinner />}
-
-            <AuthsUI backText="Back to home" backLink="https://www.getquicka.com" dataimg={data_img} heading={headingText} centered={false} overflowLeft={true}>
+            <AuthsUI backText="Back to home" backLink="https://www.getquicka.com" dataimg={data_img} loading={loading?.mainLoading} response={response} heading={headingText} centered={false} overflowLeft={true}>
 
                 <form className="auth--form" onSubmit={handleSubmit} style={{ padding: '8rem 0', width: '90%' }}>
                     <div>
@@ -300,7 +288,6 @@ function index() {
                 </form>
 
             </AuthsUI>
-        </>
     )
 }
 

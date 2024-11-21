@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-function SearchInput() {
-  const [value, setValue] = useState("")
+function SearchInput({ value, setValue }) {
   return (
     <input type="search" value={value} onChange={e => setValue(e.target.value)} className="table--input form--input" placeholder='search..' />
   )

@@ -33,7 +33,6 @@ function index() {
                 <HomeTop />
                 <Line border={1.4} />
 
-
                 {userStoreIsSetup ? (
                     <>
                         {(loader?.order) && <Spinner />}

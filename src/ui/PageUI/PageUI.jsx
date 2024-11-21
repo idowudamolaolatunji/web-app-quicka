@@ -15,14 +15,14 @@ import Spinner from '../../components/spinner/spinner_two';
 import { useFetchedContext } from '../../context/FetchedContext';
 import NoInternetConnection from '../../components/NoInternetConnection';
 import Drawer from '../../components/modal/Drawer';
-import CollectionFormSm from '../products/productComponents/CollectionFormSm';
+import CollectionFormSm from '../../pages/products/productComponents/CollectionFormSm';
 
 
 
 function PageUI({ 
     items, pageName, columns, data, addUrl, addBtnStr, goto=true,
-    emptyTitle, emptyText, emptyImg, emptyBtns, headTabs, error, loader,
-    action, addAction, activeDisplayTab = null, insights = true, children, deleteObj 
+    emptyTitle, emptyText, emptyImg, emptyBtns, headTabs, error, loader,action,
+    addAction, activeDisplayTab = null, insights = true, children, deleteObj, shouldSelect 
 }) {
 
     const navigate = useNavigate();
@@ -117,7 +117,7 @@ function PageUI({
                     data={data}
                     columns={columns}
                     name={pageName}
-                    selectableRows={true}
+                    selectableRows={shouldSelect}
                     goto={goto}
                     toLink={`/dashboard/${pageName}s`}
                     loader={loader?.[pageName]}

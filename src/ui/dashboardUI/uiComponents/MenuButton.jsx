@@ -1,8 +1,8 @@
 import React from 'react'
-import { useDataContext } from '../../context/DataContext';
+import { useDataContext } from '../../../context/DataContext';
 import { useWindowSize } from 'react-use';
-import TooltipUI from '../../components/TooltipUI';
-import DefaultButton from '../../components/button/DefaultButton';
+import TooltipUI from '../../../components/TooltipUI';
+import DefaultButton from '../../../components/button/DefaultButton';
 
 
 function MenuButton({ title, icon, action }) {

@@ -4,10 +4,10 @@ import { PiPlugsConnectedBold } from 'react-icons/pi';
 import { useWindowSize } from 'react-use'
 import { useAuthContext } from '../../context/AuthContext';
 import EmptyTableComponent from '../../components/EmptyTableComponent';
-import TableUI from '../pageUIComponents/TableUI';
 import emptyImg from "../../assets/images/illustrations/domain.png"
 import { useFetchedContext } from '../../context/FetchedContext';
 import { AiOutlinePlus } from 'react-icons/ai';
+import TableUI from '../../ui/PageUI/TableUI';
 
 
 const emptyTitle = "Add Custom Domain URL!";

@@ -8,7 +8,7 @@ import Empty from '../../../components/Empty';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { useWindowSize } from 'react-use';
 import ErrorComponent from '../../../components/ErrorComponent';
-import { imgString } from '../../../assets/images';
+import { imgString } from '../../../assets/images/png_elements';
 import { GoDotFill } from 'react-icons/go';
 import { useAuthContext } from '../../../context/AuthContext';
 
@@ -42,7 +42,7 @@ function RecentOrders() {
         },
         rows: {
             style: {
-                minHeight: '7rem',
+                minHeight: '6rem',
                 cursor: 'pointer'
             },
         },

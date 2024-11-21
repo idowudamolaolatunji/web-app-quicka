@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PageUI from '../pageUIComponents/PageUI'
 import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
@@ -16,6 +15,7 @@ import emptyImg from '../../assets/images/illustrations/campaign.png'
 import { BsSendCheck } from 'react-icons/bs';
 import { useAuthContext } from '../../context/AuthContext';
 import { GiCrownCoin } from 'react-icons/gi';
+import PageUI from '../../ui/PageUI/PageUI';
 
 
 const emptyTitle = "Star a Campaign!";

@@ -10,10 +10,8 @@ import ProductCardSkeleton from '../../components/ProductCardSkeleton';
 import { TableHeadSkeleton, TableSkeleton } from '../../components/TableSkeleton';
 
 
-function TableUI({ 
-    name, columns, data, toLink, goto,
-    emptyComponent, selectableRows, headTabs,
-    displayType = "table", open, loader, error
+function TableUI({ name, columns, data, toLink, goto, emptyComponent,
+    selectableRows, headTabs, displayType = "table", open, loader, error
 }) {
     
     const isData = data?.length > 0;
@@ -38,7 +36,7 @@ function TableUI({
         },
         rows: {
             style: {
-                minHeight: width < 450 ? "6rem" : (name == "product" ? "8rem" : "7rem"),
+                minHeight: width < 450 ? "7rem" : (name == "product" ? "8rem" : "7rem"),
                 cursor: 'pointer',
                 fontSize: "1.32rem",
                 fontWeight: 500,

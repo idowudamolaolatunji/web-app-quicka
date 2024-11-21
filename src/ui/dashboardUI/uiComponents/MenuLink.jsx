@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
+import { useDataContext } from '../../../context/DataContext';
+import TooltipUI from '../../../components/TooltipUI';
 
-import TooltipUI from '../../components/TooltipUI';
 
 
 
@@ -12,7 +12,6 @@ function MenuLink({ icon, title, link }) {
     const { pathname } = useLocation();
     const { width } = useWindowSize();
 
-    
     // const isActiveClass = `menu--link ${(title === 'Dashboard' && (pathname === '/dashboard' || pathname === '/')) ? 'is-active' : pathname === `/dashboard${link}` ? 'is-active' : ''}`;
     const isActiveClass = `menu--link ${(title === 'Dashboard' && (pathname === '/dashboard' || pathname === '/' || pathname === '/dashboard/')) && 'is-active' || (title !== "Dashboard" && pathname?.includes(link)) ? 'is-active' : ''}`;
 

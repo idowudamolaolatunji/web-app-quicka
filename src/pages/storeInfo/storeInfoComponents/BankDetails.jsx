@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom';
 import { useWindowSize } from 'react-use';
-import BackButton from '../../../components/button/BackButton';
 import { RiBankLine } from 'react-icons/ri';
 import MainDropdownSelect from '../../../components/MainDropdownSelect';
 import Asterisk from '../../../components/Asterisk.jsx';
@@ -10,18 +8,13 @@ import Info from '../../../components/Info.jsx';
 import { useAuthContext } from '../../../context/AuthContext.jsx';
 import { validateBankForm } from '../../../utils/validationHelper.js';
 import { banks } from '../../../utils/data.js';
-import AddPageUI from '../../pageUIComponents/AddPageUI.jsx';
+import AddPageUI from '../../../ui/PageUI/AddPageUI.jsx';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function BankDetails({ isnew, close }) {
     const { width } = useWindowSize();
-    const { token, handleStore, handleUser } = useAuthContext();
-
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
+    const { headers, handleStore, shouldKick } = useAuthContext();
 
     const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
     const [response, setResponse] = useState({ status: null, message: null });
@@ -94,6 +87,7 @@ function BankDetails({ isnew, close }) {
                     ...bankData, bankname, slug, code, 
                 })
             });
+            shouldKick(res)
             if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();

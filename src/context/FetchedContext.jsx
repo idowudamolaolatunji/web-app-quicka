@@ -14,7 +14,7 @@ export default FetchedContext;
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const FetchedProvider = ({ children }) => {
-    const { token, user } = useAuthContext();
+    const { token, user, shouldKick, headers, handleUser, handleStore } = useAuthContext();
 
     // DOCUMENT STATES
     const [collections, setCollections] = useState([]);
@@ -59,22 +59,17 @@ export const FetchedProvider = ({ children }) => {
         transaction: transactionError,
     }
 
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
-
-
     // GLOBAL ERROR & GLOBAL REFETCH
     const globalInternetError = (orderError || productError || transactionError || collectionError || customerError || deliveryError);
 
     const handleGlobalRefetch = function() {
+        handleFetchStore()
         handleFetchUserStoreOrders();
         handleFetchUserStoreProducts();
         handleFetchUserStoreCustomers()
         handleFetchUserStoreTransactions();
-        handleFetchUserStoreCollections()
-        handleFetchUserStoreDeliveryRates()
+        handleFetchUserStoreCollections();
+        handleFetchUserStoreDeliveryRates();
     }
 
 
@@ -82,6 +77,8 @@ export const FetchedProvider = ({ children }) => {
         const ifProduct = title == "product" ? "slug/id/" : "";
         const url = `${import.meta.env.VITE_API_URL}/${title}s/${ifProduct}${id}`;
         const res = await fetch(url);
+        shouldKick();
+        
         const data = await res.json();
         return data?.data[title];
     }
@@ -91,8 +88,23 @@ export const FetchedProvider = ({ children }) => {
     async function handleFetchStoreCategories() {
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/category`);
+            shouldKick(res);
             const data = await res.json();
             setStoreCategories(data.data.categories);
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    // FETCH PROTECTED STORE data
+    async function handleFetchStore() {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
+            shouldKick(res);
+
+            const data = await res.json();
+            handleStore(data?.data?.store);
+            handleUser(data?.data?.user);
         } catch (err) {
             console.log(err.message);
         }
@@ -107,6 +119,8 @@ export const FetchedProvider = ({ children }) => {
             setCollections([]);
 
             const res = await fetch(`${BASE_API_URL}/collections/mine/collections`, { method: "GET", headers })
+            shouldKick(res);
+
             const data = await res.json();
             if(data.status == "fail") throw new Error();
             if (data?.data) setCollections(data?.data?.collections);
@@ -126,6 +140,8 @@ export const FetchedProvider = ({ children }) => {
             setProducts([]);
 
             const res = await fetch(`${BASE_API_URL}/products/mine/products`, { method: "GET", headers });
+            shouldKick(res);
+
             const data = await res.json();
             if(data.status == "fail") throw new Error();
             if (data?.data) setProducts(data?.data?.products);
@@ -145,6 +161,8 @@ export const FetchedProvider = ({ children }) => {
             setOrders([]);
 
             const res = await fetch(`${BASE_API_URL}/orders/mine/orders`, { method: "GET", headers });
+            shouldKick(res);
+
             const data = await res.json();
             if(data.status == "fail") throw new Error();
             if (data?.data) setOrders(data?.data?.orders);
@@ -165,6 +183,8 @@ export const FetchedProvider = ({ children }) => {
             setCustomers([]);
 
             const res = await fetch(`${BASE_API_URL}/customers/mine/customers`, { method: "GET", headers });
+            shouldKick(res);
+
             const data = await res.json();
             if(data.status == "fail") throw new Error();
             if (data?.data) setCustomers(data?.data?.customers);
@@ -184,6 +204,8 @@ export const FetchedProvider = ({ children }) => {
             setDeliveryRates([]);
 
             const res = await fetch(`${BASE_API_URL}/delivery-rates/mine/delivery-rates`, { method: "GET", headers });
+            shouldKick(res);
+
             const data = await res.json();
             if(data.status == "fail") throw new Error();
             if (data?.data) setDeliveryRates(data?.data?.rates);
@@ -203,6 +225,8 @@ export const FetchedProvider = ({ children }) => {
             setTransactions([]);
 
             const res = await fetch(`${BASE_API_URL}/transactions/mine/transactions`, { method: "GET", headers });
+            shouldKick(res);
+
             const data = await res.json();
             if(data.status == "fail") throw new Error();
             if (data?.data) setTransactions(data?.data?.transactions);
@@ -236,7 +260,9 @@ export const FetchedProvider = ({ children }) => {
             body: formData,
         });
 
+        shouldKick(res);
         if (!res.ok) return 'Something went wrong!';
+
         const data = await res.json();
         console.log(data, res)
     }
@@ -257,6 +283,8 @@ export const FetchedProvider = ({ children }) => {
         });
 
         if (!res.ok) return 'Something went wrong!';
+        shouldKick(res);
+
         const data = await res.json();
         return data
     }
