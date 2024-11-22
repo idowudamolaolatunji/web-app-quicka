@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom';
-import ConfettiUI from '../../components/ConfettiUI';
+import Confetti from '../../components/Confetti';
 import CustomAlert from '../../components/CustomAlert';
 import Spinner from '../../components/spinner/spinner_two';
 import BackButton from '../../components/button/BackButton'
@@ -21,7 +21,7 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
 
     return (
         <>
-            {confetti && <ConfettiUI />}
+            {confetti && <Confetti />}
             {mainLoader && ((isnew || ismodal) ? createPortal(<Spinner />, document.body) : <Spinner />)}
 
             {(response.message || response.status) && (

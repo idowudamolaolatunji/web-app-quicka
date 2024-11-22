@@ -13,6 +13,10 @@ const headingText = "Take Control of Your Business, Anywhere, Anytime";
 const headers = { "Content-Type": "application/json" }
 
 function index() {
+    const navigate = useNavigate();
+    const { width } = useWindowSize();
+    const BASE_URL = import.meta.env.VITE_API_URL;
+
     const [timeLeft, setTimeLeft] = useState('00:00');
     const [resent, setResent] = useState(false);
     const [formErrors, setFormErrors] = useState({});
@@ -23,9 +27,6 @@ function index() {
 
     const [otpUser, setOtpUser] = useState(localStorage.getItem("otp_user") ? JSON.parse(localStorage.getItem("otp_user")) : null);
 
-
-    const navigate = useNavigate();
-    const { width } = useWindowSize();
 
     const handleResetResponse = function () {
         setResponse({ status: null, message: null });
@@ -55,14 +56,14 @@ function index() {
 
 
     async function handleSubmit() {
-        const newErrors = validateAuthForm(formData, 'verifyOtp');
+        const newErrors = validateAuthForm(formData, 'verify_otp');
         setFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/users/verify-otp`, {
+            const res = await fetch(`${BASE_URL}/users/verify-otp`, {
                 method: 'PATCH', headers,
                 body: JSON.stringify({ ...formData })
             });
@@ -101,7 +102,7 @@ function index() {
         setResent(false);
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/users/request-otp`, {
+            const res = await fetch(`${BASE_URL}/users/request-otp`, {
                 method: 'PATCH',
                 headers: { "Content-type": "application/json" },
                 body: JSON.stringify({ email: formData.email }),
@@ -175,7 +176,7 @@ function index() {
                         containerStyle={{ display: 'flex', alignItems: 'center', gap: '.6rem' }}
                     />
                     <span className="form--error-message">
-                        {formErrors.otp && formErrors.otp}
+                        {formErrors?.otp && formErrors?.otp}
                     </span>
                 </div>
 
@@ -183,7 +184,7 @@ function index() {
 
                 {timeLeft == "00:00" && (
                     <div className="form--info">
-                        <p>Didn't Recieve an OTP or OTP Expired? <button onClick={handleRequestOtp}>Resend!</button></p>
+                        <p>Didn't recieve an OTP or OTP expired? <button onClick={handleRequestOtp}>Resend!</button></p>
                     </div>
                 )}
             </form>

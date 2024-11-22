@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Asterisk from '../../../components/Asterisk'
+import Asterisk from '../Asterisk'
 import { IoCloudDownloadOutline } from 'react-icons/io5';
-import { useFetchedContext } from '../../../context/FetchedContext';
-import { validateCollectionForm } from '../../../utils/validationHelper';
+import { useFetchedContext } from '../../context/FetchedContext';
+import { validateCollectionForm } from '../../utils/validationHelper';
 
-import Spinner from "../../../components/spinner/simple";
+import Spinner from "../spinner/simple";
 import { createPortal } from 'react-dom';
-import CustomAlert from '../../../components/CustomAlert';
-import { useAuthContext } from '../../../context/AuthContext';
-import ImageUploadUI from '../../../components/ImageUploadUI';
+import CustomAlert from '../CustomAlert';
+import { useAuthContext } from '../../context/AuthContext';
+import ImageUploadInput from '../ImageUploadInput';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -118,7 +118,7 @@ function CollectionFormSm({ close, editingItem }) {
                 <div className="form--item">
                     <label className="form--label">Collection Image (optional)</label>
 
-                    <ImageUploadUI preview={imagePreview} handleChange={handleImageChange} text="Recommend format (png, jpeg, jpg)" height={{ height: "18rem" }} handleRemove={handleRemoveImage} />
+                    <ImageUploadInput preview={imagePreview} handleChange={handleImageChange} text="Recommend format (png, jpeg, jpg)" height={{ height: "18rem" }} handleRemove={handleRemoveImage} />
                 </div>
 
                 <div className="form--item">

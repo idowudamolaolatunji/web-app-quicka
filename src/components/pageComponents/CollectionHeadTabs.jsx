@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdOutlineRefresh } from 'react-icons/md'
-import TooltipUI from '../../../components/TooltipUI'
-import SearchInput from '../../../components/SearchInput'
+import TooltipUI from '../TooltipUI'
+import SearchInput from '../SearchInput'
 
 function CollectionHeadTabs({ value, setValue, handleFetch }) {
   return (

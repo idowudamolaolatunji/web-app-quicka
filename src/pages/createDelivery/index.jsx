@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import CurrencyInput from 'react-currency-input-field';
-import Asterisk from '../../../components/Asterisk';
-import QuillEditor from '../../../components/QuillEditor';
+import Asterisk from '../../components/Asterisk';
+import QuillEditor from '../../components/QuillEditor';
 import { useWindowSize } from 'react-use';
-import Line from '../../../components/Line';
+import Line from '../../components/Line';
 import { FaCheck } from 'react-icons/fa';
 import { TbTruckDelivery } from 'react-icons/tb';
-import { useAuthContext } from '../../../context/AuthContext';
-import { validateDeliveryForm } from '../../../utils/validationHelper';
+import { useAuthContext } from '../../context/AuthContext';
+import { validateDeliveryForm } from '../../utils/validationHelper';
 import { useNavigate } from 'react-router-dom';
-import { useFetchedContext } from '../../../context/FetchedContext';
-import AddPageUI from '../../../ui/PageUI/AddPageUI';
+import { useFetchedContext } from '../../context/FetchedContext';
+import AddPageUI from '../../ui/PageUI/AddPageUI';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 
-function CreateDelivery({ close, isnew, isModal }) {
+function index({ close, isnew, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, store, handleStore, shouldKick } = useAuthContext();
@@ -219,4 +219,4 @@ function CreateDelivery({ close, isnew, isModal }) {
     )
 }
 
-export default CreateDelivery
+export default index

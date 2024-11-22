@@ -19,11 +19,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SearchInput from '../../components/SearchInput';
 import { AiOutlinePlus } from 'react-icons/ai';
 import Tab from '../../components/Tab';
-import CollectionFormSm from './productComponents/CollectionFormSm';
+import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 import Drawer from '../../components/modal/Drawer';
 import { useAuthContext } from '../../context/AuthContext';
-import CollectionHeadTabs from './productComponents/CollectionHeadTabs';
-import ProductHeadTabs from './productComponents/ProductHeadTabs';
+import CollectionHeadTabs from '../../components/pageComponents/CollectionHeadTabs';
+import ProductHeadTabs from '../../components/pageComponents/ProductHeadTabs';
 
 
 //////////////////////////////////////////////////////

@@ -1,40 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use';
 import CurrencyInput from 'react-currency-input-field';
-import ReactImageUploading from 'react-images-uploading';
 
-import Info from '../../../components/Info';
-import Line from '../../../components/Line';
-import Asterisk from '../../../components/Asterisk';
-import TooltipUI from '../../../components/TooltipUI';
-import QuillEditor from '../../../components/QuillEditor';
-import { useAuthContext } from '../../../context/AuthContext';
-import { useFetchedContext } from '../../../context/FetchedContext';
-import MainDropdownSelect from '../../../components/MainDropdownSelect';
+import Info from '../../components/Info';
+import Line from '../../components/Line';
+import Asterisk from '../../components/Asterisk';
+import QuillEditor from '../../components/QuillEditor';
+import { useAuthContext } from '../../context/AuthContext';
+import { useFetchedContext } from '../../context/FetchedContext';
+import MainDropdownSelect from '../../components/MainDropdownSelect';
 
 import { LuTags } from 'react-icons/lu';
-import { GoStack } from 'react-icons/go';
 import { FaCheck } from 'react-icons/fa';
-import { RxUpdate } from 'react-icons/rx';
-import { PiFrameCorners } from 'react-icons/pi';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { IoCloseOutline, IoCloudDownloadOutline, IoTrashBinOutline } from 'react-icons/io5';
-import { validateProductForm } from '../../../utils/validationHelper';
+import { validateProductForm } from '../../utils/validationHelper';
 import { useNavigate, useParams } from 'react-router-dom';
-import Drawer from '../../../components/modal/Drawer';
-import CollectionFormSm from './CollectionFormSm';
+import Drawer from '../../components/modal/Drawer';
+import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 import { createPortal } from 'react-dom';
-import { units } from '../../../utils/data';
-import { RiDeleteBin5Line, RiDeleteBin6Line } from 'react-icons/ri';
+import { units } from '../../utils/data';
+import { RiDeleteBin5Line } from 'react-icons/ri';
 import { Switch } from '@mui/material';
-import AddPageUI from '../../../ui/PageUI/AddPageUI';
+import AddPageUI from '../../ui/PageUI/AddPageUI';
+import MultipleImageUploadInput from '../../components/MultipleImageUploadInput';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-function UploadProduct({ isnew, close, ismodal=false }) {
-    const maxImageAmount = 4;
+function index({ isnew=false, close, ismodal=false }) {
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -45,6 +39,10 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
 
+    //////////////////////////////////////////////////////////
+    // FOR EDITTING THE PRODUCT
+    const [selectedId, setSelectedId] = useState(null);
+    //////////////////////////////////////////////////////////
     const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
     const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false)
@@ -71,12 +69,13 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     const [showMOQ, setShowMOQ] = useState(false);
 
     const [images, setImages] = useState([]);
-    const imageFiles = images.map(img => img.file);
+    const imageFiles = images.filter(img => img?.file)?.map(img => img?.file);
+    console.log(images, imageFiles)
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     const handleOnChangeImage = function(imageList, addUpdateIndex) {
-        console.log(imageList, addUpdateIndex);
+        // console.log(imageList, addUpdateIndex);
         setImages(imageList);
     };
 
@@ -169,6 +168,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                 if(fetchedItem) {
                     setLoading({...loading, mainLoading: false})
         
+                    setSelectedId(fetchedItem?._id)
                     setProductData({
                         name: fetchedItem?.name || "",
                         shortDescription: fetchedItem?.shortDescription || "",
@@ -190,7 +190,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                         isVisible: fetchedItem?.isVisible || false,
                     });
                     setImages(fetchedItem?.images?.map(img => (
-                        { data_url: `${BASE_URL}/${img}`, file: null}
+                        { data_url: `${BASE_URL}/${img}`, }
                     )));
                     setUnit([{ name: fetchedItem?.unit, id: 0 }]);
                 }
@@ -225,13 +225,14 @@ function UploadProduct({ isnew, close, ismodal=false }) {
         const names = productCollection.map(collection => collection.name);
         const itemUnit = unit[0]?.value;
 
-        const end_point = isnew ? "onboard/product" : "";
+        // check if it's firsttime new onboard or old editing
+        const end_point = isnew ? "/onboard/product" : id ?`/${selectedId}` : "";
 
         // MAKE REQUEST
         try {
-            const res = await fetch(`${BASE_API_URL}/products/${end_point}`, {
+            const res = await fetch(`${BASE_API_URL}/products${end_point}`, {
                 headers,
-                method: "POST",
+                method: id ? "PATCH" : "POST",
                 body: JSON.stringify({
                     ...checks,
                     variations,
@@ -256,8 +257,11 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             
             
             // UPLOAD PRODUCT IMAGES
-            const url = `products/upload-image/${product._id}`
-            await handleMultipleImageUpload(imageFiles, url);
+            const url = `products/upload-image/${product._id}`;
+            console.log(imageFiles)
+            if(imageFiles.length >= 1) {
+                await handleMultipleImageUpload(imageFiles, url);
+            }
             
             // SET RESPONSE MESSAGE
             setResponse({ status: "success", message });
@@ -302,7 +306,7 @@ function UploadProduct({ isnew, close, ismodal=false }) {
             )}
 
             <AddPageUI
-                pageTitle="Upload Product"
+                pageTitle={`${id ? "Edit" : "Upload"} Product`}
                 pageIcon={<LuTags />}
                 close={close} isnew={isnew}
                 ismodal={ismodal}
@@ -334,82 +338,8 @@ function UploadProduct({ isnew, close, ismodal=false }) {
                             <div className="form--item">
                                 <label className="form--label">Product Images (Min 1 & Max 4) <Asterisk /></label>
 
-                                <ReactImageUploading
-                                    multiple
-                                    value={images}
-                                    maxNumber={maxImageAmount}
-                                    dataURLKey="data_url"
-                                    acceptType={["jpg", "png", "jpeg"]}
-                                    onChange={handleOnChangeImage}
-                                >
-                                    {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps
-                                    }) => (
-                                        <div className='form--image'>
-                                            {(imageList.length > 2 && width > 600) && (
-                                                <button type='button' style={{ margin: '-3.4rem 0 .6rem auto' }} onClick={onImageRemoveAll}>Remove All Images <IoCloseOutline /></button>
-                                            )}
+                                <MultipleImageUploadInput images={images} handleChange={handleOnChangeImage} setResponse={setResponse} />
 
-                                            {imageList?.length < 1 && (
-                                                <div onClick={onImageUpload} className={`form--img-box ${isDragging ? 'dropping' : ''}`} {...dragProps}>
-                                                    {isDragging ? (
-                                                        <span className='img--container'>
-                                                            <GoStack />
-                                                            <h3>Drop It</h3>
-                                                        </span>
-                                                    ) : (
-                                                        <span className='img--container' {...dragProps}>
-                                                            <IoCloudDownloadOutline style={{ color: '#ff7a49' }} />
-                                                            <h3>Click to upload or Drag n drop Image</h3>
-                                                            <p>Recommeded formats: PNG, JPEG, and JPG <br />Max Size 4Mb</p>
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            )}
-
-                                            {imageList.length > 0 && (
-                                                <div className='img--grid'>
-                                                    {imageList?.map((image, index) => (
-                                                        <div key={index} className="img--item">
-                                                            <img src={image.data_url} />
-                                                            <div className="img--item-btns">
-                                                                <TooltipUI placement='bottom' title="Change Image">
-                                                                    <button onClick={() => onImageUpdate(index)}><RxUpdate /> </button>
-                                                                </TooltipUI>
-                                                                <TooltipUI placement='bottom' title="Remove Image">
-                                                                    <button onClick={() => onImageRemove(index)}><RiDeleteBin6Line /></button>
-                                                                </TooltipUI>
-                                                                <TooltipUI placement='bottom' title="Crop Image">
-                                                                    {/* <button onClick={() => handleEdit(image.data_url)}><PiFrameCorners /> </button> */}
-                                                                    <button><PiFrameCorners /> </button>
-                                                                </TooltipUI>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-
-                                                    {imageList.length < maxImageAmount && (
-                                                        <div onClick={onImageUpload} className={`form--img-box ${isDragging ? 'dropping' : ''}`} {...dragProps}>
-                                                            {isDragging ? (
-                                                                <span className='img--container'>
-                                                                    <GoStack />
-                                                                    <h3>Drop It</h3>
-                                                                </span>
-                                                            ) : (
-                                                                <span className='img--container' {...dragProps}>
-                                                                    <IoCloudDownloadOutline />
-                                                                    <p>Click or drop more!</p>
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-
-                                            {(imageList.length > 2 && width < 600) && (
-                                                <button type='button' style={{ marginTop: '1rem' }} onClick={onImageRemoveAll}>Remove All Images <IoCloseOutline /></button>
-                                            )}
-                                        </div>
-                                    )}
-                                </ReactImageUploading>
                                 <span className="form--error-message">
                                     {productFormErrors.images && productFormErrors.images}
                                 </span>
@@ -641,4 +571,4 @@ function UploadProduct({ isnew, close, ismodal=false }) {
     )
 }
 
-export default UploadProduct
+export default index

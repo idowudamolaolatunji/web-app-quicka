@@ -1,15 +1,14 @@
 
 import React, { useState } from 'react'
-import { useAuthContext } from '../../../context/AuthContext';
-import Asterisk from '../../../components/Asterisk';
+import { useAuthContext } from '../../context/AuthContext';
+import Asterisk from '../../components/Asterisk';
 import PhoneInput from 'react-phone-input-2';
 
-import Spinner from "../../../components/spinner/simple";
-import CustomAlert from '../../../components/CustomAlert';
+import Spinner from "../../components/spinner/simple";
+import CustomAlert from '../../components/CustomAlert';
 import { createPortal } from 'react-dom';
-import { validateCustomerForm } from '../../../utils/validationHelper';
-import { useFetchedContext } from '../../../context/FetchedContext';
-
+import { validateCustomerForm } from '../../utils/validationHelper';
+import { useFetchedContext } from '../../context/FetchedContext';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;

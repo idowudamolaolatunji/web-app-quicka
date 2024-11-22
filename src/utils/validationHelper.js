@@ -77,13 +77,39 @@ export function validateAuthForm(data, type) {
 		return errors;
 	}
 
-	if (type === "verifyOtp") {
+	if (type === "verify_otp") {
 		if (!data?.otp.trim()) {
 			errors.otp = "OTP code is required";
 		} else if (data.otp.length < 4) {
 			errors.otp = "OTP must be be 4 character long";
 		}
 
+		return errors;
+	}
+
+	if (type === "forgot_password") {
+		if (!data.email.trim()) {
+			errors.email = "Email is required";
+		} else if (!/\S+@\S+\.\S+/.test(data.email)) {
+			errors.email = "Email is invalid";
+		}
+
+		return errors;
+	}
+
+	if (type === "reset_password") {
+		if (!data.password) {
+			errors.password = "Password is required";
+		} else if (data.password.length < 8) {
+			errors.password = "Password must be at least 8 characters long";
+		}
+
+		if (!data.passwordConfirm) {
+			errors.passwordConfirm = "Password comfirmation is required";
+		} else if (data.passwordConfirm !== data.password) {
+			errors.passwordConfirm = "Passwords do not match";
+		}
+		
 		return errors;
 	}
 }

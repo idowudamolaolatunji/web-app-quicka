@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineStorefront } from 'react-icons/md';
 import { useWindowSize } from 'react-use'
-import BackButton from '../../../components/button/BackButton';
-import Line from '../../../components/Line';
+import BackButton from '../../components/button/BackButton';
+import Line from '../../components/Line';
 
-import ImageUploadUI from '../../../components/ImageUploadUI';
-import { useAuthContext } from '../../../context/AuthContext';
+import ImageUploadInput from '../../components/ImageUploadInput';
+import { useAuthContext } from '../../context/AuthContext';
 import { AiOutlineDelete, AiOutlineLink } from 'react-icons/ai';
-import ColorBox from '../../../components/ColorBox';
+import ColorBox from '../../components/ColorBox';
 
-import LinkInput from '../../../components/LinkInput';
+import LinkInput from '../../components/LinkInput';
 import { Switch } from '@mui/material';
-import QuillEditor from '../../../components/QuillEditor';
-import Template1 from "../../../ui/templateUI/Template1";
-import Info from '../../../components/Info';
-import { colors } from '../../../utils/data';
-import Asterisk from '../../../components/Asterisk';
-import ConfettiUI from '../../../components/ConfettiUI';
+import QuillEditor from '../../components/QuillEditor';
+import Template1 from "../../ui/templateUI/Template1";
+import Info from '../../components/Info';
+import { colors } from '../../utils/data';
+import Asterisk from '../../components/Asterisk';
+import Confetti from '../../components/Confetti';
 import { useNavigate } from 'react-router-dom';
-import CustomAlert from '../../../components/CustomAlert';
-import Spinner from '../../../components/spinner/spinner_two';
+import CustomAlert from '../../components/CustomAlert';
+import Spinner from '../../components/spinner/spinner_two';
 import { createPortal } from 'react-dom';
-import { useFetchedContext } from '../../../context/FetchedContext';
+import { useFetchedContext } from '../../context/FetchedContext';
 
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -213,7 +213,7 @@ function StoreCustom({ isnew, close }) {
     return (
         <>
 
-            {showConfetti && <ConfettiUI customHeight={2500} customGv={0.1} />}
+            {showConfetti && <Confetti customHeight={2500} customGv={0.1} />}
             {loading.mainLoading && createPortal(<Spinner />, document.body)}
             {(response.message || response.status) && (
                 createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
@@ -281,7 +281,7 @@ function StoreCustom({ isnew, close }) {
                         </span>
 
                         <div>
-                            <ImageUploadUI
+                            <ImageUploadInput
                                 handleChange={handleImageChange}
                                 name='banner'
                                 preview={imagePreview.banner}

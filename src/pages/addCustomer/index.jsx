@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { useDataContext } from '../../../context/DataContext';
-import MainDropdownSelect from '../../../components/MainDropdownSelect';
+import { useDataContext } from '../../context/DataContext';
+import MainDropdownSelect from '../../components/MainDropdownSelect';
 import { FiUsers } from 'react-icons/fi';
 import { useWindowSize } from 'react-use';
-import Line from '../../../components/Line';
-import Asterisk from '../../../components/Asterisk';
+import Line from '../../components/Line';
+import Asterisk from '../../components/Asterisk';
 import PhoneInput from 'react-phone-input-2';
-import { validateCustomerForm } from '../../../utils/validationHelper';
-import { useAuthContext } from '../../../context/AuthContext';
+import { validateCustomerForm } from '../../utils/validationHelper';
+import { useAuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { useFetchedContext } from '../../../context/FetchedContext';
-import AddPageUI from '../../../ui/PageUI/AddPageUI';
+import { useFetchedContext } from '../../context/FetchedContext';
+import AddPageUI from '../../ui/PageUI/AddPageUI';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
-function CreateCustomers({ close, isModal }) {
+function index({ close, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, store, shouldKick } = useAuthContext();
@@ -304,4 +304,4 @@ function CreateCustomers({ close, isModal }) {
     )
 }
 
-export default CreateCustomers
+export default index

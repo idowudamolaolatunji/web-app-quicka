@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use';
 
-import Asterisk from '../../../components/Asterisk';
-import QuillEditor from '../../../components/QuillEditor';
+import Asterisk from '../../components/Asterisk.jsx';
+import QuillEditor from '../../components/QuillEditor.jsx';
 
 import { MdOutlineShoppingBag } from 'react-icons/md';
-import { useAuthContext } from '../../../context/AuthContext';
-import Line from '../../../components/Line';
+import { useAuthContext } from '../../context/AuthContext.jsx';
+import Line from '../../components/Line.jsx';
 import { AiOutlinePlus } from 'react-icons/ai';
-import Info from '../../../components/Info';
-import MainDropdownSelect from '../../../components/MainDropdownSelect';
+import Info from '../../components/Info.jsx';
+import MainDropdownSelect from '../../components/MainDropdownSelect.jsx';
 
-import { paymentMethodData, deliveryStatusData, channelData } from '../../../utils/data.jsx'
-import { useFetchedContext } from '../../../context/FetchedContext';
-import Drawer from '../../../components/modal/Drawer';
+import { paymentMethodData, deliveryStatusData, channelData } from '../../utils/data.jsx'
+import { useFetchedContext } from '../../context/FetchedContext.jsx';
+import Drawer from '../../components/modal/Drawer.jsx';
 
-import { validateOrderForm } from '../../../utils/validationHelper.js';
+import { validateOrderForm } from '../../utils/validationHelper.js';
 import { useNavigate } from 'react-router-dom';
-import AddCustomerFormSm from './AddCustomerFormSm.jsx';
+import AddCustomerFormSm from '../../components/pageComponents/AddCustomerFormSm.jsx';
 import { createPortal } from 'react-dom';
-import UploadProduct from '../../products/productComponents/UploadProduct.jsx';
-import FullScreen from '../../../components/modal/FullScreen.jsx';
-import ProductQuantityCard from '../../../components/ProductQuantityCard.jsx';
-import AddPageUI from '../../../ui/PageUI/AddPageUI.jsx';
+import UploadProduct from '../uploadProduct/index.jsx';
+import FullScreen from '../../components/modal/FullScreen.jsx';
+import ProductQuantityCard from '../../components/ProductQuantityCard.jsx';
+import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
 
-function RecordOrder() {
+function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, shouldKick } = useAuthContext();
@@ -361,4 +361,4 @@ function RecordOrder() {
     )
 }
 
-export default RecordOrder
+export default index

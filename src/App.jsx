@@ -44,16 +44,24 @@ import ForgotPassword from './auth/forgotPassword';
 import ResetPassword from './auth/resetPassword';
 import VerifyOtp from './auth/otpVerification';
 import Onboarding from './auth/onboarding';
-import Congrats from './auth/NextCongratsScreen';
+import Congrats from './auth/congratsScreen';
 import Error from './pages/error';
 
 // GENERAL DASHBOARD PAGES 
 import DashboardHome from './pages/home';
+
 import Orders from './pages/orders';
-import RecordOrders from './pages/orders/orderComponents/RecordOrder';
+import OrderItem from './pages/orders/orderComponents/OrderItem';
+import RecordOrder from './pages/recordOrder';
 import Products from './pages/products';
-import UploadProduct from './pages/products/productComponents/UploadProduct';
-// import Collections from './pages/products/productComponents/CollectionPage';
+import ProductItem from './pages/products/ProductItem';
+import UploadProduct from './pages/uploadProduct';
+import Customers from './pages/customers';
+import CustomerItem from './pages/customers';
+import AddCustomer from './pages/addCustomer';
+import Delivery from './pages/delivery';
+import CreateDelivery from './pages/createDelivery';
+
 import Transaction from './pages/transactions';
 import Settings from './pages/settings';
 import Profile from './pages/profile';
@@ -61,18 +69,12 @@ import ConnectedApps from './pages/connectedApps';
 import Campaigns from './pages/campaigns';
 import StoreCustomisation from './pages/storeCustomization';
 import CustomDomain from './pages/customDomain';
-import StoreInformation from './pages/storeInfo';
-import Customers from './pages/customers';
-import CreateCustomers from './pages/customers/customerComponents/CreateCustomers';
-import CustomerItem from './pages/customers';
+import StoreInformation from './pages/storeInformation';
+
 import DiscountCoupon from './pages/discountCoupon';
-import Delivery from './pages/delivery';
 import Subscription from './pages/subscription';
 import Analytics from './pages/analytics';
 import CommunityForums from './pages/communityForums';
-import ProductItem from './pages/products/productComponents/ProductItem';
-import OrderItem from './pages/orders/orderComponents/OrderItem';
-import CreateDelivery from './pages/delivery/deliveryComponents/CreateDelivery';
 
 
 
@@ -110,13 +112,13 @@ function App() {
                     <Route path='/dashboard/transactions/settlements' element={<Transaction />}></Route>
                     <Route path='/dashboard/products/collections' element={<Products />}></Route>
 
-                    <Route path='/dashboard/orders/record' element={<RecordOrders />}></Route>
+                    <Route path='/dashboard/orders/record' element={<RecordOrder />}></Route>
                     <Route path='/dashboard/products/upload' element={<UploadProduct />}></Route>
-                    <Route path='/dashboard/customers/add' element={<CreateCustomers />}></Route>
+                    <Route path='/dashboard/customers/add' element={<AddCustomer />}></Route>
                     <Route path='/dashboard/delivery-rates/add' element={<CreateDelivery />}></Route>
                     
                     <Route path='/dashboard/products/:id/edit' element={<UploadProduct />}></Route>
-                    <Route path='/dashboard/customers/:id/edit' element={<CreateCustomers />}></Route>
+                    <Route path='/dashboard/customers/:id/edit' element={<AddCustomer />}></Route>
                     <Route path='/dashboard/delivery-rates/:id/edit' element={<CreateDelivery />}></Route>
 
                     <Route path='/dashboard/products/:id' element={<ProductItem />}></Route>

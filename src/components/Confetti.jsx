@@ -2,15 +2,15 @@
 
 import React from 'react'
 
-import Confetti from 'react-confetti'
+import ReactConfetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
 
 
-function ConfettiUI({ customHeight, customGv }) {
+function Confetti({ customHeight, customGv }) {
     const { width, height } = useWindowSize();
 
     return (
-        <Confetti
+        <ReactConfetti
             width={width}
             height={customHeight || height}
             numberOfPieces={width < 600 ? 100 : 150}
@@ -20,4 +20,4 @@ function ConfettiUI({ customHeight, customGv }) {
     )
 }
 
-export default ConfettiUI
+export default Confetti

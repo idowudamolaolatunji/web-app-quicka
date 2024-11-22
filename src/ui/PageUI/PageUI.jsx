@@ -15,7 +15,7 @@ import Spinner from '../../components/spinner/spinner_two';
 import { useFetchedContext } from '../../context/FetchedContext';
 import NoInternetConnection from '../../components/NoInternetConnection';
 import Drawer from '../../components/modal/Drawer';
-import CollectionFormSm from '../../pages/products/productComponents/CollectionFormSm';
+import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 
 
 

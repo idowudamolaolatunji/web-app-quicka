@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use';
 import { RiBankLine } from 'react-icons/ri';
-import MainDropdownSelect from '../../../components/MainDropdownSelect';
-import Asterisk from '../../../components/Asterisk.jsx';
-import Line from '../../../components/Line.jsx';
-import Info from '../../../components/Info.jsx';
-import { useAuthContext } from '../../../context/AuthContext.jsx';
-import { validateBankForm } from '../../../utils/validationHelper.js';
-import { banks } from '../../../utils/data.js';
-import AddPageUI from '../../../ui/PageUI/AddPageUI.jsx';
+import MainDropdownSelect from '../MainDropdownSelect.jsx';
+import Asterisk from '../Asterisk.jsx';
+import Line from '../Line.jsx';
+import Info from '../Info.jsx';
+import { useAuthContext } from '../../context/AuthContext.jsx';
+import { validateBankForm } from '../../utils/validationHelper.js';
+import { banks } from '../../utils/data.js';
+import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
