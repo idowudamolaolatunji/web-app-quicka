@@ -94,7 +94,7 @@ function index() {
             setResponse({ status: data.status, message: data.message });
             setTimeout(function() {
                 handleChange(data.data.user, data.token);
-            }, 2000);
+            }, 2500);
         } catch (err) {
             console.log(err)
             setResponse({ status: 'error', message: err.message })

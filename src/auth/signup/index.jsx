@@ -111,16 +111,12 @@ function index() {
                 },
                 body: JSON.stringify({ ...formData })
             });
-            if (!res.ok) {
-                throw new Error("Something went wrong, Check internet connection");
-            }
 
             // RESET THE RESPONSE STATE HERE
             handleResetResponse();
 
             const data = await res.json();
-            const { status, message } = data;
-            if (!status || status !== 'success') {
+            if (!data?.status || data?.status !== 'success') {
                 throw new Error(data.message);
             }
 
@@ -135,8 +131,8 @@ function index() {
             }, 1000);
             
         } catch (err) {
-            console.log(err.message)
-            setResponse({ status: 'error', message: err.message })
+            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            setResponse({ status: "error", message });
         } finally {
             handleLoading('mainLoading', false);
         }

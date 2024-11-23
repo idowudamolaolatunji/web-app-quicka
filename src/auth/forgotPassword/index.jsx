@@ -6,34 +6,54 @@ import { HiLockClosed } from 'react-icons/hi2';
 import Asterisk from '../../components/Asterisk';
 import { useWindowSize } from 'react-use';
 import { validateAuthForm } from '../../utils/validationHelper';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Modal from "../../components/modal/ExtraSmall";
+import { LuBadgeCheck } from 'react-icons/lu';
+import { HiOutlineMailOpen } from 'react-icons/hi';
 
 
 function index() {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
     const BASE_URL = import.meta.env.VITE_API_URL;
     const headingText = "Manage Your Business and Safeguard Security with Confidence."
 
+    const headers = {
+        "Content-type": "application/json"
+    };
+
+    const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
     const [formData, setFormData] = useState({ email: "" });
     const [formErrors, setFormErrors] = useState({});
+
+
+    const handleCloseModal = function () {
+        setShowModal(false);
+    }
 
     const handleFormChange = function (event) {
         const { name, value } = event?.target;
         setFormData({ ...formData, [name]: value });
     }
 
-    useEffect(function() {
+    const handleResetResponse = function () {
+        setResponse({ status: "", message: "" });
+    }
+
+    useEffect(function () {
         document.title = "Quicka | Forgot Password";
     }, []);
 
 
-    async function handleSubmit() {
+    async function handleSubmit(e) {
+        e.preventDefault()
+
         const newErrors = validateAuthForm(formData, 'forgot_password');
         setFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
-        
+
         setLoading(true)
         try {
 
@@ -42,38 +62,51 @@ function index() {
                 body: JSON.stringify({ ...formData })
             });
 
-            if (!res.ok) throw new Error("Something went wrong, Check internet connection");
-
             // RESET THE RESPONSE STATE HERE
             handleResetResponse();
 
             const data = await res.json();
-            console.log(data);
-            if (data.status !== 'success') {
-                throw new Error(data.message);
+            if (!data?.status || data?.status !== 'success') {
+                throw new Error(data?.message);
             }
 
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
-            setResponse({ status: data.status, message: data.message });
-            
-        } catch(err) {
-
+            setResponse({ status: data?.status, message: data?.message });
+            setShowModal(true)
+        } catch (err) {
+            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            setResponse({ status: "error", message });
         } finally {
             setLoading(false);
         }
     }
-    
+
 
     return (
-            <AuthsUI backText="Back to login" backLink="/login" heading={headingText} loading={loading} response={response} dataimg={data_img} extras={{marginBottom: '5.6rem'}}>
-                <form className="auth--form" onSubmit={(e) => e.preventDefault()} style={{ textAlign: 'center', width: '90%', ...(width > 850 && { marginTop: '-4rem' }) }}>
+        <AuthsUI backText="Back to login" backLink="/login" heading={headingText} loading={loading} response={response} dataimg={data_img} extras={{ marginBottom: '5.6rem' }}>
+
+            {showModal && (
+                <Modal className="mini">
+                    <div className="modal--details">
+                        <div className='modal--icon success'><HiOutlineMailOpen /></div>
+                        <h3>Check your email</h3>
+                        <p className='modal--text'>We have sent you a password recovery email</p>
+
+                        <a href='https://mail.google.com/' target='_blank' className='form--submit'>Open your email app</a>
+                        <div className="form--info"><button onClick={handleCloseModal}>Skip I'll Conform Later</button></div>
+                    </div>
+                </Modal>
+            )}
+
+
+            <form className="auth--form" onSubmit={handleSubmit} style={{ textAlign: 'center', width: '90%', ...(width > 850 && { marginTop: '-4rem' }) }}>
                 <div>
                     <HiLockClosed style={{ fontSize: '3.4rem', marginBottom: '2rem' }} />
 
                     <h2 className='form--heading'>Forgot Password?</h2>
 
                     <p className='form--info' style={{ cursor: "auto" }}>
-                       Enter the email associated with your account and we'll send you an email with intructions to reset your password. 
+                        Enter the email associated with your account and we'll send you an email with intructions to reset your password.
                     </p>
                 </div>
 
@@ -86,14 +119,14 @@ function index() {
                     </span>
                 </div>
 
-                <button type='button' onClick={handleSubmit} className='form--submit'>Send reset email</button>
+                <button type='submit' className='form--submit'>Send reset email</button>
 
                 <div className="form--info">
                     <p>Remembered your password? <Link to='/login'>Login</Link></p>
                 </div>
 
-                </form>
-            </AuthsUI>
+            </form>
+        </AuthsUI>
     )
 }
 

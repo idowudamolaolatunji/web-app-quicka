@@ -184,7 +184,10 @@
     gap: .4rem;
     width: fit-content;
 }
-.form--submit {
+
+.form--submit,
+.form--submit:link {
+    display: inline-block;
     background-color: var(--color-brand-500);
     border: none;
     padding: 1.2rem;
@@ -196,6 +199,7 @@
 }
 .form--submit:hover {
     background-color: var(--color-brand-300);
+    color: #fff;
 }
 #checkbox {
     width: 1.4rem;

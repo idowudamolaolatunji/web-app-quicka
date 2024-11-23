@@ -9,13 +9,16 @@ import { HiFingerPrint } from 'react-icons/hi';
 import data_img from '../../assets/images/resources/ali-mkumbwa-K-f_gTvdwTM-unsplash.jpg'
 import AuthsUI from '../../ui/authUI';
 
-const headingText = "Take Control of Your Business, Anywhere, Anytime";
-const headers = { "Content-Type": "application/json" }
 
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const BASE_URL = import.meta.env.VITE_API_URL;
+    const headingText = "Take Control of Your Business, Anywhere, Anytime";
+
+    const headers = {
+        "Content-type": "application/json"
+    };
 
     const [timeLeft, setTimeLeft] = useState('00:00');
     const [resent, setResent] = useState(false);
@@ -67,21 +70,20 @@ function index() {
                 method: 'PATCH', headers,
                 body: JSON.stringify({ ...formData })
             });
-            if (!res.ok) throw new Error("Something went wrong, Check internet connection");
 
             // RESET THE RESPONSE STATE HERE
             handleResetResponse();
 
             const data = await res.json();
             console.log(data);
-            if (data.status !== 'success') {
+            if (!data?.status || data?.status !== 'success') {
                 throw new Error(data.message);
             }
 
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
-            setResponse({ status: data.status, message: data.message });
+            setResponse({ status: data?.status, message: data?.message });
 
-            const userId = data.data.user._id;
+            const userId = data?.data?.user._id;
             localStorage.setItem("user_id", userId);
             localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
 
@@ -90,7 +92,8 @@ function index() {
                 navigate('/congratulations?next=onboarding');
             }, 1000);
         } catch (err) {
-            setResponse({ status: 'error', message: err.message })
+            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            setResponse({ status: "error", message });
         } finally {
             setLoading(false);
         }
@@ -108,30 +111,24 @@ function index() {
                 body: JSON.stringify({ email: formData.email }),
             });
 
-            if (!res.ok) {
-                throw new Error("Something went wrong, Check internet connection");
-            }
-
             // RESET THE RESPONSE STATE HERE
             handleResetResponse();
 
             const data = await res.json();
-            const { status, message } = data;
-            console.log(data);
-
-            if (!status || status !== 'success') {
-                throw new Error(message);
+            if (!data?.status || data?.status !== 'success') {
+                throw new Error(data?.message);
             }
 
             const { user } = data?.data;
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
-            setResponse({ status, message });
+            setResponse({ status: data?.status, message: data?.message });
             setResent(true);
 
             setOtpUser({ ...otpUser, ...user });
 
         } catch (err) {
-            setResponse({ status: 'error', message: err.message })
+            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            setResponse({ status: "error", message });
         } finally {
             setLoading(false);
         }

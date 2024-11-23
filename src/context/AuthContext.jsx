@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
             Cookies.remove("q_user_obj");
             Cookies.remove("q_user_jwt_token");
             Cookies.remove("q_user_store");
-        }, 2000);
+        }, 2500);
 
         return true
     }

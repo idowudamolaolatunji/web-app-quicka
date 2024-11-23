@@ -192,33 +192,32 @@ function index() {
                 })
             });
 
-            if(!res.ok) throw new Error('Something went wrong, Sever Error!');
-
             const data = await res.json();
-            const { status, message, token} = data;
-            if(!status || status !== 'success') throw new Error(message);
+            if(!data?.status || data?.status !== 'success') {
+                throw new Error(data?.message);
+            }
 
             // SET THE ACCESS STORAGE FOR THE CONGRATS PAGE
             localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
-            setResponse({ status: data.status, message: data.message });
-            const { user } = data?.data;
-            let store = data?.data?.store;
-
+            setResponse({ status: data?.status, message: data?.message });
+            
             // IF THER'S A LOGO, UPLOAD LOGO
             if(image.file) {
+                let store = data?.data?.store;
                 const url = `stores/upload-logo/${store._id}`
                 const { data } = await handleImageUpload(image.file, url, token);
                 store = data?.document;
             }
 
             setTimeout(function () {
-                handleChange(user, token);
+                handleChange(data?.data?.user, data?.token);
                 handleStore(store);
 
                 navigate('/congratulations?next=dashboard');
-            }, 1000);
+            }, 2500);
         } catch (err) {
-            setResponse({ status: "error", message: err.message });
+            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            setResponse({ status: "error", message });
         } finally {
             setIsLoading(false);
         }

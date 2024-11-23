@@ -5,15 +5,28 @@ import { useWindowSize } from 'react-use';
 import { validateAuthForm } from '../../utils/validationHelper';
 import { CgPassword } from 'react-icons/cg';
 import data_img from '../../assets/images/resources/oluwakemi-solaja-R8ED8o_xoVs-unsplash.jpg'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Asterisk from '../../components/Asterisk';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
+import { MdPassword } from 'react-icons/md';
+import { HiFingerPrint } from 'react-icons/hi2';
+import Modal from "../../components/modal/ExtraSmall";
+import { LuBadgeCheck } from 'react-icons/lu';
+import { FcCancel } from 'react-icons/fc';
+
 
 function index() {
+    const { resettoken } = useParams();
+    const navigate = useNavigate();
     const { width } = useWindowSize();
     const BASE_URL = import.meta.env.VITE_API_URL;
-    const headingText = "Reset Your Password and Regain Control with Confidence"
+    const headingText = "Reset Your Password and Regain Control with Confidence";
 
+    const headers = {
+        "Content-type": "application/json"
+    };
+
+    const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
     const [formData, setFormData] = useState({ password: "", passwordConfirm: "" });
@@ -29,40 +42,93 @@ function index() {
         setShowPassword({ ...showPassword, [name]: !showPassword[name] });
     }
 
+    const handleResetResponse = function () {
+        setResponse({ status: "", message: "" });
+    }
+
+    const handleCloseModal = function () {
+        setShowModal(false);
+    }
+
     useEffect(function () {
         document.title = "Quicka | Password Reset";
     }, []);
 
 
-    async function handleSubmit() {
+    useEffect(function () {
+        async function handleValidateToken() {
+            setLoading(true);
+            console.log("I was ran")
+
+            try {
+                const res = await fetch(`${BASE_URL}/users/validate-reset-token/${resettoken}`,
+                    { method: 'GET', headers }
+                );
+
+                // RESET THE RESPONSE STATE HERE
+                handleResetResponse();
+
+                const data = await res.json();
+                if (!data?.status || data?.status !== 'success') {
+                    if (data?.message !== "Success") {
+                        setTimeout(() => navigate("/login"), 2500);
+                    }
+
+                    throw new Error(data?.message);
+                }
+
+                // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
+                setResponse({ status: data?.status, message: data?.message });
+            } catch (err) {
+                const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+                setResponse({ status: "error", message });
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        if (resettoken) {
+            handleValidateToken();
+        } else {
+            navigate("/login")
+        }
+
+    }, [resettoken]);
+
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
         const newErrors = validateAuthForm(formData, 'reset_password');
         setFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
 
-        setLoading(true)
+        setLoading(true);
+        console.log(formData)
         try {
-
-            const res = await fetch(`${BASE_URL}/users/reset-password`, {
+            const res = await fetch(`${BASE_URL}/users/reset-password/${resettoken}`, {
                 method: 'PATCH', headers,
-                body: JSON.stringify({ ...formData })
+                body: JSON.stringify(formData)
             });
-
-            if (!res.ok) throw new Error("Something went wrong, Check internet connection");
 
             // RESET THE RESPONSE STATE HERE
             handleResetResponse();
 
             const data = await res.json();
-            console.log(data);
-            if (data.status !== 'success') {
-                throw new Error(data.message);
+            if (!data?.status || data?.status !== 'success') {
+                if (data?.message.includes("Token has expired")) {
+                    setShowModal(true);
+                    return;
+                }
+                throw new Error(data?.message);
             }
 
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
-            setResponse({ status: data.status, message: data.message });
-
+            setResponse({ status: data?.status, message: data?.message });
+            setTimeout(() => navigate("/login"), 2500);
         } catch (err) {
-
+            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            setResponse({ status: "error", message });
         } finally {
             setLoading(false);
         }
@@ -71,9 +137,24 @@ function index() {
 
     return (
         <AuthsUI backText="Back to login" backLink="/login" heading={headingText} loading={loading} response={response} dataimg={data_img} extras={{ marginBottom: '5.6rem' }}>
-            <form className="auth--form" onSubmit={(e) => e.preventDefault()} style={{ textAlign: 'center', width: '90%', ...(width > 850 && { marginTop: '-4rem' }) }}>
+
+            {showModal && (
+                <Modal className="mini" handleClose={handleCloseModal}>
+                    <div className="modal--details">
+                        <div className='modal--icon error'><FcCancel /></div>
+                        <h3>Your access token has expired!</h3>
+
+                        <p className='modal--text'>You can always request another password recovery email, and redo the process.</p>
+
+                        <button className='form--submit' onClick={() => navigate("/forgot-password")}>Proceed to forgot password</button>
+                    </div>
+                </Modal>
+            )}
+
+            <form className="auth--form" onSubmit={handleSubmit} style={{ textAlign: 'center', width: '90%', ...(width > 850 && { marginTop: '-4rem' }) }}>
                 <div>
-                    <CgPassword style={{ fontSize: '3.4rem', marginBottom: '2rem' }} />
+                    {/* <MdPassword style={{ fontSize: '3.4rem', marginBottom: '2rem' }} /> */}
+                    <HiFingerPrint style={{ fontSize: '3.4rem', marginBottom: '2rem' }} />
                     <h2 className='form--heading'>Reset your Password?</h2>
                     <p className='form--info' style={{ cursor: "auto" }}>
                         Enter a new password different from the previous ones your might have uesd.
@@ -106,9 +187,8 @@ function index() {
                     <label className='form--label'>Password Confirm <Asterisk /></label>
                     <div className="form--input-box">
                         <input
-                            type={showPassword.passwordConfirm ? "text" : "passwordConfirm"}
+                            type={showPassword.passwordConfirm ? "text" : "password"}
                             name='passwordConfirm'
-                            id="passwordConfirm"
                             className='form--input'
                             placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                             value={formData.passwordConfirm}
@@ -124,7 +204,7 @@ function index() {
                     </span>
                 </div>
 
-                <button type='button' onClick={handleSubmit} className='form--submit'>Change password</button>
+                <button type='submit' className='form--submit'>Change password</button>
 
                 <div className="form--info">
                     <p>Remembered your password? <Link to='/login'>Login</Link></p>

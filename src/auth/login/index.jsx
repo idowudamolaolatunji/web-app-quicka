@@ -54,7 +54,6 @@ function index() {
         e.preventDefault();
         const newErrors = validateAuthForm(formData, 'login');
         setFormErrors(newErrors);
-
         if (Object.keys(newErrors).length >= 1) return;
 
         // NEXT, IMPLEMENT THE LOGIN REQUEST
@@ -68,9 +67,6 @@ function index() {
                 },
                 body: JSON.stringify({ ...formData })
             });
-            if (!res.ok) {
-                throw new Error("Something went wrong, Check internet connection");
-            }
 
             // RESET THE RESPONSE STATE HERE
             handleResetResponse();
@@ -110,10 +106,10 @@ function index() {
                 handleChange(user, token);
                 handleStore(store);
 
-            }, 2000);
+            }, 2500);
         } catch (err) {
-            console.log(err)
-            setResponse({ status: 'error', message: err.message })
+            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            setResponse({ status: "error", message });
         } finally {
             handleLoading('mainLoading', false);
         }
