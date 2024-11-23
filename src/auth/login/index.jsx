@@ -197,7 +197,7 @@ function index() {
                 <button type="submit" className='form--submit'>Login</button>
 
                 <div className="form--info">
-                    <p>Dont have an account? <Link to='/signup'>Create One</Link></p>
+                    <p>Dont have an account? <Link to='/signup'>Create account</Link></p>
                 </div>
             </form>
 

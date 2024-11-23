@@ -90,9 +90,13 @@ function index() {
                     <div className="modal--details">
                         <div className='modal--icon success'><HiOutlineMailOpen /></div>
                         <h3>Check your email</h3>
-                        <p className='modal--text'>We have sent you a password recovery email</p>
+                        <p className='modal--text'>We have sent password reset to your email</p>
 
-                        <a href='https://mail.google.com/' target='_blank' className='form--submit'>Open your email app</a>
+                        {width <= 600 ? (
+                            <a href="intent://gmail/#Intent;scheme=mailto;action=android.intent.action.VIEW;end">Open your gmail app</a>
+                        ) : (
+                            <a href='https://mail.google.com/' target='_blank' className='form--submit'>Open your gmail</a>
+                        )}
                         <div className="form--info"><button onClick={handleCloseModal}>Skip I'll Conform Later</button></div>
                     </div>
                 </Modal>
