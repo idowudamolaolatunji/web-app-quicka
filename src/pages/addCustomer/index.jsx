@@ -11,6 +11,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import AddPageUI from '../../ui/PageUI/AddPageUI';
+import isOnline from 'is-online';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -138,6 +139,9 @@ function index({ close, isModal }) {
         // SET LOADER
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
+
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
 
         const { countryCode, dialCode, phoneNumber, phone, email, address, zipCode, firstname, lastname, description } = customerData;
         const contact = { countryCode, dialCode, phoneNumber, phone, email };

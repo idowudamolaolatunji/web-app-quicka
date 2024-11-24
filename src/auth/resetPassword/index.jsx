@@ -11,8 +11,8 @@ import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import { MdPassword } from 'react-icons/md';
 import { HiFingerPrint } from 'react-icons/hi2';
 import Modal from "../../components/modal/ExtraSmall";
-import { LuBadgeCheck } from 'react-icons/lu';
 import { FcCancel } from 'react-icons/fc';
+import isOnline from 'is-online';
 
 
 function index() {
@@ -58,7 +58,8 @@ function index() {
     useEffect(function () {
         async function handleValidateToken() {
             setLoading(true);
-            console.log("I was ran")
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Check your internet connection");
 
             try {
                 const res = await fetch(`${BASE_URL}/users/validate-reset-token/${resettoken}`,
@@ -80,7 +81,7 @@ function index() {
                 // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
                 setResponse({ status: data?.status, message: data?.message });
             } catch (err) {
-                const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+                const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
                 setResponse({ status: "error", message });
             } finally {
                 setLoading(false);
@@ -104,7 +105,9 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
-        console.log(formData)
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
+
         try {
             const res = await fetch(`${BASE_URL}/users/reset-password/${resettoken}`, {
                 method: 'PATCH', headers,
@@ -127,7 +130,7 @@ function index() {
             setResponse({ status: data?.status, message: data?.message });
             setTimeout(() => navigate("/login"), 2500);
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
             setResponse({ status: "error", message });
         } finally {
             setLoading(false);

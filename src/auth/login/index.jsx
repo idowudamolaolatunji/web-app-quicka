@@ -11,6 +11,7 @@ import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import Asterisk from '../../components/Asterisk';
 import AuthsUI from '../../ui/authUI';
 import AuthUserRating from '../../components/AuthUserRating';
+import isOnline from 'is-online';
 
 
 const headingText = "Manage your business online like the boss that you are."
@@ -59,6 +60,8 @@ function index() {
         // NEXT, IMPLEMENT THE LOGIN REQUEST
         try {
             handleLoading('mainLoading', true);
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Check your internet connection");
 
             const res = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
                 method: 'POST',
@@ -108,7 +111,7 @@ function index() {
 
             }, 2500);
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
             setResponse({ status: "error", message });
         } finally {
             handleLoading('mainLoading', false);

@@ -23,6 +23,7 @@ import UploadProduct from '../uploadProduct/index.jsx';
 import FullScreen from '../../components/modal/FullScreen.jsx';
 import ProductQuantityCard from '../../components/ProductQuantityCard.jsx';
 import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
+import isOnline from 'is-online';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -137,6 +138,9 @@ function index() {
         // SET LOADER
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
+
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
         
         // PRODUCTQUANTITIES, CONTAINS THE ID AND THE QUANTITY OF THAT ID. (AND THAT IS JUST WHAT THE BACKEND NEEDS)
         const products = productQuantities;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { BiChevronDown, BiPlus } from 'react-icons/bi'
 import { formatNumber, truncateString, ymdDateFormat } from '../../utils/helper';
 import { useWindowSize } from 'react-use';
 import Insight from '../../components/Insight';
@@ -8,15 +7,11 @@ import { GrTag } from 'react-icons/gr';
 import { TbArrowWaveRightDown, TbListSearch } from 'react-icons/tb';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useDataContext } from '../../context/DataContext';
-import { MdOutlineFilterList, MdOutlineRefresh, MdTableRows } from 'react-icons/md';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
-import { BsFillGrid3X3GapFill, BsFillGridFill, BsTable } from 'react-icons/bs';
-import TooltipUI from '../../components/TooltipUI';
 import PageUI from '../../ui/PageUI/PageUI';
 import product_emptyImg from '../../assets/images/illustrations/product.png';
 import collection_emptyImg from '../../assets/images/illustrations/collection.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import SearchInput from '../../components/SearchInput';
 import { AiOutlinePlus } from 'react-icons/ai';
 import Tab from '../../components/Tab';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
@@ -24,6 +19,7 @@ import Drawer from '../../components/modal/Drawer';
 import { useAuthContext } from '../../context/AuthContext';
 import CollectionHeadTabs from '../../components/pageComponents/CollectionHeadTabs';
 import ProductHeadTabs from '../../components/pageComponents/ProductHeadTabs';
+import empty_product from "../../assets/images/dummy_items/empty_product.png"
 
 
 //////////////////////////////////////////////////////
@@ -119,7 +115,7 @@ function index() {
             name: 'Prduct',
             selector: row => (
                 <Link className="table--flex table--link" to={`/dashboard/products/${row?.productId}`}>
-                    <img alt={row?.name} src={BASE_URL + row?.images?.at(0)} />
+                    <img alt={row?.name} src={row?.images?.length > 0 ? BASE_URL + row?.images?.at(0) : empty_product} />
                     <span className='table--info'>
                         <h3>{row?.name}</h3>
                         <span>{row?.productCollection}</span>
@@ -264,9 +260,9 @@ function index() {
                 emptyImg={tabShown == "products" ? product_emptyImg : collection_emptyImg}
                 emptyTitle={tabShown == "products" ? product_emptyTitle : collection_emptyTitle}
                 headTabs={tabShown == "products" ? (
-                    <ProductHeadTabs value={searchValue} setValue={setSearchValue} handleFetch={handleFetchUserStoreProducts}  />
+                    <ProductHeadTabs value={searchValue} setValue={setSearchValue} handleFetch={handleFetchUserStoreProducts} />
                 ) : (
-                    <CollectionHeadTabs value={searchValue} setValue={setSearchValue} handleFetch={handleFetchUserStoreCollections}  />
+                    <CollectionHeadTabs value={searchValue} setValue={setSearchValue} handleFetch={handleFetchUserStoreCollections} />
                 )}
                 addBtnStr={tabShown == "products" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
                 loader={loader} error={error}

@@ -10,6 +10,7 @@ import data_img from '../../assets/images/resources/micheal-ogungbe-pBR_6uEh6F0-
 import Asterisk from '../../components/Asterisk';
 import AuthUserRating from '../../components/AuthUserRating';
 import AuthsUI from '../../ui/authUI';
+import isOnline from 'is-online';
 
 
 const headingText = "The Power to Manage Your Business, at Your Fingertips."
@@ -103,6 +104,8 @@ function index() {
 
             // RUN THE LOADING SPINNER
             handleLoading('mainLoading', true);
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Check your internet connection");
 
             const res = await fetch(`${import.meta.env.VITE_API_URL}/users/signup`, {
                 method: 'POST',
@@ -131,7 +134,7 @@ function index() {
             }, 1000);
             
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
             setResponse({ status: "error", message });
         } finally {
             handleLoading('mainLoading', false);

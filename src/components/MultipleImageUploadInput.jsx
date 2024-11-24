@@ -9,8 +9,10 @@ import { PiFrameCorners } from 'react-icons/pi';
 import { useWindowSize } from 'react-use';
 import { useAuthContext } from '../context/AuthContext';
 import Delete from './modal/Delete';
+import isOnline from 'is-online';
 
-function MultipleImageUploadInput({ images, productId, isEdit, handleChange, setResponse }) {
+
+function MultipleImageUploadInput({ images, productId, handleChange, setResponse }) {
     const maxImageAmount = 4;
     const maxSize = 4 * 1024 * 1024; //4mb
     ////////////////////////////////////////////////
@@ -27,7 +29,8 @@ function MultipleImageUploadInput({ images, productId, isEdit, handleChange, set
     
     
     // DELETING ALREADY UPLOADED IMAGES
-    let removeFunction;
+    let removeFunction = function() {};
+
     const handleDeleteUploaded = function (onRemoveImage, index) {
         if (images?.length == 1) {
             setResponse({ status: "error", message: "Product image(s) is required" })
@@ -41,6 +44,9 @@ function MultipleImageUploadInput({ images, productId, isEdit, handleChange, set
     }
 
     async function handleDelete() {
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
+
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/products/image/${productId}/${selectedIndex}`, {
                 method: "DELETE", headers
@@ -48,13 +54,14 @@ function MultipleImageUploadInput({ images, productId, isEdit, handleChange, set
             shouldKick(res)
 
             const data = await res.json();
+            removeFunction();
             setShowModal(false)
-            removeFunction()
             setResponse({ status: "success", message: data?.message });
         } catch(err) {
             setResponse({ status: "error", message: err?.message })
         }
     }
+
 
     return (
         <>
@@ -74,10 +81,10 @@ function MultipleImageUploadInput({ images, productId, isEdit, handleChange, set
                     <>
                         {errors && (
                             <>
-                                {errors.maxNumber && handleError("Number of selected images exceed maxNumber")}
-                                {errors.acceptType && handleError("Your selected file type is not allow")}
-                                {errors.maxFileSize && handleError("Selected file size exceed maxFileSize")}
-                                {errors.resolution && handleError("Selected file is not match your desired resolution")}
+                                {errors?.maxNumber && handleError("Number of selected images exceed maxNumber")}
+                                {errors?.acceptType && handleError("Your selected file type is not allow")}
+                                {errors?.maxFileSize && handleError("Selected file size exceed maxFileSize")}
+                                {errors?.resolution && handleError("Selected file is not match your desired resolution")}
                             </>
                         )}
 

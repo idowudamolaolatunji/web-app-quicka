@@ -23,6 +23,7 @@ import { RiDeleteBin5Line } from 'react-icons/ri';
 import { Switch } from '@mui/material';
 import AddPageUI from '../../ui/PageUI/AddPageUI';
 import MultipleImageUploadInput from '../../components/MultipleImageUploadInput';
+import isOnline from 'is-online';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -230,6 +231,9 @@ function index({ isnew=false, close, ismodal=false }) {
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
 
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
+
         // GET COLLECTION NAMES
         const names = productCollection.map(collection => collection.name);
         const itemUnit = unit[0]?.value;
@@ -285,16 +289,16 @@ function index({ isnew=false, close, ismodal=false }) {
             handleClearFields();
 
             // MODIFY THE STORE IN THE COOKIE, if new
-            // if(isnew) {
-            //     const { store } = data?.data;
-            //     handleStore(store);
-            // }
+            if(isnew) {
+                const { store } = data?.data;
+                handleStore(store);
+            }
 
-            // setTimeout(function () {
-            //     if (isnew || ismodal) close();
-            //     else navigate(-1)
-            // }, isnew ? 5000 : 3000);
-            // handleFetchUserStoreProducts()
+            setTimeout(function () {
+                if (isnew || ismodal) close();
+                else navigate(-1)
+            }, isnew ? 5000 : 3000);
+            handleFetchUserStoreProducts()
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

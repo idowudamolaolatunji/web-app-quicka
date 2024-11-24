@@ -78,7 +78,7 @@ function TopProducts() {
             <div className='top-product--container'>
 
                 {(!noError && products?.length < 1) && (
-                    <ErrorComponent text="Cannot get products, Check Connection" />
+                    <ErrorComponent text={error?.product} />
                 )}
 
                 {itemLength > 0 && topProducts?.map(product => (

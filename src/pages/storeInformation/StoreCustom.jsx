@@ -22,6 +22,7 @@ import CustomAlert from '../../components/CustomAlert';
 import Spinner from '../../components/spinner/spinner_two';
 import { createPortal } from 'react-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
+import isOnline from 'is-online';
 
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -157,6 +158,10 @@ function StoreCustom({ isnew, close }) {
         // SET LOADER
         handleResetResponse()
         handleLoading("mainLoading", true);
+
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
+
         const { instagram, whatsapp, facebook, twitter, headline, heading, subHeading, brandColor, aboutDescription, returnPolicyDescription } = storeData;
 
         const socialProfiles = { instagram, whatsapp, facebook, twitter };

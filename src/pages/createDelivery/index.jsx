@@ -11,6 +11,7 @@ import { validateDeliveryForm } from '../../utils/validationHelper';
 import { useNavigate } from 'react-router-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import AddPageUI from '../../ui/PageUI/AddPageUI';
+import isOnline from 'is-online';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -78,6 +79,9 @@ function index({ close, isnew, isModal }) {
         // SET LOADER
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
+
         const end_point = isnew ? "onboard/rate" : ""
 
         // MAKE REQUEST

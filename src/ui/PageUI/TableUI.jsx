@@ -72,7 +72,7 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent,
     return (
         <>
             {(error && !isData && !loader) && (
-                <ErrorComponent customStyle={{ padding: "4.8rem 2rem" }} text="Unable to fetch, Check Your Connection" />
+                <ErrorComponent customStyle={{ padding: "4.8rem 2rem" }} text={error} />
             )}
 
             {((!isData && !error && !loader) && <>{emptyComponent}</>)}

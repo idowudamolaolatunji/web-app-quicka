@@ -14,6 +14,7 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { goalOptions } from '../../utils/data';
 import MainDropdownSelect from '../../components/MainDropdownSelect';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
+import isOnline from 'is-online';
  
 
 
@@ -181,6 +182,8 @@ function index() {
         // RESET THE RESPONSE STATE HERE
         handleResetResponse();
         setIsLoading(true);
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
 
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/users/onboarding-store/${userId}`
@@ -216,7 +219,7 @@ function index() {
                 navigate('/congratulations?next=dashboard');
             }, 2500);
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
             setResponse({ status: "error", message });
         } finally {
             setIsLoading(false);

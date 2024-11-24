@@ -4,6 +4,7 @@ import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
+import empty_product from "../assets/images/dummy_items/empty_product.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -20,7 +21,7 @@ function ProductCard({ product, open, base }) {
                 <span className={`product__figure--stat status status--${(product?.status)}`}>
                     <p style={{ minWidth: "0" }}>{product?.status}</p>
                 </span>
-                <img src={base != "dummy" ? BASE_URL + product?.images?.at(0) : product?.images?.at(0)} />
+                <img src={(base != "dummy" && product?.images?.length > 0) ? BASE_URL + product?.images?.at(0) : (base == "dummy") ? product?.images?.at(0) : empty_product} />
             </Link>
 
             <figcaption className="product__details">

@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Modal from "../../components/modal/ExtraSmall";
 import { LuBadgeCheck } from 'react-icons/lu';
 import { HiOutlineMailOpen } from 'react-icons/hi';
+import isOnline from 'is-online';
 
 
 function index() {
@@ -54,7 +55,10 @@ function index() {
         setFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
 
-        setLoading(true)
+        setLoading(true);
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
+
         try {
 
             const res = await fetch(`${BASE_URL}/users/forgot-password`, {
@@ -74,7 +78,7 @@ function index() {
             setResponse({ status: data?.status, message: data?.message });
             setShowModal(true)
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
             setResponse({ status: "error", message });
         } finally {
             setLoading(false);

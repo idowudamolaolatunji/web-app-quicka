@@ -66,7 +66,7 @@ function DashboardHead() {
                     <div className=""></div>
 
                     <div className="nav--others">
-                        {(width > 600 && !error.order && userStoreIsSetup) && (
+                        {(width > 600 && !error?.order && userStoreIsSetup) && (
                             <DefaultButton>
                                 <TooltipUI placement='top' title="Refresh all">
                                     <div className="nav--icon notification--icon" onClick={handleRefreshAll}>

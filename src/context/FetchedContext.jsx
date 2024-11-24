@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useAuthContext } from "./AuthContext";
+import isOnline from "is-online";
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 
@@ -34,12 +35,12 @@ export const FetchedProvider = ({ children }) => {
     const [transactionLoader, setTransactionLoader] = useState(true);
 
     // ERROR STATES
-    const [orderError, setOrderError] = useState(false);
-    const [productError, setProductError] = useState(false);
-    const [deliveryError, setDeliveryError] = useState(false);
-    const [customerError, setCustomerError] = useState(false);
-    const [collectionError, setCollectionError] = useState(false);
-    const [transactionError, setTransactionError] = useState(false);
+    const [orderError, setOrderError] = useState("");
+    const [productError, setProductError] = useState("");
+    const [deliveryError, setDeliveryError] = useState("");
+    const [customerError, setCustomerError] = useState("");
+    const [collectionError, setCollectionError] = useState("");
+    const [transactionError, setTransactionError] = useState("");
 
     // SETTING LOADER THIS WAY IS BETTER THAN THE PREVIOUS
     const loader = {
@@ -60,7 +61,26 @@ export const FetchedProvider = ({ children }) => {
     }
 
     // GLOBAL ERROR & GLOBAL REFETCH
-    const globalInternetError = (orderError || productError || transactionError || collectionError || customerError || deliveryError);
+    const internetErrorStr = "Check Internet Connection"
+    const serverErrorStr = "Server"
+    const globalInternetError = (
+        orderError.includes(internetErrorStr) ||
+        productError.includes(internetErrorStr) ||
+        transactionError.includes(internetErrorStr) ||
+        collectionError.includes(internetErrorStr) ||
+        customerError.includes(internetErrorStr) ||
+        deliveryError.includes(internetErrorStr)
+    ) ? true : false;
+
+    const globalServerError = (
+        orderError.includes(serverErrorStr) ||
+        productError.includes(serverErrorStr) ||
+        transactionError.includes(serverErrorStr) ||
+        collectionError.includes(serverErrorStr) ||
+        customerError.includes(serverErrorStr) ||
+        deliveryError.includes(serverErrorStr)
+    ) ? true : false;
+
 
     const handleGlobalRefetch = function() {
         handleFetchStore()
@@ -72,12 +92,23 @@ export const FetchedProvider = ({ children }) => {
         handleFetchUserStoreDeliveryRates();
     }
 
+    const handleFetchError = function(errMessage) {
+        let message;
+        if (errMessage?.includes("Failed to fetch") || errMessage?.includes("CONNECTION")) {
+            message = "Server is Busy, Please try again later.";
+        } else if (errMessage?.includes("Internet Error")) {
+            message = "Unable to fetch, Check Internet Connection.";
+        } else {
+            message = errMessage || "An error occurred. Please try again later";
+        }
+        return message;
+    }
+
 
     async function handleFetchItem(title, id) {
         const ifProduct = title == "product" ? "slug/id/" : "";
         const url = `${import.meta.env.VITE_API_URL}/${title}s/${ifProduct}${id}`;
         const res = await fetch(url);
-        shouldKick();
         
         const data = await res.json();
         return data?.data[title];
@@ -88,7 +119,6 @@ export const FetchedProvider = ({ children }) => {
     async function handleFetchStoreCategories() {
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/category`);
-            shouldKick(res);
             const data = await res.json();
             setStoreCategories(data.data.categories);
         } catch (err) {
@@ -99,9 +129,10 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STORE data
     async function handleFetchStore() {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
-            shouldKick(res);
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Check your internet connection");
 
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
             const data = await res.json();
             handleStore(data?.data?.store);
             handleUser(data?.data?.user);
@@ -114,9 +145,12 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STORE COLLECTION
     async function handleFetchUserStoreCollections() {
         try {
-            setCollectionError(false);
+            setCollectionError("");
             setCollectionLoader(true);
             setCollections([]);
+
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_API_URL}/collections/mine/collections`, { method: "GET", headers })
             shouldKick(res);
@@ -125,7 +159,8 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setCollections(data?.data?.collections);
         } catch(err) {
-            setCollectionError(true);
+            const errMessage = handleFetchError(err?.message)
+            setCollectionError(errMessage);
         } finally {
             setCollectionLoader(false);
         }
@@ -135,18 +170,23 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STORE PRODUCTS
     async function handleFetchUserStoreProducts() {
         try {
-            setProductError(false);
+            setProductError("");
             setProductLoader(true);
             setProducts([]);
 
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Internet Error");
+
             const res = await fetch(`${BASE_API_URL}/products/mine/products`, { method: "GET", headers });
             shouldKick(res);
+
 
             const data = await res.json();
             if(data.status == "fail") throw new Error();
             if (data?.data) setProducts(data?.data?.products);
         } catch (err) {
-            setProductError(true);
+            const errMessage = handleFetchError(err?.message)
+            setProductError(errMessage);
         } finally {
             setProductLoader(false);
         }
@@ -156,9 +196,12 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STORE SALES AND ORDERS
     async function handleFetchUserStoreOrders() {
         try {
-            setOrderError(false);
+            setOrderError("");
             setOrderLoader(true);
             setOrders([]);
+
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_API_URL}/orders/mine/orders`, { method: "GET", headers });
             shouldKick(res);
@@ -167,7 +210,8 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setOrders(data?.data?.orders);
         } catch (err) {
-            setOrderError(true);
+            const errMessage = handleFetchError(err?.message)
+            setOrderError(errMessage);
         } finally {
             setOrderLoader(false);
         }
@@ -178,9 +222,12 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STORE CUSTOMERS
     async function handleFetchUserStoreCustomers() {
         try {
-            setCustomerError(false);
+            setCustomerError("");
             setCustomerLoader(true);
             setCustomers([]);
+
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_API_URL}/customers/mine/customers`, { method: "GET", headers });
             shouldKick(res);
@@ -189,7 +236,8 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setCustomers(data?.data?.customers);
         } catch (err) {
-            setCustomerError(true);
+            const errMessage = handleFetchError(err?.message)
+            setCustomerError(errMessage);
         } finally {
             setCustomerLoader(false);
         }
@@ -199,9 +247,12 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STIRE DELIVERY RATES
     async function handleFetchUserStoreDeliveryRates () {
         try {
-            setDeliveryError(false);
+            setDeliveryError("");
             setDeliveryLoader(true);
             setDeliveryRates([]);
+
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_API_URL}/delivery-rates/mine/delivery-rates`, { method: "GET", headers });
             shouldKick(res);
@@ -210,7 +261,8 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setDeliveryRates(data?.data?.rates);
         } catch (err) {
-            setDeliveryError(true);
+            const errMessage = handleFetchError(err?.message)
+            setDeliveryError(errMessage);
         } finally {
             setDeliveryLoader(false);
         }
@@ -220,9 +272,12 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STORE SALES TRANSACTIONS
     async function handleFetchUserStoreTransactions () {
         try {
-            setTransactionError(false);
+            setTransactionError("");
             setTransactionLoader(true);
             setTransactions([]);
+
+            const isConnected = await isOnline();
+            if(!isConnected) throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_API_URL}/transactions/mine/transactions`, { method: "GET", headers });
             shouldKick(res);
@@ -230,8 +285,10 @@ export const FetchedProvider = ({ children }) => {
             const data = await res.json();
             if(data.status == "fail") throw new Error();
             if (data?.data) setTransactions(data?.data?.transactions);
+
         } catch (err) {
-            setTransactionError(true);
+            const errMessage = handleFetchError(err?.message)
+            setTransactionError(errMessage)
         } finally {
             setTransactionLoader(false);
         }
@@ -244,6 +301,9 @@ export const FetchedProvider = ({ children }) => {
 
 
     async function handleMultipleImageUpload(Imgfiles, url, method="POST", updatedIndexes) {
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection!");
+
         const formData = new FormData();
         if (Array.isArray(Imgfiles)) {
             for (let i = 0; i < Imgfiles.length; i++) {
@@ -264,19 +324,22 @@ export const FetchedProvider = ({ children }) => {
         });
 
         shouldKick(res);
-        if (!res.ok) return 'Something went wrong!';
-
+        
         const data = await res.json();
-        console.log(data, res)
+        return data;
     }
-
-
+    
+    
     async function handleImageUpload(Imgfile, url, tk=null) {
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection!");
+
+
         console.log(Imgfile, url, tk);
         const formData = new FormData();
         formData.append("image", Imgfile);
-
-
+        
+        
         const res = await fetch(`${BASE_API_URL}/${url}`, {
             method: 'POST',
             headers: {
@@ -284,8 +347,6 @@ export const FetchedProvider = ({ children }) => {
             },
             body: formData,
         });
-
-        if (!res.ok) return 'Something went wrong!';
         shouldKick(res);
 
         const data = await res.json();
@@ -316,6 +377,7 @@ export const FetchedProvider = ({ children }) => {
     let contextData = {
         error,
         loader,
+        globalServerError,
         globalInternetError,
         handleGlobalRefetch,
         

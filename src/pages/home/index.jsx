@@ -10,16 +10,18 @@ import Spinner from "../../components/spinner/spinner_two"
 import HomeLayoutGrid from './homeComponents/HomeLayoutGrid';
 import HomeProgressGrid from './homeComponents/HomeProgressGrid';
 import NoInternetConnection from '../../components/NoInternetConnection';
+import ServerError from '../../components/ServerError';
 import './style.css';
 
 
 function index() {
     const { width } = useWindowSize();
     const { user } = useAuthContext();
-    const { loader, globalInternetError } = useFetchedContext();
+    const { loader, globalInternetError, globalServerError } = useFetchedContext();
 
     const { storeBasicSetup, storeFinalSetup } = user;
     const userStoreIsSetup = (storeBasicSetup && storeFinalSetup);
+    
 
     useEffect(function () {
         window.scrollTo(0, 0)
@@ -28,6 +30,7 @@ function index() {
     return (
         <>
             {globalInternetError && <NoInternetConnection />}
+            {globalServerError && <ServerError />}
 
             <section className='home--section'>
                 <HomeTop />

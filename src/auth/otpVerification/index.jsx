@@ -8,6 +8,7 @@ import { validateAuthForm } from '../../utils/validationHelper';
 import { HiFingerPrint } from 'react-icons/hi';
 import data_img from '../../assets/images/resources/ali-mkumbwa-K-f_gTvdwTM-unsplash.jpg'
 import AuthsUI from '../../ui/authUI';
+import isOnline from 'is-online';
 
 
 function index() {
@@ -64,6 +65,8 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
 
         try {
             const res = await fetch(`${BASE_URL}/users/verify-otp`, {
@@ -92,7 +95,7 @@ function index() {
                 navigate('/congratulations?next=onboarding');
             }, 1000);
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
             setResponse({ status: "error", message });
         } finally {
             setLoading(false);
@@ -103,6 +106,9 @@ function index() {
     async function handleRequestOtp() {
         setLoading(true);
         setResent(false);
+
+        const isConnected = await isOnline();
+        if(!isConnected) throw new Error("Check your internet connection");
 
         try {
             const res = await fetch(`${BASE_URL}/users/request-otp`, {
@@ -127,7 +133,7 @@ function index() {
             setOtpUser({ ...otpUser, ...user });
 
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Check Connection" : err?.message
+            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
             setResponse({ status: "error", message });
         } finally {
             setLoading(false);

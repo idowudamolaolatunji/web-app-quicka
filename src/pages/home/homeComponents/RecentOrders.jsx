@@ -152,7 +152,7 @@ function RecentOrders() {
             </div>
 
             <>
-                {(error?.order && !isData) && <ErrorComponent text="Unable to fetch orders, Check Your Connection" />}
+                {(error?.order && !isData) && <ErrorComponent text={error?.order} />}
                 
                 {(orders && !error?.order) && (
                     <div className="table-h" style={(orders && orders?.length < 2) ? { paddingBottom: width < 850 ? "1.8rem" : "2.8rem" } : {} }>

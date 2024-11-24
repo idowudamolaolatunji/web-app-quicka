@@ -23,7 +23,7 @@ function TopSalesChannels() {
                 </div>
             </div>
 
-            {(!isOrders && isError) && <ErrorComponent text="Cannot get channels, Check Connection" />}
+            {(!isOrders && isError) && <ErrorComponent text={error?.order} />}
 
             {(orders && !isError) && (
                 <>
