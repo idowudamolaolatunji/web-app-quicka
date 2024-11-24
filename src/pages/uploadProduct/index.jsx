@@ -34,7 +34,7 @@ function index({ isnew=false, close, ismodal=false }) {
 
     const { width } = useWindowSize();
     const { headers, shouldKick, handleStore, store } = useAuthContext();
-    const { collections, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleFetchItem, fetchedItem } = useFetchedContext();
+    const { collections, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleFetchItem } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
@@ -70,14 +70,23 @@ function index({ isnew=false, close, ismodal=false }) {
 
     const [images, setImages] = useState([]);
     const imageFiles = images.filter(img => img?.file)?.map(img => img?.file);
-    console.log(images, imageFiles)
+    const [indexes, setIndexes] = useState([]);
+    // console.log(images, imageFiles, indexes)
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     const handleOnChangeImage = function(imageList, addUpdateIndex) {
+        // this here might feel strange in the future, but it helps us keep track of the updated images
         // console.log(imageList, addUpdateIndex);
+        if(addUpdateIndex !== undefined) {
+            setIndexes((prev) => [...new Set([...prev, addUpdateIndex?.at(0)])])
+        }
         setImages(imageList);
     };
+
+    useEffect(function() {
+
+    }, [images])
 
     const handleProductDataChange = function(e) {
         const { name, value } = e?.target;
@@ -255,13 +264,17 @@ function index({ isnew=false, close, ismodal=false }) {
             const { product } = data.data;
             if (status !== 'success') throw new Error(message);
             
-            
-            // UPLOAD PRODUCT IMAGES
+            /////// UPLOAD PRODUCT IMAGES //////////////////
+            // IF THERE'S AN ID, THAT MEANS WE ARE EDITTING
             const url = `products/upload-image/${product._id}`;
-            console.log(imageFiles)
             if(imageFiles.length >= 1) {
-                await handleMultipleImageUpload(imageFiles, url);
+                if(id) {
+                    await handleMultipleImageUpload(imageFiles, url, "PATCH", indexes);
+                } else {
+                    await handleMultipleImageUpload(imageFiles, url, "POST");
+                }
             }
+            ///////////////////////////////////////////////
             
             // SET RESPONSE MESSAGE
             setResponse({ status: "success", message });
@@ -272,16 +285,16 @@ function index({ isnew=false, close, ismodal=false }) {
             handleClearFields();
 
             // MODIFY THE STORE IN THE COOKIE, if new
-            if(isnew) {
-                const { store } = data?.data;
-                handleStore(store);
-            }
+            // if(isnew) {
+            //     const { store } = data?.data;
+            //     handleStore(store);
+            // }
 
-            setTimeout(function () {
-                if (isnew || ismodal) close();
-                else navigate(-1)
-            }, isnew ? 5000 : 3000);
-            handleFetchUserStoreProducts()
+            // setTimeout(function () {
+            //     if (isnew || ismodal) close();
+            //     else navigate(-1)
+            // }, isnew ? 5000 : 3000);
+            // handleFetchUserStoreProducts()
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });
@@ -338,7 +351,7 @@ function index({ isnew=false, close, ismodal=false }) {
                             <div className="form--item">
                                 <label className="form--label">Product Images (Min 1 & Max 4) <Asterisk /></label>
 
-                                <MultipleImageUploadInput images={images} handleChange={handleOnChangeImage} setResponse={setResponse} />
+                                <MultipleImageUploadInput images={images} productId={selectedId || null} handleChange={handleOnChangeImage} setResponse={setResponse} />
 
                                 <span className="form--error-message">
                                     {productFormErrors.images && productFormErrors.images}

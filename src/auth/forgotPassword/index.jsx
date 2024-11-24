@@ -93,7 +93,8 @@ function index() {
                         <p className='modal--text'>We have sent password reset to your email</p>
 
                         {width <= 600 ? (
-                            <a href="intent://gmail/#Intent;scheme=content;action=android.intent.action.MAIN;end" className='form--submit'>Open your gmail app</a>
+                            <a href="mailto:" className='form--submit'>Open your gmail app</a>
+                            // <a href="intent://gmail/#Intent;scheme=mailto;action=android.intent.action.VIEW;end" className='form--submit'>Open your gmail app</a>
                         ) : (
                             <a href='https://mail.google.com/' target='_blank' className='form--submit'>Open your gmail</a>
                         )}

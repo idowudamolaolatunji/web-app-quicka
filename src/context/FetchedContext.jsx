@@ -243,7 +243,7 @@ export const FetchedProvider = ({ children }) => {
     }
 
 
-    async function handleMultipleImageUpload(Imgfiles, url) {
+    async function handleMultipleImageUpload(Imgfiles, url, method="POST", updatedIndexes) {
         const formData = new FormData();
         if (Array.isArray(Imgfiles)) {
             for (let i = 0; i < Imgfiles.length; i++) {
@@ -252,9 +252,12 @@ export const FetchedProvider = ({ children }) => {
             }
         }
 
+        if(updatedIndexes) {
+            formData.append("updatedIndexes", JSON.stringify(updatedIndexes));
+        }
+
         const res = await fetch(`${BASE_API_URL}/${url}`, {
-            method: 'POST',
-            headers: {
+            method, headers: {
                 Authorization: `Bearer ${token}`
             },
             body: formData,
