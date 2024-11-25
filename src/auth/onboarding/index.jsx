@@ -15,19 +15,19 @@ import { goalOptions } from '../../utils/data';
 import MainDropdownSelect from '../../components/MainDropdownSelect';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
 import isOnline from 'is-online';
- 
+
 
 
 function index() {
     const navigate = useNavigate();
     const { handleChange, handleStore } = useAuthContext();
-    const { handleImageUpload, storeCategories, handleFetchStoreCategories } = useFetchedContext();
+    const { handleImageUpload, storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
 
     const headers = { "Content-type": "application/json" }
-    
+
     const [isLoading, setIsLoading] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
-    
+
     const [goalsChoosen, setGoalsChoosen] = useState([]);
 
     const [onboardingErrors, setOnboardingErrors] = useState({});
@@ -42,7 +42,7 @@ function index() {
         isRegistered: "no",
         regType: "",
     });
-    
+
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
     const handleResetResponse = function () {
@@ -88,7 +88,7 @@ function index() {
         }
     };
 
-    const handleImageRemove = function() {
+    const handleImageRemove = function () {
         setImage({ file: null, preview: null })
     }
 
@@ -101,7 +101,7 @@ function index() {
     // HNADLE GOING TO THE NEXT FORM TAB
     function handleNextTab(e) {
         const formData = { ...onboardingData, selectedCategory }
-        
+
         if (onboardTabNum === 1) {
             // DO SOME VALIDATION AND IF ISCOPREATED IS YES, VALIDATE THE CONDITIONAL FIELD
             const newErrors = validateOnboardForm(formData);
@@ -111,9 +111,9 @@ function index() {
             if (Object.keys(newErrors).length >= 1) return;
         }
         if (onboardTabNum === 2) {
-            if(goalsChoosen.length < 3) { 
+            if (goalsChoosen.length < 3) {
                 return setResponse({ status: "error", message: `Select ${goalsChoosen.length < 1 ? '' : `more than ${goalsChoosen.length}`} at least 3 goal options!` });
-            } else if(goalsChoosen.length > 5) {
+            } else if (goalsChoosen.length > 5) {
                 return setResponse({ status: "error", message: `Select at most only 5 goal options!` });
             } else {
                 return handleOnboading();
@@ -121,11 +121,11 @@ function index() {
         };
         setOnboardTabNum(prev => prev + 1);
     }
-    
+
     // HANDLE THE GOALS CHOOSEN
     function handleGoalsChoosen(goal) {
         const isGoalAlreadyIncluded = goalsChoosen.includes(goal);
-        
+
         if (isGoalAlreadyIncluded) {
             setGoalsChoosen(goalsChoosen.filter((item) => item !== goal));
         } else {
@@ -137,21 +137,21 @@ function index() {
     useEffect(function () {
         document.title = "Quicka | Store Onboarding 🏪";
 
-        if(!userId) navigate(-1);
+        if (!userId) navigate(-1);
     }, []);
-    
-    
+
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [onboardTabNum]);
 
 
-    useEffect(function() {
+    useEffect(function () {
         handleResetResponse()
     }, [goalsChoosen]);
 
-    useEffect(function() {
-        if(onboardingData.isRegistered == "no") {
+    useEffect(function () {
+        if (onboardingData.isRegistered == "no") {
             setOnboardingData({ ...onboardingData, type: "" })
         }
     }, [onboardingData.isRegistered])
@@ -182,30 +182,33 @@ function index() {
         // RESET THE RESPONSE STATE HERE
         handleResetResponse();
         setIsLoading(true);
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-
+        
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if (!connected) throw new Error("Internet Error");
+
+            // MAKE REQUEST
             const res = await fetch(`${import.meta.env.VITE_API_URL}/users/onboarding-store/${userId}`
-            , {
-                method: 'PATCH',headers,
-                body: JSON.stringify({
-                    ...onboardingData, goalsChoosen,
-                    category: selectedCategory.slug
-                })
-            });
+                , {
+                    method: 'PATCH', headers,
+                    body: JSON.stringify({
+                        ...onboardingData, goalsChoosen,
+                        category: selectedCategory.slug
+                    })
+                });
 
             const data = await res.json();
-            if(!data?.status || data?.status !== 'success') {
+            if (!data?.status || data?.status !== 'success') {
                 throw new Error(data?.message);
             }
 
             // SET THE ACCESS STORAGE FOR THE CONGRATS PAGE
             localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
             setResponse({ status: data?.status, message: data?.message });
-            
+
             // IF THER'S A LOGO, UPLOAD LOGO
-            if(image.file) {
+            if (image.file) {
                 let store = data?.data?.store;
                 const url = `stores/upload-logo/${store._id}`
                 const { data } = await handleImageUpload(image.file, url, token);
@@ -219,7 +222,7 @@ function index() {
                 navigate('/congratulations?next=dashboard');
             }, 2500);
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
+            const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
             setIsLoading(false);
@@ -232,8 +235,8 @@ function index() {
             {(response.message || response.status) && (
                 <CustomAlert type={response.status} message={response.message} />
             )}
-            
-            { isLoading && <Spinner /> }
+
+            {isLoading && <Spinner />}
 
             <section className='onboarding--section'>
                 <div className="onboarding--container">
@@ -341,7 +344,7 @@ function index() {
                                 <div className="form--item">
                                     <label htmlFor="category" className="form--label">What category best describes your business <Asterisk /></label>
 
-                                    <MainDropdownSelect title="a category" options={storeCategories} field="name" value={selectedCategory} setValue={setSelectedCategory} noDataLabel="No Category Found!"/>
+                                    <MainDropdownSelect title="a category" options={storeCategories} field="name" value={selectedCategory} setValue={setSelectedCategory} noDataLabel="No Category Found!" />
 
                                     <span className="form--error-message">
                                         {onboardingErrors.category && onboardingErrors.category}
@@ -388,7 +391,7 @@ function index() {
                         <div className="form--item">
                             <span className='onboarding--actions'>
                                 {onboardTabNum > 1 ? (
-                                    <button className='onboard--prev'onClick={handlePrevTab}>
+                                    <button className='onboard--prev' onClick={handlePrevTab}>
                                         <AiOutlineArrowLeft /> Go Back
                                     </button>
                                 ) : <p></p>}

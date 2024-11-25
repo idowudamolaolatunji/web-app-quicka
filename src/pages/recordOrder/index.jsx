@@ -32,7 +32,7 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, shouldKick } = useAuthContext();
-    const { products, customers, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers, handleFetchUserStoreTransactions } = useFetchedContext();
+    const { products, customers, handleFetchError, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers, handleFetchUserStoreTransactions } = useFetchedContext();
     const publishedProducts = products?.filter(product => product.status == "published");
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -139,14 +139,15 @@ function index() {
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
 
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-        
         // PRODUCTQUANTITIES, CONTAINS THE ID AND THE QUANTITY OF THAT ID. (AND THAT IS JUST WHAT THE BACKEND NEEDS)
         const products = productQuantities;
 
-        // MAKE REQUEST
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            
+            // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/orders/record`, {
                 headers,
                 method: "POST",
@@ -161,11 +162,8 @@ function index() {
                 })
             });
             shouldKick(res);
-            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
-            console.log(res, data)
-
             const { status, message } = data;
             if (status !== 'success') throw new Error(message);
 
@@ -182,7 +180,8 @@ function index() {
             handleFetchUserStoreTransactions();
 
         } catch (err) {
-            setResponse({ status: "error", message: err.message });
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
         } finally {
             setLoading({ ...loading, mainLoading: false })
         }

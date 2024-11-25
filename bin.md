@@ -939,7 +939,7 @@ navigator.geolocation.getCurrentPosition(position => {
     const handleFetchError = function(errMessage) {
         let message;
         if (errMessage?.includes("Failed to fetch") || errMessage?.includes("CONNECTION")) {
-            message = "Server is Busy, Please try again later.";
+            message = "Oops! Connection Error!!, Please try again later.";
         } else if (errMessage?.includes("Internet Error")) {
             message = "Unable to fetch, Check Internet Connection.";
         } else {

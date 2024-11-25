@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PhoneInput from 'react-phone-input-2'
 import { Link, useNavigate } from 'react-router-dom';
+import { useFetchedContext } from '../../context/FetchedContext';
 import { validateAuthForm } from '../../utils/validationHelper';
 
 import { useWindowSize } from 'react-use';
@@ -13,9 +14,11 @@ import AuthsUI from '../../ui/authUI';
 import isOnline from 'is-online';
 
 
-const headingText = "The Power to Manage Your Business, at Your Fingertips."
 
 function index() {
+    const { handleFetchError } = useFetchedContext();
+    const headingText = "The Power to Manage Your Business, at Your Fingertips."
+
     const [showPassword, setShowPassword] = useState({ main: false, confirm: false });
     const [isChecked, setIsChecked] = useState(false);
     const [formErrors, setFormErrors] = useState({});
@@ -35,7 +38,7 @@ function index() {
         passwordConfirm: ''
     });
 
-    
+
     const { width } = useWindowSize();
     const navigate = useNavigate();
 
@@ -65,17 +68,17 @@ function index() {
         setResponse({ status: '', message: '' });
     }
 
-    const handlePasswordShown = function(name) {
+    const handlePasswordShown = function (name) {
         setShowPassword({ ...showPassword, [name]: !showPassword[name] })
     }
-    
 
-    useEffect(function() {
+
+    useEffect(function () {
         document.title = "Quicka | Create an Account 🎉";
     }, []);
 
-    useEffect(function() {
-        if(loading.mainLoading) {
+    useEffect(function () {
+        if (loading.mainLoading) {
             handleResetResponse()
         }
     }, [loading.mainLoading]);
@@ -92,21 +95,19 @@ function index() {
             return
         };
 
-        if(!isChecked) {
+        if (!isChecked) {
             // IF THE CHECKED IS NOT CHECKED
             setResponse({ status: "error", message: "Accept terms and conditions" });
             setTimeout(() => handleResetResponse(), 5000);
             return;
         }
-
-        // NEXT, IMPLEMENT THE LOGIN REQUEST
+        
+        handleLoading('mainLoading', true);
         try {
-
-            // RUN THE LOADING SPINNER
-            handleLoading('mainLoading', true);
+            // CHECK CONNECTION
             const connected = await isOnline();
-            if(!connected) throw new Error("Check your internet connection");
-
+            if (!connected) throw new Error("Internet Error");
+            
             const res = await fetch(`${import.meta.env.VITE_API_URL}/users/signup`, {
                 method: 'POST',
                 headers: {
@@ -132,9 +133,9 @@ function index() {
             setTimeout(function () {
                 navigate('/verify-otp');
             }, 1000);
-            
+
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
+            const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
             handleLoading('mainLoading', false);
@@ -143,150 +144,150 @@ function index() {
 
 
     return (
-            <AuthsUI backText="Back to home" backLink="https://www.getquicka.com" dataimg={data_img} loading={loading?.mainLoading} response={response} heading={headingText} centered={false} overflowLeft={true}>
+        <AuthsUI backText="Back to home" backLink="https://www.getquicka.com" dataimg={data_img} loading={loading?.mainLoading} response={response} heading={headingText} centered={false} overflowLeft={true}>
 
-                <form className="auth--form" onSubmit={handleSubmit} style={{ padding: '8rem 0', width: '90%' }}>
-                    <div>
-                        <h2 className='form--heading' style={width > 850 ? { color: '#ff7a49' } : { color: 'inherit' }}>Create {width > 362 && "an"} Account 🎉</h2>
-                        {width <= 850 && (
-                            <div className='auth--extra-info'>
-                                <p className='auth--right-text'>Simplify, Automate, Dominate: Business Made Easy with easy-to-use tools designed for entrepreneurs like you. Trusted by 100+ businesses</p>
-                                <AuthUserRating />
-                            </div>
-                        )}
-                    </div>
+            <form className="auth--form" onSubmit={handleSubmit} style={{ padding: '8rem 0', width: '90%' }}>
+                <div>
+                    <h2 className='form--heading' style={width > 850 ? { color: '#ff7a49' } : { color: 'inherit' }}>Create {width > 362 && "an"} Account 🎉</h2>
+                    {width <= 850 && (
+                        <div className='auth--extra-info'>
+                            <p className='auth--right-text'>Simplify, Automate, Dominate: Business Made Easy with easy-to-use tools designed for entrepreneurs like you. Trusted by 100+ businesses</p>
+                            <AuthUserRating />
+                        </div>
+                    )}
+                </div>
 
+                <div className="form--item">
+                    <label className='form--label' htmlFor="email">Business Email <Asterisk /></label>
+                    <input
+                        type="text"
+                        id="email" name='email'
+                        className='form--input'
+                        placeholder='youremail@email.com'
+                        onChange={handleFormChange}
+                        value={formData.email}
+                    />
+                    <span className="form--error-message">
+                        {formErrors.email && formErrors.email}
+                    </span>
+                </div>
+
+
+                <div className="form--grid">
                     <div className="form--item">
-                        <label className='form--label' htmlFor="email">Business Email <Asterisk /></label>
+                        <label className='form--label' htmlFor="firstname">First Name <Asterisk /></label>
                         <input
                             type="text"
-                            id="email" name='email'
+                            id="firstname" name='firstname'
                             className='form--input'
-                            placeholder='youremail@email.com'
+                            placeholder='John'
                             onChange={handleFormChange}
-                            value={formData.email}
+                            value={formData.firstname}
                         />
                         <span className="form--error-message">
-                            {formErrors.email && formErrors.email}
+                            {formErrors.firstname && formErrors.firstname}
                         </span>
                     </div>
-
-
-                    <div className="form--grid">
-                        <div className="form--item">
-                            <label className='form--label' htmlFor="firstname">First Name <Asterisk /></label>
-                            <input
-                                type="text"
-                                id="firstname" name='firstname'
-                                className='form--input'
-                                placeholder='John'
-                                onChange={handleFormChange}
-                                value={formData.firstname}
-                            />
-                            <span className="form--error-message">
-                                {formErrors.firstname && formErrors.firstname}
-                            </span>
-                        </div>
-                        <div className="form--item">
-                            <label className='form--label' htmlFor="email">Last Name <Asterisk /></label>
-                            <input
-                                type="text"
-                                id="lastname" name='lastname'
-                                className='form--input'
-                                placeholder='Doe'
-                                onChange={handleFormChange}
-                                value={formData.lastname}
-                            />
-                            <span className="form--error-message">
-                                {formErrors.lastname && formErrors.lastname}
-                            </span>
-                        </div>
-                    </div>
-
-
                     <div className="form--item">
-                        <label className='form--label' htmlFor="phone">Phone Number <Asterisk /></label>
-
-                        <PhoneInput
-                            country={'ng'}
-                            regions={'africa'}
-                            value={formData.phone}
-                            inputProps={{ name: 'phone', id: 'phone' }}
-                            onChange={(num, countryOpts) => handleFormChange(null, num, countryOpts)}
-                            inputClass='phone-input'
-                            buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
-                            countryCodeEditable={false}
-                            dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
+                        <label className='form--label' htmlFor="email">Last Name <Asterisk /></label>
+                        <input
+                            type="text"
+                            id="lastname" name='lastname'
+                            className='form--input'
+                            placeholder='Doe'
+                            onChange={handleFormChange}
+                            value={formData.lastname}
                         />
-
                         <span className="form--error-message">
-                            {formErrors.phone && formErrors.phone}
+                            {formErrors.lastname && formErrors.lastname}
                         </span>
                     </div>
+                </div>
 
 
-                    <div className="form--item">
-                        <label className='form--label' htmlFor="password">Password <Asterisk /></label>
-                        <div className="form--input-box">
-                            <input
-                                type={showPassword.main ? "text" : "password"}
-                                name='password'
-                                id="password"
-                                className='form--input'
-                                placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                                value={formData.password}
-                                onChange={handleFormChange}
-                            />
-                            <div className='form--input-icon' onClick={() => handlePasswordShown("main")}>
-                                {showPassword.main ? <ImEye /> : <ImEyeBlocked />}
-                            </div>
+                <div className="form--item">
+                    <label className='form--label' htmlFor="phone">Phone Number <Asterisk /></label>
+
+                    <PhoneInput
+                        country={'ng'}
+                        regions={'africa'}
+                        value={formData.phone}
+                        inputProps={{ name: 'phone', id: 'phone' }}
+                        onChange={(num, countryOpts) => handleFormChange(null, num, countryOpts)}
+                        inputClass='phone-input'
+                        buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
+                        countryCodeEditable={false}
+                        dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
+                    />
+
+                    <span className="form--error-message">
+                        {formErrors.phone && formErrors.phone}
+                    </span>
+                </div>
+
+
+                <div className="form--item">
+                    <label className='form--label' htmlFor="password">Password <Asterisk /></label>
+                    <div className="form--input-box">
+                        <input
+                            type={showPassword.main ? "text" : "password"}
+                            name='password'
+                            id="password"
+                            className='form--input'
+                            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                            value={formData.password}
+                            onChange={handleFormChange}
+                        />
+                        <div className='form--input-icon' onClick={() => handlePasswordShown("main")}>
+                            {showPassword.main ? <ImEye /> : <ImEyeBlocked />}
                         </div>
-                        <span className="form--error-message">
-                            {formErrors.password && formErrors.password}
-                        </span>
                     </div>
+                    <span className="form--error-message">
+                        {formErrors.password && formErrors.password}
+                    </span>
+                </div>
 
-                    <div className="form--item">
-                        <label className='form--label' htmlFor="password-confirm">Password Confirm <Asterisk /></label>
-                        <div className="form--input-box">
-                            <input
-                                type={showPassword.confirm ? "text" : "password"}
-                                name='passwordConfirm'
-                                id="password-confirm"
-                                className='form--input'
-                                placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                                value={formData.passwordConfirm}
-                                onChange={handleFormChange}
-                            />
-                            <div className='form--input-icon' onClick={() => handlePasswordShown("confirm")}>
-                                {showPassword.confirm ? <ImEye /> : <ImEyeBlocked />}
-                            </div>
+                <div className="form--item">
+                    <label className='form--label' htmlFor="password-confirm">Password Confirm <Asterisk /></label>
+                    <div className="form--input-box">
+                        <input
+                            type={showPassword.confirm ? "text" : "password"}
+                            name='passwordConfirm'
+                            id="password-confirm"
+                            className='form--input'
+                            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                            value={formData.passwordConfirm}
+                            onChange={handleFormChange}
+                        />
+                        <div className='form--input-icon' onClick={() => handlePasswordShown("confirm")}>
+                            {showPassword.confirm ? <ImEye /> : <ImEyeBlocked />}
                         </div>
-                        <span className="form--error-message">
-                            {formErrors.passwordConfirm && formErrors.passwordConfirm}
-                        </span>
                     </div>
+                    <span className="form--error-message">
+                        {formErrors.passwordConfirm && formErrors.passwordConfirm}
+                    </span>
+                </div>
 
 
-                    <div className="form--item-flex" onClick={() => width > 850 ? setIsChecked(!isChecked) : null}>
-                        <div id="checkbox" className={isChecked ? 'is-selected' : ''} onClick={() => setIsChecked(!isChecked)}>
-                            {isChecked && <FaCheck />}
-                        </div>
-                        <p className='form--info'>
-                            I agree to the <a target='_blank' href='https://www.getquicka.com/terms'>Terms of Use</a> and <a target='_blank' href='https://www.getquicka.com/policy'>Privacy Policy</a>
-                        </p>
+                <div className="form--item-flex" onClick={() => width > 850 ? setIsChecked(!isChecked) : null}>
+                    <div id="checkbox" className={isChecked ? 'is-selected' : ''} onClick={() => setIsChecked(!isChecked)}>
+                        {isChecked && <FaCheck />}
                     </div>
+                    <p className='form--info'>
+                        I agree to the <a target='_blank' href='https://www.getquicka.com/terms'>Terms of Use</a> and <a target='_blank' href='https://www.getquicka.com/policy'>Privacy Policy</a>
+                    </p>
+                </div>
 
-                    <button type="submit" className='form--submit'>Continue</button>
+                <button type="submit" className='form--submit'>Continue</button>
 
-                    <div className="form--info">
-                        <p>Already have an account? <Link to='/login'>Sign in</Link></p>
-                    </div>
+                <div className="form--info">
+                    <p>Already have an account? <Link to='/login'>Sign in</Link></p>
+                </div>
 
-                    {width > 850 && <div style={{ paddingBottom: '6rem' }} />}
-                </form>
+                {width > 850 && <div style={{ paddingBottom: '6rem' }} />}
+            </form>
 
-            </AuthsUI>
+        </AuthsUI>
     )
 }
 

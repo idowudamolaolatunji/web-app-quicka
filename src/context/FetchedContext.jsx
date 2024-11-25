@@ -209,6 +209,7 @@ export const FetchedProvider = ({ children }) => {
             if(data.status == "fail") throw new Error();
             if (data?.data) setCustomers(data?.data?.customers);
         } catch (err) {
+            console.log(err, err?.message)
             const errMessage = handleFetchError(err?.message)
             setCustomerError(errMessage);
         } finally {
@@ -345,6 +346,7 @@ export const FetchedProvider = ({ children }) => {
         deliveryRates,
         storeCategories,
         handleFetchItem,
+        handleFetchError,
         handleImageUpload,
         handleGlobalRefetch,
         handleDeleteOneItem,

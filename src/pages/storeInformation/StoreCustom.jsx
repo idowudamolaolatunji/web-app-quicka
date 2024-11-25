@@ -33,8 +33,8 @@ const noLogo = "../../../../faviconB.png"
 function StoreCustom({ isnew, close }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { token, store, handleStore, handleUser } = useAuthContext();
-    const { handleImageUpload } = useFetchedContext();
+    const { token, store, shouldKick, handleStore, handleUser } = useAuthContext();
+    const { handleImageUpload, handleFetchError } = useFetchedContext();
 
     const logoImg = `${BASE_URL}${store?.logo}`;
     console.log(logoImg)
@@ -159,11 +159,7 @@ function StoreCustom({ isnew, close }) {
         handleResetResponse()
         handleLoading("mainLoading", true);
 
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-
         const { instagram, whatsapp, facebook, twitter, headline, heading, subHeading, brandColor, aboutDescription, returnPolicyDescription } = storeData;
-
         const socialProfiles = { instagram, whatsapp, facebook, twitter };
         const customDetail = { heading, subHeading, brandColor, headline };
         const otherPages = { aboutDescription, returnPolicyDescription,
@@ -172,12 +168,18 @@ function StoreCustom({ isnew, close }) {
         }
 
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            
+            // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/stores/onboard/store`, {
                 method: "PATCH",
                 headers,
                 body: JSON.stringify({ socialProfiles, customDetail, otherPages })
             });
-            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
+
+            shouldKick(res)
 
             const data = await res.json();
             const { status, message } = data;
@@ -209,7 +211,8 @@ function StoreCustom({ isnew, close }) {
             }, isnew ? 5000 : 3000);
 
         } catch (err) {
-            setResponse({ status: "error", message: err.message });
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
         } finally {
             handleLoading("mainLoading", false);
         }

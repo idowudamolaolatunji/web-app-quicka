@@ -6,16 +6,16 @@ import { HiLockClosed } from 'react-icons/hi2';
 import Asterisk from '../../components/Asterisk';
 import { useWindowSize } from 'react-use';
 import { validateAuthForm } from '../../utils/validationHelper';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Modal from "../../components/modal/ExtraSmall";
-import { LuBadgeCheck } from 'react-icons/lu';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import isOnline from 'is-online';
+import { useFetchedContext } from '../../context/FetchedContext';
 
 
 function index() {
-    const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { handleFetchError } = useFetchedContext();
     const BASE_URL = import.meta.env.VITE_API_URL;
     const headingText = "Manage Your Business and Safeguard Security with Confidence."
 
@@ -56,10 +56,10 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if (!connected) throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_URL}/users/forgot-password`, {
                 method: 'PATCH', headers,
@@ -78,7 +78,7 @@ function index() {
             setResponse({ status: data?.status, message: data?.message });
             setShowModal(true)
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
+            const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
             setLoading(false);

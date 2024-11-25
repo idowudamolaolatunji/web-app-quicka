@@ -3,12 +3,11 @@ import AuthsUI from '../../ui/authUI';
 
 import { useWindowSize } from 'react-use';
 import { validateAuthForm } from '../../utils/validationHelper';
-import { CgPassword } from 'react-icons/cg';
+import { useFetchedContext } from '../../context/FetchedContext';
 import data_img from '../../assets/images/resources/oluwakemi-solaja-R8ED8o_xoVs-unsplash.jpg'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Asterisk from '../../components/Asterisk';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
-import { MdPassword } from 'react-icons/md';
 import { HiFingerPrint } from 'react-icons/hi2';
 import Modal from "../../components/modal/ExtraSmall";
 import { FcCancel } from 'react-icons/fc';
@@ -19,6 +18,8 @@ function index() {
     const { resettoken } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { handleFetchError } = useFetchedContext();
+
     const BASE_URL = import.meta.env.VITE_API_URL;
     const headingText = "Reset Your Password and Regain Control with Confidence";
 
@@ -58,10 +59,12 @@ function index() {
     useEffect(function () {
         async function handleValidateToken() {
             setLoading(true);
-            const connected = await isOnline();
-            if(!connected) throw new Error("Check your internet connection");
-
+            
             try {
+                // CHECK CONNECTION
+                const connected = await isOnline();
+                if (!connected) throw new Error("Internet Error");
+
                 const res = await fetch(`${BASE_URL}/users/validate-reset-token/${resettoken}`,
                     { method: 'GET', headers }
                 );
@@ -81,7 +84,9 @@ function index() {
                 // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
                 setResponse({ status: data?.status, message: data?.message });
             } catch (err) {
-                const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
+                const message = (err?.message == "Failed to fetch")
+                    ? "Oops! Connection Error!!"
+                    : err?.message
                 setResponse({ status: "error", message });
             } finally {
                 setLoading(false);
@@ -105,10 +110,11 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if (!connected) throw new Error("Internet Error");
+
             const res = await fetch(`${BASE_URL}/users/reset-password/${resettoken}`, {
                 method: 'PATCH', headers,
                 body: JSON.stringify(formData)
@@ -130,7 +136,7 @@ function index() {
             setResponse({ status: data?.status, message: data?.message });
             setTimeout(() => navigate("/login"), 2500);
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
+            const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
             setLoading(false);

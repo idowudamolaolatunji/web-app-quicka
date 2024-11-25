@@ -23,8 +23,8 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function GetStarted() {
     const { width } = useWindowSize();
-    const { globalConnectionError } = useFetchedContext();
-    const { user, store, token, handleUser, handleStore } = useAuthContext();
+    const { globalConnectionError, handleFetchError } = useFetchedContext();
+    const { user, store, token, handleUser, handleStore, shouldKick } = useAuthContext();
 
     const headers = {
         "Content-Type": "application/json",
@@ -124,9 +124,9 @@ function GetStarted() {
             const res = await fetch(`${BASE_API_URL}/stores/finalize-onboarding/store`, {
                 method: "PATCH", headers 
             });
-            if(!res.ok) throw new Error("Something went wrong, Server Error");
-            const data = await res.json();
+            shouldKick(res);
 
+            const data = await res.json();
             const { status, message } = data;
             if (!status || status != 'success') throw new Error(message);
 
@@ -142,9 +142,10 @@ function GetStarted() {
             }, 3000);
 
         } catch(err) {
-            setResponse({ status: "error", message: err?.message });
             handleLoading("mainLoading", false);
-        } 
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
+        }
     }
 
     return (

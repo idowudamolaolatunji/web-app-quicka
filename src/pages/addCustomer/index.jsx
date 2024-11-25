@@ -20,7 +20,7 @@ function index({ close, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, store, shouldKick } = useAuthContext();
-    const { handleFetchUserStoreCustomers } = useFetchedContext();
+    const { handleFetchUserStoreCustomers, handleFetchError } = useFetchedContext();
     const { location, getContries, getStates, getCities, setLocation } = useDataContext();
 
     const { countryCode } = store?.contact;
@@ -140,15 +140,16 @@ function index({ close, isModal }) {
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
 
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-
         const { countryCode, dialCode, phoneNumber, phone, email, address, zipCode, firstname, lastname, description } = customerData;
         const contact = { countryCode, dialCode, phoneNumber, phone, email };
         const shippingAddress = { address, zipCode, country: country[0]?.name, state: state[0]?.name, city: city[0]?.name }
-
-        // MAKE REQUEST
+        
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+
+            // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/customers`, {
                 headers,
                 method: "POST",
@@ -157,9 +158,7 @@ function index({ close, isModal }) {
                     firstname, lastname, description
                 })
             });
-
             shouldKick(res);
-            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
             const { status, message } = data;
@@ -173,7 +172,8 @@ function index({ close, isModal }) {
             handleFetchUserStoreCustomers()
 
         } catch (err) {
-            setResponse({ status: "error", message: err.message });
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
         } finally {
             setLoading({ ...loading, mainLoading: false })
         }

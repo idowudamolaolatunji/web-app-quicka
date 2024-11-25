@@ -3,6 +3,7 @@ import OtpInput from 'react-otp-input';
 import { useWindowSize } from 'react-use';
 import { useNavigate } from 'react-router-dom';
 import { countdownTimer } from '../../utils/helper';
+import { useFetchedContext } from '../../context/FetchedContext';
 import { validateAuthForm } from '../../utils/validationHelper';
 
 import { HiFingerPrint } from 'react-icons/hi';
@@ -14,6 +15,7 @@ import isOnline from 'is-online';
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { handleFetchError } = useFetchedContext();
     const BASE_URL = import.meta.env.VITE_API_URL;
     const headingText = "Take Control of Your Business, Anywhere, Anytime";
 
@@ -65,10 +67,11 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if (!connected) throw new Error("Internet Error");
+
             const res = await fetch(`${BASE_URL}/users/verify-otp`, {
                 method: 'PATCH', headers,
                 body: JSON.stringify({ ...formData })
@@ -95,7 +98,7 @@ function index() {
                 navigate('/congratulations?next=onboarding');
             }, 1000);
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
+            const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
             setLoading(false);
@@ -106,11 +109,12 @@ function index() {
     async function handleRequestOtp() {
         setLoading(true);
         setResent(false);
-
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-
+        
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if (!connected) throw new Error("Internet Error");
+
             const res = await fetch(`${BASE_URL}/users/request-otp`, {
                 method: 'PATCH',
                 headers: { "Content-type": "application/json" },
@@ -133,7 +137,7 @@ function index() {
             setOtpUser({ ...otpUser, ...user });
 
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
+            const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
             setLoading(false);

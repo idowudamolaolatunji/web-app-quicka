@@ -35,7 +35,7 @@ function index({ isnew=false, close, ismodal=false }) {
 
     const { width } = useWindowSize();
     const { headers, shouldKick, handleStore, store } = useAuthContext();
-    const { collections, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleFetchItem } = useFetchedContext();
+    const { collections, handleFetchError, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleFetchItem } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
@@ -231,18 +231,20 @@ function index({ isnew=false, close, ismodal=false }) {
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
 
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-
+        
         // GET COLLECTION NAMES
         const names = productCollection.map(collection => collection.name);
         const itemUnit = unit[0]?.value;
-
+        
         // check if it's firsttime new onboard or old editing
         const end_point = isnew ? "/onboard/product" : id ?`/${selectedId}` : "";
-
-        // MAKE REQUEST
+        
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            
+            // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/products${end_point}`, {
                 headers,
                 method: id ? "PATCH" : "POST",
@@ -260,10 +262,8 @@ function index({ isnew=false, close, ismodal=false }) {
                 })
             });
             shouldKick(res);
-            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
-
             const { status, message } = data;
             const { product } = data.data;
             if (status !== 'success') throw new Error(message);
@@ -301,7 +301,8 @@ function index({ isnew=false, close, ismodal=false }) {
             handleFetchUserStoreProducts()
 
         } catch (err) {
-            setResponse({ status: "error", message: err.message });
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
         } finally {
             setLoading({ ...loading, mainLoading: false })
         }

@@ -21,7 +21,7 @@ function index({ close, isnew, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, store, handleStore, shouldKick } = useAuthContext();
-    const { handleFetchUserStoreDeliveryRates } = useFetchedContext();
+    const { handleFetchUserStoreDeliveryRates, handleFetchError } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
@@ -79,13 +79,15 @@ function index({ close, isnew, isModal }) {
         // SET LOADER
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
-        const connected = await isOnline();
-        if(!connected) throw new Error("Check your internet connection");
-
+        
         const end_point = isnew ? "onboard/rate" : ""
-
-        // MAKE REQUEST
+        
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+
+            // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/delivery-rates/${end_point}`, {
                 headers,
                 method: "POST",
@@ -95,9 +97,7 @@ function index({ close, isnew, isModal }) {
                     fee: +deliveryData.fee,
                 })
             });
-
             shouldKick(res)
-            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
 
             const data = await res.json();
             const { status, message } = data;
@@ -122,7 +122,8 @@ function index({ close, isnew, isModal }) {
             }, isnew ? 5000 : 3000);
 
         } catch (err) {
-            setResponse({ status: "error", message: err.message });
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
         } finally {
             setLoading({ ...loading, mainLoading: false })
         }

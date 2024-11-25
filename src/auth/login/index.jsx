@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
+import { useFetchedContext } from '../../context/FetchedContext';
 import { validateAuthForm } from '../../utils/validationHelper';
 
 import data_img from '../../assets/images/resources/alex-robinson-rrI02QQ9GSQ-unsplash.jpg'
@@ -19,6 +20,7 @@ const headingText = "Manage your business online like the boss that you are."
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { handleFetchError } = useFetchedContext();
     const { user, store, handleChange, handleStore } = useAuthContext();
 
     const [showPassword, setShowPassword] = useState(false);
@@ -56,12 +58,12 @@ function index() {
         const newErrors = validateAuthForm(formData, 'login');
         setFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
-
-        // NEXT, IMPLEMENT THE LOGIN REQUEST
+        
+        handleLoading('mainLoading', true);
         try {
-            handleLoading('mainLoading', true);
+            // CHECK CONNECTION
             const connected = await isOnline();
-            if(!connected) throw new Error("Check your internet connection");
+            if (!connected) throw new Error("Internet Error");
 
             const res = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
                 method: 'POST',
@@ -111,7 +113,7 @@ function index() {
 
             }, 2500);
         } catch (err) {
-            const message = err?.message == "Failed to fetch" ? "Server is Busy" : err?.message
+            const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
             handleLoading('mainLoading', false);
