@@ -12,7 +12,7 @@ import { MdChatBubble, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineD
 import { BiCustomize, BiLineChart } from 'react-icons/bi';
 import { HiOutlineSquare3Stack3D } from 'react-icons/hi2';
 import { useDataContext } from '../../../context/DataContext';
-import { RiAppsLine, RiBankLine, RiCoupon3Line, RiCloseFill, RiDiscountPercentLine } from 'react-icons/ri';
+import { RiAppsLine, RiBankLine, RiCoupon3Line, RiCloseFill, RiDiscountPercentLine, RiMoneyDollarCircleLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { TbDeviceAnalytics, TbTransactionDollar, TbTruckDelivery } from 'react-icons/tb';
 
@@ -37,7 +37,7 @@ function DashboardMenu() {
                             <MenuLink icon={<LuTags />} title='Your Products' link='/products' />
                             <MenuLink icon={<TbDeviceAnalytics />} title='Analytics' link='/analytics' />
                             <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
-                            <MenuLink icon={<TbTransactionDollar />} title='Transactions' link='/transactions' />
+                            <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
                             <MenuLink icon={<RiDiscountPercentLine />} title='Discount and coupon' link='/discount-coupon' />
                         </ul>
                     </div>
@@ -92,7 +92,7 @@ function DashboardMenu() {
                                 <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
                                 <MenuLink icon={<MdOutlineShoppingBag />} title='Your Orders' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Your Products' link='/products' />
-                                <MenuLink icon={<TbDeviceAnalytics />} title='Analytics' link='/analytics' />
+                                <MenuLink icon={<AiOutlineBank />} title='Analytics' link='/analytics' />
                                 <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
                                 <MenuLink icon={<TbTransactionDollar />} title='Transactions' link='/transactions' />
                                 <MenuLink icon={<RiDiscountPercentLine />} title='Discount and coupon' link='/discount-coupon' />

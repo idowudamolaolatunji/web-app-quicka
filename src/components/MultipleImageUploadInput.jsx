@@ -81,9 +81,9 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
                     <>
                         {errors && (
                             <>
-                                {errors?.maxNumber && handleError("Number of selected images exceed maxNumber")}
+                                {errors?.maxNumber && handleError("Number of selected images exceed max amount")}
                                 {errors?.acceptType && handleError("Your selected file type is not allow")}
-                                {errors?.maxFileSize && handleError("Selected file size exceed maxFileSize")}
+                                {errors?.maxFileSize && handleError("Selected file size exceed max file size")}
                                 {errors?.resolution && handleError("Selected file is not match your desired resolution")}
                             </>
                         )}
