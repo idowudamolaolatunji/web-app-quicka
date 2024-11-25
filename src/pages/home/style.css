@@ -564,18 +564,19 @@ a.upgrade--link:hover {
 
 .insight--figure:nth-child(3) {
     /* background-color: #d7ecd1b7; */
-    background-color: var(--color-brand-100);
+    background-color: var(--color-brand-50);
 }
 .insight--figure:nth-child(3) svg {
     /* color: #008001; */
-    color: var(--color-brand-500);
+    color: var(--color-brand-700);
 }
 
 .insight--figure:nth-child(4) {
     background-color: #FFFBEB;
 }
 .insight--figure:nth-child(4) svg {
-    color: #F8CBA6;
+    /* color: #F8CBA6; */
+    color: #ffbc84;
 }
 /* ============================================= */
 

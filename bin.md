@@ -932,3 +932,18 @@ navigator.geolocation.getCurrentPosition(position => {
     const longitude = position.coords.longitude;
     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 });
+
+
+
+
+    const handleFetchError = function(errMessage) {
+        let message;
+        if (errMessage?.includes("Failed to fetch") || errMessage?.includes("CONNECTION")) {
+            message = "Server is Busy, Please try again later.";
+        } else if (errMessage?.includes("Internet Error")) {
+            message = "Unable to fetch, Check Internet Connection.";
+        } else {
+            message = errMessage || "An error occurred. Please try again later";
+        }
+        return message;
+    }

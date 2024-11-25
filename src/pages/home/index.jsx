@@ -9,15 +9,14 @@ import GetStarted from './homeComponents/GetStarted';
 import Spinner from "../../components/spinner/spinner_two"
 import HomeLayoutGrid from './homeComponents/HomeLayoutGrid';
 import HomeProgressGrid from './homeComponents/HomeProgressGrid';
-import NoInternetConnection from '../../components/NoInternetConnection';
-import ServerError from '../../components/ServerError';
+import ConnectionError from '../../components/ConnectionError';
 import './style.css';
 
 
 function index() {
     const { width } = useWindowSize();
     const { user } = useAuthContext();
-    const { loader, globalInternetError, globalServerError } = useFetchedContext();
+    const { loader, globalConnectionError } = useFetchedContext();
 
     const { storeBasicSetup, storeFinalSetup } = user;
     const userStoreIsSetup = (storeBasicSetup && storeFinalSetup);
@@ -29,8 +28,7 @@ function index() {
 
     return (
         <>
-            {globalInternetError && <NoInternetConnection />}
-            {globalServerError && <ServerError />}
+            {globalConnectionError && <ConnectionError />}
 
             <section className='home--section'>
                 <HomeTop />

@@ -58,8 +58,8 @@ function index() {
     useEffect(function () {
         async function handleValidateToken() {
             setLoading(true);
-            const isConnected = await isOnline();
-            if(!isConnected) throw new Error("Check your internet connection");
+            const connected = await isOnline();
+            if(!connected) throw new Error("Check your internet connection");
 
             try {
                 const res = await fetch(`${BASE_URL}/users/validate-reset-token/${resettoken}`,
@@ -105,8 +105,8 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
 
         try {
             const res = await fetch(`${BASE_URL}/users/reset-password/${resettoken}`, {

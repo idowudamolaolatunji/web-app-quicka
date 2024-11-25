@@ -159,8 +159,8 @@ function StoreCustom({ isnew, close }) {
         handleResetResponse()
         handleLoading("mainLoading", true);
 
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
 
         const { instagram, whatsapp, facebook, twitter, headline, heading, subHeading, brandColor, aboutDescription, returnPolicyDescription } = storeData;
 

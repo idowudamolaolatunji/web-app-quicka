@@ -13,7 +13,7 @@ import './generalStyle.css';
 import Delete from '../../components/modal/Delete';
 import Spinner from '../../components/spinner/spinner_two';
 import { useFetchedContext } from '../../context/FetchedContext';
-import NoInternetConnection from '../../components/NoInternetConnection';
+import ConnectionError from '../../components/ConnectionError';
 import Drawer from '../../components/modal/Drawer';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 
@@ -27,7 +27,7 @@ function PageUI({
 
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { globalInternetError } = useFetchedContext();
+    const { globalConnectionError } = useFetchedContext();
     const { handleToggleInsights, showInsights } = useDataContext();
 
     // CHECK THIS AGAIN LATER....
@@ -64,7 +64,7 @@ function PageUI({
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {error[pageName] && <NoInternetConnection /> }
+            {error[pageName] && <ConnectionError /> }
 
             {/* THIS IS FOR THE COLLECTION MODAL */}
             {action && (

@@ -60,8 +60,8 @@ function index() {
         // NEXT, IMPLEMENT THE LOGIN REQUEST
         try {
             handleLoading('mainLoading', true);
-            const isConnected = await isOnline();
-            if(!isConnected) throw new Error("Check your internet connection");
+            const connected = await isOnline();
+            if(!connected) throw new Error("Check your internet connection");
 
             const res = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
                 method: 'POST',

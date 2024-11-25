@@ -23,7 +23,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function GetStarted() {
     const { width } = useWindowSize();
-    const { globalInternetError } = useFetchedContext();
+    const { globalConnectionError } = useFetchedContext();
     const { user, store, token, handleUser, handleStore } = useAuthContext();
 
     const headers = {
@@ -47,7 +47,7 @@ function GetStarted() {
         product: false,
         bank: false,
         delivery: false,
-        welcome: globalInternetError ? false : true,
+        welcome: globalConnectionError ? false : true,
     })
 
     const completedSteps = stepsToComplete.filter(step => step.completed);

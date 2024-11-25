@@ -65,8 +65,8 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
 
         try {
             const res = await fetch(`${BASE_URL}/users/verify-otp`, {
@@ -107,8 +107,8 @@ function index() {
         setLoading(true);
         setResent(false);
 
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
 
         try {
             const res = await fetch(`${BASE_URL}/users/request-otp`, {

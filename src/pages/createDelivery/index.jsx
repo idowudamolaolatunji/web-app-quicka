@@ -79,8 +79,8 @@ function index({ close, isnew, isModal }) {
         // SET LOADER
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
 
         const end_point = isnew ? "onboard/rate" : ""
 

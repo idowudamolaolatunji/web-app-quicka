@@ -72,7 +72,7 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent,
     return (
         <>
             {(error && !isData && !loader) && (
-                <ErrorComponent customStyle={{ padding: "4.8rem 2rem" }} text={error} />
+                <ErrorComponent customStyle={{ padding: "4.8rem 2rem" }} />
             )}
 
             {((!isData && !error && !loader) && <>{emptyComponent}</>)}

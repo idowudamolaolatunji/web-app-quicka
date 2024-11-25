@@ -139,8 +139,8 @@ function index() {
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
 
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
         
         // PRODUCTQUANTITIES, CONTAINS THE ID AND THE QUANTITY OF THAT ID. (AND THAT IS JUST WHAT THE BACKEND NEEDS)
         const products = productQuantities;

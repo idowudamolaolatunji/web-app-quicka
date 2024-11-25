@@ -56,8 +56,8 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
 
         try {
 

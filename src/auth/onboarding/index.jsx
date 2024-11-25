@@ -182,8 +182,8 @@ function index() {
         // RESET THE RESPONSE STATE HERE
         handleResetResponse();
         setIsLoading(true);
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
 
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/users/onboarding-store/${userId}`

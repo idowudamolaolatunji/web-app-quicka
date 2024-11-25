@@ -614,8 +614,19 @@ button {
 .empty--box img {
 	width: 10rem;
 }
-.error.empty--box img {
-	width: 8rem;
+.error.empty--box span {
+	width: 6rem;
+	height: 6rem;
+	background-color: #ff999973;
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.error.empty--box span svg {
+	font-size: 4rem;
+	color: #ff0000;
 }
 
 

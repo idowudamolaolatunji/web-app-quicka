@@ -140,8 +140,8 @@ function index({ close, isModal }) {
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
 
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
 
         const { countryCode, dialCode, phoneNumber, phone, email, address, zipCode, firstname, lastname, description } = customerData;
         const contact = { countryCode, dialCode, phoneNumber, phone, email };

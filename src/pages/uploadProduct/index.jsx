@@ -231,8 +231,8 @@ function index({ isnew=false, close, ismodal=false }) {
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
 
-        const isConnected = await isOnline();
-        if(!isConnected) throw new Error("Check your internet connection");
+        const connected = await isOnline();
+        if(!connected) throw new Error("Check your internet connection");
 
         // GET COLLECTION NAMES
         const names = productCollection.map(collection => collection.name);
