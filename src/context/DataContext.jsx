@@ -78,7 +78,6 @@ export const DataProvider = ({ children }) => {
     const headers = new Headers();
     headers.append("X-CSCAPI-KEY", apiToken);
 
-
     const getContries = async function() {
         const response = await fetch(apiBaseUrl, { headers });
         const data = await response.json();
@@ -96,7 +95,7 @@ export const DataProvider = ({ children }) => {
         const data = await response.json();
         setLocation({...location, city: [...data] })
     };
-    // //////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////
 
 
     useEffect(function() {

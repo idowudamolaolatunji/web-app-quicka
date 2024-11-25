@@ -547,10 +547,12 @@ a.upgrade--link:hover {
 /*  */
 /* ============================================= */
 .insight--figure:nth-child(1) {
-    background-color: #FFDEDE;
+    /* background-color: #FFDEDE; */
+    background-color: #FFEBF0;
 }
 .insight--figure:nth-child(1) svg {
-    color: #EB4747;
+    /* color: #EB4747; */
+    color: #FF69B4;
 }
 
 .insight--figure:nth-child(2) {
@@ -561,10 +563,12 @@ a.upgrade--link:hover {
 }
 
 .insight--figure:nth-child(3) {
-    background-color: #d7ecd1b7;
+    /* background-color: #d7ecd1b7; */
+    background-color: var(--color-brand-100);
 }
 .insight--figure:nth-child(3) svg {
-    color: #008001;
+    /* color: #008001; */
+    color: var(--color-brand-500);
 }
 
 .insight--figure:nth-child(4) {
@@ -574,6 +578,8 @@ a.upgrade--link:hover {
     color: #F8CBA6;
 }
 /* ============================================= */
+
+
 
 
 

@@ -55,8 +55,8 @@ function PageUI({
 
     return (
         <>
-            {/* THIS IS A REUSABLE DELETE IMPLEMENTATION */}
             {deleteObj?.loader && <Spinner />}
+
             {deleteObj?.show && <Delete {...deleteObj} />}
             {/* ======================================== */}
 
@@ -64,7 +64,7 @@ function PageUI({
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {globalInternetError && <NoInternetConnection /> }
+            {error[pageName] && <NoInternetConnection /> }
 
             {/* THIS IS FOR THE COLLECTION MODAL */}
             {action && (

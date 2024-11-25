@@ -79,7 +79,7 @@ export const FetchedProvider = ({ children }) => {
         collectionError.includes(serverErrorStr) ||
         customerError.includes(serverErrorStr) ||
         deliveryError.includes(serverErrorStr)
-    ) ? true : false;
+    ) && !globalInternetError ? true : false;
 
 
     const handleGlobalRefetch = function() {
