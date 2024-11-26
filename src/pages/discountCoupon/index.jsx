@@ -9,7 +9,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router-dom';
 import Tab from '../../components/Tab';
 import { VscRunCoverage } from 'react-icons/vsc';
-import discount_emptyImg from '../../assets/images/illustrations/discounts.png';
+import discount_emptyImg from '../../assets/images/illustrations/discount.png';
 import coupon_emptyImg from '../../assets/images/illustrations/coupon.png';
 import store_sales_emptyImg from '../../assets/images/illustrations/store_sales.png';
 import PageUI from '../../ui/PageUI/PageUI';
@@ -135,7 +135,7 @@ function index() {
             emptyTitle={emptyTitle}
             addUrl="delivery-rates/add"
             loader={loader} error={error}
-            goto={false}
+            hasLink={false}
             insights={false}
             headTabs={<HeadTabs />}
 

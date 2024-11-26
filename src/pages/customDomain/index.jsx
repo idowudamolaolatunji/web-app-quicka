@@ -59,7 +59,7 @@ function index() {
                     data={domains}
                     columns={columns}
                     selectableRows={false}
-                    goto={false}
+                    hasLink={false}
                     error={error?.domain}
                     loader={loader?.domain}
                     emptyComponent={

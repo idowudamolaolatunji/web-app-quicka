@@ -103,6 +103,7 @@ function index() {
         }
         
         handleLoading('mainLoading', true);
+        handleResetResponse()
         try {
             // CHECK CONNECTION
             const connected = await isOnline();

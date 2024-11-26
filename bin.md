@@ -23,7 +23,7 @@ function index() {
     const [showPassword, setShowPassword] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [formErrors, setFormErrors] = useState({});
-    const [isLoading, setIsLoading] = useState({
+    const [Loading, setLoading] = useState({
         authLoading: false,
         mainLoading: false
     });
@@ -51,8 +51,8 @@ function index() {
     };
 
     const handleLoading = function (key, value) {
-        setIsLoading({
-            ...isLoading, [key]: value,
+        setLoading({
+            ...Loading, [key]: value,
         });
     }
 
@@ -115,7 +115,7 @@ function index() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {isLoading.mainLoading && <Spinner /> }
+            {Loading.mainLoading && <Spinner /> }
             
             <section className='auth__section'>
                 <div className="auth--left">
@@ -947,3 +947,13 @@ navigator.geolocation.getCurrentPosition(position => {
         }
         return message;
     }
+
+
+
+useEffect(function () {
+    document.title = "Quicka | Your orders";
+
+    // if (orders?.length < 1 && error.order) {
+    //     handleFetchUserStoreOrders();
+    // }
+}, []);

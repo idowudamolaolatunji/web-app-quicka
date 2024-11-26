@@ -13,6 +13,7 @@ import { imgString } from '../../assets/images/png_elements';
 import { GoDotFill } from 'react-icons/go';
 import emptyImg from '../../assets/images/illustrations/sales.png';
 import { useAuthContext } from '../../context/AuthContext';
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 
 
 //////////////////////////////////////////////////////
@@ -32,7 +33,10 @@ function index() {
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
     
-    const [tableSearch, setTableSearch] = useState('');
+    const [search, setSearch] = useState('');
+    const [searchLoader, setSearchLoader] = useState(false);
+    const [searchResults, setSearchResult] = useState([]);
+
     const completedOrders = orders?.filter(order => order.orderStatus == "completed");
     const unCompletedOrders = orders?.filter(order => order.orderStatus != "completed");
     const newOrders = orders?.filter(order => order.channel == "online store" && order.orderStatus != "completed" && isWithinLast7Days(order.orderDate));
@@ -58,16 +62,16 @@ function index() {
             name: 'Product(s)', selector: row => (
                 <TooltipUI placement='top' title={
                     <ul className='table--list'>
-                        {row.products?.map(({ _id, name }) => (
-                            <li key={_id}><GoDotFill /> {name}</li>
+                        {row.productNames?.map((name, index) => (
+                            <li key={index}><GoDotFill /> {name}</li>
                         ))}
                     </ul>
                 }>
                     <ul className='table--list'>
-                        {row.products?.slice(0, 3)?.map(({ _id, name }) => (
-                            <li key={_id}><GoDotFill /> {truncateString(name, 18)}</li>
+                        {row.productNames?.slice(0, 3)?.map(( name, index ) => (
+                            <li key={index}><GoDotFill /> {truncateString(name, 18)}</li>
                         ))}
-                        {row.products?.length > 3 && <li>...</li>}
+                        {row.productNames?.length > 3 && <li>...</li>}
                     </ul>
                 </TooltipUI>
             ),
@@ -112,34 +116,36 @@ function index() {
     ];
 
 
-    const HeadTabs = function () {
-        return (
-            <div className='content'>
-                <span className='flex'>
-                    <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={handleFetchUserStoreOrders}><MdOutlineRefresh /></button>
-                    </TooltipUI>
-                    <input type="text" className="table--input form--input" placeholder='search..' />
-                </span>
-
-                <span className="flex">
-                    <button className='table--btn'>Clear filter</button>
-
-                    <TooltipUI placement='top' title="Filters">
-                        <button className='table--btn'><MdOutlineFilterList /></button>
-                    </TooltipUI>
-                </span>
-            </div>
-        );
-    }
-
     useEffect(function () {
         document.title = "Quicka | Your orders";
-
-        // if (orders?.length < 1 && error.order) {
-        //     handleFetchUserStoreOrders();
-        // }
     }, []);
+
+
+    useEffect(function() {
+        function handleSearch() {
+            if(!search) return;
+            setSearchLoader(true)
+
+            const searchValue = search?.toLowerCase()
+            const searchResult = orders?.filter(data => {
+                return (
+                    data.productNames?.some(name => name?.toLowerCase()?.includes(searchValue)) ||
+                    data.status?.includes(searchValue) ||
+                    data.channel?.includes(searchValue) ||
+                    data.customer?.name?.includes(searchValue)
+                );              
+            });
+
+            setSearchResult(searchResult)
+            setTimeout(() => {
+                setSearchLoader(false)
+            }, 750);
+        }
+        
+        if(search) {
+            handleSearch()
+        }
+    }, [search])
 
 
     return (
@@ -147,7 +153,7 @@ function index() {
         <PageUI
             pageName="order"
             items={orders}
-            data={orders}
+            data={search ? searchResults : orders}
             columns={columns}
             shouldSelect={true}
             addUrl="orders/record"
@@ -157,8 +163,9 @@ function index() {
             emptyImg={emptyImg}
             emptyTitle={emptyTitle}
             emptyClassName="empty--order"
-            headTabs={<HeadTabs />}
+            headTabs={<TableHeadTabs pageName="order" handleFetch={handleFetchUserStoreOrders} searchVal={search} setSearchVal={setSearch} />}
             loader={loader} error={error}
+            searchLoader={searchLoader}
         >
 
             {showInsights?.order && (

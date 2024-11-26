@@ -28,11 +28,17 @@ function ExportCSV({ title, data, setClose }) {
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
 
-    function handleClose() {
+    const handleClose = function() {
         setClose(false)
     }
 
+    const handleResetResponse = function () {
+        setResponse({ status: '', message: '' });
+    }
+
     async function handleSendExport() {
+        handleResetResponse();
+        
         if (!hasConvert) {
             return setResponse({ status: "error", message: "Free Exports Used Up!" })
         }

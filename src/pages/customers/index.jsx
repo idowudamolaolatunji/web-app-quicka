@@ -13,6 +13,7 @@ import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
 import { useNavigate } from 'react-router-dom';
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 
 
 const emptyTitle = "Add new customer!";
@@ -32,6 +33,8 @@ function index() {
     const [deleteLoader, setDeleteLoader] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [search, setSearch] = useState('');
+
 
     const handleShowModal = function(id) {
         setShowModal(true);
@@ -81,37 +84,8 @@ function index() {
         }
     ];
 
-
-    const HeadTabs = function () {
-        return (
-            <div className='content'>
-                <span className='flex'>
-                    <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={handleFetchUserStoreCustomers}><MdOutlineRefresh /></button>
-                    </TooltipUI>
-
-                    <input type="text" className="table--input form--input" placeholder='search..' />
-                </span>
-
-
-                <span className="flex">
-                    <button className='table--btn'>Clear filter</button>
-
-                    <TooltipUI placement='top' title="Filters">
-                        <button className='table--btn'><MdOutlineFilterList /></button>
-                    </TooltipUI>
-                </span>
-            </div>
-        );
-    }
-
-
     useEffect(function () {
-        document.title = "Quicka | Customers";
-
-        // if (customers?.length < 1 && error?.customer) {
-        //     handleFetchUserStoreCustomers();
-        // }
+        document.title = "Quicka | Your Customers";
     }, []);
 
 
@@ -142,7 +116,7 @@ function index() {
             emptyBtns={emptyBtns}
             emptyImg={emptyImg}
             emptyTitle={emptyTitle}
-            headTabs={<HeadTabs />}
+            headTabs={<TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreCustomers}  />}
             loader={loader} error={error}
 
             deleteObj={{ 

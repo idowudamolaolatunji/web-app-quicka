@@ -55,11 +55,13 @@ function index() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        
         const newErrors = validateAuthForm(formData, 'login');
         setFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
         
         handleLoading('mainLoading', true);
+        handleResetResponse();
         try {
             // CHECK CONNECTION
             const connected = await isOnline();

@@ -13,11 +13,15 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
 
     const ref = useOutsideClick(handleClose);
 
-    function handleClose() {
+    const handleClose = function() {
         setIsShown(false);
     }
 
-    function handleCloseByLink(e) {
+    const handleResetResponse = function () {
+        setResponse({ status: '', message: '' });
+    }
+
+    const handleCloseByLink = function(e) {
         if (e.target.closest('.dropdown--item').tagName === 'A') {
             setIsShown(false);
         };
@@ -26,6 +30,7 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
     async function handleLogout() {
         // LOGOUT LOGIC
         setLoading(true);
+        handleResetResponse()
 
         const result = await signoutUser();
         setLoading(true);

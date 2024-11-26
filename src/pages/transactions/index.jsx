@@ -17,6 +17,7 @@ import Tab from '../../components/Tab';
 
 import transaction_emptyImg from '../../assets/images/illustrations/transactions.png'
 import settlement_emptyImg from '../../assets/images/illustrations/settlements.png'
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 
 ///////////////////////////////////////////////
 const BASE_URL = import.meta.env.VITE_BASE_URL
@@ -46,7 +47,7 @@ function index() {
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     const [tabShown, setTabShown] = useState("transactions");
-    
+    const [search, setSearch] = useState('');
     
     /////////////////////////////////////////////////////////////////////
     // THE FUNCTION THAT CHANGES THE ROUTE WHEN WE CLICK A DIFFERENT TAB
@@ -153,6 +154,7 @@ function index() {
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
     useEffect(function () {
         setTabShown(route);
+        setSearch("")
     }, [route]);
 
 
@@ -165,9 +167,13 @@ function index() {
             emptyText={tabShown == "transactions" ? transaction_emptyText : settlement_emptyText}
             emptyImg={tabShown == "transactions" ? transaction_emptyImg : settlement_emptyImg}
             emptyTitle={tabShown == "transactions" ? transaction_emptyTitle : settlement_emptyTitle}
-            goto={false}
+            hasLink={false}
             loader={loader} error={error}
-            headTabs={<HeadTabs />}
+            headTabs={ tabShown == "transactions" ? (
+                <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreTransactions} />
+            ) : (
+                <TableHeadTabs pageName="settlement" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreSettlements} /> 
+            )}
         >
 
             {showInsights?.transaction && (

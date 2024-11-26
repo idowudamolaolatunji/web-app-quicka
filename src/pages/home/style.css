@@ -88,6 +88,7 @@
 
     background-color: #fff;
     padding: .8rem 1rem;
+    min-width: 8rem;
 }
 .home--top {
     display: flex;

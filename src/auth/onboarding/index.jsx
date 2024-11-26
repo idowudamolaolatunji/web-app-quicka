@@ -25,7 +25,7 @@ function index() {
 
     const headers = { "Content-type": "application/json" }
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [Loading, setLoading] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
 
     const [goalsChoosen, setGoalsChoosen] = useState([]);
@@ -179,9 +179,9 @@ function index() {
 
 
     async function handleOnboading() {
-        // RESET THE RESPONSE STATE HERE
+        // RESET THE RESPONSE AND LOADING STATE HERE
+        setLoading(true);
         handleResetResponse();
-        setIsLoading(true);
         
         try {
             // CHECK CONNECTION
@@ -225,7 +225,7 @@ function index() {
             const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     }
 
@@ -236,7 +236,7 @@ function index() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {isLoading && <Spinner />}
+            {Loading && <Spinner />}
 
             <section className='onboarding--section'>
                 <div className="onboarding--container">

@@ -49,13 +49,14 @@ function index() {
 
 
     async function handleSubmit(e) {
-        e.preventDefault()
-
+        e.preventDefault();
+        
         const newErrors = validateAuthForm(formData, 'forgot_password');
         setFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
-
+        
         setLoading(true);
+        handleResetResponse();
         try {
             // CHECK CONNECTION
             const connected = await isOnline();

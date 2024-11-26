@@ -7,11 +7,11 @@ import { RiDeleteBin5Line } from 'react-icons/ri';
 import ProductCard from '../../components/ProductCard';
 import ErrorComponent from '../../components/ErrorComponent';
 import ProductCardSkeleton from '../../components/ProductCardSkeleton';
-import { TableHeadSkeleton, TableSkeleton } from '../../components/TableSkeleton';
+import { TableCellSkeleton, TableHeadSkeleton, TableSkeleton } from '../../components/TableSkeleton';
 
 
-function TableUI({ name, columns, data, toLink, goto, emptyComponent,
-    selectableRows, headTabs, displayType = "table", open, loader, error
+function TableUI({ name, columns, data, toLink, hasLink, emptyComponent,
+    selectableRows, headTabs, displayType = "table", open, loader, error, searchLoader
 }) {
     
     const isData = data?.length > 0;
@@ -126,8 +126,10 @@ function TableUI({ name, columns, data, toLink, goto, emptyComponent,
                             customStyles={customStyles}
                             selectableRows={selectableRows}
                             onSelectedRowsChange={handleSelectedRow}
-                            {...( goto && { highlightOnHover: width > 600 ? true : false })}
-                            {...(goto && { onRowClicked: (row) => handleNavigate(row) })}
+                            progressPending={searchLoader}
+                            progressComponent={<TableCellSkeleton title={name} />}
+                            {...( hasLink && { highlightOnHover: width > 600 ? true : false })}
+                            {...(hasLink && { onRowClicked: (row) => handleNavigate(row) })}
                         />
                     )}
                 </>

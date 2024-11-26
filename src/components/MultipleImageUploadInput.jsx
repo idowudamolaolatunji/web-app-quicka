@@ -27,6 +27,9 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
         setResponse({ status: "error", message: errMessage })
     }
     
+    const handleResetResponse = function () {
+        setResponse({ status: '', message: '' });
+    }
     
     // DELETING ALREADY UPLOADED IMAGES
     let removeFunction = function() {};
@@ -44,6 +47,8 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
     }
 
     async function handleDelete() {
+        handleResetResponse()
+
         const connected = await isOnline();
         if(!connected) throw new Error("Internet Error");
 

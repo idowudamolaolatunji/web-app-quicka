@@ -65,8 +65,9 @@ function index() {
         const newErrors = validateAuthForm(formData, 'verify_otp');
         setFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
-
+        
         setLoading(true);
+        handleResetResponse();
         try {
             // CHECK CONNECTION
             const connected = await isOnline();
@@ -109,6 +110,7 @@ function index() {
     async function handleRequestOtp() {
         setLoading(true);
         setResent(false);
+        handleResetResponse()
         
         try {
             // CHECK CONNECTION

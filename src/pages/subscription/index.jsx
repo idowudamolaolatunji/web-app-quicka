@@ -50,7 +50,7 @@ function index() {
                     data={plansHistory}
                     columns={columns}
                     selectableRows={false}
-                    goto={false}
+                    hasLink={false}
                     error={error?.domain}
                     loader={loader?.domain}
                     emptyComponent={

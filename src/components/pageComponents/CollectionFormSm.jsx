@@ -67,6 +67,7 @@ function CollectionFormSm({ close, editingItem }) {
         setCollectionFormError(newError);
         if (newError) return;
         setLoading(true)
+        setResponse({ status: "", message: "" });
 
         try {
             const res = await fetch(`${BASE_API_URL}/collections`, {

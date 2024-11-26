@@ -127,7 +127,7 @@ function index() {
             emptyTitle={emptyTitle}
             addUrl="delivery-rates/add"
             loader={loader} error={error}
-            goto={false}
+            hasLink={false}
             insights={false}
             headTabs={<HeadTabs />}
 

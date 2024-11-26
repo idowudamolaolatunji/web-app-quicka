@@ -59,6 +59,7 @@ function index() {
     useEffect(function () {
         async function handleValidateToken() {
             setLoading(true);
+            handleResetResponse();
             
             try {
                 // CHECK CONNECTION
@@ -110,6 +111,7 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
 
         setLoading(true);
+        handleResetResponse()
         try {
             // CHECK CONNECTION
             const connected = await isOnline();

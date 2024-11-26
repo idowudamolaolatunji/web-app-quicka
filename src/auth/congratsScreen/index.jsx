@@ -7,7 +7,7 @@ import { useWindowSize } from 'react-use';
 
 
 function index() {
-    const [isLoading, setIsLoading] = useState(false);
+    const [Loading, setLoading] = useState(false);
     const [nextData, setNextData] = useState({
         title: "",
         text: "",
@@ -20,10 +20,10 @@ function index() {
     const { width } = useWindowSize()
 
     function handleClick() {
-        setIsLoading(true);
+        setLoading(true);
 
         setTimeout(() => {
-            setIsLoading(false);
+            setLoading(false);
             navigate(nextData.link);
             localStorage.removeItem(`${import.meta.env.VITE_CONGRATS_KEY}`);
             if (search.includes("?next=dashboard")) {
@@ -69,7 +69,7 @@ function index() {
                         <GiPartyPopper style={{ fontSize: '7rem' }} />
                         <h4 className='congrats--title'>{nextData.title}</h4>
                         <p className='congrats--text'>{nextData.text}</p>
-                        <button className='general--btn' onClick={handleClick}>{isLoading ? <Spinner /> : nextData.buttonText}</button>
+                        <button className='general--btn' onClick={handleClick}>{Loading ? <Spinner /> : nextData.buttonText}</button>
                     </div>
                 )}
             </section>

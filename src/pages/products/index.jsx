@@ -17,9 +17,8 @@ import Tab from '../../components/Tab';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 import Drawer from '../../components/modal/Drawer';
 import { useAuthContext } from '../../context/AuthContext';
-import CollectionHeadTabs from '../../components/pageComponents/CollectionHeadTabs';
-import ProductHeadTabs from '../../components/pageComponents/ProductHeadTabs';
 import empty_product from "../../assets/images/dummy_items/empty_product.png"
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 
 
 //////////////////////////////////////////////////////
@@ -62,7 +61,7 @@ function index() {
     const [showCollectionForm, setShowCollectionForm] = useState(false);
     const [showCollectionEditForm, setShowCollectionEditForm] = useState(false);
     const [selectedCollection, setSelectedCollection] = useState(false);
-    const [searchValue, setSearchValue] = useState("");
+    const [search, setSearch] = useState("");
     ////////////////////////////////////////////////////////
 
     // THE FUNCTION THAT CHANGES THE ROUTE WHEN WE CLICK A DIFFERENT TAB
@@ -208,16 +207,12 @@ function index() {
 
     // REFETCH IF THERE'S ERROR
     useEffect(function () {
-        // if (products?.length < 1 && error?.product) {
-        //     handleFetchUserStoreProducts();
-        //     handleFetchUserStoreCollections();
-        // }
     }, []);
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
     useEffect(function () {
         setTabShown(route);
-        setSearchValue("")
+        setSearch("")
     }, [route]);
 
 
@@ -260,9 +255,9 @@ function index() {
                 emptyImg={tabShown == "products" ? product_emptyImg : collection_emptyImg}
                 emptyTitle={tabShown == "products" ? product_emptyTitle : collection_emptyTitle}
                 headTabs={tabShown == "products" ? (
-                    <ProductHeadTabs value={searchValue} setValue={setSearchValue} handleFetch={handleFetchUserStoreProducts} />
+                    <TableHeadTabs pageName="product" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreProducts} />
                 ) : (
-                    <CollectionHeadTabs value={searchValue} setValue={setSearchValue} handleFetch={handleFetchUserStoreCollections} />
+                    <TableHeadTabs pageName="collection" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreCollections} />
                 )}
                 addBtnStr={tabShown == "products" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
                 loader={loader} error={error}
@@ -270,7 +265,7 @@ function index() {
 
                 // THIS PART HERE IS FOR THE PRODUCT COLLECTION SORT OF MODAL
                 {...(tabShown == "products" ? { addUrl: "products/upload" } : { addAction: handleShowCollectionForm, action: showCollectionForm })}
-                goto={tabShown == "products" ? true : false}
+                hasLink={tabShown == "products" ? true : false}
                 shouldSelect={true}
 
                 // THIS IS A RESUABLE DELECTING OBJECT (FOR BOTH THE PRODUCT AND COLLECTION)
