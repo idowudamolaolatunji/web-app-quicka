@@ -1,17 +1,14 @@
-# React + Vite
+# QUICKA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Quicka is an all-in-one business software that allows you to operate an online store. Through the platform, you can build your website with multiple theme option and premium drag-and-drop website builder, manage products, inventory and customer, create and calculate delivery rates, run sales, coupon & discounts, track and record sales, real time analytics, sell across multiple channels and more.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
+Live Preview:
+- [getquicka](https://getquick.vercel.app)
 
 ## Test Login Details
 
-### email address:
+#### email address:
 - test@mail.com
 
-### password:
+#### password:
 - test1234
