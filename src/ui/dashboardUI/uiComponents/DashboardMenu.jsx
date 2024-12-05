@@ -9,10 +9,9 @@ import { AiOutlineBank, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { LuGlobe, LuLayoutPanelLeft, LuRotate3D, LuTags } from 'react-icons/lu';
 import { FiUsers } from 'react-icons/fi';
 import { MdChatBubble, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineSsidChart, MdOutlineStorefront, MdOutlineWebhook } from 'react-icons/md';
-import { BiCustomize, BiLineChart } from 'react-icons/bi';
-import { HiOutlineSquare3Stack3D } from 'react-icons/hi2';
+import { BiCustomize, BiLineChart, BiMailSend } from 'react-icons/bi';
 import { useDataContext } from '../../../context/DataContext';
-import { RiAppsLine, RiBankLine, RiCoupon3Line, RiCloseFill, RiDiscountPercentLine, RiMoneyDollarCircleLine } from 'react-icons/ri';
+import { RiAppsLine, RiBankLine, RiCoupon3Line, RiCloseFill, RiDiscountPercentLine, RiMoneyDollarCircleLine, RiStackLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { TbDeviceAnalytics, TbTransactionDollar, TbTruckDelivery } from 'react-icons/tb';
 
@@ -48,7 +47,7 @@ function DashboardMenu() {
                         <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-info' />
                         <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                         <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
-                        <MenuLink icon={<MdOutlineCampaign />} title='Campaigns' link='/campaigns' />
+                        <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
                         <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                         <MenuLink icon={<BiCustomize />} title='Store Customisation' link='/store-customisation' />
                     </ul>
@@ -57,7 +56,8 @@ function DashboardMenu() {
 
                     <ul className={`menu--list`}>
                         {/* <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' /> */}
-                        <MenuLink icon={<HiOutlineSquare3Stack3D />} title='Subscription' link='/subscription' />
+                        <MenuLink icon={<MdOutlineCampaign />} title='Referrals' link='/referrals' />
+                        <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
                         <MenuLink icon={<MdOutlineSettings />} title='Settings' link='/settings' />
                         <MenuButton icon={<MdOutlineHelpOutline />} title='Help Center' action={openWidget} />
                     </ul>
@@ -105,7 +105,7 @@ function DashboardMenu() {
                             <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-info' />
                             <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                             <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
-                            <MenuLink icon={<MdOutlineCampaign />} title='Campaigns' link='/campaigns' />
+                            <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
                             <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                             <MenuLink icon={<BiCustomize />} title='Site Customisation' link='/store-customisation' />
                         </ul>
@@ -115,7 +115,8 @@ function DashboardMenu() {
 
                         <ul className='menu--list'>
                             {/* <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' /> */}
-                            <MenuLink icon={<HiOutlineSquare3Stack3D />} title='Subscription' link='/subscription' />
+                            <MenuLink icon={<MdOutlineCampaign  />} title='Referrals' link='/referrals' />
+                            <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
                             <MenuLink icon={<MdOutlineSettings />} title='Settings' link='/settings' />
                         </ul>
                     </div>

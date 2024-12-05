@@ -570,6 +570,25 @@
 
 
 
+
+
+.analytics--container {
+	width: 100%;
+	margin-top: 4rem;
+}
+.analytics--grid {
+	display: grid;
+	gap: 2rem;
+}
+.analytics--grid.grid--1x1 {
+	grid-template-columns: 1fr 1fr;
+}
+.analytics--container .card {
+	max-width: 100%;
+}
+
+
+
 @media screen and (max-width: 1050px) {
 	.product__grid {
 		grid-template-columns: repeat(4, 1fr);

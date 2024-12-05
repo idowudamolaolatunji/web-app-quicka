@@ -13,7 +13,7 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
 
     const ref = useOutsideClick(handleClose);
 
-    const handleClose = function() {
+    function handleClose () {
         setIsShown(false);
     }
 
@@ -23,7 +23,7 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
 
     const handleCloseByLink = function(e) {
         if (e.target.closest('.dropdown--item').tagName === 'A') {
-            setIsShown(false);
+            handleClose();
         };
     }
 

@@ -72,6 +72,7 @@ import CustomDomain from './pages/customDomain';
 import StoreInformation from './pages/storeInformation';
 
 import DiscountCoupon from './pages/discountCoupon';
+import Referrals from './pages/referrals';
 import Subscription from './pages/subscription';
 import Analytics from './pages/analytics';
 import CommunityForums from './pages/communityForums';
@@ -139,6 +140,7 @@ function App() {
                     <Route path='/dashboard/store-info' element={<StoreInformation />}></Route>
                     <Route path='/dashboard/store-customisation' element={<StoreCustomisation />}></Route>
 
+                    <Route path='/dashboard/referrals' element={<Referrals />}></Route>
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/profile' element={<Profile />}></Route>
                     <Route path='/dashboard/community-forums' element={<CommunityForums />}></Route>
