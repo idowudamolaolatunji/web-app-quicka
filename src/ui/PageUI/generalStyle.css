@@ -597,6 +597,12 @@
 	outline: none !important;
 }
 
+/* THE DROPDOWN HEADER */
+.rs-picker-header-date {
+	font-weight: 500 !important;
+	font-size: 1.5rem !important;
+}
+
 /* THE TODAY CELL */
 .rs-calendar-table-cell-is-today .rs-calendar-table-cell-content {
     -webkit-box-shadow: inset 0 0 0 1px var(--color-brand-500) !important;
@@ -633,14 +639,24 @@
 
 /* THE TOOLBAR ITEMS */
 .rs-picker-popup .rs-picker-toolbar {
-	flex-direction: column-reverse !important;
+	/* flex-direction: column-reverse !important; */
+	/* align-items: flex-end !important; */
 	gap: 1.2rem;
 }
-.rs-picker-popup .rs-picker-toolbar-ranges {
-	gap: .6rem !important;
-	max-width: 50rem !important;
+
+/* SORTOF LIKE THE BUTTONS (APPLY AND RESET) CONTAINER, CHECK THE USEEFECT IN THE JSX TO UNDERSTAND */
+.rs-picker-toolbar-right {
+	display: flex;
+	gap: 1.2rem;
 }
 
+
+/* THE TOOLBAR ITEM RANGE OPTIONS BUTTONS */
+.rs-picker-popup .rs-picker-toolbar-ranges {
+	gap: .6rem !important;
+	max-width: 30rem !important;
+	/* max-width: 50rem !important; */
+}
 /* THE TOOLBAR ITEM RANGE OPTIONS BUTTONS */
 .rs-picker-popup .rs-picker-toolbar-ranges .rs-stack-item button {
 	font-size: 1.28rem !important;
@@ -657,16 +673,32 @@
 
 /* THE TOOLBAR ITEM APPLY PRIMARY BUTTON */
 .rs-btn.rs-btn-primary.rs-btn-sm {
-	background-color: var(--color-brand-500);
+	background-color: #333;
 	color: #fff;
 	font-weight: 600;
 }
+
+/* THE ADDED RESET BUTTON */
+.rs-btn.rs-btn-sm.rs-rest-btn {
+	color: #fff !important;
+	background-color: var(--color-brand-500) !important;
+}
+
+.rs-btn.rs-btn-primary.rs-btn-sm,
+.rs-btn.rs-btn-sm.rs-rest-btn {
+	transition: all .35s;
+}
+.rs-btn.rs-btn-primary.rs-btn-sm:hover,
+.rs-btn.rs-btn-sm.rs-rest-btn:hover {
+	opacity: 0.9;
+}
+
 
 
 /* CALENDER HEADER (AFTER ELEMENT) */
 .rs-picker-daterange-header.rs-picker-tab-active-end:after,
 .rs-picker-daterange-header.rs-picker-tab-active-start::after {
-	border-color: var(--color-brand-500) !important;
+	border-color: #333 !important;
 }
 
 /* THE DATA TITLE, MONTH TITLE */
@@ -782,6 +814,14 @@
 		display: none;
 	}
 
+	/* THE DROPDOWN HEADER */
+	.rs-picker-header-date {
+		font-size: 1.34rem !important;
+	}
+	/* THE RANGES OPTIONS CONTAINER */
+	.rs-picker-popup .rs-picker-toolbar {
+		flex-direction: column-reverse !important;
+	}
 	/* THIS IS FOR THE ONE CALENDAR TOOLBAR RANGE */
 	.rs-picker-popup .rs-picker-daterange-panel-show-one-calendar .rs-picker-toolbar-ranges {
 		width: 25rem !important;
@@ -860,6 +900,11 @@
 	.page--tab {
 		font-size: 1.28rem;
 		font-weight: 600;
+	}
+
+	.analytics--grid.grid--1x1,
+		.analytics--grid.grid--2x1 {
+		grid-template-columns: 1fr;
 	}
 }
 

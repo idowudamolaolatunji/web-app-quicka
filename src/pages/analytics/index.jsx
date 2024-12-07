@@ -38,8 +38,9 @@ function index() {
     /////////////////////////////////////////////
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState("");
+    const [selectedDates, setSelectedDates] = useState({ from: yearStarts, to: yearEnds, prev: "to" });
     const [dateRange, setDateRange] = useState([yearStarts, yearEnds]);
-    const [formattedDate, setFormattedDate] = useState({ from: "", to: "" });
+    const [rangeIsOpened, setRangeIsOpened] = useState(false);
     /////////////////////////////////////////////////////////////////////////
 
 
@@ -82,11 +83,35 @@ function index() {
         }
     ];
 
-    const handleDateRange = function (range) {
+    const resetSelectedDates = function() {
+        setSelectedDates({ from: dateRange[0], to: dateRange[1], prev: "to" })
+    }
+
+    const handleResetDateRange = function() {
+        setDateRange([yearStarts, yearEnds]);
+        resetSelectedDates()
+    }
+
+    const handleChangeDateRange = function (range) {
         setDateRange(range)
-        const from_date = moment(range?.at(0)).format("DD/MM/YYYY");
-        const to_date = moment(range?.at(0)).format("DD/MM/YYYY");
-        setFormattedDate({ from: from_date, to: to_date });
+        setSelectedDates({ from: range[0], to: range[1] });
+    }
+
+    const handleSelectedDateRange = function(range) {
+        const year = moment(range).year();
+        const fromYear = moment(selectedDates.from).year();
+
+        if(selectedDates.prev == "to") {
+            setSelectedDates({ ...selectedDates, from: moment(range).format("MM/DD/YYYY"), prev: "from" })
+        }
+
+        if(selectedDates.prev == "from") {
+            if(year > fromYear) {
+                setSelectedDates({ ...selectedDates, to: selectedDates.from, from: moment(range).format("MM/DD/YYYY"), prev: "to" })
+            } else {
+                setSelectedDates({ ...selectedDates, to: moment(range).format("MM/DD/YYYY"), prev: "to" })
+            }
+        }
     }
 
     useEffect(function () {
@@ -95,8 +120,33 @@ function index() {
         } else {
             navigate("?tab=sales")
         }
-    }, [tabParams])
+    }, [tabParams]);
 
+
+    // THIS EFFECT IS SOMETHING TO COMEBACK TO
+    useEffect(function() {
+        if(rangeIsOpened) {
+            const container = document.querySelector(".rs-picker-toolbar-right");
+            const apply = document.querySelector("button.rs-btn.rs-btn-primary.rs-btn-sm")
+            apply.textContent = "Apply"
+            /////////////////////////////////////////////
+            const reset = document.createElement("button");
+            reset.innerHTML = "Reset"
+            reset.classList = "rs-btn rs-btn-sm rs-rest-btn";
+            reset.addEventListener("click", handleResetDateRange)
+            container.appendChild(reset)
+        }
+    }, [rangeIsOpened]);
+
+
+    useEffect(function() {
+        if(rangeIsOpened && selectedDates) {
+            const headers = document.querySelectorAll(".rs-picker-header-date");
+            headers[0].textContent = moment(selectedDates?.from).format("DD MMM YYYY")
+            headers[1].textContent = moment(selectedDates?.to).format("DD MMM YYYY");
+        }
+    }, [rangeIsOpened, selectedDates]);
+    
 
     return (
         <>
@@ -108,7 +158,8 @@ function index() {
                 <h2 className="page__section--title">Analytics</h2>
 
                 <span className='page__section--date'>
-                    <label className="form--label">Select filter date</label>
+                    <label className="form--label">Filter for specific date</label>
+
                     <DateRangePicker
                         size="sm"
                         character=" - "
@@ -116,12 +167,21 @@ function index() {
                         cleanable={false}
                         format="dd/MM/yyyy"
                         caretAs={BsCalendar3}
-                        showHeader={true580px}
+                        showHeader={true}
+                        onChange={handleChangeDateRange}
                         showOneCalendar={true580px}
-                        onChange={handleDateRange}
                         ranges={predefined_ranges}
                         placement={width > 450 ? "bottomEnd" : "bottomStart"}
-                        style={{ width: 230, fontFamily: "Montserrat", fontWeight: "500", fontSize: "1.28rem !important" }}
+                        style={{ maxWidth: width < 450 ? 400 : 250, fontFamily: "Montserrat", fontWeight: "500", fontSize: "1.28rem !important" }}
+                        // THIS REMAINING PART IS SOMETHING TO COMEBACK TO
+                        onSelect={handleSelectedDateRange}
+                        onOpen={() => setRangeIsOpened(true)}
+                        onClose={() => {
+                            setRangeIsOpened(false);
+                            resetSelectedDates()
+                        }}
+                        onShortcutClick={(x) => console.log(x)}
+
                     />
                 </span>
             </div>
