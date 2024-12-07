@@ -16,8 +16,9 @@ const datePeriods = [
 function HomeInsightContainer() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-
-    const [period, setPeriod] = React.useState("");
+    /////////////////////////////////////////
+    const [period, setPeriod] = useState("");
+    
 
     return (
         <div className={`insight--container ${width > 500 ? 'card' : ''}`}>

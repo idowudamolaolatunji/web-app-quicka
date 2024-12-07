@@ -7,21 +7,25 @@ import Empty from '../../components/Empty';
 import emptyImg from "../../assets/images/illustrations/upgrade.png";
 import { HiOutlineSquare3Stack3D } from 'react-icons/hi2';
 import { useWindowSize } from 'react-use';
+import ConnectionError from '../../components/ConnectionError';
 
 
 function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { plansHistory, error, loader, } = useFetchedContext();
+    const { plansHistory, error, loader, globalConnectionError } = useFetchedContext();
+    
     const columns = [];
-
+    
     useEffect(function() {
         document.title = "Quicka | Subscription plans"
         window.scrollTo(0, 0);
     }, []);
-
+    
     return (
         <>
+            {globalConnectionError && <ConnectionError /> }
+
             <div className='page__section--heading' style={width < 550 ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
                 <h2 className="page__section--title">Subscription</h2>
                 <button className="page__section-top-btn more">Upgrade plans <HiOutlineSquare3Stack3D /></button>

@@ -9,10 +9,11 @@ import TooltipUI from '../../../components/TooltipUI';
 import { useNavigate } from 'react-router-dom';
 import ErrorComponent from '../../../components/ErrorComponent';
 
+
 const datePeriods = [
     { value: 'this-week', title: 'This Week' },
     { value: 'this-month', title: 'This Month' },
-]
+];
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -76,7 +77,6 @@ function TopProducts() {
             </div>
 
             <div className='top-product--container'>
-
                 {(!noError && products?.length < 1) && (
                     <ErrorComponent text={error?.product} />
                 )}

@@ -386,6 +386,10 @@
 	align-items: center;
 	gap: 1rem;
 	margin-bottom: 1rem;
+
+	max-width: max-content;
+	scrollbar-width: none;
+	overflow-x: auto;
 }
 
 .page--tab {
@@ -568,6 +572,126 @@
 	color: var(--color-brand-500);
 }
 
+.page__section--date {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+
+
+/* =============================================== */
+/* THE RSUITES DATARANGE INPUT */
+.rs-picker-popup-daterange {
+	color: var(--color-brand-500) !important;
+	/*  */
+}
+
+/* THE INPUT ITSELF */
+.rs-picker-input-group.rs-input-group-inside {
+	border: 1.4px solid #eee;
+}
+.rs-picker-input-group.rs-input-group-inside:hover,
+.rs-picker-input-group.rs-input-group-inside:focus-within {
+	border-color: var(--color-brand-500) !important;
+	outline: none !important;
+}
+
+/* THE TODAY CELL */
+.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content {
+    -webkit-box-shadow: inset 0 0 0 1px var(--color-brand-500) !important;
+    box-shadow: inset 0 0 0 1px var(--color-brand-500) !important;
+}
+
+/* THE START AND END SELECTED CELL */
+.rs-calendar-table-cell-selected .rs-calendar-table-cell-content {
+	background-color: var(--color-brand-500) !important;
+	transition: all .35s;
+}
+
+/* HOVERING THE SELECTED */
+.rs-calendar-table-cell-selected .rs-calendar-table-cell-content:hover,
+.rs-calendar-table-cell-selected:hover .rs-calendar-table-cell-content:hover {
+	background-color: var(--color-brand-700) !important;
+	color: #fff !important;
+}
+
+/* THE INDIVIDUAL TABLE CELLS CONTENT */
+.rs-calendar-table-cell:hover .rs-calendar-table-cell-content,
+.rs-calendar-table-cell-content:hover {
+	background-color: var(--color-brand-50) !important;
+	color: var(--color-brand-500) !important;
+	border-color: var(--color-brand-500) !important;
+}
+
+/* THE IN-RANGE CELLS BUT FOR THE BEFORE ELEMENTS */
+.rs-calendar-table-cell-in-range:before {
+	background-color: var(--color-brand-50) !important;
+	color: var(--color-brand-500) !important;
+}
+
+
+/* THE TOOLBAR ITEMS */
+.rs-picker-popup .rs-picker-toolbar {
+	flex-direction: column-reverse !important;
+	gap: 1.2rem;
+}
+.rs-picker-popup .rs-picker-toolbar-ranges {
+	gap: .6rem !important;
+	max-width: 50rem !important;
+}
+
+/* THE TOOLBAR ITEM RANGE OPTIONS BUTTONS */
+.rs-picker-popup .rs-picker-toolbar-ranges .rs-stack-item button {
+	font-size: 1.28rem !important;
+	padding: .6rem !important;
+	font-weight: 500;
+	color: var(--color-brand-500) !important;
+	background-color: #eee !important;
+}
+.rs-picker-popup .rs-picker-toolbar-ranges .rs-stack-item button:hover {
+	text-decoration: none !important;
+	background-color: transparent !important;
+	box-shadow: inset 0 0 0 .14rem var(--color-brand-500);
+}
+
+/* THE TOOLBAR ITEM APPLY PRIMARY BUTTON */
+.rs-btn.rs-btn-primary.rs-btn-sm {
+	background-color: var(--color-brand-500);
+	color: #fff;
+	font-weight: 600;
+}
+
+
+/* CALENDER HEADER (AFTER ELEMENT) */
+.rs-picker-daterange-header.rs-picker-tab-active-end:after,
+.rs-picker-daterange-header.rs-picker-tab-active-start::after {
+	border-color: var(--color-brand-500) !important;
+}
+
+/* THE DATA TITLE, MONTH TITLE */
+.rs-calendar-header-title.rs-calendar-header-title-date:hover {
+	background-color: #eee !important;
+}
+.rs-calendar-header-title,
+.rs-calendar-month-dropdown-year {
+	color: var(--color-brand-500) !important;
+}
+
+/* THE SELECTIONS MONTHS NOT SELECTED BUTTON */
+.rs-calendar-month-dropdown-cell-content:hover {
+	background-color: var(--color-brand-50) !important;
+	color: var(--color-brand-500) !important;
+}
+
+/* THE SELECTED MONTH BUTTON, SELECTED */
+.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content {
+	background-color: var(--color-brand-500) !important;
+}
+/* =============================================== */
+
+
+
 
 
 
@@ -582,6 +706,9 @@
 }
 .analytics--grid.grid--1x1 {
 	grid-template-columns: 1fr 1fr;
+}
+.analytics--grid.grid--2x1 {
+	grid-template-columns: 2fr 1fr;
 }
 .analytics--container .card {
 	max-width: 100%;
@@ -650,6 +777,20 @@
 	.page__section--main.connected__grid {
 		gap: 1rem;
 	}
+
+	.analytics--heading .form--label {
+		display: none;
+	}
+
+	/* THIS IS FOR THE ONE CALENDAR TOOLBAR RANGE */
+	.rs-picker-popup .rs-picker-daterange-panel-show-one-calendar .rs-picker-toolbar-ranges {
+		width: 25rem !important;
+	}
+	.rs-picker-popup .rs-picker-toolbar-ranges {
+		padding-bottom: .8rem;
+		flex-wrap: nowrap !important;
+		overflow-x: auto;
+	}
 }
 
 
@@ -662,6 +803,12 @@
 
 
 @media screen and (max-width: 450px) {
+	.analytics--heading {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.2rem;
+	}
+
 	.page__section--main.connected__grid {
 		grid-template-columns: 1fr;
 		gap: 2.4rem;

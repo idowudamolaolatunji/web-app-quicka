@@ -5,13 +5,13 @@ import Overlay from '../../../components/Overlay';
 import MenuButton from './MenuButton';
 import { openWidget } from '../../../utils/helper';
 
-import { AiOutlineBank, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import { LuGlobe, LuLayoutPanelLeft, LuRotate3D, LuTags } from 'react-icons/lu';
+import { AiOutlineBank } from 'react-icons/ai';
+import { LuGlobe, LuLayoutPanelLeft, LuTags } from 'react-icons/lu';
 import { FiUsers } from 'react-icons/fi';
 import { MdChatBubble, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineSsidChart, MdOutlineStorefront, MdOutlineWebhook } from 'react-icons/md';
 import { BiCustomize, BiLineChart, BiMailSend } from 'react-icons/bi';
 import { useDataContext } from '../../../context/DataContext';
-import { RiAppsLine, RiBankLine, RiCoupon3Line, RiCloseFill, RiDiscountPercentLine, RiMoneyDollarCircleLine, RiStackLine } from 'react-icons/ri';
+import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiStackLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { TbDeviceAnalytics, TbTransactionDollar, TbTruckDelivery } from 'react-icons/tb';
 
@@ -92,9 +92,9 @@ function DashboardMenu() {
                                 <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
                                 <MenuLink icon={<MdOutlineShoppingBag />} title='Your Orders' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Your Products' link='/products' />
-                                <MenuLink icon={<AiOutlineBank />} title='Analytics' link='/analytics' />
+                                <MenuLink icon={<TbDeviceAnalytics />} title='Analytics' link='/analytics' />
                                 <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
-                                <MenuLink icon={<TbTransactionDollar />} title='Transactions' link='/transactions' />
+                                <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
                                 <MenuLink icon={<RiDiscountPercentLine />} title='Discount and coupon' link='/discount-coupon' />
                             </ul>
                         </div>
