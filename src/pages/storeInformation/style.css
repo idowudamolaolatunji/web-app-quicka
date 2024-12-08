@@ -182,9 +182,65 @@
     height: .68rem;
 
     left: 50%;
-
 }
 
+
+
+
+
+/* STORE INFORMATION */
+.preview--grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+}
+.preview--figure {
+    padding: 1.4rem;
+    border-radius: .4rem;
+    border: 1.4px solid #eee;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-self: flex-start;
+}
+.preview--figure-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.preview--figure-title svg {
+    color: var(--color-brand-500);
+    font-size: 1.8rem;
+}
+.preview--body {
+	display: flex;
+	flex-direction: column;
+	gap: 2.4rem;
+    padding-top: 2.4rem;
+    border-top: 1.2px solid #ddd;
+}
+.preview--body-item {
+	display: flex;
+	gap: 4rem;
+	align-items: center;
+	justify-content: space-between;
+    border-bottom: 1.2px solid #ddd;
+	padding-bottom: 2.4rem;
+	font-size: 1.34rem;
+	font-weight: 600;
+	color: #888;
+}
+.preview--body-item:last-child {
+    border-bottom: none;
+	padding-bottom: 1.8rem;
+}
+.preview--body-value {
+	color: #333;
+}
 
 
 

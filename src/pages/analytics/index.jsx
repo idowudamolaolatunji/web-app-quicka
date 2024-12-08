@@ -180,8 +180,6 @@ function index() {
                             setRangeIsOpened(false);
                             resetSelectedDates()
                         }}
-                        onShortcutClick={(x) => console.log(x)}
-
                     />
                 </span>
             </div>

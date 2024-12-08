@@ -3,11 +3,8 @@ import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/Insight';
-import { FiUser, FiUsers } from 'react-icons/fi';
-import { TbUserSquare } from 'react-icons/tb';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { ymdDateFormat, ymdDateSlashFormat, ymdDateSlashTimeFormat } from '../../utils/helper';
-import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineCampaign, MdOutlineFilterList, MdOutlineRefresh, MdOutlineSpeakerNotes } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
 import { useNavigate } from 'react-router-dom';
@@ -80,23 +77,25 @@ function index() {
         >
 
             {showInsights?.campaign && (
-                <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && { width: '90%' }) }}>
+                <div className='page__section--insights insight--grid'>
                     <Insight title='Total Campaigns' loader={loader?.campaign} value={campaigns?.length || 0} icon={<MdOutlineCampaign />} />
                     <Insight title='SMS Campaigns' loader={loader?.campaign} value={0} icon={<MdOutlineSpeakerNotes />} />
                     <Insight title='Email Campaigns' loader={loader?.campaign} value={0} icon={<BsSendCheck />} />
                 </div>
             )}
 
-            <div className="top--bar info">
-                <span>
-                    <p className='sub--text-sub no-hyphens'>Effectively engage your customers by sending impactful and personalized campaign messages either by sms or email respectively.</p>
-                    <p className="sub--text-sub flex">
-                        <span className='url--label'>Campaign credit <GiCrownCoin /> </span>{" "}
-                        <p className='url--link value'>{store?.storeCredits}</p>
-                        points.
-                    </p>
-                </span>
-            </div>
+            {!error?.campaign && (
+                <div className="top--bar info">
+                    <span>
+                        <p className='sub--text-sub no-hyphens'>Effectively engage your customers by sending impactful and personalized campaign messages either by sms or email respectively.</p>
+                        <p className="sub--text-sub flex">
+                            <span className='url--label'>Campaign credit <GiCrownCoin /> </span>{" "}
+                            <p className='url--link value'>{store?.storeCredits}</p>
+                            points.
+                        </p>
+                    </span>
+                </div>
+            )}
         </PageUI>
     )
 }

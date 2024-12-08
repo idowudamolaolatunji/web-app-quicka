@@ -25,6 +25,7 @@ export const FetchedProvider = ({ children }) => {
     const [deliveryRates, setDeliveryRates] = useState([]);
     const [storeCategories, setStoreCategories] = useState([]);
     const [transactions, setTransactions] = useState([]);
+    const [campaigns, setCampaigns] = useState([]);
 
     // LOADER STATES
     const [orderLoader, setOrderLoader] = useState(true);
@@ -41,6 +42,7 @@ export const FetchedProvider = ({ children }) => {
     const [customerError, setCustomerError] = useState("");
     const [collectionError, setCollectionError] = useState("");
     const [transactionError, setTransactionError] = useState("");
+    const [campaignError, setCampaignError] = useState("");
 
     // SETTING LOADER THIS WAY IS BETTER THAN THE PREVIOUS
     const loader = {
@@ -56,6 +58,7 @@ export const FetchedProvider = ({ children }) => {
         product: productError,
         delivery: deliveryError,
         customer: customerError,
+        campaign: campaignError,
         collection: collectionError,
         transaction: transactionError,
     }
@@ -340,6 +343,7 @@ export const FetchedProvider = ({ children }) => {
         loader,
         orders,
         products,
+        campaigns,
         customers,
         collections,
         transactions,

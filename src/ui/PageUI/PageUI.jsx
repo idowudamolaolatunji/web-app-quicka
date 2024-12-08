@@ -64,7 +64,8 @@ function PageUI({
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {error[pageName] && <ConnectionError /> }
+            {/* {error[pageName] && <ConnectionError /> } */}
+            {globalConnectionError && <ConnectionError /> }
 
             {/* THIS IS FOR THE COLLECTION MODAL */}
             {action && (
@@ -78,7 +79,7 @@ function PageUI({
             )}
 
             <div className='page__section--heading' style={(width500andIsItem && (addUrl || addAction)) ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
-                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rate" : pageName}s</h2>
+                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rates" : pageName == "run-sales" ? "run sales" : pageName + "s"}</h2>
 
                 <span className='page__section--btns' style={(width500andIsItem && insights && (addUrl || addAction)) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
                     {(isItem && (addUrl || addAction)) && (

@@ -110,8 +110,7 @@ function App() {
                     <Route path='/dashboard/delivery-rates' element={<Delivery />}></Route>
                     <Route path='/dashboard/transactions' element={<Transaction />}></Route>
                     <Route path='/dashboard/analytics' element={<Analytics />}></Route>
-                    <Route path='/dashboard/transactions/settlements' element={<Transaction />}></Route>
-                    <Route path='/dashboard/products/collections' element={<Products />}></Route>
+                    <Route path='/dashboard/discount-coupon' element={<DiscountCoupon />}></Route>
 
                     <Route path='/dashboard/orders/record' element={<RecordOrder />}></Route>
                     <Route path='/dashboard/products/upload' element={<UploadProduct />}></Route>
@@ -126,20 +125,16 @@ function App() {
                     <Route path='/dashboard/orders/:id' element={<OrderItem />}></Route>
                     <Route path='/dashboard/customers/:id' element={<CustomerItem />}></Route>
 
-                    <Route path='/dashboard/discount-coupon' element={<DiscountCoupon />}></Route>
-                    <Route path='/dashboard/discount-coupon/:tab' element={<DiscountCoupon />}></Route>
-                    
                     <Route path='/dashboard/custom-domain' element={<CustomDomain />}></Route>
                     <Route path='/dashboard/custom-domain/add-domain' element={<CustomDomain />}></Route>
                     <Route path='/dashboard/custom-domain/buy-domain' element={<CustomDomain />}></Route>
 
                     <Route path='/dashboard/campaigns' element={<Campaigns />}></Route>
                     <Route path='/dashboard/integrated-apps' element={<ConnectedApps />}></Route>
-                    <Route path='/dashboard/subscription' element={<Subscription />}></Route>
-
                     <Route path='/dashboard/store-info' element={<StoreInformation />}></Route>
                     <Route path='/dashboard/store-customisation' element={<StoreCustomisation />}></Route>
 
+                    <Route path='/dashboard/subscription' element={<Subscription />}></Route>
                     <Route path='/dashboard/referrals' element={<Referrals />}></Route>
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/profile' element={<Profile />}></Route>

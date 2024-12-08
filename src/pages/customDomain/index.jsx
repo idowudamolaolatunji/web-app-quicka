@@ -8,6 +8,7 @@ import emptyImg from "../../assets/images/illustrations/domain.png"
 import { useFetchedContext } from '../../context/FetchedContext';
 import { AiOutlinePlus } from 'react-icons/ai';
 import TableUI from '../../ui/PageUI/TableUI';
+import ConnectionError from '../../components/ConnectionError';
 
 
 const emptyTitle = "Add Custom Domain URL!";
@@ -21,7 +22,7 @@ const emptyBtns = [
 function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { domains, error, loader, } = useFetchedContext();
+    const { domains, error, loader, globalConnectionError } = useFetchedContext();
 
     const columns = [];
 
@@ -32,6 +33,8 @@ function index() {
 
     return (
         <>
+            {globalConnectionError && <ConnectionError /> }
+
             <div className='page__section--heading' style={width < 550 ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
                 <h2 className="page__section--title">Custom Domain</h2>
 
@@ -74,9 +77,6 @@ function index() {
                     }
                 />
             </div>
-
-
-
         </>
     )
 }

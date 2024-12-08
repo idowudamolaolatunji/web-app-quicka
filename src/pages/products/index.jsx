@@ -38,16 +38,18 @@ const collection_emptyBtns = [
 
 
 function index() {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const tabParams = queryParams.get("tab")
+    ///////////////////////////////////////
     const { width } = useWindowSize();
-    const { pathname } = useLocation();
     const { store } = useAuthContext();
     const { showInsights, activeDisplayTab } = useDataContext();
     const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleDeleteOneItem } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
-    const route = pathname.split("/").at(-1);
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
     const outOfStock = products?.filter(product => product?.trackInventory && product?.stockAmount <= 1);
     const totalInventoryWorth = products?.reduce((acc, product) => acc + product?.price, 0);
@@ -56,23 +58,12 @@ function index() {
     const [deleteLoader, setDeleteLoader] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-    const [tabShown, setTabShown] = useState("products");
     const [showCollectionForm, setShowCollectionForm] = useState(false);
     const [showCollectionEditForm, setShowCollectionEditForm] = useState(false);
     const [selectedCollection, setSelectedCollection] = useState(false);
+    const [tabShown, setTabShown] = useState("");
     const [search, setSearch] = useState("");
     ////////////////////////////////////////////////////////
-
-    // THE FUNCTION THAT CHANGES THE ROUTE WHEN WE CLICK A DIFFERENT TAB
-    const handleTabShown = function (tab) {
-        setTabShown(tab);
-        if (tab == "products") {
-            navigate(`/dashboard/${tab}`);
-        } else {
-            navigate(`/dashboard/products/${tab}`);
-        }
-    }
 
     // THIS HERE IS THR DELETE MODAL
     const handleShowDeleteModal = function (id) {
@@ -211,9 +202,13 @@ function index() {
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
     useEffect(function () {
-        setTabShown(route);
+        if (tabParams) {
+            setTabShown(tabParams)
+        } else {
+            navigate("?tab=products")
+        }
         setSearch("")
-    }, [route]);
+    }, [tabParams]);
 
 
     // DELETE FUNCTION
@@ -281,7 +276,7 @@ function index() {
 
                 {/* THE INSIGHTS UI */}
                 {showInsights?.product && (
-                    <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && { width: '85%' }) }}>
+                    <div className='page__section--insights insight--grid' style={ width > 900 ? { width: '90%' } : {}}>
                         <Insight loader={loader?.product} title='Total Inventory worth' pre={currency} value={totalInventoryWorth} dec={totalInventoryWorth ? 0 : 2} icon={<LuClipboardList />} />
                         <Insight loader={loader?.product} title='Total Products Sold' value={productsSold} icon={<GrTag />} />
                         <Insight loader={loader?.product} title='Total Collection' value={collections?.length} icon={<TbListSearch />} />
@@ -291,8 +286,8 @@ function index() {
 
                 {/* THE TABS UI */}
                 <div className="page--tabs">
-                    <Tab title="Products" onClick={() => handleTabShown("products")} active={tabShown == "products"} />
-                    <Tab title="Collections" onClick={() => handleTabShown("collections")} active={tabShown == "collections"} />
+                    <Tab title="Products" onClick={() => navigate("?tab=products")} active={tabShown == "products"} />
+                    <Tab title="Collections" onClick={() => navigate("?tab=collections")} active={tabShown == "collections"} />
                 </div>
             </PageUI>
         </>

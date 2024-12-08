@@ -129,7 +129,7 @@ function index() {
         >
 
             {showInsights?.customer && (
-                <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && { width: '90%' }) }}>
+                <div className='page__section--insights insight--grid'>
                     <Insight title='Total Customers' loader={loader?.customer} value={customers?.length || 0} icon={<FiUsers />} />
                     <Insight title='Newsletter Customers' loader={loader?.customer} value={0} icon={<TbUserSquare />} />
                 </div>

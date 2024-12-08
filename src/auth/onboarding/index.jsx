@@ -217,7 +217,7 @@ function index() {
 
             setTimeout(function () {
                 handleChange(data?.data?.user, data?.token);
-                handleStore(store);
+                handleStore(data?.data?.store);
 
                 navigate('/congratulations?next=dashboard');
             }, 2500);

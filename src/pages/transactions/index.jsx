@@ -30,35 +30,24 @@ const settlement_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing
 
 
 function index() {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const tabParams = queryParams.get("tab")
+    ///////////////////////////////////////
     const { width } = useWindowSize();
-    const { pathname } = useLocation();
     const { store } = useAuthContext();
     const { showInsights } = useDataContext();
     const { loader, error, transactions, settlements, handleFetchUserStoreTransactions, handleFetchUserStoreSettlements } = useFetchedContext();
-
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
-    const route = pathname.split("/").at(-1);
 
     const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
     const offlineTransactions = transactions?.filter(transaction => transaction?.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
-
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
-    const [tabShown, setTabShown] = useState("transactions");
+    const [activeTab, setActiveTab] = useState("");
     const [search, setSearch] = useState('');
-    
-    /////////////////////////////////////////////////////////////////////
-    // THE FUNCTION THAT CHANGES THE ROUTE WHEN WE CLICK A DIFFERENT TAB
-    const handleTabShown = function (tab) {
-        setTabShown(tab);
-        if (tab == "transactions") {
-            navigate(`/dashboard/${tab}`);
-        } else {
-            navigate(`/dashboard/transactions/${tab}`);
-        }
-    }
 
 
     const transaction_columns = [
@@ -129,7 +118,7 @@ function index() {
             <div className='content'>
                 <span className='flex'>
                     <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={tabShown == "transactions" ? handleFetchUserStoreTransactions : handleFetchUserStoreSettlements}><MdOutlineRefresh /></button>
+                        <button className='table--btn' onClick={activeTab == "transactions" ? handleFetchUserStoreTransactions : handleFetchUserStoreSettlements}><MdOutlineRefresh /></button>
                     </TooltipUI>
 
                     <input type="text" className="table--input form--input" placeholder='search..' />
@@ -147,29 +136,33 @@ function index() {
     }
 
     useEffect(function () {
-        document.title = `Quicka | ${tabShown == "transactions" ? "All Transactions" : "Payment Settlements"}`;
+        document.title = `Quicka | ${activeTab == "transactions" ? "All Transactions" : "Payment Settlements"}`;
     }, []);
 
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
     useEffect(function () {
-        setTabShown(route);
+        if (tabParams) {
+            setActiveTab(tabParams)
+        } else {
+            navigate("?tab=transactions")
+        }
         setSearch("")
-    }, [route]);
+    }, [tabParams]);
 
 
     return (
         <PageUI
-            items={tabShown == "transactions" ? transactions : settlements}
-            data={tabShown == "transactions" ? transactions : settlements}
-            pageName={tabShown == "transactions" ? "transaction" : "settlement"}
-            columns={tabShown == "transactions" ? transaction_columns : settlement_columns}
-            emptyText={tabShown == "transactions" ? transaction_emptyText : settlement_emptyText}
-            emptyImg={tabShown == "transactions" ? transaction_emptyImg : settlement_emptyImg}
-            emptyTitle={tabShown == "transactions" ? transaction_emptyTitle : settlement_emptyTitle}
+            items={activeTab == "transactions" ? transactions : settlements}
+            data={activeTab == "transactions" ? transactions : settlements}
+            pageName={activeTab == "transactions" ? "transaction" : "settlement"}
+            columns={activeTab == "transactions" ? transaction_columns : settlement_columns}
+            emptyText={activeTab == "transactions" ? transaction_emptyText : settlement_emptyText}
+            emptyImg={activeTab == "transactions" ? transaction_emptyImg : settlement_emptyImg}
+            emptyTitle={activeTab == "transactions" ? transaction_emptyTitle : settlement_emptyTitle}
             hasLink={false}
             loader={loader} error={error}
-            headTabs={ tabShown == "transactions" ? (
+            headTabs={ activeTab == "transactions" ? (
                 <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreTransactions} />
             ) : (
                 <TableHeadTabs pageName="settlement" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreSettlements} /> 
@@ -177,7 +170,7 @@ function index() {
         >
 
             {showInsights?.transaction && (
-                <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && { width: '90%' }) }}>
+                <div className='page__section--insights insight--grid'>
                     <Insight loader={loader?.transaction} title='Pending Settlement' pre={currency} value={0} icon={<LuClipboardList />} />
                     <Insight loader={loader?.transaction} title='Total Website transaction' pre={currency} value={webTransactions} icon={<GrTag />} />
                     <Insight loader={loader?.transaction} title='Total Offline transaction' pre={currency} value={offlineTransactions} icon={<TbArrowWaveRightDown />} />
@@ -186,8 +179,8 @@ function index() {
 
             {/* THE TABS UI */}
             <div className="page--tabs">
-                <Tab title="Transactions" onClick={() => handleTabShown("transactions")} active={tabShown == "transactions"} />
-                <Tab title="Settlements" onClick={() => handleTabShown("settlements")} active={tabShown == "settlements"} />
+                <Tab title="Transactions" onClick={() => navigate("?tab=transactions")} active={activeTab == "transactions"} />
+                <Tab title="Settlements" onClick={() => navigate("?tab=settlements")} active={activeTab == "settlements"} />
             </div>
         </PageUI>
     )

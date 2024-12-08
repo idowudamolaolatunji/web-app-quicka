@@ -105,6 +105,10 @@
 	color: var(--color-brand-500);
 }
 
+.page__section--insights.insight--grid {
+	margin-bottom: 3rem;
+}
+
 .page__section--insights .insight--figure {
 	padding: 1.8rem 1.2rem;
 }
@@ -754,11 +758,16 @@
 	}
 
 	.page__section--insights.insight--grid {
-		width: 100% !important;
+		width: 100%;
 	}
-
+	
 }
 
+@media screen and (max-width: 900px) {
+	/* .page__section--insights.insight--grid {
+		width: 90%;
+	} */
+}
 
 @media screen and (max-width: 800px) {
 	.page__section--main.connected__grid {

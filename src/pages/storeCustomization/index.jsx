@@ -4,10 +4,13 @@ import Line from '../../components/Line';
 import Template1 from "../../ui/templateUI/Template1"
 import more_themes from '../../assets/images/illustrations/more_theme.png'
 import './style.css'
+import ConnectionError from '../../components/ConnectionError';
+import { useFetchedContext } from '../../context/FetchedContext';
 
 
 function index() {
     const { width } = useWindowSize();
+    const { globalConnectionError } = useFetchedContext();
 
     useEffect(function() {
         document.title = "Quicka | Subscription plans"
@@ -16,6 +19,8 @@ function index() {
 
     return (
         <>
+            {globalConnectionError && <ConnectionError /> }
+
             <div className='page__section--heading'>
                 <span>
                     <h2 className="page__section--title">Store Customisation</h2>

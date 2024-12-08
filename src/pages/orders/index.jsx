@@ -169,7 +169,7 @@ function index() {
         >
 
             {showInsights?.order && (
-                <div className='page__section--insights insight--grid' style={{ marginBottom: '3rem', ...(width > 900 && { width: '85%' }) }}>
+                <div className='page__section--insights insight--grid' style={ width > 900 ? { width: '90%' } : {}}>
                     <Insight title='Total Orders' loader={loader?.order} value={orders?.length} icon={<MdOutlineShoppingBag />} />
                     <Insight title='New Orders' loader={loader?.order} value={newOrders?.length} icon={<MdOutlineNoteAlt />} />
                     <Insight title='Completed Orders' loader={loader?.order} value={completedOrders?.length} icon={<TbNotes />} />
