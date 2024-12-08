@@ -198,11 +198,17 @@
     padding: 1.4rem;
     border-radius: .4rem;
     border: 1.4px solid #eee;
-
+    
     display: flex;
     flex-direction: column;
     gap: 2rem;
     align-self: flex-start;
+    margin-bottom: 2rem;
+}
+.preview--figure .custom--head {
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
 }
 .preview--figure-title {
     font-size: 1.5rem;
@@ -266,6 +272,10 @@
         gap: 0.8rem;
     }
 
+    .preview--grid {
+        grid-template-columns: 1fr;
+    }
+
 }
 
 
@@ -298,6 +308,11 @@
         font-size: 2.4rem;
         font-weight: 600;
     }
+
+    .preview--figure .custom--head {
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
 }
 
 
@@ -307,4 +322,12 @@
         gap: 3.4rem;
     }
 
+    .preview--body-item {
+        font-size: 1.2rem;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+    .preview--body-value {
+        font-size: 1.4rem;
+    }
 }

@@ -7,39 +7,47 @@ import { MdOutlinePersonPinCircle, MdOutlineStorefront } from 'react-icons/md';
 import { AiOutlineLink } from 'react-icons/ai';
 import { useFetchedContext } from '../../context/FetchedContext';
 import ConnectionError from '../../components/ConnectionError';
+import { useNavigate } from 'react-router-dom';
+import { useDataContext } from '../../context/DataContext';
+import { useWindowSize } from 'react-use';
 
 
 function index() {
     const BASE_URL = import.meta.env.VITE_BASE_URL;
     const noLogo = "../../../../faviconB.png"
+    const navigate = useNavigate();
+    const { width } = useWindowSize();
     const { store } = useAuthContext();
+    const { isMenuCollapsed } = useDataContext();
     const { globalConnectionError } = useFetchedContext();
     
+    const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000 );
     const { currencies, mainCurrency, description, category, contact, location, logo } = store;
     const logoImg = BASE_URL + logo;
     const { subHeading, heading, headline } = store?.customDetail;
     const currency = currencies[mainCurrency];
 
 
+
     return (
         <>
             {globalConnectionError && <ConnectionError />}
 
-            <div className='page__section--heading'>
+            <div className='page__section--heading' style={ width <= 450 ? { flexDirection: "column", alignItems: "flex-start", gap: "2rem" } : {}}>
                 <h2 className="page__section--title">Store Information</h2>
 
-                <span className='page__section--btns'>
-                    <button className="page__section-top-btn add" onClick={() => { }}>
+                <span style={ width <= 450 ? { width: "100%" } : {}}>
+                    <button className="page__section-top-btn add" onClick={() => navigate("edit")}>
                         Edit Information <BiEditAlt />
                     </button>
                 </span>
             </div>
 
 
-            <div className="preview--grid">
+            <div className={`preview--grid ${isCollapsedBtw900and1000 ? 'column-1fr' : ''}`}>
                 <div>
-                    <div className="preview--figure" style={{ marginBottom: "2rem" }}>
-                        <div className='custom--head' style={{ flexDirection: "row", alignItems: "center", gap: 0 }}>
+                    <div className="preview--figure">
+                        <div className='custom--head'>
                             <div className="form--element">
                                 <span><img src={store?.logo ? logoImg : noLogo} alt="brand logo" /></span>
                             </div>
@@ -77,7 +85,7 @@ function index() {
 
                     <div className="preview--body">
                         <div className='preview--body-item'>Email-address <span className='preview--body-value'>{contact?.email}</span></div>
-                        <div className='preview--body-item'>Phone No. <span className='preview--body-value value'>+{contact?.phone}</span></div>
+                        <div className='preview--body-item'>Phone No. <span className='preview--body-value'>+{contact?.phone}</span></div>
                         <div className='preview--body-item'>Address <span className='preview--body-value'>{location?.address || "--"}</span></div>
                         <div className='preview--body-item'>Country <span className='preview--body-value'>{location?.country || "--"}</span></div>
                         <div className='preview--body-item'>State <span className='preview--body-value'>{location?.state || "--"}</span></div>

@@ -79,7 +79,7 @@ function PageUI({
             )}
 
             <div className='page__section--heading' style={(width500andIsItem && (addUrl || addAction)) ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
-                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rates" : pageName == "run-sales" ? "run sales" : pageName + "s"}</h2>
+                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rates" : pageName == "run-sales" ? "store sales" : pageName + "s"}</h2>
 
                 <span className='page__section--btns' style={(width500andIsItem && insights && (addUrl || addAction)) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
                     {(isItem && (addUrl || addAction)) && (

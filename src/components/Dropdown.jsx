@@ -29,14 +29,18 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
 
     async function handleLogout() {
         // LOGOUT LOGIC
-        setLoading(true);
-        handleResetResponse()
-
-        const result = await signoutUser();
-        setLoading(true);
-        if (!result) return setResponse({ status: "error", message: "Error logging out!" })
-        setResponse({ status: "success", message: "Logout successful!" });
-
+        try {
+            setLoading(true);
+            handleResetResponse()
+    
+            const result = await signoutUser();
+            if (!result) throw new Error();
+            setResponse({ status: "success", message: "Logout successful!" });
+        } catch(_) {
+            setResponse({ status: "error", message: "Error logging out!" })
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

@@ -5,9 +5,8 @@ import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/Insight';
 import { GrTag } from 'react-icons/gr';
-import { TbArrowWaveRightDown } from 'react-icons/tb';
 import { LuClipboardList } from 'react-icons/lu';
-import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
+import { MdOutlineFilterList, MdOutlineOfflineShare, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/TooltipUI';
 import { capitalizeFirstLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
 import { imgString } from '../../assets/images/png_elements';
@@ -173,7 +172,7 @@ function index() {
                 <div className='page__section--insights insight--grid'>
                     <Insight loader={loader?.transaction} title='Pending Settlement' pre={currency} value={0} icon={<LuClipboardList />} />
                     <Insight loader={loader?.transaction} title='Total Website transaction' pre={currency} value={webTransactions} icon={<GrTag />} />
-                    <Insight loader={loader?.transaction} title='Total Offline transaction' pre={currency} value={offlineTransactions} icon={<TbArrowWaveRightDown />} />
+                    <Insight loader={loader?.transaction} title='Total Offline transaction' pre={currency} value={offlineTransactions} icon={<MdOutlineOfflineShare />} />
                 </div>
             )}
 

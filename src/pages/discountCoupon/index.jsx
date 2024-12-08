@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
-import { RiCoupon3Line, RiDeleteBin5Line, RiDiscountPercentLine, RiEdit2Line } from 'react-icons/ri';
+import { RiCoupon3Line, RiCouponLine, RiDeleteBin5Line, RiDiscountPercentLine, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
 import { formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
@@ -14,6 +14,8 @@ import store_sales_emptyImg from '../../assets/images/illustrations/store_sales.
 import PageUI from '../../ui/PageUI/PageUI';
 import { useDataContext } from '../../context/DataContext';
 import Insight from '../../components/Insight';
+import { LuPartyPopper } from 'react-icons/lu';
+import { TbBasketDiscount } from 'react-icons/tb';
 
 
 ///////////////////////////////////////////////
@@ -122,7 +124,7 @@ function index() {
             emptyImg={emptyImg}
             emptyBtns={emptyBtns}
             emptyTitle={emptyTitle}
-            addUrl={"/comeback"}
+            addUrl={"/"} // Comeback here...
             loader={loader} error={error}
             hasLink={false}
             headTabs={<HeadTabs />}
@@ -138,16 +140,16 @@ function index() {
 
             {showInsights?.discount && (
                 <div className='page__section--insights insight--grid'>
-                    <Insight loader={loader?.discount} title='Pending Settlement' value={0} icon={""} />
-                    <Insight loader={loader?.discount} title='Total Website transaction' value={0} icon={""} />
-                    <Insight loader={loader?.discount} title='Total Offline transaction' value={0} icon={""} />
+                    <Insight loader={loader?.discount} title='Total Discounts' value={0} icon={<TbBasketDiscount />} />
+                    <Insight loader={loader?.discount} title='Active Coupons' value={0} icon={<RiCouponLine />} />
+                    <Insight loader={loader?.discount} title='Running Sales' value={0} icon={<LuPartyPopper />} />
                 </div>
             )}
 
             <div className="page--tabs">
                 <Tab title="Discounts" onClick={() => navigate("?tab=discount")} active={activeTab == "discount"} value={discounts?.length > 0 && discounts?.length} />
                 <Tab title="Coupons" onClick={() => navigate("?tab=coupon")} active={activeTab == "coupon"} value={coupons?.length > 0 && coupons?.length} />
-                <Tab title="Run Sales" onClick={() => navigate("?tab=run-sales")} active={activeTab == "run-sales"} value={store_sales?.length > 0 && store_sales?.length} />
+                <Tab title="Store Sales" onClick={() => navigate("?tab=run-sales")} active={activeTab == "run-sales"} value={store_sales?.length > 0 && store_sales?.length} />
             </div>
       </PageUI>
     )

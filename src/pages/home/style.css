@@ -381,6 +381,7 @@ a.upgrade--link:hover {
 /* ============================================= */
 /*  */
 /* ============================================= */
+.preview--grid.column-1fr,
 .home--grid.column-1fr {
     grid-template-columns: 1fr;
 }

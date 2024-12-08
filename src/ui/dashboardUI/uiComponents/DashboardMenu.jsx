@@ -44,7 +44,7 @@ function DashboardMenu() {
                     <Line where={'Bottom'} value={'0.34rem'} border={1.4} />
 
                     <ul className={`menu--list`}>
-                        <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-info' />
+                        <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-information' />
                         <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                         <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                         <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
@@ -102,7 +102,7 @@ function DashboardMenu() {
                         <Line where={'Bottom'} value={'0.34rem'} border={1.4} />
 
                         <ul className='menu--list'>
-                            <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-info' />
+                            <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-information' />
                             <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                             <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                             <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
