@@ -205,7 +205,7 @@ function index() {
         if (tabParams) {
             setTabShown(tabParams)
         } else {
-            navigate("?tab=products")
+            navigate("?tab=product")
         }
         setSearch("")
     }, [tabParams]);
@@ -216,7 +216,7 @@ function index() {
         try {
             setDeleteLoader(true)
             await handleDeleteOneItem(`${tabShown}`, selectedId);
-            if (tabShown == "products") {
+            if (tabShown == "product") {
                 handleFetchUserStoreProducts();
             } else {
                 handleFetchUserStoreCollections()
@@ -241,32 +241,32 @@ function index() {
 
             <PageUI
                 /* THIS HERE WAS NEEDED FOR, FOR THE REUSABILITY FOR BOTH THE PRODUCT AND THE COLLECTION..*/
-                items={tabShown == "products" ? products : collections}
-                data={tabShown == "products" ? products : collections}
-                pageName={tabShown == "products" ? "product" : "collection"}
-                columns={tabShown == "products" ? product_columns : collection_columns}
-                emptyText={tabShown == "products" ? product_emptyText : collection_emptyText}
-                emptyBtns={tabShown == "products" ? product_emptyBtns : collection_emptyBtns}
-                emptyImg={tabShown == "products" ? product_emptyImg : collection_emptyImg}
-                emptyTitle={tabShown == "products" ? product_emptyTitle : collection_emptyTitle}
-                headTabs={tabShown == "products" ? (
+                pageName={tabShown}
+                items={tabShown == "product" ? products : collections}
+                data={tabShown == "product" ? products : collections}
+                columns={tabShown == "product" ? product_columns : collection_columns}
+                emptyText={tabShown == "product" ? product_emptyText : collection_emptyText}
+                emptyBtns={tabShown == "product" ? product_emptyBtns : collection_emptyBtns}
+                emptyImg={tabShown == "product" ? product_emptyImg : collection_emptyImg}
+                emptyTitle={tabShown == "product" ? product_emptyTitle : collection_emptyTitle}
+                headTabs={tabShown == "product" ? (
                     <TableHeadTabs pageName="product" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreProducts} />
                 ) : (
                     <TableHeadTabs pageName="collection" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreCollections} />
                 )}
-                addBtnStr={tabShown == "products" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
+                addBtnStr={tabShown == "product" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
                 loader={loader} error={error}
-                {...(tabShown == "products" && { activeDisplayTab })}
+                {...(tabShown == "product" && { activeDisplayTab })}
 
                 // THIS PART HERE IS FOR THE PRODUCT COLLECTION SORT OF MODAL
-                {...(tabShown == "products" ? { addUrl: "products/upload" } : { addAction: handleShowCollectionForm, action: showCollectionForm })}
-                hasLink={tabShown == "products" ? true : false}
+                {...(tabShown == "product" ? { addUrl: "products/upload" } : { addAction: handleShowCollectionForm, action: showCollectionForm })}
+                hasLink={tabShown == "product" ? true : false}
                 shouldSelect={true}
 
                 // THIS IS A RESUABLE DELECTING OBJECT (FOR BOTH THE PRODUCT AND COLLECTION)
                 deleteObj={{
                     fn: deleteItem,
-                    title: (tabShown == "products") ? "product" : "collection",
+                    title: tabShown,
                     close: setShowDeleteModal,
                     show: showDeleteModal,
                     loader: deleteLoader,
@@ -286,8 +286,8 @@ function index() {
 
                 {/* THE TABS UI */}
                 <div className="page--tabs">
-                    <Tab title="Products" onClick={() => navigate("?tab=products")} active={tabShown == "products"} />
-                    <Tab title="Collections" onClick={() => navigate("?tab=collections")} active={tabShown == "collections"} />
+                    <Tab title="Products" onClick={() => navigate("?tab=product")} active={tabShown == "product"} />
+                    <Tab title="Collections" onClick={() => navigate("?tab=collection")} active={tabShown == "collection"} />
                 </div>
             </PageUI>
         </>
