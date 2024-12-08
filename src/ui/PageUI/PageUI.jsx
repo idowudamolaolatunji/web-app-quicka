@@ -33,6 +33,7 @@ function PageUI({
     // CHECK THIS AGAIN LATER....
     const isItem = items && items.length > 0;
     const width500andIsItem = (isItem && width < 500);
+    const insightPageOrTabName = pageName == "collection" ? "product" : pageName == "settlement" ? "transaction" : (pageName == "special_sales" || pageName == "coupon") ? "discount" : pageName
 
     const [showMoreActions, setShowMoreActions] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
@@ -41,7 +42,7 @@ function PageUI({
 
     function handleShowExportModal() {
         if (!isItem) {
-            setResponse({ status: "error", message: `No ${pageName} data to export! ` });
+            setResponse({ status: "error", message: `No ${pageName == "special_sales" ? "running special sales" : pageName} data to export! ` });
             setTimeout(() => setResponse({ status: null, message: null }), 2500)
         } else {
             setShowExportModal(true)
@@ -79,7 +80,7 @@ function PageUI({
             )}
 
             <div className='page__section--heading' style={(width500andIsItem && (addUrl || addAction)) ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
-                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rates" : pageName == "run-sales" ? "store sales" : pageName + "s"}</h2>
+                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rates" : pageName == "special_sales" ? "special sales" : pageName + "s"}</h2>
 
                 <span className='page__section--btns' style={(width500andIsItem && insights && (addUrl || addAction)) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
                     {(isItem && (addUrl || addAction)) && (
@@ -94,11 +95,11 @@ function PageUI({
 
                             {showMoreActions && (
                                 <ul className="page__section--dropdown">
-                                    <li onClick={() => handleToggleInsights(pageName == "collection" ? "product" : pageName)}>
+                                    <li onClick={() => handleToggleInsights(insightPageOrTabName)}>
                                         <span>
-                                            {showInsights?.[pageName == "collection" ? "product" : pageName] ? <ImEyeBlocked /> : <ImEye />}
+                                            {showInsights?.[insightPageOrTabName] ? <ImEyeBlocked /> : <ImEye />}
                                         </span>
-                                        {showInsights?.[pageName == "collection" ? "product" : pageName] ? 'Hide' : 'Show'} Insights
+                                        {showInsights?.[insightPageOrTabName] ? 'Hide' : 'Show'} Insights
                                     </li>
 
                                     <li onClick={handleShowExportModal}>

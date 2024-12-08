@@ -203,11 +203,12 @@
     flex-direction: column;
     gap: 2rem;
     align-self: flex-start;
-    margin-bottom: 2rem;
 }
 .preview--figure .custom--head {
     flex-direction: row;
     align-items: center;
+}
+.preview--figure .custom--head .form--element {
     gap: 0;
 }
 .preview--figure-title {
@@ -220,7 +221,7 @@
 }
 .preview--figure-title svg {
     color: var(--color-brand-500);
-    font-size: 1.8rem;
+    font-size: 2.4rem;
 }
 .preview--body {
 	display: flex;
@@ -311,7 +312,7 @@
 
     .preview--figure .custom--head {
         flex-wrap: wrap;
-        gap: 2rem;
+        gap: 1.68rem;
     }
 }
 

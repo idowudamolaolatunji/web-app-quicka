@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import "./style.css";
 import { BiEditAlt } from 'react-icons/bi';
@@ -27,7 +27,10 @@ function index() {
     const { subHeading, heading, headline } = store?.customDetail;
     const currency = currencies[mainCurrency];
 
-
+    useEffect(function() {
+        document.title = "Quicka | Store Information"
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <>
@@ -46,7 +49,7 @@ function index() {
 
             <div className={`preview--grid ${isCollapsedBtw900and1000 ? 'column-1fr' : ''}`}>
                 <div>
-                    <div className="preview--figure">
+                    <div className="preview--figure" style={{ marginBottom: "2rem" }}>
                         <div className='custom--head'>
                             <div className="form--element">
                                 <span><img src={store?.logo ? logoImg : noLogo} alt="brand logo" /></span>
@@ -80,7 +83,7 @@ function index() {
 
                 <div className="preview--figure">
                     <span className="preview--figure-title">
-                        <MdOutlinePersonPinCircle /> Store Contact / Location
+                        <MdOutlinePersonPinCircle style={{ fontSize: "2.8rem" }} /> Store Contact / Location
                     </span>
 
                     <div className="preview--body">

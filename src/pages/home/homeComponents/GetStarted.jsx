@@ -11,7 +11,7 @@ import FullScreen from '../../../components/modal/FullScreen';
 import UploadProduct from '../../uploadProduct';
 import CreateDelivery from '../../createDelivery';
 import BankDetails from '../../../components/pageComponents/BankDetails';
-import StoreCustom from '../../storeInformation/StoreCustom';
+import StoreCustom from '../../../components/pageComponents/StoreCustom';
 import CustomAlert from '../../../components/CustomAlert';
 import BgSimple from '../../../components/modal/BgSimple';
 import Welcome from './Welcome';

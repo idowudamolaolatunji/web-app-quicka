@@ -13,7 +13,6 @@ import NewsBox from './NewsBox';
 function HomeLayoutGrid() {
     const { width } = useWindowSize();
     const { isMenuCollapsed } = useDataContext();
-
     const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000 );
 
     return (

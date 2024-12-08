@@ -445,7 +445,7 @@ function DashboardMenu() {
                             <MenuLink icon={<MdOutlineShoppingBag />} title='Your Orders' link='/orders' />
                             <MenuLink icon={<LuTags />} title='Your Products' link='/products' />
                             <MenuLink icon={<BiLineChart />} title='Store Analytics' link='/analytics' />
-                            <MenuLink icon={<RiCoupon3Line />} title='Run sales and coupon' link='/run-sales' />
+                            <MenuLink icon={<RiCoupon3Line />} title='Run sales and coupon' link='/special_sales' />
                             <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
                             <MenuLink icon={<TbTransactionDollar />} title='All Transactions' link='/transactions' />
                             <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
@@ -521,7 +521,7 @@ function DashboardMenu() {
                                 <MenuLink icon={<MdOutlineShoppingBag />} title='Your Orders' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Your Products' link='/products' />
                                 <MenuLink icon={<BiLineChart />} title='Store Analytics' link='/analytics' />
-                                <MenuLink icon={<RiCoupon3Line />} title='Run sales / coupon' link='/run-sales' />
+                                <MenuLink icon={<RiCoupon3Line />} title='Run sales / coupon' link='/special_sales' />
                                 <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
                                 <MenuLink icon={<TbTransactionDollar />} title='All Transactions' link='/transactions' />
                                 <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />

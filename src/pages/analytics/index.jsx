@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import moment from 'moment';
+import { useWindowSize } from 'react-use';
 import Tab from '../../components/Tab';
 import Line from '../../components/Line';
 import { DateRangePicker } from 'rsuite';
 import Spinner from '../../components/spinner/spinner_two';
 import { BsCalendar3 } from 'react-icons/bs';
+import { useFetchedContext } from '../../context/FetchedContext';
+import { useLocation, useNavigate } from 'react-router-dom';
+import ConnectionError from '../../components/ConnectionError';
+import ErrorComponent from '../../components/ErrorComponent';
 
-import moment from 'moment';
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear, subDays, subMonths, subWeeks, subYears, subQuarters, startOfQuarter, endOfQuarter } from 'date-fns';
 
 import ProductsAnalytics from './analyticsComponents/ProductsAnalytics';
@@ -14,16 +19,10 @@ import CustomersAnalytics from './analyticsComponents/CustomersAnalytics';
 import TransactionsAnalytics from './analyticsComponents/TransactionsAnalytics';
 import CampaignsAnalytics from './analyticsComponents/CampaignsAnalytics';
 import ReferralsAnalytics from './analyticsComponents/ReferralsAnalytics';
-import { useFetchedContext } from '../../context/FetchedContext';
-import ConnectionError from '../../components/ConnectionError';
-import { useLocation, useNavigate } from 'react-router-dom';
-import ErrorComponent from '../../components/ErrorComponent';
-import { useWindowSize } from 'react-use';
-
-const date = new Date()
 
 
 function index() {
+    const date = new Date();
     const navigate = useNavigate()
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -31,9 +30,12 @@ function index() {
     ////////////////////////////////////////////////////
     const { width } = useWindowSize();
     const { globalConnectionError } = useFetchedContext();
+
+    const { after } = DateRangePicker;
     const true580px = width >= 580 ? false : true;
     const yearStarts = moment().startOf('year').toDate();
     const yearEnds = moment().endOf('year').toDate();
+    const notAfterThisYear = after(yearEnds)
     /////////////////////////////////////////////////
     /////////////////////////////////////////////
     const [loading, setLoading] = useState(false);
@@ -171,6 +173,7 @@ function index() {
                         onChange={handleChangeDateRange}
                         showOneCalendar={true580px}
                         ranges={predefined_ranges}
+                        shouldDisableDate={notAfterThisYear}
                         placement={width > 450 ? "bottomEnd" : "bottomStart"}
                         style={{ maxWidth: width < 450 ? 400 : 250, fontFamily: "Montserrat", fontWeight: "500", fontSize: "1.28rem !important" }}
                         // THIS REMAINING PART IS SOMETHING TO COMEBACK TO

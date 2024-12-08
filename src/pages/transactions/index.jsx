@@ -47,8 +47,9 @@ function index() {
     /////////////////////////////////////////////////////////////////////
     const [activeTab, setActiveTab] = useState("");
     const [search, setSearch] = useState('');
-
-
+    
+    
+    const pageName = activeTab == "transactions" ? "transaction" : "settlement"
     const transaction_columns = [
         {
             name: "Transaction Id",
@@ -154,7 +155,7 @@ function index() {
         <PageUI
             items={activeTab == "transactions" ? transactions : settlements}
             data={activeTab == "transactions" ? transactions : settlements}
-            pageName={activeTab == "transactions" ? "transaction" : "settlement"}
+            pageName={pageName}
             columns={activeTab == "transactions" ? transaction_columns : settlement_columns}
             emptyText={activeTab == "transactions" ? transaction_emptyText : settlement_emptyText}
             emptyImg={activeTab == "transactions" ? transaction_emptyImg : settlement_emptyImg}
@@ -170,9 +171,9 @@ function index() {
 
             {showInsights?.transaction && (
                 <div className='page__section--insights insight--grid'>
-                    <Insight loader={loader?.transaction} title='Pending Settlement' pre={currency} value={0} icon={<LuClipboardList />} />
-                    <Insight loader={loader?.transaction} title='Total Website transaction' pre={currency} value={webTransactions} icon={<GrTag />} />
-                    <Insight loader={loader?.transaction} title='Total Offline transaction' pre={currency} value={offlineTransactions} icon={<MdOutlineOfflineShare />} />
+                    <Insight loader={loader[pageName]} title='Pending Settlement' pre={currency} value={0} icon={<LuClipboardList />} />
+                    <Insight loader={loader[pageName]} title='Total Website transaction' pre={currency} value={webTransactions} icon={<GrTag />} />
+                    <Insight loader={loader[pageName]} title='Total Offline transaction' pre={currency} value={offlineTransactions} icon={<MdOutlineOfflineShare />} />
                 </div>
             )}
 

@@ -26,6 +26,10 @@ export const FetchedProvider = ({ children }) => {
     const [storeCategories, setStoreCategories] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [campaigns, setCampaigns] = useState([]);
+    const [discounts, setDiscounts] = useState([]);
+    const [coupons, setCoupons] = useState([]);
+    const [settlements, setSettlements] = useState([]);
+    const [special_sales, setspecial_sales] = useState([]);
 
     // LOADER STATES
     const [orderLoader, setOrderLoader] = useState(true);
@@ -34,6 +38,11 @@ export const FetchedProvider = ({ children }) => {
     const [customerLoader, setCustomerLoader] = useState(true);
     const [collectionLoader, setCollectionLoader] = useState(true);
     const [transactionLoader, setTransactionLoader] = useState(true);
+    const [campaignLoader, setCampaignLoader] = useState(false);
+    const [couponLoader, setCouponLoader] = useState(false);
+    const [discountLoader, setDiscountLoader] = useState(false);
+    const [storeSaleLoader, setStoreSaleLoader] = useState(false);
+    const [settlementLoader, setSettlementLoader] = useState(false);
 
     // ERROR STATES
     const [orderError, setOrderError] = useState("");
@@ -43,6 +52,10 @@ export const FetchedProvider = ({ children }) => {
     const [collectionError, setCollectionError] = useState("");
     const [transactionError, setTransactionError] = useState("");
     const [campaignError, setCampaignError] = useState("");
+    const [discountError, setDiscountError] = useState("");
+    const [couponError, setCouponError] = useState("");
+    const [storeSaleError, setStoreSaleError] = useState("");
+    const [settlementError, setSettlementError] = useState("");
 
     // SETTING LOADER THIS WAY IS BETTER THAN THE PREVIOUS
     const loader = {
@@ -52,6 +65,11 @@ export const FetchedProvider = ({ children }) => {
         customer: customerLoader,
         collection: collectionLoader,
         transaction: transactionLoader,
+        campaign: campaignLoader,
+        discount: discountLoader,
+        coupon: couponLoader,
+        special_sales: storeSaleLoader,
+        settlement: settlementLoader,
     }
     const error = {
         order: orderError,
@@ -61,10 +79,14 @@ export const FetchedProvider = ({ children }) => {
         campaign: campaignError,
         collection: collectionError,
         transaction: transactionError,
+        discount: discountError,
+        coupon: couponError,
+        special_sales: storeSaleError,
+        settlement: settlementError,
     }
-
+    
     // GLOBAL ERROR & GLOBAL REFETCH
-    const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || deliveryError );
+    const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || deliveryError || campaignError || discountError || couponError || storeSaleError );
 
     const handleGlobalRefetch = function() {
         handleFetchStore()
@@ -74,8 +96,16 @@ export const FetchedProvider = ({ children }) => {
         handleFetchUserStoreTransactions();
         handleFetchUserStoreCollections();
         handleFetchUserStoreDeliveryRates();
+        /////////////////////////////////////
+        // handleFetchUserStoreDiscounts();
+        // handleFetchUserStoreSettlements();
+        // handleFetchUserStoreCampaigns();
+        // handleFetchUserStoreCoupons();
+        // handleFetchUserStoreRunningSales();
+        
     }
 
+    // HANDLE FETCHED ERROR MESSAGES
     const handleFetchError = function(errMessage) {
         let message;
         if (errMessage?.includes("Failed to fetch") || 
@@ -117,7 +147,6 @@ export const FetchedProvider = ({ children }) => {
         await fetch(`${BASE_API_URL}/${title}/${id}`, { method: "DELETE", headers });
     }
 
-
     // FETCH PROTECTED STORE COLLECTION
     async function handleFetchUserStoreCollections() {
         setCollectionError("");
@@ -141,7 +170,6 @@ export const FetchedProvider = ({ children }) => {
             setCollectionLoader(false);
         }
     }
-
 
     // FETCH PROTECTED STORE PRODUCTS
     async function handleFetchUserStoreProducts() {
@@ -168,7 +196,6 @@ export const FetchedProvider = ({ children }) => {
         }
     }
 
-
     // FETCH PROTECTED STORE SALES AND ORDERS
     async function handleFetchUserStoreOrders() {
         setOrderError("");
@@ -193,7 +220,6 @@ export const FetchedProvider = ({ children }) => {
         }
 
     }
-
 
     // FETCH PROTECTED STORE CUSTOMERS
     async function handleFetchUserStoreCustomers() {
@@ -220,7 +246,6 @@ export const FetchedProvider = ({ children }) => {
         }
     }
 
-
     // FETCH PROTECTED STIRE DELIVERY RATES
     async function handleFetchUserStoreDeliveryRates () {
         setDeliveryError("");
@@ -245,8 +270,7 @@ export const FetchedProvider = ({ children }) => {
         }
     }
 
-
-    // FETCH PROTECTED STORE SALES TRANSACTIONS
+    // FETCH PROTECTED STORE TRANSACTIONS
     async function handleFetchUserStoreTransactions () {
         setTransactionError("");
         setTransactionLoader(true);
@@ -271,6 +295,90 @@ export const FetchedProvider = ({ children }) => {
         }
     }
 
+    // FETCH PROTECTED STORE SETTLEMENTS
+    async function handleFetchUserStoreSettlements () {
+        setSettlementError("");
+        setSettlementLoader(true);
+        setSettlements([]);
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            // code goes here...
+        } catch (err) {
+            const errMessage = handleFetchError(err?.message)
+            setSettlementError(errMessage)
+        } finally {
+            setSettlementLoader(false);
+        }
+    }
+
+    // FETCH PROTECTED STORE CAMPAIGNS
+    async function handleFetchUserStoreCampaigns () {
+        setCampaignError("");
+        setCampaignLoader(true);
+        setCampaigns([]);
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            // code goes here...
+        } catch (err) {
+            const errMessage = handleFetchError(err?.message)
+            setCampaignError(errMessage)
+        } finally {
+            setCampaignLoader(false);
+        }
+    }
+
+    // FETCH PROTECTED STORE DISCOUNTS
+    async function handleFetchUserStoreDiscounts () {
+        setDiscountError("");
+        setDiscountLoader(true);
+        setDiscounts([]);
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            // code goes here...
+        } catch (err) {
+            const errMessage = handleFetchError(err?.message)
+            setDiscountError(errMessage)
+        } finally {
+            setDiscountLoader(false);
+        }
+    }
+
+    // FETCH PROTECTED STORE COUPONS
+    async function handleFetchUserStoreCoupons () {
+        setCouponError("");
+        setCouponLoader(true);
+        setCoupons([]);
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            // code goes here...
+        } catch (err) {
+            const errMessage = handleFetchError(err?.message)
+            setCouponError(errMessage)
+        } finally {
+            setCouponLoader(false);
+        }
+    }
+
+    // FETCH PROTECTED STORE RUNNING SALES
+    async function handleFetchUserStoreRunningSales () {
+        setStoreSaleError("");
+        setStoreSaleLoader(true);
+        setStoreSales([]);
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            // code goes here...
+        } catch (err) {
+            const errMessage = handleFetchError(err?.message)
+            setStoreSaleError(errMessage)
+        } finally {
+            setStoreSaleLoader(false);
+        }
+    }
 
     // UPLOAD AND UPDATE SIMGLE IMAGE
     async function handleImageUpload(Imgfile, url, tk=null) {
@@ -325,6 +433,11 @@ export const FetchedProvider = ({ children }) => {
         setCustomers([]);
         setDeliveryRates([]);
         setTransactions([]);
+        setSettlements([]);
+        setCampaigns([]);
+        setDiscounts([]);
+        setCoupons([]);
+        setspecial_sales([]);
 
         if(token && user) {
             handleFetchUserStoreOrders();
@@ -333,6 +446,11 @@ export const FetchedProvider = ({ children }) => {
             handleFetchUserStoreCollections();
             handleFetchUserStoreDeliveryRates();
             handleFetchUserStoreTransactions();
+            // handleFetchUserStoreDiscounts();
+            // handleFetchUserStoreSettlements();
+            // handleFetchUserStoreCampaigns();
+            // handleFetchUserStoreCoupons();
+            // handleFetchUserStoreRunningSales();
         }
     }, [token, user])
 
@@ -342,9 +460,12 @@ export const FetchedProvider = ({ children }) => {
         error,
         loader,
         orders,
+        coupons,
         products,
         campaigns,
+        discounts,
         customers,
+        settlements,
         collections,
         transactions,
         deliveryRates,
@@ -352,17 +473,23 @@ export const FetchedProvider = ({ children }) => {
         handleFetchItem,
         handleFetchError,
         handleImageUpload,
+        special_sales,
         handleGlobalRefetch,
         handleDeleteOneItem,
         globalConnectionError,
         handleMultipleImageUpload,
-        handleFetchUserStoreOrders,
         handleFetchStoreCategories,
+        handleFetchUserStoreOrders,
         handleFetchUserStoreProducts,
         handleFetchUserStoreCustomers,
         handleFetchUserStoreCollections,
         handleFetchUserStoreTransactions,
         handleFetchUserStoreDeliveryRates,
+        // handleFetchUserStoreDiscounts,
+        // handleFetchUserStoreSettlements,
+        // handleFetchUserStoreCampaigns,
+        // handleFetchUserStoreCoupons,
+        // handleFetchUserStoreRunningSales,
     }
 
 

@@ -10,7 +10,7 @@ import Tab from '../../components/Tab';
 import { VscRunCoverage } from 'react-icons/vsc';
 import discount_emptyImg from '../../assets/images/illustrations/discount.png';
 import coupon_emptyImg from '../../assets/images/illustrations/coupon.png';
-import store_sales_emptyImg from '../../assets/images/illustrations/store_sales.png';
+import special_sales_emptyImg from '../../assets/images/illustrations/special_sales.png';
 import PageUI from '../../ui/PageUI/PageUI';
 import { useDataContext } from '../../context/DataContext';
 import Insight from '../../components/Insight';
@@ -29,9 +29,9 @@ const coupon_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing eli
 const coupon_emptyBtns = [
     { title: <><RiCoupon3Line />Create Coupon</>, link: "/dashboard/coupons/create" },
 ];
-const store_sales_emptyTitle = "Run Store Sales";
-const store_sales_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
-const store_sales_emptyBtns = [
+const special_sales_emptyTitle = "Run Store Sales";
+const special_sales_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
+const special_sales_emptyBtns = [
     { title: <><VscRunCoverage />Run Store Sales</>, link: "/dashboard/store-sales/run" },
 ];
 
@@ -43,27 +43,27 @@ function index() {
     const tabParams = queryParams.get("tab");
     ///////////////////////////////////////////
     const { showInsights } = useDataContext()
-    const { loader, error, discounts, coupons, store_sales, handleDeleteOneItem  } = useFetchedContext();
+    const { loader, error, discounts, coupons, special_sales, handleDeleteOneItem  } = useFetchedContext();
     ////////////////////////////////////////////////////////
     const [deleteLoader, setDeleteLoader] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState("");
     ///////////////////////////////////////////////////////
-    const data = activeTab == "discount" ? discounts : activeTab == "coupon" ? coupons : store_sales; 
-    const emptyText = activeTab == "discount" ? discount_emptyText : activeTab == "coupon" ? coupon_emptyText : store_sales_emptyText;
-    const emptyTitle = activeTab == "discount" ? discount_emptyTitle : activeTab == "coupon" ? coupon_emptyTitle : store_sales_emptyTitle;
-    const emptyBtns = activeTab == "discount" ? discount_emptyBtns : activeTab == "coupon" ? coupon_emptyBtns : store_sales_emptyBtns;
-    const addBtnStr = activeTab !== "run-sales" ? "Create " + activeTab : "run new store sales";
-    const emptyImg = activeTab == "discount" ? discount_emptyImg : activeTab == "coupon" ? coupon_emptyImg : store_sales_emptyImg;
+    const data = activeTab == "discount" ? discounts : activeTab == "coupon" ? coupons : special_sales; 
+    const emptyText = activeTab == "discount" ? discount_emptyText : activeTab == "coupon" ? coupon_emptyText : special_sales_emptyText;
+    const emptyTitle = activeTab == "discount" ? discount_emptyTitle : activeTab == "coupon" ? coupon_emptyTitle : special_sales_emptyTitle;
+    const emptyBtns = activeTab == "discount" ? discount_emptyBtns : activeTab == "coupon" ? coupon_emptyBtns : special_sales_emptyBtns;
+    const addBtnStr = activeTab !== "special_sales" ? "Create " + activeTab : "run special sales";
+    const emptyImg = activeTab == "discount" ? discount_emptyImg : activeTab == "coupon" ? coupon_emptyImg : special_sales_emptyImg;
 
     const discount_columns = [];
 
     const coupon_columns = [];
 
-    const store_sales_columns = [];
+    const special_sales_columns = [];
     
-    const column = activeTab == "discount" ? discount_columns : activeTab == "coupon" ? coupon_columns : store_sales_columns; 
+    const column = activeTab == "discount" ? discount_columns : activeTab == "coupon" ? coupon_columns : special_sales_columns; 
 
 
     const handleShowModal = function(id) {
@@ -86,7 +86,7 @@ function index() {
 
 
     useEffect(function() {
-        document.title = "Quicka | Discounts, Coupons and Run store sales";
+        document.title = "Quicka | Discounts, Coupons and Run special sales";
     }, []);
 
     
@@ -140,16 +140,16 @@ function index() {
 
             {showInsights?.discount && (
                 <div className='page__section--insights insight--grid'>
-                    <Insight loader={loader?.discount} title='Total Discounts' value={0} icon={<TbBasketDiscount />} />
-                    <Insight loader={loader?.discount} title='Active Coupons' value={0} icon={<RiCouponLine />} />
-                    <Insight loader={loader?.discount} title='Running Sales' value={0} icon={<LuPartyPopper />} />
+                    <Insight loader={loader[activeTab]} title='Total Discounts' value={0} icon={<TbBasketDiscount />} />
+                    <Insight loader={loader[activeTab]} title='Active Coupons' value={0} icon={<RiCouponLine />} />
+                    <Insight loader={loader[activeTab]} title='Running Special Sales' value={0} icon={<LuPartyPopper />} />
                 </div>
             )}
 
             <div className="page--tabs">
                 <Tab title="Discounts" onClick={() => navigate("?tab=discount")} active={activeTab == "discount"} value={discounts?.length > 0 && discounts?.length} />
                 <Tab title="Coupons" onClick={() => navigate("?tab=coupon")} active={activeTab == "coupon"} value={coupons?.length > 0 && coupons?.length} />
-                <Tab title="Store Sales" onClick={() => navigate("?tab=run-sales")} active={activeTab == "run-sales"} value={store_sales?.length > 0 && store_sales?.length} />
+                <Tab title="Special Sales" onClick={() => navigate("?tab=special_sales")} active={activeTab == "special_sales"} value={special_sales?.length > 0 && special_sales?.length} />
             </div>
       </PageUI>
     )

@@ -13,7 +13,7 @@ function index() {
     const { globalConnectionError } = useFetchedContext();
 
     useEffect(function() {
-        document.title = "Quicka | Subscription plans"
+        document.title = "Quicka | Customize your store"
         window.scrollTo(0, 0);
     }, []);
 

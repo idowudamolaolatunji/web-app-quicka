@@ -277,10 +277,10 @@ function index() {
                 {/* THE INSIGHTS UI */}
                 {showInsights?.product && (
                     <div className='page__section--insights insight--grid' style={ width > 900 ? { width: '90%' } : {}}>
-                        <Insight loader={loader?.product} title='Total Inventory worth' pre={currency} value={totalInventoryWorth} dec={totalInventoryWorth ? 0 : 2} icon={<LuClipboardList />} />
-                        <Insight loader={loader?.product} title='Total Products Sold' value={productsSold} icon={<GrTag />} />
-                        <Insight loader={loader?.product} title='Total Collection' value={collections?.length} icon={<TbListSearch />} />
-                        <Insight loader={loader?.product} title='Out of stock' value={outOfStock?.length} icon={<TbArrowWaveRightDown />} />
+                        <Insight loader={loader[tabShown]} title='Total Inventory worth' pre={currency} value={totalInventoryWorth} dec={totalInventoryWorth ? 0 : 2} icon={<LuClipboardList />} />
+                        <Insight loader={loader[tabShown]} title='Total Products Sold' value={productsSold} icon={<GrTag />} />
+                        <Insight loader={loader[tabShown]} title='Total Collection' value={collections?.length} icon={<TbListSearch />} />
+                        <Insight loader={loader[tabShown]} title='Out of stock' value={outOfStock?.length} icon={<TbArrowWaveRightDown />} />
                     </div>
                 )}
 

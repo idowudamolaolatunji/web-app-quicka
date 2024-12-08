@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineStorefront } from 'react-icons/md';
 import { useWindowSize } from 'react-use'
-import BackButton from '../../components/button/BackButton';
-import Line from '../../components/Line';
+import BackButton from '../button/BackButton';
+import Line from '../Line';
 
-import ImageUploadInput from '../../components/ImageUploadInput';
+import ImageUploadInput from '../ImageUploadInput';
 import { useAuthContext } from '../../context/AuthContext';
 import { AiOutlineDelete, AiOutlineLink } from 'react-icons/ai';
-import ColorBox from '../../components/ColorBox';
+import ColorBox from '../ColorBox';
 
-import LinkInput from '../../components/LinkInput';
+import LinkInput from '../LinkInput';
 import { Switch } from '@mui/material';
-import QuillEditor from '../../components/QuillEditor';
+import QuillEditor from '../QuillEditor';
 import Template1 from "../../ui/templateUI/Template1";
-import Info from '../../components/Info';
+import Info from '../Info';
 import { colors } from '../../utils/data';
-import Asterisk from '../../components/Asterisk';
-import Confetti from '../../components/Confetti';
+import Asterisk from '../Asterisk';
+import Confetti from '../Confetti';
 import { useNavigate } from 'react-router-dom';
-import CustomAlert from '../../components/CustomAlert';
-import Spinner from '../../components/spinner/spinner_two';
+import CustomAlert from '../CustomAlert';
+import Spinner from '../spinner/spinner_two';
 import { createPortal } from 'react-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import isOnline from 'is-online';
