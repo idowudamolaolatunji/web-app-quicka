@@ -19,6 +19,7 @@ import CustomersAnalytics from './analyticsComponents/CustomersAnalytics';
 import TransactionsAnalytics from './analyticsComponents/TransactionsAnalytics';
 import CampaignsAnalytics from './analyticsComponents/CampaignsAnalytics';
 import ReferralsAnalytics from './analyticsComponents/ReferralsAnalytics';
+import WebsiteTrafficAnalytics from './analyticsComponents/WebsiteTrafficAnalytics';
 
 
 function index() {
@@ -101,14 +102,14 @@ function index() {
 
     const handleSelectedDateRange = function(range) {
         const year = moment(range).year();
-        const fromYear = moment(selectedDates.from).year();
-
+        
         if(selectedDates.prev == "to") {
             setSelectedDates({ ...selectedDates, from: moment(range).format("MM/DD/YYYY"), prev: "from" })
         }
-
+        
+        const fromYear = moment(selectedDates.from).year();
         if(selectedDates.prev == "from") {
-            if(year > fromYear) {
+            if(year < fromYear) {
                 setSelectedDates({ ...selectedDates, to: selectedDates.from, from: moment(range).format("MM/DD/YYYY"), prev: "to" })
             } else {
                 setSelectedDates({ ...selectedDates, to: moment(range).format("MM/DD/YYYY"), prev: "to" })
@@ -125,7 +126,7 @@ function index() {
     }, [tabParams]);
 
 
-    // THIS EFFECT IS SOMETHING TO COMEBACK TO
+    // THIS EFFECT IS SOMETHING TO COMEBACK TO, but it works
     useEffect(function() {
         if(rangeIsOpened) {
             const container = document.querySelector(".rs-picker-toolbar-right");
@@ -191,6 +192,7 @@ function index() {
                 <Tab title="Sales" active={activeTab == "sales"} onClick={() => navigate("?tab=sales")} />
                 <Tab title="Products" active={activeTab == "products"} onClick={() => navigate("?tab=products")} />
                 <Tab title="Customers" active={activeTab == "customers"} onClick={() => navigate("?tab=customers")} />
+                <Tab title="Website Traffic" active={activeTab == "website-traffic"} onClick={() => navigate("?tab=website-traffic")} />
                 <Tab title="Transactions" active={activeTab == "transactions"} onClick={() => navigate("?tab=transactions")} />
                 <Tab title="Campaigns" active={activeTab == "campaigns"} onClick={() => navigate("?tab=campaigns")} />
                 <Tab title="Referrals" active={activeTab == "referrals"} onClick={() => navigate("?tab=referrals")} />
@@ -203,6 +205,7 @@ function index() {
             {!globalConnectionError && (
                 <div className="analytics--container">
                     {activeTab == "sales" && <SalesAnalytics dateRange={dateRange} />}
+                    {activeTab == "website-traffic" && <WebsiteTrafficAnalytics dateRange={dateRange} />}
                     {activeTab == "products" && <ProductsAnalytics dateRange={dateRange} />}
                     {activeTab == "customers" && <CustomersAnalytics dateRange={dateRange} />}
                     {activeTab == "transactions" && <TransactionsAnalytics dateRange={dateRange} />}

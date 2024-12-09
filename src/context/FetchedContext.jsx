@@ -121,7 +121,10 @@ export const FetchedProvider = ({ children }) => {
     async function handleFetchItem(title, id) {
         const ifProduct = title == "product" ? "slug/id/" : "";
         const url = `${import.meta.env.VITE_API_URL}/${title}s/${ifProduct}${id}`;
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            method: "GET",
+            headers
+        });
         
         const data = await res.json();
         return data?.data[title];
@@ -469,11 +472,11 @@ export const FetchedProvider = ({ children }) => {
         collections,
         transactions,
         deliveryRates,
+        special_sales,
         storeCategories,
         handleFetchItem,
         handleFetchError,
         handleImageUpload,
-        special_sales,
         handleGlobalRefetch,
         handleDeleteOneItem,
         globalConnectionError,

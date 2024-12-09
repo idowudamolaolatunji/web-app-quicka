@@ -20,26 +20,45 @@ function index() {
     const { store } = useAuthContext();
     const { isMenuCollapsed } = useDataContext();
     const { globalConnectionError } = useFetchedContext();
-    
-    const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000 );
+
+    const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000);
     const { currencies, mainCurrency, description, category, contact, location, logo } = store;
     const logoImg = BASE_URL + logo;
     const { subHeading, heading, headline } = store?.customDetail;
     const currency = currencies[mainCurrency];
 
-    useEffect(function() {
+    useEffect(function () {
         document.title = "Quicka | Store Information"
         window.scrollTo(0, 0);
     }, []);
+
+    const PreviewHead = function () {
+        return (
+            <div className='custom--head'>
+                <div className="form--element">
+                    <span><img src={store?.logo ? logoImg : noLogo} alt="brand logo" /></span>
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <span className='custom--labels' style={{ gap: ".6rem" }}>
+                        <h3 className='custom--title'>{store?.name}</h3>
+                        <a className='custom--link' target='_blank' href={`https://${store?.storeUrl}`} >
+                            https://{store?.storeUrl} <AiOutlineLink />
+                        </a>
+                    </span>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <>
             {globalConnectionError && <ConnectionError />}
 
-            <div className='page__section--heading' style={ width <= 450 ? { flexDirection: "column", alignItems: "flex-start", gap: "2rem" } : {}}>
+            <div className='page__section--heading' style={width <= 450 ? { flexDirection: "column", alignItems: "flex-start", gap: "2rem" } : {}}>
                 <h2 className="page__section--title">Store Information</h2>
 
-                <span style={ width <= 450 ? { width: "100%" } : {}}>
+                <span style={width <= 450 ? { width: "100%" } : {}}>
                     <button className="page__section-top-btn add" onClick={() => navigate("edit")}>
                         Edit Information <BiEditAlt />
                     </button>
@@ -49,27 +68,20 @@ function index() {
 
             <div className={`preview--grid ${isCollapsedBtw900and1000 ? 'column-1fr' : ''}`}>
                 <div>
-                    <div className="preview--figure" style={{ marginBottom: "2rem" }}>
-                        <div className='custom--head'>
-                            <div className="form--element">
-                                <span><img src={store?.logo ? logoImg : noLogo} alt="brand logo" /></span>
-                            </div>
-
-                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <span className='custom--labels' style={{ gap: ".6rem" }}>
-                                    <h3 className='custom--title'>{store?.name}</h3>
-                                    <a className='custom--link' target='_blank' href={`https://${store?.storeUrl}`} >
-                                        https://{store?.storeUrl} <AiOutlineLink />
-                                    </a>
-                                </span>
-                            </div>
+                    {width > 450 && (
+                        <div className="preview--figure" style={{ marginBottom: "2rem" }}>
+                            <PreviewHead />
                         </div>
-                    </div>
+                    )}
 
                     <div className="preview--figure">
                         <span className="preview--figure-title">
-                            <MdOutlineStorefront /> Store Information
+                            <MdOutlineStorefront /> Store Details
                         </span>
+
+                        {width <= 450 && (
+                            <PreviewHead />
+                        )}
 
                         <div className="preview--body">
                             <div className='preview--body-item'>Welcome Heading <span className='preview--body-value'>{subHeading ? `${heading} ${subHeading}` : "--"}</span></div>

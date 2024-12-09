@@ -50,17 +50,19 @@ import Error from './pages/error';
 // GENERAL DASHBOARD PAGES 
 import DashboardHome from './pages/home';
 
-import Orders from './pages/orders';
-import OrderItem from './pages/orders/orderComponents/OrderItem';
-import RecordOrder from './pages/recordOrder';
-import Products from './pages/products';
-import ProductItem from './pages/products/ProductItem';
 import UploadProduct from './pages/uploadProduct';
-import Customers from './pages/customers';
-import CustomerItem from './pages/customers';
+import RecordOrder from './pages/recordOrder';
 import AddCustomer from './pages/addCustomer';
-import Delivery from './pages/delivery';
 import CreateDelivery from './pages/createDelivery';
+
+import Products from './pages/products';
+import Orders from './pages/orders';
+import Customers from './pages/customers';
+import Delivery from './pages/delivery';
+
+import ProductItem from './pages/products/ProductItem';
+import OrderItem from './pages/orders/OrderItem';
+import CustomerItem from './pages/customers/CustomerItem';
 
 import Transaction from './pages/transactions';
 import Settings from './pages/settings';

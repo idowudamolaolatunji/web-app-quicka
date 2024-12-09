@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export function formatNumber(amount, dec=0) {
+export function formatNumber(amount, dec = 0) {
 	return Number(amount)
 		.toFixed(dec)
 		.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -12,31 +12,56 @@ export function todayDate() {
 
 export function dateTimeFormat(givenDate) {
 	const date = moment(givenDate);
-  	return date.format("D MMM YYYY, h:mm A");
+	return date.format("D MMM YYYY, h:mm A");
 }
 
 export function ymdDateSlashTimeFormat(givenDate) {
 	const date = moment(givenDate);
 	return date.format("DD / MM / YYYY, h:mm A");
-} 
+}
 
 export function ymdDateSlashFormat(givenDate) {
 	const date = moment(givenDate);
 	return date.format("DD / MM / YYYY");
-} 
+}
 
 export function ymdDateFormat(givenDate) {
 	const date = moment(givenDate);
 	return date.format("YYYY-MM-DD");
-} 
+}
 
+export function formatDateSince(givenDate) {
+	const date = moment(givenDate);
+	const now = moment();
+	const diff = now.diff(date);
 
-export function truncateString(input, num=25) {
-    if (input?.length > num) {
-        return input?.substring(0, num) + "...";
-    } else {
-        return input;
-    }
+	if (diff < 3600000) {
+		// less than 1 hour
+		const seconds = Math.floor(diff / 1000);
+		return `${seconds} secs ago`;
+	} else if (diff < 86400000) {
+		// less than 1 day
+		const minutes = Math.floor(diff / 60000);
+		if (minutes < 60) {
+			return `${minutes} mins ago`;
+		} else {
+			const hours = Math.floor(diff / 3600000);
+			return `${hours} hours ago`;
+		}
+	} else if (diff < 172800000) {
+		// yesterday
+		return `Yesterday at ${date.format("h:mm A")}`;
+	} else {
+		return date.format("D MMM YYYY, h:mm A");
+	}
+}
+
+export function truncateString(input, num = 25) {
+	if (input?.length > num) {
+		return input?.substring(0, num) + "...";
+	} else {
+		return input;
+	}
 }
 
 const currentTime = moment().hours();
@@ -80,7 +105,7 @@ export function formatDate(givenDate) {
 	}
 	if (diffInSeconds < 60) {
 		return `${diffInSeconds} secs ago`;
-	} 
+	}
 
 	const diffInMins = moment().diff(inputDate, "minutes");
 	if (diffInMins < 60) {
@@ -120,9 +145,8 @@ export function capitalizeFirstLetter(string) {
 	return string?.slice(0, 1)?.toUpperCase() + string?.slice(1);
 }
 
-
 export function isWithinLast7Days(date) {
-	return moment(date).isAfter(moment().subtract(7, 'days'));
+	return moment(date).isAfter(moment().subtract(7, "days"));
 }
 
 export function getInitials(fullName) {
@@ -137,7 +161,7 @@ export function getRemainingMinutes(dateTimeStr) {
 	const expiresTime = new Date(dateTimeStr);
 	const timeDiff = expiresTime - currentTime;
 	let remainingTime;
-  
+
 	const minutes = Math.floor(timeDiff / 60000);
 	const seconds = Math.floor((timeDiff % 60000) / 1000);
 
@@ -145,38 +169,35 @@ export function getRemainingMinutes(dateTimeStr) {
 		return "00:00";
 	}
 
-  	return `${minutes?.toString().padStart(2, '0')}:${seconds?.toString().padStart(2, '0')}`;
-
+	return `${minutes?.toString().padStart(2, "0")}:${seconds?.toString().padStart(2, "0")}`;
 }
-  
 
-let intervalId = null
+let intervalId = null;
 
 export function countdownTimer(dateTimeStr, callback) {
 	if (intervalId) {
-	  clearInterval(intervalId);
+		clearInterval(intervalId);
 	}
-  
+
 	let timeLeft = getRemainingMinutes(dateTimeStr);
 	let initialTimeLeft = timeLeft;
-  
+
 	intervalId = setInterval(() => {
-	  timeLeft = getRemainingMinutes(dateTimeStr);
-	  
-	  if (timeLeft !== "00:00") {
-		callback(timeLeft);
-	  } else {
-		clearInterval(intervalId);
-		intervalId = null;
-		callback("00:00");
-	  }
+		timeLeft = getRemainingMinutes(dateTimeStr);
+
+		if (timeLeft !== "00:00") {
+			callback(timeLeft);
+		} else {
+			clearInterval(intervalId);
+			intervalId = null;
+			callback("00:00");
+		}
 	}, 1000);
-  
+
 	// Return a function to reset the timer
 	return (newDateTimeStr) => {
-	  clearInterval(intervalId);
-	  intervalId = null;
-	  countdownTimer(newDateTimeStr, callback);
+		clearInterval(intervalId);
+		intervalId = null;
+		countdownTimer(newDateTimeStr, callback);
 	};
-  }
-  
+}

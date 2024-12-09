@@ -49,7 +49,6 @@ function index() {
     const [search, setSearch] = useState('');
     
     
-    const pageName = activeTab == "transactions" ? "transaction" : "settlement"
     const transaction_columns = [
         {
             name: "Transaction Id",
@@ -118,7 +117,7 @@ function index() {
             <div className='content'>
                 <span className='flex'>
                     <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={activeTab == "transactions" ? handleFetchUserStoreTransactions : handleFetchUserStoreSettlements}><MdOutlineRefresh /></button>
+                        <button className='table--btn' onClick={activeTab == "transaction" ? handleFetchUserStoreTransactions : handleFetchUserStoreSettlements}><MdOutlineRefresh /></button>
                     </TooltipUI>
 
                     <input type="text" className="table--input form--input" placeholder='search..' />
@@ -136,7 +135,7 @@ function index() {
     }
 
     useEffect(function () {
-        document.title = `Quicka | ${activeTab == "transactions" ? "All Transactions" : "Payment Settlements"}`;
+        document.title = `Quicka | ${activeTab == "transaction" ? "All Transactions" : "Payment Settlements"}`;
     }, []);
 
 
@@ -145,7 +144,7 @@ function index() {
         if (tabParams) {
             setActiveTab(tabParams)
         } else {
-            navigate("?tab=transactions")
+            navigate("?tab=transaction")
         }
         setSearch("")
     }, [tabParams]);
@@ -153,16 +152,16 @@ function index() {
 
     return (
         <PageUI
-            items={activeTab == "transactions" ? transactions : settlements}
-            data={activeTab == "transactions" ? transactions : settlements}
-            pageName={pageName}
-            columns={activeTab == "transactions" ? transaction_columns : settlement_columns}
-            emptyText={activeTab == "transactions" ? transaction_emptyText : settlement_emptyText}
-            emptyImg={activeTab == "transactions" ? transaction_emptyImg : settlement_emptyImg}
-            emptyTitle={activeTab == "transactions" ? transaction_emptyTitle : settlement_emptyTitle}
+            items={activeTab == "transaction" ? transactions : settlements}
+            data={activeTab == "transaction" ? transactions : settlements}
+            pageName={activeTab}
+            columns={activeTab == "transaction" ? transaction_columns : settlement_columns}
+            emptyText={activeTab == "transaction" ? transaction_emptyText : settlement_emptyText}
+            emptyImg={activeTab == "transaction" ? transaction_emptyImg : settlement_emptyImg}
+            emptyTitle={activeTab == "transaction" ? transaction_emptyTitle : settlement_emptyTitle}
             hasLink={false}
             loader={loader} error={error}
-            headTabs={ activeTab == "transactions" ? (
+            headTabs={ activeTab == "transaction" ? (
                 <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreTransactions} />
             ) : (
                 <TableHeadTabs pageName="settlement" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreSettlements} /> 
@@ -171,16 +170,16 @@ function index() {
 
             {showInsights?.transaction && (
                 <div className='page__section--insights insight--grid'>
-                    <Insight loader={loader[pageName]} title='Pending Settlement' pre={currency} value={0} icon={<LuClipboardList />} />
-                    <Insight loader={loader[pageName]} title='Total Website transaction' pre={currency} value={webTransactions} icon={<GrTag />} />
-                    <Insight loader={loader[pageName]} title='Total Offline transaction' pre={currency} value={offlineTransactions} icon={<MdOutlineOfflineShare />} />
+                    <Insight loader={loader[activeTab]} title='Pending Settlements' pre={currency} value={0} icon={<LuClipboardList />} />
+                    <Insight loader={loader[activeTab]} title='Total Website transactions' pre={currency} value={webTransactions} icon={<GrTag />} />
+                    <Insight loader={loader[activeTab]} title='Total Offline transactions' pre={currency} value={offlineTransactions} icon={<MdOutlineOfflineShare />} />
                 </div>
             )}
 
             {/* THE TABS UI */}
             <div className="page--tabs">
-                <Tab title="Transactions" onClick={() => navigate("?tab=transactions")} active={activeTab == "transactions"} />
-                <Tab title="Settlements" onClick={() => navigate("?tab=settlements")} active={activeTab == "settlements"} />
+                <Tab title="Transactions" onClick={() => navigate("?tab=transaction")} active={activeTab == "transaction"} />
+                <Tab title="Settlements" onClick={() => navigate("?tab=settlement")} active={activeTab == "settlement"} />
             </div>
         </PageUI>
     )
