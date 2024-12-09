@@ -117,7 +117,7 @@ function App() {
                     <Route path='/dashboard/delivery-rates' element={<Delivery />}></Route>
                     <Route path='/dashboard/transactions' element={<Transaction />}></Route>
                     <Route path='/dashboard/analytics' element={<Analytics />}></Route>
-                    <Route path='/dashboard/discount-coupon' element={<DiscountCoupon />}></Route>
+                    <Route path='/dashboard/discounts' element={<DiscountCoupon />}></Route>
 
                     <Route path='/dashboard/orders/record' element={<RecordOrder />}></Route>
                     <Route path='/dashboard/products/upload' element={<UploadProduct />}></Route>

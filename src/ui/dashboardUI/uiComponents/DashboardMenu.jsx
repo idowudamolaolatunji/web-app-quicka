@@ -13,7 +13,8 @@ import { BiCustomize, BiLineChart, BiMailSend } from 'react-icons/bi';
 import { useDataContext } from '../../../context/DataContext';
 import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiStackLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
-import { TbDeviceAnalytics, TbTransactionDollar, TbTruckDelivery } from 'react-icons/tb';
+import { TbDeviceAnalytics, TbPresentationAnalytics, TbTransactionDollar, TbTruckDelivery } from 'react-icons/tb';
+import { PiCoins, PiCoinsBold } from 'react-icons/pi';
 
 
 function DashboardMenu() {
@@ -32,12 +33,12 @@ function DashboardMenu() {
                         )}
                         <ul className='menu--list'>
                             <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
-                            <MenuLink icon={<MdOutlineShoppingBag />} title='Your Orders' link='/orders' />
-                            <MenuLink icon={<LuTags />} title='Your Products' link='/products' />
-                            <MenuLink icon={<TbDeviceAnalytics />} title='Analytics' link='/analytics' />
-                            <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
+                            <MenuLink icon={<MdOutlineShoppingBag />} title='Orders' link='/orders' />
+                            <MenuLink icon={<LuTags />} title='Products' link='/products' />
+                            <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
+                            <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                             <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
-                            <MenuLink icon={<RiDiscountPercentLine />} title='Discount and coupon' link='/discount-coupon' />
+                            <MenuLink icon={<RiDiscountPercentLine />} title='Discounts' link='/discounts' />
                         </ul>
                     </div>
 
@@ -48,6 +49,7 @@ function DashboardMenu() {
                         <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                         <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                         <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
+                        <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' />
                         <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                         <MenuLink icon={<BiCustomize />} title='Store Customisation' link='/store-customisation' />
                     </ul>
@@ -90,12 +92,12 @@ function DashboardMenu() {
                             </span>
                             <ul className='menu--list'>
                                 <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
-                                <MenuLink icon={<MdOutlineShoppingBag />} title='Your Orders' link='/orders' />
-                                <MenuLink icon={<LuTags />} title='Your Products' link='/products' />
-                                <MenuLink icon={<TbDeviceAnalytics />} title='Analytics' link='/analytics' />
-                                <MenuLink icon={<FiUsers />} title='Your Customers' link='/customers' />
+                                <MenuLink icon={<MdOutlineShoppingBag />} title='Orders' link='/orders' />
+                                <MenuLink icon={<LuTags />} title='Products' link='/products' />
+                                <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
+                                <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                                 <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
-                                <MenuLink icon={<RiDiscountPercentLine />} title='Discount and coupon' link='/discount-coupon' />
+                                <MenuLink icon={<RiDiscountPercentLine />} title='Discounts' link='/discounts' />
                             </ul>
                         </div>
 
@@ -105,6 +107,7 @@ function DashboardMenu() {
                             <MenuLink icon={<MdOutlineStorefront />} title='Store Details' link='/store-details' />
                             <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                             <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
+                            <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' />
                             <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
                             <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                             <MenuLink icon={<BiCustomize />} title='Site Customisation' link='/store-customisation' />
