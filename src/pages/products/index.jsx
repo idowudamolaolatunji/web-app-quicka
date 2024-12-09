@@ -61,7 +61,7 @@ function index() {
     const [showCollectionForm, setShowCollectionForm] = useState(false);
     const [showCollectionEditForm, setShowCollectionEditForm] = useState(false);
     const [selectedCollection, setSelectedCollection] = useState(false);
-    const [tabShown, setTabShown] = useState("");
+    const [tabShown, setTabShown] = useState("product");
     const [search, setSearch] = useState("");
     ////////////////////////////////////////////////////////
 

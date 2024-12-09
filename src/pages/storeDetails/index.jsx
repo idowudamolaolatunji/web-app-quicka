@@ -28,7 +28,7 @@ function index() {
     const currency = currencies[mainCurrency];
 
     useEffect(function () {
-        document.title = "Quicka | Store Information"
+        document.title = "Quicka | Store Details"
         window.scrollTo(0, 0);
     }, []);
 
@@ -56,11 +56,11 @@ function index() {
             {globalConnectionError && <ConnectionError />}
 
             <div className='page__section--heading' style={width <= 450 ? { flexDirection: "column", alignItems: "flex-start", gap: "2rem" } : {}}>
-                <h2 className="page__section--title">Store Information</h2>
+                <h2 className="page__section--title">Store Details</h2>
 
                 <span style={width <= 450 ? { width: "100%" } : {}}>
                     <button className="page__section-top-btn add" onClick={() => navigate("edit")}>
-                        Edit Information <BiEditAlt />
+                        Edit Details <BiEditAlt />
                     </button>
                 </span>
             </div>
@@ -76,7 +76,7 @@ function index() {
 
                     <div className="preview--figure">
                         <span className="preview--figure-title">
-                            <MdOutlineStorefront /> Store Details
+                            <MdOutlineStorefront /> Store Information
                         </span>
 
                         {width <= 450 && (

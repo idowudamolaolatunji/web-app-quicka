@@ -472,7 +472,7 @@ function DashboardMenu() {
 
                         {showRemains && (
                             <ul className={`menu--list ${showRemains ? 'menu-animate' : 'menu-unanimate'}`}>
-                                <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-information' />
+                                <MenuLink icon={<MdOutlineStorefront />} title='Store Details' link='/store-information' />
                                 <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                                 <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                                 <MenuLink icon={<HiOutlineSquare3Stack3D />} title='Subscription' link='/subscription' />
@@ -540,7 +540,7 @@ function DashboardMenu() {
 
                             {showRemains && (
                                 <ul className='menu--list'>
-                                    <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-information' />
+                                    <MenuLink icon={<MdOutlineStorefront />} title='Store Details' link='/store-information' />
                                     <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                                     <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                                     <MenuLink icon={<HiOutlineSquare3Stack3D />} title='Subscription' link='/subscription' />

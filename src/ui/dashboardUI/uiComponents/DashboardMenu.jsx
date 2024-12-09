@@ -44,7 +44,7 @@ function DashboardMenu() {
                     <Line where={'Bottom'} value={'0.34rem'} border={1.4} />
 
                     <ul className={`menu--list`}>
-                        <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-information' />
+                        <MenuLink icon={<MdOutlineStorefront />} title='Store Details' link='/store-details' />
                         <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                         <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                         <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
@@ -56,7 +56,7 @@ function DashboardMenu() {
 
                     <ul className={`menu--list`}>
                         {/* <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' /> */}
-                        <MenuLink icon={<MdOutlineCampaign />} title='Referrals' link='/referrals' />
+                        {/* <MenuLink icon={<MdOutlineCampaign />} title='Referrals' link='/referrals' /> */}
                         <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
                         <MenuLink icon={<MdOutlineSettings />} title='Settings' link='/settings' />
                         <MenuButton icon={<MdOutlineHelpOutline />} title='Help Center' action={openWidget} />
@@ -102,7 +102,7 @@ function DashboardMenu() {
                         <Line where={'Bottom'} value={'0.34rem'} border={1.4} />
 
                         <ul className='menu--list'>
-                            <MenuLink icon={<MdOutlineStorefront />} title='Store Information' link='/store-information' />
+                            <MenuLink icon={<MdOutlineStorefront />} title='Store Details' link='/store-details' />
                             <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                             <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                             <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
@@ -115,7 +115,7 @@ function DashboardMenu() {
 
                         <ul className='menu--list'>
                             {/* <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' /> */}
-                            <MenuLink icon={<MdOutlineCampaign  />} title='Referrals' link='/referrals' />
+                            {/* <MenuLink icon={<MdOutlineCampaign  />} title='Referrals' link='/referrals' /> */}
                             <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
                             <MenuLink icon={<MdOutlineSettings />} title='Settings' link='/settings' />
                         </ul>

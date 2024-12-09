@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import ItemPreviewPageUI from '../../ui/PageUI/ItemPreviewPageUI'
+import ItemPreviewPageUI from '../../../ui/PageUI/ItemPreviewPageUI'
 import { useParams } from 'react-router-dom';
-import { useFetchedContext } from '../../context/FetchedContext';
+import { useFetchedContext } from '../../../context/FetchedContext';
 import { GoDotFill } from 'react-icons/go';
-import { formatDateSince } from '../../utils/helper';
-import Insight from '../../components/Insight';
+import { formatDateSince } from '../../../utils/helper';
+import Insight from '../../../components/Insight';
 
 function CustomerItem() {
     const title = "customer"
@@ -37,6 +37,7 @@ function CustomerItem() {
             <ItemPreviewPageUI
                 pageType={title}
                 pageTitle={item?.fullname || "Customer Profile"}
+                item={item}
                 loading={loading}
                 extraInfo={
                     <span style={{ fontSize: "1.24rem", fontWeight: "500", color: "#888", marginTop: ".8rem" }}>

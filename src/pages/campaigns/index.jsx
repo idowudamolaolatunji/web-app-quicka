@@ -18,7 +18,7 @@ import PageUI from '../../ui/PageUI/PageUI';
 const emptyTitle = "Star a Campaign!";
 const emptyText = "Maximize customer engagement with strategically designed campaign messages, delivered through preferred communication channels, influencing purchasing decisions, and brand experiences always.";
 const emptyBtns = [
-    { title: <><AiOutlinePlus /> Run your first campaign</>, link: "/dashboard/campaign/run" },
+    { title: <><AiOutlinePlus /> Run your first campaign</>, link: "/dashboard/campaigns/run" },
 ];
 
 

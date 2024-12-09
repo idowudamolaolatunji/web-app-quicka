@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Line from '../../components/Line';
-import AppFigure from './connectedComponents/AppFigure';
+import AppFigure from '../../components/pageComponents/AppFigure';
 
 import paystack from "../../assets/images/png_elements/paystack.png"
 import whatsapp from "../../assets/images/png_elements/whatsapp-business-icon.webp"

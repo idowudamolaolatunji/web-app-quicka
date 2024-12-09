@@ -9,17 +9,19 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { AiOutlinePlus } from 'react-icons/ai';
 import TableUI from '../../ui/PageUI/TableUI';
 import ConnectionError from '../../components/ConnectionError';
+import { useNavigate } from 'react-router-dom';
 
 
 const emptyTitle = "Add Custom Domain URL!";
 const emptyText = "Establish a lasting impression and trust with a custom domain, reinforcing your unique brand identity and ensuring consistency across all online platforms.";
 const emptyBtns = [
-    { title: <><AiOutlinePlus />Add Domain</> },
-    { title: <><BiPurchaseTagAlt />Buy Domain</> },
+    { title: <><AiOutlinePlus />Add Domain</>, link: "/dashboard/custom-domain/add-domain" },
+    { title: <><BiPurchaseTagAlt />Buy Domain</>, link: "/dashboard/custom-domain/buy-domain" },
 ];
 
 
 function index() {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { domains, error, loader, globalConnectionError } = useFetchedContext();
@@ -39,8 +41,8 @@ function index() {
                 <h2 className="page__section--title">Custom Domain</h2>
 
                 <span className='page__section--btns' style={width < 500 ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
-                    <button className="page__section-top-btn add" style={{ fontWeight: "500" }}><BiPlus /> Add Domain</button>
-                    <button className="page__section-top-btn more">Buy Domain <BiPurchaseTagAlt /></button>
+                    <button className="page__section-top-btn add" style={{ fontWeight: "500" }} onClick={() => navigate(emptyBtns[0]?.link)}><BiPlus /> Add Domain</button>
+                    <button className="page__section-top-btn more" onClick={() => navigate(emptyBtns[1]?.link)}>Buy Domain <BiPurchaseTagAlt /></button>
                 </span>
             </div>
 

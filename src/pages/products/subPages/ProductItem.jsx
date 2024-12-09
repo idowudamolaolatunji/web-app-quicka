@@ -1,37 +1,52 @@
 import React, { useEffect, useState } from 'react'
-import { useFetchedContext } from '../../context/FetchedContext';
+import { useFetchedContext } from '../../../context/FetchedContext';
 import { useParams } from 'react-router-dom';
-import ItemPreviewPageUI from '../../ui/PageUI/ItemPreviewPageUI';
+import ItemPreviewPageUI from '../../../ui/PageUI/ItemPreviewPageUI';
 
-function OrderItem() {
+
+function ProductItem() {
     const title = "product"
     const { id } = useParams();
     const { handleFetchItem } = useFetchedContext();
-    // const [loading, setLoading] = useState(true);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     const [item, setItem] = useState(null);
     ////////////////////////////////////////////////////
 
+    const Title = function () {
+        return (
+            <>
+                {item?.name}
+                <span className={`status status--${(item?.status)}`}>
+                    <p>{item?.status}</p>
+                </span>
+            </>
+        )
+    }
+
     const getItem = async function () {
+        setError(false)
         try {
             const data = await handleFetchItem(title, id);
+            if (!data) throw new Error("Connection Error");
             setItem(data)
         } catch (err) {
-            console.log(err.message)
+            setError(true)
         } finally {
             setLoading(false)
         }
     }
 
     useEffect(function () {
-        // getItem();
+        getItem();
     }, [id])
 
     return (
         <>
             <ItemPreviewPageUI
                 pageType={title}
-                pageTitle="Product Details"
+                item={item}
+                pageTitle={item?.name ? <Title /> : "Product Details"}
                 loading={loading}
             >
                 <p>Product</p>
@@ -40,4 +55,4 @@ function OrderItem() {
     )
 }
 
-export default OrderItem
+export default ProductItem

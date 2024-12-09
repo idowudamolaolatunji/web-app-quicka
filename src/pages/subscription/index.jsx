@@ -8,9 +8,11 @@ import emptyImg from "../../assets/images/illustrations/upgrade.png";
 import { HiOutlineSquare3Stack3D } from 'react-icons/hi2';
 import { useWindowSize } from 'react-use';
 import ConnectionError from '../../components/ConnectionError';
+import { useNavigate } from 'react-router-dom';
 
 
 function index() {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { plansHistory, error, loader, globalConnectionError } = useFetchedContext();
@@ -28,7 +30,7 @@ function index() {
 
             <div className='page__section--heading' style={width < 550 ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
                 <h2 className="page__section--title">Subscription</h2>
-                <button className="page__section-top-btn more">Upgrade plans <HiOutlineSquare3Stack3D /></button>
+                <button className="page__section-top-btn more" onClick={() => navigate("choose-plan")}>Upgrade plans <HiOutlineSquare3Stack3D /></button>
             </div>
 
             <div className="page__section--main card sub--details">
@@ -44,7 +46,7 @@ function index() {
 
                 <div className='sub--btns'>
                     <button>Cancel Plan</button>
-                    <button>Upgrade Subscription</button>
+                    <button onClick={() => navigate("choose-plan")}>Upgrade Subscription</button>
                 </div>
             </div>
 

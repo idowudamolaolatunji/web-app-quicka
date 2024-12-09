@@ -6,11 +6,14 @@ import more_themes from '../../assets/images/illustrations/more_theme.png'
 import './style.css'
 import ConnectionError from '../../components/ConnectionError';
 import { useFetchedContext } from '../../context/FetchedContext';
+import { useNavigate } from 'react-router-dom';
 
 
 function index() {
+    const navigate = useNavigate();
     const { width } = useWindowSize();
     const { globalConnectionError } = useFetchedContext();
+    const noLogo = "../../../faviconB.png"
 
     useEffect(function() {
         document.title = "Quicka | Customize your store"
@@ -55,13 +58,13 @@ function index() {
                     <div className="theme--grid">
 
                         <figure className='theme__figure'>
-                            <Template1 />
+                            <Template1 logo={noLogo} />
                             <figcaption className='theme__figure--detail'>
                                 <span className='flex'>
-                                    <h3 className='theme__figure--title'>Madi</h3>
+                                    <h3 className='theme__figure--title'>Basic</h3>
                                     <span className='theme__figure--type active'>Current theme</span>
                                 </span>
-                                <button className='theme__figure--btn'>Customise!</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/1")}>Customise!</button>
                             </figcaption>
                         </figure>
 
@@ -83,24 +86,24 @@ function index() {
 
                     <div className="theme--grid">
                         <figure className='theme__figure'>
-                            <Template1 />
+                            <Template1 logo={noLogo} />
                             <figcaption className='theme__figure--detail'>
                                 <span className='flex'>
-                                    <h3 className='theme__figure--title'>Nile</h3>
+                                    <h3 className='theme__figure--title'>Primax</h3>
                                     <span className='theme__figure--type'>premium</span>
                                 </span>
-                                <button className='theme__figure--btn'>Customise!</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/2")}>Customise!</button>
                             </figcaption>
                         </figure>
 
                         <figure className='theme__figure'>
-                            <Template1 />
+                            <Template1 logo={noLogo} />
                             <figcaption className='theme__figure--detail'>
                                 <span className='flex'>
-                                    <h3 className='theme__figure--title'>Kaba</h3>
+                                    <h3 className='theme__figure--title'>Luxury</h3>
                                     <span className='theme__figure--type'>premium</span>
                                 </span>
-                                <button className='theme__figure--btn'>Customise!</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/3")}>Customise!</button>
                             </figcaption>
                         </figure>
                     </div>

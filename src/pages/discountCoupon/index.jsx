@@ -48,7 +48,7 @@ function index() {
     const [deleteLoader, setDeleteLoader] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [activeTab, setActiveTab] = useState("");
+    const [activeTab, setActiveTab] = useState("discount");
     ///////////////////////////////////////////////////////
     const data = activeTab == "discount" ? discounts : activeTab == "coupon" ? coupons : special_sales; 
     const emptyText = activeTab == "discount" ? discount_emptyText : activeTab == "coupon" ? coupon_emptyText : special_sales_emptyText;
