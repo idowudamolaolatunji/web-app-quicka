@@ -1,6 +1,6 @@
 import React from 'react'
-import { useAuthContext } from '../context/AuthContext';
-import { getInitials } from '../utils/helper';
+import { useAuthContext } from '../../context/AuthContext';
+import { getInitials } from '../../utils/helper';
 
 function UserIntialsImage() {
     const { user } = useAuthContext();

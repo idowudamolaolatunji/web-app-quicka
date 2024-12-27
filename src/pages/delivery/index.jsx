@@ -4,7 +4,7 @@ import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import emptyImg from '../../assets/images/illustrations/delivery.png';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
-import TooltipUI from '../../components/TooltipUI';
+import TooltipUI from '../../components/layout/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
 import { formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
 import { AiOutlinePlus } from 'react-icons/ai';
@@ -129,6 +129,7 @@ function index() {
             loader={loader} error={error}
             hasLink={false}
             insights={false}
+            pointOnHover={false}
             headTabs={<HeadTabs />}
 
             deleteObj={{ 

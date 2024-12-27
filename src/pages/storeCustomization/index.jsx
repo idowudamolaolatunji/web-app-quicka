@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useWindowSize } from 'react-use';
-import Line from '../../components/Line';
+import Line from '../../components/elements/Line';
 import Template1 from "../../ui/templateUI/Template1"
 import more_themes from '../../assets/images/illustrations/more_theme.png'
 import './style.css'
-import ConnectionError from '../../components/ConnectionError';
+import ConnectionError from '../../components/layout/ConnectionError';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useNavigate } from 'react-router-dom';
 

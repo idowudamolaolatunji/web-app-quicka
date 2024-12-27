@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { MdOutlineStorefront } from 'react-icons/md';
 import { useWindowSize } from 'react-use'
 import BackButton from '../button/BackButton';
-import Line from '../Line';
+import Line from '../elements/Line';
 
-import ImageUploadInput from '../ImageUploadInput';
+import ImageUploadInput from '../form/ImageUploadInput';
 import { useAuthContext } from '../../context/AuthContext';
 import { AiOutlineDelete, AiOutlineLink } from 'react-icons/ai';
-import ColorBox from '../ColorBox';
+import ColorBox from '../elements/ColorBox';
 
-import LinkInput from '../LinkInput';
+import LinkInput from '../form/LinkInput';
 import { Switch } from '@mui/material';
-import QuillEditor from '../QuillEditor';
+import QuillEditor from '../form/QuillEditor';
 import Template1 from "../../ui/templateUI/Template1";
-import Info from '../Info';
+import Info from '../elements/Info';
 import { colors } from '../../utils/data';
-import Asterisk from '../Asterisk';
-import Confetti from '../Confetti';
+import Asterisk from '../elements/Asterisk';
+import Confetti from '../layout/Confetti';
 import { useNavigate } from 'react-router-dom';
-import CustomAlert from '../CustomAlert';
+import CustomAlert from '../layout/CustomAlert';
 import Spinner from '../spinner/spinner_two';
 import { createPortal } from 'react-dom';
 import { useFetchedContext } from '../../context/FetchedContext';

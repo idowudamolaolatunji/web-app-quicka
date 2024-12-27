@@ -3,11 +3,11 @@ import DataTable from 'react-data-table-component'
 import { capitalizeFirstLetter, formatDate, formatNumber, truncateString } from '../../../utils/helper';
 import { Link, useNavigate } from 'react-router-dom';
 
-import TooltipUI from '../../../components/TooltipUI';
-import Empty from '../../../components/Empty';
+import TooltipUI from '../../../components/layout/TooltipUI';
+import Empty from '../../../components/layout/Empty';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { useWindowSize } from 'react-use';
-import ErrorComponent from '../../../components/ErrorComponent';
+import ErrorComponent from '../../../components/layout/ErrorComponent';
 import { imgString } from '../../../assets/images/png_elements';
 import { GoDotFill } from 'react-icons/go';
 import { useAuthContext } from '../../../context/AuthContext';

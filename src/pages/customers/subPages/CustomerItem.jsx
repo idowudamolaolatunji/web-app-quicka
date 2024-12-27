@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { GoDotFill } from 'react-icons/go';
 import { formatDateSince } from '../../../utils/helper';
-import Insight from '../../../components/Insight';
+import Insight from '../../../components/layout/Insight';
 
 function CustomerItem() {
     const title = "customer"

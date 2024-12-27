@@ -3,7 +3,7 @@ import PageUI from '../../ui/PageUI/PageUI'
 import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
-import Insight from '../../components/Insight';
+import Insight from '../../components/layout/Insight';
 import { FiUser, FiUsers } from 'react-icons/fi';
 import emptyImg from '../../assets/images/illustrations/customer.png'
 import { TbUserSquare } from 'react-icons/tb';
@@ -11,9 +11,9 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { ymdDateFormat, ymdDateSlashFormat, ymdDateSlashTimeFormat } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
-import TooltipUI from '../../components/TooltipUI';
+import TooltipUI from '../../components/layout/TooltipUI';
 import { useNavigate } from 'react-router-dom';
-import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
+import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
 
 
 const emptyTitle = "Add new customer!";

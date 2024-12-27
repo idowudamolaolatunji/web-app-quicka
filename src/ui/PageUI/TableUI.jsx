@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
-import CheckBoxInput from '../../components/CheckBoxInput';
+import CheckBoxInput from '../../components/form/CheckBoxInput';
 import { RiDeleteBin5Line } from 'react-icons/ri';
-import ProductCard from '../../components/ProductCard';
-import ErrorComponent from '../../components/ErrorComponent';
-import ProductCardSkeleton from '../../components/ProductCardSkeleton';
-import { TableCellSkeleton, TableHeadSkeleton, TableSkeleton } from '../../components/TableSkeleton';
+import ProductCard from '../../components/layout/ProductCard';
+import ErrorComponent from '../../components/layout/ErrorComponent';
+import ProductCardSkeleton from '../../components/skeleton/ProductCardSkeleton';
+import { TableCellSkeleton, TableHeadSkeleton, TableSkeleton } from '../../components/skeleton/TableSkeleton';
 
 
-function TableUI({ name, columns, data, toLink, hasLink, emptyComponent,
-    selectableRows, headTabs, displayType = "table", open, loader, error, searchLoader
+function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTabs,
+    selectableRows, displayType = "table", open, loader, error, searchLoader, pointOnHover,
 }) {
     
     const isData = data?.length > 0;
@@ -120,7 +120,7 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent,
                             data={data}
                             columns={columns}
                             pagination
-                            pointerOnHover
+                            pointerOnHover={pointOnHover}
                             persistTableHead
                             noDataComponent={false}
                             customStyles={customStyles}

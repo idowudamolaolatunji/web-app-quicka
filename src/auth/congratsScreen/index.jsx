@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Spinner from '../../components/spinner/simple'
-import Confetti from '../../components/Confetti';
+import Confetti from '../../components/layout/Confetti';
 import { GiPartyPopper } from 'react-icons/gi';
 import { useWindowSize } from 'react-use';
 

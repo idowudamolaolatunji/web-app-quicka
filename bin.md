@@ -15,7 +15,7 @@ import img_user2 from '../../assets/images/resources/user-img2.jpg'
 import img_user3 from '../../assets/images/resources/user-img3.jpg'
 import img_user0 from '../../assets/images/resources/user-img4.jpg'
 import '../auth.css'
-import CustomAlert from '../../components/CustomAlert';
+import CustomAlert from '../../components/layout/CustomAlert';
 import { useAuthContext } from '../../context/AuthContext';
 
 
@@ -387,7 +387,7 @@ body:has(.dashboard--base) {
 
 import React, { useEffect, useState } from 'react';
 import MenuLink from './MenuLink';
-import Line from '../../components/Line';
+import Line from '../../components/elements/Line';
 
 import { AiOutlineBank, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { LuGlobe, LuLayoutPanelLeft, LuRotate3D, LuTags } from 'react-icons/lu';
@@ -398,12 +398,12 @@ import { HiOutlineSquare3Stack3D } from 'react-icons/hi2';
 import { useDataContext } from '../../context/DataContext';
 import { RiAppsLine, RiBankLine, RiCloseFill, RiCoupon3Line } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
-import Overlay from '../../components/Overlay';
+import Overlay from '../../components/layout/Overlay';
 import MenuButton from './MenuButton';
 import { openWidget } from '../../utils/helper';
 import { TbTransactionDollar, TbTruckDelivery } from 'react-icons/tb';
 import { useLocation } from 'react-router-dom';
-import TooltipUI from '../../components/TooltipUI';
+import TooltipUI from '../../components/layout/TooltipUI';
 
 
 function DashboardMenu() {

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Asterisk from '../Asterisk'
+import Asterisk from '../elements/Asterisk'
 import { IoCloudDownloadOutline } from 'react-icons/io5';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { validateCollectionForm } from '../../utils/validationHelper';
 
 import Spinner from "../spinner/simple";
 import { createPortal } from 'react-dom';
-import CustomAlert from '../CustomAlert';
+import CustomAlert from '../layout/CustomAlert';
 import { useAuthContext } from '../../context/AuthContext';
-import ImageUploadInput from '../ImageUploadInput';
+import ImageUploadInput from '../form/ImageUploadInput';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 

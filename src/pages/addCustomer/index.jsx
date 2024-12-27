@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useDataContext } from '../../context/DataContext';
-import MainDropdownSelect from '../../components/MainDropdownSelect';
+import MainDropdownSelect from '../../components/form/MainDropdownSelect';
 import { FiUsers } from 'react-icons/fi';
 import { useWindowSize } from 'react-use';
-import Line from '../../components/Line';
-import Asterisk from '../../components/Asterisk';
+import Line from '../../components/elements/Line';
+import Asterisk from '../../components/elements/Asterisk';
 import PhoneInput from 'react-phone-input-2';
 import { validateCustomerForm } from '../../utils/validationHelper';
 import { useAuthContext } from '../../context/AuthContext';

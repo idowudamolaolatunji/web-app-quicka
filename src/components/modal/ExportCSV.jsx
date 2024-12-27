@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Overlay from '../Overlay'
+import Overlay from '../layout/Overlay'
 import { AiOutlineClose } from 'react-icons/ai'
 import { CgSoftwareDownload } from 'react-icons/cg'
 import { SiMinutemailer } from 'react-icons/si'
@@ -8,7 +8,7 @@ import { useWindowSize } from 'react-use'
 import { Link } from 'react-router-dom'
 import { LuCheckCircle } from 'react-icons/lu'
 import { validateExportCsvInput } from '../../utils/validationHelper'
-import CustomAlert from '../CustomAlert'
+import CustomAlert from '../layout/CustomAlert'
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL

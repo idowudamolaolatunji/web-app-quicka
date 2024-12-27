@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import Line from '../../components/Line';
+import Line from '../../components/elements/Line';
 import Spinner from '../../components/spinner/spinner_two'
-import TooltipUI from '../../components/TooltipUI';
-import Asterisk from '../../components/Asterisk';
-import CustomAlert from '../../components/CustomAlert';
+import TooltipUI from '../../components/layout/TooltipUI';
+import Asterisk from '../../components/elements/Asterisk';
+import CustomAlert from '../../components/layout/CustomAlert';
 import logo_demo from '../../assets/images/resources/logo-demo.png'
 
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import { validateOnboardForm } from '../../utils/validationHelper';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { goalOptions } from '../../utils/data';
-import MainDropdownSelect from '../../components/MainDropdownSelect';
+import MainDropdownSelect from '../../components/form/MainDropdownSelect';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
 import isOnline from 'is-online';
 

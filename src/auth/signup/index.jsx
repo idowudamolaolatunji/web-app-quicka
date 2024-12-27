@@ -8,8 +8,8 @@ import { useWindowSize } from 'react-use';
 import { FaCheck } from 'react-icons/fa';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import data_img from '../../assets/images/resources/micheal-ogungbe-pBR_6uEh6F0-unsplash.jpg'
-import Asterisk from '../../components/Asterisk';
-import AuthUserRating from '../../components/AuthUserRating';
+import Asterisk from '../../components/elements/Asterisk';
+import AuthUserRating from '../../components/layout/AuthUserRating';
 import AuthsUI from '../../ui/authUI';
 import isOnline from 'is-online';
 

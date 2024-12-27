@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDataContext } from '../../../context/DataContext';
 import { useWindowSize } from 'react-use';
-import TooltipUI from '../../../components/TooltipUI';
+import TooltipUI from '../../../components/layout/TooltipUI';
 import DefaultButton from '../../../components/button/DefaultButton';
 
 

@@ -6,7 +6,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import { MdOutlinePersonPinCircle, MdOutlineStorefront } from 'react-icons/md';
 import { AiOutlineLink } from 'react-icons/ai';
 import { useFetchedContext } from '../../context/FetchedContext';
-import ConnectionError from '../../components/ConnectionError';
+import ConnectionError from '../../components/layout/ConnectionError';
 import { useNavigate } from 'react-router-dom';
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';

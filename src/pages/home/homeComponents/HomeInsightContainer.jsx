@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import HomeProgressGrid from './HomeProgressGrid';
-import SelectAutoWidthDropdown from '../../../components/SelectAutoWidthDropdown';
+import SelectAutoWidthDropdown from '../../../components/form/SelectAutoWidthDropdown';
 import InsightGrid from './InsightGrid';
 import { useWindowSize } from 'react-use';
 import { useAuthContext } from '../../../context/AuthContext';

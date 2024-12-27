@@ -3,7 +3,7 @@ import { useAuthContext } from '../../../context/AuthContext'
 import { useWindowSize } from 'react-use';
 import { MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
 import { RiBankLine } from 'react-icons/ri';
-import TooltipUI from '../../../components/TooltipUI';
+import TooltipUI from '../../../components/layout/TooltipUI';
 import { IoCheckmarkDone } from 'react-icons/io5';
 import { TbTruckDelivery } from 'react-icons/tb';
 import Spinner from '../../../components/spinner/spinner_two'
@@ -12,7 +12,7 @@ import UploadProduct from '../../uploadProduct';
 import CreateDelivery from '../../createDelivery';
 import BankDetails from '../../../components/pageComponents/BankDetails';
 import StoreCustom from '../../../components/pageComponents/StoreCustom';
-import CustomAlert from '../../../components/CustomAlert';
+import CustomAlert from '../../../components/layout/CustomAlert';
 import BgSimple from '../../../components/modal/BgSimple';
 import Welcome from './Welcome';
 import { useFetchedContext } from '../../../context/FetchedContext';

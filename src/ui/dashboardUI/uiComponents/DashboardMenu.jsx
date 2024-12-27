@@ -1,7 +1,7 @@
 import React from 'react';
 import MenuLink from './MenuLink';
-import Line from '../../../components/Line';
-import Overlay from '../../../components/Overlay';
+import Line from '../../../components/elements/Line';
+import Overlay from '../../../components/layout/Overlay';
 import MenuButton from './MenuButton';
 import { openWidget } from '../../../utils/helper';
 

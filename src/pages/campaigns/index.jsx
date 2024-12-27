@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
-import Insight from '../../components/Insight';
+import Insight from '../../components/layout/Insight';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { ymdDateFormat, ymdDateSlashFormat, ymdDateSlashTimeFormat } from '../../utils/helper';
 import { MdOutlineCampaign, MdOutlineFilterList, MdOutlineRefresh, MdOutlineSpeakerNotes } from 'react-icons/md';
-import TooltipUI from '../../components/TooltipUI';
+import TooltipUI from '../../components/layout/TooltipUI';
 import { useNavigate } from 'react-router-dom';
 import emptyImg from '../../assets/images/illustrations/campaign.png'
 import { BsSendCheck } from 'react-icons/bs';

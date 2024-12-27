@@ -3,13 +3,13 @@ import { useWindowSize } from 'react-use';
 import { useAuthContext } from '../../context/AuthContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 
-import Line from '../../components/Line';
+import Line from '../../components/elements/Line';
 import HomeTop from './homeComponents/HomeTop';
 import GetStarted from './homeComponents/GetStarted';
 import Spinner from "../../components/spinner/spinner_two"
 import HomeLayoutGrid from './homeComponents/HomeLayoutGrid';
 import HomeProgressGrid from './homeComponents/HomeProgressGrid';
-import ConnectionError from '../../components/ConnectionError';
+import ConnectionError from '../../components/layout/ConnectionError';
 import './style.css';
 
 

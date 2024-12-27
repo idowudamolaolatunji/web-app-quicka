@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import CurrencyInput from 'react-currency-input-field';
-import Asterisk from '../../components/Asterisk';
-import QuillEditor from '../../components/QuillEditor';
+import Asterisk from '../../components/elements/Asterisk';
+import QuillEditor from '../../components/form/QuillEditor';
 import { useWindowSize } from 'react-use';
-import Line from '../../components/Line';
+import Line from '../../components/elements/Line';
 import { FaCheck } from 'react-icons/fa';
 import { TbTruckDelivery } from 'react-icons/tb';
 import { useAuthContext } from '../../context/AuthContext';

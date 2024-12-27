@@ -1,10 +1,10 @@
 import React from 'react';
-import { formatNumber, truncateString } from '../utils/helper';
+import { formatNumber, truncateString } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext';
-import empty_product from "../assets/images/dummy_items/empty_product.png";
+import { useAuthContext } from '../../context/AuthContext';
+import empty_product from "../../assets/images/dummy_items/empty_product.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 

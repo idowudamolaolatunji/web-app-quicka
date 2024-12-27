@@ -1,5 +1,5 @@
 import React from 'react'
-import Overlay from '../Overlay'
+import Overlay from '../layout/Overlay'
 
 
 function ExtraSmall({ children, handleClose }) {

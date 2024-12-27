@@ -3,7 +3,7 @@ import Header from './templateComponents/Header'
 import TopHeadline from './templateComponents/TopHeadline'
 import TopBanner from './templateComponents/TopBanner'
 import CollectionLists from './templateComponents/CollectionLists'
-import ProductCard from '../../../components/ProductCard'
+import ProductCard from '../../../components/layout/ProductCard'
 import { products } from '../templateData';
 
 import "../style.css"

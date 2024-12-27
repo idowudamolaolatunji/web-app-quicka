@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import Line from '../../components/Line';
+import Line from '../../components/elements/Line';
 import AppFigure from '../../components/pageComponents/AppFigure';
 
 import paystack from "../../assets/images/png_elements/paystack.png"
 import whatsapp from "../../assets/images/png_elements/whatsapp-business-icon.webp"
 import flutterwave from "../../assets/images/png_elements/flutterwave-store.png"
 import fb_pixel from "../../assets/images/png_elements/facebook-pixel-icon.webp"
-import Tab from '../../components/Tab';
+import Tab from '../../components/elements/Tab';
 import { useFetchedContext } from '../../context/FetchedContext';
-import ConnectionError from '../../components/ConnectionError';
+import ConnectionError from '../../components/layout/ConnectionError';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
-import ErrorComponent from '../../components/ErrorComponent';
+import ErrorComponent from '../../components/layout/ErrorComponent';
 
 const integrations = [
     { name: "Paystack", by: "paystack", tag: "payment", text: "Connect to recieve payment with paystack.", icon: paystack, connected: true, },

@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { RiCoupon3Line, RiCouponLine, RiDeleteBin5Line, RiDiscountPercentLine, RiEdit2Line } from 'react-icons/ri';
-import TooltipUI from '../../components/TooltipUI';
+import TooltipUI from '../../components/layout/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
 import { formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
-import Tab from '../../components/Tab';
+import Tab from '../../components/elements/Tab';
 import { VscRunCoverage } from 'react-icons/vsc';
 import discount_emptyImg from '../../assets/images/illustrations/discount.png';
 import coupon_emptyImg from '../../assets/images/illustrations/coupon.png';
 import special_sales_emptyImg from '../../assets/images/illustrations/special_sales.png';
 import PageUI from '../../ui/PageUI/PageUI';
 import { useDataContext } from '../../context/DataContext';
-import Insight from '../../components/Insight';
+import Insight from '../../components/layout/Insight';
 import { LuPartyPopper } from 'react-icons/lu';
 import { TbBasketDiscount } from 'react-icons/tb';
 

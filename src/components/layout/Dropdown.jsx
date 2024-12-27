@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import UserIntialsImage from './UserIntialsImage';
-import { useAuthContext } from '../context/AuthContext';
-import { useOutsideClick } from '../hooks/useOutsideClick';
+import { useAuthContext } from '../../context/AuthContext';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 import { ImDisplay } from 'react-icons/im';
 import { IoLogOutOutline, IoSettingsOutline } from 'react-icons/io5';

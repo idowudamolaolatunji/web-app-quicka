@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use';
 
-import Asterisk from '../../components/Asterisk.jsx';
-import QuillEditor from '../../components/QuillEditor.jsx';
+import Asterisk from '../../components/elements/Asterisk.jsx';
+import QuillEditor from '../../components/form/QuillEditor.jsx';
 
 import { MdOutlineShoppingBag } from 'react-icons/md';
 import { useAuthContext } from '../../context/AuthContext.jsx';
-import Line from '../../components/Line.jsx';
+import Line from '../../components/elements/Line.jsx';
 import { AiOutlinePlus } from 'react-icons/ai';
-import Info from '../../components/Info.jsx';
-import MainDropdownSelect from '../../components/MainDropdownSelect.jsx';
+import Info from '../../components/elements/Info.jsx';
+import MainDropdownSelect from '../../components/form/MainDropdownSelect.jsx';
 
 import { paymentMethodData, deliveryStatusData, channelData } from '../../utils/data.jsx'
 import { useFetchedContext } from '../../context/FetchedContext.jsx';
@@ -21,7 +21,7 @@ import AddCustomerFormSm from '../../components/pageComponents/AddCustomerFormSm
 import { createPortal } from 'react-dom';
 import UploadProduct from '../uploadProduct/index.jsx';
 import FullScreen from '../../components/modal/FullScreen.jsx';
-import ProductQuantityCard from '../../components/ProductQuantityCard.jsx';
+import ProductQuantityCard from '../../components/layout/ProductQuantityCard.jsx';
 import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
 import isOnline from 'is-online';
 

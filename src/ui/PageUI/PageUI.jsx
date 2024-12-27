@@ -5,24 +5,24 @@ import { useDataContext } from '../../context/DataContext';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import { PiShareFatFill } from 'react-icons/pi';
 import { BiChevronDown, BiPlus } from 'react-icons/bi';
-import EmptyTableComponent from '../../components/EmptyTableComponent';
+import EmptyTableComponent from '../../components/layout/EmptyTableComponent';
 import ExportCSV from '../../components/modal/ExportCSV';
-import CustomAlert from '../../components/CustomAlert';
+import CustomAlert from '../../components/layout/CustomAlert';
 import TableUI from './TableUI';
 import './generalStyle.css';
 import Delete from '../../components/modal/Delete';
 import Spinner from '../../components/spinner/spinner_two';
 import { useFetchedContext } from '../../context/FetchedContext';
-import ConnectionError from '../../components/ConnectionError';
+import ConnectionError from '../../components/layout/ConnectionError';
 import Drawer from '../../components/modal/Drawer';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 
 
 
-function PageUI({ 
-    items, pageName, columns, data, addUrl, addBtnStr, hasLink=true, emptyTitle, 
-    emptyText, emptyImg, emptyBtns, headTabs, error, loader,action, searchLoader,
-    addAction, activeDisplayTab = null, insights = true, children, deleteObj, shouldSelect 
+function PageUI({
+    items, pageName, columns, data, addUrl, addBtnStr, hasLink = true, emptyTitle,
+    emptyText, emptyImg, emptyBtns, headTabs, error, loader, action, searchLoader, addAction,
+    activeDisplayTab = null, insights = true, children, deleteObj, shouldSelect, pointOnHover = true
 }) {
 
     const navigate = useNavigate();
@@ -49,7 +49,7 @@ function PageUI({
         }
     }
 
-    useEffect(function() {
+    useEffect(function () {
         window.scrollTo(0, 0);
     }, [])
 
@@ -66,7 +66,7 @@ function PageUI({
             )}
 
             {/* {error[pageName] && <ConnectionError /> } */}
-            {globalConnectionError && <ConnectionError /> }
+            {globalConnectionError && <ConnectionError />}
 
             {/* THIS IS FOR THE COLLECTION MODAL */}
             {action && (
@@ -120,6 +120,7 @@ function PageUI({
                     columns={columns}
                     name={pageName}
                     hasLink={hasLink}
+                    pointOnHover={pointOnHover}
                     selectableRows={shouldSelect}
                     toLink={`/dashboard/${pageName}s`}
                     loader={loader?.[pageName]}

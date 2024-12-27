@@ -6,9 +6,9 @@ import { useWindowSize } from 'react-use';
 import { MdArrowBackIosNew } from 'react-icons/md';
 import logo_black from '../../assets/images/logo/logo-black.png'
 import logo_white from '../../assets/images/logo/logo-white.png'
-import CopyrightText from '../../components/CopyrightText';
-import AuthUserRating from '../../components/AuthUserRating';
-import CustomAlert from '../../components/CustomAlert';
+import CopyrightText from '../../components/elements/CopyrightText';
+import AuthUserRating from '../../components/layout/AuthUserRating';
+import CustomAlert from '../../components/layout/CustomAlert';
 import Spinner from '../../components/spinner/spinner_two'
 
 import './auth.css'

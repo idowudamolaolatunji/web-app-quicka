@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFetchedContext } from '../context/FetchedContext'
+import { useFetchedContext } from '../../context/FetchedContext'
 import { useWindowSize } from 'react-use'
 import { BsPatchExclamation } from 'react-icons/bs';
 
@@ -15,10 +15,10 @@ function ConnectionError() {
         <div className="top--bar error">
             <div className="sub--mini">
                 <BsPatchExclamation style={{ fontSize: '2.4rem' }} />
-                <p className='sub--text'>
+                <span className='sub--text'>
                     Oops! Connection Error!!
                     <p className='sub--text-sub'>Please check your internect connection and try again. If error persisit, contact us at support@getquicka.com</p>
-                </p>
+                </span>
             </div>
 
             <div className="sub--mini">

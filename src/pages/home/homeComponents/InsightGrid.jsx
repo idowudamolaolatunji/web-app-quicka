@@ -2,7 +2,7 @@ import React from 'react'
 import { FiUsers } from 'react-icons/fi'
 import { LuMousePointerClick, LuTags } from 'react-icons/lu'
 import { MdOutlineShoppingBag } from 'react-icons/md'
-import Insight from '../../../components/Insight'
+import Insight from '../../../components/layout/Insight'
 import { useFetchedContext } from '../../../context/FetchedContext';
 import moment from 'moment'
 

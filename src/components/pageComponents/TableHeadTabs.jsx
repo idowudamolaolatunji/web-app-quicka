@@ -1,8 +1,8 @@
 import React from 'react'
 import { MdOutlineFilterList, MdOutlineRefresh, MdTableRows } from 'react-icons/md'
-import TooltipUI from '../TooltipUI'
+import TooltipUI from '../layout/TooltipUI'
 import { BsFillGrid3X3GapFill, BsFillGridFill, BsTable } from 'react-icons/bs'
-import SearchInput from '../SearchInput'
+import SearchInput from '../form/SearchInput'
 import { useWindowSize } from 'react-use'
 import { useDataContext } from '../../context/DataContext'
 

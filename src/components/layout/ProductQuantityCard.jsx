@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BiMinus, BiPlus } from 'react-icons/bi'
-import Spinner from "../components/spinner/simple";
+// import Spinner from "../spinner/simple";
 import { AiOutlineClose } from 'react-icons/ai';
 
 

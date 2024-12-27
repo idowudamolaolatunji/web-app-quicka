@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { GoStack } from 'react-icons/go';
 import { IoCloseOutline, IoCloudDownloadOutline } from 'react-icons/io5';
 import ReactImageUploading from 'react-images-uploading'
-import TooltipUI from './TooltipUI';
+import TooltipUI from '../layout/TooltipUI';
 import { RxUpdate } from 'react-icons/rx';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { PiFrameCorners } from 'react-icons/pi';
 import { useWindowSize } from 'react-use';
-import { useAuthContext } from '../context/AuthContext';
-import Delete from './modal/Delete';
+import { useAuthContext } from '../../context/AuthContext';
+import Delete from '../modal/Delete';
 import isOnline from 'is-online';
 
 
@@ -127,9 +127,9 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
                                                 <TooltipUI placement='bottom' title="Remove Image">
                                                     <button onClick={() => {
                                                         productId ?
-                                                            handleDeleteUploaded(onImageRemove, index)
-                                                            :
-                                                            onImageRemove(index)
+                                                        onImageRemove(index)
+                                                        :
+                                                        handleDeleteUploaded(onImageRemove, index)
                                                     }}><RiDeleteBin6Line /></button>
                                                 </TooltipUI>
                                                 {!productId && (

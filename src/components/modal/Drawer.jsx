@@ -1,7 +1,7 @@
 import React from 'react'
-import Overlay from '../Overlay'
+import Overlay from '../layout/Overlay'
 import BackButton from '../button/BackButton'
-import Line from '../Line'
+import Line from '../elements/Line'
 
 function Drawer({ title, children, setClose }) {
 

@@ -6,7 +6,7 @@ import { validateAuthForm } from '../../utils/validationHelper';
 import { useFetchedContext } from '../../context/FetchedContext';
 import data_img from '../../assets/images/resources/oluwakemi-solaja-R8ED8o_xoVs-unsplash.jpg'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import Asterisk from '../../components/Asterisk';
+import Asterisk from '../../components/elements/Asterisk';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import { HiFingerPrint } from 'react-icons/hi2';
 import Modal from "../../components/modal/ExtraSmall";

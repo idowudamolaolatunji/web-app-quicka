@@ -9,9 +9,9 @@ import data_img from '../../assets/images/resources/alex-robinson-rrI02QQ9GSQ-un
 
 import { FaCheck } from 'react-icons/fa';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
-import Asterisk from '../../components/Asterisk';
+import Asterisk from '../../components/elements/Asterisk';
 import AuthsUI from '../../ui/authUI';
-import AuthUserRating from '../../components/AuthUserRating';
+import AuthUserRating from '../../components/layout/AuthUserRating';
 import isOnline from 'is-online';
 
 

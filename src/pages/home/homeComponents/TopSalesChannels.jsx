@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import TopSalesChannelsChart from './TopSalesChannelsChart'
 import { useNavigate } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
-import ErrorComponent from '../../../components/ErrorComponent';
+import ErrorComponent from '../../../components/layout/ErrorComponent';
 
 
 

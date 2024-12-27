@@ -15,7 +15,7 @@ export default FetchedContext;
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const FetchedProvider = ({ children }) => {
-    const { token, user, shouldKick, headers, handleUser, handleStore } = useAuthContext();
+    const { token, user, shouldKick, headers, handleStore } = useAuthContext();
 
     // DOCUMENT STATES
     const [collections, setCollections] = useState([]);
@@ -142,7 +142,6 @@ export const FetchedProvider = ({ children }) => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
         const data = await res.json();
         handleStore(data?.data?.store);
-        handleUser(data?.data?.user);
     }
 
     // DELETE ONE STORE ITEM BY ID

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { formatNumber, truncateString, ymdDateFormat } from '../../utils/helper';
 import { useWindowSize } from 'react-use';
-import Insight from '../../components/Insight';
+import Insight from '../../components/layout/Insight';
 import { LuClipboardList } from 'react-icons/lu';
 import { GrTag } from 'react-icons/gr';
 import { TbArrowWaveRightDown, TbListSearch } from 'react-icons/tb';
@@ -13,12 +13,12 @@ import product_emptyImg from '../../assets/images/illustrations/product.png';
 import collection_emptyImg from '../../assets/images/illustrations/collection.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlinePlus } from 'react-icons/ai';
-import Tab from '../../components/Tab';
+import Tab from '../../components/elements/Tab';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 import Drawer from '../../components/modal/Drawer';
 import { useAuthContext } from '../../context/AuthContext';
 import empty_product from "../../assets/images/dummy_items/empty_product.png"
-import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
+import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
 
 
 //////////////////////////////////////////////////////

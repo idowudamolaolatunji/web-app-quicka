@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use';
 import CurrencyInput from 'react-currency-input-field';
 
-import Info from '../../components/Info';
-import Line from '../../components/Line';
-import Asterisk from '../../components/Asterisk';
-import QuillEditor from '../../components/QuillEditor';
+import Info from '../../components/elements/Info';
+import Line from '../../components/elements/Line';
+import Asterisk from '../../components/elements/Asterisk';
+import QuillEditor from '../../components/form/QuillEditor';
 import { useAuthContext } from '../../context/AuthContext';
 import { useFetchedContext } from '../../context/FetchedContext';
-import MainDropdownSelect from '../../components/MainDropdownSelect';
+import MainDropdownSelect from '../../components/form/MainDropdownSelect';
 
 import { LuTags } from 'react-icons/lu';
 import { FaCheck } from 'react-icons/fa';
@@ -22,7 +22,7 @@ import { units } from '../../utils/data';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { Switch } from '@mui/material';
 import AddPageUI from '../../ui/PageUI/AddPageUI';
-import MultipleImageUploadInput from '../../components/MultipleImageUploadInput';
+import MultipleImageUploadInput from '../../components/form/MultipleImageUploadInput';
 import isOnline from 'is-online';
 
 

@@ -394,6 +394,20 @@ span.item--user-img {
     background-color: var(--white-2);
     color: var(--grey-1);
 }
+.menu--link:hover .menu--icon svg,
+.menu--button:hover .menu--icon svg {
+    animation: shake-icon 0.45s ease-out;
+}
+.collapsed .menu--link:hover .menu--icon svg,
+.collapsed .menu--button:hover .menu--icon svg {
+    animation: unset;
+}
+@keyframes shake-icon {
+    0% { transform: rotate(0); }
+    50% { transform: rotate(20deg); }
+    100% { transform: rotate(0); }
+}
+
 .menu--link.is-active,
 .menu--link.is-active:hover {
     background-color: var(--color-brand-50);

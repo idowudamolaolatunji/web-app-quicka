@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFetchedContext } from '../../context/FetchedContext';
-import ConnectionError from '../../components/ConnectionError';
+import ConnectionError from '../../components/layout/ConnectionError';
 
 function index() {
     const { globalConnectionError } = useFetchedContext();

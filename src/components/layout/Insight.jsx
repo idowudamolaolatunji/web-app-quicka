@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { formatNumber } from '../utils/helper';
+import { formatNumber } from '../../utils/helper';
 import Skeleton from 'react-loading-skeleton';
 
 function Insight({ title, value, icon, link, pre = "", dec = 0, loader }) {

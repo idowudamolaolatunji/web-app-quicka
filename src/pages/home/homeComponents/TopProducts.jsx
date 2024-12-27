@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import SelectAutoWidthDropdown from '../../../components/SelectAutoWidthDropdown';
+import SelectAutoWidthDropdown from '../../../components/form/SelectAutoWidthDropdown';
 
-import Empty from '../../../components/Empty';
+import Empty from '../../../components/layout/Empty';
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { truncateString } from '../../../utils/helper';
-import TooltipUI from '../../../components/TooltipUI';
+import TooltipUI from '../../../components/layout/TooltipUI';
 import { useNavigate } from 'react-router-dom';
-import ErrorComponent from '../../../components/ErrorComponent';
+import ErrorComponent from '../../../components/layout/ErrorComponent';
 
 
 const datePeriods = [

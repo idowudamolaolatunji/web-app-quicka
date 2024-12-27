@@ -3,7 +3,7 @@ import AuthsUI from '../../ui/authUI';
 
 import data_img from '../../assets/images/resources/good-faces-lhMdsnK_KWk-unsplash.jpg'
 import { HiLockClosed } from 'react-icons/hi2';
-import Asterisk from '../../components/Asterisk';
+import Asterisk from '../../components/elements/Asterisk';
 import { useWindowSize } from 'react-use';
 import { validateAuthForm } from '../../utils/validationHelper';
 import { Link } from 'react-router-dom';

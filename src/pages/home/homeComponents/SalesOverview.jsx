@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import SalesOverviewChart from './SalesOverviewChart'
-import SelectAutoWidthDropdown from '../../../components/SelectAutoWidthDropdown'
+import SelectAutoWidthDropdown from '../../../components/form/SelectAutoWidthDropdown'
 
 const datePeriods = [
     { title: 'This Year', value: 'this-year' },

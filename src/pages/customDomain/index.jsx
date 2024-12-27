@@ -3,12 +3,12 @@ import { BiChevronDown, BiPlus, BiPurchaseTagAlt } from 'react-icons/bi';
 import { PiPlugsConnectedBold } from 'react-icons/pi';
 import { useWindowSize } from 'react-use'
 import { useAuthContext } from '../../context/AuthContext';
-import EmptyTableComponent from '../../components/EmptyTableComponent';
+import EmptyTableComponent from '../../components/layout/EmptyTableComponent';
 import emptyImg from "../../assets/images/illustrations/domain.png"
 import { useFetchedContext } from '../../context/FetchedContext';
 import { AiOutlinePlus } from 'react-icons/ai';
 import TableUI from '../../ui/PageUI/TableUI';
-import ConnectionError from '../../components/ConnectionError';
+import ConnectionError from '../../components/layout/ConnectionError';
 import { useNavigate } from 'react-router-dom';
 
 

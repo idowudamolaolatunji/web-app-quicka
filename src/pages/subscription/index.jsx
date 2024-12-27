@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
-import EmptyTableComponent from '../../components/EmptyTableComponent'
+import EmptyTableComponent from '../../components/layout/EmptyTableComponent'
 import TableUI from '../../ui/PageUI/TableUI'
 import { useAuthContext } from '../../context/AuthContext';
 import { useFetchedContext } from '../../context/FetchedContext';
-import Empty from '../../components/Empty';
+import Empty from '../../components/layout/Empty';
 import emptyImg from "../../assets/images/illustrations/upgrade.png";
 import { HiOutlineSquare3Stack3D } from 'react-icons/hi2';
 import { useWindowSize } from 'react-use';
-import ConnectionError from '../../components/ConnectionError';
+import ConnectionError from '../../components/layout/ConnectionError';
 import { useNavigate } from 'react-router-dom';
 
 

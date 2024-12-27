@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use';
 import { RiBankLine } from 'react-icons/ri';
-import MainDropdownSelect from '../MainDropdownSelect.jsx';
-import Asterisk from '../Asterisk.jsx';
-import Line from '../Line.jsx';
-import Info from '../Info.jsx';
+import MainDropdownSelect from '../form/MainDropdownSelect.jsx';
+import Asterisk from '../elements/Asterisk.jsx';
+import Line from '../elements/Line.jsx';
+import Info from '../elements/Info.jsx';
 import { useAuthContext } from '../../context/AuthContext.jsx';
 import { validateBankForm } from '../../utils/validationHelper.js';
 import { banks } from '../../utils/data.js';

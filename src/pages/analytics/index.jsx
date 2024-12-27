@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import { useWindowSize } from 'react-use';
-import Tab from '../../components/Tab';
-import Line from '../../components/Line';
+import Tab from '../../components/elements/Tab';
+import Line from '../../components/elements/Line';
 import { DateRangePicker } from 'rsuite';
 import Spinner from '../../components/spinner/spinner_two';
 import { BsCalendar3 } from 'react-icons/bs';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ConnectionError from '../../components/ConnectionError';
-import ErrorComponent from '../../components/ErrorComponent';
+import ConnectionError from '../../components/layout/ConnectionError';
+import ErrorComponent from '../../components/layout/ErrorComponent';
 
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear, subDays, subMonths, subWeeks, subYears, subQuarters, startOfQuarter, endOfQuarter } from 'date-fns';
 

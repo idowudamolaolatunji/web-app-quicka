@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react'
 import { useWindowSize } from 'react-use';
 import { useAuthContext } from '../../context/AuthContext';
 import { useDataContext } from '../../context/DataContext';
-import CopyrightText from '../../components/CopyrightText';
+import CopyrightText from '../../components/elements/CopyrightText';
 import DashboardMenu from './uiComponents/DashboardMenu';
 import DashboardHead from './uiComponents/DashboardHead';
 import './dashboard.css';

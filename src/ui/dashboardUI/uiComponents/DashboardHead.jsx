@@ -8,14 +8,14 @@ import { RiMenu3Fill } from 'react-icons/ri';
 import { LuBell, LuPanelLeftClose, LuPanelRightClose, LuRefreshCcw } from 'react-icons/lu';
 
 import { useWindowSize } from 'react-use';
-import Dropdown from '../../../components/Dropdown';
+import Dropdown from '../../../components/layout/Dropdown';
 import { Link } from 'react-router-dom';
 import DefaultButton from '../../../components/button/DefaultButton';
 import { useAuthContext } from '../../../context/AuthContext';
-import UserIntialsImage from '../../../components/UserIntialsImage';
-import CustomAlert from '../../../components/CustomAlert';
+import UserIntialsImage from '../../../components/layout/UserIntialsImage';
+import CustomAlert from '../../../components/layout/CustomAlert';
 import Spinner from '../../../components/spinner/spinner_two'
-import TooltipUI from '../../../components/TooltipUI';
+import TooltipUI from '../../../components/layout/TooltipUI';
 import { useFetchedContext } from '../../../context/FetchedContext';
 
 
@@ -23,7 +23,7 @@ function DashboardHead() {
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
     const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
-    const { error, handleGlobalRefetch } = useFetchedContext();
+    const { globalConnectionError, handleGlobalRefetch } = useFetchedContext();
 
     const userStoreIsSetup = (user?.storeBasicSetup && user?.storeFinalSetup);
 
@@ -36,13 +36,11 @@ function DashboardHead() {
         setIsShownDropdown(true);
     }
 
-    const handleRefreshAll = function() {
-        handleGlobalRefetch();
-    }
 
     return (
         <>
             {loading && <Spinner />}
+            
             {(response.status || response.message) && <CustomAlert type={response.status} message={response.message} />}
 
             <header className='dashboard--header'>
@@ -66,19 +64,21 @@ function DashboardHead() {
                     <div className=""></div>
 
                     <div className="nav--others">
-                        {(width > 600 && !error?.order && userStoreIsSetup) && (
+                        {(width > 600 && !globalConnectionError && userStoreIsSetup) && (
                             <DefaultButton>
                                 <TooltipUI placement='top' title="Refresh all">
-                                    <div className="nav--icon notification--icon" onClick={handleRefreshAll}>
+                                    <div className="nav--icon notification--icon" onClick={handleGlobalRefetch}>
                                         <LuRefreshCcw />
                                     </div>
                                 </TooltipUI>
                             </DefaultButton>
                         )}
 
-                        <a href={`https://${store?.storeUrl}`} target='_blank' className='store--btn'>
-                            View Store <MdOutlineStorefront />
-                        </a>
+                        {userStoreIsSetup && (
+                            <a href={`https://${store?.storeUrl}`} target='_blank' className='store--btn'>
+                                View Store <MdOutlineStorefront />
+                            </a>
+                        )}
 
                         <DefaultButton>
                             <div className="nav--icon notification--icon">

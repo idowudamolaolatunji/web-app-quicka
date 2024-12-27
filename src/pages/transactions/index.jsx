@@ -3,20 +3,20 @@ import PageUI from '../../ui/PageUI/PageUI'
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
-import Insight from '../../components/Insight';
+import Insight from '../../components/layout/Insight';
 import { GrTag } from 'react-icons/gr';
 import { LuClipboardList } from 'react-icons/lu';
 import { MdOutlineFilterList, MdOutlineOfflineShare, MdOutlineRefresh } from 'react-icons/md';
-import TooltipUI from '../../components/TooltipUI';
+import TooltipUI from '../../components/layout/TooltipUI';
 import { capitalizeFirstLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
 import { imgString } from '../../assets/images/png_elements';
 import { useAuthContext } from '../../context/AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Tab from '../../components/Tab';
+import Tab from '../../components/elements/Tab';
 
 import transaction_emptyImg from '../../assets/images/illustrations/transactions.png'
 import settlement_emptyImg from '../../assets/images/illustrations/settlements.png'
-import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
+import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
 
 ///////////////////////////////////////////////
 const BASE_URL = import.meta.env.VITE_BASE_URL
@@ -161,6 +161,7 @@ function index() {
             emptyTitle={activeTab == "transaction" ? transaction_emptyTitle : settlement_emptyTitle}
             hasLink={false}
             loader={loader} error={error}
+            pointOnHover={activeTab == "transaction" ? false : true}
             headTabs={ activeTab == "transaction" ? (
                 <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreTransactions} />
             ) : (

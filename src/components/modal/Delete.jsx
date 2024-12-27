@@ -1,5 +1,5 @@
 import React from 'react'
-import Overlay from '../Overlay'
+import Overlay from '../layout/Overlay'
 import { GrStatusWarning } from 'react-icons/gr'
 
 function Delete({ title, close, fn }) {

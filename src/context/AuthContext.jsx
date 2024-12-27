@@ -12,9 +12,9 @@ export default AuthContext;
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(Cookies.get('q_user_obj') ? JSON.parse(Cookies.get('q_user_obj')) : null);
-    const [token, setToken] = useState(Cookies.get('q_user_jwt_token') ? Cookies.get('q_user_jwt_token') : null);
-    const [store, setStore] = useState(Cookies.get("q_user_store") ? JSON.parse(Cookies.get("q_user_store")) : null);
+    const [user, setUser] = useState(Cookies.get('q_user_obj') == null ? null : JSON.parse(Cookies.get('q_user_obj')));
+    const [token, setToken] = useState(Cookies.get('q_user_jwt_token') == null ? null : Cookies.get('q_user_jwt_token'));
+    const [store, setStore] = useState(Cookies.get("q_user_store") == null ? null : JSON.parse(Cookies.get("q_user_store")));
 
     const headers = {
         "Content-Type": "application/json",
@@ -57,7 +57,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-
     useEffect(function () {
         Cookies.set("q_user_obj", JSON.stringify(user), { expires: 365 });
         Cookies.set("q_user_jwt_token", token, { expires: 365 });
@@ -73,11 +72,9 @@ export const AuthProvider = ({ children }) => {
         handleUser,
         signoutUser,
         shouldKick,
-
         store,
         handleStore,
     }
-
 
     return <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
 }
