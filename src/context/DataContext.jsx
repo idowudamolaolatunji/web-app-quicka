@@ -17,6 +17,7 @@ export const DataProvider = ({ children }) => {
 
     const [showSidemenu, setShowSidemenu] = useState(false);
     const [animateOut, setAnimateOut] = useState(false);
+    const [showFilterModal, setShowFilterModal] = useState({ name: "", isShown: false });
 
     const [activeDisplayTab, setActiveDisplayTab] = useState(localStorage.getItem("p_active_tab") ? JSON.parse(localStorage.getItem("p_active_tab")) : "table");
 
@@ -38,6 +39,10 @@ export const DataProvider = ({ children }) => {
 
     const { pathname } = useLocation();
     const { width } = useWindowSize();
+
+    const handleToggleFilter = function(pageName) {
+        setShowFilterModal({ name: pageName, isShown: !showFilterModal.isShown });
+    }
 
     const handleDisplayTab = function(type) {
         setActiveDisplayTab(type)
@@ -148,6 +153,8 @@ export const DataProvider = ({ children }) => {
 
         handleToggleInsights,
         showInsights,
+        showFilterModal,
+        handleToggleFilter,
 
         activeDisplayTab,
         handleDisplayTab,

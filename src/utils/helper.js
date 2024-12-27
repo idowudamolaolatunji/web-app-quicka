@@ -141,7 +141,7 @@ export function formatDate(givenDate) {
 	}
 }
 
-export function capitalizeFirstLetter(string) {
+export function cap1stLetter(string) {
 	return string?.slice(0, 1)?.toUpperCase() + string?.slice(1);
 }
 

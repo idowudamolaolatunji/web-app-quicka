@@ -9,7 +9,7 @@ import { useDataContext } from '../../context/DataContext'
 function TableHeadTabs
     ({ pageName, searchVal, setSearchVal, handleFetch }) {
     const { width } = useWindowSize()
-    const { activeDisplayTab, handleDisplayTab } = useDataContext();
+    const { activeDisplayTab, handleDisplayTab, handleToggleFilter } = useDataContext();
 
     return (
         <div className='content'>
@@ -27,7 +27,7 @@ function TableHeadTabs
                     <button className='table--btn'>Clear filter</button>
 
                     <TooltipUI placement='top' title="Filters">
-                        <button className='table--btn'><MdOutlineFilterList /></button>
+                        <button className='table--btn' onClick={() => handleToggleFilter(pageName)}><MdOutlineFilterList /></button>
                     </TooltipUI>
 
                     {pageName == "product" && (

@@ -78,6 +78,7 @@ import BuyDomain from './pages/customDomain/subPages/BuyDomain';
 import CustomizeTheme from './pages/storeCustomization/subPages/CustomizeTheme';
 import EditStoreDetails from './pages/storeDetails/subPages/EditDetails';
 
+import Expenses from './pages/expenses';
 import DiscountCoupon from './pages/discountCoupon';
 import Subscription from './pages/subscription';
 import SubscriptionPlans from './pages/subscription/subPages/ChoosePlan';
@@ -132,6 +133,7 @@ function App() {
                     <Route path='/dashboard/orders/:id' element={<OrderItem />}></Route>
                     <Route path='/dashboard/customers/:id' element={<CustomerItem />}></Route>
 
+                    <Route path='/dashboard/expenses' element={<Expenses />}></Route>
                     <Route path='/dashboard/campaigns' element={<Campaigns />}></Route>
                     <Route path='/dashboard/campaigns/run' element={<RunCampaign />}></Route>
                     <Route path='/dashboard/store-customisation' element={<StoreCustomization />}></Route>

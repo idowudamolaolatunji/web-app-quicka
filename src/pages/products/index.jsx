@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { formatNumber, truncateString, ymdDateFormat } from '../../utils/helper';
+import { cap1stLetter, formatNumber, truncateString, ymdDateFormat } from '../../utils/helper';
 import { useWindowSize } from 'react-use';
 import Insight from '../../components/layout/Insight';
 import { LuClipboardList } from 'react-icons/lu';
@@ -45,7 +45,7 @@ function index() {
     ///////////////////////////////////////
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { showInsights, activeDisplayTab } = useDataContext();
+    const { showInsights, activeDisplayTab, showFilterModal, handleToggleFilter } = useDataContext();
     const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleDeleteOneItem } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
@@ -236,6 +236,12 @@ function index() {
             {(showCollectionEditForm && selectedCollection) && (
                 <Drawer title="Edit Collection" setClose={handleShowCollectionEditForm}>
                     <CollectionFormSm close={handleShowCollectionEditForm} editingItem={selectedCollection} />
+                </Drawer>
+            )}
+
+            {(showFilterModal?.name == tabShown && showFilterModal.isShown) && (
+                <Drawer title={`${cap1stLetter(tabShown)} Filters`} setClose={() => handleToggleFilter("")}>
+                    
                 </Drawer>
             )}
 

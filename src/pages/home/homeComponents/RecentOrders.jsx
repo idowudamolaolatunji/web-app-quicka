@@ -1,6 +1,6 @@
 import React from 'react'
 import DataTable from 'react-data-table-component'
-import { capitalizeFirstLetter, formatDate, formatNumber, truncateString } from '../../../utils/helper';
+import { cap1stLetter, formatDate, formatNumber, truncateString } from '../../../utils/helper';
 import { Link, useNavigate } from 'react-router-dom';
 
 import TooltipUI from '../../../components/layout/TooltipUI';
@@ -63,7 +63,7 @@ function RecentOrders() {
     const columns = [
         {
             name: 'Channel', selector: row => (
-                <TooltipUI placement='top' title={capitalizeFirstLetter(row.channel)}>
+                <TooltipUI placement='top' title={cap1stLetter(row.channel)}>
                     <img width={'40px'} alt={row.channel} src={imgString(row.channel)} />
                 </TooltipUI>
             ), width: '70px'

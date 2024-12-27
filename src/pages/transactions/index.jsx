@@ -8,7 +8,7 @@ import { GrTag } from 'react-icons/gr';
 import { LuClipboardList } from 'react-icons/lu';
 import { MdOutlineFilterList, MdOutlineOfflineShare, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
-import { capitalizeFirstLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
+import { cap1stLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
 import { imgString } from '../../assets/images/png_elements';
 import { useAuthContext } from '../../context/AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ import Tab from '../../components/elements/Tab';
 import transaction_emptyImg from '../../assets/images/illustrations/transactions.png'
 import settlement_emptyImg from '../../assets/images/illustrations/settlements.png'
 import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
+import Drawer from '../../components/modal/Drawer';
 
 ///////////////////////////////////////////////
 const BASE_URL = import.meta.env.VITE_BASE_URL
@@ -34,9 +35,8 @@ function index() {
     const queryParams = new URLSearchParams(location.search);
     const tabParams = queryParams.get("tab")
     ///////////////////////////////////////
-    const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { showInsights } = useDataContext();
+    const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
     const { loader, error, transactions, settlements, handleFetchUserStoreTransactions, handleFetchUserStoreSettlements } = useFetchedContext();
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
@@ -62,7 +62,7 @@ function index() {
         },
         {
             name: 'Sales Channel', selector: row => (
-                <TooltipUI placement='top' title={capitalizeFirstLetter(row?.order?.channel)}>
+                <TooltipUI placement='top' title={cap1stLetter(row?.order?.channel)}>
                     <img width={'40px'} alt={row?.order?.channel} src={imgString(row?.order?.channel)} />
                 </TooltipUI>
             ), width: '100px'
@@ -151,38 +151,46 @@ function index() {
 
 
     return (
-        <PageUI
-            items={activeTab == "transaction" ? transactions : settlements}
-            data={activeTab == "transaction" ? transactions : settlements}
-            pageName={activeTab}
-            columns={activeTab == "transaction" ? transaction_columns : settlement_columns}
-            emptyText={activeTab == "transaction" ? transaction_emptyText : settlement_emptyText}
-            emptyImg={activeTab == "transaction" ? transaction_emptyImg : settlement_emptyImg}
-            emptyTitle={activeTab == "transaction" ? transaction_emptyTitle : settlement_emptyTitle}
-            hasLink={false}
-            loader={loader} error={error}
-            pointOnHover={activeTab == "transaction" ? false : true}
-            headTabs={ activeTab == "transaction" ? (
-                <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreTransactions} />
-            ) : (
-                <TableHeadTabs pageName="settlement" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreSettlements} /> 
+        <>
+            {(showFilterModal?.name == activeTab && showFilterModal.isShown) && (
+                <Drawer title={`${cap1stLetter(activeTab)} Filters`} setClose={() => handleToggleFilter("")}>
+                    
+                </Drawer>
             )}
-        >
+            
+            <PageUI
+                items={activeTab == "transaction" ? transactions : settlements}
+                data={activeTab == "transaction" ? transactions : settlements}
+                pageName={activeTab}
+                columns={activeTab == "transaction" ? transaction_columns : settlement_columns}
+                emptyText={activeTab == "transaction" ? transaction_emptyText : settlement_emptyText}
+                emptyImg={activeTab == "transaction" ? transaction_emptyImg : settlement_emptyImg}
+                emptyTitle={activeTab == "transaction" ? transaction_emptyTitle : settlement_emptyTitle}
+                hasLink={false}
+                loader={loader} error={error}
+                pointOnHover={activeTab == "transaction" ? false : true}
+                headTabs={ activeTab == "transaction" ? (
+                    <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreTransactions} />
+                ) : (
+                    <TableHeadTabs pageName="settlement" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreSettlements} /> 
+                )}
+            >
 
-            {showInsights?.transaction && (
-                <div className='page__section--insights insight--grid'>
-                    <Insight loader={loader[activeTab]} title='Pending Settlements' pre={currency} value={0} icon={<LuClipboardList />} />
-                    <Insight loader={loader[activeTab]} title='Total Website transactions' pre={currency} value={webTransactions} icon={<GrTag />} />
-                    <Insight loader={loader[activeTab]} title='Total Offline transactions' pre={currency} value={offlineTransactions} icon={<MdOutlineOfflineShare />} />
+                {showInsights?.transaction && (
+                    <div className='page__section--insights insight--grid'>
+                        <Insight loader={loader[activeTab]} title='Pending Settlements' pre={currency} value={0} icon={<LuClipboardList />} />
+                        <Insight loader={loader[activeTab]} title='Total Website transactions' pre={currency} value={webTransactions} icon={<GrTag />} />
+                        <Insight loader={loader[activeTab]} title='Total Offline transactions' pre={currency} value={offlineTransactions} icon={<MdOutlineOfflineShare />} />
+                    </div>
+                )}
+
+                {/* THE TABS UI */}
+                <div className="page--tabs">
+                    <Tab title="Transactions" onClick={() => navigate("?tab=transaction")} active={activeTab == "transaction"} />
+                    <Tab title="Settlements" onClick={() => navigate("?tab=settlement")} active={activeTab == "settlement"} />
                 </div>
-            )}
-
-            {/* THE TABS UI */}
-            <div className="page--tabs">
-                <Tab title="Transactions" onClick={() => navigate("?tab=transaction")} active={activeTab == "transaction"} />
-                <Tab title="Settlements" onClick={() => navigate("?tab=settlement")} active={activeTab == "settlement"} />
-            </div>
-        </PageUI>
+            </PageUI>
+        </>
     )
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { capitalizeFirstLetter, formatDate, formatNumber, isWithinLast7Days, truncateString } from '../../utils/helper';
+import { cap1stLetter, formatDate, formatNumber, isWithinLast7Days, truncateString } from '../../utils/helper';
 import { useWindowSize } from 'react-use';
 import Insight from '../../components/layout/Insight';
 import { TbNotes, TbNotesOff } from 'react-icons/tb';
@@ -14,6 +14,7 @@ import { GoDotFill } from 'react-icons/go';
 import emptyImg from '../../assets/images/illustrations/sales.png';
 import { useAuthContext } from '../../context/AuthContext';
 import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
+import Drawer from '../../components/modal/Drawer';
 
 
 //////////////////////////////////////////////////////
@@ -28,7 +29,7 @@ const emptyBtns = [
 function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { showInsights, } = useDataContext();
+    const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
     const { loader, error, orders, handleFetchUserStoreOrders, handleDeleteOneItem } = useFetchedContext()
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
@@ -45,7 +46,7 @@ function index() {
     const columns = [
         {
             name: 'Channel', selector: row => (
-                <TooltipUI placement='top' title={capitalizeFirstLetter(row.channel)}>
+                <TooltipUI placement='top' title={cap1stLetter(row.channel)}>
                     <img width={'40px'} alt={row.channel} src={imgString(row.channel)} />
                 </TooltipUI>
             ), width: '70px'
@@ -150,34 +151,42 @@ function index() {
 
     return (
 
-        <PageUI
-            pageName="order"
-            items={orders}
-            data={search ? searchResults : orders}
-            columns={columns}
-            shouldSelect={true}
-            addUrl="orders/record"
-            addBtnStr="Record sales"
-            emptyText={emptyText}
-            emptyBtns={emptyBtns}
-            emptyImg={emptyImg}
-            emptyTitle={emptyTitle}
-            emptyClassName="empty--order"
-            headTabs={<TableHeadTabs pageName="order" handleFetch={handleFetchUserStoreOrders} searchVal={search} setSearchVal={setSearch} />}
-            loader={loader} error={error}
-            searchLoader={searchLoader}
-        >
-
-            {showInsights?.order && (
-                <div className='page__section--insights insight--grid' style={ width > 900 ? { width: '90%' } : {}}>
-                    <Insight title='Total Orders' loader={loader?.order} value={orders?.length} icon={<MdOutlineShoppingBag />} />
-                    <Insight title='New Orders' loader={loader?.order} value={newOrders?.length} icon={<MdOutlineNoteAlt />} />
-                    <Insight title='Completed Orders' loader={loader?.order} value={completedOrders?.length} icon={<TbNotes />} />
-                    <Insight title='Uncompleted Orders' loader={loader?.order} value={unCompletedOrders?.length} icon={<TbNotesOff />} />
-                </div>
+        <>
+            {(showFilterModal?.name == "order" && showFilterModal.isShown) && (
+                <Drawer title={`Order Filters`} setClose={() => handleToggleFilter("")}>
+                    
+                </Drawer>
             )}
 
-        </PageUI>
+            <PageUI
+                pageName="order"
+                items={orders}
+                data={search ? searchResults : orders}
+                columns={columns}
+                shouldSelect={true}
+                addUrl="orders/record"
+                addBtnStr="Record sales"
+                emptyText={emptyText}
+                emptyBtns={emptyBtns}
+                emptyImg={emptyImg}
+                emptyTitle={emptyTitle}
+                emptyClassName="empty--order"
+                headTabs={<TableHeadTabs pageName="order" handleFetch={handleFetchUserStoreOrders} searchVal={search} setSearchVal={setSearch} />}
+                loader={loader} error={error}
+                searchLoader={searchLoader}
+            >
+
+                {showInsights?.order && (
+                    <div className='page__section--insights insight--grid' style={ width > 900 ? { width: '90%' } : {}}>
+                        <Insight title='Total Orders' loader={loader?.order} value={orders?.length} icon={<MdOutlineShoppingBag />} />
+                        <Insight title='New Orders' loader={loader?.order} value={newOrders?.length} icon={<MdOutlineNoteAlt />} />
+                        <Insight title='Completed Orders' loader={loader?.order} value={completedOrders?.length} icon={<TbNotes />} />
+                        <Insight title='Uncompleted Orders' loader={loader?.order} value={unCompletedOrders?.length} icon={<TbNotesOff />} />
+                    </div>
+                )}
+
+            </PageUI>
+        </>
     )
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoSend } from 'react-icons/io5'
 import { useWindowSize } from 'react-use'
-import { capitalizeFirstLetter } from '../../../utils/helper';
+import { cap1stLetter } from '../../../utils/helper';
 
 function Welcome({ firstname, setClose }) {
     const { width } = useWindowSize();
@@ -9,7 +9,7 @@ function Welcome({ firstname, setClose }) {
     return (
         <div className='welcome--container'>
             <h2 className='welcome--heading'>
-                Hi, {capitalizeFirstLetter(firstname)}. {(width <= 450) && <br />} Welcome to Quicka
+                Hi, {cap1stLetter(firstname)}. {(width <= 450) && <br />} Welcome to Quicka
             </h2>
 
             <div className="welcome--video">

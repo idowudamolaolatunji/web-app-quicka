@@ -14,6 +14,7 @@ import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { useNavigate } from 'react-router-dom';
 import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
+import Drawer from '../../components/modal/Drawer';
 
 
 const emptyTitle = "Add new customer!";
@@ -26,7 +27,7 @@ const emptyBtns = [
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { showInsights } = useDataContext();
+    const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
     const { loader, error, customers, handleDeleteOneItem, handleFetchUserStoreCustomers } = useFetchedContext();
 
     ////////////////////////////////////////////////////////
@@ -104,37 +105,45 @@ function index() {
 
 
     return (
-        <PageUI
-            pageName="customer"
-            items={customers}
-            columns={columns}
-            data={customers}
-            shouldSelect={true}
-            addUrl="customers/add"
-            addBtnStr="Add customer"
-            emptyText={emptyText}
-            emptyBtns={emptyBtns}
-            emptyImg={emptyImg}
-            emptyTitle={emptyTitle}
-            headTabs={<TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreCustomers}  />}
-            loader={loader} error={error}
-
-            deleteObj={{ 
-                fn: deleteItem,
-                title: "customer",
-                close: setShowModal,
-                show: showModal,
-                loader: deleteLoader
-            }}
-        >
-
-            {showInsights?.customer && (
-                <div className='page__section--insights insight--grid'>
-                    <Insight title='Total Customers' loader={loader?.customer} value={customers?.length || 0} icon={<FiUsers />} />
-                    <Insight title='Newsletter Customers' loader={loader?.customer} value={0} icon={<TbUserSquare />} />
-                </div>
+        <>
+            {(showFilterModal?.name == "customer" && showFilterModal.isShown) && (
+                <Drawer title={`Customer Filters`} setClose={() => handleToggleFilter("")}>
+                    
+                </Drawer>
             )}
-        </PageUI>
+
+            <PageUI
+                pageName="customer"
+                items={customers}
+                columns={columns}
+                data={customers}
+                shouldSelect={true}
+                addUrl="customers/add"
+                addBtnStr="Add customer"
+                emptyText={emptyText}
+                emptyBtns={emptyBtns}
+                emptyImg={emptyImg}
+                emptyTitle={emptyTitle}
+                headTabs={<TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreCustomers}  />}
+                loader={loader} error={error}
+
+                deleteObj={{ 
+                    fn: deleteItem,
+                    title: "customer",
+                    close: setShowModal,
+                    show: showModal,
+                    loader: deleteLoader
+                }}
+            >
+
+                {showInsights?.customer && (
+                    <div className='page__section--insights insight--grid'>
+                        <Insight title='Total Customers' loader={loader?.customer} value={customers?.length || 0} icon={<FiUsers />} />
+                        <Insight title='Newsletter Customers' loader={loader?.customer} value={0} icon={<TbUserSquare />} />
+                    </div>
+                )}
+            </PageUI>
+        </>
     )
 }
 
