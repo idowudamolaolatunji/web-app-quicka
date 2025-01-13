@@ -81,16 +81,16 @@ function RecentOrders() {
             name: 'Product', selector: row => (
                 <TooltipUI placement='top' title={
                     <ul className='table--list'>
-                        {row.productNames?.map((name, index) => (
-                            <li key={index}><GoDotFill /> {name}</li>
+                        {row.products?.map((item, index) => (
+                            <li key={index}><GoDotFill /> {item?.name}</li>
                         ))}
                     </ul>
                 }>
                     <ul className='table--list'>
-                        {row.productNames?.slice(0, 3)?.map(( name, index ) => (
-                            <li key={index}><GoDotFill /> {truncateString(name, 18)}</li>
+                        {row.products?.slice(0, 3)?.map((item, index) => (
+                            <li key={index}><GoDotFill /> {truncateString(item?.name, 18)}</li>
                         ))}
-                        {row.productNames?.length > 3 && <li>...</li>}
+                        {row.products?.length > 3 && <li>...</li>}
                     </ul>
                 </TooltipUI>
             ),
@@ -98,7 +98,7 @@ function RecentOrders() {
         },
         {
             name: 'Amount', selector: row => (
-                <span className='value'>{currency}{formatNumber(row?.orderAmount)}</span>
+                <span className='value'>{currency}{formatNumber(row?.orderSubTotal)}</span>
             ),
             width: '100px'
         },

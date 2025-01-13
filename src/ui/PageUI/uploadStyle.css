@@ -286,7 +286,8 @@
 
 .product--quantity-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    /* grid-template-columns: repeat(5, 1fr); */
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
     margin-bottom: 1.2rem;
 }
@@ -294,6 +295,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-self: flex-start;
 }
 .product--quantity-figure img {
     border-radius: .4rem;
@@ -312,7 +314,7 @@
     border-radius: 50%;
     background-color: #fff;
     cursor: pointer;
-    z-index: 10;
+    z-index: 5;
 
     display: flex;
     align-items: center;
@@ -338,6 +340,47 @@
     padding: 2rem .4rem .4rem;
 }
 
+.product--quantity-details {
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: .68rem;
+}
+.product--quantity-details .title {
+    font-size: 1.32rem;
+    font-weight: 600;
+}
+.product--quantity-details .price {
+    font-size: 1.2rem;
+}
+
+.product--quantity-details .more--btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 1.1rem !important;
+    cursor: pointer;
+    font-weight: 500;
+    min-width: fit-content;
+    padding: .5rem;
+}
+.product--quantity-details .more--btn svg {
+    font-size: 1.6rem;
+}
+.product--quantity-details .form--item {
+    gap: .28rem;
+}
+.product--quantity-details .form--label {
+    font-size: 1.1rem !important;
+}
+.product--quantity-details .form--input {
+    padding: .46rem 1rem;
+    font-size: 1.2rem;
+}
+.product--quantity-details .form--input::placeholder {
+    font-size: 1.2rem;
+}
 
 
 .product--quantity-figure .actions {
@@ -368,6 +411,10 @@
     .select-width {
         max-width: 100%;
     }
+
+    .product--quantity-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 
@@ -393,6 +440,10 @@
     .form--image .img--item:hover .img--item-btns {
         animation: unset;
     }
+
+    .product--quantity-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
     
 }
 
@@ -408,9 +459,11 @@
     .product__upload--container .form--grid {
         grid-template-columns: 1fr;
     }
+
     .product--quantity-grid {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
+    
 }
 
 
@@ -426,10 +479,6 @@
     }
     .product__upload--container .form--click {
         padding: .8rem .6rem;
-    }
-
-    .product--quantity-grid {
-        grid-template-columns: repeat(4, 1fr);
     }
 }
 
@@ -466,7 +515,8 @@
     }
 
     .product--quantity-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.4rem;
     }
 }
 

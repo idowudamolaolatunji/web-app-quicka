@@ -31,12 +31,10 @@ function index({ isnew=false, close, ismodal=false }) {
     const { id } = useParams();
     
     const { width } = useWindowSize();
-    const { shouldKick, handleStore, store, fdHeaders } = useAuthContext();
+    const { shouldKick, handleStore, currency, fdHeaders } = useAuthContext();
     const { collections, handleFetchOneItem, handleFetchError, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
     const BASE_API_URL = import.meta.env.VITE_API_URL;
-
-    const { currencies, mainCurrency } = store;
-    const currency = currencies[mainCurrency]?.symbol;
+    
 
     //////////////////////////////////////////////////////////
     // FOR EDITTING THE PRODUCT

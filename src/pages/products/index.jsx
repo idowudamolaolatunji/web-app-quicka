@@ -249,7 +249,6 @@ function index() {
                     <div className="filter--tabs">
                         <FilterElement data="Start" />
                         <FilterElement data="Start" />
-                        <FilterElement data="Start" />
                     </div>
                     <ProductFilterForm />
                 </Drawer>

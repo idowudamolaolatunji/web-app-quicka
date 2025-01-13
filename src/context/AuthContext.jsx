@@ -22,6 +22,9 @@ export const AuthProvider = ({ children }) => {
     }
     const fdHeaders = { Authorization: `Bearer ${token}` }
 
+    const { currencies, mainCurrency } = store;
+    const currency = currencies[mainCurrency]?.symbol;
+
     function handleChange(user, token) {
         setUser(user);
         setToken(token);
@@ -75,6 +78,7 @@ export const AuthProvider = ({ children }) => {
         signoutUser,
         shouldKick,
         store,
+        currency,
         handleStore,
     }
 

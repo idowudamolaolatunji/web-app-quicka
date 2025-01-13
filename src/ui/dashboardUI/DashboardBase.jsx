@@ -28,10 +28,10 @@ function DashboardBase({ children }) {
 
                 <section className='content--block'>
                     {children}
-                    
+                    {width > 600 && <CopyrightText />}
                 </section>
 
-                <CopyrightText />
+                {width <= 600 && <CopyrightText />}
             </section>
         </Fragment>
     )

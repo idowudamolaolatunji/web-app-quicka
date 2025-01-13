@@ -24,6 +24,8 @@ import FullScreen from '../../components/modal/FullScreen.jsx';
 import ProductQuantityCard from '../../components/layout/ProductQuantityCard.jsx';
 import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
 import isOnline from 'is-online';
+import CurrencyInputField from '../../components/form/CurrencyInputField.jsx';
+import { formatNumber } from '../../utils/helper.js';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -31,40 +33,47 @@ const BASE_API_URL = import.meta.env.VITE_API_URL
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { headers, shouldKick } = useAuthContext();
+    const { headers, shouldKick, currency } = useAuthContext();
     const { products, customers, handleFetchError, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers, handleFetchUserStoreTransactions } = useFetchedContext();
     const publishedProducts = products?.filter(product => product.status == "published");
 
     /////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////
-    const [orderData, setOrderData] = useState({ paymentStatus: "paid", orderDate: "" });
-
-    const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
-    const [response, setResponse] = useState({ status: null, message: null });
-
+    const [orderData, setOrderData] = useState({ paymentStatus: "paid", orderDate: "", deliveryFee: null });
     const [description, setDescription] = useState('');
+
+    ////////// Dropdown array /////////////////////////////
     const [orderProducts, setOrderProducts] = useState([]);
     const [orderCustomer, setOrderCustomer] = useState([]);
-
     const [paymentMethod, setPaymentMethod] = useState([]);
     const [deliveryStatus, setDeliveryStatus] = useState([]);
     const [channel, setChannel] = useState([]);
-    const [showConfetti, setShowConfetti] = useState(false)
+    ////////////////////////////////////////////////////////
     
-    const [salesFormErrors, setSalesFormErrors] = useState({})
     const [showModal, setShowModal] = useState({ product: false, customer: false });
+    const [salesFormErrors, setSalesFormErrors] = useState({});
+    const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
+    const [response, setResponse] = useState({ status: null, message: null });
+    const [showConfetti, setShowConfetti] = useState(false)
 
-    const [productQuantities, setProductQuantities] = useState([]);
+    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [subTotal, setSubTotal] = useState(0);
     ////////////////////////////////////////////////////////////////////////////////
 
     const handleQuantityChange = function(productId, newQuantity) {
-        setProductQuantities((prev) => prev.map((item) => (item.id === productId ? { ...item, quantity: newQuantity } : item)));
+        setSelectedProducts((prev) => 
+            prev.map((item) => (
+                item.id === productId ? { ...item, quantity: newQuantity } : item)
+            )
+        );
     }
 
+    // REMOVE A PRODUCT FROM THE ORDER PRODUCTS ARRAY
     const handleRemoveItem = function(id) {
         setOrderProducts(prev => prev?.filter(product => product._id !== id))
     }
 
+    // HANDLE ORDER DATA
     const handleOrderDataChange = function(e) {
         const { name, value } = e?.target;
         setOrderData({
@@ -80,7 +89,8 @@ function index() {
     const handleClearFields = function() {
         setOrderData({
             paymentStatus: "paid",
-            orderDate: ""
+            orderDate: "",
+            deliveryFee: null
         });
 
         setDescription("");
@@ -108,12 +118,33 @@ function index() {
 
     // THIS EFFECT HERE IS VERY IMPORTANT FOR THE PRODUCT QUANTITY INITIAL VALUE
     useEffect(function() {
-        const initQuantities = orderProducts.map((product) => ({
-            id: product._id,
+        const initValue = orderProducts.map((product) => ({
+            id: product?._id,
+            name: product?.name,
+            price: product?.price,
             quantity: 1,
+            discount: 0,
         }));
-        setProductQuantities(initQuantities);
-    }, [orderProducts])
+        setSelectedProducts(initValue);
+    }, [orderProducts]);
+
+
+    useEffect(() => {
+        const productSubTotal = selectedProducts.reduce((acc, product) => {
+        return acc + (product.price * product.quantity);
+        }, 0);
+        
+        const total = productSubTotal + Number(orderData.deliveryFee || 0);
+        setSubTotal(total);
+    }, [selectedProducts, orderData.deliveryFee]);
+
+
+    useEffect(function() {
+        if(orderProducts.length < 1) {
+            setOrderData({ ...orderData, deliveryFee: null })
+        }
+    }, [orderProducts, selectedProducts, orderData.deliveryFee]);
+        
 
 
     async function handleRecordOrder() {
@@ -124,8 +155,10 @@ function index() {
             orderProducts,
             paymentMethod,
             deliveryStatus,
-            productQuantities,
+            selectedProducts,
         }
+
+        const quantities = selectedProducts.reduce((acc, product) => acc + product?.quantity, 0);
 
         const newErrors = validateOrderForm(formData);
         setSalesFormErrors(newErrors);
@@ -139,9 +172,6 @@ function index() {
         setResponse({ status: "", message: "" });
         setLoading({ ...loading, mainLoading: true });
 
-        // PRODUCTQUANTITIES, CONTAINS THE ID AND THE QUANTITY OF THAT ID. (AND THAT IS JUST WHAT THE BACKEND NEEDS)
-        const products = productQuantities;
-
         try {
             // CHECK CONNECTION
             const connected = await isOnline();
@@ -152,12 +182,15 @@ function index() {
                 headers,
                 method: "POST",
                 body: JSON.stringify({
-                    products,
                     description,
                     ...orderData,
+                    orderSubTotal: subTotal,
                     channel: channel[0]?.value,
-                    paymentMethod: paymentMethod[0]?.value,
+                    products: selectedProducts,
+                    orderTotalQuantity: quantities,
                     customer: orderCustomer[0]?._id,
+                    paymentMethod: paymentMethod[0]?.value,
+                    orderDeliveryFee: orderData.deliveryFee,
                     deliveryStatus: deliveryStatus[0]?.value,
                 })
             });
@@ -242,11 +275,19 @@ function index() {
                                     <div className='product--quantity-grid'>
                                         {orderProducts?.map((product) => (
                                             <ProductQuantityCard
-                                                key={product._id}
+                                                key={product?._id}
                                                 product={product}
-                                                quantity={productQuantities?.find(item => item.id == product._id)?.quantity}
-                                                onQuantityChange={(newQuantity) => handleQuantityChange(product._id, newQuantity)}
+                                                quantity={selectedProducts?.find(item => item.id == product?._id)?.quantity}
                                                 removeItem={handleRemoveItem}
+                                                onQuantityChange={(newQuantity) => handleQuantityChange(product?._id, newQuantity)}
+                                                discount={selectedProducts?.find(item => item.id == product?._id)?.discount}
+                                                setDiscount={(value) => setSelectedProducts((prev) =>
+                                                    prev.map((item) => (
+                                                        item.id === product?._id ? 
+                                                            { ...item, discount: (value >= product.price) ? product.price : value }
+                                                        : item)
+                                                    )
+                                                )}
                                             />
                                         ))}
                                     </div>
@@ -256,6 +297,22 @@ function index() {
                                     <AiOutlinePlus />
                                     <p>Add New Product</p>
                                 </button>
+                            </div>
+
+                            <div className="form--item">
+                                <label className='form--label'>Delivery Fee ({currency})</label>
+                                <CurrencyInputField name="deliveryFee" value={orderData.deliveryFee} setValue={setOrderData} />
+
+                                <div style={{ display: "flex", justifyContent: "space-between",  alignItems: "center", width: "100%" }}>
+
+                                    <label className='form--label'>Order SubTotal:</label>
+                                    <span style={{ fontSize: "1.4rem" }}>
+                                        {currency}
+                                        <span className='value'>
+                                            {formatNumber(subTotal)}
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 

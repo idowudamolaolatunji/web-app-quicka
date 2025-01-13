@@ -2,11 +2,11 @@ import React from 'react'
 import { useFetchedContext } from '../../context/FetchedContext'
 import { useAuthContext } from '../../context/AuthContext';
 import CurrencyInput from 'react-currency-input-field';
+import CurrencyInputField from '../form/CurrencyInputField';
 
 function ProductFilterForm() {
-    const { store } = useAuthContext();
+    const { currency } = useAuthContext();
     const { collections, handleFetchUserStoreCollections } = useFetchedContext();
-    const currency = store?.currencies[store?.mainCurrency]?.symbol;
 
   return (
     <div className='form'>
@@ -43,24 +43,8 @@ function ProductFilterForm() {
             <label htmlFor="" className="form--label">Price, ₦</label>
             
             <div className="form--grid">
-                <CurrencyInput
-                    id="price"
-                    name="price"
-                    className="form--input"
-                    placeholder={`${currency}1,000`}
-                    prefix={currency}
-                    decimalsLimit={0}
-                    onValueChange={(value, name, _) => {}}
-                />
-                <CurrencyInput
-                    id="price"
-                    name="price"
-                    className="form--input"
-                    placeholder={`${currency}100,000`}
-                    prefix={currency}
-                    decimalsLimit={0}
-                    onValueChange={(value, name, _) => {}}
-                />
+                <CurrencyInputField />
+                <CurrencyInputField />
             </div>
         </div>
     </div>

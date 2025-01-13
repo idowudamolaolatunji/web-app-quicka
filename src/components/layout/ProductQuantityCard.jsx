@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { BiMinus, BiPlus } from 'react-icons/bi'
+import { BiChevronDown, BiChevronUp, BiMinus, BiPlus } from 'react-icons/bi'
 // import Spinner from "../spinner/simple";
 import { AiOutlineClose } from 'react-icons/ai';
+import { formatNumber, truncateString } from '../../utils/helper';
+import { useAuthContext } from '../../context/AuthContext';
+import CurrencyInputField from '../form/CurrencyInputField';
 
 
 
-function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem }) {
+function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem, discount, setDiscount }) {
+    const { currency } = useAuthContext();
     const inStock = product?.stockAmount >= quantity;
     const [loader, setLoader] = useState(true);
+    const [showMore, setShowMore] = useState(false);
+    const [subTotal, setSubTotal] = useState(0);
 
+    
     useEffect(function() {
         setTimeout(() => {
             setLoader(false)
@@ -25,6 +32,11 @@ function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem }
         onQuantityChange(Math.max(quantity - 1, 1));
     };
 
+    useEffect(function() {
+        const productTotal = (product?.price * quantity);
+        setSubTotal(productTotal - (discount || 0) )
+    }, [showMore, quantity, discount])
+
 
   return (
     <figure className='product--quantity-figure'>
@@ -33,9 +45,34 @@ function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem }
             <span onClick={() => removeItem(product._id)}><AiOutlineClose /></span>
         </div>
 
+        <div className="product--quantity-details">
+            <p className='title'>
+                {truncateString(product?.name, 15)}
+            </p>
+
+            <span className='price'>
+                {currency}
+                <span className='value'>
+                    {formatNumber(subTotal)}
+                </span>
+            </span>
+
+            <button className='more--btn' onClick={() => setShowMore(!showMore)}>
+                {showMore ? "Hide Details" : "Show More"}
+                {showMore ? <BiChevronUp /> : <BiChevronDown />}
+            </button>
+
+            {showMore && (
+                <div className="form--item">
+                    <label className='form--label'>Discount % ({currency})</label>
+                    <CurrencyInputField name="discount" value={discount} setValue={setDiscount} shared={false} />
+                </div>
+            )}
+        </div>
+
         <span className='actions'>
             <button onClick={handleDecrement}><BiMinus /></button>
-            <span className='value'>{quantity}</span>
+            <span className='value' style={{ fontSize: "1.4rem" }}>{quantity}</span>
             <button disabled={!inStock} onClick={handleIncrement}><BiPlus /></button>
         </span>
     </figure>

@@ -40,8 +40,8 @@ function index() {
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
 
-    const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
-    const offlineTransactions = transactions?.filter(transaction => transaction?.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction?.order?.orderAmount, 0);
+    const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.orderSubTotal, 0);
+    const offlineTransactions = transactions?.filter(transaction => transaction?.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction?.order?.orderSubTotal, 0);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     const [activeTab, setActiveTab] = useState("");
@@ -69,7 +69,7 @@ function index() {
         {
             name: "Amount",
             selector: row => (
-                <p className="value">{currency}{formatNumber(row?.order?.orderAmount)}</p>
+                <p className="value">{currency}{formatNumber(row?.order?.orderSubTotal)}</p>
             )
         },
         {

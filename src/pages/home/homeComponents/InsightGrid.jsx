@@ -31,7 +31,7 @@ function InsightGrid({ period }) {
 
     const websiteVisitorInsight = 0;
     const ordersInsight = handleInsights(orders, "orderDate")?.length;
-    const productSoldInsight = handleInsights(orders, "orderDate")?.flatMap(order => order.orderQuantity)?.reduce((acc, order) => acc + order?.quantity, 0);
+    const productSoldInsight = handleInsights(orders, "orderDate")?.flatMap(order => order.products)?.reduce((acc, item) => acc + item?.quantity, 0);
     const customersInsight = handleInsights(customers, "createdAt")?.length;
 
 

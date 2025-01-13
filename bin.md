@@ -957,3 +957,60 @@ useEffect(function () {
     //     handleFetchUserStoreOrders();
     // }
 }, []);
+
+
+
+
+
+
+<!-- order product quantity component -->
+
+{showMore && (
+    <>
+        <div className="product--quantity-form">
+            <div className="form--item">
+                <label className='form--label'>Shipping Fee ({currency})</label>
+                <CurrencyInputField name="shipping" value={figures.shipping} setValue={setFigures} />
+            </div>
+            <div className="form--item">
+                <label className='form--label'>Discount % ({currency})</label>
+                <CurrencyInputField name="discount" value={figures.discount} setValue={setFigures} />
+            </div>
+        </div>
+
+        <span className='price' style={{ display: "flex", justifyContent: "space-between", gap: ".4rem", alignItems: "center" }}>
+            <label className='form--label'>SubTotal:</label>
+            <span>
+                {currency}
+                <span className='value'>
+                    {formatNumber(subTotal)}
+                </span>
+            </span>
+        </span>
+    </>
+)}
+
+
+
+
+.product--quantity-form {
+    display: flex;
+    flex-direction: column;
+    gap: .48rem;
+    padding: .4rem 0;
+}
+.product--quantity-form .form--item {
+    gap: .28rem;
+}
+
+.product--quantity-details .form--label,
+.product--quantity-form .form--label {
+    font-size: 1.1rem !important;
+}
+.product--quantity-details .form--input {
+    padding: .46rem 1rem;
+    font-size: 1.2rem;
+}
+.product--quantity-form .form--input::placeholder {
+    font-size: 1.2rem;
+}
