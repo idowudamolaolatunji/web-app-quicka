@@ -22,7 +22,7 @@ function TableHeadTabs
             </span>
 
 
-            {(pageName != "collection") && (
+            {(pageName != "collection" && pageName != "customer") && (
                 <span className="flex">
                     <button className='table--btn'>Reset filter</button>
 

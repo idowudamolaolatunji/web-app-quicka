@@ -127,7 +127,7 @@ export const FetchedProvider = ({ children }) => {
         });
         
         const data = await res.json();
-        return data?.data[title];
+        return data?.data[title != "delivery-rate" ? title : "deliveryRate"];
     }
 
     // FETCH UNPROTECTED STORE CATEGORIES

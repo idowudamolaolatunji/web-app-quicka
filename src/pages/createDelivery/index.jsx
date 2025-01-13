@@ -8,7 +8,7 @@ import { FaCheck } from 'react-icons/fa';
 import { TbTruckDelivery } from 'react-icons/tb';
 import { useAuthContext } from '../../context/AuthContext';
 import { validateDeliveryForm } from '../../utils/validationHelper';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import AddPageUI from '../../ui/PageUI/AddPageUI';
 import isOnline from 'is-online';
@@ -18,10 +18,11 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 
 function index({ close, isnew, isModal }) {
+    const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, store, handleStore, shouldKick } = useAuthContext();
-    const { handleFetchUserStoreDeliveryRates, handleFetchError } = useFetchedContext();
+    const { handleFetchUserStoreDeliveryRates, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
@@ -36,10 +37,7 @@ function index({ close, isnew, isModal }) {
     });
 
     const [description, setDescription] = useState('')
-    const [loading, setLoading] = useState({
-        mainLoading: false,
-        imageLoading: false
-    });
+    const [loading, setLoading] = useState(false);
 
     const [response, setResponse] = useState({
         status: null,
@@ -64,6 +62,29 @@ function index({ close, isnew, isModal }) {
     }, []);
 
 
+    // fetching the item if id is given
+    useEffect(function() {
+        (async () => {
+            if(id) {
+                setLoading(true);
+                const fetchedItem = await handleFetchOneItem("delivery-rate", id);
+
+                if(fetchedItem) {
+                    setLoading(false); 
+                    setDeliveryData({
+                        title: fetchedItem?.title || "",
+                        deliveryType: fetchedItem?.deliveryType || "paid",
+                        fee: fetchedItem?.fee || null,
+                        visibility: fetchedItem?.visibility || true
+                    });
+                    setDescription(fetchedItem?.description || "");
+                }
+            }
+        })();
+
+    }, [id]);
+
+
     async function handleCreateDelivery() {
         // FORM VALIDATIONS 
         const newErrors = validateDeliveryForm(deliveryData);
@@ -75,12 +96,11 @@ function index({ close, isnew, isModal }) {
             return;
         };
 
-
         // SET LOADER
         setResponse({ status: "", message: "" });
-        setLoading({ ...loading, mainLoading: true });
+        setLoading(true);
         
-        const end_point = isnew ? "onboard/rate" : ""
+        const end_point = isnew ? "onboard/rate" : id ? `/${id}` : ""
         
         try {
             // CHECK CONNECTION
@@ -90,31 +110,27 @@ function index({ close, isnew, isModal }) {
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/delivery-rates/${end_point}`, {
                 headers,
-                method: "POST",
+                method: id ? "PATCH" : "POST",
                 body: JSON.stringify({
                     description,
                     ...deliveryData,
                     fee: +deliveryData.fee,
                 })
             });
-            shouldKick(res)
 
+            shouldKick(res);
             const data = await res.json();
-            const { status, message } = data;
-            if (!status || status != 'success') throw new Error(message);
+            if (!data?.status || data?.status != 'success') throw new Error(data?.message);
             
             // SET RESPONSE MESSAGE
             handleClearFields();
             window.scrollTo(0, 0);
             isnew && setShowConfetti(true);
-            setResponse({ status: "success", message });
-            handleFetchUserStoreDeliveryRates()
+            setResponse({ status: "success", message: data?.message });
+            handleFetchUserStoreDeliveryRates();
             
             // MODIFY THE STORE IN THE COOKIE
-            if(isnew) {
-                const { store } = data?.data;
-                handleStore(store);
-            }
+            if(isnew) handleStore(data?.data?.store);
 
             setTimeout(function () {
                 if (isnew) close();
@@ -125,7 +141,7 @@ function index({ close, isnew, isModal }) {
             const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
-            setLoading({ ...loading, mainLoading: false })
+            setLoading(false)
         }
     }
 
@@ -136,7 +152,7 @@ function index({ close, isnew, isModal }) {
             pageIcon={<TbTruckDelivery />}
             close={close} isnew={isnew}
             justify isModal={isModal}
-            mainLoader={loading.mainLoading}
+            mainLoader={loading}
             response={response}
             handleClear={handleClearFields}
             handleSubmit={handleCreateDelivery}
@@ -182,6 +198,7 @@ function index({ close, isnew, isModal }) {
                                     name="fee"
                                     className="form--input"
                                     placeholder="Delivery Fee"
+                                    value={deliveryData.fee}
                                     prefix={currency}
                                     decimalsLimit={0}
                                     onValueChange={(value, name, _) => setDeliveryData({ ...deliveryData, [name]: value })}

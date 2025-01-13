@@ -8,7 +8,7 @@ import Asterisk from '../../components/elements/Asterisk';
 import PhoneInput from 'react-phone-input-2';
 import { validateCustomerForm } from '../../utils/validationHelper';
 import { useAuthContext } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import AddPageUI from '../../ui/PageUI/AddPageUI';
 import isOnline from 'is-online';
@@ -17,18 +17,16 @@ import isOnline from 'is-online';
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function index({ close, isModal }) {
+    const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, store, shouldKick } = useAuthContext();
-    const { handleFetchUserStoreCustomers, handleFetchError } = useFetchedContext();
     const { location, getContries, getStates, getCities, setLocation } = useDataContext();
+    const { handleFetchUserStoreCustomers, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
     const { countryCode } = store?.contact;
 
-    const [loading, setLoading] = useState({
-        mainLoading: false,
-        imageLoading: false
-    });
+    const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({
         status: null,
         message: null
@@ -92,7 +90,6 @@ function index({ close, isModal }) {
         window.scrollTo(0, 0)
     }
 
-
     useEffect(function () {
         setState([]);
         setCity([]);
@@ -103,24 +100,60 @@ function index({ close, isModal }) {
 
 
     useEffect(function () {
-        setState([]);
-        setCity([]);
-        setLocation({ ...location, state: [], city: [] });
+        if(!id) {
+            setState([]);
+            setCity([]);
+            setLocation({ ...location, state: [], city: [] });
+        }
 
         if (country.length > 0) {
             getStates(country[0]?.iso2)
         }
-    }, [country[0]]);
+    }, [country[0], id]);
 
     
     useEffect(function () {
-        setCity([]);
-        setLocation({ ...location, city: [] });
+        if(!id) {
+            setCity([]);
+            setLocation({ ...location, city: [] });
+        }
 
         if (country.length > 0 && state.length > 0) {
             getCities(country[0]?.iso2, state[0]?.iso2);
         }
-    }, [country[0], state[0]]);
+    }, [country[0], state[0], id]);
+
+
+    // fetching the item if id is given
+    useEffect(function() {
+        (async () => {
+            if(id) {
+                setLoading(true);
+                const fetchedItem = await handleFetchOneItem("customer", id);
+                setLoading(false);
+
+                if(fetchedItem) {
+                    setCustomerData({
+                        firstname: fetchedItem?.firstname || "",
+                        lastname: fetchedItem?.lastname || "",
+                        email: fetchedItem?.contact?.email || "",
+                        phone: fetchedItem?.contact?.phone || "",
+                        phoneNumber: fetchedItem?.contact?.phoneNumber || "",
+                        dialCode: fetchedItem?.contact?.dialCode || "",
+                        countryCode: fetchedItem?.contact?.countryCode || "",
+                        description: fetchedItem?.description || "",
+                        address: fetchedItem?.shippingAddress?.address || "",
+                        zipCode: fetchedItem?.shippingAddress?.zipCode || ""
+                    });
+
+                    setCountry([fetchedItem?.shippingAddress?.country] || []);
+                    setState([fetchedItem?.shippingAddress?.state] || []);
+                    setCity([fetchedItem?.shippingAddress?.city] || []);
+                }
+            }
+        })();
+
+    }, [id]);
 
 
 
@@ -138,21 +171,24 @@ function index({ close, isModal }) {
 
         // SET LOADER
         setResponse({ status: "", message: "" });
-        setLoading({ ...loading, mainLoading: true });
+        setLoading(true);
 
         const { countryCode, dialCode, phoneNumber, phone, email, address, zipCode, firstname, lastname, description } = customerData;
         const contact = { countryCode, dialCode, phoneNumber, phone, email };
-        const shippingAddress = { address, zipCode, country: country[0]?.name, state: state[0]?.name, city: city[0]?.name }
+        const shippingAddress = { address, zipCode, country: country[0], state: state[0], city: city[0] }
         
+
+        const end_point = id ? id : ""
+
         try {
             // CHECK CONNECTION
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
 
             // MAKE REQUEST
-            const res = await fetch(`${BASE_API_URL}/customers`, {
+            const res = await fetch(`${BASE_API_URL}/customers/${end_point}`, {
                 headers,
-                method: "POST",
+                method: id ? "PATCH" : "POST",
                 body: JSON.stringify({
                     contact, shippingAddress,
                     firstname, lastname, description
@@ -175,7 +211,7 @@ function index({ close, isModal }) {
             const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
-            setLoading({ ...loading, mainLoading: false })
+            setLoading(false)
         }
     }
 
@@ -186,7 +222,7 @@ function index({ close, isModal }) {
             pageIcon={<FiUsers />}
             close={close} 
             isModal={isModal}
-            mainLoader={loading.mainLoading}
+            mainLoader={loading}
             response={response}
             handleClear={handleClearFields}
             handleSubmit={handleCreateCustomer}

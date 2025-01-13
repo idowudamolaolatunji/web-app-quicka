@@ -172,10 +172,9 @@ function index({ isnew=false, close, ismodal=false }) {
             if(id) {
                 setLoading(true);
                 const fetchedItem = await handleFetchOneItem("product", id);
+                setLoading(false)
 
                 if(fetchedItem) {
-                    setLoading(false) 
-        
                     setSelectedId(fetchedItem?._id)
                     setProductData({
                         name: fetchedItem?.name || "",
@@ -200,7 +199,7 @@ function index({ isnew=false, close, ismodal=false }) {
                     setImages(fetchedItem?.images?.map((img) => (
                         { data_url: img?.url }
                     )));
-                    setUnit([{ name: fetchedItem?.unit, id: 0 }]);
+                    setUnit(fetchedItem?.unit ? [{ name: fetchedItem?.unit, id: 0 }] : []);
                 }
             }
         })();
@@ -253,11 +252,11 @@ function index({ isnew=false, close, ismodal=false }) {
             formData.append('discountType', productData.discountType);
             formData.append('MOQ', productData.MOQ);
             formData.append('unit', itemUnit);
-            formData.append('productCollection', names);
+            formData.append('productCollection', JSON.stringify(names));
             formData.append('variations', JSON.stringify(variations));
-            formData.append('trackInventory', checks.trackInventory);
-            formData.append('trackInventory', checks.isPhysical);
-            formData.append('trackInventory', checks.isVisible);
+            formData.append('trackInventory', JSON.stringify(checks.trackInventory));
+            formData.append('isPhysical', JSON.stringify(checks.isPhysical));
+            formData.append('isVisible', JSON.stringify(checks.isVisible));
             
             if(!id) {
                 for(const image of imageFiles) {
@@ -288,21 +287,24 @@ function index({ isnew=false, close, ismodal=false }) {
             
             // SET RESPONSE MESSAGE
             setResponse({ status: "success", message: data?.message });
-            ismodal || setShowConfetti(true);
-
-            // SCROLL AND CLEAR
-            window.scrollTo(0, 0);
-            handleClearFields();
+            if(!ismodal && !id) {
+                console.log(id)
+                setShowConfetti(true);
+            }
 
             // MODIFY THE STORE IN THE COOKIE, IF NEW
             if(isnew) handleStore(data?.data?.store);
 
-            const timing = isnew ? 5000 : 3000
+            // SCROLL AND CLEAR
+            window.scrollTo(0, 0);
+            handleClearFields();
+            
+            const timing = isnew ? 5000 : 2500
             setTimeout(function () {
                 if (isnew || ismodal) {
                     close();
                 } else {
-                    navigate(-1)
+                    navigate(-1);
                 }
             }, timing);
             handleFetchUserStoreProducts()

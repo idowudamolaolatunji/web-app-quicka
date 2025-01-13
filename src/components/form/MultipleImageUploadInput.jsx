@@ -35,7 +35,7 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
     const handleDeleteUploaded = function (onRemoveImage, index) {
         setShowModal(true);
         setSelectedIndex(index);
-        // this is to help us store a function as state
+        // this is to help us to store a function as state
         setRemoveImageFn(() => () => onRemoveImage(index));
     }
     

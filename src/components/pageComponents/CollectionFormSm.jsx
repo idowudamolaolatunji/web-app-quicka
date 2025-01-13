@@ -72,7 +72,7 @@ function CollectionFormSm({ close, editingItem }) {
         const formData = new FormData();
         formData.append('name', collectionData.name);
         formData.append('description', collectionData.description);
-        formData.append('image', imageFile);
+        if(imageFile) formData.append('image', imageFile);
 
         try {
             const res = await fetch(`${BASE_API_URL}/collections`, {

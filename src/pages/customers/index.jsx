@@ -27,7 +27,7 @@ const emptyBtns = [
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
+    const { showInsights } = useDataContext();
     const { loader, error, customers, handleDeleteOneItem, handleFetchUserStoreCustomers } = useFetchedContext();
 
     ////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ function index() {
         },
         {
             name: "Location",
-            selector: row => `${row?.shippingAddress?.state ? row?.shippingAddress?.state + ", " : ""} ${row?.shippingAddress.country}`
+            selector: row => `${row?.shippingAddress?.state?.name ? row?.shippingAddress?.state?.name + ", " : ""} ${row?.shippingAddress?.country?.name}`
         },
         {
             name: "Date Added",
@@ -106,11 +106,11 @@ function index() {
 
     return (
         <>
-            {(showFilterModal?.name == "customer" && showFilterModal.isShown) && (
+            {/* {(showFilterModal?.name == "customer" && showFilterModal.isShown) && (
                 <Drawer title={`Customer Filters`} setClose={() => handleToggleFilter("")}>
                     
                 </Drawer>
-            )}
+            )} */}
 
             <PageUI
                 pageName="customer"

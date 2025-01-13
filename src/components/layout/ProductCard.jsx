@@ -28,7 +28,12 @@ function ProductCard({ product, open, base }) {
                     <span className="product__figure--name">
                         {truncateString(product?.name, width < 400 ? 25 : 18)}
                     </span>
-                    <p className='product__figure--collection'>{product?.productCollection}</p>
+                    <span style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
+                        {product?.productCollection?.slice(0, width < 600 ? 2 : 3)?.map((collection) => (
+                            <p className='product__figure--collection'>{collection}</p>
+                        ))}
+                    </span>
+                    
                     <p className='product__figure--price value'>{currency}{formatNumber(product?.price)}</p>
                 </Link>
 

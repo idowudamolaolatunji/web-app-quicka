@@ -19,6 +19,8 @@ import Drawer from '../../components/modal/Drawer';
 import { useAuthContext } from '../../context/AuthContext';
 import empty_product from "../../assets/images/dummy_items/empty_product.png"
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
+import ProductFilterForm from '../../components/pageComponents/ProductFilterForm';
+import FilterElement from '../../components/elements/FilterElement';
 
 
 //////////////////////////////////////////////////////
@@ -108,7 +110,7 @@ function index() {
                     <span className='table--info'>
                         <h3>{row?.name}</h3>
                         <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
-                            {row?.productCollection?.slice(0, 2)?.map(( collection ) => (  
+                            {row?.productCollection?.slice(0, width < 600 ? 2 : 3)?.map((collection) => (  
                                 <span>{collection}</span>
                             ))}
                         </div>
@@ -244,7 +246,12 @@ function index() {
 
             {(showFilterModal?.name == tabShown && showFilterModal.isShown) && (
                 <Drawer title={`${cap1stLetter(tabShown)} Filters`} setClose={() => handleToggleFilter("")}>
-                    
+                    <div className="filter--tabs">
+                        <FilterElement data="Start" />
+                        <FilterElement data="Start" />
+                        <FilterElement data="Start" />
+                    </div>
+                    <ProductFilterForm />
                 </Drawer>
             )}
 

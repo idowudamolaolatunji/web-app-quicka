@@ -16,7 +16,7 @@ function Drawer({ title, children, setClose }) {
                 <div className="drawer--head">
                     <span className='flex' style={{ flexDirection: "row" }}>
                         <BackButton close={handleClose} />
-                        <h2 className="page__section--title">{title}</h2>
+                        <h3 className="page__section--title">{title}</h3>
                     </span>
 
                     <Line border={1.4} where="Top" value="2rem" />

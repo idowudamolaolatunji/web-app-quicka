@@ -117,6 +117,7 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
                         </div>
                     ) : (
                         <DataTable
+                            paginationRowsPerPageOptions={[10, 25, 50, 100]}
                             data={data}
                             columns={columns}
                             pagination
