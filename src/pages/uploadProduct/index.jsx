@@ -254,7 +254,11 @@ function index({ isnew=false, close, ismodal=false }) {
             formData.append('MOQ', productData.MOQ);
             formData.append('unit', itemUnit);
             formData.append('productCollection', names);
-            formData.append('variations', variations || []);
+            formData.append('variations', JSON.stringify(variations));
+            formData.append('trackInventory', checks.trackInventory);
+            formData.append('trackInventory', checks.isPhysical);
+            formData.append('trackInventory', checks.isVisible);
+            
             if(!id) {
                 for(const image of imageFiles) {
                     formData.append("images", image);
