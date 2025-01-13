@@ -16,7 +16,7 @@ import Tab from '../../components/elements/Tab';
 
 import transaction_emptyImg from '../../assets/images/illustrations/transactions.png'
 import settlement_emptyImg from '../../assets/images/illustrations/settlements.png'
-import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 
 ///////////////////////////////////////////////

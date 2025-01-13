@@ -13,7 +13,7 @@ import { imgString } from '../../assets/images/png_elements';
 import { GoDotFill } from 'react-icons/go';
 import emptyImg from '../../assets/images/illustrations/sales.png';
 import { useAuthContext } from '../../context/AuthContext';
-import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 
 

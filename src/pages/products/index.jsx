@@ -18,7 +18,7 @@ import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 import Drawer from '../../components/modal/Drawer';
 import { useAuthContext } from '../../context/AuthContext';
 import empty_product from "../../assets/images/dummy_items/empty_product.png"
-import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 
 
 //////////////////////////////////////////////////////

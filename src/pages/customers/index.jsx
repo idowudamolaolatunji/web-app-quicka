@@ -13,7 +13,7 @@ import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { useNavigate } from 'react-router-dom';
-import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 
 
