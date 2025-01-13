@@ -14,7 +14,7 @@ function Welcome({ firstname, setClose }) {
 
             <div className="welcome--video">
                 <video controls width="100%" height={width <= 450 ? "100%" : "330"} autoPlay>
-                    <source src='https://res.cloudinary.com/dy3bwvkeb/video/upload/v1730551904/original-60dad17677eecdfdb5bc2a979f141c23_dkemi9.mp4' />
+                    <source src='https://res.cloudinary.com/du8iw1efa/video/upload/v1736758182/original-60dad17677eecdfdb5bc2a979f141c23_dkemi9_ar05cv.mp4' />
                 </video>
             </div>
 

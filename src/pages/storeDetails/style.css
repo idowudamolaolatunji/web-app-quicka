@@ -48,6 +48,10 @@
     flex-direction: column;
     gap: 1rem;
 }
+.custom--labels
+ .MuiSwitch-root.MuiSwitch-sizeMedium.css-julti5-MuiSwitch-root {
+    transform: translateY(-.24rem) translateX(1.4rem) !important;
+}
 .custom--subtext {
     font-size: 1.4rem;
     line-height: 1.4;

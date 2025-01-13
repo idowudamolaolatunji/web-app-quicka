@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BackButton from '../../components/button/BackButton'
-import Spinner from '../../components/spinner/spinner_two';
+import Spinner from '../../components/spinner/mainSpinner';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import TooltipUI from '../../components/layout/TooltipUI';

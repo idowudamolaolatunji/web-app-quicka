@@ -44,7 +44,7 @@ function index() {
 
 
                 <span className="flex">
-                    <button className='table--btn'>Clear filter</button>
+                    <button className='table--btn'>Reset filter</button>
 
                     <TooltipUI placement='top' title="Filters">
                         <button className='table--btn'><MdOutlineFilterList /></button>

@@ -6,7 +6,7 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import Line from '../../components/elements/Line';
 import HomeTop from './homeComponents/HomeTop';
 import GetStarted from './homeComponents/GetStarted';
-import Spinner from "../../components/spinner/spinner_two"
+import Spinner from "../../components/spinner/mainSpinner"
 import HomeLayoutGrid from './homeComponents/HomeLayoutGrid';
 import HomeProgressGrid from './homeComponents/HomeProgressGrid';
 import ConnectionError from '../../components/layout/ConnectionError';

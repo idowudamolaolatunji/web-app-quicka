@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
     }
+    const fdHeaders = { Authorization: `Bearer ${token}` }
 
     function handleChange(user, token) {
         setUser(user);
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     async function signoutUser() {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/users/logout`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`);
         if (!res.ok) return false;
 
         setTimeout(function() {
@@ -68,6 +69,7 @@ export const AuthProvider = ({ children }) => {
         user,
         token,
         headers,
+        fdHeaders,
         handleChange,
         handleUser,
         signoutUser,

@@ -66,7 +66,7 @@ function index() {
                 const connected = await isOnline();
                 if (!connected) throw new Error("Internet Error");
 
-                const res = await fetch(`${BASE_URL}/users/validate-reset-token/${resettoken}`,
+                const res = await fetch(`${BASE_URL}/auth/validate-reset-token/${resettoken}`,
                     { method: 'GET', headers }
                 );
 
@@ -117,7 +117,7 @@ function index() {
             const connected = await isOnline();
             if (!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_URL}/users/reset-password/${resettoken}`, {
+            const res = await fetch(`${BASE_URL}/auth/reset-password/${resettoken}`, {
                 method: 'PATCH', headers,
                 body: JSON.stringify(formData)
             });

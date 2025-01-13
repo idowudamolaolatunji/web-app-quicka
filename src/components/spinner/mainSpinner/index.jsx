@@ -6,7 +6,7 @@ function index() {
     const { width } = useWindowSize();
     return (
         <div className="spinner--container">
-            <div className="spinner_two" style={width > 850  ? { 
+            <div className="main_spinner" style={width > 850  ? { 
                 transform: 'translateY(13rem)'
             } : { 
                 transform: 'translateY(2rem)'

@@ -4,12 +4,11 @@ import { getInitials } from '../../utils/helper';
 
 function UserIntialsImage() {
     const { user } = useAuthContext();
-    const BASE_URL = import.meta.env.VITE_BASE_URL;
 
     return (
         <>
-            {user?.image ? (
-                <img className='item--user-img' src={`${BASE_URL}/${user.image}`} alt={user.fullname} />
+            {user?.image?.url ? (
+                <img className='item--user-img' src={user?.image?.url} alt={user.fullname} />
             ) : (
                 <span className='item--user-img'>{getInitials(user?.fullname)}</span>
             )}

@@ -2,7 +2,7 @@ import React from 'react'
 import Overlay from '../layout/Overlay'
 import { GrStatusWarning } from 'react-icons/gr'
 
-function Delete({ title, close, fn }) {
+function Delete({ title, close, fn, text=`This action cannot be undone! All data associated with this ${title} will be lost` }) {
 
     const handleClose = function () {
         close(false);
@@ -14,7 +14,7 @@ function Delete({ title, close, fn }) {
             <div className='delete modal'>
                 <span className='delete--icon'><GrStatusWarning /> </span>
                 <h3 className='delete--title'>Are you sure?</h3>
-                <p className='delete--text'>This action cannot be undone! All data associated with this {title} will be lost</p>
+                <p className='delete--text'>{text}</p>
 
                 <div className='delete--actions'>
                     <button className='btn delete--btn' onClick={fn}>Delete</button>

@@ -14,7 +14,7 @@ import DefaultButton from '../../../components/button/DefaultButton';
 import { useAuthContext } from '../../../context/AuthContext';
 import UserIntialsImage from '../../../components/layout/UserIntialsImage';
 import CustomAlert from '../../../components/layout/CustomAlert';
-import Spinner from '../../../components/spinner/spinner_two'
+import Spinner from '../../../components/spinner/mainSpinner'
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { useFetchedContext } from '../../../context/FetchedContext';
 

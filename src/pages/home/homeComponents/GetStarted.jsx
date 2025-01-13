@@ -6,7 +6,7 @@ import { RiBankLine } from 'react-icons/ri';
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { IoCheckmarkDone } from 'react-icons/io5';
 import { TbTruckDelivery } from 'react-icons/tb';
-import Spinner from '../../../components/spinner/spinner_two'
+import Spinner from '../../../components/spinner/mainSpinner'
 import FullScreen from '../../../components/modal/FullScreen';
 import UploadProduct from '../../uploadProduct';
 import CreateDelivery from '../../createDelivery';
@@ -121,7 +121,7 @@ function GetStarted() {
         handleLoading("mainLoading", true);
 
         try {
-            const res = await fetch(`${BASE_API_URL}/stores/finalize-onboarding/store`, {
+            const res = await fetch(`${BASE_API_URL}/stores/onboard/finalize`, {
                 method: "PATCH", headers 
             });
             shouldKick(res);

@@ -13,7 +13,6 @@ import { useWindowSize } from 'react-use';
 
 
 function index() {
-    const BASE_URL = import.meta.env.VITE_BASE_URL;
     const noLogo = "../../../../faviconB.png"
     const navigate = useNavigate();
     const { width } = useWindowSize();
@@ -23,7 +22,6 @@ function index() {
 
     const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000);
     const { currencies, mainCurrency, description, category, contact, location, logo } = store;
-    const logoImg = BASE_URL + logo;
     const { subHeading, heading, headline } = store?.customDetail;
     const currency = currencies[mainCurrency];
 
@@ -36,7 +34,7 @@ function index() {
         return (
             <div className='custom--head'>
                 <div className="form--element">
-                    <span><img src={store?.logo ? logoImg : noLogo} alt="brand logo" /></span>
+                    <span><img src={logo?.url ? logo?.url : noLogo} alt="brand logo" /></span>
                 </div>
 
                 <div style={{ display: "flex", justifyContent: "space-between" }}>

@@ -20,7 +20,6 @@ import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 
 ///////////////////////////////////////////////
-const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const transaction_emptyTitle = "Track transactions offline & online";
 const transaction_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
@@ -124,7 +123,7 @@ function index() {
                 </span>
 
                 <span className="flex">
-                    <button className='table--btn'>Clear filter</button>
+                    <button className='table--btn'>Reset filter</button>
 
                     <TooltipUI placement='top' title="Filters">
                         <button className='table--btn'><MdOutlineFilterList /></button>

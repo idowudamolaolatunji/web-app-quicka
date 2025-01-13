@@ -15,7 +15,6 @@ const datePeriods = [
     { value: 'this-month', title: 'This Month' },
 ];
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
 
 function ProductFigure({ product }) {
     const navigate = useNavigate();
@@ -27,7 +26,7 @@ function ProductFigure({ product }) {
 
     return (
         <figure className='top-product--figure' onClick={() => navigate(`/dashboard/products/${product.productId}`)}>
-            <img className='top-product--img' src={`${BASE_URL}${images[0]}`} alt="" />
+            <img className='top-product--img' src={images[0]?.url} alt="" />
             <figcaption className='top-product--details'>
                 <div className='top-product--info'>
                     <TooltipUI placement='top' title={name}>

@@ -4,7 +4,6 @@ import { BiMinus, BiPlus } from 'react-icons/bi'
 import { AiOutlineClose } from 'react-icons/ai';
 
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
 
 function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem }) {
     const inStock = product?.stockAmount >= quantity;
@@ -30,7 +29,7 @@ function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem }
   return (
     <figure className='product--quantity-figure'>
         <div className={`img-box ${(!inStock && !loader) ? "out-of-stock" : ""}`} style={{ height: "70%", overflow: "hidden" }}>
-            <img src={`${BASE_URL}${product?.images[0]}`} alt={product?.name} />
+            <img src={product?.images[0]?.url} alt={product?.name} />
             <span onClick={() => removeItem(product._id)}><AiOutlineClose /></span>
         </div>
 

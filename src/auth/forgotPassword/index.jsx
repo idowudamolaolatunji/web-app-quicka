@@ -62,7 +62,7 @@ function index() {
             const connected = await isOnline();
             if (!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_URL}/users/forgot-password`, {
+            const res = await fetch(`${BASE_URL}/auth/forgot-password`, {
                 method: 'PATCH', headers,
                 body: JSON.stringify({ ...formData })
             });

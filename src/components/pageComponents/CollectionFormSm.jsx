@@ -13,7 +13,7 @@ import ImageUploadInput from '../form/ImageUploadInput';
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function CollectionFormSm({ close, editingItem }) {
-    const { headers, shouldKick } = useAuthContext();
+    const { shouldKick, fdHeaders } = useAuthContext();
     const { handleFetchUserStoreCollections, handleImageUpload } = useFetchedContext();
 
 
@@ -69,27 +69,23 @@ function CollectionFormSm({ close, editingItem }) {
         setLoading(true)
         setResponse({ status: "", message: "" });
 
+        const formData = new FormData();
+        formData.append('name', collectionData.name);
+        formData.append('description', collectionData.description);
+        formData.append('image', imageFile);
+
         try {
             const res = await fetch(`${BASE_API_URL}/collections`, {
-                headers,
+                headers: fdHeaders,
                 method: "POST",
-                body: JSON.stringify({ ...collectionData })
+                body: formData
             });
             shouldKick(res);
-            if (!res.ok) throw new Error('Something went wrong, Sever Error!');
-
             const data = await res.json();
-            const { status, message } = data;
-            const { collection } = data?.data;
-
-            if (status !== 'success') throw new Error(message);
-            setResponse({ status: "success", message });
-
-            // UPLOAD PRODUCT IMAGES
-            if(imageFile) {
-                const url = `collections/upload-image/${collection._id}`
-                await handleImageUpload(imageFile, url);
+            if (res?.status !== 201 && data?.status !== 'success') {
+                throw new Error(data?.message);
             }
+            setResponse({ status: "success", message: data?.message });
 
             handleFetchUserStoreCollections()
             setTimeout(() => close(), 1000);

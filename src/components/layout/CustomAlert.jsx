@@ -7,7 +7,7 @@ function CustomAlert({ type, message, duration=5000 }) {
     const [open, setOpen] = useState(true);
     const { width } = useWindowSize();
     const mobile = width <= 450;
-    // severity = success, info, warning, error || variant = standard, outline, filled
+    // Serverity = success, info, warning, error || variant = standard, outline, filled
 
     const origin = {
         vertical: mobile ? 'top' : 'bottom',

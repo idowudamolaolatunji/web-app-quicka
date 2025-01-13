@@ -12,13 +12,14 @@ import Delete from '../modal/Delete';
 import isOnline from 'is-online';
 
 
-function MultipleImageUploadInput({ images, productId, handleChange, setResponse }) {
+function MultipleImageUploadInput({ images, productId, handleChange, setResponse, setLoading }) {
     const maxImageAmount = 4;
     const maxSize = 4 * 1024 * 1024; //4mb
-    ////////////////////////////////////////////////
+    
     const { width } = useWindowSize();
     const { headers, shouldKick } = useAuthContext();
     /////////////////////////////////////////////////
+    const [removeImageFn, setRemoveImageFn] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [showModal, setShowModal] = useState(false);
     
@@ -31,27 +32,20 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
         setResponse({ status: '', message: '' });
     }
     
-    // DELETING ALREADY UPLOADED IMAGES
-    let removeFunction = function() {};
-
     const handleDeleteUploaded = function (onRemoveImage, index) {
-        if (images?.length == 1) {
-            setResponse({ status: "error", message: "Product image(s) is required" })
-            setTimeout(() => setResponse({ message: "", status: "" }), 2500);
-            return
-        }
-        ////////////////////////////////////////////
         setShowModal(true);
         setSelectedIndex(index);
-        removeFunction = onRemoveImage(index);
+        // this is to help us store a function as state
+        setRemoveImageFn(() => () => onRemoveImage(index));
     }
-
+    
     async function handleDelete() {
+        setLoading(true)
         handleResetResponse()
-
+        
         const connected = await isOnline();
         if(!connected) throw new Error("Internet Error");
-
+        
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/products/image/${productId}/${selectedIndex}`, {
                 method: "DELETE", headers
@@ -59,18 +53,21 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
             shouldKick(res)
 
             const data = await res.json();
-            removeFunction();
             setShowModal(false)
             setResponse({ status: "success", message: data?.message });
+            // remove image via the setted state function
+            removeImageFn();
         } catch(err) {
             setResponse({ status: "error", message: err?.message })
+        } finally {
+            setLoading(false)
         }
     }
 
 
     return (
         <>
-            {showModal && <Delete close={() => setShowModal(false)} fn={handleDelete} />}
+            {showModal && <Delete close={() => setShowModal(false)} fn={handleDelete} text="This image will be deleted!" />}
 
             <ReactImageUploading
                 multiple
@@ -127,9 +124,9 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
                                                 <TooltipUI placement='bottom' title="Remove Image">
                                                     <button onClick={() => {
                                                         productId ?
-                                                        onImageRemove(index)
-                                                        :
                                                         handleDeleteUploaded(onImageRemove, index)
+                                                        :
+                                                        onImageRemove(index)
                                                     }}><RiDeleteBin6Line /></button>
                                                 </TooltipUI>
                                                 {!productId && (

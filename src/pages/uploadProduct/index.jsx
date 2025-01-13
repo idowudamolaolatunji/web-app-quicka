@@ -26,16 +26,14 @@ import MultipleImageUploadInput from '../../components/form/MultipleImageUploadI
 import isOnline from 'is-online';
 
 
-const BASE_API_URL = import.meta.env.VITE_API_URL;
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 function index({ isnew=false, close, ismodal=false }) {
     const navigate = useNavigate();
     const { id } = useParams();
-
+    
     const { width } = useWindowSize();
-    const { headers, shouldKick, handleStore, store } = useAuthContext();
-    const { collections, handleFetchError, handleMultipleImageUpload, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleFetchItem } = useFetchedContext();
+    const { shouldKick, handleStore, store, fdHeaders } = useAuthContext();
+    const { collections, handleFetchOneItem, handleFetchError, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
+    const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     const { currencies, mainCurrency } = store;
     const currency = currencies[mainCurrency]?.symbol;
@@ -44,7 +42,7 @@ function index({ isnew=false, close, ismodal=false }) {
     // FOR EDITTING THE PRODUCT
     const [selectedId, setSelectedId] = useState(null);
     //////////////////////////////////////////////////////////
-    const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
+    const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false)
     const [showModal, setShowModal] = useState({ collection: false, others: false });
@@ -71,23 +69,24 @@ function index({ isnew=false, close, ismodal=false }) {
 
     const [images, setImages] = useState([]);
     const imageFiles = images.filter(img => img?.file)?.map(img => img?.file);
-    const [indexes, setIndexes] = useState([]);
-    // console.log(images, imageFiles, indexes)
+    const [updatedIndexes, setUpdatedIndexes] = useState([]);
+    console.log(images, imageFiles, updatedIndexes)
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+
+
     const handleOnChangeImage = function(imageList, addUpdateIndex) {
-        // this here might feel strange in the future, but it helps us keep track of the updated images
-        // console.log(imageList, addUpdateIndex);
-        if(addUpdateIndex !== undefined) {
-            setIndexes((prev) => [...new Set([...prev, addUpdateIndex?.at(0)])])
-        }
         setImages(imageList);
+        
+        /////////////////////////////
+        // this here might feel strange in the future, but it helps us keep track of the updated images
+        if(addUpdateIndex !== undefined && id) {
+            setUpdatedIndexes((prev) => 
+                [...new Set([...prev, addUpdateIndex?.at(0)])].sort((a, b) => a - b)
+            )
+        }
     };
-
-    useEffect(function() {
-
-    }, [images])
 
     const handleProductDataChange = function(e) {
         const { name, value } = e?.target;
@@ -132,8 +131,9 @@ function index({ isnew=false, close, ismodal=false }) {
     // HANDLE VARIATION INPUTS
     const handleChangeVariant = function(e, index) {
         const { name, value } = e?.target;
-        setVariations(prev => prev.map((item, i) =>
-              i === index ? { ...item, [name]: value } : item
+        setVariations(prev => 
+            prev.map((item, i) =>
+                i === index ? { ...item, [name]: value } : item
             )
         );        
     }
@@ -155,10 +155,8 @@ function index({ isnew=false, close, ismodal=false }) {
         setVariations(prev => prev.filter((_, index) => index !== selectedIndex))
     }
 
-
     useEffect(function() {
         document.title = "Quicka | Upload new product";
-
         handleFetchUserStoreCollections()
     }, []);
 
@@ -172,11 +170,11 @@ function index({ isnew=false, close, ismodal=false }) {
     useEffect(function() {
         (async () => {
             if(id) {
-                setLoading({...loading, mainLoading: true});
-                const fetchedItem = await handleFetchItem("product", id);
+                setLoading(true);
+                const fetchedItem = await handleFetchOneItem("product", id);
 
                 if(fetchedItem) {
-                    setLoading({...loading, mainLoading: false})
+                    setLoading(false) 
         
                     setSelectedId(fetchedItem?._id)
                     setProductData({
@@ -199,8 +197,8 @@ function index({ isnew=false, close, ismodal=false }) {
                         isPhysical: fetchedItem?.isPhysical || true,
                         isVisible: fetchedItem?.isVisible || false,
                     });
-                    setImages(fetchedItem?.images?.map(img => (
-                        { data_url: `${BASE_URL}/${img}`, }
+                    setImages(fetchedItem?.images?.map((img) => (
+                        { data_url: img?.url }
                     )));
                     setUnit([{ name: fetchedItem?.unit, id: 0 }]);
                 }
@@ -229,12 +227,11 @@ function index({ isnew=false, close, ismodal=false }) {
 
         // SET LOADER
         setResponse({ status: "", message: "" });
-        setLoading({ ...loading, mainLoading: true });
-
+        setLoading(true);
         
         // GET COLLECTION NAMES
         const names = productCollection.map(collection => collection.name);
-        const itemUnit = unit[0]?.value;
+        const itemUnit = unit[0]?.value || "";
         
         // check if it's firsttime new onboard or old editing
         const end_point = isnew ? "/onboard/product" : id ?`/${selectedId}` : "";
@@ -243,68 +240,74 @@ function index({ isnew=false, close, ismodal=false }) {
             // CHECK CONNECTION
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
+
+            const formData = new FormData();
+            formData.append('name', productData.name);
+            formData.append('description', description);
+            formData.append('shortDescription', productData.shortDescription);
+            formData.append('price', +productData.price);
+            formData.append('itemCost', +productData.itemCost);
+            formData.append('stockAmount', +productData.stockAmount);
+            formData.append('discount', +productData.discount);
+            formData.append('status', productData.status);
+            formData.append('discountType', productData.discountType);
+            formData.append('MOQ', productData.MOQ);
+            formData.append('unit', itemUnit);
+            formData.append('productCollection', names);
+            formData.append('variations', variations || []);
+            if(!id) {
+                for(const image of imageFiles) {
+                    formData.append("images", image);
+                }
+            } else {
+                if(updatedIndexes && imageFiles) {
+                    formData.append("updatedIndexes", JSON.stringify(updatedIndexes));
+
+                    for(const image of imageFiles) {
+                        formData.append("images", image);
+                    }
+                }
+            }
             
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/products${end_point}`, {
-                headers,
+                headers: fdHeaders,
                 method: id ? "PATCH" : "POST",
-                body: JSON.stringify({
-                    ...checks,
-                    variations,
-                    description,
-                    ...productData,
-                    unit: itemUnit,
-                    price: +productData.price,
-                    itemCost: +productData.itemCost,
-                    discount: +productData.discount,
-                    stockAmount: +productData.stockAmount,
-                    productCollection: names,
-                })
+                body: formData
             });
             shouldKick(res);
 
             const data = await res.json();
-            const { status, message } = data;
-            const { product } = data.data;
-            if (status !== 'success') throw new Error(message);
-            
-            /////// UPLOAD PRODUCT IMAGES //////////////////
-            // IF THERE'S AN ID, THAT MEANS WE ARE EDITTING
-            const url = `products/upload-image/${product._id}`;
-            if(imageFiles.length >= 1) {
-                if(id) {
-                    await handleMultipleImageUpload(imageFiles, url, "PATCH", indexes);
-                } else {
-                    await handleMultipleImageUpload(imageFiles, url, "POST");
-                }
+            if (res?.status != 201 && data?.status !== 'success') {
+                throw new Error(data?.message);
             }
-            ///////////////////////////////////////////////
             
             // SET RESPONSE MESSAGE
-            setResponse({ status: "success", message });
+            setResponse({ status: "success", message: data?.message });
             ismodal || setShowConfetti(true);
 
             // SCROLL AND CLEAR
             window.scrollTo(0, 0);
             handleClearFields();
 
-            // MODIFY THE STORE IN THE COOKIE, if new
-            if(isnew) {
-                const { store } = data?.data;
-                handleStore(store);
-            }
+            // MODIFY THE STORE IN THE COOKIE, IF NEW
+            if(isnew) handleStore(data?.data?.store);
 
+            const timing = isnew ? 5000 : 3000
             setTimeout(function () {
-                if (isnew || ismodal) close();
-                else navigate(-1)
-            }, isnew ? 5000 : 3000);
+                if (isnew || ismodal) {
+                    close();
+                } else {
+                    navigate(-1)
+                }
+            }, timing);
             handleFetchUserStoreProducts()
 
         } catch (err) {
             const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
-            setLoading({ ...loading, mainLoading: false })
+            setLoading(false)
         }
     }
 
@@ -328,7 +331,7 @@ function index({ isnew=false, close, ismodal=false }) {
                 pageIcon={<LuTags />}
                 close={close} isnew={isnew}
                 ismodal={ismodal}
-                mainLoader={loading.mainLoading}
+                mainLoader={loading}
                 response={response}
                 handleClear={handleClearFields}
                 handleSubmit={handleCreateProduct}
@@ -356,7 +359,7 @@ function index({ isnew=false, close, ismodal=false }) {
                             <div className="form--item">
                                 <label className="form--label">Product Images (Min 1 & Max 4) <Asterisk /></label>
 
-                                <MultipleImageUploadInput images={images} productId={selectedId || null} handleChange={handleOnChangeImage} setResponse={setResponse} />
+                                <MultipleImageUploadInput images={images} productId={selectedId || null} handleChange={handleOnChangeImage} setResponse={setResponse} setLoading={setLoading} />
 
                                 <span className="form--error-message">
                                     {productFormErrors.images && productFormErrors.images}

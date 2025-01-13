@@ -22,7 +22,6 @@ import TableHeadTabs from '../../components/pagecomponents/TableHeadTabs';
 
 
 //////////////////////////////////////////////////////
-const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const product_emptyTitle = "Add new product!";
 const product_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
@@ -105,10 +104,14 @@ function index() {
             name: 'Prduct',
             selector: row => (
                 <Link className="table--flex table--link" to={`/dashboard/products/${row?.productId}`}>
-                    <img alt={row?.name} src={row?.images?.length > 0 ? BASE_URL + row?.images?.at(0) : empty_product} />
+                    <img alt={row?.name} src={row?.images?.length > 0 ? row?.images?.at(0)?.url : empty_product} />
                     <span className='table--info'>
                         <h3>{row?.name}</h3>
-                        <span>{row?.productCollection}</span>
+                        <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
+                            {row?.productCollection?.slice(0, 2)?.map(( collection ) => (  
+                                <span>{collection}</span>
+                            ))}
+                        </div>
                     </span>
 
                 </Link>
@@ -215,7 +218,7 @@ function index() {
     async function deleteItem() {
         try {
             setDeleteLoader(true)
-            await handleDeleteOneItem(`${tabShown}`, selectedId);
+            await handleDeleteOneItem(`${tabShown}s`, selectedId);
             if (tabShown == "product") {
                 handleFetchUserStoreProducts();
             } else {

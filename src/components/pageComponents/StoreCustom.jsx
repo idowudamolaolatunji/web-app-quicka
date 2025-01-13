@@ -19,13 +19,11 @@ import Asterisk from '../elements/Asterisk';
 import Confetti from '../layout/Confetti';
 import { useNavigate } from 'react-router-dom';
 import CustomAlert from '../layout/CustomAlert';
-import Spinner from '../spinner/spinner_two';
+import Spinner from '../spinner/mainSpinner';
 import { createPortal } from 'react-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import isOnline from 'is-online';
 
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 const noLogo = "../../../../faviconB.png"
 
@@ -33,17 +31,10 @@ const noLogo = "../../../../faviconB.png"
 function StoreCustom({ isnew, close }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { token, store, shouldKick, handleStore, handleUser } = useAuthContext();
-    const { handleImageUpload, handleFetchError } = useFetchedContext();
+    const { store, shouldKick, handleStore, fdHeaders } = useAuthContext();
+    const { handleFetchError } = useFetchedContext();
 
-    const logoImg = `${BASE_URL}${store?.logo}`;
-    console.log(logoImg)
     const width450False = width < 450 ? false : true;
-
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
 
     const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
     const [response, setResponse] = useState({ status: null, message: null });
@@ -159,13 +150,24 @@ function StoreCustom({ isnew, close }) {
         handleResetResponse()
         handleLoading("mainLoading", true);
 
-        const { instagram, whatsapp, facebook, twitter, headline, heading, subHeading, brandColor, aboutDescription, returnPolicyDescription } = storeData;
+        const {
+            instagram, whatsapp, facebook, twitter,
+            headline, heading, subHeading, brandColor,
+            aboutDescription, returnPolicyDescription
+        } = storeData;
         const socialProfiles = { instagram, whatsapp, facebook, twitter };
         const customDetail = { heading, subHeading, brandColor, headline };
         const otherPages = { aboutDescription, returnPolicyDescription,
             aboutPage: aboutDescription ? true : false,
             returnPolicyPage: returnPolicyDescription ? true : false,
         }
+
+        const formData = new FormData();
+        formData.append("socialProfiles", JSON.stringify(socialProfiles));
+        formData.append("customDetail", JSON.stringify(customDetail));
+        formData.append("otherPages", JSON.stringify(otherPages));
+        formData.append("logo", imageFile.logo);
+        formData.append("banner", imageFile.banner);
 
         try {
             // CHECK CONNECTION
@@ -175,35 +177,18 @@ function StoreCustom({ isnew, close }) {
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/stores/onboard/store`, {
                 method: "PATCH",
-                headers,
-                body: JSON.stringify({ socialProfiles, customDetail, otherPages })
+                headers: fdHeaders,
+                body: formData
             });
-
             shouldKick(res)
 
             const data = await res.json();
-            const { status, message } = data;
-            if (!status || status != 'success') throw new Error(message);
+            if (data?.status != 'success') throw new Error(data?.message);
             isnew && setShowConfetti(true);
-            
 
-            // UPLOAD STORE LOGO AND / OR BANNER
-            const { store } = data?.data;
-            if(imageFile.logo) {
-                console.log(imageFile.logo)
-                const url = `stores/upload-logo/${store._id}`
-                await handleImageUpload(imageFile.logo, url);
-            }
-            if(imageFile.banner) {
-                console.log(imageFile.banner)
-                const url = `stores/upload-banner/${store._id}`
-                await handleImageUpload(imageFile.banner, url);
-            }
-
-            // SET RESPONSE MESSAGE
-            setResponse({ status: "success", message });
-            // MODIFY STORE IN THE COOKIE
-            handleStore(store);
+            // SET RESPONSE MESSAGE and MODIFY STORE IN THE COOKIE
+            setResponse({ status: "success", message: data?.message });
+            handleStore(data?.data?.store);
 
             setTimeout(function () {
                 if (isnew) close();
@@ -242,13 +227,13 @@ function StoreCustom({ isnew, close }) {
 
                     <div className='custom--head'>
                         <div className="form--element">
-                            <span><img src={imagePreview.logo || (store?.logo ? logoImg : noLogo)} alt="brand logo" /></span>
+                            <span><img src={imagePreview.logo || (store?.logo?.url ? store?.logo?.url : noLogo)} alt="brand logo" /></span>
 
                             <div className='form--item'>
                                 <input type='file' id='logo' name='logo' onChange={handleImageChange} accept="image/*" />
 
                                 <div className="flex" style={{ flexDirection: "row" }}>
-                                    <label htmlFor="logo" className='form--upload-btn'>{(store?.logo || imagePreview.logo) ? "Change" : "Upload"} Logo</label>
+                                    <label htmlFor="logo" className='form--upload-btn'>{(store?.logo?.url || imagePreview.logo) ? "Change" : "Upload"} Logo</label>
 
                                     {imagePreview.logo && <button onClick={() => handleRemoveImage("logo")} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
 
@@ -364,7 +349,7 @@ function StoreCustom({ isnew, close }) {
 
                                 <div className="custom--display">
                                     <Template1
-                                        logo={imagePreview.logo || (store?.logo ? logoImg : noLogo)}
+                                        logo={imagePreview.logo || (store?.logo?.url ? store?.logo?.url : noLogo)}
                                         color={storeData.brandColor}
                                         headline={storeData.headline}
                                         banner={imagePreview.banner}
@@ -383,15 +368,18 @@ function StoreCustom({ isnew, close }) {
 
                     <div className="custom--item">
                         <span className="custom--labels">
-                            <label className='form--label'>About Section (optional)</label>
+                            <label className='form--label'>
+                                About Section (optional)
+                                <Switch color='#ff7a49'
+                                    checked={storeData.aboutPage}
+                                    onClick={() => handleStoreClicks("aboutPage")}
+                                />
+                            </label>
                             <p className="custom--subtext">Add about section to your store, section on your website that talks about your business</p>
                         </span>
 
                         <div className='custom--description'>
-                            <Switch color='#ff7a49'
-                                checked={storeData.aboutPage}
-                                onClick={() => handleStoreClicks("aboutPage")}
-                            />
+                            
 
                             {storeData.aboutPage && (
                                 <QuillEditor value={storeData.aboutDescription} setValue={(value) => handleStoreDescriptions("aboutDescription", value)} />
@@ -405,14 +393,17 @@ function StoreCustom({ isnew, close }) {
 
                     <div className="custom--item">
                         <span className="custom--labels">
-                            <label className='form--label'>Return Policy Section (optional)</label>
+                            <label className='form--label'>
+                                Return Policy Section (optional)
+                                <Switch color='#ff7a49'
+                                    checked={storeData.returnPolicyPage}
+                                    onClick={() => handleStoreClicks("returnPolicyPage")}
+                                />
+                            </label>
                             <p className="custom--subtext">Add policy to your store, section on your website that explains your policy</p>
                         </span>
 
                         <div className='custom--description'>
-                            <Switch color='#ff7a49'
-                                checked={storeData.returnPolicyPage}
-                                onClick={() => handleStoreClicks("returnPolicyPage")} />
 
                             {storeData.returnPolicyPage && <QuillEditor value={storeData.returnPolicyDescription} setValue={(value) => handleStoreDescriptions("returnPolicyDescription", value)} />}
                         </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import Line from '../../components/elements/Line';
-import Spinner from '../../components/spinner/spinner_two'
+import Spinner from '../../components/spinner/mainSpinner'
+import SpinnerTiny from '../../components/spinner/tiny'
 import TooltipUI from '../../components/layout/TooltipUI';
 import Asterisk from '../../components/elements/Asterisk';
 import CustomAlert from '../../components/layout/CustomAlert';
@@ -23,10 +24,10 @@ function index() {
     const { handleChange, handleStore } = useAuthContext();
     const { handleImageUpload, storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
 
-    const headers = { "Content-type": "application/json" }
-
-    const [Loading, setLoading] = useState(false);
-    const [isCopied, setIsCopied] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [tinyNameLoader, setTinyNameLoader] = useState(false);
+    const [tinyUrlLoader, setTinyUrlLoader] = useState(false);
+    // const [isCopied, setIsCopied] = useState(false);
 
     const [goalsChoosen, setGoalsChoosen] = useState([]);
 
@@ -46,7 +47,7 @@ function index() {
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
     const handleResetResponse = function () {
-        setResponse({ status: null, message: null });
+        setResponse({ status: "", message: "" });
     }
 
     const handleOnboardDataChange = function (e) {
@@ -74,8 +75,9 @@ function index() {
             const url = onboardingData.storeUrl + ".quicka.store";
 
             navigator.clipboard.writeText(url);
-            setIsCopied(true)
+            // setIsCopied(true)
             setResponse({ status: "success", message: "Store URL Copied!" });
+            setTimeout(() => handleResetResponse(), 2500);
         }
     }
 
@@ -135,7 +137,7 @@ function index() {
 
     const userId = localStorage.getItem('user_id');
     useEffect(function () {
-        document.title = "Quicka | Store Onboarding 🏪";
+        document.title = "Quicka | Store Onboarding";
 
         if (!userId) navigate(-1);
     }, []);
@@ -170,13 +172,69 @@ function index() {
     }, [onboardingData?.name]);
 
 
-    // ONLY WHEN WE RE-WRITE OUR LINK BEFORE WE CAN RECOPY IT
-    useEffect(function () {
-        // BAD PRACTICE
-        handleResetResponse();
-        setIsCopied(false);
-    }, [onboardingData?.storeUrl]);
+    useEffect(function() {
+        const handleSearchName = setTimeout(async function () {
+            if (!onboardingData?.name) return;
+            setTinyNameLoader(true);
 
+            try {
+                // CHECK CONNECTION
+                const connected = await isOnline();
+                if (!connected) throw new Error("Internet Error");
+
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${onboardingData?.name}`);
+                const data = await res.json();
+                if(!data?.success && res.status !== 200) throw new Error(data?.message);
+                const newErrors = {}
+                if(data?.data?.results?.name.length > 0) newErrors.name = "Business name is already taken!";
+                setOnboardingErrors(newErrors);
+            } catch(err) {
+                if (err?.name !== "AbortError") {
+					return err?.message
+				}
+            } finally {
+                setTinyNameLoader(false)
+            }
+        }, 350)
+
+		return () => clearTimeout(handleSearchName);
+
+    }, [onboardingData?.name])
+
+    useEffect(function() {
+        const handleSearchUrl = setTimeout(async function () {
+            if (!onboardingData?.storeUrl) return;
+            setTinyUrlLoader(true);
+
+            try {
+                // CHECK CONNECTION
+                const connected = await isOnline();
+                if (!connected) throw new Error("Internet Error");
+
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?urlQuery=${onboardingData?.storeUrl}.quicka.store`);
+                const data = await res.json();
+                if(!data?.success && res.status !== 200) throw new Error(data?.message);
+                const newErrors = {}
+                if(data?.data?.results?.url?.length > 0) {
+                    newErrors.storeUrl = "Store Url is already taken";
+                } else {
+                    newErrors.storeUrl = ""
+                }
+                setOnboardingErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
+            } catch(err) {
+                if (err?.name !== "AbortError") {
+					return err?.message
+				}
+            } finally {
+                setTinyUrlLoader(false)
+            }
+        }, 350)
+
+		return () => clearTimeout(handleSearchUrl);
+
+    }, [onboardingData?.storeUrl])
+
+    console.log(onboardingErrors)
 
     async function handleOnboading() {
         // RESET THE RESPONSE AND LOADING STATE HERE
@@ -188,15 +246,19 @@ function index() {
             const connected = await isOnline();
             if (!connected) throw new Error("Internet Error");
 
+            const formData = new FormData();
+            formData.append("name", onboardingData.name)
+            formData.append("storeUrl", onboardingData.storeUrl)
+            formData.append("category", selectedCategory[0]?.slug)
+            formData.append("isRegistered", onboardingData.isRegistered)
+            formData.append("regType", onboardingData.regType)
+            formData.append("goalsChoosen", JSON.stringify(goalsChoosen))
+            formData.append("image", image.file)
+
             // MAKE REQUEST
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/users/onboarding-store/${userId}`
-                , {
-                    method: 'PATCH', headers,
-                    body: JSON.stringify({
-                        ...onboardingData, goalsChoosen,
-                        category: selectedCategory.slug
-                    })
-                });
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/onboarding-store/${userId}`,
+                { method: 'PATCH', body: formData }
+            );
 
             const data = await res.json();
             if (!data?.status || data?.status !== 'success') {
@@ -206,14 +268,6 @@ function index() {
             // SET THE ACCESS STORAGE FOR THE CONGRATS PAGE
             localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
             setResponse({ status: data?.status, message: data?.message });
-
-            // IF THER'S A LOGO, UPLOAD LOGO
-            if (image.file) {
-                let store = data?.data?.store;
-                const url = `stores/upload-logo/${store._id}`
-                const { data } = await handleImageUpload(image.file, url, token);
-                store = data?.document;
-            }
 
             setTimeout(function () {
                 handleChange(data?.data?.user, data?.token);
@@ -236,7 +290,7 @@ function index() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {Loading && <Spinner />}
+            {loading && <Spinner />}
 
             <section className='onboarding--section'>
                 <div className="onboarding--container">
@@ -260,7 +314,7 @@ function index() {
                         </p>
                     </div>
 
-                    <div className="auth--form" style={{ width: '100%', gap: '2.4rem' }}>
+                    <div className="auth--form" style={{ width: '100%' }}>
                         {onboardTabNum === 1 && (
                             <>
                                 <form className="form--item">
@@ -290,6 +344,7 @@ function index() {
                                     <label htmlFor="name" className="form--label">Business Name <Asterisk /></label>
                                     <input type="text" className="form--input" placeholder='Business Name' onChange={handleOnboardDataChange} name="name" id='name' value={onboardingData.name} />
                                     <span className="form--error-message">
+                                        {(tinyNameLoader && !onboardingErrors.name) && <SpinnerTiny />}
                                         {onboardingErrors.name && onboardingErrors.name}
                                     </span>
                                 </div>
@@ -299,15 +354,17 @@ function index() {
                                     <div className="form--input-box">
                                         <input type="text" id='storeUrl' className="form--input" placeholder='Store url' value={onboardingData.storeUrl} name='storeUrl' onChange={handleOnboardDataChange} />
 
-                                        {(onboardingData.storeUrl && !isCopied) ? (
+                                        {/* {(onboardingData.storeUrl && !isCopied) ? ( */}
+                                        {(onboardingData.storeUrl) ? (
                                             <TooltipUI title="Copy URL" placement="top">
-                                                <span className='url--box' onClick={handleCopyLink}>.quicka.store</span>
-                                            </TooltipUI>
+                                            <span style={{ cursor: "copy" }} className='url--box' onClick={handleCopyLink}>.quicka.store</span>
+                                        </TooltipUI>
                                         ) : (
                                             <span className='url--box' onClick={handleCopyLink}>.quicka.store</span>
                                         )}
                                     </div>
                                     <span className="form--error-message">
+                                        {(tinyUrlLoader && !onboardingErrors.storeUrl) && <SpinnerTiny />}
                                         {onboardingErrors.storeUrl && onboardingErrors.storeUrl}
                                     </span>
                                 </div>

@@ -24,7 +24,7 @@ function TableHeadTabs
 
             {(pageName != "collection") && (
                 <span className="flex">
-                    <button className='table--btn'>Clear filter</button>
+                    <button className='table--btn'>Reset filter</button>
 
                     <TooltipUI placement='top' title="Filters">
                         <button className='table--btn' onClick={() => handleToggleFilter(pageName)}><MdOutlineFilterList /></button>

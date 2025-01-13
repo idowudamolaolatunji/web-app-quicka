@@ -100,8 +100,6 @@ function AddCustomerFormSm({ close }) {
             });
 
             shouldKick(res);
-            if (!res?.ok) throw new Error('Something went wrong, Sever Error!');
-
             const data = await res.json();
             const { status, message } = data;
             if (!status || status != 'success') throw new Error(message);

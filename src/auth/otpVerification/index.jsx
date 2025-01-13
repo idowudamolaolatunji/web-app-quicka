@@ -73,7 +73,7 @@ function index() {
             const connected = await isOnline();
             if (!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_URL}/users/verify-otp`, {
+            const res = await fetch(`${BASE_URL}/auth/verify-otp`, {
                 method: 'PATCH', headers,
                 body: JSON.stringify({ ...formData })
             });
@@ -117,7 +117,7 @@ function index() {
             const connected = await isOnline();
             if (!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_URL}/users/request-otp`, {
+            const res = await fetch(`${BASE_URL}/auth/request-otp`, {
                 method: 'PATCH',
                 headers: { "Content-type": "application/json" },
                 body: JSON.stringify({ email: formData.email }),

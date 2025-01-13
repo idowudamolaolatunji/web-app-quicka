@@ -118,9 +118,9 @@ export const FetchedProvider = ({ children }) => {
     }
 
     // FETCH UNPROTECTED STORE ITEM BY ID
-    async function handleFetchItem(title, id) {
-        const ifProduct = title == "product" ? "slug/id/" : "";
-        const url = `${import.meta.env.VITE_API_URL}/${title}s/${ifProduct}${id}`;
+    async function handleFetchOneItem(title, id) {
+        const productIdentifier = title == "product" ? "identifier/" : "";
+        const url = `${import.meta.env.VITE_API_URL}/${title}s/${productIdentifier}${id}`;
         const res = await fetch(url, {
             method: "GET",
             headers
@@ -400,32 +400,6 @@ export const FetchedProvider = ({ children }) => {
         return data
     }
 
-    // UPLOAD AND UPDATE MULTIPLE IMAGES
-    async function handleMultipleImageUpload(Imgfiles, url, method="POST", updatedIndexes) {
-        const formData = new FormData();
-        if (Array.isArray(Imgfiles)) {
-            for (let i = 0; i < Imgfiles.length; i++) {
-                console.log(Imgfiles[i])
-                formData.append("images", Imgfiles[i]);
-            }
-        }
-
-        if(updatedIndexes) {
-            formData.append("updatedIndexes", JSON.stringify(updatedIndexes));
-        }
-
-        const res = await fetch(`${BASE_API_URL}/${url}`, {
-            method, headers: {
-                Authorization: `Bearer ${token}`
-            },
-            body: formData,
-        });
-
-        shouldKick(res);
-        
-        const data = await res.json();
-        return data;
-    }
     
 
     useEffect(function () {
@@ -473,13 +447,12 @@ export const FetchedProvider = ({ children }) => {
         deliveryRates,
         special_sales,
         storeCategories,
-        handleFetchItem,
         handleFetchError,
         handleImageUpload,
+        handleFetchOneItem,
         handleGlobalRefetch,
         handleDeleteOneItem,
         globalConnectionError,
-        handleMultipleImageUpload,
         handleFetchStoreCategories,
         handleFetchUserStoreOrders,
         handleFetchUserStoreProducts,
