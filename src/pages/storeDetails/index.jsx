@@ -10,6 +10,7 @@ import ConnectionError from '../../components/layout/ConnectionError';
 import { useNavigate } from 'react-router-dom';
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
+import { cap1stLetter } from '../../utils/helper';
 
 
 function index() {
@@ -22,7 +23,7 @@ function index() {
 
     const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000);
     const { currencies, mainCurrency, description, category, contact, location, logo } = store;
-    const { subHeading, heading, headline } = store?.customDetail;
+    const { subHeading, heading, headline, slogan } = store?.customDetail;
     const currency = currencies[mainCurrency];
 
     useEffect(function () {
@@ -82,10 +83,11 @@ function index() {
                         )}
 
                         <div className="preview--body">
+                            <div className='preview--body-item'>Business slogan <span className='preview--body-value'>{slogan || "--"}</span></div>
                             <div className='preview--body-item'>Welcome Heading <span className='preview--body-value'>{subHeading ? `${heading} ${subHeading}` : "--"}</span></div>
                             <div className='preview--body-item'>Top Headline <span className='preview--body-value'>{headline || "--"}</span></div>
-                            <div className='preview--body-item'>Store Description <span className='preview--body-value'>{description || "--"}</span></div>
-                            <div className='preview--body-item'>Store Category <span className='preview--body-value'>{category || "--"}</span></div>
+                            <div className='preview--body-item'>Business Description <span className='preview--body-value'>{description || "--"}</span></div>
+                            <div className='preview--body-item'>Business Category <span className='preview--body-value'>{category?.name ? category?.name : "--"}</span></div>
                         </div>
                     </div>
                 </div>
@@ -100,8 +102,8 @@ function index() {
                         <div className='preview--body-item'>Email-address <span className='preview--body-value'>{contact?.email}</span></div>
                         <div className='preview--body-item'>Phone No. <span className='preview--body-value'>+{contact?.phone}</span></div>
                         <div className='preview--body-item'>Address <span className='preview--body-value'>{location?.address || "--"}</span></div>
-                        <div className='preview--body-item'>Country <span className='preview--body-value'>{location?.country || "--"}</span></div>
-                        <div className='preview--body-item'>State <span className='preview--body-value'>{location?.state || "--"}</span></div>
+                        <div className='preview--body-item'>Country <span className='preview--body-value'>{location?.country?.name || "--"}</span></div>
+                        <div className='preview--body-item'>City & State <span className='preview--body-value'>{location?.state?.name ? `${location?.city?.name + ", "}${location?.state?.name}` : "--"}</span></div>
                         <div className='preview--body-item'>Zip Code <span className='preview--body-value'>{location?.zip || "--"}</span></div>
                         <div className='preview--body-item'>Currency <span className='preview--body-value'>{currency?.name}({currency?.symbol})</span></div>
                     </div>

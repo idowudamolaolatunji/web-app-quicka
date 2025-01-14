@@ -57,7 +57,7 @@ function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem, 
                 </span>
             </span>
 
-            <button className='more--btn' onClick={() => setShowMore(!showMore)}>
+            <button className={`more--btn ${showMore ? "active" : ""}`} onClick={() => setShowMore(!showMore)}>
                 {showMore ? "Hide Details" : "Show More"}
                 {showMore ? <BiChevronUp /> : <BiChevronDown />}
             </button>

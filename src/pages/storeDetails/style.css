@@ -5,7 +5,6 @@
     gap: 2.8rem;
 }
 
-
 .custom--head {
     display: flex;
     flex-direction: column;
@@ -254,7 +253,10 @@
 }
 
 
-
+.details .form--element span {
+    width: 105%;
+    height: 9rem;
+}
 
 
 
@@ -289,6 +291,11 @@
     .custom--labels {
         gap: 0.5rem;
     }
+
+    .details .form--element span {
+        width: 100%;
+    }
+    
 }
 
 
@@ -317,6 +324,10 @@
     .preview--figure .custom--head {
         flex-wrap: wrap;
         gap: 1.68rem;
+    }
+
+    .details .form--element span {
+        height: 8rem;
     }
 }
 

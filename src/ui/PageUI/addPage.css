@@ -394,7 +394,8 @@
     font-size: 1.6rem;
     transition: all .3s;
 }
-.product--quantity-figure button:hover {
+.product--quantity-figure button:hover,
+.product--quantity-figure button.active {
     color: var(--color-brand-500);
     background-color: var(--color-brand-50);
 }

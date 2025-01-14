@@ -4,7 +4,7 @@ import Confetti from '../../components/layout/Confetti';
 import CustomAlert from '../../components/layout/CustomAlert';
 import Spinner from '../../components/spinner/mainSpinner';
 import BackButton from '../../components/button/BackButton'
-import './uploadStyle.css';
+import "./addPage.css";
 
 import { useWindowSize } from 'react-use';
 import { useNavigate, useParams } from 'react-router-dom';

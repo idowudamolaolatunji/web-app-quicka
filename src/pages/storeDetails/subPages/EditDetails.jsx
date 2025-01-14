@@ -1,9 +1,326 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useAuthContext } from '../../../context/AuthContext'
+import { useNavigate } from 'react-router-dom';
+import AddPageUI from '../../../ui/PageUI/AddPageUI';
+import { MdOutlineStorefront } from 'react-icons/md';
+import Line from '../../../components/elements/Line';
+import Asterisk from '../../../components/elements/Asterisk';
+import { useWindowSize } from 'react-use';
+import SpinnerTiny from "../../../components/spinner/tiny"
+import LogoUploadInput from '../../../components/form/LogoUploadInput';
+import Info from '../../../components/elements/Info';
+import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
+import { useFetchedContext } from '../../../context/FetchedContext';
+import { cap1stLetter } from '../../../utils/helper';
+import { useDataContext } from '../../../context/DataContext';
+import PhoneInput from 'react-phone-input-2';
+
 
 function EditDetails() {
-  return (
-    <div>Edit</div>
-  )
+    const navigate = useNavigate()
+    const { width } = useWindowSize()
+    const { store } = useAuthContext();
+    const { storeCategories, handleFetchStoreCategories  } = useFetchedContext();
+    const { location, getContries, getStates, getCities, setLocation } = useDataContext();
+    const { countryCode } = store?.contact;
+
+    const [country, setCountry] = useState([]);
+    const [state, setState] = useState([]);
+    const [city, setCity] = useState([]);
+
+
+    const [storeData, setStoreData] = useState({
+        name: "",
+        storeUrl: "",
+        slogan: "",
+        description: "",
+        category: [],
+        phone: "",
+        phoneNumber: "",
+        dialCode: "",
+        countryCode: "",
+        address: ""
+    })
+    const [loading, setLoading] = useState({ mainLoader: false, tiny: false });
+    const [response, setResponse] = useState({ status: null, message: null });
+    const [logo, setLogo] = useState({ file: null, preview: null });
+    const [storeDataErrors, setStoreDataErrors] = useState({});
+
+
+    const handleResetResponse = function () {
+        setResponse({ status: "", message: "" });
+    }
+
+    const handleImageChange = function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setLogo({ file, preview: imageUrl });
+        }
+    };
+
+    const handleImageRemove = function () {
+        setLogo({ file: null, preview: null })
+    }
+
+    const handleStoreDataChange = function (e, val, opts) {
+        const { name, value } = e?.target;
+        let sanitizedValue;
+
+        if (!e && (val || opts)) {
+            const { dialCode, countryCode } = opts;
+            const phone = val?.startsWith(dialCode + '0') ? val?.replace(dialCode + '0', dialCode) : val;
+            const phoneNumber = phone?.replace(dialCode, "");
+
+            setStoreData({ ...storeData, phone: phone, phoneNumber, dialCode, countryCode });
+            return;
+        }
+
+        // HERE SANITIZES THE TEXT AND THE URL
+        if (name === "name") {
+            sanitizedValue = value.replace(/[^a-zA-Z0-9\s]/g, '').replace(/^\s+/, '');
+        } else {
+            sanitizedValue = value;
+        }
+
+        setStoreData({
+            ...storeData,
+            [name]: sanitizedValue,
+        });
+    };
+
+
+    const handleReset = function() {
+        setStoreData({
+            ...storeData,
+            name: store?.name || "",
+            storeUrl: store?.storeUrl?.replace(".quicka.store", "") || "",
+            category: [store?.category] || [],
+            countryCode: countryCode || "",
+            dialCode: store?.contact?.dialCode || "",
+            phoneNumber: store?.contact?.phoneNumber || "",
+            phone: store?.contact?.phone || "",
+        })
+        setCountry([store?.location?.country] || [])
+        setState([store?.location?.state] || [])
+        setCity([store?.location?.city] || [])
+    }
+
+    useEffect(function() {
+        handleReset();
+        // console.log(country, state, city)
+        
+        handleFetchStoreCategories();
+    }, []);
+
+
+    useEffect(function () {
+        const sanitizedUrl = storeData?.name?.replace(/\s+/g, '-').toLowerCase();
+        setStoreData({ ...storeData, storeUrl: sanitizedUrl })
+    }, [storeData?.name]);
+
+    useEffect(function () {
+        setState([]);
+        setCity([]);
+        setLocation({ ...location, state: [], city: [] });
+
+        getContries()
+    }, []);
+
+
+    useEffect(function () {
+        if (country.length > 0) {
+            getStates(country[0]?.iso2)
+        }
+    }, [country[0]]);
+
+    
+    useEffect(function () {
+        if (country.length > 0 && state.length > 0) {
+            getCities(country[0]?.iso2, state[0]?.iso2);
+        }
+    }, [country[0], state[0]]);
+
+
+    // useEffect(function() {
+    //     const handleSearchName = setTimeout(async function () {
+    //         if (!onboardingData?.name) return;
+    //         setTinyNameLoader(true);
+
+    //         try {
+    //             // CHECK CONNECTION
+    //             const connected = await isOnline();
+    //             if (!connected) throw new Error("Internet Error");
+
+    //             const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${onboardingData?.name}`);
+    //             const data = await res.json();
+    //             if(!data?.success && res.status !== 200) throw new Error(data?.message);
+    //             const newErrors = {}
+    //             if(data?.data?.results?.name.length > 0) newErrors.name = "Business name is already taken!";
+    //             setOnboardingErrors(newErrors);
+    //         } catch(err) {
+    //             if (err?.name !== "AbortError") {
+    //                 return err?.message
+    //             }
+    //         } finally {
+    //             setTinyNameLoader(false)
+    //         }
+    //     }, 350)
+
+    //     return () => clearTimeout(handleSearchName);
+
+    // }, [onboardingData?.name])
+
+
+    async function handleSubmit() {
+
+    }
+
+    return (
+        <>
+
+            <AddPageUI
+                pageTitle={`Edit store details`}
+                pageIcon={<MdOutlineStorefront />}
+                close={() => navigate(-1)}
+                mainLoader={loading.mainLoader}
+                response={response}
+                handleClear={handleReset}
+                handleSubmit={handleSubmit}
+            >
+
+            <div className="product__upload--container">
+                {width < 400 && <Line border={1.4} />}
+
+                <div className='left--container containers'>
+                    <div className="card form">
+                        <div className="section--heading">
+                            <h2>Store Information</h2>
+                            {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+                        </div>
+
+                        <div className="form--item details" style={{ marginBottom: "3rem" }}>
+                            <label className="form--label" htmlFor='logo'>Business Logo (Optional)</label>
+                            
+                            <LogoUploadInput
+                                logoPreview={logo.preview}
+                                handleLogoChange={handleImageChange}
+                                handleLogoRemove={handleImageRemove}
+                            />
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor="name" className="form--label">Business Name <Asterisk /></label>
+                            <Info text="Note that store url would change as well" />
+                            <input type="text" className="form--input" placeholder='Business Name' onChange={handleStoreDataChange} name="name" id='name' value={storeData.name} />
+
+                            <span className="form--error-message">
+                                {(loading.tiny && !storeDataErrors.name) && <SpinnerTiny />}
+                                {storeDataErrors.name && storeDataErrors.name}
+                            </span>
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor="storeUrl" className="form--label">Store URL</label>
+                            <div className="form--input-box">
+                                <input type="text" id='storeUrl' className="form--input" placeholder='Store url' value={storeData.storeUrl} name='storeUrl' onChange={handleStoreDataChange} disabled />
+
+                                <span className='url--box'>.quicka.store</span>
+                            </div>
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor="slogan" className="form--label">Business Slogan</label>
+                            <input type="text" id="slogan" name='slogan' className="form--input" placeholder='Slogan: Meeting your every needs..' value={storeData.slogan} onChange={handleStoreDataChange} />
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor="firstname" className="form--label">Business Category <Asterisk /></label>
+
+                            <MainDropdownSelect title="a category" options={storeCategories} field="name" value={storeData.category} setValue={(value) => setStoreData({ ...storeData, category: value })} noDataLabel="Loading..." />
+
+                            <span className="form--error-message">
+                                {storeDataErrors?.category && storeDataErrors?.category}
+                            </span>
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor="description" className="form--label">Business Description</label>
+                            <textarea name="description" id="description" className="form--input" placeholder='Description..' value={storeData.description} onChange={handleStoreDataChange} />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className='right--container containers'>
+                    <div className="card form">
+                        <div className="section--heading">
+                            <h2>Store Contact / Location</h2>
+                            {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor="email" className="form--label">Email Address</label>
+                            <input type="email" id="email" name='email' className="form--input" value={store?.contact?.email} onChange={() => {}} disabled />
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor="phone" className="form--label">Phone Number <Asterisk /></label>
+
+                            <PhoneInput
+                                country={countryCode}
+                                value={storeData.phone}
+                                inputProps={{ name: 'phone', id: 'phone' }}
+                                onChange={(num, countryOpts) => handleStoreDataChange(null, num, countryOpts)}
+                                inputClass='phone-input'
+                                buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
+                                countryCodeEditable={true}
+                                dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
+                            />
+                            <span className="form--error-message">
+                                {storeDataErrors?.phone && storeDataErrors?.phone}
+                            </span>
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor='address' className="form--label">Delivery Address</label>
+                            
+                            <textarea id='address' name='address' className="form--input" placeholder='Block 12, Flat 3, Libra Estate, Lagos State Nigeria' value={storeData.address} onChange={handleStoreDataChange} />
+                        </div>
+                            
+                        <div className="form--grid">
+                            <div className="form--item">
+                                <label className="form--label">Country <Asterisk /></label>
+
+                                <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} customClass='select-width' noDataLabel='Loading...' />
+                            </div>
+
+                            <div className="form--item">
+                                <label className="form--label">State</label>
+
+                                <MainDropdownSelect title="a state" options={location?.state} field="name" value={state} setValue={setState} disabled={country?.length < 1} customClass='select-width' noDataLabel='Loading...' />
+                            </div>
+
+                            <div className="form--item">
+                                <label className="form--label">City</label>
+
+                                <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} disabled={state?.length < 1} customClass='select-width' noDataLabel='Loading...' />
+                            </div>
+
+                            <div className="form--item">
+                                <label htmlFor='zip' className="form--label">Zip Code</label>
+
+                                <input type='number' id='zip' name='zipCode' placeholder='Enter zip code' className='form--input' value={storeData.zipCode} onChange={handleStoreDataChange} />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </AddPageUI>
+        </>
+    )
 }
 
 export default EditDetails

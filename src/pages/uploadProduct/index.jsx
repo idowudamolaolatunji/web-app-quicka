@@ -32,7 +32,7 @@ function index({ isnew=false, close, ismodal=false }) {
     
     const { width } = useWindowSize();
     const { shouldKick, handleStore, currency, fdHeaders } = useAuthContext();
-    const { collections, handleFetchOneItem, handleFetchError, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
+    const { error, collections, handleFetchOneItem, handleFetchError, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
     const BASE_API_URL = import.meta.env.VITE_API_URL;
     
 
@@ -155,7 +155,10 @@ function index({ isnew=false, close, ismodal=false }) {
 
     useEffect(function() {
         document.title = "Quicka | Upload new product";
-        handleFetchUserStoreCollections()
+
+        if(collections?.length < 1 && error?.collection) {
+            handleFetchUserStoreCollections()
+        }
     }, []);
 
     useEffect(function () {

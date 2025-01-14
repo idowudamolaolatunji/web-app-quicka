@@ -16,13 +16,14 @@ import { goalOptions } from '../../utils/data';
 import MainDropdownSelect from '../../components/form/MainDropdownSelect';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
 import isOnline from 'is-online';
+import LogoUploadInput from '../../components/form/LogoUploadInput';
 
 
 
 function index() {
     const navigate = useNavigate();
     const { handleChange, handleStore } = useAuthContext();
-    const { handleImageUpload, storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
+    const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
 
     const [loading, setLoading] = useState(false);
     const [tinyNameLoader, setTinyNameLoader] = useState(false);
@@ -160,7 +161,7 @@ function index() {
 
     // GET THE STORE CATEGORIES
     useEffect(function () {
-        if (!storeCategories || storeCategories.length < 1) {
+        if (!storeCategories?.length < 1) {
             handleFetchStoreCategories()
         }
     }, []);
@@ -249,9 +250,9 @@ function index() {
             const formData = new FormData();
             formData.append("name", onboardingData.name)
             formData.append("storeUrl", onboardingData.storeUrl)
-            formData.append("category", selectedCategory[0]?.slug)
             formData.append("isRegistered", onboardingData.isRegistered)
             formData.append("regType", onboardingData.regType)
+            formData.append("category", JSON.stringify(selectedCategory[0]))
             formData.append("goalsChoosen", JSON.stringify(goalsChoosen))
             formData.append("image", image.file)
 
@@ -319,25 +320,11 @@ function index() {
                             <>
                                 <form className="form--item">
                                     <label className="form--label" htmlFor='logo'>Business Logo (Optional)</label>
-                                    <div className="form--element">
-                                        <span>
-                                            <img src={image.preview ? image.preview : logo_demo} alt="brand logo" />
-                                        </span>
-
-                                        <div className='form--item'>
-                                            <input type='file' id='logo' name='image' onChange={handleImageChange} accept="image/*" />
-
-                                            <div className="flex" style={{ flexDirection: "row" }}>
-                                                <label htmlFor="logo" className='form--upload-btn'>{(image.preview) ? "Change" : "Upload"} Logo</label>
-
-                                                {image.preview && <button onClick={handleImageRemove} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
-                                            </div>
-
-                                            <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>
-                                                Recommended size <i className='value'> 256x256</i> <br />PNG, SVG or JPG up to 2MB.
-                                            </p>
-                                        </div>
-                                    </div>
+                                    <LogoUploadInput
+                                        logoPreview={image.preview}
+                                        handleLogoChange={handleImageChange}
+                                        handleLogoRemove={handleImageRemove}
+                                    />
                                 </form>
 
                                 <div className="form--item">

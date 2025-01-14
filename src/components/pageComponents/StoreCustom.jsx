@@ -23,6 +23,7 @@ import Spinner from '../spinner/mainSpinner';
 import { createPortal } from 'react-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import isOnline from 'is-online';
+import LogoUploadInput from '../form/LogoUploadInput';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 const noLogo = "../../../../faviconB.png"
@@ -219,31 +220,18 @@ function StoreCustom({ isnew, close }) {
                         <h2 className="page__section--title">Customize Your Store<MdOutlineStorefront /></h2>
                     </span>
                 </div>
-
+                
 
                 <form className="product__upload--container custom"  onSubmit={e => e.preventDefault()}>
 
                     {width < 600 && <Line border={1.4} />}
 
                     <div className='custom--head'>
-                        <div className="form--element">
-                            <span><img src={imagePreview.logo || (store?.logo?.url ? store?.logo?.url : noLogo)} alt="brand logo" /></span>
-
-                            <div className='form--item'>
-                                <input type='file' id='logo' name='logo' onChange={handleImageChange} accept="image/*" />
-
-                                <div className="flex" style={{ flexDirection: "row" }}>
-                                    <label htmlFor="logo" className='form--upload-btn'>{(store?.logo?.url || imagePreview.logo) ? "Change" : "Upload"} Logo</label>
-
-                                    {imagePreview.logo && <button onClick={() => handleRemoveImage("logo")} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
-
-                                </div>
-                                <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>
-                                    Recommended size <i className='value'> 256x256</i> <br />PNG, SVG or JPG up to 2MB.
-                                </p>
-                            </div>
-                        </div>
-
+                        <LogoUploadInput
+                            logoPreview={imagePreview.logo}
+                            handleLogoChange={handleImageChange}
+                            handleLogoRemove={() => handleRemoveImage("logo")}
+                        />
 
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <span className='custom--labels' style={{ gap: ".6rem" }}>

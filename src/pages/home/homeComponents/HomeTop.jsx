@@ -11,7 +11,7 @@ import moment from 'moment';
 
 function HomeTop() {
     const offer_tenue = 30;
-    const offer_percent = 70;
+    const offer_percent = 35;
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
@@ -52,7 +52,7 @@ function HomeTop() {
                     )}
 
                     <div className="sub--mini" style={{ gap: '2rem' }}>
-                        <button onClick={() => navigate('/dashboard/subscription')}className='sub--btn'>Select a plan</button>
+                        <button onClick={() => navigate('/dashboard/subscription')}className='sub--btn'>Try <span className="value">7</span> days free trial</button>
                         <MdOutlineClose style={{ fontSize: '2.4rem', cursor: 'pointer' }} onClick={() => setShowSub(false)} /> 
                     </div>
                 </div>

@@ -34,7 +34,7 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, shouldKick, currency } = useAuthContext();
-    const { products, customers, handleFetchError, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers, handleFetchUserStoreTransactions } = useFetchedContext();
+    const { error, products, customers, handleFetchError, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers, handleFetchUserStoreTransactions } = useFetchedContext();
     const publishedProducts = products?.filter(product => product.status == "published");
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -106,8 +106,10 @@ function index() {
     useEffect(function() {
         document.title = "Quicka | Record sales";
 
-        handleFetchUserStoreCustomers();
-        handleFetchUserStoreProducts();
+        if((customers?.length < 1 && error?.customer) || (products?.length < 1 && error?.product)) {
+            handleFetchUserStoreCustomers();
+            handleFetchUserStoreProducts();
+        }
     }, [])
 
     useEffect(function () {
@@ -116,7 +118,7 @@ function index() {
         }
     }, [orderData.paymentStatus]);
 
-    // THIS EFFECT HERE IS VERY IMPORTANT FOR THE PRODUCT QUANTITY INITIAL VALUE
+    // THIS EFFECT HERE IS VERY IMPORTANT FOR THE SELECTED PRODUCT INITIAL VALUE
     useEffect(function() {
         const initValue = orderProducts.map((product) => ({
             id: product?._id,
@@ -129,9 +131,10 @@ function index() {
     }, [orderProducts]);
 
 
+    // GET THE ORDER SUBTOTAL, ALL PRODUCTS MINUS THEIR INDIVIDUAL DISCOUNT PLUS ORDER DELIVERY FEE
     useEffect(() => {
         const productSubTotal = selectedProducts.reduce((acc, product) => {
-        return acc + (product.price * product.quantity);
+        return acc + ((product?.price * product?.quantity) - product?.discount);
         }, 0);
         
         const total = productSubTotal + Number(orderData.deliveryFee || 0);
@@ -139,6 +142,7 @@ function index() {
     }, [selectedProducts, orderData.deliveryFee]);
 
 
+    // CLEAR DELIVERY FEE IF NO PRODUCT SELECTED
     useEffect(function() {
         if(orderProducts.length < 1) {
             setOrderData({ ...orderData, deliveryFee: null })
