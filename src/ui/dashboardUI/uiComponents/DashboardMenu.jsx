@@ -49,7 +49,7 @@ function DashboardMenu() {
                         <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                         <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                         <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
-                        <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' />
+                        {/* <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' /> */}
                         <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                         <MenuLink icon={<BiCustomize />} title='Store Customisation' link='/store-customisation' />
                     </ul>
