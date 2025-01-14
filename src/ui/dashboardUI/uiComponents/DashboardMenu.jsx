@@ -107,7 +107,7 @@ function DashboardMenu() {
                             <MenuLink icon={<MdOutlineStorefront />} title='Store Details' link='/store-details' />
                             <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
                             <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
-                            <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' />
+                            {/* <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' /> */}
                             <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
                             <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
                             <MenuLink icon={<BiCustomize />} title='Site Customisation' link='/store-customisation' />
