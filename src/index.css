@@ -220,10 +220,13 @@ button {
 	width: 60rem;
 }
 
+.modal.integrated,
 .modal.bg-simple {
 	width: 60rem;
 	min-height: 30rem;
 }
+
+.modal.integrated .icon--box,
 .modal.bg-simple .icon--box {
 	position: absolute;
 	top: 1.6rem;
@@ -292,6 +295,7 @@ button {
 }
 
 
+.modal.integrated,
 .modal.delete,
 .modal.simple,
 .modal.export {
@@ -337,6 +341,18 @@ button {
 .modal--form .page__section--actions {
 	margin-top: 3rem;
 }
+
+.modal.integrated.disconnect {
+	width: 45rem;
+}
+.modal.integrated .modal--title {
+	font-size: 2rem;
+	font-weight: 500;
+}
+.modal.integrated.disconnect .modal--title {
+	color: #DC3545;
+}
+
 
 
 
@@ -531,7 +547,8 @@ button {
 .copyright--text {
 	font-size: 1rem;
 	color: #555;
-	margin: 12rem 0 0;
+	/* margin: 12rem 0 0; */
+	padding: 12rem 0 0;
 
 	display: flex;
 	align-items: center;
@@ -880,7 +897,8 @@ button {
 
 @media screen and (max-width: 900px) {
 	.copyright--text {
-		margin: 6rem 0 1rem;
+		/* margin: 6rem 0 1rem; */
+		padding: 0 0 1rem;
 	}
 }
 
@@ -908,6 +926,7 @@ button {
 		line-height: 1.4;
 	}
 
+	.modal.integrated,
 	.modal.bg-simple {
 		min-height: 28rem;
 		width: 95% !important;
@@ -926,11 +945,21 @@ button {
 	.modal.full--screen {
 		padding: 4.8rem 1.8rem;
 	}
+
 	.drawer--modal {
 		padding: 2.4rem 2rem;
 		min-width: 100%;
 		width: 100%;
 	}
+
+	.modal.integrated.connect {
+		width: 100% !important;
+		height: 100%;
+	}
+	.modal.integrated .modal--title {
+		font-size: 1.86rem;
+	}
+
 
 	/*  */
 	.ql-toolbar.ql-snow .ql-formats {

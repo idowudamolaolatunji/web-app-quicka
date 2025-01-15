@@ -12,9 +12,9 @@ export default AuthContext;
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(Cookies.get('q_user_obj') == null ? null : JSON.parse(Cookies.get('q_user_obj')));
-    const [token, setToken] = useState(Cookies.get('q_user_jwt_token') == null ? null : Cookies.get('q_user_jwt_token'));
-    const [store, setStore] = useState(Cookies.get("q_user_store") == null ? null : JSON.parse(Cookies.get("q_user_store")));
+    const [user, setUser] = useState(Cookies.get('q_user_obj') ? JSON.parse(Cookies.get('q_user_obj')) : null);
+    const [token, setToken] = useState(Cookies.get('q_user_jwt_token') ? Cookies.get('q_user_jwt_token') : null);
+    const [store, setStore] = useState(Cookies.get("q_user_store") ? JSON.parse(Cookies.get("q_user_store")) : null);
 
     const headers = {
         "Content-Type": "application/json",
@@ -22,7 +22,9 @@ export const AuthProvider = ({ children }) => {
     }
     const fdHeaders = { Authorization: `Bearer ${token}` }
 
-    const { currencies, mainCurrency } = store;
+    // const { currencies, mainCurrency } = store;
+    const currencies = store?.currencies || [];
+    const mainCurrency = store?.mainCurrency || 0;
     const currency = currencies[mainCurrency]?.symbol;
 
     function handleChange(user, token) {
@@ -38,15 +40,19 @@ export const AuthProvider = ({ children }) => {
         setStore(store);
     }
 
+    // function destroyCookie() {
+        // Cookies.remove("q_user_obj");
+        // Cookies.remove("q_user_jwt_token");
+        // Cookies.remove("q_user_store");
+    // }
+
     async function signoutUser() {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`);
         if (!res.ok) return false;
 
         setTimeout(function() {
             handleChange(null, null);
-            Cookies.remove("q_user_obj");
-            Cookies.remove("q_user_jwt_token");
-            Cookies.remove("q_user_store");
+            handleStore(null)
         }, 2500);
 
         return true
@@ -54,10 +60,8 @@ export const AuthProvider = ({ children }) => {
 
     function shouldKick(res) {
         if (res?.status === 401 || res?.status === 403) {
-            Cookies.remove("q_user_obj");
-            Cookies.remove("q_user_jwt_token");
-            Cookies.remove("q_user_store");
-            window.location.href = "/login";
+            handleChange(null, null);
+            handleStore(null)
         }
     };
 

@@ -26,7 +26,7 @@ function DashboardBase({ children }) {
             <section className={`dashboard--base ${(isMenuCollapsed && width > 900) ? 'collapsed' : ''}`}>
                 <DashboardMenu />
 
-                <section className='content--block'>
+                <section className='content--block' style={width <= 600 ? { paddingBottom: "8rem"} : {}}>
                     {children}
                     {width > 600 && <CopyrightText />}
                 </section>

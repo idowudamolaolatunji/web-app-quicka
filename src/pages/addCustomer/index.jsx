@@ -156,7 +156,6 @@ function index({ close, isModal }) {
     }, [id]);
 
 
-
     async function handleCreateCustomer() {
         const formData = { ...customerData, country }
         // FORM VALIDATIONS 
@@ -318,13 +317,13 @@ function index({ close, isModal }) {
                             <div className="form--item">
                                 <label className="form--label">State (optional)</label>
 
-                                <MainDropdownSelect title="a state" options={location?.state} field="name" value={state} setValue={setState} disabled={country?.length < 1} customClass='select-width' noDataLabel='Loading...' />
+                                <MainDropdownSelect title="a state" options={location?.state} field="name" value={state} setValue={setState} customClass='select-width' noDataLabel="Choose country, Loading..." />
                             </div>
 
                             <div className="form--item">
                                 <label className="form--label">City (optional)</label>
 
-                                <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} disabled={state?.length < 1} customClass='select-width' noDataLabel='Loading...' />
+                                <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} customClass='select-width' noDataLabel='Choose state, Loading...' />
                             </div>
 
 

@@ -6,19 +6,14 @@ import paystack from "../../assets/images/png_elements/paystack.png"
 import whatsapp from "../../assets/images/png_elements/whatsapp-business-icon.webp"
 import flutterwave from "../../assets/images/png_elements/flutterwave-store.png"
 import fb_pixel from "../../assets/images/png_elements/facebook-pixel-icon.webp"
+import google_analytics from "../../assets/images/png_elements/google-analytics.png"
 import Tab from '../../components/elements/Tab';
 import { useFetchedContext } from '../../context/FetchedContext';
 import ConnectionError from '../../components/layout/ConnectionError';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import ErrorComponent from '../../components/layout/ErrorComponent';
-
-const integrations = [
-    { name: "Paystack", by: "paystack", tag: "payment", text: "Connect to recieve payment with paystack.", icon: paystack, connected: true, },
-    { name: "Whatsapp", by: "meta", tag: "social", text: "Connect your whatsapp to recieve realtime notification for payment and sales.", icon: whatsapp, connected: false, },
-    { name: "Flutterwave", by: "flutterwave", tag: "payment", text: "Connect to recieve payment with flutterwave.", icon: flutterwave, connected: false, },
-    { name: "Facebook Pixel", by: "meta", tag: "ads", text: "Conntect facebook pixel for analytics and better ads experience.", icon: fb_pixel, connected: false, },
-];
+import { useAuthContext } from '../../context/AuthContext';
 
 function index() {
     const navigate = useNavigate()
@@ -26,9 +21,20 @@ function index() {
     const queryParams = new URLSearchParams(location.search);
     const tabParams = queryParams.get("tab")
     ///////////////////////////////////////////////////////
+    const { store } = useAuthContext();
     const { globalConnectionError } = useFetchedContext();
     const [activeTab, setActiveTab] = useState("");
     const [loading, setLoading] = useState(true)
+
+
+    const [integrations, setIntegrations] = useState([
+        { name: "Paystack", slug: "paystack", by: "paystack", tag: "payment", text: "Connect to recieve payment with paystack.", icon: paystack, connected: true, },
+        { name: "Whatsapp", slug: "whatsapp", by: "meta", tag: "social", text: "Connect your whatsapp to recieve realtime notification for payment and order.", icon: whatsapp, connected: false, },
+        { name: "Facebook Pixel", slug: "facebook_pixel", by: "meta", tag: "ads", text: "Conntect facebook pixel for analytics and better ads experience.", icon: fb_pixel, connected: false, },
+        { name: "Flutterwave", slug: "flutterwave", by: "flutterwave", tag: "payment", text: "Connect to recieve payment with flutterwave.", icon: flutterwave, connected: false, },
+        { name: "Google Analytics", slug: "google_analytics", by: "google", tag: "ads", text: "Conntect google analytics for better analytics and measure ads properly.", icon: google_analytics, connected: false, },
+    ]);
+
     ///////////////////////////////////////////////////////
     const all = integrations;
     const ads = integrations?.filter(app => app.tag === "ads");
@@ -37,9 +43,25 @@ function index() {
 
     const apps = activeTab == "all" ? all : integrations?.filter(app => app.tag === activeTab);
 
+    const updateState = function(slug, booleanValue) {
+        setIntegrations(prevState => prevState.map(app => (
+            app.slug === slug ? { ...app, booleanValue } : app
+        )));
+    };
+
+    useEffect(function () {
+        document.title = 'Quicka | Application integrated';
+    }, []);
+
     useEffect(function () {
         window.scrollTo(0, 0);
-    }, [])
+
+        updateState("paystack", store?.integrations?.paystack);
+        updateState("whatsapp", store?.integrations?.whatsapp);
+        updateState("facebook_pixel", store?.integrations?.facebook_pixel);
+        updateState("flutterwave", store?.integrations?.flutterwave);
+        updateState("google_analytics", store?.integrations?.google_analytics);
+    }, [store]);
 
     useEffect(function () {
         setLoading(true);
@@ -49,7 +71,7 @@ function index() {
             navigate("?tab=all")
         }
 
-        setTimeout(() => setLoading(false), 1500)
+        setTimeout(() => setLoading(false), 1000)
     }, [tabParams])
 
     return (

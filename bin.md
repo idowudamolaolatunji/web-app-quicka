@@ -1014,3 +1014,20 @@ useEffect(function () {
 .product--quantity-form .form--input::placeholder {
     font-size: 1.2rem;
 }
+
+
+
+
+
+ const [storeData, setStoreData] = useState({
+        // name: "",
+        // storeUrl: "",
+        // slogan: "",
+        // description: "",
+        // category: [],
+        // phone: "",
+        // phoneNumber: "",
+        // dialCode: "",
+        // countryCode: "",
+        // address: "",
+        // mainCurrency: null

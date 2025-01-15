@@ -13,6 +13,7 @@ dist
 dist-ssr
 *.local
 bin.md
+bin.js
 
 # Editor directories and files
 .vscode/*

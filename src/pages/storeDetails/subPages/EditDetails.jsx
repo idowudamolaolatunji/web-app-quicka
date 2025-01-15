@@ -11,9 +11,10 @@ import LogoUploadInput from '../../../components/form/LogoUploadInput';
 import Info from '../../../components/elements/Info';
 import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
 import { useFetchedContext } from '../../../context/FetchedContext';
-import { cap1stLetter } from '../../../utils/helper';
 import { useDataContext } from '../../../context/DataContext';
 import PhoneInput from 'react-phone-input-2';
+import isOnline from 'is-online';
+import { cap1stLetter } from '../../../utils/helper';
 
 
 function EditDetails() {
@@ -22,25 +23,29 @@ function EditDetails() {
     const { store } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories  } = useFetchedContext();
     const { location, getContries, getStates, getCities, setLocation } = useDataContext();
+
+    const { currencies, mainCurrency, contact } = store;
     const { countryCode } = store?.contact;
 
     const [country, setCountry] = useState([]);
     const [state, setState] = useState([]);
     const [city, setCity] = useState([]);
 
-
     const [storeData, setStoreData] = useState({
-        name: "",
-        storeUrl: "",
-        slogan: "",
-        description: "",
-        category: [],
-        phone: "",
-        phoneNumber: "",
-        dialCode: "",
-        countryCode: "",
-        address: ""
+        name: store?.name ? store?.name : "",
+        slogan: store?.slogan ? store?.slogan : "",
+        description: store?.description ? store?.description : "",
+        storeUrl: store?.storeUrl ? store?.storeUrl?.replace(".quicka.store", "") : "",
+        category: store?.category?.name ? [store?.category] : [],
+        countryCode: countryCode ? countryCode : "",
+        dialCode: contact?.dialCode ? contact?.dialCode : "",
+        phoneNumber: contact?.phoneNumber ? contact?.phoneNumber : "",
+        phone: contact?.phone ? contact?.phone : "",
+        mainCurrency: mainCurrency ? mainCurrency : 0,
+        address: store?.location?.address ? store?.location?.address : "",
+        zip: store?.location?.zip ? store?.location?.zip : "",
     })
+
     const [loading, setLoading] = useState({ mainLoader: false, tiny: false });
     const [response, setResponse] = useState({ status: null, message: null });
     const [logo, setLogo] = useState({ file: null, preview: null });
@@ -64,9 +69,6 @@ function EditDetails() {
     }
 
     const handleStoreDataChange = function (e, val, opts) {
-        const { name, value } = e?.target;
-        let sanitizedValue;
-
         if (!e && (val || opts)) {
             const { dialCode, countryCode } = opts;
             const phone = val?.startsWith(dialCode + '0') ? val?.replace(dialCode + '0', dialCode) : val;
@@ -75,6 +77,9 @@ function EditDetails() {
             setStoreData({ ...storeData, phone: phone, phoneNumber, dialCode, countryCode });
             return;
         }
+
+        const { name, value } = e?.target;
+        let sanitizedValue;
 
         // HERE SANITIZES THE TEXT AND THE URL
         if (name === "name") {
@@ -92,84 +97,88 @@ function EditDetails() {
 
     const handleReset = function() {
         setStoreData({
-            ...storeData,
-            name: store?.name || "",
-            storeUrl: store?.storeUrl?.replace(".quicka.store", "") || "",
-            category: [store?.category] || [],
-            countryCode: countryCode || "",
-            dialCode: store?.contact?.dialCode || "",
-            phoneNumber: store?.contact?.phoneNumber || "",
-            phone: store?.contact?.phone || "",
+            name: store?.name ? store?.name : "",
+            slogan: store?.slogan ? store?.slogan : "",
+            description: store?.description ? store?.description : "",
+            storeUrl: store?.storeUrl ? store?.storeUrl?.replace(".quicka.store", "") : "",
+            category: store?.category?.name ? [store?.category] : [],
+            countryCode: countryCode ? countryCode : "",
+            dialCode: contact?.dialCode ? contact?.dialCode : "",
+            phoneNumber: contact?.phoneNumber ? contact?.phoneNumber : "",
+            phone: contact?.phone ? contact?.phone : "",
+            mainCurrency: mainCurrency ? mainCurrency : 0,
+            address: store?.location?.address ? store?.location?.address : "",
+            zip: store?.location?.zip ? store?.location?.zip : "",
         })
-        setCountry([store?.location?.country] || [])
-        setState([store?.location?.state] || [])
-        setCity([store?.location?.city] || [])
+        setCountry(store?.location?.country?.name ? [store?.location?.country] : []);
+        setState(store?.location?.state?.name ? [store?.location?.state] : []);
+        setCity(store?.location?.city?.name ? [store?.location?.city] : []);
     }
 
+
+
     useEffect(function() {
-        handleReset();
-        // console.log(country, state, city)
+        document.title = `Quicka | Edit ${cap1stLetter(store?.name)}'s Store Details`
         
         handleFetchStoreCategories();
+        setCountry(store?.location?.country?.name ? [store?.location?.country] : []);
+        setState(store?.location?.state?.name ? [store?.location?.state] : []);
+        setCity(store?.location?.city?.name ? [store?.location?.city] : []);
     }, []);
-
 
     useEffect(function () {
         const sanitizedUrl = storeData?.name?.replace(/\s+/g, '-').toLowerCase();
         setStoreData({ ...storeData, storeUrl: sanitizedUrl })
     }, [storeData?.name]);
 
-    useEffect(function () {
-        setState([]);
-        setCity([]);
-        setLocation({ ...location, state: [], city: [] });
+    // useEffect(function () {
+    //     setLocation({ ...location, state: [], city: [] });
 
-        getContries()
-    }, []);
+    //     getContries()
+    // }, []);
 
+    // useEffect(function () {
+    //     if (country.length > 0) {
+    //         getStates(country[0]?.iso2)
+    //     }
+    // }, [country[0]]);
 
-    useEffect(function () {
-        if (country.length > 0) {
-            getStates(country[0]?.iso2)
-        }
-    }, [country[0]]);
+    // useEffect(function () {
+    //     setLocation({ ...location, city: [] });
 
-    
-    useEffect(function () {
-        if (country.length > 0 && state.length > 0) {
-            getCities(country[0]?.iso2, state[0]?.iso2);
-        }
-    }, [country[0], state[0]]);
+    //     if (country.length > 0 && state.length > 0) {
+    //         getCities(country[0]?.iso2, state[0]?.iso2);
+    //     }
+    // }, [country[0], state[0]]);
 
+    useEffect(function() {
+        const handleSearchNameAndUrl = setTimeout(async function () {
+            if (!storeData?.name && !storeData?.storeUrl) return;
+            setLoading({ ...loading, tiny: true });
 
-    // useEffect(function() {
-    //     const handleSearchName = setTimeout(async function () {
-    //         if (!onboardingData?.name) return;
-    //         setTinyNameLoader(true);
+            try {
+                // CHECK CONNECTION
+                const connected = await isOnline();
+                if (!connected) throw new Error("Internet Error");
 
-    //         try {
-    //             // CHECK CONNECTION
-    //             const connected = await isOnline();
-    //             if (!connected) throw new Error("Internet Error");
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${storeData?.name}&urlQuery=${storeData?.storeUrl}&id=${store?._id}`);
+                const data = await res.json();
+                if(!data?.success && res.status !== 200) throw new Error(data?.message);
+                const newErrors = {}
 
-    //             const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${onboardingData?.name}`);
-    //             const data = await res.json();
-    //             if(!data?.success && res.status !== 200) throw new Error(data?.message);
-    //             const newErrors = {}
-    //             if(data?.data?.results?.name.length > 0) newErrors.name = "Business name is already taken!";
-    //             setOnboardingErrors(newErrors);
-    //         } catch(err) {
-    //             if (err?.name !== "AbortError") {
-    //                 return err?.message
-    //             }
-    //         } finally {
-    //             setTinyNameLoader(false)
-    //         }
-    //     }, 350)
+                const { results } = data?.data;
+                if(results?.name.length > 0 || results?.url.length > 0) newErrors.name = "Business name or store url is already taken!";
+                else newErrors.name = ""
+                setStoreDataErrors({...storeDataErrors, ...newErrors});
+            } catch(err) {
+                if (err?.name !== "AbortError") return err?.message
+            } finally {
+                setLoading({ ...loading, tiny: false });
+            }
+        }, 350)
 
-    //     return () => clearTimeout(handleSearchName);
-
-    // }, [onboardingData?.name])
+        return () => clearTimeout(handleSearchNameAndUrl);
+    }, [storeData?.name])
 
 
     async function handleSubmit() {
@@ -195,7 +204,7 @@ function EditDetails() {
                 <div className='left--container containers'>
                     <div className="card form">
                         <div className="section--heading">
-                            <h2>Store Information</h2>
+                            <h2>Store Main Information</h2>
                             {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                         </div>
 
@@ -237,7 +246,7 @@ function EditDetails() {
                         <div className="form--item">
                             <label htmlFor="firstname" className="form--label">Business Category <Asterisk /></label>
 
-                            <MainDropdownSelect title="a category" options={storeCategories} field="name" value={storeData.category} setValue={(value) => setStoreData({ ...storeData, category: value })} noDataLabel="Loading..." />
+                            <MainDropdownSelect title="a category" options={storeCategories} field="name" value={storeData.category} setValue={(value) => setStoreData({ ...storeData, category: value })} noDataLabel="Categories Loading..." />
 
                             <span className="form--error-message">
                                 {storeDataErrors?.category && storeDataErrors?.category}
@@ -255,7 +264,7 @@ function EditDetails() {
                 <div className='right--container containers'>
                     <div className="card form">
                         <div className="section--heading">
-                            <h2>Store Contact / Location</h2>
+                            <h2>Store Data & Location</h2>
                             {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                         </div>
 
@@ -269,12 +278,13 @@ function EditDetails() {
 
                             <PhoneInput
                                 country={countryCode}
+                                onlyCountries={[countryCode]}
                                 value={storeData.phone}
                                 inputProps={{ name: 'phone', id: 'phone' }}
                                 onChange={(num, countryOpts) => handleStoreDataChange(null, num, countryOpts)}
                                 inputClass='phone-input'
                                 buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
-                                countryCodeEditable={true}
+                                countryCodeEditable={false}
                                 dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
                             />
                             <span className="form--error-message">
@@ -283,28 +293,34 @@ function EditDetails() {
                         </div>
 
                         <div className="form--item">
-                            <label htmlFor='address' className="form--label">Delivery Address</label>
+                            <label className="form--label">Currency</label>
+
+                            <MainDropdownSelect title="Main Currency" options={store?.currencies} field="name" value={[currencies[mainCurrency]]} setValue={(value) => setStoreData({ ...storeData, mainCurrency: currencies?.findIndex(el => el.name === value[0].name) })} clearable={false} />
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor='address' className="form--label">Physical Address</label>
                             
                             <textarea id='address' name='address' className="form--input" placeholder='Block 12, Flat 3, Libra Estate, Lagos State Nigeria' value={storeData.address} onChange={handleStoreDataChange} />
                         </div>
                             
                         <div className="form--grid">
                             <div className="form--item">
-                                <label className="form--label">Country <Asterisk /></label>
+                                <label className="form--label">Country</label>
 
-                                <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} customClass='select-width' noDataLabel='Loading...' />
+                                <MainDropdownSelect title="a Country" field="name" value={country} setValue={setCountry} customClass='select-width' noDataLabel={store?.location?.country?.name ? "Country cannot be changed" : "Loading..."} clearable={store?.location?.country?.name ? false : true} />
                             </div>
 
                             <div className="form--item">
                                 <label className="form--label">State</label>
 
-                                <MainDropdownSelect title="a state" options={location?.state} field="name" value={state} setValue={setState} disabled={country?.length < 1} customClass='select-width' noDataLabel='Loading...' />
+                                <MainDropdownSelect title="a state" options={location?.state} field="name" value={state} setValue={setState}customClass='select-width' noDataLabel="Choose country, Loading..." />
                             </div>
 
                             <div className="form--item">
                                 <label className="form--label">City</label>
 
-                                <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} disabled={state?.length < 1} customClass='select-width' noDataLabel='Loading...' />
+                                <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} customClass='select-width' noDataLabel='Choose state, Loading...' />
                             </div>
 
                             <div className="form--item">

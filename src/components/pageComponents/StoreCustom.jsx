@@ -58,9 +58,10 @@ function StoreCustom({ isnew, close }) {
         returnPolicyDescription: "",
 
         instagram: "",
-        whatsapp: "",
+        whatsapp: store?.contact?.phone ? store?.contact?.phone : "",
         facebook: "",
         twitter: "",
+        tiktok: "",
     });
 
 
@@ -97,7 +98,15 @@ function StoreCustom({ isnew, close }) {
 
     const handleStoreDataChange = function (e) {
         const { name, value } = e?.target;
-        setStoreData({ ...storeData, [name]: value });
+        let modified;
+
+        if(name == "tiktok") {
+            modified = value?.replace(/^@?/, '@')?.replace(/\s+/g, '');
+        } else {
+            modified = value
+        }
+
+        setStoreData({ ...storeData, [name]: modified });
     };
 
     function handleCustomColor(e) {
@@ -409,10 +418,11 @@ function StoreCustom({ isnew, close }) {
                         </span>
 
                         <div className="form--item">
-                            <LinkInput url='www.facebook/' name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
-                            <LinkInput url='www.instagram/' name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
-                            <LinkInput url='www.twitter/' name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
-                            <LinkInput url='www.https://wa.me/' name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                            <LinkInput url='www.facebook.com/' name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                            <LinkInput url='www.instagram.com/' name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                            <LinkInput url='www.twitter.com/' name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                            <LinkInput url='www.tiktok.com/' name="tiktok" value={storeData.tiktok} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                            <LinkInput url='https://wa.me/' name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
                         </div>
                     </div>
 
