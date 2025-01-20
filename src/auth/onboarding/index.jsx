@@ -47,6 +47,8 @@ function index() {
 
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
+
+    console.log(storeCategories)
     const handleResetResponse = function () {
         setResponse({ status: "", message: "" });
     }
@@ -161,9 +163,7 @@ function index() {
 
     // GET THE STORE CATEGORIES
     useEffect(function () {
-        if (!storeCategories?.length < 1) {
-            handleFetchStoreCategories()
-        }
+        handleFetchStoreCategories()
     }, []);
 
     // SANITIZE THE NAME AS THE LINK, REPLACING SPACES WITH -
