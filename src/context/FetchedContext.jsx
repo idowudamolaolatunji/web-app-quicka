@@ -117,6 +117,14 @@ export const FetchedProvider = ({ children }) => {
         return message;
     }
 
+
+    // FETCH PROTECTED STORE AND OWNER DATA
+    async function handleFetchStore() {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
+        const data = await res.json();
+        handleStore(data?.data?.store);
+    }
+
     // FETCH UNPROTECTED STORE ITEM BY ID
     async function handleFetchOneItem(title, id) {
         const productIdentifier = title == "product" ? "identifier/" : "";
@@ -135,13 +143,6 @@ export const FetchedProvider = ({ children }) => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/category`);
         const data = await res.json();
         setStoreCategories(data.data.categories);
-    }
-
-    // FETCH PROTECTED STORE AND OWNER DATA
-    async function handleFetchStore() {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
-        const data = await res.json();
-        handleStore(data?.data?.store);
     }
 
     // DELETE ONE STORE ITEM BY ID
@@ -400,7 +401,6 @@ export const FetchedProvider = ({ children }) => {
         return data
     }
 
-    
 
     useEffect(function () {
         setCollections([]);
@@ -416,6 +416,7 @@ export const FetchedProvider = ({ children }) => {
         setspecial_sales([]);
 
         if(token && user) {
+            handleFetchStore()
             handleFetchUserStoreOrders();
             handleFetchUserStoreProducts();
             handleFetchUserStoreCustomers();
