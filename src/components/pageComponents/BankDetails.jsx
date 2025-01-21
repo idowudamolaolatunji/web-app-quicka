@@ -7,20 +7,24 @@ import Line from '../elements/Line.jsx';
 import Info from '../elements/Info.jsx';
 import { useAuthContext } from '../../context/AuthContext.jsx';
 import { validateBankForm } from '../../utils/validationHelper.js';
-import { banks } from '../../utils/data.js';
 import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
+import { useDataContext } from '../../context/DataContext.jsx';
+import SpinnerTiny from '../spinner/tiny'
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function BankDetails({ isnew, close }) {
     const { width } = useWindowSize();
     const { headers, handleStore, shouldKick } = useAuthContext();
-
-    const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
+    const { handleFetchBanks, handleResolveAccount } = useDataContext();
+    
+    const [banks, setBanks] = useState([]);
+    const [loading, setLoading] = useState({ mainLoading: false, tiny: false });
     const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false);
     const [bankName, setBankName] = useState([]);
     const [bankFormErrors, setBankFormErrors] = useState({})
+    const [resolveFound, setResolveFound] = useState(false);
 
     const [bankData, setBankData] = useState({
         accountNumber: "",
@@ -60,6 +64,50 @@ function BankDetails({ isnew, close }) {
     }, []);
 
 
+    useEffect(function() {
+        const hanldeFetch = async function() {
+            const data = await handleFetchBanks();
+            if(data?.status && data?.data?.length > 0) {
+                setBanks([...data?.data])
+            }
+        }
+        
+        hanldeFetch()
+    }, [])
+
+
+    useEffect(function() {
+        const handleResolve = setTimeout(async function () {
+            if (bankData.accountNumber.length < 8 || !bankName[0]?.code) return;
+            setLoading({ ...loading, tiny: true });
+            setResolveFound(false)
+
+            try {
+                const result = await handleResolveAccount(bankData.accountNumber, bankName[0]?.code)
+
+                const newErrors = {}
+                if(!result.status || result.code == "invalid_bank_code") {
+                    newErrors.accountNumber = "Could not find account name";
+                } else {
+                    newErrors.accountNumber = "";
+                    setBankData({ ...bankData, accountName: result?.data?.account_name })
+                    setResolveFound(true);
+                }
+
+                setBankFormErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
+            } catch(err) {
+                if (err?.name !== "AbortError")
+                    return err?.message
+            } finally {
+                setLoading({ ...loading, tiny: false });
+            }
+        }, 350)
+
+        return () => clearTimeout(handleResolve);
+    }, [bankData.accountNumber, bankName[0]])
+
+
+    // HANDLE SUBMIT BANK DETAILS
     async function handleSubmitDetails() {
         let formData = { ...bankData, bankName };
 
@@ -77,7 +125,6 @@ function BankDetails({ isnew, close }) {
 
         // GET COLLECTION NAMES
         const { bankname, slug, code } = bankName[0];
-        console.log(bankname)
 
         try {
             const res = await fetch(`${BASE_API_URL}/stores/onboard/bank`, {
@@ -136,7 +183,7 @@ function BankDetails({ isnew, close }) {
 
                     <div className="form--item">
                         <label className="form--label">Bank Name <Asterisk /></label>
-                        <MainDropdownSelect title="Bank" options={banks} field="bankname" value={bankName} setValue={setBankName} noDataLabel="No Bank found with that name" />
+                        <MainDropdownSelect title="Bank" options={banks} field="name" value={bankName} setValue={setBankName} noDataLabel="No Bank found with that name" />
                         <span className="form--error-message">
                             {bankFormErrors.bankName && bankFormErrors.bankName}
                         </span>
@@ -149,7 +196,14 @@ function BankDetails({ isnew, close }) {
 
                             <input type="number" name="accountNumber" id="number" className='form--input' value={bankData.accountNumber} onChange={handleBankFormChange} placeholder='1234567890' />
                             <span className="form--error-message">
-                                {bankFormErrors.accountNumber && bankFormErrors.accountNumber}
+                                {(loading.tiny && !resolveFound) && <SpinnerTiny />}
+                                {(!loading.tiny && bankFormErrors.accountNumber) && bankFormErrors.accountNumber}
+
+                                {resolveFound && (
+                                    <span style={{ color: "#555" }}>
+                                        Found Account Name: <span style={{ color: "green", fontSize: "1rem" }}>{bankData.accountName}</span>
+                                    </span>
+                                )}
                             </span>
                         </div>
 
