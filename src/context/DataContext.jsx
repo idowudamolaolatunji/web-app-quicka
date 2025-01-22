@@ -15,8 +15,9 @@ export default DataContext;
 //////////////////////////////////////////////
 export const DataProvider = ({ children }) => {
     const { store } = useAuthContext();
-    const { currencies, mainCurrency } = store;
-    const currencyName = currencies[mainCurrency]?.name;
+    const currencies = store?.currencies || [];
+    const mainCurrency = store?.mainCurrency || 0;
+    const currency = currencies[mainCurrency]?.symbol;
     /////////////////////////////////////////////////////
 
     const [isMenuCollapsed, setIsMenuCollapsed] = useState(localStorage.getItem("menu_collapsed") ? JSON.parse(localStorage.getItem("menu_collapsed")) : false);
