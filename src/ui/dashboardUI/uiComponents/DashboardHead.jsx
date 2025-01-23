@@ -64,7 +64,7 @@ function DashboardHead() {
                     <div className=""></div>
 
                     <div className="nav--others">
-                        {/* {(width > 600 && !globalConnectionError && userStoreIsSetup) && ( */}
+                        {(width > 600 && !globalConnectionError && userStoreIsSetup) && (
                             <DefaultButton>
                                 <TooltipUI placement='top' title="Refresh all">
                                     <div className="nav--icon notification--icon" onClick={handleGlobalRefetch}>
@@ -72,7 +72,7 @@ function DashboardHead() {
                                     </div>
                                 </TooltipUI>
                             </DefaultButton>
-                        {/* )} */}
+                        )}
 
                         {userStoreIsSetup && (
                             <a href={`https://${store?.storeUrl}`} target='_blank' className='store--btn'>

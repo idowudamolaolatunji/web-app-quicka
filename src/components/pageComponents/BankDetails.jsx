@@ -24,7 +24,7 @@ function BankDetails({ isnew, close }) {
     const [showConfetti, setShowConfetti] = useState(false);
     const [bankName, setBankName] = useState([]);
     const [bankFormErrors, setBankFormErrors] = useState({})
-    const [resolveFound, setResolveFound] = useState(false);
+    const [resolveFound, setResolveFound] = useState({ status: false, foundName: "" });
 
     const [bankData, setBankData] = useState({
         accountNumber: "",
@@ -71,7 +71,7 @@ function BankDetails({ isnew, close }) {
                 setBanks([...data?.data])
             }
         }
-        
+
         hanldeFetch()
     }, [])
 
@@ -80,18 +80,18 @@ function BankDetails({ isnew, close }) {
         const handleResolve = setTimeout(async function () {
             if (bankData.accountNumber.length < 8 || !bankName[0]?.code) return;
             setLoading({ ...loading, tiny: true });
-            setResolveFound(false)
+            setResolveFound({ status: false, foundName: "" })
 
             try {
-                const result = await handleResolveAccount(bankData.accountNumber, bankName[0]?.code)
-
-                const newErrors = {}
+                const result = await handleResolveAccount(bankData.accountNumber, bankName[0]?.code);
+                const newErrors = {};
                 if(!result.status || result.code == "invalid_bank_code") {
                     newErrors.accountNumber = "Could not find account name";
                 } else {
+                    const accountName = result?.data?.account_name
                     newErrors.accountNumber = "";
-                    setBankData({ ...bankData, accountName: result?.data?.account_name })
-                    setResolveFound(true);
+                    setBankData({ ...bankData, accountName });
+                    setResolveFound({ status: true, foundName: accountName });
                 }
 
                 setBankFormErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
@@ -101,10 +101,24 @@ function BankDetails({ isnew, close }) {
             } finally {
                 setLoading({ ...loading, tiny: false });
             }
-        }, 350)
+        }, 400)
 
         return () => clearTimeout(handleResolve);
     }, [bankData.accountNumber, bankName[0]])
+
+
+    useEffect(function() {
+        if(bankData.accountName == "") {
+            setResolveFound({ status: false, foundName: "" });
+        }
+    }, [bankData.accountName]);
+
+
+
+    useEffect(function() {
+        setBankData({ ...bankData, accountName: "" })
+        setResolveFound({ status: false, foundName: "" });
+    }, [bankName]);
 
 
     // HANDLE SUBMIT BANK DETAILS
@@ -134,7 +148,7 @@ function BankDetails({ isnew, close }) {
                     ...bankData, bankname, slug, code, 
                 })
             });
-            shouldKick(res)
+            shouldKick(res);
             const data = await res.json();
             const { status, message } = data;
             if (!status || status != 'success') throw new Error(message);
@@ -183,7 +197,7 @@ function BankDetails({ isnew, close }) {
 
                     <div className="form--item">
                         <label className="form--label">Bank Name <Asterisk /></label>
-                        <MainDropdownSelect title="Bank" options={banks} field="name" value={bankName} setValue={setBankName} noDataLabel="No Bank found with that name" />
+                        <MainDropdownSelect title="Bank" options={banks} field="name" value={bankName} setValue={setBankName} noDataLabel="No Bank found, Reloading..." />
                         <span className="form--error-message">
                             {bankFormErrors.bankName && bankFormErrors.bankName}
                         </span>
@@ -196,12 +210,13 @@ function BankDetails({ isnew, close }) {
 
                             <input type="number" name="accountNumber" id="number" className='form--input' value={bankData.accountNumber} onChange={handleBankFormChange} placeholder='1234567890' />
                             <span className="form--error-message">
-                                {(loading.tiny && !resolveFound) && <SpinnerTiny />}
-                                {(!loading.tiny && bankFormErrors.accountNumber) && bankFormErrors.accountNumber}
+                                {(loading.tiny && !resolveFound.status) && <SpinnerTiny />}
 
-                                {resolveFound && (
+                                {(!loading.tiny && bankFormErrors.accountNumber && !resolveFound.status) && bankFormErrors.accountNumber}
+
+                                {(resolveFound.status && !bankFormErrors.accountNumber) && (
                                     <span style={{ color: "#555" }}>
-                                        Found Account Name: <span style={{ color: "green", fontSize: "1rem" }}>{bankData.accountName}</span>
+                                        Found Account Name: <span style={{ color: "green", fontSize: "1rem" }}>{resolveFound.foundName}</span>
                                     </span>
                                 )}
                             </span>

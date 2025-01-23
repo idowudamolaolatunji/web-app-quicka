@@ -3,7 +3,7 @@ import VisitorOverview from '../../home/homeComponents/VisitorOverview'
 
 function SalesAnalytics({ dateRange }) {
   return (
-    <div className='analytics--grid grid--1x1'>
+    <div className='analytics--grid grid--2x1'>
       <VisitorOverview />
       <VisitorOverview />
     </div>

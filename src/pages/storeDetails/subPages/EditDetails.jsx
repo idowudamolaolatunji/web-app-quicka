@@ -22,7 +22,7 @@ function EditDetails() {
     const { width } = useWindowSize()
     const { store } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories  } = useFetchedContext();
-    const { location, getContries, getStates, getCities, setLocation } = useDataContext();
+    const { location, getStates, getCities, setLocation } = useDataContext();
 
     const { currencies, mainCurrency, contact } = store;
     const { countryCode } = store?.contact;
@@ -131,26 +131,25 @@ function EditDetails() {
         setStoreData({ ...storeData, storeUrl: sanitizedUrl })
     }, [storeData?.name]);
 
-    // useEffect(function () {
-    //     setLocation({ ...location, state: [], city: [] });
 
-    //     getContries()
-    // }, []);
+    // FETCHING STATES OF COUNTRIES
+    useEffect(function () {
+        if (country.length > 0) {
+            getStates(country[0]?.iso2)
+        }
+    }, [country[0]]);
 
-    // useEffect(function () {
-    //     if (country.length > 0) {
-    //         getStates(country[0]?.iso2)
-    //     }
-    // }, [country[0]]);
+    // FETCHING CITIES OF STATES OF COUNTRIES
+    useEffect(function () {
+        setLocation({ ...location, city: [] });
 
-    // useEffect(function () {
-    //     setLocation({ ...location, city: [] });
+        if (country.length > 0 && state.length > 0) {
+            getCities(country[0]?.iso2, state[0]?.iso2);
+        }
+    }, [country[0], state[0]]);
 
-    //     if (country.length > 0 && state.length > 0) {
-    //         getCities(country[0]?.iso2, state[0]?.iso2);
-    //     }
-    // }, [country[0], state[0]]);
 
+    // CHECK IF THE STORE NAME AND URL HASNT ALREADY BEEN USED
     useEffect(function() {
         const handleSearchNameAndUrl = setTimeout(async function () {
             if (!storeData?.name && !storeData?.storeUrl) return;

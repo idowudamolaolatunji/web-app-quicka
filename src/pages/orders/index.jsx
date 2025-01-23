@@ -45,30 +45,30 @@ function index() {
 
     const columns = [
         {
-            name: 'Channel', selector: row => (
-                <TooltipUI placement='top' title={cap1stLetter(row.channel)}>
-                    <img width={'40px'} alt={row.channel} src={imgString(row.channel)} />
+            name: "Channel", selector: row => (
+                <TooltipUI placement="top" title={cap1stLetter(row.channel)}>
+                    <img width={"40px"} alt={row.channel} src={imgString(row.channel)} />
                 </TooltipUI>
-            ), width: '70px'
+            ), width: "70px"
         },
         {
-            name: 'Order Id', selector: row => (
-                <p className='value'>{row.orderId}</p>
-            ), width: '100px'
+            name: "Order Id", selector: row => (
+                <p className="value">{row.orderId}</p>
+            ), width: "100px"
         },
         {
-            name: 'Custumer Name', selector: row => row.customer?.name || "-- Not Added --", width: '150px'
+            name: "Custumer Name", selector: row => row.customer?.name || "-- Not Added --", width: "150px"
         },
         {
-            name: 'Product(s)', selector: row => (
-                <TooltipUI placement='top' title={
-                    <ul className='table--list'>
+            name: "Product(s)", selector: row => (
+                <TooltipUI placement="top" title={
+                    <ul className="table--list">
                         {row.products?.map((item, index) => (
                             <li key={index}><GoDotFill /> {item?.name}</li>
                         ))}
                     </ul>
                 }>
-                    <ul className='table--list'>
+                    <ul className="table--list">
                         {row.products?.slice(0, 3)?.map((item, index) => (
                             <li key={index}><GoDotFill /> {truncateString(item?.name, 18)}</li>
                         ))}
@@ -76,40 +76,40 @@ function index() {
                     </ul>
                 </TooltipUI>
             ),
-            width: '180px'
+            width: "180px"
         },
         {
-            name: 'Amount', selector: row => (
-                <span className='value'>{currency}{formatNumber(row?.orderSubTotal)}</span>
-            ), width: '100px'
+            name: "Amount", selector: row => (
+                <span className="value">{currency}{formatNumber(row?.orderSubTotal)}</span>
+            ), width: "100px"
         },
         {
-            name: 'Payment', selector: row => (
+            name: "Payment", selector: row => (
                 <span className={`status status--${( row.paymentStatus != "unpaid" ? "success" : "pending" )}`}>
                     <p>{row.paymentStatus}</p>
                 </span>
             ),
-            width: '120px'
+            width: "120px"
         },
         {
-            name: 'Delievery', selector: row => (
+            name: "Delievery", selector: row => (
                 <span className={`status status--${(row.deliveryStatus)}`}>
                     <p>{row.deliveryStatus}</p>
                 </span>
             ),
-            width: '135px'
+            width: "135px"
         },
         {
-            name: 'Status', selector: row => (
+            name: "Status", selector: row => (
                 <span className={`status status--${(row.orderStatus)}`}>
                     <p>{row.orderStatus}</p>
                 </span>
             ),
-            width: '120px'
+            width: "120px"
         },
         {
-            name: 'Date', selector: row => (
-                <TooltipUI placement='top' title={formatDate(row.orderDate)}>
+            name: "Date Sold", selector: row => (
+                <TooltipUI placement="top" title={formatDate(row.orderDate)}>
                     <p>{formatDate(row.orderDate)}</p>
                 </TooltipUI>
             ),

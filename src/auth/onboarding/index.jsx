@@ -40,7 +40,7 @@ function index() {
 
     const [onboardingData, setOnboardingData] = useState({
         name: "",
-        storeUrl: "",
+        subdomain: "",
         isRegistered: "no",
         regType: "",
     });
@@ -60,7 +60,7 @@ function index() {
         // HERE SANITIZES THE TEXT AND THE URL
         if (name === "name") {
             sanitizedValue = value.replace(/[^a-zA-Z0-9\s]/g, '').replace(/^\s+/, '');
-        } else if (name === "storeUrl") {
+        } else if (name === "subdomain") {
             sanitizedValue = value.replace(/[^a-zA-Z0-9-]/g, '').replace(/^\s+|\s+$/g, '');
         } else {
             sanitizedValue = value;
@@ -74,8 +74,8 @@ function index() {
 
     function handleCopyLink() {
         handleResetResponse();
-        if (onboardingData.storeUrl) {
-            const url = onboardingData.storeUrl + ".quicka.store";
+        if (onboardingData.subdomain) {
+            const url = onboardingData.subdomain + ".quicka.store";
 
             navigator.clipboard.writeText(url);
             // setIsCopied(true)
@@ -169,7 +169,7 @@ function index() {
     // SANITIZE THE NAME AS THE LINK, REPLACING SPACES WITH -
     useEffect(function () {
         const sanitizedUrl = onboardingData?.name?.replace(/\s+/g, '-').toLowerCase();
-        setOnboardingData({ ...onboardingData, storeUrl: sanitizedUrl })
+        setOnboardingData({ ...onboardingData, subdomain: sanitizedUrl })
     }, [onboardingData?.name]);
 
 
@@ -179,15 +179,20 @@ function index() {
             setTinyNameLoader(true);
 
             try {
-                // CHECK CONNECTION
-                const connected = await isOnline();
-                if (!connected) throw new Error("Internet Error");
+                const newErrors = {}
+                if(onboardingData?.name == "quicka" || onboardingData?.name?.toLowerCase().includes("quicka")) {
+                    newErrors.name = "Quicka is a reserved name and connot be used!";
+                    setOnboardingErrors(newErrors);
+                    return;
+                }
 
                 const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${onboardingData?.name}`);
                 const data = await res.json();
                 if(!data?.success && res.status !== 200) throw new Error(data?.message);
-                const newErrors = {}
-                if(data?.data?.results?.name.length > 0) newErrors.name = "Business name is already taken!";
+
+                if(data?.data?.results?.name.length > 0) {
+                    newErrors.name = "Business name is already taken!";
+                }
                 setOnboardingErrors(newErrors);
             } catch(err) {
                 if (err?.name !== "AbortError") {
@@ -196,7 +201,7 @@ function index() {
             } finally {
                 setTinyNameLoader(false)
             }
-        }, 350)
+        }, 400)
 
 		return () => clearTimeout(handleSearchName);
 
@@ -204,22 +209,27 @@ function index() {
 
     useEffect(function() {
         const handleSearchUrl = setTimeout(async function () {
-            if (!onboardingData?.storeUrl) return;
+            if (!onboardingData?.subdomain) return;
             setTinyUrlLoader(true);
 
             try {
-                // CHECK CONNECTION
-                const connected = await isOnline();
-                if (!connected) throw new Error("Internet Error");
+                const newErrors = {}
+                if(
+                    onboardingData?.subdomain == "quicka" || onboardingData?.subdomain.includes("quicka")
+                ) {
+                    newErrors.subdomain = "Quicka is a reserved name and connot be used!";
+                    setOnboardingErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
+                    return;
+                }
 
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?urlQuery=${onboardingData?.storeUrl}.quicka.store`);
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?urlQuery=${onboardingData?.subdomain}.quicka.store`);
                 const data = await res.json();
                 if(!data?.success && res.status !== 200) throw new Error(data?.message);
-                const newErrors = {}
+
                 if(data?.data?.results?.url?.length > 0) {
-                    newErrors.storeUrl = "Store Url is already taken";
+                    newErrors.subdomain = "Store Url is already taken";
                 } else {
-                    newErrors.storeUrl = ""
+                    newErrors.subdomain = ""
                 }
                 setOnboardingErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
             } catch(err) {
@@ -229,11 +239,11 @@ function index() {
             } finally {
                 setTinyUrlLoader(false)
             }
-        }, 350)
+        }, 400)
 
 		return () => clearTimeout(handleSearchUrl);
 
-    }, [onboardingData?.storeUrl])
+    }, [onboardingData?.subdomain])
 
     console.log(onboardingErrors)
 
@@ -249,7 +259,7 @@ function index() {
 
             const formData = new FormData();
             formData.append("name", onboardingData.name)
-            formData.append("storeUrl", onboardingData.storeUrl)
+            formData.append("subdomain", onboardingData.subdomain)
             formData.append("isRegistered", onboardingData.isRegistered)
             formData.append("regType", onboardingData.regType)
             formData.append("category", JSON.stringify(selectedCategory[0]))
@@ -337,12 +347,12 @@ function index() {
                                 </div>
 
                                 <div className="form--item">
-                                    <label htmlFor="storeUrl" className="form--label">Store URL</label>
+                                    <label htmlFor="subdomain" className="form--label">Store URL</label>
                                     <div className="form--input-box">
-                                        <input type="text" id='storeUrl' className="form--input" placeholder='Store url' value={onboardingData.storeUrl} name='storeUrl' onChange={handleOnboardDataChange} />
+                                        <input type="text" id='subdomain' className="form--input" placeholder='Store url' value={onboardingData.subdomain} name='subdomain' onChange={handleOnboardDataChange} />
 
-                                        {/* {(onboardingData.storeUrl && !isCopied) ? ( */}
-                                        {(onboardingData.storeUrl) ? (
+                                        {/* {(onboardingData.subdomain && !isCopied) ? ( */}
+                                        {(onboardingData.subdomain) ? (
                                             <TooltipUI title="Copy URL" placement="top">
                                             <span style={{ cursor: "copy" }} className='url--box' onClick={handleCopyLink}>.quicka.store</span>
                                         </TooltipUI>
@@ -351,8 +361,8 @@ function index() {
                                         )}
                                     </div>
                                     <span className="form--error-message">
-                                        {(tinyUrlLoader && !onboardingErrors.storeUrl) && <SpinnerTiny />}
-                                        {onboardingErrors.storeUrl && onboardingErrors.storeUrl}
+                                        {(tinyUrlLoader && !onboardingErrors.subdomain) && <SpinnerTiny />}
+                                        {onboardingErrors.subdomain && onboardingErrors.subdomain}
                                     </span>
                                 </div>
 

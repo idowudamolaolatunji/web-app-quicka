@@ -18,7 +18,6 @@ import SalesAnalytics from './analyticsComponents/SalesAnalytics';
 import CustomersAnalytics from './analyticsComponents/CustomersAnalytics';
 import TransactionsAnalytics from './analyticsComponents/TransactionsAnalytics';
 import CampaignsAnalytics from './analyticsComponents/CampaignsAnalytics';
-import ReferralsAnalytics from './analyticsComponents/ReferralsAnalytics';
 import WebsiteTrafficAnalytics from './analyticsComponents/WebsiteTrafficAnalytics';
 import { useAuthContext } from '../../context/AuthContext';
 
@@ -144,8 +143,8 @@ function index() {
             const reset = document.createElement("button");
             reset.innerHTML = "Reset"
             reset.classList = "rs-btn rs-btn-sm rs-rest-btn";
-            reset.addEventListener("click", handleResetDateRange)
-            container.appendChild(reset)
+            reset.addEventListener("click", handleResetDateRange);
+            container.appendChild(reset);
         }
     }, [rangeIsOpened]);
 
@@ -203,7 +202,6 @@ function index() {
                 <Tab title="Website Traffic" active={activeTab == "website-traffic"} onClick={() => navigate("?tab=website-traffic")} />
                 <Tab title="Transactions" active={activeTab == "transactions"} onClick={() => navigate("?tab=transactions")} />
                 <Tab title="Campaigns" active={activeTab == "campaigns"} onClick={() => navigate("?tab=campaigns")} />
-                <Tab title="Referrals" active={activeTab == "referrals"} onClick={() => navigate("?tab=referrals")} />
             </div>
 
             <Line border={1.4} where="Top" value="2rem" />
@@ -218,7 +216,6 @@ function index() {
                     {activeTab == "customers" && <CustomersAnalytics dateRange={dateRange} />}
                     {activeTab == "transactions" && <TransactionsAnalytics dateRange={dateRange} />}
                     {activeTab == "campaigns" && <CampaignsAnalytics dateRange={dateRange} />}
-                    {activeTab == "referrals" && <ReferralsAnalytics dateRange={dateRange} />}
                 </div>
             )}
         </>

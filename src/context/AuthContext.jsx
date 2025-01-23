@@ -40,12 +40,6 @@ export const AuthProvider = ({ children }) => {
         setStore(store);
     }
 
-    // function destroyCookie() {
-        // Cookies.remove("q_user_obj");
-        // Cookies.remove("q_user_jwt_token");
-        // Cookies.remove("q_user_store");
-    // }
-
     async function signoutUser() {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`);
         if (!res.ok) return false;

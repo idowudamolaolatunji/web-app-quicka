@@ -14,10 +14,14 @@ export default DataContext;
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const DataProvider = ({ children }) => {
+    const { pathname } = useLocation();
+    const { width } = useWindowSize();
+    const isMobile = width <= 650 ? true : false
+
     const { store } = useAuthContext();
     const currencies = store?.currencies || [];
     const mainCurrency = store?.mainCurrency || 0;
-    const currency = currencies[mainCurrency]?.symbol;
+    const currencyName = currencies[mainCurrency]?.name;
     /////////////////////////////////////////////////////
 
     const [isMenuCollapsed, setIsMenuCollapsed] = useState(localStorage.getItem("menu_collapsed") ? JSON.parse(localStorage.getItem("menu_collapsed")) : false);
@@ -30,12 +34,12 @@ export const DataProvider = ({ children }) => {
 
     const [showInsights, setShowInsights] = useState(
         localStorage.getItem("show_ins") ? JSON.parse(localStorage.getItem("show_ins")) : {
-        product: true,
-        order: true,
-        customer: true,
-        transaction: true,
-        campaign: true,
-        discount: false
+        product: isMobile,
+        order: isMobile,
+        customer: isMobile,
+        transaction: isMobile,
+        campaign: isMobile,
+        discount: isMobile
     });
 
     const [location, setLocation] = useState({
@@ -44,8 +48,6 @@ export const DataProvider = ({ children }) => {
         city: [],
     });
 
-    const { pathname } = useLocation();
-    const { width } = useWindowSize();
 
     const handleToggleFilter = function(pageName) {
         setShowFilterModal({ name: pageName, isShown: !showFilterModal.isShown });
@@ -55,11 +57,11 @@ export const DataProvider = ({ children }) => {
         setActiveDisplayTab(type)
     }
 
-    function handleMenuCollapse() {
+    const handleMenuCollapse = function() {
         setIsMenuCollapsed(!isMenuCollapsed);
     }
 
-    function closeNanimate() {
+    const closeNanimate = function() {
         setAnimateOut(true);
         setTimeout(() => {
             setAnimateOut(false);
@@ -67,7 +69,7 @@ export const DataProvider = ({ children }) => {
         }, 300);
     }
 
-    function handleShowSidemenu() {
+    const handleShowSidemenu = function() {
         if(!showSidemenu) {
             setShowSidemenu(true);
         } else {
@@ -75,8 +77,7 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-
-    function handleToggleInsights(name) {
+    const handleToggleInsights = function(name) {
         setShowInsights({
             ...showInsights,
             [name]: !showInsights[name]
@@ -123,7 +124,7 @@ export const DataProvider = ({ children }) => {
 
     async function handleFetchBanks() {
         try {
-            const response = await fetch(`https://api.paystack.co/bank?currency=${currencyName}&transferRecipient=false`);
+            const response = await fetch(`https://api.paystack.co/bank?currency=${currencyName}`);
             const data = await response.json();
             if (!data.status) throw new Error(data.message);
             return data;

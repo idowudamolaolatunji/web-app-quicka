@@ -127,7 +127,7 @@ function RecentOrders() {
             width: '120px'
         },
         {
-            name: 'Date', selector: row => (
+            name: 'Date Ordered', selector: row => (
                 <TooltipUI placement='top' title={formatDate(row.orderDate)}>
                     <p>{formatDate(row.orderDate)}</p>
                 </TooltipUI>
@@ -151,23 +151,20 @@ function RecentOrders() {
                 {(width > 450 && isData) && <Link to="/dashboard/orders/">View more</Link>}
             </div>
 
-            <>
-                {(error?.order && !isData) && <ErrorComponent text={error?.order} />}
-                
-                {(orders && !error?.order) && (
-                    <div className="table-h" style={(orders && orders?.length < 2) ? { paddingBottom: width < 850 ? "1.8rem" : "2.8rem" } : {} }>
-                        <DataTable
-                            data={recentOrders}
-                            columns={columns}
-                            pointerOnHover={true}
-                            customStyles={customStyles}
-                            onRowClicked={(row) => navigate(`/dashboard/orders/${row.id}`)}
-                            noDataComponent={<Empty text="recent orders yet!" />}
-                        />
-                    </div>
-                )}
-                
-            </>
+            {(error?.order && !isData) && <ErrorComponent text={error?.order} />}
+            
+            {(orders && !error?.order) && (
+                <div className="table-h" style={(orders && orders?.length < 2) ? { paddingBottom: width < 850 ? "1.8rem" : "2.8rem" } : {} }>
+                    <DataTable
+                        data={recentOrders}
+                        columns={columns}
+                        pointerOnHover={true}
+                        customStyles={customStyles}
+                        onRowClicked={(row) => navigate(`/dashboard/orders/${row.id}`)}
+                        noDataComponent={<Empty text="recent orders yet!" />}
+                    />
+                </div>
+            )}
         </div>
     )
 }
