@@ -182,7 +182,7 @@ function index() {
                 const newErrors = {}
                 if(onboardingData?.name == "quicka" || onboardingData?.name?.toLowerCase().includes("quicka")) {
                     newErrors.name = "Quicka is a reserved name and connot be used!";
-                    setOnboardingErrors(newErrors);
+                    setOnboardingErrors({ ...onboardingErrors, ...newErrors });
                     return;
                 }
 
@@ -222,7 +222,7 @@ function index() {
                     return;
                 }
 
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?urlQuery=${onboardingData?.subdomain}.quicka.store`);
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?urlQuery=${onboardingData?.subdomain}`);
                 const data = await res.json();
                 if(!data?.success && res.status !== 200) throw new Error(data?.message);
 

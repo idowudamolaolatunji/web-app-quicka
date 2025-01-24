@@ -19,8 +19,7 @@ function RecentOrders() {
     const { store } = useAuthContext();
     const { orders, error } = useFetchedContext();
     
-    const { currencies, mainCurrency } = store;
-    const currency = currencies[mainCurrency]?.symbol;
+    const currency = store?.currencies[store?.mainCurrency]?.symbol;
 
     const isData = orders?.length > 0;
     const recentOrders = orders?.slice(0, 3);
@@ -74,7 +73,7 @@ function RecentOrders() {
             ), width: '100px'
         },
         {
-            name: 'Custumer Name', selector: row => row.customer?.name || "-- Not Added --",
+            name: 'Custumer', selector: row => row.customer?.name || "-- Not Added --",
             width: '150px'
         },
         {

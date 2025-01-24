@@ -43,7 +43,7 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
                             ) : (
                                 <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
                             )}
-                            <button className='button submit--button' onClick={handleSubmit}>{id ? "Edit" : "Submit"}</button>
+                            <button className='button submit--button' onClick={handleSubmit}>Submit</button>
                         </div>
                     )}
                 </div>
@@ -57,7 +57,7 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
                         ) : (
                             <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
                         )}
-                        <button className='button submit--button' onClick={handleSubmit}>{id ? "Edit" : "Submit"}</button>
+                        <button className='button submit--button' onClick={handleSubmit}>Submit</button>
                     </div>
                 )}
             </section>

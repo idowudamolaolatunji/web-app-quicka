@@ -68,7 +68,7 @@ function index({ isnew=false, close, ismodal=false }) {
     const [images, setImages] = useState([]);
     const imageFiles = images.filter(img => img?.file)?.map(img => img?.file);
     const [updatedIndexes, setUpdatedIndexes] = useState([]);
-    console.log(images, imageFiles, updatedIndexes)
+    // console.log(images, imageFiles, updatedIndexes)
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -302,13 +302,13 @@ function index({ isnew=false, close, ismodal=false }) {
             
             const timing = isnew ? 5000 : 2500
             setTimeout(function () {
+                handleFetchUserStoreProducts()
                 if (isnew || ismodal) {
                     close();
                 } else {
                     navigate(-1);
                 }
             }, timing);
-            handleFetchUserStoreProducts()
 
         } catch (err) {
             const message = handleFetchError(err?.message)

@@ -37,8 +37,7 @@ function index() {
     const { store } = useAuthContext();
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
     const { loader, error, transactions, settlements, handleFetchUserStoreTransactions, handleFetchUserStoreSettlements } = useFetchedContext();
-    const { currencies, mainCurrency } = store;
-    const currency = currencies[mainCurrency]?.symbol;
+    const currency = store?.currencies[store?.mainCurrency]?.symbol;
 
     const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.orderSubTotal, 0);
     const offlineTransactions = transactions?.filter(transaction => transaction?.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction?.order?.orderSubTotal || 0, 0);

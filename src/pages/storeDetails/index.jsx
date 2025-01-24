@@ -22,7 +22,7 @@ function index() {
     const { globalConnectionError } = useFetchedContext();
 
     const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000);
-    const { currencies, mainCurrency, description, category, contact, location, logo } = store;
+    const { currencies, mainCurrency, description, category, contact, location, storeLogo } = store;
     const { subHeading, heading, headline, slogan } = store?.customDetail;
     const currency = currencies[mainCurrency];
 
@@ -31,11 +31,12 @@ function index() {
         window.scrollTo(0, 0);
     }, []);
 
+    
     const PreviewHead = function () {
         return (
             <div className='custom--head'>
                 <div className="form--element">
-                    <span><img src={logo?.url ? logo?.url : noLogo} alt="brand logo" /></span>
+                    <span><img src={storeLogo?.url ? storeLogo?.url : noLogo} alt="brand logo" /></span>
                 </div>
 
                 <div style={{ display: "flex", justifyContent: "space-between" }}>

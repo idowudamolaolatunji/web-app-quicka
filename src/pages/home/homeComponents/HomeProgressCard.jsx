@@ -5,8 +5,7 @@ import { useAuthContext } from '../../../context/AuthContext';
 
 function HomeProgressCard({ title, icon, value, upTrend, percent, days }) {
     const { store } = useAuthContext();
-    const { currencies, mainCurrency } = store;
-    const currency = currencies[mainCurrency]?.symbol;
+    const currency = store?.currencies[store?.mainCurrency]?.symbol;
 
   return (
     <figure className='prog-figure'>

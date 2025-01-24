@@ -11,8 +11,7 @@ function ProductCard({ product, open, base }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { currencies, mainCurrency } = store;
-    const currency = currencies[mainCurrency]?.symbol;
+    const currency = store?.currencies[store?.mainCurrency]?.symbol;
 
     return (
         <figure className="product__figure">

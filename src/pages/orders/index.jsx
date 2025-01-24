@@ -31,8 +31,7 @@ function index() {
     const { store } = useAuthContext();
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
     const { loader, error, orders, handleFetchUserStoreOrders, handleDeleteOneItem } = useFetchedContext()
-    const { currencies, mainCurrency } = store;
-    const currency = currencies[mainCurrency]?.symbol;
+    const currency = store?.currencies[store?.mainCurrency]?.symbol;
     
     const [search, setSearch] = useState('');
     const [searchLoader, setSearchLoader] = useState(false);
@@ -57,7 +56,7 @@ function index() {
             ), width: "100px"
         },
         {
-            name: "Custumer Name", selector: row => row.customer?.name || "-- Not Added --", width: "150px"
+            name: "Custumer", selector: row => row.customer?.name || "-- Not Added --", width: "150px"
         },
         {
             name: "Product(s)", selector: row => (

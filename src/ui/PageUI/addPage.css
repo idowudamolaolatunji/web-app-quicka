@@ -402,6 +402,43 @@
 
 
 
+/* ======================================== */
+/* PRODUCT DROPDOWN RENDERED ELEMENT */
+/* ======================================== */
+.product--dropdown-view {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .68rem;
+    margin: .2rem 0;
+}
+.product--dropdown-view:hover {
+    background-color: var(--color-brand-50);
+}
+.product--dropdown-view.selected {
+    background-color: var(--color-brand-500);
+}
+.product--dropdown-view.selected h3 {
+    color: #fff;
+}
+.product--dropdown-view img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: .4rem;
+}
+.product--dropdown-view h3 {
+    font-size: 1.68rem;
+}
+.product--dropdown-view span div {
+    margin-top: .4rem;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+/* ======================================== */
+
+
+
 
 
 @media screen and (max-width: 1000px) {

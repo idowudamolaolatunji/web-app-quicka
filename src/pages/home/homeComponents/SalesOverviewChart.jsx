@@ -11,12 +11,10 @@ function OverviewChart({ period }) {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { orders } = useFetchedContext();
-    const { currencies, mainCurrency } = store;
-
-    const currency = currencies[mainCurrency]?.symbol;
-
+    
     const isData = orders?.length > 0 ? true : false;
     const completedOrders = orders?.filter(order => order.orderStatus == "completed");
+    const currency = store?.currencies[store?.mainCurrency]?.symbol;
 
     const handleGetYearlyData = function() {
         const now = moment();

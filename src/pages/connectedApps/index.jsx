@@ -83,7 +83,7 @@ function index() {
             </div>
 
             <div className="page--tabs" style={{ margin: "-2rem 0 0" }}>
-                <Tab title="All" active={activeTab == "all"} onClick={() => navigate("?tab=all")} value={all?.length} />
+                <Tab title="All apps" active={activeTab == "all"} onClick={() => navigate("?tab=all")} value={all?.length} />
                 <Tab title="Socials" active={activeTab == "social"} onClick={() => navigate("?tab=social")} value={socials?.length} />
                 <Tab title="Ads" active={activeTab == "ads"} onClick={() => navigate("?tab=ads")} value={ads?.length} />
                 <Tab title="Payments" active={activeTab == "payment"} onClick={() => navigate("?tab=payment")} value={payments?.length} />

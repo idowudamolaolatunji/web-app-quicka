@@ -242,6 +242,7 @@ span.item--user-img {
     color: #fff;
     text-transform: uppercase;
 }
+
 .item--user-info {
     display: flex;
     flex-direction: column;

@@ -174,6 +174,12 @@
 	font-size: 1.5rem;
 	font-weight: 500;
 }
+
+.product--dropdown-view.selected .table--info span,
+.product--dropdown-view:hover .table--info span {
+	background-color: #fff;
+}
+.product--dropdown-view .table--info span,
 .table--flex .table--info span,
 .product__figure--collection,
 .p-input--item span {
@@ -789,9 +795,90 @@
 
 
 
+/* ================================================= */
+/* ACCOUNT PROFILE */
+/* ================================================= */
+
+.profile--image {
+	position: relative;
+	width: 14rem;
+	height: 14rem;
+	overflow: hidden;
+	border-radius: 50%;
+	border: 2px solid #f9f9f9;
+}
+.profile--image .item--user-img {
+	width: 100%;
+	height: 100%;
+}
+.profile--image span.item--user-img {
+	font-size: 6rem;
+	font-weight: 500;
+}
+
+.profile--image-label {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	font-weight: 600;
+	color: #888;
+	backdrop-filter: blur(0.5px);
+	-webkit-backdrop-filter: blur(0.5px);
+	transition: all .2s;
+	border-radius: 100%;
+	z-index: 5;
+}
+.profile--image:hover .profile--image-label {
+	background-color: rgba(0, 0, 0, 0.25);
+	color: #fff;
+}
+.profile--image-preview {
+	height: 100%;
+	object-fit: cover;
+	object-position: top;
+	width: 100%;
+	z-index: 1;
+}
+
+.profile--delete-btn {
+	position: absolute;
+	top: 13%;
+	right: 13%;
+	height: 2.4rem;
+	width: 2.4rem;
+	border-radius: 50%;
+	display: none;
+	transition: all .2s;
+	z-index: 6;
+}
+.profile--delete-btn svg {
+	font-size: 1.9rem;
+	color: #DC3545;
+}
+.profile--image:hover .profile--delete-btn {
+	display: block;
+}
 
 
 
+
+
+
+
+
+
+
+
+
+
+/* ================================================= */
+/* ANALYTICS */
+/* ================================================= */
 
 .analytics--container {
 	width: 100%;

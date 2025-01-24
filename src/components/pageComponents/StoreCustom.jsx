@@ -176,7 +176,7 @@ function StoreCustom({ isnew, close }) {
         formData.append("socialProfiles", JSON.stringify(socialProfiles));
         formData.append("customDetail", JSON.stringify(customDetail));
         formData.append("otherPages", JSON.stringify(otherPages));
-        formData.append("logo", imageFile.logo);
+        formData.append("logo", imageFile.storeLogo);
         formData.append("banner", imageFile.banner);
 
         try {
@@ -237,7 +237,7 @@ function StoreCustom({ isnew, close }) {
 
                     <div className='custom--head'>
                         <LogoUploadInput
-                            logoPreview={imagePreview.logo}
+                            logoPreview={imagePreview.storeLogo}
                             handleLogoChange={handleImageChange}
                             handleLogoRemove={() => handleRemoveImage("logo")}
                         />
@@ -346,7 +346,7 @@ function StoreCustom({ isnew, close }) {
 
                                 <div className="custom--display">
                                     <Template1
-                                        logo={imagePreview.logo || (store?.logo?.url ? store?.logo?.url : noLogo)}
+                                        logo={imagePreview.storeLogo || (store?.storeLogo?.url ? store?.storeLogo?.url : noLogo)}
                                         color={storeData.brandColor}
                                         headline={storeData.headline}
                                         banner={imagePreview.banner}

@@ -313,6 +313,7 @@
     display: flex;
     align-items: center;
     gap: 1.2rem;
+    margin-bottom: 1.4rem;
 }
 .auth--right-users {
     display: flex;
@@ -342,11 +343,13 @@
 .auth--right-rating span {
     display: flex;
     align-items: center;
-    gap: .2rem;
+    gap: .28rem;
     font-size: 1.4rem;
 }
 .auth--right-rating span p {
     font-weight: 600;
+    margin-left: .24rem;
+    margin-bottom: -.1rem;
 }
 
 
@@ -651,6 +654,10 @@ button.onboard--next {
     .form--submit:hover {
         background-color: var(--color-brand-500);
     }
+    .auth--right-details {
+        margin-bottom: 0;
+    }
+    
 
 
     /* this is a little bit of bad practice, but it works */
@@ -682,6 +689,7 @@ button.onboard--next {
     .auth--left-container {
         height: auto;
         display: unset;
+        height: 100%;
     }
     .auth--left-container.centered {
         flex-direction: unset;
@@ -724,14 +732,19 @@ button.onboard--next {
 }
 
 
-@media screen and (max-width: 359px) {
+@media screen and (max-width: 365px) {
     .form--item-flex {
         align-items: flex-start !important;
     }
+    .form--item-flex #checkbox {
+        margin-top: .2rem;
+    }
+}
+
+@media screen and (max-width: 359px) {
     .form--clicks {
         gap: 1rem;
     }
-
     .form--element {
         grid-template-columns: 11rem 1fr;
         gap: 1.2rem;

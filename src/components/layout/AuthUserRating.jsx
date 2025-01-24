@@ -20,9 +20,9 @@ function AuthUserRating() {
             <span className='auth--right-rating'>
                 <span>
                     <Rating name="read-only" value={5} readOnly />
-                    <p>5.0</p>
+                    <p className="value">5.0</p>
                 </span>
-                <p>from 20+ businesses</p>
+                <p>from 200+ businesses</p>
             </span>
         </div>
     )

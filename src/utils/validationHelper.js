@@ -1,19 +1,19 @@
-export function validateOnboardForm(data, type) {
+export function validateOnboardForm(data) {
 	const errors = {};
 
 	if (!data.name.trim()) {
 		errors.name = "Business name is required";
 	} else if (data.name.length < 3) {
 		errors.name = "Business name must be more than 3 characters long";
-	} else if (data.name.trim() && !data.storeUrl) {
-		errors.storeUrl = "A URL is needed for your store";
+	} else if (data.name.trim() && !data.subdomain) {
+		errors.subdomain = "A URL is needed for your store";
 	}
 
 	if (data.isRegistered == "yes" && !data.regType) {
 		errors.type = "Registeration type is required";
 	}
 	if (data.selectedCategory.length < 1 && !data.selectedCategory.name) {
-		errors.category = "Picking a category is required";
+		errors.category = "Choosing a store category is required";
 	}
 
 	return errors;
@@ -56,9 +56,9 @@ export function validateAuthForm(data, type) {
 			errors.email = "Email is invalid";
 		}
 
-		if (!data.phone.trim()) {
+		if (!data?.phone.trim()) {
 			errors.phone = "Phone number is required";
-		} else if (data.phone.length < 12) {
+		} else if (data?.phone.length < 12) {
 			errors.phone = `Phone number must have 9 - 10 numbers after +${data.dialCode}`;
 		}
 
@@ -213,25 +213,25 @@ export function validateCustomerForm(data, _) {
 	} else if (data.firstname.length < 3) {
 		errors.firstname = "Firstname must be at least 3 characters long";
 	}
-	if (!data.lastname.trim()) {
+	if (!data?.lastname?.trim()) {
 		errors.lastname = "Lastname is required";
 	} else if (data.lastname.length < 3) {
 		errors.lastname = "Lastname must be at least 3 characters long";
 	}
 
-	if (!data.email.trim()) {
+	if (!data?.email?.trim()) {
 		errors.email = "Email is required";
 	} else if (!/\S+@\S+\.\S+/.test(data.email)) {
 		errors.email = "Email is invalid";
 	}
 
-	if (!data.phone.trim()) {
+	if (!data?.phone.trim()) {
 		errors.phone = "Phone number is required";
-	} else if (data.phone.length < 12) {
+	} else if (data?.phone?.length < 12) {
 		errors.phone = `Phone number must have 9 - 10 numbers after +${data.dialCode}`;
 	}
 
-	if (!data.country || data.country.length < 1 || !data.country[0].name) {
+	if (!data?.country || data.country?.length < 1 || !data?.country[0]?.name) {
 		errors.country = "Country is required";
 	}
 
@@ -260,6 +260,32 @@ export function validateBankForm(data, _) {
 	return errors;
 }
 
+export function validateStoreDeatilsForm(data) {
+	let errors;
+
+	if (!data.name) {
+		errors.name = "Business name is required";
+	} else if (data.name.length < 3) {
+		errors.name = "Business name must be more than 3 characters long";
+	} else if (
+		data?.name?.toLowerCase() == "quicka" || data?.name?.toLowerCase().includes("quicka")
+	) {
+		errors.name = "Quicka is a reserved name and connot be used!";
+	}
+	
+	if (data?.category?.length < 1 && !data?.category?.name) {
+		errors.category = "Choosing a store category is required";
+	}
+
+	if (!data?.phone.trim()) {
+		errors.phone = "Phone number is required";
+	} else if (data?.phone.length < 12) {
+		errors.phone = `Phone number must have 9 - 10 numbers after +${data.dialCode}`;
+	}
+
+	return errors;
+}
+
 export function validateExportCsvInput(email) {
 	let error;
 
@@ -271,7 +297,6 @@ export function validateExportCsvInput(email) {
 
 	return error;
 }
-
 
 export function validateCollectionForm(name) {
 	let error;

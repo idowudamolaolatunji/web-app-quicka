@@ -49,8 +49,7 @@ function index() {
     const { showInsights, activeDisplayTab, showFilterModal, handleToggleFilter } = useDataContext();
     const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleDeleteOneItem } = useFetchedContext();
 
-    const { currencies, mainCurrency } = store;
-    const currency = currencies[mainCurrency]?.symbol;
+    const currency = store?.currencies[store?.mainCurrency]?.symbol;
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
     const outOfStock = products?.filter(product => product?.trackInventory && product?.stockAmount <= 1);
     const totalInventoryWorth = products?.reduce((acc, product) => acc + product?.price, 0);

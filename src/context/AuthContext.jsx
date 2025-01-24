@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
     }
     const fdHeaders = { Authorization: `Bearer ${token}` }
 
-    // const { currencies, mainCurrency } = store;
     const currencies = store?.currencies || [];
     const mainCurrency = store?.mainCurrency || 0;
     const currency = currencies[mainCurrency]?.symbol;

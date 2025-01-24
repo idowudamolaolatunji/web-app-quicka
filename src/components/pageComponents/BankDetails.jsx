@@ -138,14 +138,14 @@ function BankDetails({ isnew, close }) {
         handleLoading("mainLoading", true);
 
         // GET COLLECTION NAMES
-        const { bankname, slug, code } = bankName[0];
+        const { code } = bankName[0];
 
         try {
             const res = await fetch(`${BASE_API_URL}/stores/onboard/bank`, {
                 method: "POST",
                 headers,
                 body: JSON.stringify({
-                    ...bankData, bankname, slug, code, 
+                    ...bankData, code, 
                 })
             });
             shouldKick(res);

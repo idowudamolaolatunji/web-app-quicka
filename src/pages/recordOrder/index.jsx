@@ -11,7 +11,6 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import Info from '../../components/elements/Info.jsx';
 import MainDropdownSelect from '../../components/form/MainDropdownSelect.jsx';
 
-import { paymentMethodData, deliveryStatusData, channelData } from '../../utils/data.jsx'
 import { useFetchedContext } from '../../context/FetchedContext.jsx';
 import Drawer from '../../components/modal/Drawer.jsx';
 
@@ -26,6 +25,7 @@ import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
 import isOnline from 'is-online';
 import CurrencyInputField from '../../components/form/CurrencyInputField.jsx';
 import { formatNumber } from '../../utils/helper.js';
+import { paymentMethodData, deliveryStatusData, channelData } from '../../utils/data.jsx'
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -40,7 +40,7 @@ function index() {
     /////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////
     const [orderData, setOrderData] = useState({ paymentStatus: "paid", orderDate: "", deliveryFee: null });
-    const [description, setDescription] = useState('');
+    const [description, setDescription] = useState("");
 
     ////////// Dropdown array /////////////////////////////
     const [orderProducts, setOrderProducts] = useState([]);
@@ -60,6 +60,9 @@ function index() {
     const [subTotal, setSubTotal] = useState(0);
     ////////////////////////////////////////////////////////////////////////////////
 
+    console.log(orderProducts)
+
+    // HANDLE CHANGE QUANTITY FOR PARTICULAR SELECTED PRODUCT
     const handleQuantityChange = function(productId, newQuantity) {
         setSelectedProducts((prev) => 
             prev.map((item) => (
@@ -110,7 +113,7 @@ function index() {
             handleFetchUserStoreCustomers();
             handleFetchUserStoreProducts();
         }
-    }, [])
+    }, []);
 
     useEffect(function () {
         if (orderData.paymentStatus == "unpaid") {
@@ -134,7 +137,7 @@ function index() {
     // GET THE ORDER SUBTOTAL, ALL PRODUCTS MINUS THEIR INDIVIDUAL DISCOUNT PLUS ORDER DELIVERY FEE
     useEffect(() => {
         const productSubTotal = selectedProducts.reduce((acc, product) => {
-        return acc + ((product?.price * product?.quantity) - product?.discount);
+        return acc + ((product?.price * product?.quantity) - (product?.discount || 0));
         }, 0);
         
         const total = productSubTotal + Number(orderData.deliveryFee || 0);

@@ -16,7 +16,6 @@ export const deliveryStatusData = [
     { label: <p className='flex align'><LuPackageCheck /> Delivered</p>, value: "delivered" },
 ];
 
-
 export const channelData = [
     { label: "facebook", value: "facebook" },
     { label: "instagram", value: "instagram" },
@@ -28,4 +27,4 @@ export const channelData = [
     { label: "jumia", value: "jumia" },
     { label: "konga", value: "konga" },
     { label: "others", value: "others" },
-]
+];

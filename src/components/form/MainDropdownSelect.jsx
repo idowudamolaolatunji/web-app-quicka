@@ -1,8 +1,12 @@
 import React from 'react'
 import Select from 'react-dropdown-select'
+import { useWindowSize } from 'react-use'
+import { truncateString } from '../../utils/helper';
 
 
 function MainDropdownSelect({ options, multiple=false, field, title, value, searchable = true, setValue, noDataLabel="No Data", customClass="", clearable=true }) {
+    const { width } = useWindowSize();
+
     return (
         <div style={{ width: "100%", textTransform: "capitalize" }}>
             <Select
@@ -23,6 +27,32 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                 clearOnSelect={true}
                 noDataLabel={noDataLabel}
                 addPlaceholder={multiple ? " + add." : ""}
+
+                ////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////
+                // ONLY RENDER THIS WHEN TRYING TO SHOW PRODUCTS DROPDOWN - else ignore...!!
+                ////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////
+                itemRenderer={title === "Product" ? ({ item }) => (
+                    <div key={item.id}
+                        onClick={() => setValue((prev) => {
+                            return prev.includes(item) ? prev.filter((val) => val !== item) : [...prev, item]
+                        })}
+                        className={`
+                            product--dropdown-view ${value?.some(val => val.name === item.name) ? "selected" : ""}`
+                        }
+                    >
+                        <img src={item.images[0].url} alt={item.name} />
+                        <span className='table--info'>
+                            <h3>{truncateString(item?.name, width < 450 ? 27 : 500)}</h3>
+                            <div>
+                                {item?.productCollection?.slice(0, 2)?.map((collection) => (  
+                                    <span>{collection}</span>
+                                ))}
+                            </div>
+                        </span>
+                    </div>
+                ) : null}
             />
         </div>
     )

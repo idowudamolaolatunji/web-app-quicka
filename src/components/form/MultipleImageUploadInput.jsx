@@ -10,14 +10,16 @@ import { useWindowSize } from 'react-use';
 import { useAuthContext } from '../../context/AuthContext';
 import Delete from '../modal/Delete';
 import isOnline from 'is-online';
+import { useFetchedContext } from '../../context/FetchedContext';
 
 
 function MultipleImageUploadInput({ images, productId, handleChange, setResponse, setLoading }) {
-    const maxImageAmount = 4;
+    const maxImageAmount = 6;
     const maxSize = 4 * 1024 * 1024; //4mb
     
     const { width } = useWindowSize();
     const { headers, shouldKick } = useAuthContext();
+    const { handleFetchUserStoreProducts } = useFetchedContext();
     /////////////////////////////////////////////////
     const [removeImageFn, setRemoveImageFn] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -57,6 +59,7 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
             setResponse({ status: "success", message: data?.message });
             // remove image via the setted state function
             removeImageFn();
+            handleFetchUserStoreProducts()
         } catch(err) {
             setResponse({ status: "error", message: err?.message })
         } finally {

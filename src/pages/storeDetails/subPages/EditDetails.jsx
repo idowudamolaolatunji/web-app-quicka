@@ -15,14 +15,15 @@ import { useDataContext } from '../../../context/DataContext';
 import PhoneInput from 'react-phone-input-2';
 import isOnline from 'is-online';
 import { cap1stLetter } from '../../../utils/helper';
+import { validateStoreDeatilsForm } from '../../../utils/validationHelper';
 
 
 function EditDetails() {
     const navigate = useNavigate()
     const { width } = useWindowSize()
-    const { store } = useAuthContext();
-    const { storeCategories, handleFetchStoreCategories  } = useFetchedContext();
+    const { store, fdHeaders, shouldKick, handleStore } = useAuthContext();
     const { location, getStates, getCities, setLocation } = useDataContext();
+    const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
 
     const { currencies, mainCurrency, contact } = store;
     const { countryCode } = store?.contact;
@@ -35,7 +36,7 @@ function EditDetails() {
         name: store?.name ? store?.name : "",
         slogan: store?.slogan ? store?.slogan : "",
         description: store?.description ? store?.description : "",
-        storeUrl: store?.storeUrl ? store?.storeUrl?.replace(".quicka.store", "") : "",
+        subdomain: store?.subdomain ? store?.subdomain : "",
         category: store?.category?.name ? [store?.category] : [],
         countryCode: countryCode ? countryCode : "",
         dialCode: contact?.dialCode ? contact?.dialCode : "",
@@ -100,7 +101,7 @@ function EditDetails() {
             name: store?.name ? store?.name : "",
             slogan: store?.slogan ? store?.slogan : "",
             description: store?.description ? store?.description : "",
-            storeUrl: store?.storeUrl ? store?.storeUrl?.replace(".quicka.store", "") : "",
+            subdomain: store?.subdomain ? store?.subdomain : "",
             category: store?.category?.name ? [store?.category] : [],
             countryCode: countryCode ? countryCode : "",
             dialCode: contact?.dialCode ? contact?.dialCode : "",
@@ -128,7 +129,7 @@ function EditDetails() {
 
     useEffect(function () {
         const sanitizedUrl = storeData?.name?.replace(/\s+/g, '-').toLowerCase();
-        setStoreData({ ...storeData, storeUrl: sanitizedUrl })
+        setStoreData({ ...storeData, subdomain: sanitizedUrl })
     }, [storeData?.name]);
 
 
@@ -149,21 +150,26 @@ function EditDetails() {
     }, [country[0], state[0]]);
 
 
-    // CHECK IF THE STORE NAME AND URL HASNT ALREADY BEEN USED
+    // CHECK IF THE STORE NAME AND URL HASN'T ALREADY BEEN USED
     useEffect(function() {
         const handleSearchNameAndUrl = setTimeout(async function () {
-            if (!storeData?.name && !storeData?.storeUrl) return;
+            if (!storeData?.name && !storeData?.subdomain) return;
+            if(storeData.name == store?.name && storeData.subdomain == store?.subdomain) return;
+
             setLoading({ ...loading, tiny: true });
 
             try {
-                // CHECK CONNECTION
-                const connected = await isOnline();
-                if (!connected) throw new Error("Internet Error");
 
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${storeData?.name}&urlQuery=${storeData?.storeUrl}&id=${store?._id}`);
+                const newErrors = {}
+                if(storeData?.name == "quicka" || storeData?.name?.toLowerCase().includes("quicka")) {
+                    newErrors.name = "Quicka is a reserved name and connot be used!";
+                    setStoreDataErrors({ ...storeDataErrors, ...newErrors });
+                    return;
+                }
+
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${storeData?.name}&urlQuery=${storeData?.subdomain}&id=${store?._id}`);
                 const data = await res.json();
                 if(!data?.success && res.status !== 200) throw new Error(data?.message);
-                const newErrors = {}
 
                 const { results } = data?.data;
                 if(results?.name.length > 0 || results?.url.length > 0) newErrors.name = "Business name or store url is already taken!";
@@ -174,20 +180,95 @@ function EditDetails() {
             } finally {
                 setLoading({ ...loading, tiny: false });
             }
-        }, 350)
+        }, 400)
 
         return () => clearTimeout(handleSearchNameAndUrl);
     }, [storeData?.name])
 
 
     async function handleSubmit() {
+        // const newErrors = validateStoreDeatilsForm(storeData);
+        // console.log(newErrors)
+        // setStoreDataErrors(newErrors);
+        // if (Object.keys(newErrors)?.length >= 1) {
+        //     setResponse({ status: "error", message: "Fill required fields to proceed!" });
+        //     setTimeout(() => setResponse({ status: "", message: "" }), 5000);
+        //     return;
+        // };
 
+        // RESET THE RESPONSE AND LOADING STATE HERE
+        setLoading({ ...loading, mainLoader: true });
+        handleResetResponse();
+
+        const contact = {
+            countryCode: storeData.countryCode,
+            dialCode: storeData.dialCode,
+            phoneNumber: storeData.phoneNumber,
+            phone: storeData.phone,
+            email: store?.contact?.email
+        }
+        
+        const location = {
+            address: storeData?.address,
+            zip: storeData?.zip,
+            ...(state[0]?.name && { state: state[0] }),
+            ...(city[0]?.name && { city: city[0] }),
+            country: country[0],
+        }
+
+        const category = {
+            name: storeData.category[0]?.name,
+            slug: storeData.category[0]?.slug,
+        }
+            
+        try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if (!connected) throw new Error("Internet Error");
+
+            const formData = new FormData();
+            formData.append("name", storeData.name)
+            formData.append("category", JSON.stringify(category))
+            formData.append("slogan", storeData.slogan);
+            formData.append("description", storeData.description);
+            formData.append("mainCurrency", storeData.mainCurrency);
+            formData.append("contact", JSON.stringify(contact));
+            formData.append("location", JSON.stringify(location));
+            if(logo.file) formData.append("image", logo.file)
+
+            if(storeData.subdomain !== store?.subdomain) {
+                formData.append("subdomain", storeData.subdomain)
+            }
+
+            // MAKE REQUEST
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/edit-details`,
+                { method: 'PATCH', body: formData, headers: fdHeaders }
+            );
+            shouldKick(res)
+
+            const data = await res.json();
+            if (!data?.status || data?.status !== 'success') {
+                throw new Error(data?.message);
+            }
+
+            // SET THE ACCESS STORAGE FOR THE CONGRATS PAGE
+            setResponse({ status: data?.status, message: data?.message });
+            handleStore(data?.data?.store);
+
+            setTimeout(function () {
+                navigate(-1)
+            }, 2000);
+            
+        } catch (err) {
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
+        } finally {
+            setLoading({ ...loading, mainLoader: false});
+        }
     }
 
     return (
-        <>
-
-            <AddPageUI
+        <AddPageUI
                 pageTitle={`Edit store details`}
                 pageIcon={<MdOutlineStorefront />}
                 close={() => navigate(-1)}
@@ -229,9 +310,9 @@ function EditDetails() {
                         </div>
 
                         <div className="form--item">
-                            <label htmlFor="storeUrl" className="form--label">Store URL</label>
+                            <label htmlFor="subdomain" className="form--label">Store URL</label>
                             <div className="form--input-box">
-                                <input type="text" id='storeUrl' className="form--input" placeholder='Store url' value={storeData.storeUrl} name='storeUrl' onChange={handleStoreDataChange} disabled />
+                                <input type="text" id='subdomain' className="form--input" placeholder='Store url' value={storeData.subdomain} name='subdomain' onChange={handleStoreDataChange} disabled />
 
                                 <span className='url--box'>.quicka.store</span>
                             </div>
@@ -333,8 +414,7 @@ function EditDetails() {
                 </div>
             </div>
 
-            </AddPageUI>
-        </>
+        </AddPageUI>
     )
 }
 

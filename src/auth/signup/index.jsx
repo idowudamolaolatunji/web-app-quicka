@@ -282,7 +282,7 @@ function index() {
                 <button type="submit" className='form--submit'>Continue</button>
 
                 <div className="form--info">
-                    <p>Already have an account? <Link to='/login'>Sign in</Link></p>
+                    <p>Already have an account? <Link to='/login'>Login</Link></p>
                 </div>
 
                 {width > 850 && <div style={{ paddingBottom: '6rem' }} />}
