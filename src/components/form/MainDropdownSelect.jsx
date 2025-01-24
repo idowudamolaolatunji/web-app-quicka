@@ -53,6 +53,7 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                         </span>
                     </div>
                 ) : null}
+                closeOnScroll={title === "Product"}
             />
         </div>
     )
