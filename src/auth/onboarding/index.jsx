@@ -186,7 +186,7 @@ function index() {
                     return;
                 }
 
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${onboardingData?.name}`);
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${onboardingData?.name?.toLowerCase()}`);
                 const data = await res.json();
                 if(!data?.success && res.status !== 200) throw new Error(data?.message);
 

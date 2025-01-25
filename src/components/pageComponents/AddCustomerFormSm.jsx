@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuthContext } from '../../context/AuthContext';
 import Asterisk from '../../components/elements/Asterisk';
 import PhoneInput from 'react-phone-input-2';
@@ -9,18 +9,21 @@ import CustomAlert from '../../components/layout/CustomAlert';
 import { createPortal } from 'react-dom';
 import { validateCustomerForm } from '../../utils/validationHelper';
 import { useFetchedContext } from '../../context/FetchedContext';
+import MainDropdownSelect from '../form/MainDropdownSelect';
+import { useDataContext } from '../../context/DataContext';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function AddCustomerFormSm({ close }) {
-
     const { headers, store, shouldKick } = useAuthContext();
     const { handleFetchUserStoreCustomers } = useFetchedContext()
+    const { location, setLocation, getContries } = useDataContext();
     const { countryCode } = store?.contact;
 
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
+    const [country, setCountry] = useState([]);
 
     const [customerFormErrors, setCustomerFormErrors] = useState({});
     const [customerData, setCustomerData] = useState({
@@ -31,7 +34,7 @@ function AddCustomerFormSm({ close }) {
         phoneNumber: "",
         dialCode: "",
         countryCode: "",
-        country: ""
+        // country: ""
     });
 
 
@@ -44,14 +47,16 @@ function AddCustomerFormSm({ close }) {
             phoneNumber: "",
             dialCode: "",
             countryCode: "",
-            country: "",
+            // country: "",
         });
 
+        setCountry([]);
     }
 
 
     const handleCustomerData = function (e, val, opts) {
         if (!e && (val || opts)) {
+            console.log(opts)
             const { dialCode, countryCode } = opts;
             const phone = val?.startsWith(dialCode + '0') ? val?.replace(dialCode + '0', dialCode) : val;
             const phoneNumber = phone?.replace(dialCode, "");
@@ -67,9 +72,15 @@ function AddCustomerFormSm({ close }) {
         });
     };
 
+    useEffect(function () {
+        setLocation({ ...location, state: [], city: [] });
+
+        getContries()
+    }, []);
+
 
     async function handleCreateCustomer() {
-        const formData = { ...customerData }
+        const formData = { ...customerData, country }
         // FORM VALIDATIONS 
         const newErrors = validateCustomerForm(formData);
         setCustomerFormErrors(newErrors);
@@ -84,9 +95,9 @@ function AddCustomerFormSm({ close }) {
         setResponse({ status: "", message: "" });
         setLoading(true)
 
-        const { countryCode, dialCode, phoneNumber, phone, email, country, firstname, lastname, description } = customerData;
+        const { countryCode, dialCode, phoneNumber, phone, email, firstname, lastname, description } = customerData;
         const contact = { countryCode, dialCode, phoneNumber, phone, email };
-        const shippingAddress = { country }
+        const shippingAddress = { country: country[0] }
 
         // MAKE REQUEST
         try {
@@ -171,7 +182,8 @@ function AddCustomerFormSm({ close }) {
                 <div className="form--item">
                     <label htmlFor='country' className="form--label">Country <Asterisk /></label>
 
-                    <input type='text' id='country' name='country' placeholder='Enter Country' className='form--input' value={customerData.country} onChange={handleCustomerData} />
+                    {/* <input type='text' id='country' name='country' placeholder='Enter Country' className='form--input' value={customerData.country} onChange={handleCustomerData} /> */}
+                    <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} customClass='select-width' noDataLabel='Loading...' />
                     <span className="form--error-message">
                         {customerFormErrors?.country && customerFormErrors?.country}
                     </span>

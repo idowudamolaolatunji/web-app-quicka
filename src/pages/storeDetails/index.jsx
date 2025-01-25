@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
 import { cap1stLetter } from '../../utils/helper';
+import Spinner from '../../components/spinner/mainSpinner';
 
 
 function index() {
@@ -19,7 +20,7 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { isMenuCollapsed } = useDataContext();
-    const { globalConnectionError } = useFetchedContext();
+    const { globalConnectionError, loader } = useFetchedContext();
 
     const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000);
     const { currencies, mainCurrency, description, category, contact, location, storeLogo } = store;
@@ -54,6 +55,8 @@ function index() {
     return (
         <>
             {globalConnectionError && <ConnectionError />}
+
+            {loader?.store && <Spinner />}
 
             <div className='page__section--heading' style={width <= 450 ? { flexDirection: "column", alignItems: "flex-start", gap: "2rem" } : {}}>
                 <h2 className="page__section--title">Store Details</h2>

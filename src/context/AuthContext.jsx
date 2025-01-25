@@ -12,15 +12,15 @@ export default AuthContext;
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(Cookies.get('q_user_obj') ? JSON.parse(Cookies.get('q_user_obj')) : null);
-    const [token, setToken] = useState(Cookies.get('q_user_jwt_token') ? Cookies.get('q_user_jwt_token') : null);
-    const [store, setStore] = useState(Cookies.get("q_user_store") ? JSON.parse(Cookies.get("q_user_store")) : null);
+    const [user, setUser] = useState(Cookies.get('q_auth') ? JSON.parse(Cookies.get('q_auth')) : null);
+    const [token, setToken] = useState(Cookies.get('q_token') ? Cookies.get('q_token') : null);
+    const [store, setStore] = useState(Cookies.get("q_store") ? JSON.parse(Cookies.get("q_store")) : null);
 
     const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
     }
-    const fdHeaders = { Authorization: `Bearer ${token}` }
+    const formdataHeader = { Authorization: `Bearer ${token}` }
 
     const currencies = store?.currencies || [];
     const mainCurrency = store?.mainCurrency || 0;
@@ -59,9 +59,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(function () {
-        Cookies.set("q_user_obj", JSON.stringify(user), { expires: 365 });
-        Cookies.set("q_user_jwt_token", token, { expires: 365 });
-        Cookies.set("q_user_store", JSON.stringify(store), { expires: 365 });
+        Cookies.set("q_auth", JSON.stringify(user), { expires: 365 });
+        Cookies.set("q_token", token, { expires: 365 });
+        Cookies.set("q_store", JSON.stringify(store), { expires: 365 });
     }, [user, token, store]);
 
     // CREATE CONTEXT DATA
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
         user,
         token,
         headers,
-        fdHeaders,
+        formdataHeader,
         handleChange,
         handleUser,
         signoutUser,

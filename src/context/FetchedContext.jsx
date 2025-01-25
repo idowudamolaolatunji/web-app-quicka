@@ -32,6 +32,7 @@ export const FetchedProvider = ({ children }) => {
     const [special_sales, setspecial_sales] = useState([]);
 
     // LOADER STATES
+    const [storeLoader, setStoreLoader] = useState(true);
     const [orderLoader, setOrderLoader] = useState(true);
     const [productLoader, setProductLoader] = useState(true);
     const [deliveryLoader, setDeliveryLoader] = useState(true);
@@ -59,6 +60,7 @@ export const FetchedProvider = ({ children }) => {
 
     // SETTING LOADER THIS WAY IS BETTER THAN THE PREVIOUS
     const loader = {
+        store: storeLoader,
         order: orderLoader,
         product: productLoader,
         delivery: deliveryLoader,
@@ -120,9 +122,11 @@ export const FetchedProvider = ({ children }) => {
 
     // FETCH PROTECTED STORE AND OWNER DATA
     async function handleFetchStore() {
+        setStoreLoader(true);
         const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
         const data = await res.json();
         handleStore(data?.data?.store);
+        setStoreLoader(false)
     }
 
     // FETCH UNPROTECTED STORE ITEM BY ID

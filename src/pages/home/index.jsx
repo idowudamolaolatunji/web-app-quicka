@@ -15,11 +15,10 @@ import './style.css';
 
 function index() {
     const { width } = useWindowSize();
-    const { user } = useAuthContext();
+    const { store } = useAuthContext();
     const { loader, globalConnectionError } = useFetchedContext();
 
-    const { storeBasicSetup, storeFinalSetup } = user;
-    const userStoreIsSetup = (storeBasicSetup && storeFinalSetup);
+    const { storeOnboardCompleted } = store;
     
 
     useEffect(function () {
@@ -34,7 +33,7 @@ function index() {
                 <HomeTop />
                 <Line border={1.4} />
 
-                {userStoreIsSetup ? (
+                {storeOnboardCompleted ? (
                     <>
                         {(loader?.order) && <Spinner />}
                         {(width > 500) && <HomeProgressGrid />}

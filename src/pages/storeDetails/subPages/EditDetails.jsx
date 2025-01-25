@@ -21,7 +21,7 @@ import { validateStoreDeatilsForm } from '../../../utils/validationHelper';
 function EditDetails() {
     const navigate = useNavigate()
     const { width } = useWindowSize()
-    const { store, fdHeaders, shouldKick, handleStore } = useAuthContext();
+    const { store, formdataHeader, shouldKick, handleStore } = useAuthContext();
     const { location, getStates, getCities, setLocation } = useDataContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
 
@@ -116,15 +116,18 @@ function EditDetails() {
         setCity(store?.location?.city?.name ? [store?.location?.city] : []);
     }
 
-
-
     useEffect(function() {
         document.title = `Quicka | Edit ${cap1stLetter(store?.name)}'s Store Details`
         
+        setLoading({ ...loading, mainLoader: true });
         handleFetchStoreCategories();
         setCountry(store?.location?.country?.name ? [store?.location?.country] : []);
         setState(store?.location?.state?.name ? [store?.location?.state] : []);
         setCity(store?.location?.city?.name ? [store?.location?.city] : []);
+
+        setTimeout(() => {
+            setLoading({ ...loading, mainLoader: false });
+        }, 1000);
     }, []);
 
     useEffect(function () {
@@ -167,7 +170,7 @@ function EditDetails() {
                     return;
                 }
 
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${storeData?.name}&urlQuery=${storeData?.subdomain}&id=${store?._id}`);
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/search-name-url?nameQuery=${storeData?.name?.toLowerCase()}&urlQuery=${storeData?.subdomain}&id=${store?._id}`);
                 const data = await res.json();
                 if(!data?.success && res.status !== 200) throw new Error(data?.message);
 
@@ -242,7 +245,7 @@ function EditDetails() {
 
             // MAKE REQUEST
             const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/edit-details`,
-                { method: 'PATCH', body: formData, headers: fdHeaders }
+                { method: 'PATCH', body: formData, headers: formdataHeader }
             );
             shouldKick(res)
 
@@ -269,14 +272,14 @@ function EditDetails() {
 
     return (
         <AddPageUI
-                pageTitle={`Edit store details`}
-                pageIcon={<MdOutlineStorefront />}
-                close={() => navigate(-1)}
-                mainLoader={loading.mainLoader}
-                response={response}
-                handleClear={handleReset}
-                handleSubmit={handleSubmit}
-            >
+            pageTitle={`Edit store details`}
+            pageIcon={<MdOutlineStorefront />}
+            close={() => navigate(-1)}
+            mainLoader={loading.mainLoader}
+            response={response}
+            handleClear={handleReset}
+            handleSubmit={handleSubmit}
+        >
 
             <div className="product__upload--container">
                 {width < 400 && <Line border={1.4} />}

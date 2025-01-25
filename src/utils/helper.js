@@ -149,10 +149,9 @@ export function isWithinLast7Days(date) {
 	return moment(date).isAfter(moment().subtract(7, "days"));
 }
 
-export function getInitials(fullName) {
-	const nameArray = fullName?.split(" ");
-	const firstInitial = nameArray[0]?.charAt(0);
-	const secondInitial = nameArray[1]?.charAt(0);
+export function getInitials(firstname, lastname) {
+	const firstInitial = firstname?.charAt(0);
+	const secondInitial = lastname?.charAt(0);
 	return `${firstInitial}${secondInitial}`;
 }
 

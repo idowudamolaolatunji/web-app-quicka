@@ -121,7 +121,7 @@ function index() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | ${store.title}'s Anayltics`
+        document.title = `Quicka | ${store.name}'s Anayltics`
     })
 
     useEffect(function () {

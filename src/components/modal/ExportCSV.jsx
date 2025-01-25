@@ -4,7 +4,6 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { CgSoftwareDownload } from 'react-icons/cg'
 import { SiMinutemailer } from 'react-icons/si'
 import { useAuthContext } from '../../context/AuthContext'
-import { useWindowSize } from 'react-use'
 import { Link } from 'react-router-dom'
 import { LuCheckCircle } from 'react-icons/lu'
 import { validateExportCsvInput } from '../../utils/validationHelper'
@@ -14,15 +13,11 @@ import CustomAlert from '../layout/CustomAlert'
 const BASE_API_URL = import.meta.env.VITE_API_URL
 
 function ExportCSV({ title, data, setClose }) {
-    const { store, token } = useAuthContext();
-    const { isPremium, csvConvertions } = store;
-    const hasConvert = csvConvertions;
+    const { store, headers } = useAuthContext();
+    const { subscriptionType, csvConvertCredit } = store;
+    const hasConvert = csvConvertCredit;
 
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    }
-
+    /////////////////////////////////////////////////////////////
     const [modalInputError, setModalImputError] = useState("");
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
@@ -98,7 +93,7 @@ function ExportCSV({ title, data, setClose }) {
                         All {title} data will be exported, Either to the email provided or can be downloded!
                         <br />
 
-                        {!isPremium && (
+                        {subscriptionType == "free" && (
                             <span style={{ paddingTop: "1rem", display: "inline-block" }}>
                                 You have <strong>"{!hasConvert ? "No" : hasConvert} More Free Exports"</strong> {!hasConvert ? "😔" : "😉"} left!{" "}
 

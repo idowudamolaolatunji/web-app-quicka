@@ -97,7 +97,7 @@ function index() {
 
             // USER MUST HAVE SETUP THEIR STORE TO LOGIN
             const { user, store } = data?.data;
-            if (!user.storeBasicSetup) {
+            if (!user.basicSetup) {
                 localStorage.setItem("user_id", user._id);
 
                 setResponse({ status, message });

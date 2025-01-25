@@ -137,6 +137,7 @@ function index() {
             setResent(true);
 
             setOtpUser({ ...otpUser, ...user });
+            setFormData({ ...formData, otp: "" })
 
         } catch (err) {
             const message = handleFetchError(err?.message)
@@ -167,7 +168,7 @@ function index() {
                     )}
 
                     <p className='form--info' style={{ cursor: "auto" }}>
-                        We {resent ? 're-' : ''}sent a 4-digit code to{" "}
+                        We {resent ? 're-' : ''}sent a 5-digit code to{" "}
                         <span style={{ fontWeight: '700' }}>{otpUser?.email}</span>{" "}
                         <br />and it expires in{" "}
                         <span style={{ fontWeight: '700', color: '#ff7a49' }}>{timeLeft} mins</span>
@@ -179,10 +180,10 @@ function index() {
                         value={formData.otp}
                         onChange={handleChangeOtp}
                         inputType="number"
-                        numInputs={4}
+                        numInputs={5}
                         renderSeparator={<span>{" "}</span>}
                         renderInput={(props) => <input {...props} />}
-                        containerStyle={{ display: 'flex', alignItems: 'center', gap: '.6rem' }}
+                        containerStyle={{ display: 'flex', alignItems: 'center', gap: width <= 350 ? '.4rem' : ".64rem" }}
                     />
                     <span className="form--error-message">
                         {formErrors?.otp && formErrors?.otp}

@@ -79,7 +79,7 @@ function index() {
         },
         {
             name: "Amount", selector: row => (
-                <span className="value">{currency}{formatNumber(row?.orderSubTotal)}</span>
+                <span className="value">{currency}{formatNumber(row?.profit)}</span>
             ), width: "100px"
         },
         {

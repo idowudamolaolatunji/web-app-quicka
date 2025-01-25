@@ -90,6 +90,46 @@ function index({ close, isModal }) {
         window.scrollTo(0, 0)
     }
 
+
+    useEffect(function() {
+        document.title = "Quicka | Add Customer"
+    }, [])
+
+    
+    // fetching the item if id is given
+    useEffect(function() {
+        (async () => {
+            if(id) {
+                setLoading(true);
+                const fetchedItem = await handleFetchOneItem("customer", id);
+                setLoading(false);
+
+                if(fetchedItem) {
+                    setCustomerData({
+                        firstname: fetchedItem?.firstname || "",
+                        lastname: fetchedItem?.lastname || "",
+                        email: fetchedItem?.contact?.email || "",
+                        phone: fetchedItem?.contact?.phone || "",
+                        phoneNumber: fetchedItem?.contact?.phoneNumber || "",
+                        dialCode: fetchedItem?.contact?.dialCode || "",
+                        countryCode: fetchedItem?.contact?.countryCode || "",
+                        description: fetchedItem?.description || "",
+                        address: fetchedItem?.shippingAddress?.address || "",
+                        zipCode: fetchedItem?.shippingAddress?.zipCode || ""
+                    });
+
+                    const { country, state, city } = fetchedItem?.shippingAddress;
+
+                    setCountry(country ? [country] : []);
+                    setState(state ? [state] : []);
+                    setCity(city ? [city] : []);
+                }
+            }
+        })();
+
+    }, [id]);
+
+
     useEffect(function () {
         setState([]);
         setCity([]);
@@ -118,42 +158,13 @@ function index({ close, isModal }) {
             setLocation({ ...location, city: [] });
         }
 
+        if(!state[0]?.iso2) return;
+
         if (country.length > 0 && state.length > 0) {
             getCities(country[0]?.iso2, state[0]?.iso2);
         }
     }, [country[0], state[0], id]);
 
-
-    // fetching the item if id is given
-    useEffect(function() {
-        (async () => {
-            if(id) {
-                setLoading(true);
-                const fetchedItem = await handleFetchOneItem("customer", id);
-                setLoading(false);
-
-                if(fetchedItem) {
-                    setCustomerData({
-                        firstname: fetchedItem?.firstname || "",
-                        lastname: fetchedItem?.lastname || "",
-                        email: fetchedItem?.contact?.email || "",
-                        phone: fetchedItem?.contact?.phone || "",
-                        phoneNumber: fetchedItem?.contact?.phoneNumber || "",
-                        dialCode: fetchedItem?.contact?.dialCode || "",
-                        countryCode: fetchedItem?.contact?.countryCode || "",
-                        description: fetchedItem?.description || "",
-                        address: fetchedItem?.shippingAddress?.address || "",
-                        zipCode: fetchedItem?.shippingAddress?.zipCode || ""
-                    });
-
-                    setCountry([fetchedItem?.shippingAddress?.country] || []);
-                    setState([fetchedItem?.shippingAddress?.state] || []);
-                    setCity([fetchedItem?.shippingAddress?.city] || []);
-                }
-            }
-        })();
-
-    }, [id]);
 
 
     async function handleCreateCustomer() {

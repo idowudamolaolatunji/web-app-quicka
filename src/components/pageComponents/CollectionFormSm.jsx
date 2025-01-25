@@ -13,7 +13,7 @@ import ImageUploadInput from '../form/ImageUploadInput';
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function CollectionFormSm({ close, editingItem }) {
-    const { shouldKick, fdHeaders } = useAuthContext();
+    const { shouldKick, formdataHeader } = useAuthContext();
     const { handleFetchUserStoreCollections, handleImageUpload } = useFetchedContext();
 
 
@@ -76,7 +76,7 @@ function CollectionFormSm({ close, editingItem }) {
 
         try {
             const res = await fetch(`${BASE_API_URL}/collections`, {
-                headers: fdHeaders,
+                headers: formdataHeader,
                 method: "POST",
                 body: formData
             });

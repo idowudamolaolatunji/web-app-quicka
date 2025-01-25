@@ -57,10 +57,9 @@ function index() {
     const [showConfetti, setShowConfetti] = useState(false)
 
     const [selectedProducts, setSelectedProducts] = useState([]);
-    const [subTotal, setSubTotal] = useState(0);
+    const [subTotal, setSubTotal] = useState({ total: 0, profit: 0 });
     ////////////////////////////////////////////////////////////////////////////////
 
-    console.log(orderProducts)
 
     // HANDLE CHANGE QUANTITY FOR PARTICULAR SELECTED PRODUCT
     const handleQuantityChange = function(productId, newQuantity) {
@@ -103,7 +102,7 @@ function index() {
         setOrderProducts([]);
         setChannel([]);
 
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 0);
     };
 
     useEffect(function() {
@@ -136,12 +135,12 @@ function index() {
 
     // GET THE ORDER SUBTOTAL, ALL PRODUCTS MINUS THEIR INDIVIDUAL DISCOUNT PLUS ORDER DELIVERY FEE
     useEffect(() => {
-        const productSubTotal = selectedProducts.reduce((acc, product) => {
+        const productSumTotal = selectedProducts.reduce((acc, product) => {
         return acc + ((product?.price * product?.quantity) - (product?.discount || 0));
         }, 0);
         
-        const total = productSubTotal + Number(orderData.deliveryFee || 0);
-        setSubTotal(total);
+        const total = productSumTotal + Number(orderData.deliveryFee || 0);
+        setSubTotal({ total, profit: productSumTotal });
     }, [selectedProducts, orderData.deliveryFee]);
 
 
@@ -191,7 +190,8 @@ function index() {
                 body: JSON.stringify({
                     description,
                     ...orderData,
-                    orderSubTotal: subTotal,
+                    profit: subTotal.total,
+                    profit: subTotal.profit,
                     channel: channel[0]?.value,
                     products: selectedProducts,
                     orderTotalQuantity: quantities,
@@ -291,7 +291,7 @@ function index() {
                                                 setDiscount={(value) => setSelectedProducts((prev) =>
                                                     prev.map((item) => (
                                                         item.id === product?._id ? 
-                                                            { ...item, discount: (value >= product.price) ? product.price : value }
+                                                            { ...item, discount: Number((value >= product.price) ? product.price : value) }
                                                         : item)
                                                     )
                                                 )}
@@ -316,7 +316,7 @@ function index() {
                                     <span style={{ fontSize: "1.4rem" }}>
                                         {currency}
                                         <span className='value'>
-                                            {formatNumber(subTotal)}
+                                            {formatNumber(subTotal.total)}
                                         </span>
                                     </span>
                                 </div>

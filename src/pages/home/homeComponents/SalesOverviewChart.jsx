@@ -46,7 +46,7 @@ function OverviewChart({ period }) {
         orderChartData?.forEach(order => {
             const orderDate = new Date(order.orderDate);
             const month = orderDate.getMonth(); // 0-11
-            const sales = order.orderSubTotal; // Access orderSubTotal directly
+            const sales = order.profit; // Access profit directly
 
             series[0].data[month] = (series[0].data[month] || 0) + sales; // Total Sales
             if (order.channel === 'online store') {

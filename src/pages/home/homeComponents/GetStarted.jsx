@@ -24,7 +24,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 function GetStarted() {
     const { width } = useWindowSize();
     const { globalConnectionError, handleFetchError } = useFetchedContext();
-    const { user, store, token, handleUser, handleStore, shouldKick } = useAuthContext();
+    const { user, store, token, handleStore, shouldKick } = useAuthContext();
 
     const headers = {
         "Content-Type": "application/json",
@@ -96,10 +96,7 @@ function GetStarted() {
         handleLoading("mainLoading", true);
 
         const {
-            hasBankDetails,
-            hasFirstProduct,
-            hasDeliveryRate,
-            hasCustomisedStore
+            hasBankDetails, hasFirstProduct, hasDeliveryRate, hasCustomisedStore
         } = store.storeOnboard;
 
         updateState("hasBankDetails", hasBankDetails);
@@ -130,11 +127,10 @@ function GetStarted() {
             const { status, message } = data;
             if (!status || status != 'success') throw new Error(message);
 
-            const { store, owner } = data?.data;
+            const { store } = data?.data;
             setResponse({ status, message });
 
             setTimeout(function() {
-                handleUser(owner);
                 handleStore(store);
 
                 window.scrollTo(0, 0);

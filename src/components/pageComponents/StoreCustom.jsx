@@ -32,7 +32,7 @@ const noLogo = "../../../../faviconB.png"
 function StoreCustom({ isnew, close }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { store, shouldKick, handleStore, fdHeaders } = useAuthContext();
+    const { store, shouldKick, handleStore, formdataHeader } = useAuthContext();
     const { handleFetchError } = useFetchedContext();
 
     const width450False = width < 450 ? false : true;
@@ -187,7 +187,7 @@ function StoreCustom({ isnew, close }) {
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/stores/onboard/store`, {
                 method: "PATCH",
-                headers: fdHeaders,
+                headers: formdataHeader,
                 body: formData
             });
             shouldKick(res)

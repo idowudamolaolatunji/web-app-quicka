@@ -61,7 +61,7 @@ function index() {
                         )}
                     </div>
 
-                    <span>{user?.fullname}</span>
+                    <span>{user?.firstName}</span>
                 </div>
 
 

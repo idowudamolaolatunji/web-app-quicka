@@ -31,7 +31,7 @@ function index({ isnew=false, close, ismodal=false }) {
     const { id } = useParams();
     
     const { width } = useWindowSize();
-    const { shouldKick, handleStore, currency, fdHeaders } = useAuthContext();
+    const { shouldKick, handleStore, currency, formdataHeader } = useAuthContext();
     const { error, collections, handleFetchOneItem, handleFetchError, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
     const BASE_API_URL = import.meta.env.VITE_API_URL;
     
@@ -275,7 +275,7 @@ function index({ isnew=false, close, ismodal=false }) {
             
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/products${end_point}`, {
-                headers: fdHeaders,
+                headers: formdataHeader,
                 method: id ? "PATCH" : "POST",
                 body: formData
             });

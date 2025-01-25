@@ -49,7 +49,7 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
                 <span className='item--user'>
                     <UserIntialsImage />
                     <span className='item--user-info'>
-                        <p>{user?.fullname}</p>
+                        <p>{user?.firstname} {user?.lastname}</p>
                         <p>{user.email}</p>
                     </span>
                 </span>
