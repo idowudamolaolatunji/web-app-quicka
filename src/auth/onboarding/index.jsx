@@ -6,8 +6,6 @@ import SpinnerTiny from '../../components/spinner/tiny'
 import TooltipUI from '../../components/layout/TooltipUI';
 import Asterisk from '../../components/elements/Asterisk';
 import CustomAlert from '../../components/layout/CustomAlert';
-import logo_demo from '../../assets/images/resources/logo-demo.png'
-
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
 import { validateOnboardForm } from '../../utils/validationHelper';
@@ -138,7 +136,7 @@ function index() {
         }
     }
 
-    const userId = localStorage.getItem('user_id');
+    const userId = localStorage.getItem(`${import.meta.env.VITE_USERID_KEY}`);
     useEffect(function () {
         document.title = "Quicka | Store Onboarding";
 
@@ -245,8 +243,7 @@ function index() {
 
     }, [onboardingData?.subdomain])
 
-    console.log(onboardingErrors)
-
+    
     async function handleOnboading() {
         // RESET THE RESPONSE AND LOADING STATE HERE
         setLoading(true);

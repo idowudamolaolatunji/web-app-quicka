@@ -31,7 +31,7 @@ function index() {
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
 
-    const [otpUser, setOtpUser] = useState(localStorage.getItem("otp_user") ? JSON.parse(localStorage.getItem("otp_user")) : null);
+    const [otpUser, setOtpUser] = useState(localStorage.getItem(`${import.meta.env.VITE_OTPUSER_KEY}`) ? JSON.parse(localStorage.getItem(`${import.meta.env.VITE_OTPUSER_KEY}`)) : null);
 
 
     const handleResetResponse = function () {
@@ -52,7 +52,7 @@ function index() {
     }, []);
 
     useEffect(function () {
-        localStorage.setItem("otp_user", JSON.stringify(otpUser));
+        localStorage.setItem(`${import.meta.env.VITE_OTPUSER_KEY}`, JSON.stringify(otpUser));
     }, [otpUser])
 
 
@@ -91,11 +91,11 @@ function index() {
             setResponse({ status: data?.status, message: data?.message });
 
             const userId = data?.data?.user._id;
-            localStorage.setItem("user_id", userId);
+            localStorage.setItem(`${import.meta.env.VITE_USERID_KEY}`, userId);
             localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
 
             setTimeout(function () {
-                localStorage.removeItem("otp_user");
+                localStorage.removeItem(`${import.meta.env.VITE_OTPUSER_KEY}`);
                 navigate('/congratulations?next=onboarding');
             }, 1000);
         } catch (err) {

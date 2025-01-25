@@ -84,7 +84,7 @@ function index() {
                 // IF THE USER IS NOT VERIFIED, REDIRECT THE TO THE VERIFICATION PAGE
                 if (message.startsWith("Account not verified.")) {
                     const { user } = data?.data;
-                    localStorage.setItem("otp_user", JSON.stringify({ ...user, message: "not_verified" }));
+                    localStorage.setItem(`${import.meta.env.VITE_OTPUSER_KEY}`, JSON.stringify({ ...user, message: "not_verified" }));
 
                     setTimeout(function () {
                         navigate('/verify-otp');
@@ -98,7 +98,7 @@ function index() {
             // USER MUST HAVE SETUP THEIR STORE TO LOGIN
             const { user, store } = data?.data;
             if (!user.basicSetup) {
-                localStorage.setItem("user_id", user._id);
+                localStorage.setItem(`${import.meta.env.VITE_USERID_KEY}`, user._id);
 
                 setResponse({ status, message });
                 setTimeout(function () {

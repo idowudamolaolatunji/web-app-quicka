@@ -27,7 +27,7 @@ function index() {
             navigate(nextData.link);
             localStorage.removeItem(`${import.meta.env.VITE_CONGRATS_KEY}`);
             if (search.includes("?next=dashboard")) {
-                localStorage.removeItem("user_id");
+                localStorage.removeItem(`${import.meta.env.VITE_USERID_KEY}`);
             }
         }, 1500);
     }
@@ -35,7 +35,7 @@ function index() {
 
     useEffect(function () {
         window.scrollTo(0, 0);
-        const userId = localStorage.getItem("user_id");
+        const userId = localStorage.getItem(`${import.meta.env.VITE_USERID_KEY}`);
         const accessKey = localStorage.getItem(`${import.meta.env.VITE_CONGRATS_KEY}`);
 
         if (!userId || !accessKey) navigate(-1);

@@ -127,7 +127,7 @@ function index() {
 
             // SAVE USER NEEDED INFO IN LOCALSTORAGE
             const { user } = data?.data;
-            localStorage.setItem("otp_user", JSON.stringify(user));
+            localStorage.setItem(`${import.meta.env.VITE_OTPUSER_KEY}`, JSON.stringify(user));
 
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
             setResponse({ status: data.status, message: data.message });
