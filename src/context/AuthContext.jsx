@@ -22,9 +22,7 @@ export const AuthProvider = ({ children }) => {
     }
     const formdataHeader = { Authorization: `Bearer ${token}` }
 
-    const currencies = store?.currencies || [];
-    const mainCurrency = store?.mainCurrency || 0;
-    const currency = currencies[mainCurrency]?.symbol;
+    const currency = store?.currency?.symbol;
 
     function handleChange(user, token) {
         setUser(user);

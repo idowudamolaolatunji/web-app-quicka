@@ -39,7 +39,7 @@ function GetStarted() {
         { id: 2, name: 'hasCustomisedStore', tipText: 'Store Customized!', text: 'Customize your online store.', completed: false, shortText: 'Customize your Store' },
         { id: 3, name: 'hasFirstProduct', tipText: 'First Product Uploaded!', text: 'Add your first product', completed: false, shortText: 'Upload First Product' },
         { id: 4, name: 'hasDeliveryRate', tipText: 'Delivery Rate Created!', text: 'Add your delivery rates to your website', completed: false, shortText: 'Set Delivery Rates' },
-        { id: 5, name: 'hasBankDetails', tipText: 'Bank Details Added!', text: 'Add bank details for payments', completed: false, shortText: 'Set Bank Info' }
+        { id: 5, name: 'hasPaymentDetails', tipText: 'Bank / payment Details Added!', text: 'Add bank / payment details for payout', completed: false, shortText: 'Set Payment Info' }
     ]);
 
     const [showModal, setShowModal] = useState({
@@ -96,10 +96,10 @@ function GetStarted() {
         handleLoading("mainLoading", true);
 
         const {
-            hasBankDetails, hasFirstProduct, hasDeliveryRate, hasCustomisedStore
+            hasPaymentDetails, hasFirstProduct, hasDeliveryRate, hasCustomisedStore
         } = store.storeOnboard;
 
-        updateState("hasBankDetails", hasBankDetails);
+        updateState("hasPaymentDetails", hasPaymentDetails);
         updateState("hasFirstProduct", hasFirstProduct);
         updateState("hasDeliveryRate", hasDeliveryRate);
         updateState("hasCustomisedStore", hasCustomisedStore);
@@ -214,13 +214,13 @@ function GetStarted() {
                         <button name="delivery" onClick={handleOpenModal}>{handleCheckIfCompleted("hasDeliveryRate") ? <CompletedTagUI /> : ' Add delivery rates'}</button>
                     </div>
 
-                    <div className={`opts--items ${handleCheckIfCompleted("hasBankDetails") ? 'is-completed' : ''}`}>
+                    <div className={`opts--items ${handleCheckIfCompleted("hasPaymentDetails") ? 'is-completed' : ''}`}>
                         <div className="opts--heading">
                             <span className='opts--icon'><RiBankLine /></span>
                             <h3>Add bank details for payments.</h3>
                         </div>
                         <p>Bank details is needed to allow you start collecting payment when you make sales through your website.</p>
-                        <button name="bank" onClick={handleOpenModal}>{handleCheckIfCompleted("hasBankDetails") ? <CompletedTagUI /> : 'Set up payment'}</button>
+                        <button name="bank" onClick={handleOpenModal}>{handleCheckIfCompleted("hasPaymentDetails") ? <CompletedTagUI /> : 'Set up payment'}</button>
                     </div>
                 </div>
 

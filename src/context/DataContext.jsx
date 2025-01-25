@@ -19,9 +19,8 @@ export const DataProvider = ({ children }) => {
     const isMobile = width <= 650 ? true : false
 
     const { store } = useAuthContext();
-    const currencies = store?.currencies || [];
-    const mainCurrency = store?.mainCurrency || 0;
-    const currencyName = currencies[mainCurrency]?.name;
+    const currencyName = store?.currency?.name;
+
     /////////////////////////////////////////////////////
 
     const [isMenuCollapsed, setIsMenuCollapsed] = useState(localStorage.getItem("menu_collapsed") ? JSON.parse(localStorage.getItem("menu_collapsed")) : false);

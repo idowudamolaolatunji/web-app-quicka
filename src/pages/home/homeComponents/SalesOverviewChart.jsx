@@ -14,7 +14,7 @@ function OverviewChart({ period }) {
     
     const isData = orders?.length > 0 ? true : false;
     const completedOrders = orders?.filter(order => order.orderStatus == "completed");
-    const currency = store?.currencies[store?.mainCurrency]?.symbol;
+    const currency = store?.currency?.symbol;
 
     const handleGetYearlyData = function() {
         const now = moment();

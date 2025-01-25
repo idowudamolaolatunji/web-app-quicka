@@ -1,7 +1,6 @@
 import React from 'react'
 import { useFetchedContext } from '../../context/FetchedContext'
 import { useAuthContext } from '../../context/AuthContext';
-import CurrencyInput from 'react-currency-input-field';
 import CurrencyInputField from '../form/CurrencyInputField';
 
 function ProductFilterForm() {
@@ -40,7 +39,7 @@ function ProductFilterForm() {
         </div>
 
         <div className="form--item">
-            <label htmlFor="" className="form--label">Price, ₦</label>
+            <label htmlFor="" className="form--label">Price, {currency}</label>
             
             <div className="form--grid">
                 <CurrencyInputField />

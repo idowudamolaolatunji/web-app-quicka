@@ -25,8 +25,9 @@ function EditDetails() {
     const { location, getStates, getCities, setLocation } = useDataContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
 
-    const { currencies, mainCurrency, contact } = store;
+    const { paymentCurrencies, paymentMainCurrency, contact } = store;
     const { countryCode } = store?.contact;
+    // const currency = store?.currency?.symbol;
 
     const [country, setCountry] = useState([]);
     const [state, setState] = useState([]);
@@ -42,7 +43,7 @@ function EditDetails() {
         dialCode: contact?.dialCode ? contact?.dialCode : "",
         phoneNumber: contact?.phoneNumber ? contact?.phoneNumber : "",
         phone: contact?.phone ? contact?.phone : "",
-        mainCurrency: mainCurrency ? mainCurrency : 0,
+        paymentMainCurrency: paymentMainCurrency ? paymentMainCurrency : 0,
         address: store?.location?.address ? store?.location?.address : "",
         zip: store?.location?.zip ? store?.location?.zip : "",
     })
@@ -107,7 +108,7 @@ function EditDetails() {
             dialCode: contact?.dialCode ? contact?.dialCode : "",
             phoneNumber: contact?.phoneNumber ? contact?.phoneNumber : "",
             phone: contact?.phone ? contact?.phone : "",
-            mainCurrency: mainCurrency ? mainCurrency : 0,
+            paymentMainCurrency: paymentMainCurrency ? paymentMainCurrency : 0,
             address: store?.location?.address ? store?.location?.address : "",
             zip: store?.location?.zip ? store?.location?.zip : "",
         })
@@ -234,7 +235,7 @@ function EditDetails() {
             formData.append("category", JSON.stringify(category))
             formData.append("slogan", storeData.slogan);
             formData.append("description", storeData.description);
-            formData.append("mainCurrency", storeData.mainCurrency);
+            formData.append("paymentMainCurrency", storeData.paymentMainCurrency);
             formData.append("contact", JSON.stringify(contact));
             formData.append("location", JSON.stringify(location));
             if(logo.file) formData.append("image", logo.file)
@@ -378,7 +379,7 @@ function EditDetails() {
                         <div className="form--item">
                             <label className="form--label">Currency</label>
 
-                            <MainDropdownSelect title="Main Currency" options={store?.currencies} field="name" value={[currencies[mainCurrency]]} setValue={(value) => setStoreData({ ...storeData, mainCurrency: currencies?.findIndex(el => el.name === value[0].name) })} clearable={false} />
+                            <MainDropdownSelect title="Main Currency" options={paymentCurrencies} field="name" value={[paymentCurrencies[paymentMainCurrency]]} setValue={(value) => setStoreData({ ...storeData, paymentMainCurrency: paymentCurrencies?.findIndex(el => el.name === value[0].name) })} clearable={false} />
                         </div>
 
                         <div className="form--item">

@@ -35,7 +35,7 @@ function index() {
             <div className="profile__container" style={{ gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "60rem", marginTop: width > 600 ? "4rem" : "0" }}>
 
                 <div className='page__section--heading' style={{ margin: 0 }}>
-                    <h2 className="page__section--title">Your Account Profile</h2>
+                    <h2 className="page__section--title">Account Profile</h2>
                 </div>
 
                 <div className="profile__container--top">
@@ -46,7 +46,7 @@ function index() {
 
                             <span className='profile--image-label'>
                                 <HiOutlineCloudUpload style={{ fontSize: '2.4rem' }} />
-                                <p>{(user?.image.url || profileImage.preview) ? "Change Image" : "Choose Image"}</p>
+                                <p>{(user?.image?.url || profileImage.preview) ? "Change Image" : "Choose Image"}</p>
                             </span>
                             
                             {(profileImage.preview) ? (

@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import ErrorComponent from '../../components/layout/ErrorComponent';
 import { useAuthContext } from '../../context/AuthContext';
+import AppSkeleton from '../../components/skeleton/AppSkeleton';
 
 function index() {
     const navigate = useNavigate()
@@ -98,7 +99,7 @@ function index() {
                 <div className="page__section--main connected__grid">
                     {apps.map(app => (
                         loading ? (
-                            <Skeleton height={150} />
+                            <AppSkeleton />
                         ) : (
                             <AppFigure app={app} key={app?.name} />
                         )

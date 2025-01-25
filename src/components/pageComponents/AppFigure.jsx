@@ -48,10 +48,12 @@ function AppFigure({ app }) {
                 )
             )}
 
+            {/* THIS HERE IS THE MODEL THAT POPS UP FOR ANY INTEGRATION ACTION, CONNECT OR DISCONNECT */}
             {(showModal.connect || showModal.disconnect) && (
                 createPortal(
                     <IntegrationModal setClose={handleCloseModal} customClass={showModal?.connect ? "connect" : "disconnect"}>
                         <h3 className="modal--title">{showModal?.connect ? "Connect" : "Disconnect"} {selectedApp?.name}</h3>
+
                     </IntegrationModal>,
                     document.body
                 )

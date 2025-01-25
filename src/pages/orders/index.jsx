@@ -31,7 +31,7 @@ function index() {
     const { store } = useAuthContext();
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
     const { loader, error, orders, handleFetchUserStoreOrders, handleDeleteOneItem } = useFetchedContext()
-    const currency = store?.currencies[store?.mainCurrency]?.symbol;
+    const currency = store?.currency?.symbol;
     
     const [search, setSearch] = useState('');
     const [searchLoader, setSearchLoader] = useState(false);

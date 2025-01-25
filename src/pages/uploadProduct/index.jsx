@@ -31,9 +31,11 @@ function index({ isnew=false, close, ismodal=false }) {
     const { id } = useParams();
     
     const { width } = useWindowSize();
-    const { shouldKick, handleStore, currency, formdataHeader } = useAuthContext();
+    const { shouldKick, handleStore, store, formdataHeader } = useAuthContext();
     const { error, collections, handleFetchOneItem, handleFetchError, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
     const BASE_API_URL = import.meta.env.VITE_API_URL;
+
+    const currency = store?.currency?.symbol;
     
 
     //////////////////////////////////////////////////////////

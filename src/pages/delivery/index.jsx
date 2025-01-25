@@ -25,7 +25,7 @@ function index() {
     const { store } = useAuthContext();
     
     const { loader, error, deliveryRates, handleDeleteOneItem, handleFetchUserStoreDeliveryRates } = useFetchedContext();
-    const currency = store?.currencies[store?.mainCurrency]?.symbol;
+    const currency = store?.currency?.symbol;
 
     ////////////////////////////////////////////////////////
     const [deleteLoader, setDeleteLoader] = useState(false);

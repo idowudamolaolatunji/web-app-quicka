@@ -24,7 +24,7 @@ function index({ close, isnew, isModal }) {
     const { headers, store, handleStore, shouldKick } = useAuthContext();
     const { handleFetchUserStoreDeliveryRates, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
-    const currency = store?.currencies[store?.mainCurrency]?.symbol;
+    const currency = store?.currency?.symbol;
 
     const [showConfetti, setShowConfetti] = useState(false)
     const [deliveryFormErrors, setdeliveryFormErrors] = useState({})

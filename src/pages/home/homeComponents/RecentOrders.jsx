@@ -19,7 +19,7 @@ function RecentOrders() {
     const { store } = useAuthContext();
     const { orders, error } = useFetchedContext();
     
-    const currency = store?.currencies[store?.mainCurrency]?.symbol;
+    const currency = store?.currency?.symbol;
 
     const isData = orders?.length > 0;
     const recentOrders = orders?.slice(0, 3);
