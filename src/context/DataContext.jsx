@@ -9,6 +9,10 @@ import { useAuthContext } from "./AuthContext";
 const DataContext = createContext();
 export default DataContext;
 
+const PRODUCT_TAB_KEY = import.meta.env.VITE_PRODUCT_DISPLAY_STYLE_KEY;
+const MENU_COLLAPSED_KEY = import.meta.env.VITE_MENU_COLLAPSED_KEY;
+const SHOW_INSIGHTS_KEY = import.meta.env.VITE_SHOW_INSIGHTS_KEY;
+
 
 //////////////////////////////////////////////
 //// CREATING PROVIDER ////
@@ -22,17 +26,16 @@ export const DataProvider = ({ children }) => {
     const currencyName = store?.currency?.name;
 
     /////////////////////////////////////////////////////
-
-    const [isMenuCollapsed, setIsMenuCollapsed] = useState(localStorage.getItem("menu_collapsed") ? JSON.parse(localStorage.getItem("menu_collapsed")) : false);
-
-    const [showSidemenu, setShowSidemenu] = useState(false);
+    /////////////////////////////////////////////////////
     const [animateOut, setAnimateOut] = useState(false);
+    const [showSidemenu, setShowSidemenu] = useState(false);
+    const [location, setLocation] = useState({ country: [], state: [], city: [] });
     const [showFilterModal, setShowFilterModal] = useState({ name: "", isShown: false });
-
-    const [activeDisplayTab, setActiveDisplayTab] = useState(localStorage.getItem("p_active_tab") ? JSON.parse(localStorage.getItem("p_active_tab")) : "table");
-
+    ////////////////////////////////////////////////////////////////////////////////////////
+    const [isMenuCollapsed, setIsMenuCollapsed] = useState(localStorage.getItem(MENU_COLLAPSED_KEY) ? JSON.parse(localStorage.getItem(MENU_COLLAPSED_KEY)) : false);
+    const [activeDisplayTab, setActiveDisplayTab] = useState(localStorage.getItem(PRODUCT_TAB_KEY) ? JSON.parse(localStorage.getItem(PRODUCT_TAB_KEY)) : "table");
     const [showInsights, setShowInsights] = useState(
-        localStorage.getItem("show_ins") ? JSON.parse(localStorage.getItem("show_ins")) : {
+        localStorage.getItem(SHOW_INSIGHTS_KEY) ? JSON.parse(localStorage.getItem(SHOW_INSIGHTS_KEY)) : {
         product: isMobile,
         order: isMobile,
         customer: isMobile,
@@ -41,13 +44,7 @@ export const DataProvider = ({ children }) => {
         discount: isMobile
     });
 
-    const [location, setLocation] = useState({
-        country: [],
-        state: [],
-        city: [],
-    });
-
-
+    
     const handleToggleFilter = function(pageName) {
         setShowFilterModal({ name: pageName, isShown: !showFilterModal.isShown });
     }
@@ -108,15 +105,15 @@ export const DataProvider = ({ children }) => {
 
 
     useEffect(function() {
-        localStorage.setItem("menu_collapsed", JSON.stringify(isMenuCollapsed));
+        localStorage.setItem(MENU_COLLAPSED_KEY, JSON.stringify(isMenuCollapsed));
     }, [isMenuCollapsed]);
 
     useEffect(function() {
-        localStorage.setItem("show_ins", JSON.stringify(showInsights))
+        localStorage.setItem(SHOW_INSIGHTS_KEY, JSON.stringify(showInsights))
     }, [showInsights]);
 
     useEffect(function() {
-        localStorage.setItem("p_active_tab", JSON.stringify(activeDisplayTab))
+        localStorage.setItem(PRODUCT_TAB_KEY, JSON.stringify(activeDisplayTab))
     }, [activeDisplayTab]);
 
 

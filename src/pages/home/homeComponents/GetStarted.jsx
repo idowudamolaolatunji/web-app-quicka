@@ -19,7 +19,7 @@ import { useFetchedContext } from '../../../context/FetchedContext';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
-
+const STEPS_PROGRESS = import.meta.env.VITE_ONBOARD_STEPS_PROGRESS_KEY
 
 function GetStarted() {
     const { width } = useWindowSize();
@@ -31,15 +31,15 @@ function GetStarted() {
         Authorization: `Bearer ${token}`
     }
 
-    const [loading, setLoading] = useState({ mainLoading: false, miniLoading: false });
+    const [loading, setLoading] = useState(true);
     const [response, setResponse] = useState({ status: null, message: null });
     
-    const [stepsToComplete, setStepsToComplete] = useState(localStorage.getItem("steps_progress") ? JSON.parse(localStorage.getItem("steps_progress")) : [
+    const [stepsToComplete, setStepsToComplete] = useState(localStorage.getItem(STEPS_PROGRESS) ? JSON.parse(localStorage.getItem(STEPS_PROGRESS)) : [
         { id: 1, name: 'Onboard', tipText: 'Store and Dashboard Created!', completed: true },
-        { id: 2, name: 'hasCustomisedStore', tipText: 'Store Customized!', text: 'Customize your online store.', completed: false, shortText: 'Customize your Store' },
-        { id: 3, name: 'hasFirstProduct', tipText: 'First Product Uploaded!', text: 'Add your first product', completed: false, shortText: 'Upload First Product' },
-        { id: 4, name: 'hasDeliveryRate', tipText: 'Delivery Rate Created!', text: 'Add your delivery rates to your website', completed: false, shortText: 'Set Delivery Rates' },
-        { id: 5, name: 'hasPaymentDetails', tipText: 'Bank / payment Details Added!', text: 'Add bank / payment details for payout', completed: false, shortText: 'Set Payment Info' }
+        { id: 2, name: 'hasCustomisedStore', tipText: 'Store Customized!', completed: false, shortText: 'Customize your Store' },
+        { id: 3, name: 'hasFirstProduct', tipText: 'First Product Uploaded!', completed: false, shortText: 'Upload First Product' },
+        { id: 4, name: 'hasDeliveryRate', tipText: 'Delivery Rate Created!', completed: false, shortText: 'Set Delivery Rates' },
+        { id: 5, name: 'hasPaymentDetails', tipText: 'Bank / payment Details Added!', completed: false, shortText: 'Set Payment details' }
     ]);
 
     const [showModal, setShowModal] = useState({
@@ -70,9 +70,9 @@ function GetStarted() {
         )));
     };
 
-    const handleLoading = function (key, value) {
-        setLoading({ ...loading, [key]: value });
-    }
+    // const handleLoading = function (key, value) {
+    //     setLoading({ ...loading, [key]: value });
+    // }
 
     const handleOpenModal = function(e) {
         const { name } = e.target;
@@ -88,23 +88,23 @@ function GetStarted() {
     }, []);
 
     useEffect(function () {
-        localStorage.setItem("steps_progress", JSON.stringify(stepsToComplete));
+        localStorage.setItem(STEPS_PROGRESS, JSON.stringify(stepsToComplete));
     }, [stepsToComplete]);
 
     // THIS HERE IS BRILLIANT
     useEffect(function () {
-        handleLoading("mainLoading", true);
+        setLoading(true);
 
         const {
             hasPaymentDetails, hasFirstProduct, hasDeliveryRate, hasCustomisedStore
-        } = store.storeOnboard;
+        } = store?.storeOnboard;
 
         updateState("hasPaymentDetails", hasPaymentDetails);
         updateState("hasFirstProduct", hasFirstProduct);
         updateState("hasDeliveryRate", hasDeliveryRate);
         updateState("hasCustomisedStore", hasCustomisedStore);
 
-        setTimeout(() => handleLoading("mainLoading", false), 200);
+        setTimeout(() => setLoading(false), 200);
     }, [showModal]);
 
 
@@ -115,7 +115,7 @@ function GetStarted() {
             setTimeout(() => setResponse({ status: "", message: "" }), 5000);
             return;
         }
-        handleLoading("mainLoading", true);
+        setLoading(true);
 
         try {
             const res = await fetch(`${BASE_API_URL}/stores/onboard/finalize`, {
@@ -134,11 +134,11 @@ function GetStarted() {
                 handleStore(store);
 
                 window.scrollTo(0, 0);
-                handleLoading("mainLoading", false);
+                setLoading(false);
             }, 3000);
 
         } catch(err) {
-            handleLoading("mainLoading", false);
+            setLoading(false);
             const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         }
@@ -146,7 +146,7 @@ function GetStarted() {
 
     return (
         <>
-            {loading.mainLoading && <Spinner />}
+            {loading && <Spinner />}
             {(response.status || response.message) && (
                 <CustomAlert type={response.status} message={response.message} />
             )}
@@ -217,9 +217,9 @@ function GetStarted() {
                     <div className={`opts--items ${handleCheckIfCompleted("hasPaymentDetails") ? 'is-completed' : ''}`}>
                         <div className="opts--heading">
                             <span className='opts--icon'><RiBankLine /></span>
-                            <h3>Add bank details for payments.</h3>
+                            <h3>Add payment details for payout.</h3>
                         </div>
-                        <p>Bank details is needed to allow you start collecting payment when you make sales through your website.</p>
+                        <p>Bank or payment details is needed to allow you start collecting payment when you make sales through your website.</p>
                         <button name="bank" onClick={handleOpenModal}>{handleCheckIfCompleted("hasPaymentDetails") ? <CompletedTagUI /> : 'Set up payment'}</button>
                     </div>
                 </div>

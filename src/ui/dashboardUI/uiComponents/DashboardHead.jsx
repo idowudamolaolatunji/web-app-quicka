@@ -24,9 +24,6 @@ function DashboardHead() {
     const { user, store } = useAuthContext();
     const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
     const { globalConnectionError, handleGlobalRefetch } = useFetchedContext();
-    
-    const { storeOnboardCompleted } = store;
-
 
     const [isShownDropdown, setIsShownDropdown] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -65,7 +62,7 @@ function DashboardHead() {
                     <div className=""></div>
 
                     <div className="nav--others">
-                        {(width > 600 && !globalConnectionError && storeOnboardCompleted) && (
+                        {(width > 600 && !globalConnectionError && store?.storeOnboardCompleted ) && (
                             <DefaultButton>
                                 <TooltipUI placement='top' title="Refresh all">
                                     <div className="nav--icon notification--icon" onClick={handleGlobalRefetch}>
@@ -75,7 +72,7 @@ function DashboardHead() {
                             </DefaultButton>
                         )}
 
-                        {storeOnboardCompleted && (
+                        {store?.storeOnboardCompleted  && (
                             <a href={`https://${store?.storeUrl}`} target='_blank' className='store--btn'>
                                 View Store <MdOutlineStorefront />
                             </a>

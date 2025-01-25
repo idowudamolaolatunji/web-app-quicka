@@ -67,7 +67,6 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
         }
     }
 
-
     return (
         <>
             {showModal && <Delete close={() => setShowModal(false)} fn={handleDelete} text="This image will be deleted!" />}

@@ -6,6 +6,8 @@ import logo_demo from '../../assets/images/resources/logo-demo.png'
 
 function LogoUploadInput({ logoPreview, handleLogoChange, handleLogoRemove }) {
     const { store } = useAuthContext()
+
+    console.log(logoPreview)
   return (
     <div className="form--element">
         <span><img src={logoPreview || (store?.storeLogo?.url ? store?.storeLogo?.url : logo_demo)} alt="brand logo" /></span>

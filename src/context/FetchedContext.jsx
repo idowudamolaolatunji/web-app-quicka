@@ -125,8 +125,9 @@ export const FetchedProvider = ({ children }) => {
         setStoreLoader(true);
         const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
         const data = await res.json();
-        handleStore(data?.data?.store);
         setStoreLoader(false)
+        if(!data?.status) return
+        handleStore(data?.data?.store);
     }
 
     // FETCH UNPROTECTED STORE ITEM BY ID

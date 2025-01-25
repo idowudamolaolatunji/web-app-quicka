@@ -14,8 +14,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL
 
 function ExportCSV({ title, data, setClose }) {
     const { store, headers } = useAuthContext();
-    const { subscriptionType, csvConvertCredit } = store;
-    const hasConvert = csvConvertCredit;
+    const hasConvert = store?.csvConvertCredit;
 
     /////////////////////////////////////////////////////////////
     const [modalInputError, setModalImputError] = useState("");
@@ -93,7 +92,7 @@ function ExportCSV({ title, data, setClose }) {
                         All {title} data will be exported, Either to the email provided or can be downloded!
                         <br />
 
-                        {subscriptionType == "free" && (
+                        {store?.subscriptionType == "free" && (
                             <span style={{ paddingTop: "1rem", display: "inline-block" }}>
                                 You have <strong>"{!hasConvert ? "No" : hasConvert} More Free Exports"</strong> {!hasConvert ? "😔" : "😉"} left!{" "}
 

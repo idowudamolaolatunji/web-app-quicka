@@ -7,21 +7,23 @@ import Cookies from 'js-cookie';
 const AuthContext = createContext();
 export default AuthContext;
 
+const AUTH_KEY = import.meta.env.VITE_AUTH_KEY;
+const TOKEN_KEY = import.meta.env.VITE_AUTH_TOKEN_KEY;
+const STORE_KEY = import.meta.env.VITE_STORE_KEY;
 
 //////////////////////////////////////////////
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(Cookies.get('q_auth') ? JSON.parse(Cookies.get('q_auth')) : null);
-    const [token, setToken] = useState(Cookies.get('q_token') ? Cookies.get('q_token') : null);
-    const [store, setStore] = useState(Cookies.get("q_store") ? JSON.parse(Cookies.get("q_store")) : null);
+    const [user, setUser] = useState(Cookies.get(AUTH_KEY) ? JSON.parse(Cookies.get(AUTH_KEY)) : null);
+    const [token, setToken] = useState(Cookies.get(TOKEN_KEY) ? Cookies.get(TOKEN_KEY) : null);
+    const [store, setStore] = useState(Cookies.get(STORE_KEY) ? JSON.parse(Cookies.get(STORE_KEY)) : null);
 
     const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
     }
     const formdataHeader = { Authorization: `Bearer ${token}` }
-
     const currency = store?.currency?.symbol;
 
     function handleChange(user, token) {
@@ -57,9 +59,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(function () {
-        Cookies.set("q_auth", JSON.stringify(user), { expires: 365 });
-        Cookies.set("q_token", token, { expires: 365 });
-        Cookies.set("q_store", JSON.stringify(store), { expires: 365 });
+        Cookies.set(AUTH_KEY, JSON.stringify(user), { expires: 365 });
+        Cookies.set(TOKEN_KEY, token, { expires: 365 });
+        Cookies.set(STORE_KEY, JSON.stringify(store), { expires: 365 });
     }, [user, token, store]);
 
     // CREATE CONTEXT DATA

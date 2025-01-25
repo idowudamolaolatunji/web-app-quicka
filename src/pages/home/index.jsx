@@ -17,8 +17,6 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { loader, globalConnectionError } = useFetchedContext();
-
-    const { storeOnboardCompleted } = store;
     
 
     useEffect(function () {
@@ -33,7 +31,7 @@ function index() {
                 <HomeTop />
                 <Line border={1.4} />
 
-                {storeOnboardCompleted ? (
+                {store?.storeOnboardCompleted ? (
                     <>
                         {(loader?.order) && <Spinner />}
                         {(width > 500) && <HomeProgressGrid />}

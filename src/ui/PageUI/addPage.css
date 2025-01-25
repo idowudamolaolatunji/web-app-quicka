@@ -223,8 +223,9 @@
 	border-radius: .4rem;
 }
 .upload.form--img-box.img--preview .img {
-    width: 100%;
-	height: 10rem;
+    width: 98%;
+	/* height: 10rem; */
+	height: 98% !important;
 	cursor: pointer;
     object-fit: cover;
 }

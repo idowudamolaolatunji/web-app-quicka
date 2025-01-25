@@ -15,7 +15,6 @@ function HomeTop() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
-    const { storeOnboardCompleted, subscriptionType } = store;
 
     const [showSub, setShowSub] = useState(true);
 
@@ -31,7 +30,7 @@ function HomeTop() {
     
     return (
         <>
-            {(subscriptionType == "free" && showSub) && (
+            {(store?.subscriptionType == "free" && showSub) && (
                 <div className='home--sub'>
 
                     {remaining >= 1 ? (
@@ -61,7 +60,7 @@ function HomeTop() {
 
             <div className='home--top'>
                 <div className='top--heading'>
-                    {(storeOnboardCompleted) ? (
+                    {(store?.storeOnboardCompleted ) ? (
                         <p className='heading--name'>{getGreeting()},{" "}{user.firstname}! {getExpression()}</p>
                     ) : (
                         <p className='heading--name'>Welcome Back, {user.firstname}! 👋🏿</p>
@@ -71,14 +70,14 @@ function HomeTop() {
 
 
                 
-                {(width > 650 && subscriptionType == "free" && !showSub) && (
+                {(width > 650 && store?.subscriptionType == "free" && !showSub) && (
                     <div className='top--upgrade'>
                         <p className='upgrade--text'>Your account is currently on the free plan.</p>
                         <Link to='/dashboard/subscription' className='upgrade--link'><LuCheckCircle />Upgrade</Link>
                     </div>
                 )}
 
-                {(width <= 650 && subscriptionType == "free" && !showSub) && (
+                {(width <= 650 && store?.subscriptionType == "free" && !showSub) && (
                     <p className='upgrade--link' onClick={() => navigate('/dashboard/subscription')}><LuCheckCircle />Your account is currently on the free plan.</p>
                 )}
             </div>

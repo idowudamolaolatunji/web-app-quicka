@@ -229,7 +229,7 @@ a.upgrade--link:hover {
     background-color: #fff;
 }
 .opts--icon svg {
-    font-size: 2rem;
+    font-size: 2.1rem;
     color: var(--color-brand-500);
 }
 .opts--items h3 {
@@ -930,7 +930,7 @@ a.upgrade--link:hover {
     }
 
     .opts--items {
-        padding: 1.6rem;
+        padding: 1.6rem 1.3rem;
         background-color: var(--color-brand-50);
     }
     .opts--heading {
@@ -939,7 +939,7 @@ a.upgrade--link:hover {
         gap: .8rem;
     }
     .opts--icon svg {
-        font-size: 2.4rem;
+        font-size: 2.48rem;
     }
     .section--heading h2,
     .opts--items h3 {

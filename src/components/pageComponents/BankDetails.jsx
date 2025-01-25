@@ -208,7 +208,7 @@ function BankDetails({ isnew, close }) {
                         <div className="form--item">
                             <label htmlFor='number' className="form--label">Account Number <Asterisk /></label>
 
-                            <input type="number" name="accountNumber" id="number" className='form--input' value={bankData.accountNumber} onChange={handleBankFormChange} placeholder='1234567890' />
+                            <input type="text" name="accountNumber" id="number" className='form--input' value={bankData.accountNumber} onChange={handleBankFormChange} placeholder='1234567890' />
                             <span className="form--error-message">
                                 {(loading.tiny && !resolveFound.status) && <SpinnerTiny />}
 

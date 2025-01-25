@@ -275,7 +275,7 @@ function StoreCustom({ isnew, close }) {
                                 handleChange={handleImageChange}
                                 name='banner'
                                 preview={imagePreview.banner}
-                                height={{ height: width < 650 ? "14rem" : "20rem", width: "100%", padding: width < 400 ? 0 : "1rem 0", overflow: "hidden" }}
+                                height={{ height: width < 650 ? "16rem" : "20rem", width: "100%", overflow: "hidden" }}
                                 text={<>Recommended dimension: 1450 x 350 <br /> Formats: JPEG, PNG, JPG and SVG</>}
                                 handleRemove={() => handleRemoveImage("banner")}
                             />
@@ -418,11 +418,11 @@ function StoreCustom({ isnew, close }) {
                         </span>
 
                         <div className="form--item">
-                            <LinkInput url='www.facebook.com/' name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
-                            <LinkInput url='www.instagram.com/' name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
-                            <LinkInput url='www.twitter.com/' name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
-                            <LinkInput url='www.tiktok.com/' name="tiktok" value={storeData.tiktok} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
-                            <LinkInput url='https://wa.me/' name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your link" />
+                            <LinkInput url='www.facebook.com/' name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your facebook page" />
+                            <LinkInput url='www.instagram.com/' name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your instagram handle" />
+                            <LinkInput url='www.twitter.com/' name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your twitter handle" />
+                            <LinkInput url='www.tiktok.com/' name="tiktok" value={storeData.tiktok} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your tiktok page" />
+                            <LinkInput url='https://wa.me/' name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your whatsapp number" type='number' />
                         </div>
                     </div>
 

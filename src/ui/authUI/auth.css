@@ -747,7 +747,7 @@ button.onboard--next {
         gap: 1rem;
     }
     .form--element {
-        grid-template-columns: 11rem 1fr;
+        grid-template-columns: 12rem 1fr;
         gap: 1.2rem;
     }
     .otp--item input {
