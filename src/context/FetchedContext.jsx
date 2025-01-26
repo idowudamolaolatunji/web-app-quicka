@@ -126,7 +126,7 @@ export const FetchedProvider = ({ children }) => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
         const data = await res.json();
         setStoreLoader(false)
-        if(!data?.status) return
+        if(!data?.status || !res.ok) return
         handleStore(data?.data?.store);
     }
 

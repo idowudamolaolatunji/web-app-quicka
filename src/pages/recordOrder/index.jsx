@@ -190,8 +190,8 @@ function index() {
                 body: JSON.stringify({
                     description,
                     ...orderData,
-                    profit: subTotal.total,
                     profit: subTotal.profit,
+                    orderSubTotal: subTotal.total,
                     channel: channel[0]?.value,
                     products: selectedProducts,
                     orderTotalQuantity: quantities,

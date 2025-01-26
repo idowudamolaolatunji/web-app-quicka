@@ -27,12 +27,12 @@ const discount_emptyBtns = [
 const coupon_emptyTitle = "Create Coupon Code";
 const coupon_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const coupon_emptyBtns = [
-    { title: <><RiCoupon3Line />Create Coupon</>, link: "/dashboard/coupons/create" },
+    { title: <><RiCoupon3Line />Create Coupon</>, link: "/dashboard/discounts/coupon/create" },
 ];
 const special_sales_emptyTitle = "Run Store Sales";
 const special_sales_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const special_sales_emptyBtns = [
-    { title: <><VscRunCoverage />Run Store Sales</>, link: "/dashboard/store-sales/run" },
+    { title: <><VscRunCoverage />Run Store Sales</>, link: "/dashboard/discounts/special-sales/run" },
 ];
 
 

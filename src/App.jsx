@@ -54,6 +54,9 @@ import RecordOrder from './pages/recordOrder';
 import AddCustomer from './pages/addCustomer';
 import CreateDelivery from './pages/createDelivery';
 import RunCampaign from './pages/campaigns/subPages/RunCampaign';
+import CreateCoupon from './pages/createCoupon';
+import CreateDiscount from './pages/createDiscount';
+import RunSpecialSale from './pages/runSpecialSales';
 
 import Products from './pages/products';
 import Orders from './pages/orders';
@@ -65,6 +68,7 @@ import Analytics from './pages/analytics';
 import ProductItem from './pages/products/subPages/ProductItem';
 import OrderItem from './pages/orders/subPages/OrderItem';
 import CustomerItem from './pages/customers/subPages/CustomerItem';
+import DiscountCoupon from './pages/discountCoupon';
 
 import Transaction from './pages/transactions';
 import Settings from './pages/settings';
@@ -78,7 +82,6 @@ import BuyDomain from './pages/customDomain/subPages/BuyDomain';
 import CustomizeTheme from './pages/storeCustomization/subPages/CustomizeTheme';
 import EditStoreDetails from './pages/storeDetails/subPages/EditDetails';
 
-import DiscountCoupon from './pages/discountCoupon';
 import Subscription from './pages/subscription';
 import SubscriptionPlans from './pages/subscription/subPages/ChoosePlan';
 // import Expenses from './pages/expenses';
@@ -143,6 +146,10 @@ function App() {
                     <Route path='/dashboard/custom-domain/buy-domain' element={<BuyDomain />}></Route>
                     <Route path='/dashboard/store-details' element={<StoreDetails />}></Route>
                     <Route path='/dashboard/store-details/edit' element={<EditStoreDetails />}></Route>
+
+                    <Route path='/dashboard/discounts/create' element={<CreateDiscount />}></Route>
+                    <Route path='/dashboard/discounts/coupon/create' element={<CreateCoupon />}></Route>
+                    <Route path='/dashboard/discounts/special-sales/run' element={<RunSpecialSale />}></Route>
 
                     <Route path='/dashboard/subscription' element={<Subscription />}></Route>
                     <Route path='/dashboard/subscription/choose-plan' element={<SubscriptionPlans />}></Route>

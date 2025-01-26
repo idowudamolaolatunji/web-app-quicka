@@ -96,7 +96,7 @@ function index() {
 
     // HELP FIND THE PRODUCTS LENGTH IN COLLECTION BY COLLECTION NAME
     const findProductsInCollection = function(name) {
-        const collectionProducts = products?.filter(product => product?.productCollection.includes(name));
+        const collectionProducts = products?.filter(product => product?.product_collection.includes(name));
         return collectionProducts?.length || 0;
     }
 
@@ -109,7 +109,7 @@ function index() {
                     <span className='table--info'>
                         <h3>{row?.name}</h3>
                         <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
-                            {row?.productCollection?.slice(0, width < 600 ? 2 : 3)?.map((collection) => (  
+                            {row?.product_collection?.slice(0, width < 600 ? 2 : 3)?.map((collection) => (  
                                 <span key={collection?._id}>{collection}</span>
                             ))}
                         </div>

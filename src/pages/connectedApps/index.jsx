@@ -30,18 +30,18 @@ function index() {
 
     const [integrations, setIntegrations] = useState([
         { name: "Paystack", slug: "paystack", by: "paystack", tag: "payment", text: "Connect to recieve payment with paystack.", icon: paystack, connected: true, },
-        { name: "Whatsapp", slug: "whatsapp", by: "meta", tag: "social", text: "Connect your whatsapp to recieve realtime notification for payment and order.", icon: whatsapp, connected: false, },
-        { name: "Facebook Pixel", slug: "facebook_pixel", by: "meta", tag: "ads", text: "Conntect facebook pixel for analytics and better ads experience.", icon: fb_pixel, connected: false, },
         { name: "Flutterwave", slug: "flutterwave", by: "flutterwave", tag: "payment", text: "Connect to recieve payment with flutterwave.", icon: flutterwave, connected: false, },
-        { name: "Google Analytics", slug: "google_analytics", by: "google", tag: "ads", text: "Conntect google analytics for better analytics and measure ads properly.", icon: google_analytics, connected: false, },
+        { name: "Whatsapp", slug: "whatsapp", by: "meta", tag: "notification", text: "Connect your whatsapp to recieve realtime notification for payment and order.", icon: whatsapp, connected: false, },
+        { name: "Facebook Pixel", slug: "facebook_pixel", by: "meta", tag: "adslytics", text: "Conntect facebook pixel for better ads mesurement and experience.", icon: fb_pixel, connected: false, },
+        { name: "Google Analytics", slug: "google_analytics", by: "google", tag: "adslytics", text: "Conntect google analytics for better analytics and track visitors properly.", icon: google_analytics, connected: false, },
     ]);
 
     ///////////////////////////////////////////////////////
     const all = integrations;
-    const ads = integrations?.filter(app => app.tag === "ads");
-    const socials = integrations?.filter(app => app.tag === "social");
+    const adslytics = integrations?.filter(app => app.tag === "adslytics");
+    const notifications = integrations?.filter(app => app.tag === "notification");
     const payments = integrations?.filter(app => app.tag === "payment");
-
+    ///////////////////////////////////////////////////////
     const apps = activeTab == "all" ? all : integrations?.filter(app => app.tag === activeTab);
 
     const updateState = function(slug, booleanValue) {
@@ -62,7 +62,16 @@ function index() {
         updateState("facebook_pixel", store?.integrations?.facebook_pixel);
         updateState("flutterwave", store?.integrations?.flutterwave);
         updateState("google_analytics", store?.integrations?.google_analytics);
+
+        // THERE CAN ONLY EVER BE ONE PAYMENT INTEGRATION
+        if(store?.paymentSettings?.name == "paystack") {
+            setIntegrations(prev => [...prev?.filter(step => step?.slug !== "flutterwave")])
+        }
+        if(store?.paymentSettings?.name == "flutterwave") {
+            setIntegrations(prev => [...prev?.filter(step => step?.slug !== "paystack")])
+        }
     }, [store]);
+
 
     useEffect(function () {
         setLoading(true);
@@ -72,7 +81,7 @@ function index() {
             navigate("?tab=all")
         }
 
-        setTimeout(() => setLoading(false), 1000)
+        setTimeout(() => setLoading(false), 500)
     }, [tabParams])
 
     return (
@@ -85,8 +94,8 @@ function index() {
 
             <div className="page--tabs" style={{ margin: "-2rem 0 0" }}>
                 <Tab title="All apps" active={activeTab == "all"} onClick={() => navigate("?tab=all")} value={all?.length} />
-                <Tab title="Socials" active={activeTab == "social"} onClick={() => navigate("?tab=social")} value={socials?.length} />
-                <Tab title="Ads" active={activeTab == "ads"} onClick={() => navigate("?tab=ads")} value={ads?.length} />
+                <Tab title="Ads & Analytics" active={activeTab == "adslytics"} onClick={() => navigate("?tab=adslytics")} value={adslytics?.length} />
+                <Tab title="Notification" active={activeTab == "notification"} onClick={() => navigate("?tab=notification")} value={notifications?.length} />
                 <Tab title="Payments" active={activeTab == "payment"} onClick={() => navigate("?tab=payment")} value={payments?.length} />
             </div>
 

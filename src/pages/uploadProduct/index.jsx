@@ -39,9 +39,6 @@ function index({ isnew=false, close, ismodal=false }) {
     
 
     //////////////////////////////////////////////////////////
-    // FOR EDITTING THE PRODUCT
-    const [selectedId, setSelectedId] = useState(null);
-    //////////////////////////////////////////////////////////
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false)
@@ -53,7 +50,8 @@ function index({ isnew=false, close, ismodal=false }) {
     const [unit, setUnit] = useState([]);
     const [checks, setChecks] = useState({ trackInventory: false, isPhysical: true, isVisible: false, });
 
-    const [productFormErrors, setProductFormErrors] = useState({})
+    const [productFormErrors, setProductFormErrors] = useState({});
+    const [fetchedProduct, setFetchedProduct] = useState(null);
     const [productData, setProductData] = useState({
         name: "",
         shortDescription: "",
@@ -61,7 +59,7 @@ function index({ isnew=false, close, ismodal=false }) {
         itemCost: null,
         stockAmount: null,
         status: "published",
-        discount: null,
+        discountValue: null,
         discountType: "no-discount",
         MOQ: "",
     });
@@ -109,7 +107,7 @@ function index({ isnew=false, close, ismodal=false }) {
             shortDescription: "",
             price: null,
             itemCost: null,
-            discount: null,
+            discountValue: null,
             stockAmount: null,
             status: "published"
         });
@@ -165,33 +163,37 @@ function index({ isnew=false, close, ismodal=false }) {
 
     useEffect(function () {
         const type = productData.discountType;
-        if (type != "no-discount") {
-            setProductData({ ...productData, discount: "" });
+        if(id && fetchedProduct?.discountType == type) {
+            setProductData({ ...productData, discountValue: fetchedProduct?.discountValue });
+        } else {
+            setProductData({ ...productData, discountValue: "" });
         }
-    }, [productData.discountType]);
+
+    }, [productData.discountType, id]);
+
 
     useEffect(function() {
         (async () => {
             if(id) {
                 setLoading(true);
                 const fetchedItem = await handleFetchOneItem("product", id);
-                setLoading(false)
+                setLoading(false);
 
                 if(fetchedItem) {
-                    setSelectedId(fetchedItem?._id)
+                    setFetchedProduct(fetchedItem);
                     setProductData({
                         name: fetchedItem?.name || "",
                         shortDescription: fetchedItem?.shortDescription || "",
                         price: fetchedItem?.price || null,
                         itemCost: fetchedItem?.itemCost ||null,
-                        discount: fetchedItem?.discount || null,
+                        discountValue: fetchedItem?.discountValue || null,
                         stockAmount: fetchedItem?.stockAmount || null,
                         status: fetchedItem?.status || "published",
                         discountType: fetchedItem?.discountType || "no-discount",
                     });
                     setVariations(fetchedItem?.variations);
                     setDescription(fetchedItem?.description || "")
-                    setProductCollection(fetchedItem?.productCollection?.map((collection, i) => (
+                    setProductCollection(fetchedItem?.product_collection?.map((collection, i) => (
                         { name: collection, id: i }
                     )))
                     setChecks({
@@ -236,7 +238,7 @@ function index({ isnew=false, close, ismodal=false }) {
         const itemUnit = unit[0]?.value || "";
         
         // check if it's firsttime new onboard or old editing
-        const end_point = isnew ? "/onboard/product" : id ?`/${selectedId}` : "";
+        const end_point = isnew ? "/onboard/product" : id ?`/${fetchedProduct?._id}` : "";
         
         try {
             // CHECK CONNECTION
@@ -250,12 +252,12 @@ function index({ isnew=false, close, ismodal=false }) {
             formData.append('price', +productData.price);
             formData.append('itemCost', +productData.itemCost);
             formData.append('stockAmount', +productData.stockAmount);
-            formData.append('discount', +productData.discount);
+            formData.append('discountValue', +productData.discountValue);
             formData.append('status', productData.status);
             formData.append('discountType', productData.discountType);
             formData.append('MOQ', productData.MOQ);
             formData.append('unit', itemUnit);
-            formData.append('productCollection', JSON.stringify(names));
+            formData.append('product_collection', JSON.stringify(names));
             formData.append('variations', JSON.stringify(variations));
             formData.append('trackInventory', JSON.stringify(checks.trackInventory));
             formData.append('isPhysical', JSON.stringify(checks.isPhysical));
@@ -368,7 +370,7 @@ function index({ isnew=false, close, ismodal=false }) {
                             <div className="form--item">
                                 <label className="form--label">Product Images (Min 1 & Max 4) <Asterisk /></label>
 
-                                <MultipleImageUploadInput images={images} productId={selectedId || null} handleChange={handleOnChangeImage} setResponse={setResponse} setLoading={setLoading} />
+                                <MultipleImageUploadInput images={images} productId={fetchedProduct?._id || null} handleChange={handleOnChangeImage} setResponse={setResponse} setLoading={setLoading} />
 
                                 <span className="form--error-message">
                                     {productFormErrors.images && productFormErrors.images}
@@ -457,8 +459,8 @@ function index({ isnew=false, close, ismodal=false }) {
                                     <div className={`form--click ${productData.discountType == "percentage" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "percentage" })}
                                     >Percentage {width < 750 && "%"}<span></span>
                                     </div>
-                                    <div className={`form--click ${productData.discountType == "fixed-price" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "fixed-price" })}
-                                    >Fixed Price {width < 750 && currency}<span></span>
+                                    <div className={`form--click ${productData.discountType == "fixed-value" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "fixed-value" })}
+                                    >Fixed Value {width < 750 && currency}<span></span>
                                     </div>
                                 </div>
                             </div>
@@ -469,16 +471,16 @@ function index({ isnew=false, close, ismodal=false }) {
                                     <label htmlFor="discount-price" className="form--label">Discount Price <Asterisk /></label>
                                     <CurrencyInput
                                         id="discount-price"
-                                        name="discount"
+                                        name="discountValue"
                                         className="form--input"
-                                        placeholder={productData.discountType == "fixed-price" ? `${currency}7,000` : "20%"}
-                                        value={productData.discount}
-                                        {...(productData.discountType == "fixed-price") ? { prefix: currency } : { suffix: "%" }}
-                                        decimalsLimit={productData.discountType == "fixed-price" ? 2 : 0}
+                                        placeholder={productData.discountType == "fixed-value" ? `${currency}7,000` : "20%"}
+                                        value={productData.discountValue}
+                                        {...(productData.discountType == "fixed-value") ? { prefix: currency } : { suffix: "%" }}
+                                        decimalsLimit={productData.discountType == "fixed-value" ? 2 : 0}
                                         onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
                                     />
                                     <span className="form--error-message">
-                                        {productFormErrors.discount && productFormErrors.discount}
+                                        {productFormErrors.discountValue && productFormErrors.discountValue}
                                     </span>
                                 </div>
                             )}

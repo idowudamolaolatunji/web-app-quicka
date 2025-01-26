@@ -28,7 +28,7 @@ function ProductCard({ product, open, base }) {
                         {truncateString(product?.name, width < 400 ? 25 : 18)}
                     </span>
                     <span style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
-                        {product?.productCollection?.slice(0, width < 600 ? 2 : 3)?.map((collection) => (
+                        {product?.product_collection?.slice(0, width < 600 ? 2 : 3)?.map((collection) => (
                             <p className='product__figure--collection'>{collection}</p>
                         ))}
                     </span>

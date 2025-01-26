@@ -25,8 +25,6 @@ function ImageUploadInput({ text, name="image", preview, handleChange, height, h
         const event = { target: { name, files: [e.dataTransfer.files[0]] } };
         handleChange(event)
     };
-
-
       
 
     return (
@@ -36,7 +34,6 @@ function ImageUploadInput({ text, name="image", preview, handleChange, height, h
             onDragOver={handleOnDragOver}
             style={height}
             className={`upload form--img-box ${preview ? "img--preview" : ""} ${dragging ? "dropping" : ""}`}
-            // className={['upload', 'form--img-box', preview && 'img--preview', dragging && 'dropping' ].join(' ')}
         >
             <input type='file' id='form-image' name={name} accept="image/*" onChange={handleChange} />
             <label htmlFor='form-image'>

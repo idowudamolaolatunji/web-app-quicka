@@ -46,7 +46,7 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                         <span className='table--info'>
                             <h3>{truncateString(item?.name, width < 450 ? 27 : 500)}</h3>
                             <div>
-                                {item?.productCollection?.slice(0, 2)?.map((collection) => (  
+                                {item?.product_collection?.slice(0, 2)?.map((collection) => (  
                                     <span>{collection}</span>
                                 ))}
                             </div>
