@@ -14,7 +14,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function CollectionFormSm({ close, editingItem }) {
     const { shouldKick, formdataHeader } = useAuthContext();
-    const { handleFetchUserStoreCollections, handleImageUpload } = useFetchedContext();
+    const { handleFetchMyStoreCollections, handleImageUpload } = useFetchedContext();
 
 
     const [imagePreview, setImagePreview] = useState(null);
@@ -87,7 +87,7 @@ function CollectionFormSm({ close, editingItem }) {
             }
             setResponse({ status: "success", message: data?.message });
 
-            handleFetchUserStoreCollections()
+            handleFetchMyStoreCollections()
             setTimeout(() => close(), 1000);
 
         } catch (err) {

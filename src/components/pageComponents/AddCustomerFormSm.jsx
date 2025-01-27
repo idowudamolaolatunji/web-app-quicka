@@ -17,7 +17,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function AddCustomerFormSm({ close }) {
     const { headers, store, shouldKick } = useAuthContext();
-    const { handleFetchUserStoreCustomers } = useFetchedContext()
+    const { handleFetchMyStoreCustomers } = useFetchedContext()
     const { location, setLocation, getContries } = useDataContext();
     const { countryCode } = store?.contact;
 
@@ -120,7 +120,7 @@ function AddCustomerFormSm({ close }) {
             handleClearFields();
 
             setTimeout(() => close(), 1000);
-            handleFetchUserStoreCustomers()
+            handleFetchMyStoreCustomers()
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

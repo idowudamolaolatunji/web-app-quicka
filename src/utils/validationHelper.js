@@ -137,8 +137,8 @@ export function validateProductForm(data, _) {
 		errors.stockAmount = "Stock Quantity cannot be less than 1";
 	}
 
-	if (data.discountType != "no-discount" && !data.discount) {
-		errors.discount = "Discount is required";
+	if (data.discountType != "no-discount" && !data.discountValue) {
+		errors.discountValue = "Discount is required";
 	}
 
 	if (data.images.length === 0) {

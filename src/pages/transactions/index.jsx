@@ -36,7 +36,7 @@ function index() {
     ///////////////////////////////////////
     const { store } = useAuthContext();
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
-    const { loader, error, transactions, settlements, handleFetchUserStoreTransactions, handleFetchUserStoreSettlements } = useFetchedContext();
+    const { loader, error, transactions, settlements, handleFetchMyStoreTransactions, handleFetchMyStoreSettlements } = useFetchedContext();
     const currency = store?.currency?.symbol;
 
     const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.profit, 0);
@@ -115,7 +115,7 @@ function index() {
             <div className='content'>
                 <span className='flex'>
                     <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={activeTab == "transaction" ? handleFetchUserStoreTransactions : handleFetchUserStoreSettlements}><MdOutlineRefresh /></button>
+                        <button className='table--btn' onClick={activeTab == "transaction" ? handleFetchMyStoreTransactions : handleFetchMyStoreSettlements}><MdOutlineRefresh /></button>
                     </TooltipUI>
 
                     <input type="text" className="table--input form--input" placeholder='search..' />
@@ -168,9 +168,9 @@ function index() {
                 loader={loader} error={error}
                 pointOnHover={activeTab == "transaction" ? false : true}
                 headTabs={ activeTab == "transaction" ? (
-                    <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreTransactions} />
+                    <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreTransactions} />
                 ) : (
-                    <TableHeadTabs pageName="settlement" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreSettlements} /> 
+                    <TableHeadTabs pageName="settlement" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreSettlements} /> 
                 )}
             >
 

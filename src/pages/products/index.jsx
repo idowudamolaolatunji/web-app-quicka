@@ -21,6 +21,8 @@ import empty_product from "../../assets/images/dummy_items/empty_product.png"
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import ProductFilterForm from '../../components/pageComponents/ProductFilterForm';
 import FilterElement from '../../components/elements/FilterElement';
+import { HiOutlineCollection } from 'react-icons/hi';
+import { MdOutlineHistoryToggleOff } from 'react-icons/md';
 
 
 //////////////////////////////////////////////////////
@@ -47,7 +49,7 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { showInsights, activeDisplayTab, showFilterModal, handleToggleFilter } = useDataContext();
-    const { loader, error, products, collections, handleFetchUserStoreProducts, handleFetchUserStoreCollections, handleDeleteOneItem } = useFetchedContext();
+    const { loader, error, products, collections, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleDeleteOneItem } = useFetchedContext();
 
     const currency = store?.currency?.symbol;
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
@@ -221,9 +223,9 @@ function index() {
             setDeleteLoader(true)
             await handleDeleteOneItem(`${tabShown}s`, selectedId);
             if (tabShown == "product") {
-                handleFetchUserStoreProducts();
+                handleFetchMyStoreProducts();
             } else {
-                handleFetchUserStoreCollections()
+                handleFetchMyStoreCollections()
             }
             setShowDeleteModal(false)
         } catch (err) {
@@ -264,9 +266,9 @@ function index() {
                 emptyImg={tabShown == "product" ? product_emptyImg : collection_emptyImg}
                 emptyTitle={tabShown == "product" ? product_emptyTitle : collection_emptyTitle}
                 headTabs={tabShown == "product" ? (
-                    <TableHeadTabs pageName="product" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreProducts} />
+                    <TableHeadTabs pageName="product" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreProducts} />
                 ) : (
-                    <TableHeadTabs pageName="collection" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreCollections} />
+                    <TableHeadTabs pageName="collection" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCollections} />
                 )}
                 addBtnStr={tabShown == "product" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
                 loader={loader} error={error}
@@ -293,8 +295,8 @@ function index() {
                     <div className='page__section--insights insight--grid' style={ width > 900 ? { width: '90%' } : {}}>
                         <Insight loader={loader[tabShown]} title='Total Inventory worth' pre={currency} value={totalInventoryWorth} dec={totalInventoryWorth ? 0 : 2} icon={<LuClipboardList />} />
                         <Insight loader={loader[tabShown]} title='Total Products Sold' value={productsSold} icon={<GrTag />} />
-                        <Insight loader={loader[tabShown]} title='Total Collection' value={collections?.length} icon={<TbListSearch />} />
-                        <Insight loader={loader[tabShown]} title='Out of stock' value={outOfStock?.length} icon={<TbArrowWaveRightDown />} />
+                        <Insight loader={loader[tabShown]} title='Total Collection' value={collections?.length} icon={<HiOutlineCollection />} />
+                        <Insight loader={loader[tabShown]} title='Out of stock' value={outOfStock?.length} icon={<MdOutlineHistoryToggleOff />} />
                     </div>
                 )}
 

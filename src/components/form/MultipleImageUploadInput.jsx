@@ -19,7 +19,7 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
     
     const { width } = useWindowSize();
     const { headers, shouldKick } = useAuthContext();
-    const { handleFetchUserStoreProducts } = useFetchedContext();
+    const { handleFetchMyStoreProducts } = useFetchedContext();
     /////////////////////////////////////////////////
     const [removeImageFn, setRemoveImageFn] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -59,7 +59,7 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
             setResponse({ status: "success", message: data?.message });
             // remove image via the setted state function
             removeImageFn();
-            handleFetchUserStoreProducts()
+            handleFetchMyStoreProducts()
         } catch(err) {
             setResponse({ status: "error", message: err?.message })
         } finally {

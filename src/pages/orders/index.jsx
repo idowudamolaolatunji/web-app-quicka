@@ -30,7 +30,7 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
-    const { loader, error, orders, handleFetchUserStoreOrders, handleDeleteOneItem } = useFetchedContext()
+    const { loader, error, orders, handleFetchMyStoreOrders, handleDeleteOneItem } = useFetchedContext()
     const currency = store?.currency?.symbol;
     
     const [search, setSearch] = useState('');
@@ -170,7 +170,7 @@ function index() {
                 emptyImg={emptyImg}
                 emptyTitle={emptyTitle}
                 emptyClassName="empty--order"
-                headTabs={<TableHeadTabs pageName="order" handleFetch={handleFetchUserStoreOrders} searchVal={search} setSearchVal={setSearch} />}
+                headTabs={<TableHeadTabs pageName="order" handleFetch={handleFetchMyStoreOrders} searchVal={search} setSearchVal={setSearch} />}
                 loader={loader} error={error}
                 searchLoader={searchLoader}
             >

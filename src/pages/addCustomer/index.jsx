@@ -22,7 +22,7 @@ function index({ close, isModal }) {
     const { width } = useWindowSize();
     const { headers, store, shouldKick } = useAuthContext();
     const { location, getContries, getStates, getCities, setLocation } = useDataContext();
-    const { handleFetchUserStoreCustomers, handleFetchError, handleFetchOneItem } = useFetchedContext();
+    const { handleFetchMyStoreCustomers, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
     const { countryCode } = store?.contact;
 
@@ -215,7 +215,7 @@ function index({ close, isModal }) {
             handleClearFields();
             
             setTimeout(() => navigate(-1), 3000);
-            handleFetchUserStoreCustomers()
+            handleFetchMyStoreCustomers()
 
         } catch (err) {
             const message = handleFetchError(err?.message)

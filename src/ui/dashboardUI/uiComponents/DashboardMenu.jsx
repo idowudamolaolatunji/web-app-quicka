@@ -3,7 +3,7 @@ import MenuLink from './MenuLink';
 import Line from '../../../components/elements/Line';
 import Overlay from '../../../components/layout/Overlay';
 import MenuButton from './MenuButton';
-import { openWidget } from '../../../utils/helper';
+import { openWidget, truncateString } from '../../../utils/helper';
 
 import { AiOutlineBank } from 'react-icons/ai';
 import { LuGlobe, LuLayoutPanelLeft, LuTags } from 'react-icons/lu';
@@ -13,19 +13,31 @@ import { BiCustomize, BiLineChart, BiMailSend } from 'react-icons/bi';
 import { useDataContext } from '../../../context/DataContext';
 import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiStackLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
-import { TbDeviceAnalytics, TbPresentationAnalytics, TbTransactionDollar, TbTruckDelivery } from 'react-icons/tb';
+import { TbDeviceAnalytics, TbPresentationAnalytics, TbTransactionDollar, TbTruckDelivery, TbWorldWww } from 'react-icons/tb';
 import { PiCoins, PiCoinsBold } from 'react-icons/pi';
+import { useAuthContext } from '../../../context/AuthContext';
+import { SlGlobe } from 'react-icons/sl';
+import TooltipUI from '../../../components/layout/TooltipUI';
 
 
 function DashboardMenu() {
     const { isMenuCollapsed, showSidemenu, handleShowSidemenu, animateOut } = useDataContext();
     const { width } = useWindowSize();
+    const { store } = useAuthContext();
 
     return (
         <>
             {width > 900 && (
                 <div className='dashboard--menu'>
                     <div className='menu--block'>
+
+                       <TooltipUI title="Visit Your Store" placement={isMenuCollapsed ? "right" : "bottom"}>
+                            <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                                <SlGlobe /> {!isMenuCollapsed ? truncateString(store?.storeUrl) : ""}
+                            </a>
+                        </TooltipUI>
+
+
                         {!isMenuCollapsed && (
                             <span className='block--heading'>
                                 <p className='heading--text'>Menu Access</p>
@@ -50,13 +62,13 @@ function DashboardMenu() {
                         <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                         <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
                         {/* <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' /> */}
-                        <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
+                        <MenuLink icon={<TbWorldWww />} title='Custom Domain' link='/custom-domain' />
                         <MenuLink icon={<BiCustomize />} title='Store Customisation' link='/store-customisation' />
                     </ul>
 
                     <Line where={'Top'} value={'0.34rem'} border={1.4} />
 
-                    <ul className={`menu--list`}>
+                    <ul className={"menu--list"}>
                         {/* <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' /> */}
                         {/* <MenuLink icon={<MdOutlineCampaign />} title='Referrals' link='/referrals' /> */}
                         <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
@@ -77,15 +89,12 @@ function DashboardMenu() {
                                 <RiCloseFill />
                             </span>
 
-                            {(width < 600) && (
-                                <>
-                                    <a href="https://www.luxeware.quicka.store" target='_blank' className='store--btn'>
-                                        View Store <MdOutlineStorefront />
-                                    </a>
+                            <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                                <SlGlobe /> {store?.storeUrl}
+                            </a>
 
-                                    <Line where={'Bottom'} value={'1.6rem'} />
-                                </>
-                            )}
+                            <Line where={'Bottom'} value={'1.6rem'} />
+                              
 
                             <span className='block--heading'>
                                 <p className='heading--text'>Main Access</p>
@@ -109,7 +118,7 @@ function DashboardMenu() {
                             <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
                             {/* <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' /> */}
                             <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
-                            <MenuLink icon={<LuGlobe />} title='Custom Domain' link='/custom-domain' />
+                            <MenuLink icon={<TbWorldWww />} title='Custom Domain' link='/custom-domain' />
                             <MenuLink icon={<BiCustomize />} title='Site Customisation' link='/store-customisation' />
                         </ul>
 

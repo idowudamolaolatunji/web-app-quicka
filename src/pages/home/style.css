@@ -11,7 +11,7 @@
 .top--bar,
 .home--sub {
     width: 100%;
-    padding: 1.8rem 2rem;
+    padding: 2.4rem 2rem;
     border-radius: .48rem;
     color: #fff;
     display: flex;
@@ -880,7 +880,7 @@ a.upgrade--link:hover {
     }
     .top--bar,
     .home--sub {
-        padding: 1rem;
+        padding: 1.24rem 1rem;
         flex-direction: column;
         align-items: flex-start;
         gap: 1.2rem;

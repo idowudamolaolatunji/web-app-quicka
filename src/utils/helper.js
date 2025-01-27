@@ -12,7 +12,7 @@ export function todayDate() {
 
 export function dateTimeFormat(givenDate) {
 	const date = moment(givenDate);
-	return date.format("D MMM YYYY, h:mm A");
+	return date.format("D MMM YYYY, h:mm a");
 }
 
 export function ymdDateSlashTimeFormat(givenDate) {
@@ -54,6 +54,12 @@ export function formatDateSince(givenDate) {
 	} else {
 		return date.format("D MMM YYYY, h:mm A");
 	}
+}
+
+export function calRemainingDays(startDate, endDate) {
+	const start = moment(startDate);
+	const end = moment(endDate);
+	return end.diff(start, "days");
 }
 
 export function truncateString(input, num = 25) {

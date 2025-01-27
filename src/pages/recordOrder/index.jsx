@@ -34,7 +34,7 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, shouldKick, currency } = useAuthContext();
-    const { error, products, customers, handleFetchError, handleFetchUserStoreOrders, handleFetchUserStoreProducts, handleFetchUserStoreCustomers, handleFetchUserStoreTransactions } = useFetchedContext();
+    const { error, products, customers, handleFetchError, handleFetchMyStoreOrders, handleFetchMyStoreProducts, handleFetchMyStoreCustomers, handleFetchMyStoreTransactions } = useFetchedContext();
     const publishedProducts = products?.filter(product => product.status == "published");
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -109,8 +109,8 @@ function index() {
         document.title = "Quicka | Record sales";
 
         if((customers?.length < 1 && error?.customer) || (products?.length < 1 && error?.product)) {
-            handleFetchUserStoreCustomers();
-            handleFetchUserStoreProducts();
+            handleFetchMyStoreCustomers();
+            handleFetchMyStoreProducts();
         }
     }, []);
 
@@ -215,9 +215,9 @@ function index() {
             handleClearFields();
 
             setTimeout(() => navigate(-1), 3000);
-            handleFetchUserStoreOrders();
-            handleFetchUserStoreProducts();
-            handleFetchUserStoreTransactions();
+            handleFetchMyStoreOrders();
+            handleFetchMyStoreProducts();
+            handleFetchMyStoreTransactions();
 
         } catch (err) {
             const message = handleFetchError(err?.message)

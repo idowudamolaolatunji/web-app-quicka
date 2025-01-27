@@ -72,11 +72,11 @@ function DashboardHead() {
                             </DefaultButton>
                         )}
 
-                        {store?.storeOnboardCompleted  && (
+                        {/* {store?.storeOnboardCompleted  && (
                             <a href={`https://${store?.storeUrl}`} target='_blank' className='store--btn'>
                                 View Store <MdOutlineStorefront />
                             </a>
-                        )}
+                        )} */}
 
                         <DefaultButton>
                             <div className="nav--icon notification--icon">

@@ -529,6 +529,7 @@ button {
 	background-color: #eef1ff;
 	color: #655dbb;
 }
+.status--active p,
 .status--success p,
 .status--completed p,
 .status--delivered p {

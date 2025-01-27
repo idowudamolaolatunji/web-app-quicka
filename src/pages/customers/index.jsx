@@ -28,7 +28,7 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
-    const { loader, error, customers, handleDeleteOneItem, handleFetchUserStoreCustomers } = useFetchedContext();
+    const { loader, error, customers, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
 
     ////////////////////////////////////////////////////////
     const [deleteLoader, setDeleteLoader] = useState(false);
@@ -94,7 +94,7 @@ function index() {
         try {
             setDeleteLoader(true)
             await handleDeleteOneItem("customers", selectedId);
-            handleFetchUserStoreCustomers();
+            handleFetchMyStoreCustomers();
             setShowModal(false)
         } catch(err) {
             console.log(err);
@@ -124,7 +124,7 @@ function index() {
                 emptyBtns={emptyBtns}
                 emptyImg={emptyImg}
                 emptyTitle={emptyTitle}
-                headTabs={<TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchUserStoreCustomers}  />}
+                headTabs={<TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomers}  />}
                 loader={loader} error={error}
 
                 deleteObj={{ 

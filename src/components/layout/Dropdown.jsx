@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import UserIntialsImage from './UserIntialsImage';
 import { useAuthContext } from '../../context/AuthContext';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
@@ -9,8 +9,8 @@ import { IoLogOutOutline, IoSettingsOutline } from 'react-icons/io5';
 
 
 function Dropdown({ setIsShown, setLoading, setResponse }) {
+    const { pathname } = useLocation();
     const { user, signoutUser } = useAuthContext();
-
     const ref = useOutsideClick(handleClose);
 
     function handleClose () {
@@ -44,8 +44,8 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
     }
 
     return (
-        <div className={`dropdown`} ref={ref} onClick={handleCloseByLink}>
-            <Link className='dropdown--item' to='/dashboard/profile'>
+        <div className={"dropdown"} ref={ref} onClick={handleCloseByLink}>
+            <Link className={`dropdown--item ${pathname.includes("/profile") ? "is-active" : ""}`} to='/dashboard/profile'>
                 <span className='item--user'>
                     <UserIntialsImage />
                     <span className='item--user-info'>
@@ -54,9 +54,9 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
                     </span>
                 </span>
             </Link>
-            <div className='dropdown--item'><ImDisplay /> Maintenance Status</div>
-            <Link className='dropdown--item' to='/dashboard/settings'><IoSettingsOutline /> Settings</Link>
-            <div className='dropdown--item' onClick={handleLogout}><IoLogOutOutline /> Logout</div>
+            <div className="dropdown--item"><ImDisplay />Maintain Site</div>
+            <Link className={`dropdown--item ${pathname.includes("/settings") ? "is-active" : ""}`} to="/dashboard/settings"><IoSettingsOutline /> Settings</Link>
+            <div className="dropdown--item" onClick={handleLogout}><IoLogOutOutline /> Logout</div>
         </div>
     )
 }

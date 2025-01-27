@@ -22,7 +22,7 @@ function index({ close, isnew, isModal }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, store, handleStore, shouldKick } = useAuthContext();
-    const { handleFetchUserStoreDeliveryRates, handleFetchError, handleFetchOneItem } = useFetchedContext();
+    const { handleFetchMyStoreDeliveryRates, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
     const currency = store?.currency?.symbol;
 
@@ -57,6 +57,7 @@ function index({ close, isnew, isModal }) {
     }
 
     useEffect(function () {
+        document.title = "Quicka | Delivery Rates"
         !isnew && window.scrollTo(100, 0);
     }, []);
 
@@ -126,7 +127,7 @@ function index({ close, isnew, isModal }) {
             window.scrollTo(0, 0);
             isnew && setShowConfetti(true);
             setResponse({ status: "success", message: data?.message });
-            handleFetchUserStoreDeliveryRates();
+            handleFetchMyStoreDeliveryRates();
             
             // MODIFY THE STORE IN THE COOKIE
             if(isnew) handleStore(data?.data?.store);

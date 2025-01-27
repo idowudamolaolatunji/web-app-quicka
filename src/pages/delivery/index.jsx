@@ -24,7 +24,7 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     
-    const { loader, error, deliveryRates, handleDeleteOneItem, handleFetchUserStoreDeliveryRates } = useFetchedContext();
+    const { loader, error, deliveryRates, handleDeleteOneItem, handleFetchMyStoreDeliveryRates } = useFetchedContext();
     const currency = store?.currency?.symbol;
 
     ////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ function index() {
             <div className='content'>
                 <span className='flex'>
                     <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={handleFetchUserStoreDeliveryRates}><MdOutlineRefresh /></button>
+                        <button className='table--btn' onClick={handleFetchMyStoreDeliveryRates}><MdOutlineRefresh /></button>
                     </TooltipUI>
                 </span>
             </div>
@@ -99,7 +99,7 @@ function index() {
         try {
             setDeleteLoader(true)
             await handleDeleteOneItem("delivery-rates", selectedId);
-            handleFetchUserStoreDeliveryRates();
+            handleFetchMyStoreDeliveryRates();
             setShowModal(false)
         } catch(err) {
             console.log(err);

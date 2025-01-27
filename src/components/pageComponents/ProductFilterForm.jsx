@@ -5,7 +5,7 @@ import CurrencyInputField from '../form/CurrencyInputField';
 
 function ProductFilterForm() {
     const { currency } = useAuthContext();
-    const { collections, handleFetchUserStoreCollections } = useFetchedContext();
+    const { collections, handleFetchMyStoreCollections } = useFetchedContext();
 
   return (
     <div className='form'>

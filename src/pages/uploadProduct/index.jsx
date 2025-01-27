@@ -32,7 +32,7 @@ function index({ isnew=false, close, ismodal=false }) {
     
     const { width } = useWindowSize();
     const { shouldKick, handleStore, store, formdataHeader } = useAuthContext();
-    const { error, collections, handleFetchOneItem, handleFetchError, handleFetchUserStoreProducts, handleFetchUserStoreCollections } = useFetchedContext();
+    const { error, collections, handleFetchOneItem, handleFetchError, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleFetchMyStoreDiscounts } = useFetchedContext();
     const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     const currency = store?.currency?.symbol;
@@ -157,14 +157,14 @@ function index({ isnew=false, close, ismodal=false }) {
         document.title = "Quicka | Upload new product";
 
         if(collections?.length < 1 && error?.collection) {
-            handleFetchUserStoreCollections()
+            handleFetchMyStoreCollections()
         }
     }, []);
 
     useEffect(function () {
         const type = productData.discountType;
-        if(id && fetchedProduct?.discountType == type) {
-            setProductData({ ...productData, discountValue: fetchedProduct?.discountValue });
+        if(id && fetchedProduct?.discount?.discountType == type) {
+            setProductData({ ...productData, discountValue: fetchedProduct?.discount?.discountValue });
         } else {
             setProductData({ ...productData, discountValue: "" });
         }
@@ -186,10 +186,10 @@ function index({ isnew=false, close, ismodal=false }) {
                         shortDescription: fetchedItem?.shortDescription || "",
                         price: fetchedItem?.price || null,
                         itemCost: fetchedItem?.itemCost ||null,
-                        discountValue: fetchedItem?.discountValue || null,
+                        discountValue: fetchedItem?.discount?.discountValue || null,
                         stockAmount: fetchedItem?.stockAmount || null,
                         status: fetchedItem?.status || "published",
-                        discountType: fetchedItem?.discountType || "no-discount",
+                        discountType: fetchedItem?.discount?.discountType || "no-discount",
                     });
                     setVariations(fetchedItem?.variations);
                     setDescription(fetchedItem?.description || "")
@@ -222,6 +222,7 @@ function index({ isnew=false, close, ismodal=false }) {
         }
 
         const newErrors = validateProductForm(formData);
+        console.log(newErrors)
         setProductFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) {
             setResponse({ status: "error", message: "Fill required fields to proceed!" });
@@ -306,7 +307,8 @@ function index({ isnew=false, close, ismodal=false }) {
             
             const timing = isnew ? 5000 : 2500
             setTimeout(function () {
-                handleFetchUserStoreProducts()
+                handleFetchMyStoreProducts()
+                handleFetchMyStoreDiscounts()
                 if (isnew || ismodal) {
                     close();
                 } else {
@@ -328,8 +330,7 @@ function index({ isnew=false, close, ismodal=false }) {
             {showModal.collection && (
                 createPortal(
                     <Drawer
-                        title="Create Collection" 
-                        setClose={() => handleToggleModal("collection")}
+                        title="Create Collection" setClose={() => handleToggleModal("collection")}
                     >
                         <CollectionFormSm close={() => handleToggleModal("collection")} />
                     </Drawer>,
@@ -459,7 +460,7 @@ function index({ isnew=false, close, ismodal=false }) {
                                     <div className={`form--click ${productData.discountType == "percentage" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "percentage" })}
                                     >Percentage {width < 750 && "%"}<span></span>
                                     </div>
-                                    <div className={`form--click ${productData.discountType == "fixed-value" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "fixed-value" })}
+                                    <div className={`form--click ${productData.discountType == "fixed-price" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "fixed-price" })}
                                     >Fixed Value {width < 750 && currency}<span></span>
                                     </div>
                                 </div>
@@ -473,10 +474,10 @@ function index({ isnew=false, close, ismodal=false }) {
                                         id="discount-price"
                                         name="discountValue"
                                         className="form--input"
-                                        placeholder={productData.discountType == "fixed-value" ? `${currency}7,000` : "20%"}
+                                        placeholder={productData.discountType == "fixed-price" ? `${currency}7,000` : "20%"}
                                         value={productData.discountValue}
-                                        {...(productData.discountType == "fixed-value") ? { prefix: currency } : { suffix: "%" }}
-                                        decimalsLimit={productData.discountType == "fixed-value" ? 2 : 0}
+                                        {...(productData.discountType == "fixed-price") ? { prefix: currency } : { suffix: "%" }}
+                                        decimalsLimit={productData.discountType == "fixed-price" ? 2 : 0}
                                         onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
                                     />
                                     <span className="form--error-message">
