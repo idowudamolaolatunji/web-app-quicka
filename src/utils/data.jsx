@@ -1,8 +1,9 @@
 import { BsCash } from 'react-icons/bs';
-import { TbCashRegister, TbTruckDelivery } from 'react-icons/tb';
+import { TbCashRegister, TbShoppingBagDiscount, TbTruckDelivery } from 'react-icons/tb';
 import { RiBankLine } from 'react-icons/ri';
-import { LuPackageCheck } from 'react-icons/lu';
-import { MdOutlinePendingActions } from 'react-icons/md';
+import { LuClipboardList, LuPackageCheck, LuReplaceAll, LuTag } from 'react-icons/lu';
+import { MdOutlineBallot, MdOutlinePendingActions } from 'react-icons/md';
+import { HiOutlineCollection } from 'react-icons/hi';
 
 export const paymentMethodData = [
     { label: <p className='flex align'><BsCash /> Cash</p>, value: "cash" },
@@ -27,4 +28,17 @@ export const channelData = [
     { label: "jumia", value: "jumia" },
     { label: "konga", value: "konga" },
     { label: "others", value: "others" },
+];
+
+export const discountSelectionTypeData = [
+    { label: <p className='flex align'><LuClipboardList /> All Products</p>, value: "all" },
+    { label: <p className='flex align'><TbShoppingBagDiscount /> Select Products for discount</p>, value: "product-bundle" },
+];
+
+
+export const couponSelectionTypeData = [
+    { label: <p className='flex align'><LuClipboardList /> All Products</p>, value: "all" },
+    { label: <p className='flex align'><LuTag /> Single Product</p>, value: "single" },
+    { label: <p className='flex align'><TbShoppingBagDiscount /> Select Products Bundle</p>, value: "bundle" },
+    { label: <p className='flex align'><HiOutlineCollection /> Select Collections</p>, value: "collections" },
 ];

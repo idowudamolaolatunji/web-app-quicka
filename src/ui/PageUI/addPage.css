@@ -292,6 +292,10 @@
     gap: 1rem;
     margin-bottom: 1.2rem;
 }
+.product--quantity-grid.smaller {
+    margin-bottom: 0;
+    grid-template-columns: repeat(6, 1fr);
+}
 .product--quantity-figure {
     width: 100%;
     display: flex;
@@ -454,6 +458,9 @@
     .product--quantity-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+    .product--quantity-grid.smaller {
+        grid-template-columns: repeat(5, 1fr);
+    }
 }
 
 
@@ -482,6 +489,9 @@
 
     .product--quantity-grid {
         grid-template-columns: repeat(4, 1fr);
+    }
+    .product--quantity-grid.smaller {
+        grid-template-columns: repeat(3, 1fr);
     }
     
 }

@@ -100,6 +100,13 @@
     border-radius: .4rem;
     transform: translateX(-3%) translateY(7.25%);
 }
+.url--box.coupon {
+    cursor: pointer;
+    transition: all .3s;
+}
+.url--box.coupon:hover {
+    color: var(--color-brand-500);
+}
 .form--input-icon {
     position: absolute;
     top: 50%;
