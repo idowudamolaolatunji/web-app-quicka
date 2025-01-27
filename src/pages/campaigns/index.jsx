@@ -4,7 +4,6 @@ import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/layout/Insight';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { ymdDateFormat, ymdDateSlashFormat, ymdDateSlashTimeFormat } from '../../utils/helper';
 import { MdOutlineCampaign, MdOutlineFilterList, MdOutlineRefresh, MdOutlineSpeakerNotes } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { useNavigate } from 'react-router-dom';
@@ -88,9 +87,9 @@ function index() {
                 <div className="top--bar info">
                     <span>
                         <p className='sub--text-sub no-hyphens'>Effectively engage your customers by sending impactful and personalized campaign messages either by sms or email respectively.</p>
-                        <p className="sub--text-sub flex">
-                            <span className='url--label'>Campaign credit <GiCrownCoin /> </span>{" "}
-                            <p className='url--link value'>{store?.storeCredits}</p>
+                        <p className="sub--text-sub" style={{ display: "flex", alignItems: "center", gap: ".4rem" }}>
+                            <span className='url--label'>Quicka credit <GiCrownCoin /> </span>{" "}
+                            <p className='url--link value'>{store?.storeCampaignCredits}</p>
                             points.
                         </p>
                     </span>

@@ -1129,6 +1129,9 @@
 	.sub--detail .heading {
 		font-size: 2rem;
 	}
+	.page__section--title {
+		font-size: 2.2rem;
+	}
 	
 }
 

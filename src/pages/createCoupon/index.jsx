@@ -26,6 +26,7 @@ function index() {
     const { products, collections } = useFetchedContext()
 
     //////////////////////////////////////////////////////////
+    const [isGenerated, setIsGenerated] = useState(false);
     const [selection, setSelection] = useState([couponSelectionTypeData[1] || []]);
     const [couponProducts, setCouponProducts] = useState([]);
     const [couponCollection, setCouponCollection] = useState([]);
@@ -71,16 +72,22 @@ function index() {
             maxPerUser: null,
             maxTotalUsage: null,
             setperiod: true,
-        })
+        });
+
+        setIsGenerated(false)
     }
 
     const handleGenerateCode = function() {
+        setIsGenerated(false)
         setLoading({ ...loading, code: true });
 
         const code = nanoid(8).replace("_", "");
         setCouponData({ ...couponData, couponCode: code })
-
-        setTimeout(() => setLoading({ ...loading, code: false }), 500)
+        
+        setTimeout(() => {
+            setLoading({ ...loading, code: false })
+            setIsGenerated(true)
+        }, 500)
     }
 
     const handleChangeCouponGroup = function(value, tag) {
@@ -155,11 +162,11 @@ function index() {
                             <label htmlFor="couponCode" className="form--label">Coupon Code <Asterisk /></label>
 
                             <div className={"form--input-box"}>
-                                <input type="text" name="couponCode" id="couponCode" value={loading.code ? "Loading.." : couponData.couponCode.slice(0, 8).toUpperCase()} onChange={handleChangeCouponData} className="form--input" placeholder="Coupon Code" />
+                                <input type="text" name="couponCode" id="couponCode" value={loading.code ? "Loading.." : couponData.couponCode.slice(0, 8).toUpperCase()} onChange={handleChangeCouponData} className="form--input" placeholder="Create an 8 Character Code" disabled={isGenerated} />
 
-                                <span className='url--box coupon' onClick={handleGenerateCode}>Generate Code</span>
+                                <span className='url--box coupon' onClick={() => !isGenerated ? handleGenerateCode() : ""} style={isGenerated ? { cursor: "auto" } : {}}>{!isGenerated ? "Generate Code" : "Generated!"}</span>
+
                             </div>
-                            <Info text="Generate 8 digit code for this coupon" />
                             <span className="form--error-message">
                                 {couponFormErrors.couponCode && couponFormErrors.couponCode}
                             </span>
@@ -290,7 +297,7 @@ function index() {
 
                         <MainDropdownSelect title="group" options={couponSelectionTypeData} field="label" value={selection} setValue={(data) => handleChangeCouponGroup(data, data[0]?.value)} clearable={false} searchable={false} />
 
-                        {/* <Info text={`${couponData.selectionType == "all" ? "All" : "Only selected"} products would be added to this discount`} /> */}
+                        <Info text={`Coupon will apply to ${couponData.couponGroup == "all" ? "all products" : couponData.couponGroup == "collections" ? "selected collection" : "selected product(s)"} and only when in cart!`} />
                     </div>
 
                     {(couponData.couponGroup == "bundle" || couponData.couponGroup == "single") && (
@@ -327,35 +334,35 @@ function index() {
                         </div>
                     )}
 
-                    <div className="form--grid">
+                    <div className="form--item">
                         <div className="form--item-flex" onClick={() => setCouponData({ ...couponData, setperiod: !couponData.setperiod })}>
                             <div id="checkbox" className={couponData.setperiod ? 'is-selected' : ''}>
                                 {couponData.setperiod && <FaCheck />}
                             </div>
                             <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Set Validity Period</label>
-                            {width > 800 && <Info text="How long this discount is valid for" />}
                         </div>
+                        <Info text="How long this discount is valid for" />
                     </div>
 
 
                     {couponData.setperiod && (
                         <div className="form--grid">
-                        <div className="form--item">
-                            <label htmlFor="startDate" className="form--label">Start Date <Asterisk /></label>
-                            <input type="datetime-local" name="startDate" id="startDate" value={couponData.startDate} onChange={handleChangeCouponData} className="form--input" placeholder="" />
-                            <span className="form--error-message">
-                                {couponFormErrors.startDate && couponFormErrors.startDate}
-                            </span>
-                        </div>
+                            <div className="form--item">
+                                <label htmlFor="startDate" className="form--label">Start Date <Asterisk /></label>
+                                <input type="datetime-local" name="startDate" id="startDate" value={couponData.startDate} onChange={handleChangeCouponData} className="form--input" min={new Date().toISOString().slice(0, 16)} />
+                                <span className="form--error-message">
+                                    {couponFormErrors.startDate && couponFormErrors.startDate}
+                                </span>
+                            </div>
 
-                        <div className="form--item">
-                            <label htmlFor="endDate" className="form--label">End Date <Asterisk /></label>
-                            <input type="datetime-local" name="endDate" id="endDate" value={couponData.endDate} onChange={handleChangeCouponData} className="form--input" placeholder="" />
-                            <span className="form--error-message">
-                                {couponFormErrors.endDate && couponFormErrors.endDate}
-                            </span>
+                            <div className="form--item">
+                                <label htmlFor="endDate" className="form--label">End Date <Asterisk /></label>
+                                <input type="datetime-local" name="endDate" id="endDate" value={couponData.endDate} onChange={handleChangeCouponData} className="form--input" min={couponData.startDate ? new Date(new Date(couponData.startDate).getTime() + 86400000).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16)} />
+                                <span className="form--error-message">
+                                    {couponFormErrors.endDate && couponFormErrors.endDate}
+                                </span>
+                            </div>
                         </div>
-                    </div>
                     )}
                 </div>
                 

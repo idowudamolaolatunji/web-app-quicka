@@ -38,6 +38,7 @@
     text-transform: capitalize;
     /* background-color: #343434; */
     background-color: var(--color-brand-500);
+    border-radius: .4rem;
     color: #fff !important;
     align-self: center;
 
@@ -62,7 +63,7 @@
         display: none;
     }
     .error__text {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         /* margin-bottom: 1.4rem; */
     }
 }

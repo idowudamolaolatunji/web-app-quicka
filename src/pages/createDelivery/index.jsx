@@ -220,12 +220,10 @@ function index({ close, isnew, isModal }) {
                             {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                         </div>
 
-
                         <div className="form--item">
                             <label htmlFor="" className="form--label">Description (optional)</label>
                             <QuillEditor value={description} setValue={setDescription} />
                         </div>
-
 
                         <div className="form--item-flex" onClick={() => setDeliveryData({ ...deliveryData, visibility: !deliveryData.visibility })}>
                             <div id="checkbox" className={deliveryData.visibility ? 'is-selected' : ''}>

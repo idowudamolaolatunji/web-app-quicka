@@ -246,6 +246,9 @@ function index() {
         );
     }
 
+    useEffect(function() {
+        window.scrollTo(0, 0);
+    }, []);
     
     useEffect(function () {
         if (tabParams) {

@@ -214,14 +214,14 @@ function index() {
                     )}
 
 
-                    <div className="form--grid">
+                    <div className="form--item">
                         <div className="form--item-flex" onClick={() => setDiscountData({ ...discountData, setperiod: !discountData.setperiod })}>
                             <div id="checkbox" className={discountData.setperiod ? 'is-selected' : ''}>
                                 {discountData.setperiod && <FaCheck />}
                             </div>
                             <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Set Validity Period</label>
-                            {width > 800 && <Info text="How long this discount is valid for" />}
                         </div>
+                        <Info text="How long this discount is valid for" />
                     </div>
 
 
@@ -229,7 +229,7 @@ function index() {
                         <div className="form--grid">
                         <div className="form--item">
                             <label htmlFor="startDate" className="form--label">Start Date <Asterisk /></label>
-                            <input type="datetime-local" name="startDate" id="startDate" value={discountData.startDate} onChange={handleChangeDiscountData} className="form--input" placeholder="" />
+                            <input type="datetime-local" name="startDate" id="startDate" value={discountData.startDate} onChange={handleChangeDiscountData} className="form--input" min={new Date().toISOString().slice(0, 16)} />
                             <span className="form--error-message">
                                 {discountFormErrors.startDate && discountFormErrors.startDate}
                             </span>
@@ -237,7 +237,7 @@ function index() {
 
                         <div className="form--item">
                             <label htmlFor="endDate" className="form--label">End Date <Asterisk /></label>
-                            <input type="datetime-local" name="endDate" id="endDate" value={discountData.endDate} onChange={handleChangeDiscountData} className="form--input" placeholder="" />
+                            <input type="datetime-local" name="endDate" id="endDate" value={discountData.endDate} onChange={handleChangeDiscountData} className="form--input" min={discountData.startDate ? new Date(new Date(couponData.startDate).getTime() + 86400000).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16)} />
                             <span className="form--error-message">
                                 {discountFormErrors.endDate && discountFormErrors.endDate}
                             </span>

@@ -503,7 +503,7 @@ button {
 	font-size: 1.6rem;
 }
 .info--item p {
-	font-size: 1.1rem;
+	font-size: 1.18rem;
 	line-height: 1.3;
 	font-weight: 500;
 }
@@ -756,6 +756,54 @@ button {
 }
 
 
+/* ============================================= */
+/* COMING SOON STYLES */
+/* ============================================= */
+.coming_soon--container {
+	min-height: 55vh;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.coming_soon--heading {
+	font-size: 6.8rem;
+	background-image: linear-gradient(to right, #c7cbb6 25%, var(--color-brand-500));
+	-webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+	margin-bottom: 1.2rem;
+}
+.coming_soon--text {
+	font-weight: 500;
+	font-size: 1.7rem;
+	color: #555;
+	margin-bottom: 1.6rem;
+}
+.coming_soon--btn {
+	font-size: 1.6rem;
+    font-weight: 500;
+    padding: 1rem 2rem;
+    text-transform: capitalize;
+    background-color: var(--color-brand-500);
+    border-radius: .4rem;
+    color: #fff !important;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+
+
+
+
+
 
 
 
@@ -933,6 +981,19 @@ button {
 		width: 95% !important;
 		height: unset;
 	}
+
+	.coming_soon--container {
+		min-height: 70vh;
+		height: 100%;
+	}
+	.coming_soon--heading {
+		font-size: 5.4rem;
+		margin-bottom: 1rem;
+	}
+	.coming_soon--text {
+		font-size: 1.6rem;
+	}
+	
 }
 
 @media screen and (max-width: 450px) {
@@ -994,6 +1055,16 @@ button {
 	}
 	.export .modal--form {
 		grid-template-columns: 1fr;
+	}
+
+	.coming_soon--heading {
+		font-size: 4.2rem;
+	}
+	.coming_soon--text {
+		font-size: 1.4rem;
+	}
+	.coming_soon--btn {
+		margin-bottom: 1.2rem;
 	}
 }
 
