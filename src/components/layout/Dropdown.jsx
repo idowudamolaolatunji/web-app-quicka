@@ -14,8 +14,8 @@ import { SlReload } from 'react-icons/sl';
 function Dropdown({ setIsShown, setLoading, setResponse }) {
     const { width } = useWindowSize();
     const { pathname } = useLocation();
-    const { handleGlobalRefetch } = useFetchedContext();
     const { user, signoutUser, store } = useAuthContext();
+    const { handleGlobalRefetch, globalConnectionError } = useFetchedContext();
 
     const ref = useOutsideClick(handleClose);
 
@@ -31,6 +31,11 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
         if (e.target.closest('.dropdown--item').tagName === 'A') {
             handleClose();
         };
+    }
+
+    const handleReloadApp = function() {
+        handleGlobalRefetch();
+        handleClose();
     }
 
     async function handleLogout() {
@@ -63,8 +68,8 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
             <div className="dropdown--item"><ImDisplay />Maintain Site</div>
             <Link className={`dropdown--item ${pathname.includes("/settings") ? "is-active" : ""}`} to="/dashboard/settings"><IoSettingsOutline /> Settings</Link>
 
-            {(width < 600 && store?.storeOnboardCompleted) && (
-                <div className="dropdown--item" onClick={handleGlobalRefetch}><SlReload />Reload app</div>
+            {(width < 600 && store?.storeOnboardCompleted && !globalConnectionError) && (
+                <div className="dropdown--item" onClick={handleReloadApp}><SlReload />Reload app</div>
             )}
             <div className="dropdown--item" onClick={handleLogout}><IoLogOutOutline /> Logout</div>
         </div>

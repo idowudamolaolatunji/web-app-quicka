@@ -45,6 +45,7 @@ function StoreCustom({ isnew, close }) {
 
     const [storeLogo, setStoreLogo] = useState({ preview: "", file: "" });
     const [banner, setBanner] = useState({ preview: "", file: "" });
+    const [favicon, setFavicon] = useState({ preview: "", file: "" });
 
     const [selectedColor, setSelectedColor] = useState("");
     const [customColor, setCustomColor] = useState({ color: "", isValid: false });
@@ -81,6 +82,10 @@ function StoreCustom({ isnew, close }) {
             if (name == "banner") {
                 setBanner({ preview: imageUrl, file });
             }
+            
+            if (name == "favicon") {
+                setFavicon({ preview: imageUrl, file });
+            }
         }
     };
 
@@ -91,6 +96,10 @@ function StoreCustom({ isnew, close }) {
 
         if (name == "banner") {
             setBanner({ preview: "", file: "" });
+        }
+
+        if (name == "favicon") {
+            setFavicon({ preview: imageUrl, file });
         }
     }
 
@@ -361,7 +370,10 @@ function StoreCustom({ isnew, close }) {
                                 {!isnew && (
                                     <div>
                                         <label className='form--label'>Favicon</label>
-                                        <FaviconInput />
+                                        <FaviconInput 
+                                            preview={favicon.preview}
+                                            handleChange={handleImageChange}
+                                        />
                                     </div>
                                 )}
                             </div>

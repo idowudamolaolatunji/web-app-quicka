@@ -477,11 +477,22 @@ button.onboard--next {
     grid-template-columns: 6.8rem 1fr;
 }
 .form--favicon span {
+    width: 6.8rem;
+    padding: 1.5rem;
     border: 1.4px dashed #eee;
     background-color: #f9f9f9;
-    padding: 1.8rem;
-    height: auto;
+    height: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+.form--favicon span img {
+    width: 5rem;
+    height: 3rem;
+    object-fit: 100%;
+}
+
+
 
 
 .form--variation {
