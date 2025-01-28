@@ -760,7 +760,7 @@ button {
 /* COMING SOON STYLES */
 /* ============================================= */
 .coming_soon--container {
-	min-height: 55vh;
+	min-height: 58vh;
 
 	display: flex;
 	flex-direction: column;
@@ -770,7 +770,7 @@ button {
 }
 
 .coming_soon--heading {
-	font-size: 6.8rem;
+	font-size: 4.2rem;
 	background-image: linear-gradient(to right, #c7cbb6 25%, var(--color-brand-500));
 	-webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
@@ -780,14 +780,14 @@ button {
 }
 .coming_soon--text {
 	font-weight: 500;
-	font-size: 1.7rem;
+	font-size: 1.6rem;
 	color: #555;
 	margin-bottom: 1.6rem;
 }
 .coming_soon--btn {
 	font-size: 1.6rem;
     font-weight: 500;
-    padding: 1rem 2rem;
+    padding: .8rem 1.4rem;
     text-transform: capitalize;
     background-color: var(--color-brand-500);
     border-radius: .4rem;
@@ -983,11 +983,11 @@ button {
 	}
 
 	.coming_soon--container {
-		min-height: 70vh;
+		min-height: 60vh;
 		height: 100%;
 	}
 	.coming_soon--heading {
-		font-size: 5.4rem;
+		font-size: 3rem;
 		margin-bottom: 1rem;
 	}
 	.coming_soon--text {
@@ -1058,7 +1058,7 @@ button {
 	}
 
 	.coming_soon--heading {
-		font-size: 4.2rem;
+		font-size: 3.6rem;
 	}
 	.coming_soon--text {
 		font-size: 1.4rem;

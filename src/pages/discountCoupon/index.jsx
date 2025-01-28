@@ -270,7 +270,8 @@ function index() {
     async function deleteItem() {
         const urlparams = activeTab == "discount" 
             ? "discounts" : activeTab == "coupon" ? "discounts/coupons" 
-            : "";
+            : ""
+        ;
 
         try {
             setDeleteLoader(true)

@@ -1,10 +1,11 @@
 import React from 'react'
+import favicon from "../../assets/images/logo/faviconB.png"
 
-function CopyrightText({ customStyle, white=false }) {
+function CopyrightText({ customStyle }) {
   return (
     <p className='copyright--text' style={customStyle}>
       &copy; Quicka Inc 
-      <img src={white ? "../../faviconW.png" : "../../faviconB.png"} /> 2024, All right reserved.
+      <img src={favicon} /> 2024, All right reserved.
     </p>
   )
 }

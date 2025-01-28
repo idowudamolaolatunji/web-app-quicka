@@ -20,7 +20,6 @@ const SHOW_INSIGHTS_KEY = import.meta.env.VITE_SHOW_INSIGHTS_KEY;
 export const DataProvider = ({ children }) => {
     const { pathname } = useLocation();
     const { width } = useWindowSize();
-    const isMobile = width <= 650 ? true : false
 
     const { store } = useAuthContext();
     const currencyName = store?.currency?.name;
@@ -36,12 +35,12 @@ export const DataProvider = ({ children }) => {
     const [activeDisplayTab, setActiveDisplayTab] = useState(localStorage.getItem(PRODUCT_TAB_KEY) ? JSON.parse(localStorage.getItem(PRODUCT_TAB_KEY)) : "table");
     const [showInsights, setShowInsights] = useState(
         localStorage.getItem(SHOW_INSIGHTS_KEY) ? JSON.parse(localStorage.getItem(SHOW_INSIGHTS_KEY)) : {
-        product: isMobile,
-        order: isMobile,
-        customer: isMobile,
-        transaction: isMobile,
-        campaign: isMobile,
-        discount: isMobile
+        product: false,
+        order: false,
+        customer: false,
+        transaction: false,
+        campaign: false,
+        discount: false
     });
 
     

@@ -13,6 +13,7 @@ import LinkInput from '../form/LinkInput';
 import { Switch } from '@mui/material';
 import QuillEditor from '../form/QuillEditor';
 import Template1 from "../../ui/templateUI/Template1";
+import Template2 from "../../ui/templateUI/Template2";
 import Info from '../elements/Info';
 import { colors } from '../../utils/data';
 import Asterisk from '../elements/Asterisk';
@@ -24,6 +25,8 @@ import { createPortal } from 'react-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import isOnline from 'is-online';
 import LogoUploadInput from '../form/LogoUploadInput';
+import { GrFormNextLink, GrFormPreviousLink } from "react-icons/gr";
+
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 const noLogo = "../../../../faviconB.png"
@@ -38,11 +41,12 @@ function StoreCustom({ isnew, close }) {
     const width450False = width < 450 ? false : true;
 
     const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
-    const [response, setResponse] = useState({ status: null, message: null });
+    const [response, setResponse] = useState({ status: "", message: "" });
     const [showConfetti, setShowConfetti] = useState(false);
 
-    const [imagePreview, setImagePreview] = useState({ banner: null, logo: null });
-    const [imageFile, setImageFile] = useState({ banner: null, logo: null });
+    const [storeLogo, setStoreLogo] = useState({ preview: "", file: "" });
+    const [banner, setBanner] = useState({ preview: "", file: "" });
+
     const [selectedColor, setSelectedColor] = useState("");
     const [customColor, setCustomColor] = useState({ color: "", isValid: false });
 
@@ -70,15 +74,25 @@ function StoreCustom({ isnew, close }) {
         const file = event.target.files[0];
 
         if (file) {
-            setImageFile({ ...imageFile, [name]: file });
             const imageUrl = URL.createObjectURL(file);
-            setImagePreview({ ...imagePreview, [name]: imageUrl });
+            if (name == "storeLogo") {
+                setStoreLogo({ preview: imageUrl, file });
+            }
+
+            if (name == "banner") {
+                setBanner({ preview: imageUrl, file });
+            }
         }
     };
 
     const handleRemoveImage = function (name) {
-        setImagePreview({ ...imagePreview, [name]: null });
-        setImageFile({ ...imageFile, [name]: null });
+        if (name == "storeLogo") {
+            setStoreLogo({ preview: "", file: "" });
+        }
+
+        if (name == "banner") {
+            setBanner({ preview: "", file: "" });
+        }
     }
 
     function handleSelectColor(color) {
@@ -100,7 +114,7 @@ function StoreCustom({ isnew, close }) {
         const { name, value } = e?.target;
         let modified;
 
-        if(name == "tiktok") {
+        if (name == "tiktok") {
             modified = value?.replace(/^@?/, '@')?.replace(/\s+/g, '');
         } else {
             modified = value
@@ -153,9 +167,8 @@ function StoreCustom({ isnew, close }) {
         !isnew && window.scrollTo(0, 0);
     }, []);
 
-    async function handleSubmitCustomStore() {
-        console.log(storeData, imageFile);
 
+    async function handleSubmitCustomStore() {
         // SET LOADER
         handleResetResponse()
         handleLoading("mainLoading", true);
@@ -167,7 +180,8 @@ function StoreCustom({ isnew, close }) {
         } = storeData;
         const socialProfiles = { instagram, whatsapp, facebook, twitter };
         const customDetail = { heading, subHeading, brandColor, headline };
-        const otherPages = { aboutDescription, returnPolicyDescription,
+        const otherPages = {
+            aboutDescription, returnPolicyDescription,
             aboutPage: aboutDescription ? true : false,
             returnPolicyPage: returnPolicyDescription ? true : false,
         }
@@ -176,14 +190,14 @@ function StoreCustom({ isnew, close }) {
         formData.append("socialProfiles", JSON.stringify(socialProfiles));
         formData.append("customDetail", JSON.stringify(customDetail));
         formData.append("otherPages", JSON.stringify(otherPages));
-        formData.append("logo", imageFile.storeLogo);
-        formData.append("banner", imageFile.banner);
+        formData.append("storeLogo", storeLogo.file);
+        formData.append("banner", banner.file);
 
         try {
             // CHECK CONNECTION
             const connected = await isOnline();
-            if(!connected) throw new Error("Internet Error");
-            
+            if (!connected) throw new Error("Internet Error");
+
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/stores/onboard/store`, {
                 method: "PATCH",
@@ -193,7 +207,7 @@ function StoreCustom({ isnew, close }) {
             shouldKick(res)
 
             const data = await res.json();
-            if (data?.status != 'success') throw new Error(data?.message);
+            if (data?.status != "success") throw new Error(data?.message);
             isnew && setShowConfetti(true);
 
             // SET RESPONSE MESSAGE and MODIFY STORE IN THE COOKIE
@@ -222,47 +236,50 @@ function StoreCustom({ isnew, close }) {
                 createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
             )}
 
-            <section className='product__upload-section'>
-                <div className='page__section--heading'>
-                    <span className='flex justify'>
+            <section className="product__upload-section" style={!isnew ? { maxWidth: "105rem", margin: "0 auto" } : {}}>
+                <div className="page__section--heading">
+                    <span className="flex justify">
                         <BackButton close={close} />
-                        <h2 className="page__section--title">Customize Your Store<MdOutlineStorefront /></h2>
+                        <h2 className="page__section--title">Customize {isnew ? "Your Store" : "Store Theme"}<MdOutlineStorefront /></h2>
                     </span>
                 </div>
-                
 
-                <form className="product__upload--container custom"  onSubmit={e => e.preventDefault()}>
 
-                    {width < 600 && <Line border={1.4} />}
+                <form className="product__upload--container custom" onSubmit={e => e.preventDefault()}>
 
-                    <div className='custom--head'>
-                        <LogoUploadInput
-                            logoPreview={imagePreview.storeLogo}
-                            handleLogoChange={handleImageChange}
-                            handleLogoRemove={() => handleRemoveImage("logo")}
-                        />
+                    {isnew && (
+                        <>
+                            {width < 600 && <Line border={1.4} />}
 
-                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                            <span className='custom--labels' style={{ gap: ".6rem" }}>
-                                <h3 className='custom--title'>{store?.name}</h3>
+                            <div className="custom--head">
+                                <LogoUploadInput
+                                    name="storeLogo"
+                                    logoPreview={storeLogo.preview}
+                                    handleLogoChange={handleImageChange}
+                                    handleLogoRemove={() => handleRemoveImage("storeLogo")}
+                                />
 
-                                <a className='custom--link' target='_blank' href={`https://${store?.storeUrl}`} >
-                                    https://{store?.storeUrl} <AiOutlineLink />
-                                </a>
-                            </span>
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <span className="custom--labels" style={{ gap: ".6rem" }}>
+                                        <h3 className="custom--title">{store?.name}</h3>
 
-                            {width > 500 && (
-                                <div className="page__section--actions">
-                                    <button className='button clear--button' onClick={close}>Cancel</button>
-                                    <button className='button submit--button' onClick={handleSubmitCustomStore}>Save</button>
+                                        <a className="custom--link" target="_blank" href={`https://${store?.storeUrl}`} >
+                                            https://{store?.storeUrl} <AiOutlineLink />
+                                        </a>
+                                    </span>
+
+                                    {width > 500 && (
+                                        <div className="page__section--actions">
+                                            <button className='button clear--button' onClick={close}>Cancel</button>
+                                            <button className='button submit--button' onClick={handleSubmitCustomStore}>Save</button>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                    </div>
-
+                            </div>
+                        </>
+                    )}
 
                     <Line border={1.4} />
-
 
                     <div className="custom--item" style={width < 800 ? { gridTemplateColumns: "1fr", gap: "2rem" } : {}}>
                         <span className="custom--labels">
@@ -274,7 +291,7 @@ function StoreCustom({ isnew, close }) {
                             <ImageUploadInput
                                 handleChange={handleImageChange}
                                 name='banner'
-                                preview={imagePreview.banner}
+                                preview={banner.preview}
                                 height={{ height: width < 650 ? "16rem" : "20rem", width: "100%", overflow: "hidden" }}
                                 text={<>Recommended dimension: 1450 x 350 <br /> Formats: JPEG, PNG, JPG and SVG</>}
                                 handleRemove={() => handleRemoveImage("banner")}
@@ -341,20 +358,23 @@ function StoreCustom({ isnew, close }) {
                             </div>
 
 
-                            <div className='form--item'>
-                                <label className="form--label">Default Templete</label>
+                            <div className='form--item design--item'>
+                                <label className="form--label">
+                                    Default Templete
+                                </label>
 
                                 <div className="custom--display">
                                     <Template1
-                                        logo={imagePreview.storeLogo || (store?.storeLogo?.url ? store?.storeLogo?.url : noLogo)}
+                                        logo={storeLogo.preview || (store?.storeLogo?.url ? store?.storeLogo?.url : noLogo)}
                                         color={storeData.brandColor}
                                         headline={storeData.headline}
-                                        banner={imagePreview.banner}
+                                        banner={banner.preview}
                                         heading={storeData.heading}
                                         text={storeData.subHeading}
                                         about={storeData.aboutPage}
                                     />
                                 </div>
+                                {isnew && <Info text="You can change store templates after later" />}
                             </div>
                         </div>
                     </div>
@@ -376,7 +396,7 @@ function StoreCustom({ isnew, close }) {
                         </span>
 
                         <div className='custom--description'>
-                            
+
 
                             {storeData.aboutPage && (
                                 <QuillEditor value={storeData.aboutDescription} setValue={(value) => handleStoreDescriptions("aboutDescription", value)} />
@@ -407,7 +427,6 @@ function StoreCustom({ isnew, close }) {
                     </div>
 
 
-
                     <Line border={1.4} />
 
 
@@ -430,7 +449,7 @@ function StoreCustom({ isnew, close }) {
                     <Line border={1.4} />
 
                     <div className="page__section--actions" style={width > 450 ? { marginLeft: "auto" } : {}}>
-                        <button className='button clear--button' onClick={close}>Cancel</button>
+                        <button className='button clear--button' onClick={() => isnew ? close() : navigate(-1)}>Cancel</button>
                         <button className='button submit--button' onClick={handleSubmitCustomStore}>Save</button>
                     </div>
 

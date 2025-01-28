@@ -4,19 +4,18 @@ import { useAuthContext } from '../../context/AuthContext'
 import logo_demo from '../../assets/images/resources/logo-demo.png'
 
 
-function LogoUploadInput({ logoPreview, handleLogoChange, handleLogoRemove }) {
+function LogoUploadInput({ name="logo", logoPreview, handleLogoChange, handleLogoRemove }) {
     const { store } = useAuthContext()
 
-    console.log(logoPreview)
   return (
     <div className="form--element">
         <span><img src={logoPreview || (store?.storeLogo?.url ? store?.storeLogo?.url : logo_demo)} alt="brand logo" /></span>
 
         <div className='form--item'>
-            <input type='file' id='logo' name='logo' onChange={handleLogoChange} accept="image/*" />
+            <input type='file' id={name} name={name} onChange={handleLogoChange} accept="image/*" />
 
             <div className="flex" style={{ flexDirection: "row" }}>
-                <label htmlFor="logo" className='form--upload-btn'>{(store?.storeLogo?.url || logoPreview) ? "Change" : "Upload"} Logo</label>
+                <label htmlFor={name} className='form--upload-btn'>{(store?.storeLogo?.url || logoPreview) ? "Change" : "Upload"} Logo</label>
 
                 {logoPreview && <button onClick={handleLogoRemove} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
             </div>

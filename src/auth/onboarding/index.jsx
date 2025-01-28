@@ -33,7 +33,7 @@ function index() {
     const [onboardingErrors, setOnboardingErrors] = useState({});
     const [response, setResponse] = useState({ status: null, message: null });
     const [onboardTabNum, setOnboardTabNum] = useState(1);
-    const [image, setImage] = useState({ file: null, preview: null });
+    const [image, setImage] = useState({ file: "", preview: "" });
     const [selectedCategory, setSelectedCategory] = useState([]);
 
     const [onboardingData, setOnboardingData] = useState({
@@ -92,7 +92,7 @@ function index() {
     };
 
     const handleImageRemove = function () {
-        setImage({ file: null, preview: null })
+        setImage({ file: "", preview: "" })
     }
 
     // HNADLE GOING TO THE PREVIOUS FORM TAB

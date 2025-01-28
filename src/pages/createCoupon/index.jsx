@@ -44,7 +44,7 @@ function index() {
         couponItems: [],
         maxDiscountValue: null,
         couponGroup: "all",
-        setperiod: true,
+        setvalidity: true,
 
         startDate: "",
         endDate: "",
@@ -53,7 +53,6 @@ function index() {
         minimumCartValue: null,
         maxPerUser: null,
         maxTotalUsage: null,
-        setperiod: true,
     })
 
     const handleClearFields = function () {
@@ -64,14 +63,13 @@ function index() {
             couponItems: [],
             maxDiscountValue: null,
             couponGroup: "all",
-            setperiod: true,
+            setvalidity: true,
             startDate: "",
             endDate: "",
             couponCode: "",
             minimumCartValue: null,
             maxPerUser: null,
             maxTotalUsage: null,
-            setperiod: true,
         });
 
         setIsGenerated(false)
@@ -335,9 +333,9 @@ function index() {
                     )}
 
                     <div className="form--item">
-                        <div className="form--item-flex" onClick={() => setCouponData({ ...couponData, setperiod: !couponData.setperiod })}>
-                            <div id="checkbox" className={couponData.setperiod ? 'is-selected' : ''}>
-                                {couponData.setperiod && <FaCheck />}
+                        <div className="form--item-flex" onClick={() => setCouponData({ ...couponData, setvalidity: !couponData.setvalidity })}>
+                            <div id="checkbox" className={couponData.setvalidity ? 'is-selected' : ''}>
+                                {couponData.setvalidity && <FaCheck />}
                             </div>
                             <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Set Validity Period</label>
                         </div>
@@ -345,7 +343,7 @@ function index() {
                     </div>
 
 
-                    {couponData.setperiod && (
+                    {couponData.setvalidity && (
                         <div className="form--grid">
                             <div className="form--item">
                                 <label htmlFor="startDate" className="form--label">Start Date <Asterisk /></label>

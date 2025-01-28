@@ -5,12 +5,12 @@ function index() {
 
     useEffect(function () {
         window.scrollTo(0, 0);
-        document.title = "Quicka | Run Campaign"
+        document.title = "Quicka | Run Special Sales"
     }, [])
 
 
     return (
-        <ComingSoon feature={"Campaign"} />
+        <ComingSoon feature={"Special Sales"} />
     )
 }
 

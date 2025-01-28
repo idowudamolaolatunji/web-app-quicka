@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useWindowSize } from 'react-use';
 import Line from '../../components/elements/Line';
 import Template1 from "../../ui/templateUI/Template1"
+import Template2 from "../../ui/templateUI/Template2"
 import more_themes from '../../assets/images/illustrations/more_theme.png'
 import './style.css'
 import ConnectionError from '../../components/layout/ConnectionError';
@@ -57,14 +58,25 @@ function index() {
 
                     <div className="theme--grid">
 
-                        <figure className='theme__figure'>
+                        <figure className='theme__figure custom--display'>
                             <Template1 logo={noLogo} />
                             <figcaption className='theme__figure--detail'>
-                                <span className='flex'>
+                                <span className='theme__figure--detail-main'>
                                     <h3 className='theme__figure--title'>Basic</h3>
                                     <span className='theme__figure--type active'>Current theme</span>
                                 </span>
                                 <button className='theme__figure--btn' onClick={() => navigate("customise/1")}>Customise!</button>
+                            </figcaption>
+                        </figure>
+
+                        <figure className='theme__figure custom--display'>
+                            <Template2 logo={noLogo} />
+                            <figcaption className='theme__figure--detail'>
+                                <span className='theme__figure--detail-main'>
+                                    <h3 className='theme__figure--title'>Minimalist</h3>
+                                    <span className='theme__figure--type'>free</span>
+                                </span>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/2")}>Customise!</button>
                             </figcaption>
                         </figure>
 
@@ -79,28 +91,15 @@ function index() {
                 <div className="theme__card card">
                     <div className="section--heading" style={{ marginBottom: '2.8rem' }}>
                         <h2>Quicka <strong>premium</strong> themes</h2>
-                        {/* <p>Feature-rich <strong>premium</strong> templates&mdash; drag-n-drop templates for effortless and easy customization.</p> */}
                         <p>Feature-rich <strong>premium</strong> templates&mdash; with effortless and easy customization.</p>
                     </div>
 
-
                     <div className="theme--grid">
-                        <figure className='theme__figure'>
+                        <figure className='theme__figure custom--display'>
                             <Template1 logo={noLogo} />
                             <figcaption className='theme__figure--detail'>
-                                <span className='flex'>
-                                    <h3 className='theme__figure--title'>Primax</h3>
-                                    <span className='theme__figure--type'>premium</span>
-                                </span>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/2")}>Customise!</button>
-                            </figcaption>
-                        </figure>
-
-                        <figure className='theme__figure'>
-                            <Template1 logo={noLogo} />
-                            <figcaption className='theme__figure--detail'>
-                                <span className='flex'>
-                                    <h3 className='theme__figure--title'>Luxury</h3>
+                                <span className='theme__figure--detail-main'>
+                                    <h3 className='theme__figure--title'>Elegant</h3>
                                     <span className='theme__figure--type'>premium</span>
                                 </span>
                                 <button className='theme__figure--btn' onClick={() => navigate("customise/3")}>Customise!</button>

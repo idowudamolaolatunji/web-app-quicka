@@ -49,8 +49,8 @@ function EditDetails() {
     })
 
     const [loading, setLoading] = useState({ mainLoader: false, tiny: false });
-    const [response, setResponse] = useState({ status: null, message: null });
-    const [logo, setLogo] = useState({ file: null, preview: null });
+    const [response, setResponse] = useState({ status: "", message: "" });
+    const [logo, setLogo] = useState({ file: "", preview: "" });
     const [storeDataErrors, setStoreDataErrors] = useState({});
 
 
@@ -67,7 +67,8 @@ function EditDetails() {
     };
 
     const handleImageRemove = function () {
-        setLogo({ file: null, preview: null })
+        console.log(logo.preview)
+        setLogo({ file: "", preview: "" })
     }
 
     const handleStoreDataChange = function (e, val, opts) {

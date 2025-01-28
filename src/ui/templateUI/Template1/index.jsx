@@ -17,7 +17,7 @@ function index({ logo, color, about, headline, banner, heading, text }) {
             <TopBanner banner={banner} text={text} heading={heading} />
             <CollectionLists color={color} />
             <div className="template__products">
-                {products?.map(product => <ProductCard product={product} base={"dummy"} key={product.id} />)}
+                {products?.map(product => <ProductCard product={product} forTemplate={true} key={product.id} />)}
             </div>
         </div>
     )

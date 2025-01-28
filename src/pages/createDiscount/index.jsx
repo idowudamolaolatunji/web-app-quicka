@@ -36,7 +36,7 @@ function index() {
         discountType: "no-discount",
         maxDiscountValue: null,
         selectionType: "product-bundle",
-        setperiod: true,
+        setvalidity: true,
         startDate: "",
         endDate: ""
     })
@@ -48,7 +48,7 @@ function index() {
             discountType: "no-discount",
             maxDiscountValue: null,
             selectionType: "product-bundle",
-            setperiod: true,
+            setvalidity: true,
             startDate: "",
             endDate: ""
 
@@ -215,9 +215,9 @@ function index() {
 
 
                     <div className="form--item">
-                        <div className="form--item-flex" onClick={() => setDiscountData({ ...discountData, setperiod: !discountData.setperiod })}>
-                            <div id="checkbox" className={discountData.setperiod ? 'is-selected' : ''}>
-                                {discountData.setperiod && <FaCheck />}
+                        <div className="form--item-flex" onClick={() => setDiscountData({ ...discountData, setvalidity: !discountData.setvalidity })}>
+                            <div id="checkbox" className={discountData.setvalidity ? 'is-selected' : ''}>
+                                {discountData.setvalidity && <FaCheck />}
                             </div>
                             <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Set Validity Period</label>
                         </div>
@@ -225,7 +225,7 @@ function index() {
                     </div>
 
 
-                    {discountData.setperiod && (
+                    {discountData.setvalidity && (
                         <div className="form--grid">
                         <div className="form--item">
                             <label htmlFor="startDate" className="form--label">Start Date <Asterisk /></label>
