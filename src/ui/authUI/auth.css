@@ -489,7 +489,7 @@ button.onboard--next {
 .form--favicon span img {
     width: 5rem;
     height: 3rem;
-    object-fit: 100%;
+    object-fit: contain;
 }
 
 

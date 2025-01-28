@@ -1,8 +1,9 @@
 import React from 'react'
+import ComingSoon from '../../../components/layout/ComingSoon'
 
 function ConnectDomain() {
   return (
-    <div>Connect Domain</div>
+    <ComingSoon feature="Connect Domain" />
   )
 }
 

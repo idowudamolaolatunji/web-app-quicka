@@ -1,8 +1,9 @@
 import React from 'react'
+import ComingSoon from '../../../components/layout/ComingSoon'
 
 function BuyDomain() {
   return (
-    <div>Buy Domain</div>
+    <ComingSoon feature="Buy Domain" />
   )
 }
 
