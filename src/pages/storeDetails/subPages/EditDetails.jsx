@@ -133,7 +133,8 @@ function EditDetails() {
     }, []);
 
     useEffect(function () {
-        const sanitizedUrl = storeData?.name?.replace(/\s+/g, '-').toLowerCase();
+        // const sanitizedUrl = storeData?.name?.replace(/\s+/g, '-').toLowerCase();
+        const sanitizedUrl = storeData?.name?.replace(/[^a-zA-Z0-9-]/g, '').replace(/^\s+|\s+$/g, '').toLowerCase();
         setStoreData({ ...storeData, subdomain: sanitizedUrl })
     }, [storeData?.name]);
 

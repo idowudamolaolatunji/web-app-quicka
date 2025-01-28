@@ -33,7 +33,7 @@ function DashboardMenu() {
 
                        <TooltipUI title="Visit Your Store" placement={isMenuCollapsed ? "right" : "bottom"}>
                             <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                <SlGlobe /> {!isMenuCollapsed ? truncateString(store?.storeUrl) : ""}
+                                <SlGlobe /> {!isMenuCollapsed ? truncateString(store?.storeUrl, 24) : ""}
                             </a>
                         </TooltipUI>
 

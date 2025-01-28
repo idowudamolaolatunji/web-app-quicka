@@ -10,8 +10,9 @@ import ConnectionError from '../../components/layout/ConnectionError';
 import { useNavigate } from 'react-router-dom';
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
-import { cap1stLetter } from '../../utils/helper';
+import { joinedSinceFormat } from '../../utils/helper';
 import Spinner from '../../components/spinner/mainSpinner';
+import moment from 'moment';
 
 
 function index() {
@@ -26,8 +27,7 @@ function index() {
     const { paymentCurrencies, paymentMainCurrency, description, category, contact, location, storeLogo } = store;
     const { subHeading, heading, headline, slogan } = store?.customDetail;
     const currency = paymentCurrencies[paymentMainCurrency];
-
-
+      
     useEffect(function () {
         document.title = "Quicka | Store Details"
         window.scrollTo(0, 0);
@@ -45,8 +45,11 @@ function index() {
                     <span className='custom--labels' style={{ gap: ".6rem" }}>
                         <h3 className='custom--title'>{store?.name}</h3>
                         <a className='custom--link' target='_blank' href={`https://${store?.storeUrl}`} >
-                            https://{store?.storeUrl} <AiOutlineLink />
+                            www.{store?.storeUrl} <AiOutlineLink />
                         </a>
+                        <p style={{ fontSize: "1.28rem", padding: "0" }} className='preview--body-item'>
+                            {joinedSinceFormat(store?.createdAt)}
+                        </p>
                     </span>
                 </div>
             </div>

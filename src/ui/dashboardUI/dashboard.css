@@ -98,7 +98,7 @@ body:has(.dashboard--base) {
     align-items: center;
     gap: .8rem;
 
-    font-size: 1.34rem;
+    font-size: 1.3rem;
     font-weight: 500;
     padding: 1rem .8rem;
     color: var(--color-brand-500) !important;
@@ -106,6 +106,7 @@ body:has(.dashboard--base) {
     border: 1.2px solid #eeeff1;
     /* border: 1.4px solid var(--color-brand-500); */
     min-width: max-content;
+    max-width: 100%;
 }
 .link--btn svg {
     font-size: 1.8rem;

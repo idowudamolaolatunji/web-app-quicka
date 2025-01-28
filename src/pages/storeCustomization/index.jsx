@@ -43,7 +43,7 @@ function index() {
                 {/* THEME HISTORY CARD */}
                 {/* <div className="card">
                     <div className="section--heading" style={{ marginBottom: '2.8rem' }}>
-                        <h2>Theme Customization History</h2>
+                        <h2>Recent Theme Customization</h2>
                         <p>Customizations are only visible to you. You can switch back to them anytime.</p>
                     </div>
 
@@ -72,9 +72,11 @@ function index() {
                                     <h3 className='theme__figure--title'>Basic</h3>
                                     <span className='theme__figure--type'>Current theme</span>
                                 </span>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/1")}>Customise! </button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/1")}>Use Theme </button>
                             </figcaption>
                         </figure>
+
+                        {width <= 600 && <Line border={1.4} />}
 
                         <figure className='theme__figure custom--display'>
                             <Template2 logo={demo_logo} />

@@ -770,7 +770,7 @@ button {
 }
 
 .coming_soon--heading {
-	font-size: 4.2rem;
+	font-size: 4rem;
 	background-image: linear-gradient(to right, #c7cbb6 25%, var(--color-brand-500));
 	-webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
@@ -780,7 +780,7 @@ button {
 }
 .coming_soon--text {
 	font-weight: 500;
-	font-size: 1.6rem;
+	font-size: 1.5rem;
 	color: #555;
 	margin-bottom: 1.6rem;
 }
@@ -987,11 +987,12 @@ button {
 		height: 100%;
 	}
 	.coming_soon--heading {
-		font-size: 3rem;
+		font-size: 3.2rem;
 		margin-bottom: 1rem;
 	}
 	.coming_soon--text {
 		font-size: 1.6rem;
+		line-height: 1.2;
 	}
 	
 }
@@ -1061,10 +1062,11 @@ button {
 	}
 
 	.coming_soon--heading {
-		font-size: 3.6rem;
+		font-size: 2.8rem;
 	}
 	.coming_soon--text {
-		font-size: 1.4rem;
+		font-size: 1.34rem;
+		line-height: 1.4;
 	}
 	.coming_soon--btn {
 		margin-bottom: 1.2rem;

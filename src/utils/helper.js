@@ -50,9 +50,45 @@ export function formatDateSince(givenDate) {
 		}
 	} else if (diff < 172800000) {
 		// yesterday
-		return `Yesterday at ${date.format("h:mm A")}`;
+		return `Yesterday at ${date.format("h:mm a")}`;
 	} else {
-		return date.format("D MMM YYYY, h:mm A");
+		return date.format("D MMM YYYY, h:mm a");
+	}
+}
+
+export function joinedSinceFormat(givenDate) {
+	const date = moment(givenDate);
+	const now = moment();
+	const diff = now.diff(date);
+
+	if (diff < 3600000) {
+		// less than 1 hour
+		const seconds = Math.floor(diff / 1000);
+		return `Joined ${seconds} secs ago`;
+	} else if (diff < 86400000) {
+		// less than 1 day
+		const minutes = Math.floor(diff / 60000);
+		if (minutes < 60) {
+			return `Joined ${minutes} mins ago`;
+		} else {
+			const hours = Math.floor(diff / 3600000);
+			return `Joined ${hours} hours ago`;
+		}
+	} else if (diff < 86400000) {
+		// TODAY
+		return `Joined today at ${date.format("h:mm a")}`;
+	} else if (diff < 172800000) {
+		// YESTERSAY
+		return `Joined yesterday at ${date.format("h:mm a")}`;
+	} else if (diff < 604800000) {
+		// up to 7 days ago
+		const days = Math.floor(diff / 86400000);
+		return `Joined ${days} days ago at ${date.format("h:mm a")}`;
+	} else if (diff < 1209600000) {
+		// 1 WEEK AGO
+		return `Joined 1 week ago at ${date.format("h:mm a")}`;
+	} else {
+		return `Joined since ${date.format("MMM DD YYYY, h:mm a")}`;
 	}
 }
 

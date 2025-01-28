@@ -141,7 +141,7 @@
 
 	.theme--grid {
 		grid-template-columns: 1fr;
-		gap: 2.8rem;
+		gap: 3rem;
 	}
 	.theme__figure {
 		height: auto;

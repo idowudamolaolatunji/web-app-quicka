@@ -161,6 +161,7 @@ function index({ isnew=false, close, ismodal=false }) {
         }
     }, []);
 
+    // REMOVE THE VALUE WHEN WE SWITCH THE DISCOUNT TYPES
     useEffect(function () {
         const type = productData.discountType;
         if(id && fetchedProduct?.discount?.discountType == type) {

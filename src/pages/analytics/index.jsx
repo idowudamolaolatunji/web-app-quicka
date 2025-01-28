@@ -20,6 +20,7 @@ import TransactionsAnalytics from './analyticsComponents/TransactionsAnalytics';
 import CampaignsAnalytics from './analyticsComponents/CampaignsAnalytics';
 import WebsiteTrafficAnalytics from './analyticsComponents/WebsiteTrafficAnalytics';
 import { useAuthContext } from '../../context/AuthContext';
+import ComingSoon from '../../components/layout/ComingSoon';
 
 
 function index() {
@@ -149,6 +150,7 @@ function index() {
     }, [rangeIsOpened]);
 
 
+    // and this as well
     useEffect(function() {
         if(rangeIsOpened && selectedDates) {
             const headers = document.querySelectorAll(".rs-picker-header-date");
@@ -208,7 +210,7 @@ function index() {
 
             {globalConnectionError && <ErrorComponent customStyle={{ padding: "10rem 2rem 6rem" }} />}
 
-            {!globalConnectionError && (
+            {/* {!globalConnectionError && (
                 <div className="analytics--container">
                     {activeTab == "sales" && <SalesAnalytics dateRange={dateRange} />}
                     {activeTab == "website-traffic" && <WebsiteTrafficAnalytics dateRange={dateRange} />}
@@ -217,7 +219,9 @@ function index() {
                     {activeTab == "transactions" && <TransactionsAnalytics dateRange={dateRange} />}
                     {activeTab == "campaigns" && <CampaignsAnalytics dateRange={dateRange} />}
                 </div>
-            )}
+            )} */}
+
+            <ComingSoon feature="Analytics" action={false} />
         </>
     )
 }

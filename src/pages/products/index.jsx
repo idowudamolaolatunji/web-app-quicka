@@ -119,14 +119,14 @@ function index() {
 
                 </Link>
             ),
-            width: width > 600 ? "32%" : "25%"
+            width: width > 600 ? "30rem" : "25rem"
         },
         {
             name: 'Price',
             selector: row => (
                 <p className='value'>{currency}{formatNumber(row?.price)}</p>
             ),
-            width: width > 600 ? "10%" : ""
+            width: width > 600 ? "10rem" : ""
         },
         {
             name: 'Inventory',
@@ -145,7 +145,6 @@ function index() {
                     )}
                 </>
             ),
-            width: width > 600 ? "18%" : ""
         },
         {
             name: 'Status',
