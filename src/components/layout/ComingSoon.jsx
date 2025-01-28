@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TiArrowBack } from "react-icons/ti";
 
 
 function ComingSoon({ feature }) {
     const navigate = useNavigate();
+
+    useEffect(function() {
+        window.scrollTo(0, 0)
+    }, [])
 
     return (
         <div className='coming_soon--container'>

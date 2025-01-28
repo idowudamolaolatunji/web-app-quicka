@@ -331,7 +331,7 @@
     }
 
     .details .form--element span {
-        height: 8rem;
+        /* height: 8rem; */
     }
 }
 
