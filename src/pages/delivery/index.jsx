@@ -10,6 +10,7 @@ import { formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/hel
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
+import { GoDotFill } from 'react-icons/go';
 
 
 ///////////////////////////////////////////////
@@ -49,7 +50,7 @@ function index() {
             name: 'Delivery Type',
             selector: row => (
                 <span className="status status--pending">
-                    <p>{row?.deliveryType}</p>
+                    <p><GoDotFill />{row?.deliveryType}</p>
                 </span>
             ),
         },

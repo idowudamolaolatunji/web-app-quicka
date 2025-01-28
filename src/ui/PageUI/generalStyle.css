@@ -8,6 +8,12 @@
 	text-transform: capitalize;
 }
 
+.page__heading--box {
+	display: flex;
+	align-items: flex-start;
+	gap: 1.2rem;
+}
+
 .page__section--title {
 	min-width: 16rem;
 	font-size: 2.4rem;
@@ -1035,7 +1041,9 @@
 		gap: 1.2rem;
 	}
 	
-
+	.page__heading--box {
+		flex-direction: column;
+	}
 	.page__section--main.connected__grid {
 		grid-template-columns: 1fr;
 		gap: 2.4rem;

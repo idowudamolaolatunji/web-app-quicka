@@ -148,7 +148,7 @@ function index() {
             name: "Status",
             selector: row => (
                 <span className={`status status--${(row?.status)}`}>
-                    <p>{row?.status}</p>
+                    <p><GoDotFill />{row?.status}</p>
                 </span>
             ),
             width: "120px"
@@ -206,7 +206,7 @@ function index() {
             name: "Status",
             selector: (row) => (
                 <span className={`status status--${(row?.status)}`}>
-                    <p>{row?.status}</p>
+                    <p><GoDotFill />{row?.status}</p>
                 </span>
             ),
             width: "12rem"

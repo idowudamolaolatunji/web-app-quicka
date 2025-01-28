@@ -15,6 +15,7 @@ import emptyImg from '../../assets/images/illustrations/sales.png';
 import { useAuthContext } from '../../context/AuthContext';
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
+import { IoArrowRedo, IoArrowRedoOutline } from 'react-icons/io5';
 
 
 //////////////////////////////////////////////////////
@@ -63,13 +64,13 @@ function index() {
                 <TooltipUI placement="top" title={
                     <ul className="table--list">
                         {row.products?.map((item, index) => (
-                            <li key={index}><GoDotFill /> {item?.name}</li>
+                            <li key={index}><IoArrowRedoOutline /> {item?.name}</li>
                         ))}
                     </ul>
                 }>
                     <ul className="table--list">
                         {row.products?.slice(0, 3)?.map((item, index) => (
-                            <li key={index}><GoDotFill /> {truncateString(item?.name, 18)}</li>
+                            <li key={index}><IoArrowRedo /> {truncateString(item?.name, 18)}</li>
                         ))}
                         {row.products?.length > 3 && <li>...</li>}
                     </ul>
@@ -85,7 +86,7 @@ function index() {
         {
             name: "Payment", selector: row => (
                 <span className={`status status--${( row.paymentStatus != "unpaid" ? "success" : "pending" )}`}>
-                    <p>{row.paymentStatus}</p>
+                    <p><GoDotFill />{row.paymentStatus}</p>
                 </span>
             ),
             width: "120px"
@@ -93,7 +94,7 @@ function index() {
         {
             name: "Delievery", selector: row => (
                 <span className={`status status--${(row.deliveryStatus)}`}>
-                    <p>{row.deliveryStatus}</p>
+                    <p><GoDotFill />{row.deliveryStatus}</p>
                 </span>
             ),
             width: "135px"
@@ -101,7 +102,7 @@ function index() {
         {
             name: "Status", selector: row => (
                 <span className={`status status--${(row.orderStatus)}`}>
-                    <p>{row.orderStatus}</p>
+                    <p><GoDotFill />{row.orderStatus}</p>
                 </span>
             ),
             width: "120px"

@@ -509,39 +509,44 @@ button {
 }
 
 .status p {
-	min-width: 80px;
+	/* min-width: 80px;
 	display: inline-block;
 	padding: 0.6rem;
-	border-radius: 0.6rem;
+	border-radius: 0.6rem; */
 	font-weight: 500;
 	font-size: 1.32rem;
 	text-transform: capitalize;
+
+	min-width: fit-content;
+	display: flex;
+	align-items: center;
+	gap: .24rem;
 }
 
 .status--inactive p,
 .status--failed p {
-	background-color: #ff9797b7;
+	/* background-color: #ff9797b7; */
 	color: #ff0000;
 }
 .status--pending p,
 .status--processing p,
 .status--published p {
-	background-color: #eef1ff;
+	/* background-color: #eef1ff; */
 	color: #655dbb;
 }
 .status--active p,
 .status--success p,
 .status--completed p,
 .status--delivered p {
+	/* background-color: #d7ecd1b7; */
 	color: #008001;
-	background-color: #d7ecd1b7;
 }
 .status--draft p {
-	background-color: #f1f1f1;
+	/* background-color: #f1f1f1; */
 	color: #888;
 }
 .status--in-transit p {
-	background-color: #fff2e8;
+	/* background-color: #fff2e8; */
 	color: #f8cba6;
 }
 

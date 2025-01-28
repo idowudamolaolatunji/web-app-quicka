@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { useParams } from 'react-router-dom';
 import ItemPreviewPageUI from '../../../ui/PageUI/ItemPreviewPageUI';
+import { GoDotFill } from 'react-icons/go';
 
 
 function ProductItem() {
@@ -18,7 +19,7 @@ function ProductItem() {
             <>
                 {item?.name}
                 <span className={`status status--${(item?.status)}`}>
-                    <p>{item?.status}</p>
+                    <p><GoDotFill />{item?.status}</p>
                 </span>
             </>
         )

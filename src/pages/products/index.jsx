@@ -23,6 +23,7 @@ import ProductFilterForm from '../../components/pageComponents/ProductFilterForm
 import FilterElement from '../../components/elements/FilterElement';
 import { HiOutlineCollection } from 'react-icons/hi';
 import { MdOutlineHistoryToggleOff } from 'react-icons/md';
+import { GoDotFill } from 'react-icons/go';
 
 
 //////////////////////////////////////////////////////
@@ -150,7 +151,7 @@ function index() {
             name: 'Status',
             selector: row => (
                 <span className={`status status--${(row?.status)}`}>
-                    <p>{row?.status}</p>
+                    <p><GoDotFill />{row?.status}</p>
                 </span>
             ),
         },

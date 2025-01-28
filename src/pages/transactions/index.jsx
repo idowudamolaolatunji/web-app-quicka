@@ -17,6 +17,7 @@ import transaction_emptyImg from '../../assets/images/illustrations/transactions
 import settlement_emptyImg from '../../assets/images/illustrations/settlements.png'
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
+import { GoDotFill } from 'react-icons/go';
 
 ///////////////////////////////////////////////
 
@@ -74,7 +75,7 @@ function index() {
             name: "Payment Type",
             selector: row => (
                 <span className="status status--success">
-                    <p>{row?.paymentType == "bank-transfer" ? "transfer" : row?.paymentType}</p>
+                    <p><GoDotFill />{row?.paymentType == "bank-transfer" ? "transfer" : row?.paymentType}</p>
                 </span>
             )
         },
@@ -82,7 +83,7 @@ function index() {
             name: 'Status',
             selector: row => (
                 <span className={`status status--${row?.status}`}>
-                    <p>{row?.status == "success" && "Successful"}</p>
+                    <p><GoDotFill />{row?.status == "success" && "Successful"}</p>
                 </span>
             ),
         },
@@ -91,7 +92,7 @@ function index() {
             selector: row => (
                 <TooltipUI placement='top' title="Offline transaction">
                     <span className={`status status--draft`}>
-                        <p>{row?.transactionType}</p>
+                        <p><GoDotFill />{row?.transactionType}</p>
                     </span>
                 </TooltipUI>
             )

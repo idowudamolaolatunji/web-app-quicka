@@ -29,7 +29,7 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
         },
         head: {
             style: {
-                fontSize: "1.48rem",
+                fontSize: "1.5rem",
                 fontWeight: "500",
                 height: width < 450 ? "4.5rem" : "5rem",
             },
@@ -38,7 +38,7 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
             style: {
                 minHeight: width < 450 ? "7rem" : (name == "product" ? "8rem" : "7rem"),
                 cursor: 'pointer',
-                fontSize: "1.32rem",
+                fontSize: "1.34rem",
                 fontWeight: 500,
                 color: "#444444"
             },

@@ -11,6 +11,7 @@ import ErrorComponent from '../../../components/layout/ErrorComponent';
 import { imgString } from '../../../assets/images/png_elements';
 import { GoDotFill } from 'react-icons/go';
 import { useAuthContext } from '../../../context/AuthContext';
+import { IoArrowRedo, IoArrowRedoOutline } from 'react-icons/io5';
 
 
 function RecentOrders() {
@@ -33,8 +34,8 @@ function RecentOrders() {
         },    
         head: {
             style: {
-                fontSize: "14px",
-                fontWeight: "500",
+                fontSize: "1.44rem",
+                fontWeight: "600",
                 color: "#eee",
                 height: width < 450 ? "4rem" : "4.5rem"
             },
@@ -42,6 +43,8 @@ function RecentOrders() {
         rows: {
             style: {
                 minHeight: '6rem',
+                fontSize: "1.3rem",
+                fontWeight: "500",
                 cursor: 'pointer'
             },
         },
@@ -81,13 +84,13 @@ function RecentOrders() {
                 <TooltipUI placement='top' title={
                     <ul className='table--list'>
                         {row.products?.map((item, index) => (
-                            <li key={index}><GoDotFill /> {item?.name}</li>
+                            <li key={index}><IoArrowRedoOutline /> {item?.name}</li>
                         ))}
                     </ul>
                 }>
                     <ul className='table--list'>
                         {row.products?.slice(0, 3)?.map((item, index) => (
-                            <li key={index}><GoDotFill /> {truncateString(item?.name, 18)}</li>
+                            <li key={index}><IoArrowRedo /> {truncateString(item?.name, 18)}</li>
                         ))}
                         {row.products?.length > 3 && <li>...</li>}
                     </ul>
@@ -104,7 +107,7 @@ function RecentOrders() {
         {
             name: 'Payment', selector: row => (
                 <span className={`status status--${( row?.paymentStatus != "unpaid" ? "success" : "pending" )}`}>
-                    <p>{row.paymentStatus}</p>
+                    <p><GoDotFill />{row.paymentStatus}</p>
                 </span>
             ),
             width: '120px'
@@ -112,7 +115,7 @@ function RecentOrders() {
         {
             name: 'Delievery', selector: row => (
                 <span className={`status status--${(row.deliveryStatus)}`}>
-                    <p>{row.deliveryStatus}</p>
+                    <p><GoDotFill />{row.deliveryStatus}</p>
                 </span>
             ),
             width: '135px'
@@ -120,7 +123,7 @@ function RecentOrders() {
         {
             name: 'Status', selector: row => (
                 <span className={`status status--${(row.orderStatus)}`}>
-                    <p>{row.orderStatus}</p>
+                    <p><GoDotFill />{row.orderStatus}</p>
                 </span>
             ),
             width: '120px'

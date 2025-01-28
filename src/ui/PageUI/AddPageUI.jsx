@@ -8,11 +8,28 @@ import "./addPage.css";
 
 import { useWindowSize } from 'react-use';
 import { useNavigate, useParams } from 'react-router-dom';
+import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
-function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, mainLoader, response, handleClear, handleSubmit, confetti, children }) {
-    const { id } = useParams();
+
+function AddPageActions({ id, handleClear, handleSubmit }) {
     const navigate = useNavigate();
+
+    return (
+        <div className="page__section--actions">
+            {id ? (
+                <button className='button clear--button' onClick={() => navigate(-1)}>Cancel</button>
+            ) : (
+                <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
+            )}
+            <button className='button submit--button' onClick={handleSubmit}>Submit</button>
+        </div>
+    )
+}
+
+
+function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, mainLoader, response, handleClear, handleSubmit, confetti, children, hasExplainer=true /* need to implement d hasExplainer */ }) {
+    const { id } = useParams();
     const { width } = useWindowSize();
 
     useEffect(function() {
@@ -29,36 +46,45 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
                 : <CustomAlert type={response.status} message={response.message} />
             )}
 
-            <section className='product__upload-section'>
+            <section className='product__upload-section' style={hasExplainer ? { alignItems: "flex-start" } : {}}>
                 <div className='page__section--heading'>
-                    <span className={`flex ${justify ? "justify" : ""}`}>
+                    <span className="page__heading--box">
                         <BackButton close={close} />
-                        <h2 className="page__section--title">{pageTitle} {pageIcon}</h2>
+
+                        {hasExplainer ? (
+                            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center" }}>
+                                <h2 className="page__section--title">{pageTitle} {pageIcon}</h2>
+                                <button className='form--add' onClick={() => {}}>
+                                    <IoPlayCircleOutline />
+                                    <p>See how to {pageTitle}</p>
+                                </button>
+                            </div>
+                        ) : (
+                            <h2 className="page__section--title">{pageTitle} {pageIcon}</h2>
+                        )}
                     </span>
 
+
                     {(width > 600) && (
-                        <div className="page__section--actions">
-                            {id ? (
-                                <button className='button clear--button' onClick={() => navigate(-1)}>Cancel</button>
-                            ) : (
-                                <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
-                            )}
-                            <button className='button submit--button' onClick={handleSubmit}>Submit</button>
-                        </div>
+                        <AddPageActions
+                            id={id}
+                            handleClear={handleClear}
+                            handleSubmit={handleSubmit}
+                        />
                     )}
                 </div>
 
-                <>{children}</>
+                <React.Fragment>
+                    {children}
+                </React.Fragment>
+
 
                 {(width < 600) && (
-                    <div className="page__section--actions" style={{ marginTop: "3rem" }}>
-                        {id ? (
-                            <button className='button clear--button' onClick={() => navigate(-1)}>Cancel</button>
-                        ) : (
-                            <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
-                        )}
-                        <button className='button submit--button' onClick={handleSubmit}>Submit</button>
-                    </div>
+                    <AddPageActions
+                        id={id}
+                        handleClear={handleClear}
+                        handleSubmit={handleSubmit}
+                    />
                 )}
             </section>
         </>
