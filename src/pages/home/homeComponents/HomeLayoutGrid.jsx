@@ -21,7 +21,6 @@ function HomeLayoutGrid() {
                 <HomeInsightContainer />
                 <SalesOverview />
                 <RecentOrders />
-                {/* <NewsBox /> */}
             </div>
 
             <div className="grid--right">

@@ -70,10 +70,10 @@
 	background-color: #eee;
 	color: #444;
 	font-size: 1.2rem;
-	font-weight: 500;
+	font-weight: 600;
 }
 
-.theme__figure--detail .active {
+.theme__figure.active .theme__figure--type {
 	background-color: var(--color-brand-50);
 	color: var(--color-brand-500);
 }
@@ -81,16 +81,26 @@
 .theme__figure--detail-main {
 	display: flex;
 	align-items: center;
-	gap: 0.6rem;
+	gap: 1rem;
+}
+.theme__figure.active .theme__figure--detail-main {
+	flex-direction: row !important;
+	gap: 1rem !important;
 }
 
 .theme__figure--detail .theme__figure--btn {
 	background-color: var(--color-brand-500);
 	font-size: 1.48rem;
 	font-weight: 500;
-	padding: 0.6rem 1.2rem;
+	padding: 0.7rem 1rem;
 	border-radius: 0.4rem;
 	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: .4rem;
+}
+.theme__figure.active .theme__figure--btn {
+	display: none;
 }
 
 .more--theme-box {
@@ -163,6 +173,7 @@
 	.theme__figure--detail-main {
 		flex-direction: column;
 		align-items: flex-start;
+		gap: 0.6rem;
 	}
 		
 }

@@ -111,8 +111,8 @@ function index() {
                     <span className='table--info'>
                         <h3>{row?.name}</h3>
                         <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
-                            {row?.product_collection?.slice(0, width < 600 ? 2 : 3)?.map((collection) => (  
-                                <span key={collection?._id}>{collection}</span>
+                            {row?.product_collection?.slice(0, width < 600 ? 2 : 3)?.map((collection, i) => (  
+                                <span key={i}>{collection}</span>
                             ))}
                         </div>
                     </span>

@@ -10,6 +10,7 @@ import ConnectionError from '../../components/layout/ConnectionError';
 import Spinner from '../../components/spinner/mainSpinner';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useNavigate } from 'react-router-dom';
+import { MdOutlineWorkspacePremium } from 'react-icons/md';
 
 
 function index() {
@@ -64,14 +65,14 @@ function index() {
 
                     <div className="theme--grid">
 
-                        <figure className='theme__figure custom--display'>
+                        <figure className='theme__figure custom--display active'>
                             <Template1 logo={demo_logo} />
                             <figcaption className='theme__figure--detail'>
                                 <span className='theme__figure--detail-main'>
                                     <h3 className='theme__figure--title'>Basic</h3>
-                                    <span className='theme__figure--type active'>Current theme</span>
+                                    <span className='theme__figure--type'>Current theme</span>
                                 </span>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/1")}>Customise!</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/1")}>Customise! </button>
                             </figcaption>
                         </figure>
 
@@ -80,9 +81,9 @@ function index() {
                             <figcaption className='theme__figure--detail'>
                                 <span className='theme__figure--detail-main'>
                                     <h3 className='theme__figure--title'>Minimalist</h3>
-                                    <span className='theme__figure--type'>free</span>
+                                    <span className='theme__figure--type'>Free</span>
                                 </span>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/2")}>Customise!</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/2")}>Use Theme </button>
                             </figcaption>
                         </figure>
 
@@ -97,7 +98,7 @@ function index() {
                 <div className="theme__card card">
                     <div className="section--heading" style={{ marginBottom: '2.8rem' }}>
                         <h2>Quicka <strong>premium</strong> themes</h2>
-                        <p>Feature-rich <strong>premium</strong> templates&mdash; with effortless and easy customization.</p>
+                        <p>Feature-rich <strong>premium<MdOutlineWorkspacePremium style={{ fontSize: "1.8rem", marginBottom: "-.48rem" }} /></strong>templates&mdash; with effortless and easy customization.</p>
                     </div>
 
                     <div className="theme--grid">
@@ -106,9 +107,9 @@ function index() {
                             <figcaption className='theme__figure--detail'>
                                 <span className='theme__figure--detail-main'>
                                     <h3 className='theme__figure--title'>Elegant</h3>
-                                    <span className='theme__figure--type'>premium</span>
+                                    <span className='theme__figure--type'>Premium</span>
                                 </span>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/3")}>Customise!</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/3")}>Use Theme </button>
                             </figcaption>
                         </figure>
                     </div>

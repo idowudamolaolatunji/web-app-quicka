@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PageUI from '../../ui/PageUI/PageUI'
 import { useDataContext } from '../../context/DataContext';
-import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/layout/Insight';
 import { GrTag } from 'react-icons/gr';

@@ -1049,6 +1049,9 @@ button {
 		align-items: flex-start;
 		flex-direction: column;
 	}
+	.info--item {
+		align-items: flex-start;
+	}
 
 	.export .modal--head {
 		border-bottom: 1.4px solid #eee;

@@ -16,6 +16,7 @@ function InsightGrid({ period }) {
         else if (period === 'last-week') startDate.startOf('week').subtract(1, 'week');
         else if (period === 'this-month') startDate.startOf('month');
         else if (period === 'today') startDate.startOf('day'); 
+        else if (period === 'today') startDate.startOf('day').subtract(1, "day"); 
         else startDate.startOf('year');
         
         return docs.filter((doc) => {
@@ -28,6 +29,8 @@ function InsightGrid({ period }) {
             }
         });
     }
+
+    // console.log(handleInsights(orders, "orderDate"), handleInsights(orders, "orderDate"), handleInsights(customers, "createdAt"))
 
     const websiteVisitorInsight = 0;
     const ordersInsight = handleInsights(orders, "orderDate")?.length;

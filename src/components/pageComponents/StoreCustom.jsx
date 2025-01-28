@@ -6,7 +6,7 @@ import Line from '../elements/Line';
 
 import ImageUploadInput from '../form/ImageUploadInput';
 import { useAuthContext } from '../../context/AuthContext';
-import { AiOutlineDelete, AiOutlineLink } from 'react-icons/ai';
+import { AiOutlineLink } from 'react-icons/ai';
 import ColorBox from '../elements/ColorBox';
 
 import LinkInput from '../form/LinkInput';
@@ -27,9 +27,7 @@ import LogoUploadInput from '../form/LogoUploadInput';
 import FaviconInput from '../form/FaviconInput';
 import demo_logo from '../../assets/images/dummy_items/dummy_logo.png'
 
-
 const BASE_API_URL = import.meta.env.VITE_API_URL;
-
 
 function StoreCustom({ isnew, close }) {
     const navigate = useNavigate();
@@ -356,7 +354,7 @@ function StoreCustom({ isnew, close }) {
                         <div className='custom--interface'>
                             <div className="form--item" style={{ gap: "2rem" }}>
                                 <div className="colors--container">
-                                    {colors.map(color => <ColorBox color={color} handleSelected={handleSelectColor} selected={customColor.color || selectedColor} />)}
+                                    {colors.map((color, i) => <ColorBox key={i} color={color} handleSelected={handleSelectColor} selected={customColor.color || selectedColor} />)}
                                 </div>
 
                                 <div className='form--flex' style={{ gap: "1rem", justifyContent: "flex-start" }}>
@@ -469,10 +467,9 @@ function StoreCustom({ isnew, close }) {
                     <Line border={1.4} />
 
                     <div className="page__section--actions" style={width > 450 ? { marginLeft: "auto" } : {}}>
-                        <button className='button clear--button' onClick={() => isnew ? close() : navigate(-1)}>Cancel</button>
+                        <button className='button clear--button' onClick={close}>Cancel</button>
                         <button className='button submit--button' onClick={handleSubmitCustomStore}>Save</button>
                     </div>
-
                 </form>
             </section>
         </>

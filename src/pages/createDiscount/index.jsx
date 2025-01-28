@@ -237,7 +237,7 @@ function index() {
 
                         <div className="form--item">
                             <label htmlFor="endDate" className="form--label">End Date <Asterisk /></label>
-                            <input type="datetime-local" name="endDate" id="endDate" value={discountData.endDate} onChange={handleChangeDiscountData} className="form--input" min={discountData.startDate ? new Date(new Date(couponData.startDate).getTime() + 86400000).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16)} />
+                            <input type="datetime-local" name="endDate" id="endDate" value={discountData.endDate} onChange={handleChangeDiscountData} className="form--input" min={discountData.startDate ? new Date(new Date(discountData.startDate).getTime() + 86400000).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16)} />
                             <span className="form--error-message">
                                 {discountFormErrors.endDate && discountFormErrors.endDate}
                             </span>

@@ -16,8 +16,6 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import ConnectionError from '../../components/layout/ConnectionError';
 import Drawer from '../../components/modal/Drawer';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
-import { cap1stLetter } from '../../utils/helper';
-
 
 
 function PageUI({

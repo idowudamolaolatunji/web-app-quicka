@@ -17,7 +17,8 @@ function HomeInsightContainer() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     /////////////////////////////////////////
-    const [period, setPeriod] = useState("");
+    /////////////////////////////////////////
+    const [period, setPeriod] = useState("today");
     
 
     return (
