@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { BiChevronDown, BiChevronUp, BiMinus, BiPlus } from 'react-icons/bi'
-// import Spinner from "../spinner/simple";
 import { AiOutlineClose } from 'react-icons/ai';
 import { formatNumber, truncateString } from '../../utils/helper';
 import { useAuthContext } from '../../context/AuthContext';
 import CurrencyInputField from '../form/CurrencyInputField';
+import CollapsibleDiv from 'react-collapsible';
 
 
 
@@ -12,7 +12,6 @@ function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem, 
     const { currency } = useAuthContext();
     const inStock = product?.stockAmount >= quantity;
     const [loader, setLoader] = useState(true);
-    const [showMore, setShowMore] = useState(false);
     const [subTotal, setSubTotal] = useState(0);
 
     
@@ -35,7 +34,7 @@ function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem, 
     useEffect(function() {
         const productTotal = (product?.price * quantity);
         setSubTotal(productTotal - (discount || 0) )
-    }, [showMore, quantity, discount])
+    }, [quantity, discount])
 
 
   return (
@@ -57,17 +56,23 @@ function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem, 
                 </span>
             </span>
 
-            <button className={`more--btn ${showMore ? "active" : ""}`} onClick={() => setShowMore(!showMore)}>
-                {showMore ? "Hide Details" : "Show More"}
-                {showMore ? <BiChevronUp /> : <BiChevronDown />}
-            </button>
-
-            {showMore && (
-                <div className="form--item">
-                    <label className='form--label'>Discount % ({currency})</label>
+            <CollapsibleDiv trigger={
+                <button className='form--add'>
+                    <p style={{ fontSize: "1.14rem" }}>Add Discount</p>
+                    <BiChevronDown  />
+                </button>
+            } triggerWhenOpen={
+                <button className='form--add'>
+                    <p style={{ fontSize: "1.14rem" }}>Add Discount</p>
+                    <BiChevronUp  />
+                </button>
+                }
+            >
+                <div className="form--item" style={{ marginTop: "1rem" }}>
+                    <label className='form--label'>Discount ({currency})</label>
                     <CurrencyInputField name="discount" value={discount} setValue={setDiscount} shared={false} />
                 </div>
-            )}
+            </CollapsibleDiv>
         </div>
 
         <span className='actions'>

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import logo_img from '../../../assets/images/logo/logo-black.png'
 import { useDataContext } from '../../../context/DataContext';
 import { IoChevronDownSharp } from 'react-icons/io5';
-import { MdOutlineStorefront } from 'react-icons/md';
 import { RiMenu3Fill } from 'react-icons/ri';
 import { LuBell, LuPanelLeftClose, LuPanelRightClose, LuRefreshCcw } from 'react-icons/lu';
 
@@ -64,8 +63,8 @@ function DashboardHead() {
                     <div className="nav--others">
                         {(width > 600 && !globalConnectionError && store?.storeOnboardCompleted ) && (
                             <DefaultButton>
-                                <TooltipUI placement='top' title="Refresh all">
-                                    <div className="nav--icon notification--icon" onClick={handleGlobalRefetch}>
+                                <TooltipUI placement='top' title="Reload app">
+                                    <div className="nav--icon" onClick={handleGlobalRefetch}>
                                         <LuRefreshCcw />
                                     </div>
                                 </TooltipUI>
@@ -79,7 +78,7 @@ function DashboardHead() {
                         )} */}
 
                         <DefaultButton>
-                            <div className="nav--icon notification--icon">
+                            <div className="nav--icon">
                                 <LuBell />
                             </div>
                         </DefaultButton>

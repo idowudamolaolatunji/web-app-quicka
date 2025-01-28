@@ -136,7 +136,7 @@
 	.theme__figure {
 		height: auto;
         /* min-height: auto; */
-        min-height: 32rem;
+        min-height: 28rem;
 	}
 
 	.more--theme-box img {

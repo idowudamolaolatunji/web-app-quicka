@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import Line from '../../components/elements/Line';
 import Template1 from "../../ui/templateUI/Template1"
 import Template2 from "../../ui/templateUI/Template2"
+import demo_logo from '../../assets/images/dummy_items/dummy_logo.png'
 import more_themes from '../../assets/images/illustrations/more_theme.png'
 import './style.css'
 import ConnectionError from '../../components/layout/ConnectionError';
+import Spinner from '../../components/spinner/mainSpinner';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,16 +16,20 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { globalConnectionError } = useFetchedContext();
-    const noLogo = "../../../faviconB.png"
+    const [loading, setLoading] = useState(false)
 
     useEffect(function() {
+        setLoading(true);
         document.title = "Quicka | Customize your store"
         window.scrollTo(0, 0);
+
+        setTimeout(() => setLoading(false), 500);
     }, []);
 
     return (
         <>
             {globalConnectionError && <ConnectionError /> }
+            {loading && <Spinner />}
 
             <div className='page__section--heading'>
                 <span>
@@ -59,7 +65,7 @@ function index() {
                     <div className="theme--grid">
 
                         <figure className='theme__figure custom--display'>
-                            <Template1 logo={noLogo} />
+                            <Template1 logo={demo_logo} />
                             <figcaption className='theme__figure--detail'>
                                 <span className='theme__figure--detail-main'>
                                     <h3 className='theme__figure--title'>Basic</h3>
@@ -70,7 +76,7 @@ function index() {
                         </figure>
 
                         <figure className='theme__figure custom--display'>
-                            <Template2 logo={noLogo} />
+                            <Template2 logo={demo_logo} />
                             <figcaption className='theme__figure--detail'>
                                 <span className='theme__figure--detail-main'>
                                     <h3 className='theme__figure--title'>Minimalist</h3>
@@ -96,7 +102,7 @@ function index() {
 
                     <div className="theme--grid">
                         <figure className='theme__figure custom--display'>
-                            <Template1 logo={noLogo} />
+                            <Template1 logo={demo_logo} />
                             <figcaption className='theme__figure--detail'>
                                 <span className='theme__figure--detail-main'>
                                     <h3 className='theme__figure--title'>Elegant</h3>

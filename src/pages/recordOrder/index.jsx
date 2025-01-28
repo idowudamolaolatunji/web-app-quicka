@@ -25,7 +25,8 @@ import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
 import isOnline from 'is-online';
 import CurrencyInputField from '../../components/form/CurrencyInputField.jsx';
 import { formatNumber } from '../../utils/helper.js';
-import { paymentMethodData, deliveryStatusData, channelData } from '../../utils/data.jsx'
+import { paymentMethodData, deliveryStatusData } from '../../utils/data.jsx'
+import { channelData } from '../../utils/data.js'
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -303,6 +304,7 @@ function index() {
                                     <AiOutlinePlus />
                                     <p>Add New Product</p>
                                 </button>
+                                <Info text="Add new product, If you're yet to upload the order product" />
                             </div>
 
                             <div className="form--item">

@@ -13,7 +13,6 @@ import LinkInput from '../form/LinkInput';
 import { Switch } from '@mui/material';
 import QuillEditor from '../form/QuillEditor';
 import Template1 from "../../ui/templateUI/Template1";
-import Template2 from "../../ui/templateUI/Template2";
 import Info from '../elements/Info';
 import { colors } from '../../utils/data';
 import Asterisk from '../elements/Asterisk';
@@ -25,11 +24,11 @@ import { createPortal } from 'react-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import isOnline from 'is-online';
 import LogoUploadInput from '../form/LogoUploadInput';
-import { GrFormNextLink, GrFormPreviousLink } from "react-icons/gr";
+import FaviconInput from '../form/FaviconInput';
+import demo_logo from '../../assets/images/dummy_items/dummy_logo.png'
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
-const noLogo = "../../../../faviconB.png"
 
 
 function StoreCustom({ isnew, close }) {
@@ -338,8 +337,11 @@ function StoreCustom({ isnew, close }) {
 
                     <div className="custom--item">
                         <span className="custom--labels">
-                            <label className='form--label'>Theme / Brand color <Asterisk /></label>
-                            <p className="custom--subtext">Select or customize your brand color.</p>
+                            <label className='form--label'>Theme, Brand color and Favicon <Asterisk /></label>
+                            <p className="custom--subtext">Select or customize your brand color and Favicon</p>
+                            <p className="custom--subtext">
+                                <div><Info /> The favicon is your store logo icon that will appear in your browser tab.</div><br />
+                            </p>
                         </span>
 
                         <div className='custom--interface'>
@@ -355,17 +357,23 @@ function StoreCustom({ isnew, close }) {
                                         <ColorBox color={customColor.color} selected={customColor.color} />
                                     )}</div>
                                 </div>
+
+                                {!isnew && (
+                                    <div>
+                                        <label className='form--label'>Favicon</label>
+                                        <FaviconInput />
+                                    </div>
+                                )}
                             </div>
 
 
                             <div className='form--item design--item'>
-                                <label className="form--label">
-                                    Default Templete
+                                <label className="form--label">{!isnew ? "Selected" : "Default"} Templete
                                 </label>
 
                                 <div className="custom--display">
                                     <Template1
-                                        logo={storeLogo.preview || (store?.storeLogo?.url ? store?.storeLogo?.url : noLogo)}
+                                        logo={storeLogo.preview || (store?.storeLogo?.url ? store?.storeLogo?.url : demo_logo)}
                                         color={storeData.brandColor}
                                         headline={storeData.headline}
                                         banner={banner.preview}

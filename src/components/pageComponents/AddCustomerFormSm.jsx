@@ -34,7 +34,6 @@ function AddCustomerFormSm({ close }) {
         phoneNumber: "",
         dialCode: "",
         countryCode: "",
-        // country: ""
     });
 
 
@@ -47,7 +46,6 @@ function AddCustomerFormSm({ close }) {
             phoneNumber: "",
             dialCode: "",
             countryCode: "",
-            // country: "",
         });
 
         setCountry([]);
@@ -183,7 +181,7 @@ function AddCustomerFormSm({ close }) {
                     <label htmlFor='country' className="form--label">Country <Asterisk /></label>
 
                     {/* <input type='text' id='country' name='country' placeholder='Enter Country' className='form--input' value={customerData.country} onChange={handleCustomerData} /> */}
-                    <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} customClass='select-width' noDataLabel='Loading...' />
+                    <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} noDataLabel='Loading...' />
                     <span className="form--error-message">
                         {customerFormErrors?.country && customerFormErrors?.country}
                     </span>

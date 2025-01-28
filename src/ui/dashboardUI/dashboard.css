@@ -123,17 +123,15 @@ body:has(.dashboard--base) {
     cursor: pointer;
     transition: all .3s;
     color: var(--grey-1);
+    border-radius: .4rem;
+    padding: .7rem;
 }
-.nav--icon.notification--icon:hover {
+.nav--icon:hover {
     background-color: var(--color-brand-50);
     color: var(--color-brand-500);
 }
 .nav--icon svg {
     font-size: 2.1rem;
-}
-.notification--icon {
-    border-radius: .4rem;
-    padding: .7rem;
 }
 .user--box {
     border-radius: 50%;
