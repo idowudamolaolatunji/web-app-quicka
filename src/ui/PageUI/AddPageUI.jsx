@@ -54,7 +54,7 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
                         {hasExplainer ? (
                             <div style={{ display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center" }}>
                                 <h2 className="page__section--title">{pageTitle} {pageIcon}</h2>
-                                <button className='form--add' onClick={() => {}}>
+                                <button className="form--add" onClick={() => {}}>
                                     <IoPlayCircleOutline />
                                     <p>See how to {pageTitle}</p>
                                 </button>

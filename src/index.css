@@ -961,7 +961,8 @@ button {
 /* MAX WIDTH - MOBILE MEDIA QUERY */
 @media screen and (max-width: 37.5em) {
 	html {
-		font-size: 66%;
+		/* font-size: 66%; */
+		font-size: 68%;
 	}
 	.modal {
 		width: 100% !important;
