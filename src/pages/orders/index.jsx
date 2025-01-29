@@ -174,7 +174,7 @@ function index() {
                 columns={columns}
                 shouldSelect={false}
                 addUrl="orders/record"
-                addBtnStr="Record Order"
+                addBtnStr="Record sales"
                 emptyText={emptyText}
                 emptyBtns={emptyBtns}
                 emptyImg={emptyImg}
@@ -196,7 +196,7 @@ function index() {
 
                 {/*  */}
                 <div className="top--bar info" style={{ margin: "2rem 0" }}>
-                    <Info text="Recieve orders and Record your sales from any offline channel" />
+                    <Info text="Recieve orders from your online store and record sales from any offline channel" />
                 </div>
 
             </PageUI>
