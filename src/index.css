@@ -961,8 +961,7 @@ button {
 /* MAX WIDTH - MOBILE MEDIA QUERY */
 @media screen and (max-width: 37.5em) {
 	html {
-		/* font-size: 66%; */
-		font-size: 68%;
+		font-size: 66%;
 	}
 	.modal {
 		width: 100% !important;
@@ -1052,6 +1051,9 @@ button {
 }
 
 @media screen and (max-width: 400px) {
+	body {
+		zoom: 105%;
+	}
 	.justify {
 		align-items: flex-start;
 		flex-direction: column;
