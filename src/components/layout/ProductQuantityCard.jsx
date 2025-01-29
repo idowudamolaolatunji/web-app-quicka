@@ -10,7 +10,7 @@ import CollapsibleDiv from 'react-collapsible';
 
 function ProductQuantityCard({ product, quantity, onQuantityChange, removeItem, discount, setDiscount }) {
     const { currency } = useAuthContext();
-    const inStock = product?.stockAmount >= quantity;
+    const inStock = product?.trackInventory ? product?.stockAmount >= quantity : true;
     const [loader, setLoader] = useState(true);
     const [subTotal, setSubTotal] = useState(0);
 

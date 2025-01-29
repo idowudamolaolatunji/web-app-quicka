@@ -1049,6 +1049,10 @@ button {
 	.none-450 {
 		display: none;
 	}
+
+	*:hover {
+		pointer-events: none;
+	}
 }
 
 @media screen and (max-width: 400px) {
