@@ -11,7 +11,7 @@ import moment from 'moment';
 
 function HomeTop() {
     const offer_tenue = 30;
-    const offer_percent = 35;
+    const offer_percent = 30;
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
@@ -36,7 +36,7 @@ function HomeTop() {
                     {remaining >= 1 ? (
                         <div className="sub--mini">
                             <span className='sub--text'>
-                                Select a plan and get your first year at a whooping 🥳 <span className='value' style={{ fontSize: '1.6rem' }}>{offer_percent}</span>% discount!
+                                Select any plan and get your first year at a whooping 🥳 <span className='value' style={{ fontSize: '1.6rem' }}>{offer_percent}</span>% discount!
                                 <p className='sub--text-sub'>Promo offer expires in <span className='value'>{remaining}</span> day{remaining < 2 ? "" : "s"}.</p>
                             </span>
                             <RiDiscountPercentFill style={{ fontSize: '2.6rem' }} />

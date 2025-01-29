@@ -128,6 +128,7 @@ function index() {
             price: product?.price,
             quantity: 1,
             discount: 0,
+            productId: product?.productId
         }));
         setSelectedProducts(initValue);
     }, [orderProducts]);
@@ -257,6 +258,8 @@ function index() {
                 handleClear={handleClearFields}
                 handleSubmit={handleRecordOrder}
                 confetti={showConfetti}
+                hasExplainer={true}
+                btnBelow={true}
             >
 
                 <div className="product__upload--container">

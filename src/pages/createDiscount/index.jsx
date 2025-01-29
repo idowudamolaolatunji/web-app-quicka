@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { TbBasketDiscount, TbRosetteDiscount } from 'react-icons/tb';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import AddPageUI from '../../ui/PageUI/AddPageUI';
 import Line from '../../components/elements/Line';
 import Asterisk from '../../components/elements/Asterisk';
@@ -17,6 +17,7 @@ import Info from '../../components/elements/Info.jsx';
 
 function index() {
     const navigate = useNavigate();
+    const { id } = useParams();
     const { width } = useWindowSize();
     const { currency } = useAuthContext();
     const { products, } = useFetchedContext()
@@ -86,7 +87,7 @@ function index() {
 
     return (
         <AddPageUI
-            pageTitle="Create Discount"
+            pageTitle={`${id ? "Edit" : "Create"} Discount`}
             pageIcon={<TbRosetteDiscount />}
             close={() => navigate(-1)}
             ismodal={false}
@@ -95,6 +96,8 @@ function index() {
             handleClear={handleClearFields}
             handleSubmit={handleSubmitDiscount}
             confetti={showConfetti}
+            hasExplainer={id ? false : true}
+            btnBelow={false}
         >
             <form className="product__upload--container" onSubmit={e => e.preventDefault()} 
                 style={{ gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "75rem", marginTop: width > 600 ? "4rem" : "0" }}    

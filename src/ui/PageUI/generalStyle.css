@@ -10,7 +10,7 @@
 
 .page__heading--box {
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
 	gap: 1.2rem;
 }
 
@@ -338,6 +338,11 @@
 	right: 5px;
     box-shadow: 0 0 2px #0000001e, 0 0 10px #0000000d;
 	border-radius: .4rem;
+}
+.product__figure--stat.status p {
+	padding: 0.4rem 0.6rem;
+	border-radius: 0.6rem;
+	background-color: #eef1ff;
 }
 .product__figure img {
 	width: 100%;

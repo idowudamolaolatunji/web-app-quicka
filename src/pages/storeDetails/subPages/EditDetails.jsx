@@ -282,6 +282,8 @@ function EditDetails() {
             response={response}
             handleClear={handleReset}
             handleSubmit={handleSubmit}
+            hasExplainer={false}
+            btnBelow={true}
         >
 
             <div className="product__upload--container">

@@ -12,11 +12,11 @@ import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
 
-function AddPageActions({ id, handleClear, handleSubmit }) {
+function AddPageActions({ id, handleClear, handleSubmit, customStyle }) {
     const navigate = useNavigate();
 
     return (
-        <div className="page__section--actions">
+        <div className="page__section--actions" style={customStyle}>
             {id ? (
                 <button className='button clear--button' onClick={() => navigate(-1)}>Cancel</button>
             ) : (
@@ -28,13 +28,15 @@ function AddPageActions({ id, handleClear, handleSubmit }) {
 }
 
 
-function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, mainLoader, response, handleClear, handleSubmit, confetti, children, hasExplainer=true /* need to implement d hasExplainer */ }) {
+function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, response, handleClear, handleSubmit, confetti, children, hasExplainer=true, btnBelow=true /* need to implement d hasExplainer */ }) {
     const { id } = useParams();
     const { width } = useWindowSize();
 
+    const hasExplainerStyle = hasExplainer ? { alignItems: "flex-start" } : {}
+
     useEffect(function() {
         isnew || window.scrollTo(0, 0)
-    }, [])
+    }, []);
 
     return (
         <>
@@ -46,9 +48,9 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
                 : <CustomAlert type={response.status} message={response.message} />
             )}
 
-            <section className='product__upload-section' style={hasExplainer ? { alignItems: "flex-start" } : {}}>
-                <div className='page__section--heading'>
-                    <span className="page__heading--box">
+            <section className='product__upload-section'>
+                <div className='page__section--heading' style={hasExplainerStyle}>
+                    <span className="page__heading--box" style={hasExplainerStyle}>
                         <BackButton close={close} />
 
                         {hasExplainer ? (
@@ -79,11 +81,12 @@ function AddPageUI({ pageTitle, pageIcon, justify=false, close, isnew, ismodal, 
                 </React.Fragment>
 
 
-                {(width < 600) && (
+                {(width < 600 || btnBelow) && (
                     <AddPageActions
                         id={id}
                         handleClear={handleClear}
                         handleSubmit={handleSubmit}
+                        customStyle={{ marginTop: "4rem" }}
                     />
                 )}
             </section>

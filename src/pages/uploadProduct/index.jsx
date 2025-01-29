@@ -349,6 +349,8 @@ function index({ isnew=false, close, ismodal=false }) {
                 handleClear={handleClearFields}
                 handleSubmit={handleCreateProduct}
                 confetti={showConfetti}
+                hasExplainer={id ? false : true}
+                btnBelow={true}
             >
 
                 <form className="product__upload--container" onSubmit={e => e.preventDefault()}>

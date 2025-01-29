@@ -184,6 +184,8 @@ function BankDetails({ isnew, close }) {
             handleClear={handleClearFields}
             handleSubmit={handleSubmitDetails}
             confetti={showConfetti}
+            hasExplainer={false}
+            btnBelow={false}
         >
 
             <div className="product__upload--container" style={{ gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "80rem", marginTop: width > 600 ? "4rem" : "0" }}>

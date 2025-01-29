@@ -148,7 +148,7 @@ function index({ close, isnew, isModal }) {
 
     return (
         <AddPageUI
-            pageTitle="Set Delivery Rate"
+            pageTitle={`${id ? "Edit" : "Set"} Delivery Rate`}
             pageIcon={<TbTruckDelivery />}
             close={close} isnew={isnew}
             justify isModal={isModal}
@@ -157,6 +157,8 @@ function index({ close, isnew, isModal }) {
             handleClear={handleClearFields}
             handleSubmit={handleCreateDelivery}
             confetti={showConfetti}
+            hasExplainer={id ? false : true}
+            btnBelow={false}
         >
 
             <div className="product__upload--container">

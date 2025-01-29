@@ -45,7 +45,7 @@ function DashboardMenu() {
                         )}
                         <ul className='menu--list'>
                             <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
-                            <MenuLink icon={<MdOutlineShoppingBag />} title='Orders' link='/orders' />
+                            <MenuLink icon={<MdOutlineShoppingBag />} title='Orders / Sales' link='/orders' />
                             <MenuLink icon={<LuTags />} title='Products' link='/products' />
                             <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                             <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
@@ -101,7 +101,7 @@ function DashboardMenu() {
                             </span>
                             <ul className='menu--list'>
                                 <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
-                                <MenuLink icon={<MdOutlineShoppingBag />} title='Orders' link='/orders' />
+                                <MenuLink icon={<MdOutlineShoppingBag />} title='Orders / Sales' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Products' link='/products' />
                                 <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                                 <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />

@@ -228,7 +228,7 @@ function index({ close, isModal }) {
 
     return (
         <AddPageUI
-            pageTitle="Add Customer"
+            pageTitle={`${id ? "Edit" : "Add"} Customer`}
             pageIcon={<FiUsers />}
             close={close} 
             isModal={isModal}
@@ -236,6 +236,8 @@ function index({ close, isModal }) {
             response={response}
             handleClear={handleClearFields}
             handleSubmit={handleCreateCustomer}
+            hasExplainer={id ? false : true}
+            btnBelow={false}
         >
 
             <div className="product__upload--container">

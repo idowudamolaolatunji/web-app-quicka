@@ -18,6 +18,7 @@ import settlement_emptyImg from '../../assets/images/illustrations/settlements.p
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 import { GoDotFill } from 'react-icons/go';
+import Info from '../../components/elements/Info';
 
 ///////////////////////////////////////////////
 
@@ -186,6 +187,11 @@ function index() {
                 <div className="page--tabs">
                     <Tab title="Transactions" onClick={() => navigate("?tab=transaction")} active={activeTab == "transaction"} />
                     <Tab title="Settlements" onClick={() => navigate("?tab=settlement")} active={activeTab == "settlement"} />
+                </div>
+
+
+                <div className="top--bar info" style={{ margin: "2rem 0" }}>
+                    <Info text="Please note that all pending settlements are paid to your bank / payment account after 24 hours after the transaction occured" />
                 </div>
             </PageUI>
         </>

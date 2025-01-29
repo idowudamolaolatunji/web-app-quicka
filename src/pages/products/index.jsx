@@ -24,6 +24,7 @@ import FilterElement from '../../components/elements/FilterElement';
 import { HiOutlineCollection } from 'react-icons/hi';
 import { MdOutlineHistoryToggleOff } from 'react-icons/md';
 import { GoDotFill } from 'react-icons/go';
+import Info from '../../components/elements/Info';
 
 
 //////////////////////////////////////////////////////
@@ -304,6 +305,11 @@ function index() {
                 <div className="page--tabs">
                     <Tab title="Products" onClick={() => navigate("?tab=product")} active={tabShown == "product"} />
                     <Tab title="Collections" onClick={() => navigate("?tab=collection")} active={tabShown == "collection"} />
+                </div>
+
+                {/*  */}
+                <div className="top--bar info" style={{ margin: "2rem 0" }}>
+                    <Info text="Products would be counted out of stock when it's less than 2 in stock" />
                 </div>
             </PageUI>
         </>

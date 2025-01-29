@@ -18,7 +18,9 @@ function ProductCard({ product, open, forTemplate }) {
         <figure className="product__figure">
             <Link to={!forTemplate && `/dashboard/products/${product?.productId}`} className="product__figure--img">
                 <span className={`product__figure--stat status status--${(product?.status)}`}>
-                    <p style={{ minWidth: "0" }}>{product?.status}</p>
+                    <p style={{ minWidth: "0" }}>
+                        {product?.status}
+                    </p>
                 </span>
                 <img src={(!forTemplate && product?.images?.length > 0) ? product?.images?.at(0)?.url : forTemplate ? product?.images?.at(0) : empty_product} />
             </Link>

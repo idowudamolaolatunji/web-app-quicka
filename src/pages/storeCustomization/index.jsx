@@ -24,7 +24,7 @@ function index() {
         document.title = "Quicka | Customize your store"
         window.scrollTo(0, 0);
 
-        setTimeout(() => setLoading(false), 500);
+        setTimeout(() => setLoading(false), 250);
     }, []);
 
     return (

@@ -31,7 +31,7 @@ function PageUI({
 
     // CHECK THIS AGAIN LATER....
     const isItem = items && items.length > 0;
-    const width500andIsItem = (isItem && width < 500);
+    const width500andIsItem = (isItem && width < 510);
     const insightPageOrTabName = pageName == "collection" ? "product" : pageName == "settlement" ? "transaction" : (pageName == "special_sales" || pageName == "coupon") ? "discount" : pageName
 
     const [showMoreActions, setShowMoreActions] = useState(false);
@@ -111,7 +111,9 @@ function PageUI({
                 </span>
             </div>
 
-            {children}
+            <React.Fragment>
+                {children}
+            </React.Fragment>
 
             <div className="page__section--main" style={{ padding: 0 }}>
                 <TableUI

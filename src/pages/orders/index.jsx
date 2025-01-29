@@ -16,6 +16,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 import { IoArrowRedo, IoArrowRedoOutline } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 
 
 //////////////////////////////////////////////////////
@@ -70,7 +71,14 @@ function index() {
                 }>
                     <ul className="table--list">
                         {row.products?.slice(0, 3)?.map((item, index) => (
-                            <li key={index}><IoArrowRedo /> {truncateString(item?.name, 18)}</li>
+                            <li key={index}>
+                                {width > 600 ? (
+                                    <Link to={item?.productId || "/"}><IoArrowRedo /></Link>
+                                ) : (
+                                    <IoArrowRedoOutline />
+                                )}
+                                {truncateString(item?.name, 18)}
+                            </li>
                         ))}
                         {row.products?.length > 3 && <li>...</li>}
                     </ul>
