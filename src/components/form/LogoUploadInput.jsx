@@ -1,7 +1,7 @@
 import React from 'react'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { useAuthContext } from '../../context/AuthContext'
-import logo_demo from '../../assets/images/resources/logo-demo.png'
+import logo_demo from '../../assets/images/dummy_items/demo_quicka_logo.png'
 
 
 function LogoUploadInput({ name="logo", logoPreview, handleLogoChange, handleLogoRemove }) {

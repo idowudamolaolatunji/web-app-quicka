@@ -9,6 +9,7 @@ import { LuCheckCircle } from 'react-icons/lu';
 import moment from 'moment';
 
 
+
 function HomeTop() {
     const offer_tenue = 30;
     const offer_percent = 30;

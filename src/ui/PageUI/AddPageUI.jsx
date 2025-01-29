@@ -50,11 +50,11 @@ function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, res
 
             <section className='product__upload-section'>
                 <div className='page__section--heading' style={hasExplainerStyle}>
-                    <span className={`${hasExplainer ? "page__heading--box" : "flex" }`} style={{ gap: "1rem", ...hasExplainerStyle }}>
+                    <span className={`${hasExplainer ? "page__heading--box" : "flex" }`} style={{ gap: "1.4rem", ...hasExplainerStyle }}>
                         <BackButton close={close} />
 
                         {hasExplainer ? (
-                            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center" }}>
+                            <div style={{ display: "flex", flexDirection: "column", gap: ".84rem", justifyContent: "center" }}>
                                 <h2 className="page__section--title">{pageTitle} {pageIcon}</h2>
                                 <button className="form--add" onClick={() => {}}>
                                     <IoPlayCircleOutline />

@@ -47,10 +47,10 @@ function DashboardMenu() {
                             <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
                             <MenuLink icon={<MdOutlineShoppingBag />} title='Orders / Sales' link='/orders' />
                             <MenuLink icon={<LuTags />} title='Products' link='/products' />
-                            <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                             <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                             <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
-                            <MenuLink icon={<RiDiscountPercentLine />} title='Discounts' link='/discounts' />
+                            <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/discounts' />
+                            <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                         </ul>
                     </div>
 
@@ -103,10 +103,10 @@ function DashboardMenu() {
                                 <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
                                 <MenuLink icon={<MdOutlineShoppingBag />} title='Orders / Sales' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Products' link='/products' />
-                                <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                                 <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                                 <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
-                                <MenuLink icon={<RiDiscountPercentLine />} title='Discounts' link='/discounts' />
+                                <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/discounts' />
+                                <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                             </ul>
                         </div>
 

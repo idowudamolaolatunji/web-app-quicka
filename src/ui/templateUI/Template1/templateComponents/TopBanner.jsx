@@ -1,5 +1,5 @@
 import React from 'react'
-import noBanner from "../../../../assets/images/resources/banner.jpg"
+import noBanner from "../../../../assets/images/dummy_items/dummy_banner_1.jpg"
 
 function TopBanner({ banner, heading, text }) {
     return (

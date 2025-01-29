@@ -17,6 +17,7 @@ import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 import { IoArrowRedo, IoArrowRedoOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import Info from '../../components/elements/Info';
 
 
 //////////////////////////////////////////////////////
@@ -173,7 +174,7 @@ function index() {
                 columns={columns}
                 shouldSelect={false}
                 addUrl="orders/record"
-                addBtnStr="Record sales"
+                addBtnStr="Record Order"
                 emptyText={emptyText}
                 emptyBtns={emptyBtns}
                 emptyImg={emptyImg}
@@ -192,6 +193,11 @@ function index() {
                         <Insight title='Uncompleted Orders' loader={loader?.order} value={unCompletedOrders?.length} icon={<TbNotesOff />} />
                     </div>
                 )}
+
+                {/*  */}
+                <div className="top--bar info" style={{ margin: "2rem 0" }}>
+                    <Info text="Recieve orders and Record your sales from any offline channel" />
+                </div>
 
             </PageUI>
         </>

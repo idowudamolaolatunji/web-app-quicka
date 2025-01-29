@@ -12,11 +12,10 @@ import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
 import { joinedSinceFormat } from '../../utils/helper';
 import Spinner from '../../components/spinner/mainSpinner';
-import moment from 'moment';
+import noLogo from "../../assets/images/logo/favicon_small.png"
 
 
 function index() {
-    const noLogo = "../../../../faviconB.png"
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { store } = useAuthContext();

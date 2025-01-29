@@ -1,5 +1,5 @@
 import React from 'react'
-import favicon from "../../assets/images/logo/faviconB.png"
+import favicon from "../../assets/images/logo/favicon_small.png"
 
 function CopyrightText({ customStyle }) {
   return (

@@ -129,7 +129,6 @@ function index() {
             selector: row => (
                 <p className='value'>{currency}{formatNumber(row?.price)}</p>
             ),
-            width: width > 600 ? "8rem" : ""
         },
         {
             name: 'Inventory',
@@ -193,7 +192,7 @@ function index() {
                     <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
-            width: "15rem"
+            width: width < 600 ? "15rem" : ""
         }
     ];
 
@@ -307,7 +306,7 @@ function index() {
 
                 {/*  */}
                 <div className="top--bar info" style={{ margin: "2rem 0" }}>
-                    <Info text="Products would be counted out of stock when it's has less than items 2 in stock" />
+                    <Info text="Products would be counted out of stock when it's has less than 2 items available in stock" />
                 </div>
             </PageUI>
         </>

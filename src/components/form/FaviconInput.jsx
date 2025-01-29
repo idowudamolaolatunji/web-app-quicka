@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuthContext } from '../../context/AuthContext'
-import fav_demo from '../../assets/images/resources/logo-demo.png'
+import fav_demo from '../../assets/images/dummy_items/demo_quicka_logo.png'
 
 
 function FaviconInput({ preview, handleChange }) {

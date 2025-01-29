@@ -199,11 +199,10 @@ function index() {
 
             <div className="page--tabs" style={{ margin: "-2rem 0 0" }}>
                 <Tab title="Sales" active={activeTab == "sales"} onClick={() => navigate("?tab=sales")} />
-                <Tab title="Products" active={activeTab == "products"} onClick={() => navigate("?tab=products")} />
+                <Tab title="Products & Inventory" active={activeTab == "products"} onClick={() => navigate("?tab=products")} />
                 <Tab title="Customers" active={activeTab == "customers"} onClick={() => navigate("?tab=customers")} />
                 <Tab title="Website Traffic" active={activeTab == "website-traffic"} onClick={() => navigate("?tab=website-traffic")} />
                 <Tab title="Transactions" active={activeTab == "transactions"} onClick={() => navigate("?tab=transactions")} />
-                <Tab title="Campaigns" active={activeTab == "campaigns"} onClick={() => navigate("?tab=campaigns")} />
             </div>
 
             <Line border={1.4} where="Top" value="2rem" />
@@ -217,7 +216,6 @@ function index() {
                     {activeTab == "products" && <ProductsAnalytics dateRange={dateRange} />}
                     {activeTab == "customers" && <CustomersAnalytics dateRange={dateRange} />}
                     {activeTab == "transactions" && <TransactionsAnalytics dateRange={dateRange} />}
-                    {activeTab == "campaigns" && <CampaignsAnalytics dateRange={dateRange} />}
                 </div>
             )} */}
 
