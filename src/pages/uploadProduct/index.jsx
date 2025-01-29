@@ -194,9 +194,7 @@ function index({ isnew=false, close, ismodal=false }) {
                     });
                     setVariations(fetchedItem?.variations);
                     setDescription(fetchedItem?.description || "")
-                    setProductCollection(fetchedItem?.product_collection?.map((collection, i) => (
-                        { name: collection, id: i }
-                    )))
+                    setProductCollection(fetchedItem?.product_collection)
                     setChecks({
                         trackInventory: fetchedItem?.trackInventory || false,
                         isPhysical: fetchedItem?.isPhysical || true,
@@ -211,7 +209,6 @@ function index({ isnew=false, close, ismodal=false }) {
         })();
 
     }, [id]);
-
 
     async function handleCreateProduct(e) {
         // FORM VALIDATIONS 
@@ -236,11 +233,11 @@ function index({ isnew=false, close, ismodal=false }) {
         setLoading(true);
         
         // GET COLLECTION NAMES
-        const names = productCollection.map(collection => collection.name);
+        const colection_Ids = productCollection?.map(collection => collection._id);
         const itemUnit = unit[0]?.value || "";
         
-        // check if it's firsttime new onboard or old editing
-        const end_point = isnew ? "/onboard/product" : id ?`/${fetchedProduct?._id}` : "";
+        // check if it's creating new, first onboard or editing
+        const parameter = isnew ? "/onboard/product" : id ?`/${fetchedProduct?._id}` : "";
         
         try {
             // CHECK CONNECTION
@@ -259,7 +256,7 @@ function index({ isnew=false, close, ismodal=false }) {
             formData.append('discountType', productData.discountType);
             formData.append('MOQ', productData.MOQ);
             formData.append('unit', itemUnit);
-            formData.append('product_collection', JSON.stringify(names));
+            formData.append('product_collection', JSON.stringify(colection_Ids));
             formData.append('variations', JSON.stringify(variations));
             formData.append('trackInventory', JSON.stringify(checks.trackInventory));
             formData.append('isPhysical', JSON.stringify(checks.isPhysical));
@@ -280,7 +277,7 @@ function index({ isnew=false, close, ismodal=false }) {
             }
             
             // MAKE REQUEST
-            const res = await fetch(`${BASE_API_URL}/products${end_point}`, {
+            const res = await fetch(`${BASE_API_URL}/products${parameter}`, {
                 headers: formdataHeader,
                 method: id ? "PATCH" : "POST",
                 body: formData

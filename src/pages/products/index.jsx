@@ -99,9 +99,10 @@ function index() {
     }
 
     // HELP FIND THE PRODUCTS LENGTH IN COLLECTION BY COLLECTION NAME
-    const findProductsInCollection = function(name) {
-        const collectionProducts = products?.filter(product => product?.product_collection.includes(name));
-        return collectionProducts?.length || 0;
+    const findProductsInCollection = function(id) {
+        return products.filter(product =>
+            product.product_collection.some(col => col._id === id)
+        ).length || 0;
     }
 
     const product_columns = [
@@ -114,7 +115,7 @@ function index() {
                         <h3>{row?.name}</h3>
                         <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
                             {row?.product_collection?.slice(0, width < 600 ? 2 : 3)?.map((collection, i) => (  
-                                <span key={i}>{collection}</span>
+                                <span key={i}>{collection?.name}</span>
                             ))}
                         </div>
                     </span>
@@ -128,7 +129,7 @@ function index() {
             selector: row => (
                 <p className='value'>{currency}{formatNumber(row?.price)}</p>
             ),
-            width: width > 600 ? "10rem" : ""
+            width: width > 600 ? "8rem" : ""
         },
         {
             name: 'Inventory',
@@ -174,7 +175,7 @@ function index() {
         {
             name: 'Collection Products',
             selector: row => (
-                <span className="value">{formatNumber(findProductsInCollection(row?.name) || 0)}</span>
+                <span className="value">{formatNumber(findProductsInCollection(row?._id) || 0)}</span>
             ),
         },
         {
@@ -192,6 +193,7 @@ function index() {
                     <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
+            width: "15rem"
         }
     ];
 
@@ -199,13 +201,9 @@ function index() {
     // DISPLAY THE DOCUMENT TITLE
     useEffect(function () {
         document.title = `Quicka | ${tabShown == "product" ?
-            "Your products" : "Product collections"
-            }`;
+            "Your products" : "Product collections"}`;
     }, []);
 
-    // REFETCH IF THERE'S ERROR
-    useEffect(function () {
-    }, []);
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
     useEffect(function () {
@@ -309,7 +307,7 @@ function index() {
 
                 {/*  */}
                 <div className="top--bar info" style={{ margin: "2rem 0" }}>
-                    <Info text="Products would be counted out of stock when it's less than 2 in stock" />
+                    <Info text="Products would be counted out of stock when it's has less than items 2 in stock" />
                 </div>
             </PageUI>
         </>

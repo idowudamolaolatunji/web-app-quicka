@@ -224,6 +224,7 @@
 	font-weight: 600;
 	padding: 1rem 1.3rem;
 	border-radius: 0.4rem;
+	min-height: 3.8rem;
 }
 .table--btn svg {
 	font-size: 2.2rem;
@@ -343,6 +344,7 @@
 	padding: 0.4rem 0.6rem;
 	border-radius: 0.6rem;
 	background-color: #eef1ff;
+	margin-left: 0;
 }
 .product__figure img {
 	width: 100%;
@@ -1117,6 +1119,7 @@
 
 	.page__heading--box {
 		flex-direction: column;
+		align-items: flex-start;
 	}
 }
 

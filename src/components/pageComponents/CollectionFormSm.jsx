@@ -14,11 +14,11 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function CollectionFormSm({ close, editingItem }) {
     const { shouldKick, formdataHeader } = useAuthContext();
-    const { handleFetchMyStoreCollections, handleImageUpload } = useFetchedContext();
+    const { handleFetchMyStoreCollections } = useFetchedContext();
 
+    console.log(editingItem)
 
-    const [imagePreview, setImagePreview] = useState(null);
-    const [imageFile, setImageFile] = useState(null);
+    const [image, setImage] = useState({ preview: "", file: "" });
     const [collectionData, setCollectionData] = useState({ name: "", description: "" });
     const [collectionFormError, setCollectionFormError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -27,9 +27,8 @@ function CollectionFormSm({ close, editingItem }) {
     const handleImageChange = function (event) {
         const file = event.target.files[0];
         if (file) {
-            setImageFile(file);
             const imageUrl = URL.createObjectURL(file);
-            setImagePreview(imageUrl);
+            setImage({ preview: imageUrl, file });
         }
     };
 
@@ -41,25 +40,29 @@ function CollectionFormSm({ close, editingItem }) {
         })
     }
 
+    const handleRemoveImage = function() {
+        setImage({ preview: "", file: "" });
+    }
+
     const handleClearFields = function () {
+        handleRemoveImage();
         setCollectionData({
             name: "",
             description: ""
         });
-
-        setImageFile(null);
-        setImagePreview(null);
-    }
-
-    const handleRemoveImage = function() {
-        setImageFile(null);
-        setImagePreview(null);
     }
 
 
     useEffect(function() {
+        if(editingItem) {
+            setCollectionData({
+                name: editingItem?.name,
+                description: editingItem?.description,
+            });
 
-    }, [])
+            setImage({ preview: editingItem?.image?.url, file: "" })
+        }
+    }, [editingItem])
 
 
     async function handleSubmitCollection() {
@@ -72,12 +75,15 @@ function CollectionFormSm({ close, editingItem }) {
         const formData = new FormData();
         formData.append('name', collectionData.name);
         formData.append('description', collectionData.description);
-        if(imageFile) formData.append('image', imageFile);
+        if(image.file) formData.append('image', image.file);
+
+        // check if it's creating or editing
+        const parameter = editingItem ? editingItem?._id : "";
 
         try {
-            const res = await fetch(`${BASE_API_URL}/collections`, {
+            const res = await fetch(`${BASE_API_URL}/collections/${parameter}`, {
                 headers: formdataHeader,
-                method: "POST",
+                method: editingItem ? "PATCH" : "POST",
                 body: formData
             });
             shouldKick(res);
@@ -115,7 +121,7 @@ function CollectionFormSm({ close, editingItem }) {
                 <div className="form--item">
                     <label className="form--label">Collection Image (optional)</label>
 
-                    <ImageUploadInput preview={imagePreview} handleChange={handleImageChange} text="Recommend format (png, jpeg, jpg)" height={{ height: "18rem" }} handleRemove={handleRemoveImage} />
+                    <ImageUploadInput preview={image.preview} handleChange={handleImageChange} text="Recommend format (png, jpeg, jpg)" height={{ height: "18rem" }} handleRemove={handleRemoveImage} />
                 </div>
 
                 <div className="form--item">
@@ -125,7 +131,11 @@ function CollectionFormSm({ close, editingItem }) {
 
 
                 <div className="page__section--actions">
-                    <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
+                    {editingItem ? (
+                        <button className='button clear--button' onClick={() => {}}>Close</button>
+                    ) : (
+                        <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
+                    )}
                     <button className='button submit--button' onClick={handleSubmitCollection}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
 

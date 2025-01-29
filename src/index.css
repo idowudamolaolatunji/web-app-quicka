@@ -516,6 +516,7 @@ button {
 	font-weight: 500;
 	font-size: 1.32rem;
 	text-transform: capitalize;
+	margin-left: -.28rem;
 
 	min-width: fit-content;
 	display: flex;
@@ -961,7 +962,7 @@ button {
 /* MAX WIDTH - MOBILE MEDIA QUERY */
 @media screen and (max-width: 37.5em) {
 	html {
-		font-size: 66%;
+		font-size: 65%;
 	}
 	.modal {
 		width: 100% !important;

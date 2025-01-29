@@ -32,7 +32,7 @@ function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, res
     const { id } = useParams();
     const { width } = useWindowSize();
 
-    const hasExplainerStyle = hasExplainer ? { alignItems: "flex-start" } : {}
+    const hasExplainerStyle = (hasExplainer) ? { alignItems: "flex-start" } : {}
 
     useEffect(function() {
         isnew || window.scrollTo(0, 0)
@@ -50,7 +50,7 @@ function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, res
 
             <section className='product__upload-section'>
                 <div className='page__section--heading' style={hasExplainerStyle}>
-                    <span className="page__heading--box" style={hasExplainerStyle}>
+                    <span className={`${hasExplainer ? "page__heading--box" : "flex" }`} style={{ gap: "1rem", ...hasExplainerStyle }}>
                         <BackButton close={close} />
 
                         {hasExplainer ? (

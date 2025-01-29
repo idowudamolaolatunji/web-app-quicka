@@ -171,7 +171,7 @@ function index() {
                 items={orders}
                 data={search ? searchResults : orders}
                 columns={columns}
-                shouldSelect={true}
+                shouldSelect={false}
                 addUrl="orders/record"
                 addBtnStr="Record sales"
                 emptyText={emptyText}

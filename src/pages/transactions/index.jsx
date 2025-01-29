@@ -166,6 +166,7 @@ function index() {
                 emptyImg={activeTab == "transaction" ? transaction_emptyImg : settlement_emptyImg}
                 emptyTitle={activeTab == "transaction" ? transaction_emptyTitle : settlement_emptyTitle}
                 hasLink={false}
+                shouldSelect={false}
                 loader={loader} error={error}
                 pointOnHover={activeTab == "transaction" ? false : true}
                 headTabs={ activeTab == "transaction" ? (

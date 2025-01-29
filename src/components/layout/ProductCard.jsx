@@ -31,8 +31,8 @@ function ProductCard({ product, open, forTemplate }) {
                         {truncateString(product?.name, width < 400 ? 25 : 18)}
                     </span>
                     <span style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
-                        {product?.product_collection?.slice(0, width < 600 ? 2 : 3)?.map((collection) => (
-                            <p className='product__figure--collection'>{collection}</p>
+                        {product?.product_collection?.slice(0, width < 600 ? 2 : 3)?.map((collection, i) => (
+                            <p className='product__figure--collection' key={i}>{collection?.name}</p>
                         ))}
                     </span>
                     
