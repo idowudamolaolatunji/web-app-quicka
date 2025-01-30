@@ -524,6 +524,7 @@ button {
 	gap: .24rem;
 }
 
+
 .status--inactive p,
 .status--failed p {
 	/* background-color: #ff9797b7; */
@@ -535,6 +536,7 @@ button {
 	/* background-color: #eef1ff; */
 	color: #655dbb;
 }
+.status--paid p,
 .status--active p,
 .status--success p,
 .status--completed p,
@@ -551,6 +553,37 @@ button {
 	color: #f8cba6;
 }
 
+
+/*  */
+.heading--row .status p {
+	padding: 0.4rem 0.6rem;
+	border-radius: 0.6rem;
+	margin-left: 0;
+}
+
+.heading--row .status--unpaid p,
+.heading--row .status--failed p {
+	background-color: #ff9797b7;
+}
+
+.heading--row .status--pending p {
+	background-color: #eef1ff;
+}
+
+.heading--row .status--partially p {
+	background-color: #fff2e8;
+}
+
+.heading--row .status--paid p,
+.heading--row .status--completed p,
+.heading--row .status--delivered p {
+	background-color: #d7ecd1b7;
+}
+
+
+
+
+/*  */
 .copyright--text {
 	font-size: 1rem;
 	color: #555;
@@ -1049,15 +1082,11 @@ button {
 	.none-450 {
 		display: none;
 	}
-
-	*:hover {
-		pointer-events: none;
-	}
 }
 
 @media screen and (max-width: 400px) {
 	/* BRING THIS BACK IN PRODUCTION */
-	/* body { zoom: 105%; } */
+	body { zoom: 105%; }
 	.justify {
 		align-items: flex-start;
 		flex-direction: column;

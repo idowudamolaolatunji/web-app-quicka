@@ -165,7 +165,7 @@ function BankDetails({ isnew, close }) {
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
-            }, isnew ? 5000 : 3000);
+            }, isnew ? 2500 : 1500);
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });

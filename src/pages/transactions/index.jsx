@@ -7,7 +7,7 @@ import { GrTag } from 'react-icons/gr';
 import { LuClipboardList } from 'react-icons/lu';
 import { MdOutlineFilterList, MdOutlineOfflineShare, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
-import { cap1stLetter, formatNumber, dateTimeFormat } from '../../utils/helper';
+import { cap1stLetter, formatNumber, dateTimeFormat, formatDate } from '../../utils/helper';
 import { imgString } from '../../assets/images/png_elements';
 import { useAuthContext } from '../../context/AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -101,8 +101,8 @@ function index() {
         {
             name: "Date",
             selector: row => (
-                <TooltipUI placement='top' title={dateTimeFormat(row?.order?.orderDate)}>
-                    <p>{dateTimeFormat(row?.order?.orderDate)}</p>
+                <TooltipUI placement='top' title={formatDate(row?.order?.orderDate)}>
+                    <p>{formatDate(row?.order?.orderDate)}</p>
                 </TooltipUI>
             ),
         }

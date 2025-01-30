@@ -73,7 +73,9 @@ function index() {
             maxTotalUsage: null,
         });
 
-        setIsGenerated(false)
+        setIsGenerated(false);
+        window?.scrollTo({ top: 0, behavior: "smooth" });
+        setCouponFormErrors({});
     }
 
     const handleGenerateCode = function() {

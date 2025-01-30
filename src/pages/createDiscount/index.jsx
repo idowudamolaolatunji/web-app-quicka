@@ -52,8 +52,10 @@ function index() {
             setvalidity: true,
             startDate: "",
             endDate: ""
+        });
 
-        })
+        window?.scrollTo({ top: 0, behavior: "smooth" });
+        setDiscountFormErrors({});
     }
 
     const handleChangeSelectionType = function(value, tag) {

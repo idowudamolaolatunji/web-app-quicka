@@ -305,9 +305,11 @@ function index() {
                 </div>
 
                 {/*  */}
-                <div className="top--bar info" style={{ margin: "2rem 0" }}>
-                    <Info text="Products would be counted out of stock when it's has less than 2 items available in stock" />
-                </div>
+                {products?.length > 0 && (
+                    <div className="top--bar info" style={{ margin: "2rem 0" }}>
+                        <Info text="Products would be counted out of stock when it's has less than 2 items available in stock" />
+                    </div>
+                )}
             </PageUI>
         </>
     )

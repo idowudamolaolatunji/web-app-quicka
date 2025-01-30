@@ -8,6 +8,8 @@ import ProductCard from '../../components/layout/ProductCard';
 import ErrorComponent from '../../components/layout/ErrorComponent';
 import ProductCardSkeleton from '../../components/skeleton/ProductCardSkeleton';
 import { TableCellSkeleton, TableHeadSkeleton, TableSkeleton } from '../../components/skeleton/TableSkeleton';
+import { formatNumber } from '../../utils/helper';
+import { Checkbox } from '@mui/material';
 
 
 function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTabs,
@@ -69,6 +71,58 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
         navigate(`${toLink}/${row[name == "product" ? "productId" : "_id"]}`);
     }
 
+
+    ///////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+    function convertArrayOfObjectsToCSV(array) {
+        let result;
+    
+        const columnDelimiter = ',';
+        const lineDelimiter = '\n';
+        const keys = Object.keys(data[0]);
+    
+        result = '';
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+    
+        array.forEach(item => {
+            let ctr = 0;
+            keys.forEach(key => {
+                if (ctr > 0) result += columnDelimiter;
+    
+                result += item[key];
+                
+                ctr++;
+            });
+            result += lineDelimiter;
+        });
+    
+        return result;
+    }
+    function downloadCSV(array) {
+        const link = document.createElement('a');
+        let csv = convertArrayOfObjectsToCSV(array);
+        if (csv == null) return;
+    
+        const filename = 'export.csv';
+    
+        if (!csv.match(/^data:text\/csv/i)) {
+            csv = `data:text/csv;charset=utf-8,${csv}`;
+        }
+    
+        link.setAttribute('href', encodeURI(csv));
+        link.setAttribute('download', filename);
+        link.click();
+    }
+    const Export = ({ onExport }) => <button onClick={e => onExport(e.target.value)}>Export</button>;
+	const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+    ///////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+
+
+
     return (
         <>
             {(error && !isData && !loader) && (
@@ -99,12 +153,21 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
                 <>
                     <div className='table--head' style={displayType == "grid" ? { borderRadius: "0.4rem" } : {}}>
                         {selectedRowsId.length > 0 ? (
-                            <span className='flex'>
-                                <p>Selected: {selectedRowsId.length}</p>
+                            <span className='flex' style={{ gap: "1.6rem" }}>
+                                <p>
+                                    <span style={{ fontSize: "1.28rem", marginRight: ".48rem" }}>
+                                        Selected Items:
+                                    </span>
+                                    <span className='value'>
+                                        {formatNumber(selectedRowsId.length)}
+                                    </span>
+                                </p>
                                 <button className='table--btn'>delete <RiDeleteBin5Line /></button>
                             </span>
                         ) : (
-                            <>{headTabs}</>
+                            <React.Fragment>
+                                {headTabs}
+                            </React.Fragment>
                         )}
 
                     </div>
@@ -117,6 +180,8 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
                         </div>
                     ) : (
                         <DataTable
+                            // actions={actionsMemo}
+                            // selectableRowsComponent={Checkbox}
                             paginationRowsPerPageOptions={[10, 25, 50, 100]}
                             data={data}
                             columns={columns}

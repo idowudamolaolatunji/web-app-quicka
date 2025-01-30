@@ -122,7 +122,8 @@ function index({ isnew=false, close, ismodal=false }) {
         setProductFormErrors({});
         setImages([])
         
-        window.scrollTo(0, 0)
+        window?.scrollTo({ top: 0, behavior: "smooth" });
+        setProductFormErrors({});
     }
 
 
@@ -299,11 +300,10 @@ function index({ isnew=false, close, ismodal=false }) {
             // MODIFY THE STORE IN THE COOKIE, IF NEW
             if(isnew) handleStore(data?.data?.store);
 
-            // SCROLL AND CLEAR
-            window.scrollTo(0, 0);
+            // CLEAR
             handleClearFields();
             
-            const timing = isnew ? 5000 : 2500
+            const timing = isnew ? 2500 : 1500
             setTimeout(function () {
                 handleFetchMyStoreProducts()
                 handleFetchMyStoreDiscounts()

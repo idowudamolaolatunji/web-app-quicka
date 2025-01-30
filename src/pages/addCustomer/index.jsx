@@ -87,7 +87,8 @@ function index({ close, isModal }) {
         setCountry([]);
         setState([]);
         setCity([]);
-        window.scrollTo(0, 0)
+        window?.scrollTo({ top: 0, behavior: "smooth" });
+        setCustomerFormErrors({});
     }
 
 
@@ -214,7 +215,7 @@ function index({ close, isModal }) {
             setResponse({ status, message });
             handleClearFields();
             
-            setTimeout(() => navigate(-1), 3000);
+            setTimeout(() => navigate(-1), 1500);
             handleFetchMyStoreCustomers()
 
         } catch (err) {

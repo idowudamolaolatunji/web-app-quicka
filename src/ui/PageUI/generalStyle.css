@@ -8,6 +8,19 @@
 	text-transform: capitalize;
 }
 
+.page__section--heading .heading--col {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: .6rem;
+}
+.page__section--heading .heading--row {
+	display: flex;
+	align-items: center;
+	gap: .8rem;
+}
+
+
 .page__heading--box {
 	display: flex;
 	align-items: center;

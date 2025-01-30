@@ -50,6 +50,7 @@ function CollectionFormSm({ close, editingItem }) {
             name: "",
             description: ""
         });
+        setCollectionFormError({});
     }
 
 
@@ -94,7 +95,7 @@ function CollectionFormSm({ close, editingItem }) {
             setResponse({ status: "success", message: data?.message });
 
             handleFetchMyStoreCollections()
-            setTimeout(() => close(), 1000);
+            setTimeout(() => close(), 1200);
 
         } catch (err) {
             setResponse({ status: "error", message: err?.message });

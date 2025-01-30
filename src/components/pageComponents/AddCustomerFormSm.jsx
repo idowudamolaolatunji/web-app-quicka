@@ -49,6 +49,7 @@ function AddCustomerFormSm({ close }) {
         });
 
         setCountry([]);
+        setCustomerFormErrors({});
     }
 
 
@@ -115,9 +116,7 @@ function AddCustomerFormSm({ close }) {
 
             // SET RESPONSE MESSAGE
             setResponse({ status, message });
-            handleClearFields();
-
-            setTimeout(() => close(), 1000);
+            setTimeout(() => close(), 1200);
             handleFetchMyStoreCustomers()
 
         } catch (err) {

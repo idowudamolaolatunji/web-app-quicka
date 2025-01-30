@@ -195,9 +195,11 @@ function index() {
                 )}
 
                 {/*  */}
-                <div className="top--bar info" style={{ margin: "2rem 0" }}>
-                    <Info text="Recieve orders from your online store and record sales from any offline channel" />
-                </div>
+                {orders?.length > 0 && (
+                    <div className="top--bar info" style={{ margin: "2rem 0" }}>
+                        <Info text="Recieve orders from your online store and record sales from any offline channel" />
+                    </div>
+                )}
 
             </PageUI>
         </>

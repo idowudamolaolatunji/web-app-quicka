@@ -53,7 +53,8 @@ function index({ close, isnew, isModal }) {
         });
 
         setDescription("");
-        window.scrollTo(0, 0)
+        window?.scrollTo({ top: 0, behavior: "smooth" });
+        setdeliveryFormErrors({})
     }
 
     useEffect(function () {
@@ -124,7 +125,6 @@ function index({ close, isnew, isModal }) {
             
             // SET RESPONSE MESSAGE
             handleClearFields();
-            window.scrollTo(0, 0);
             isnew && setShowConfetti(true);
             setResponse({ status: "success", message: data?.message });
             handleFetchMyStoreDeliveryRates();
@@ -135,7 +135,7 @@ function index({ close, isnew, isModal }) {
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
-            }, isnew ? 5000 : 3000);
+            }, isnew ? 2500 : 1500);
 
         } catch (err) {
             const message = handleFetchError(err?.message)

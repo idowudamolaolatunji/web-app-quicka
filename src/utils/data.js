@@ -25,7 +25,7 @@ export const channelData = [
 export const units = [
 	{ name: "pair", value: "pair" },
 	{ name: "box", value: "box" },
-	{ name: "pc", value: "pc" },
+	{ name: "piece", value: "piece" },
 	{ name: "pack", value: "pack" },
 	{ name: "kg", value: "kg" },
 	{ name: "bottle", value: "bottle" },

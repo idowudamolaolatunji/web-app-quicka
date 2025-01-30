@@ -27,6 +27,7 @@ import CurrencyInputField from '../../components/form/CurrencyInputField.jsx';
 import { formatNumber } from '../../utils/helper.js';
 import { paymentMethodData, deliveryStatusData } from '../../utils/data.jsx'
 import { channelData } from '../../utils/data.js'
+import moment from 'moment';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -36,10 +37,12 @@ function index() {
     const { width } = useWindowSize();
     const { headers, shouldKick, currency } = useAuthContext();
     const { error, products, customers, handleFetchError, handleFetchMyStoreOrders, handleFetchMyStoreProducts, handleFetchMyStoreCustomers, handleFetchMyStoreTransactions } = useFetchedContext();
+    // const today = moment().format();
+    const today = moment.utc().format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     /////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////
-    const [orderData, setOrderData] = useState({ paymentStatus: "paid", orderDate: "", deliveryFee: null });
+    const [orderData, setOrderData] = useState({ paymentStatus: "paid", orderDate: today || "", deliveryFee: null });
     const [description, setDescription] = useState("");
 
     ////////// Dropdown array /////////////////////////////
@@ -91,7 +94,7 @@ function index() {
     const handleClearFields = function() {
         setOrderData({
             paymentStatus: "paid",
-            orderDate: "",
+            orderDate: today || "",
             deliveryFee: null
         });
 
@@ -102,7 +105,8 @@ function index() {
         setOrderProducts([]);
         setChannel([]);
 
-        window.scrollTo(0, 0);
+        window?.scrollTo({ top: 0, behavior: "smooth" });
+        setSalesFormErrors({})
     };
 
     useEffect(function() {
@@ -211,11 +215,9 @@ function index() {
             // SET RESPONSE MESSAGE
             setResponse({ status: "success", message });
             setShowConfetti(true)
-
-            window.scrollTo(0, 0);
             handleClearFields();
 
-            setTimeout(() => navigate(-1), 3000);
+            setTimeout(() => navigate(-1), 1500);
             handleFetchMyStoreOrders();
             handleFetchMyStoreProducts();
             handleFetchMyStoreTransactions();
@@ -294,7 +296,7 @@ function index() {
                                                 setDiscount={(value) => setSelectedProducts((prev) =>
                                                     prev.map((item) => (
                                                         item.id === product?._id ? 
-                                                            { ...item, discount: Number((value >= product.price) ? product.price : value) }
+                                                            { ...item, discount: Number((value >= product.price) ? product.price : value || 0) }
                                                         : item)
                                                     )
                                                 )}
