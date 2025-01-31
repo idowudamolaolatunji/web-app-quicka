@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Tab from '../../components/elements/Tab';
 
 import transaction_emptyImg from '../../assets/images/illustrations/transactions.png'
-import settlement_emptyImg from '../../assets/images/illustrations/settlements.png'
+import settlement_emptyImg from '../../assets/images/illustrations/settlement.png'
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 import { GoDotFill } from 'react-icons/go';

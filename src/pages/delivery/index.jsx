@@ -116,7 +116,7 @@ function index() {
             items={deliveryRates}
             pageName="delivery"
             shouldSelect={true}
-            addBtnStr="Set new delivery rates"
+            addBtnStr="Set delivery rates"
             emptyText={emptyText}
             emptyImg={emptyImg}
             emptyBtns={emptyBtns}

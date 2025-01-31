@@ -82,9 +82,10 @@ import BuyDomain from './pages/customDomain/subPages/BuyDomain';
 import CustomizeTheme from './pages/storeCustomization/subPages/CustomizeTheme';
 import EditStoreDetails from './pages/storeDetails/subPages/EditDetails';
 
+import Expenses from './pages/expenses';
+import RecordExpenses from './pages/recordExpenses';
 import Subscription from './pages/subscription';
 import SubscriptionPlans from './pages/subscription/subPages/ChoosePlan';
-// import Expenses from './pages/expenses';
 // import Referrals from './pages/referrals';
 // import CommunityForums from './pages/communityForums';
 
@@ -150,6 +151,9 @@ function App() {
                     <Route path='/dashboard/discounts/create' element={<CreateDiscount />}></Route>
                     <Route path='/dashboard/discounts/coupon/create' element={<CreateCoupon />}></Route>
                     <Route path='/dashboard/discounts/special-sales/run' element={<RunSpecialSale />}></Route>
+                    <Route path='/dashboard/expenses' element={<Expenses />}></Route>
+                    <Route path='/dashboard/expenses/record' element={<RecordExpenses />}></Route>
+                    <Route path='/dashboard/expenses/:id/edit' element={<RecordExpenses />}></Route>
 
                     <Route path='/dashboard/subscription' element={<Subscription />}></Route>
                     <Route path='/dashboard/subscription/choose-plan' element={<SubscriptionPlans />}></Route>
@@ -157,7 +161,6 @@ function App() {
                     <Route path='/dashboard/profile' element={<Profile />}></Route>
                     {/* <Route path='/dashboard/community-forums' element={<CommunityForums />}></Route> */}
                     {/* <Route path='/dashboard/referrals' element={<Referrals />}></Route> */}
-                    {/* <Route path='/dashboard/expenses' element={<Expenses />}></Route> */}
                 </Route>
             </Routes>
         </BrowserRouter>
