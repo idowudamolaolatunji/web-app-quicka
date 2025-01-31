@@ -16,6 +16,7 @@ import CustomAlert from '../../../components/layout/CustomAlert';
 import BgSimple from '../../../components/modal/BgSimple';
 import Welcome from './Welcome';
 import { useFetchedContext } from '../../../context/FetchedContext';
+import WatchedBtn from '../../../components/elements/WatchedBtn';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -48,7 +49,7 @@ function GetStarted() {
         bank: false,
         delivery: false,
         welcome: globalConnectionError ? false : true,
-    })
+    });
 
     const completedSteps = stepsToComplete.filter(step => step.completed);
     const stepsSorted = stepsToComplete.sort((a, b) => b.completed - a.completed);
@@ -152,9 +153,19 @@ function GetStarted() {
             )}
 
             <div className="get-started">
-                <h2 className='get-started-title'>Let's get you selling in just 5 mins!</h2>
-                <p className='get-started-subtitle'>Finalize your setup to get your store up & running, and make your website visible to the world.</p>
+                <h2 className='get-started-title flex'>
+                    Let's get you selling in just 5 mins!
+                </h2>
+                <p className='get-started-subtitle'>Finalize your setup to get your store running, and make your website visible to the world.</p>
                 <span className='get-started-nums'>
+
+                    {(width <= 450 && !showModal.welcome) && (
+                        <WatchedBtn title="Watch how to setup"
+                            style={{ margin: "-.3rem 0 .3rem" }}
+                            action={() => setShowModal({...showModal, welcome: true })}
+                        />
+                    )}
+
                     <p>{
                         // HERE WE MODIFY THE TEXT BASED ON THE COMPLETED STEPS
                         (completedSteps?.length < 5) ? (
@@ -227,7 +238,7 @@ function GetStarted() {
                 <button className={`get-started-btn ${completedSteps.length < 5 ? 'disabled' : ''}`} disabled={completedSteps.length < 5} onClick={handleFinalizeOnboarding}>Finish!</button>
             </div>
             
-            {showModal.welcome && (
+            {(showModal.welcome) && (
                 <BgSimple setClose={() => handleCloseModal("welcome")}>
                     <Welcome firstname={user?.firstname} setClose={() => handleCloseModal("welcome")} />
                 </BgSimple>

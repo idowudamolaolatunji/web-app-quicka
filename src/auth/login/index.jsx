@@ -103,7 +103,7 @@ function index() {
                 setResponse({ status, message });
                 setTimeout(function () {
                     navigate('/onboarding');
-                }, 1200);
+                }, 1000);
                 return;
             }
 
@@ -112,8 +112,7 @@ function index() {
             setTimeout(function () {
                 handleChange(user, token);
                 handleStore(store);
-
-            }, 2500);
+            }, 500);
         } catch (err) {
             const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
@@ -137,7 +136,6 @@ function index() {
             - Also note that the marginBottom style is also added on the OTP page, and forgot password page
             - Anyother styles can be passed there..
         AuthsUI: the's are container ui components for auth pages
-
     
     */
 

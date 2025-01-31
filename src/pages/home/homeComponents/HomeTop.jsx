@@ -66,7 +66,7 @@ function HomeTop() {
                     ) : (
                         <p className='heading--name'>Welcome Back, {user.firstname}! 👋🏿</p>
                     )}
-                    <p className='heading--date'>{todayDate()}.</p>
+                    <p className='heading--date'>Today is {todayDate()}.</p>
                 </div>
 
 

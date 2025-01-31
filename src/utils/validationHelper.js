@@ -167,10 +167,10 @@ export function validateOrderForm(data, _) {
 		errors.orderProducts = "Product(s) ordered is required";
 	} else {
 		data?.orderProducts.forEach((product, i) => {
-			if(product?.stockAmount < 1) {
+			if(product?.trackInventory && product?.stockAmount < 1) {
 				console.log("Hi there", product)
 				errors.orderProducts = `Item ${i+1} is out of stock`;
-			} else if(product?.stockAmount < data?.selectedProducts[i]?.quantity) {
+			} else if(product?.trackInventory && product?.stockAmount < data?.selectedProducts[i]?.quantity) {
 				errors.orderProducts = `Cannot sell more the stock amount for item ${i+1}`;
 			}
 		})

@@ -132,7 +132,8 @@ function index() {
             price: product?.price,
             quantity: 1,
             discount: 0,
-            productId: product?.productId
+            productId: product?.productId,
+            image: product?.images[0]?.url
         }));
         setSelectedProducts(initValue);
     }, [orderProducts]);
@@ -155,7 +156,6 @@ function index() {
             setOrderData({ ...orderData, deliveryFee: null })
         }
     }, [orderProducts, selectedProducts, orderData.deliveryFee]);
-        
 
 
     async function handleRecordOrder() {

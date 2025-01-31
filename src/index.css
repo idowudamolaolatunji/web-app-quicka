@@ -1086,7 +1086,7 @@ button {
 
 @media screen and (max-width: 400px) {
 	/* BRING THIS BACK IN PRODUCTION */
-	body { zoom: 105%; }
+	/* body { zoom: 105%; } */
 	.justify {
 		align-items: flex-start;
 		flex-direction: column;

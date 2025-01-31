@@ -41,6 +41,7 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
     async function handleLogout() {
         // LOGOUT LOGIC
         try {
+            handleClose();
             setLoading(true);
             handleResetResponse()
     

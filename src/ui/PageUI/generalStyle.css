@@ -660,6 +660,9 @@
 	display: grid;
 	gap: 2rem;
 }
+.item__preview--grid.grid--1x1 {
+	grid-template-columns: 1fr 1fr;
+}
 .item__preview--grid.grid--2x1 {
 	grid-template-columns: 2fr 1fr;
 }
@@ -669,6 +672,14 @@
 	flex-direction: column;
 	gap: 2rem;
 }
+.item__preview--item {
+	display: flex;
+	align-items: center;
+}
+
+
+
+
 
 
 

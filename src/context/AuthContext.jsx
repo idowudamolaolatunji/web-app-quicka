@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
         setTimeout(function() {
             handleChange(null, null);
             handleStore(null)
-        }, 2500);
+        }, 1000);
 
         return true
     }
