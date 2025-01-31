@@ -8,40 +8,42 @@ import moment from 'moment'
 import { useWindowSize } from 'react-use'
 import { useDataContext } from '../../../context/DataContext'
 
+
 function ProgressGrid() {
     const { width } = useWindowSize();
     const { orders } = useFetchedContext();
-    const { isMenuCollapsed } = useDataContext();
+    const { isMenuCollapsed, homeInsightPeriod } = useDataContext();
+    const period = homeInsightPeriod == "today" ? "day" : homeInsightPeriod?.replace("this-", "");
 
     const noData = !orders || orders?.length < 1;
     const noSettle = true;
-    const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1050 );
+    const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1050);
 
     // FILTERED HERE TO GET ALL COMPLETED SALES AND ALL COMPLETED OFFLINE SALES
     const allSales = orders?.filter(order => order.orderStatus == 'completed');
     const offlineSales = orders?.filter(order => order.orderStatus == 'completed' && order.channel != "online store");
-
-    // HERE WE ARE GETTING THE TOTAL SETTLEMENT FROM OUR DB
-    const totalSettlements = 0;
+    const settlementSales = orders?.filter(order => order.orderStatus == 'completed' && order.channel == "online store");
 
     // WE CALCULATED FOR THE TOTAL SALE AND TOTAL OFFLINE SALES, BY MAPPING AND REDUCING..
     const totalSales = allSales.reduce((acc, sale) => acc + sale?.profit, 0);
-    const totalOfflineSales = offlineSales.reduce((acc, sale) => acc + sale?.profit, 0);
+    const totalOfflineSales = offlineSales.reduce((acc, sale) => acc + sale?.profit, 0) || 0;
+    const totalSettlements = settlementSales?.reduce((acc, sale) => acc + sale?.profit, 0) || 0;
 
 
-    // CALCULATED TODAY TOTAL SALE AND YESTERDAY'S JUST TO COMPARE THE VALUE
-    function compareSalesByPercentage(array) {
-        const todaySales = array?.filter((sale) => moment(sale.orderDate).isSameOrAfter(moment().startOf('day'))).reduce((acc, sale) => acc + sale?.profit, 0);
-    
-        const yesterdaySales = array?.filter((sale) => moment(sale.orderDate).isBetween(moment().subtract(1, 'day').startOf('day'), moment().subtract(1, 'day').endOf('day'))).reduce((acc, sale) => acc + sale?.profit, 0);
+    // COMPARE SALES VS LAST PREIOD DURATION IN %
+    function compareSalesByPercentage(array, ) {
+        console.log(period)
+        const periodSales = array?.filter((sale) => moment(sale.orderDate).isSameOrAfter(moment().startOf(period))).reduce((acc, sale) => acc + sale?.profit, 0);
 
-        const salesPercent = yesterdaySales !== 0 ? ((todaySales - yesterdaySales) / yesterdaySales) * 100 : 0;
+        const vsPeriodDurationSales = array?.filter((sale) => moment(sale.orderDate).isBetween(moment().subtract(1, period).startOf(period), moment().subtract(1, period).endOf(period))).reduce((acc, sale) => acc + sale?.profit, 0);
+        
+        const salesPercent = vsPeriodDurationSales !== 0 ? ((periodSales - vsPeriodDurationSales) / vsPeriodDurationSales) * 100 : 0;
         return salesPercent;
     }
 
     const allSalesPercent = compareSalesByPercentage(allSales);
     const offlineSalesPercent = compareSalesByPercentage(offlineSales);
-    const settlementPercent = 0
+    const settlementPercent = compareSalesByPercentage(settlementSales || 0)
 
 
     return (
@@ -54,3 +56,18 @@ function ProgressGrid() {
 }
 
 export default ProgressGrid
+
+
+
+
+
+
+// CALCULATED TODAY TOTAL SALE AND YESTERDAY'S JUST TO COMPARE THE VALUE
+// function compareSalesByPercentage(array, ) {
+//     const todaySales = array?.filter((sale) => moment(sale.orderDate).isSameOrAfter(moment().startOf('day'))).reduce((acc, sale) => acc + sale?.profit, 0);
+
+//     const yesterdaySales = array?.filter((sale) => moment(sale.orderDate).isBetween(moment().subtract(1, 'day').startOf('day'), moment().subtract(1, 'day').endOf('day'))).reduce((acc, sale) => acc + sale?.profit, 0);
+    
+//     const salesPercent = yesterdaySales !== 0 ? ((todaySales - yesterdaySales) / yesterdaySales) * 100 : 0;
+//     return salesPercent;
+// }

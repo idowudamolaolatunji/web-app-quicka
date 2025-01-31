@@ -619,14 +619,14 @@ a.upgrade--link:hover {
 }
 .top-product--img {
     width: 100%;
-    height: 70%;
+    height: 90%;
     object-fit: cover;
     border-radius: .2rem;
 }
 .top-product--details {
     display: flex;
     flex-direction: column;
-    gap: .8rem;
+    gap: .6rem;
 }
 .top-product--info {
     display: flex;

@@ -42,6 +42,7 @@ export const DataProvider = ({ children }) => {
         campaign: false,
         discount: false
     });
+    const [homeInsightPeriod, setHomeInsightPeriod] = useState("today");
 
     
     const handleToggleFilter = function(pageName) {
@@ -191,6 +192,9 @@ export const DataProvider = ({ children }) => {
 
         activeDisplayTab,
         handleDisplayTab,
+
+        homeInsightPeriod,
+        setHomeInsightPeriod,
 
         location,
         setLocation,

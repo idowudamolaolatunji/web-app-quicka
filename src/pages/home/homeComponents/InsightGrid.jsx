@@ -1,42 +1,36 @@
 import React from 'react'
+import moment from 'moment'
 import { FiUsers } from 'react-icons/fi'
 import { LuMousePointerClick, LuTags } from 'react-icons/lu'
 import { MdOutlineShoppingBag } from 'react-icons/md'
 import Insight from '../../../components/layout/Insight'
 import { useFetchedContext } from '../../../context/FetchedContext';
-import moment from 'moment'
+import { useDataContext } from '../../../context/DataContext'
 
 
-function InsightGrid({ period }) {
+function InsightGrid() {
+    const { homeInsightPeriod } = useDataContext();
     const { orders, customers } = useFetchedContext();
+    const period = homeInsightPeriod;
 
     const handleInsights = function(docs, dateKey) {
         const startDate = moment();
+        
         if (period === 'this-week') startDate.startOf('week');
-        else if (period === 'last-week') startDate.startOf('week').subtract(1, 'week');
         else if (period === 'this-month') startDate.startOf('month');
         else if (period === 'today') startDate.startOf('day'); 
-        else if (period === 'today') startDate.startOf('day').subtract(1, "day"); 
         else startDate.startOf('year');
         
         return docs.filter((doc) => {
             const docDate = moment(doc[dateKey], 'YYYY-MM-DD');
-
-            if (period === 'today') {
-                return docDate.isSame(startDate);
-            } else {
-                return docDate.isSameOrAfter(startDate);
-            }
+            return docDate.isSameOrAfter(startDate);
         });
     }
-
-    // console.log(handleInsights(orders, "orderDate"), handleInsights(orders, "orderDate"), handleInsights(customers, "createdAt"))
 
     const websiteVisitorInsight = 0;
     const ordersInsight = handleInsights(orders, "orderDate")?.length;
     const productSoldInsight = handleInsights(orders, "orderDate")?.flatMap(order => order.products)?.reduce((acc, item) => acc + item?.quantity, 0);
     const customersInsight = handleInsights(customers, "createdAt")?.length;
-
 
     return (
         <div className='insight--grid'>
@@ -54,6 +48,16 @@ function InsightGrid({ period }) {
 export default InsightGrid;
 
 
+
+// return docs.filter((doc) => {
+//     const docDate = moment(doc[dateKey], 'YYYY-MM-DD');
+
+//     if (period === 'today') {
+//         return docDate.isSame(startDate);
+//     } else {
+//         return docDate.isSameOrAfter(startDate);
+//     }
+// });
 
 // const endDate = moment();
 // if (period === 'this-week') {

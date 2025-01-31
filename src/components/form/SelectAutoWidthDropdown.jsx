@@ -35,7 +35,6 @@ const SelectStyled = styled(Select)(({ theme }) => ({
             boxShadow: 'none',
         },
     },
-
 }));
 
 
@@ -52,8 +51,8 @@ export default function SelectAutoWidthDropdown({ menus, period, setPeriod }) {
     };
 
     React.useEffect(function () {
-        setPeriod(menus[0].value);
-    }, [])
+        setPeriod(menus[0]?.value);
+    }, []);
 
     return (
         <FormControl>

@@ -2,10 +2,13 @@ import React from 'react'
 import { HiMiniArrowTrendingDown, HiMiniArrowTrendingUp } from 'react-icons/hi2'
 import { formatNumber } from '../../../utils/helper'
 import { useAuthContext } from '../../../context/AuthContext';
+import { useDataContext } from '../../../context/DataContext';
 
 function HomeProgressCard({ title, icon, value, upTrend, percent, days }) {
     const { store } = useAuthContext();
+    const { homeInsightPeriod } = useDataContext();
     const currency = store?.currency?.symbol;
+    const period = homeInsightPeriod == "today" ? "day" : homeInsightPeriod?.replace("this-", "");
 
   return (
     <figure className='prog-figure'>
@@ -24,7 +27,7 @@ function HomeProgressCard({ title, icon, value, upTrend, percent, days }) {
                     
                     <p>{percent !== 0 && (upTrend ? '+' : '-')}{Math.abs(percent).toFixed(0)}%</p>
                 </span>
-                <p className='prog-figure-detail'>vs last {days} days</p>
+                <p className='prog-figure-detail'>vs last {days} {period}</p>
             </div>
         </div>
     </figure>

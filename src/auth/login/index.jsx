@@ -29,6 +29,7 @@ function index() {
     const [loading, setLoading] = useState({ authLoading: false, mainLoading: false });
     const [response, setResponse] = useState({ status: "", message: "" })
     const [formData, setFormData] = useState({ email: "", password: "" });
+    const [isRequesting, setIsRequesting] = useState(false);
 
     ///////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////
@@ -61,6 +62,7 @@ function index() {
         if (Object.keys(newErrors).length >= 1) return;
         
         handleLoading('mainLoading', true);
+        setIsRequesting(true);
         handleResetResponse();
         try {
             // CHECK CONNECTION
@@ -114,6 +116,7 @@ function index() {
                 handleStore(store);
             }, 500);
         } catch (err) {
+            setIsRequesting(false);
             const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
@@ -199,7 +202,7 @@ function index() {
                     <Link to='/forgot-password'>Forgot Password</Link>
                 </div>
 
-                <button type="submit" className='form--submit'>Login</button>
+                <button type="submit" className='form--submit' disabled={isRequesting}>Login</button>
 
                 <div className="form--info">
                     <p>Dont have an account? <Link to='/signup'>Create account</Link></p>

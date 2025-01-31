@@ -8,6 +8,8 @@ import { truncateString } from '../../../utils/helper';
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { useNavigate } from 'react-router-dom';
 import ErrorComponent from '../../../components/layout/ErrorComponent';
+import Info from '../../../components/elements/Info';
+import { ImInfo } from 'react-icons/im';
 
 
 const datePeriods = [
@@ -57,7 +59,7 @@ function TopProducts() {
 
     const threshold = 2;
     const amount = 3;
-    const topProducts = products.filter(product => product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, amount);
+    const topProducts = products.filter(product => product?.trackInventory && product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, amount);
     const itemLength = topProducts?.length
     const noError = (!error.order || !error.product)
 
@@ -69,7 +71,14 @@ function TopProducts() {
             <div className="section--top" style={ width < 450 ? { flexDirection: "column", textAlign: "center", width: "100%", alignItems: "center" } : {} }>
                 <div className="section--heading">
                     <h2>Best Selling Products </h2>
-                    <p>Top <label className='value'>{itemLength || ""}</label> item{itemLength != 1 ? "s" : ""} that {itemLength != 1 ? "are" : "is"} selling the most.</p>
+                    <p>Top <label className='value'>{itemLength || ""}</label> item{itemLength != 1 ? "s" : ""} that {itemLength != 1 ? "are" : "is"} selling the most. 
+
+                        {width > 450 && (
+                            <TooltipUI title="Only items you choose to track inventory is shown">
+                                <span style={{ cursor: "pointer", marginLeft: ".6rem" }}><ImInfo /></span>
+                            </TooltipUI>
+                       )}
+                    </p>
                 </div>
 
                 <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />
@@ -83,6 +92,12 @@ function TopProducts() {
                 {itemLength > 0 && topProducts?.map(product => (
                     <ProductFigure product={product} key={product._id} />
                 ))}
+
+                {(itemLength > 0 && width <= 450) && (
+                    <span style={{ marginTop: "1.5rem" }}>
+                        <Info text="Only items you choose to track inventory is shown" />
+                    </span>
+                )}
 
                 {((!topProducts || topProducts.length < 1) && noError) && (
                     <Empty text="best selling product yet!" />

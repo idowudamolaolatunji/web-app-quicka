@@ -1031,3 +1031,33 @@ useEffect(function () {
         // countryCode: "",
         // address: "",
         // mainCurrency: null
+
+
+
+        // const todaySales = array?.filter((sale) => moment(sale.orderDate).isBetween(moment().startOf('day'), moment().endOf('day'))).reduce((acc, sale) => acc + sale?.profit, 0);
+
+        // const todaySales = array?.filter((sale) => {
+        //     // console.log("Today", sale?.orderDate)
+        //     console.log("//////////////////////////////////////")
+        //     console.log("Today UTC", moment(sale.orderDate, 'YYYY-MM-DD').isSame())
+        //     console.log(moment(sale.orderDate).isSameOrAfter(moment().startOf('day')))
+        //     console.log(moment(sale.orderDate).isSameOrAfter(moment().startOf('day')) && moment(sale.orderDate).isBefore(moment().endOf('day')))
+            
+              
+
+        // const todaySales = array?.filter((sale) => 
+        //     moment(sale.orderDate).isSame(moment().startOf('day')) && 
+        //     moment(sale.orderDate).isBefore(moment().endOf('day'))
+        // ).reduce((acc, sale) => acc + sale?.profit, 0)
+
+          // const yesterdaySales = array?.filter((sale) => {
+        //     console.log("Yesterday", sale?.orderDate)
+
+        //     // return moment(sale.orderDate).isBetween(moment().subtract(1, 'day').startOf('day'), moment().subtract(1, 'day').endOf('day')).reduce((acc, sale) => acc + sale?.profit, 0)
+        // });
+
+
+<!-- insights grid -->
+
+// else if (period === 'last-week') startDate.startOf('week').subtract(1, 'week');
+// else if (period === 'yesterday') startDate.startOf('day').subtract(1, "day"); 
