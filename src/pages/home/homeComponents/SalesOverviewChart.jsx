@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
+import moment from 'moment';
+import { useWindowSize } from 'react-use';
 import ReactApexChart from 'react-apexcharts';
 import { formatNumber } from '../../../utils/helper';
-import { useWindowSize } from 'react-use';
-import { useFetchedContext } from '../../../context/FetchedContext';
-import moment from 'moment';
 import { useAuthContext } from '../../../context/AuthContext';
+import { useFetchedContext } from '../../../context/FetchedContext';
 
 
 function OverviewChart({ period }) {
@@ -158,7 +158,7 @@ function OverviewChart({ period }) {
     return (
         <div className='sales-overview'>
             <div id="chart" className='bar-chart'>
-                <ReactApexChart options={options} series={series} type='bar' height={isData ? (width < 850 ? 300 : 330) : (width < 850 ? 250 : 280)} />
+                <ReactApexChart options={options} series={series} type='bar' height={isData ? (width < 850 ? 280 : 300) : (width < 850 ? 230 : 250)} />
             </div>
             <div id="html-dist"></div>
         </div>

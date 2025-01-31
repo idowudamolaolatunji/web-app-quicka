@@ -44,9 +44,9 @@ function index() {
                     <span className='custom--labels' style={{ gap: ".6rem" }}>
                         <h3 className='custom--title'>{store?.name}</h3>
                         <a className='custom--link' target='_blank' href={`https://${store?.storeUrl}`} >
-                            www.{store?.storeUrl} <AiOutlineLink />
+                            www.{store?.storeUrl} {width > 400 && <AiOutlineLink />}
                         </a>
-                        <p style={{ fontSize: "1.28rem", padding: "0" }} className='preview--body-item'>
+                        <p style={{ fontSize: "1.12rem", padding: "0" }} className='preview--body-item'>
                             {joinedSinceFormat(store?.createdAt)}
                         </p>
                     </span>

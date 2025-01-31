@@ -14,7 +14,7 @@ function TableHeadTabs
     return (
         <div className='content'>
             <span className='flex'>
-                <TooltipUI placement='top' title="Refresh table">
+                <TooltipUI placement='top' title={`Reload ${pageName}s`}>
                     <button className='table--btn' onClick={handleFetch}><MdOutlineRefresh /></button>
                 </TooltipUI>
 

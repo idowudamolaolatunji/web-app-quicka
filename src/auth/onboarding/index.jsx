@@ -293,7 +293,7 @@ function index() {
 
 
     return (
-        <>
+        <React.Fragment>
             {(response.message || response.status) && (
                 <CustomAlert type={response.status} message={response.message} />
             )}
@@ -324,7 +324,7 @@ function index() {
 
                     <div className="auth--form" style={{ width: '100%' }}>
                         {onboardTabNum === 1 && (
-                            <>
+                            <React.Fragment>
                                 <form className="form--item">
                                     <label className="form--label" htmlFor='logo'>Business Logo (Optional)</label>
                                     <LogoUploadInput
@@ -401,12 +401,12 @@ function index() {
                                         {onboardingErrors.category && onboardingErrors.category}
                                     </span>
                                 </div>
-                            </>
+                            </React.Fragment>
                         )}
 
 
                         {onboardTabNum === 2 && (
-                            <>
+                            <React.Fragment>
                                 <div className="form--item">
                                     <p className="form--label" style={{ marginBottom: '1.2rem', opacity: '.65' }}>Choose all that apply: (At least 3, Max 5)</p>
                                     <div className="form--click-opts">
@@ -435,7 +435,7 @@ function index() {
                                     </label>
                                     <p className='auth--right-text'>What plan has the features that suits your needs</p>
                                 </div>
-                            </>
+                            </React.Fragment>
                         )}
 
 
@@ -456,7 +456,7 @@ function index() {
                     </div>
                 </div>
             </section>
-        </>
+        </React.Fragment>
     )
 }
 

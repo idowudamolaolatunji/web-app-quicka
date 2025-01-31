@@ -116,6 +116,8 @@ function EditDetails() {
         setCountry(store?.location?.country?.name ? [store?.location?.country] : []);
         setState(store?.location?.state?.name ? [store?.location?.state] : []);
         setCity(store?.location?.city?.name ? [store?.location?.city] : []);
+
+        window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     useEffect(function() {
@@ -371,9 +373,9 @@ function EditDetails() {
                                 inputProps={{ name: 'phone', id: 'phone' }}
                                 onChange={(num, countryOpts) => handleStoreDataChange(null, num, countryOpts)}
                                 inputClass='phone-input'
-                                buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
+                                buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0', width: "100%" }}
                                 countryCodeEditable={false}
-                                dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
+                                dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem', width: "100%" }}
                             />
                             <span className="form--error-message">
                                 {storeDataErrors?.phone && storeDataErrors?.phone}

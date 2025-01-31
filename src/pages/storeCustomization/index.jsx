@@ -11,6 +11,7 @@ import Spinner from '../../components/spinner/mainSpinner';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineWorkspacePremium } from 'react-icons/md';
+import ComingSoon from '../../components/layout/ComingSoon';
 
 
 function index() {
@@ -76,7 +77,7 @@ function index() {
                             </figcaption>
                         </figure>
 
-                        {width <= 600 && <Line border={1.4} />}
+                        {/* {width <= 600 && <Line border={1.4} />}
 
                         <figure className='theme__figure custom--display'>
                             <Template2 logo={demo_logo} />
@@ -87,7 +88,7 @@ function index() {
                                 </span>
                                 <button className='theme__figure--btn' onClick={() => navigate("customise/2")}>Use Theme </button>
                             </figcaption>
-                        </figure>
+                        </figure> */}
 
                     </div>
                 </div>
@@ -103,7 +104,7 @@ function index() {
                         <p>Feature-rich <strong>premium<MdOutlineWorkspacePremium style={{ fontSize: "1.8rem", marginBottom: "-.48rem" }} /></strong>templates&mdash; with effortless and easy customization.</p>
                     </div>
 
-                    <div className="theme--grid">
+                    {/* <div className="theme--grid">
                         <figure className='theme__figure custom--display'>
                             <Template1 logo={demo_logo} />
                             <figcaption className='theme__figure--detail'>
@@ -114,7 +115,9 @@ function index() {
                                 <button className='theme__figure--btn' onClick={() => navigate("customise/3")}>Use Theme </button>
                             </figcaption>
                         </figure>
-                    </div>
+                    </div> */}
+
+                    <ComingSoon feature="Premium theme" />
                 </div>
 
 

@@ -19,6 +19,7 @@
     justify-content: space-between;
 }
 .home--sub {
+    padding: 2rem 2rem 2.4rem;
     background-color: #242424;
     background-image: linear-gradient(rgba(255, 255, 255, .03), rgba(255, 255, 255, .03)),
     url("../../assets/images/resources/new-mask.png");
@@ -76,6 +77,16 @@
 .sub--mini:last-child {
     align-items: center;
 }
+.sub--mini:last-child svg {
+    transition: all .35s;
+}
+.sub--mini:last-child svg:hover {
+    backface-visibility: hidden;
+    background-color: var(--color-brand-50);
+    color: var(--color-brand-500);
+    transform: rotate(180deg);
+    border-radius: .4rem;
+}
 .sub--text {
     font-size: 1.64rem;
     font-weight: 500;
@@ -104,6 +115,10 @@
     justify-content: space-between;
     margin-bottom: 1rem;
 }
+.home--top .upgrade--link {
+    padding: .6rem 1rem;
+    cursor: pointer;
+}
 .top--heading {
     display: flex;
     flex-direction: column;
@@ -115,7 +130,7 @@
     text-transform: capitalize;
 }
 .heading--date {
-    font-size: 1.4rem;
+    font-size: 1.34rem;
     color: #888;
 }
 .top--upgrade {
@@ -409,7 +424,7 @@ a.upgrade--link:hover {
 .grid--right .card, .card {
     border-radius: .8rem;
     width: 100%;
-    padding: 2.4rem 2rem;
+    padding: 2.4rem 1.8rem;
     border: 1px solid #eff2f7;
     box-shadow: 0 0 2px #0000001e, 0 0 10px #0000000d;
     min-height: 10rem;
@@ -1096,8 +1111,19 @@ a.upgrade--link:hover {
     .home--section .card {
         padding: 1.8rem 1.2rem;
     }
-
+    
     .get-started-tabs {
         max-width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 340px) {
+    .heading--name {
+        font-size: 2.2rem;
+    }
+    .heading--date {
+        font-size: 1.2rem;
+        color: #888;
     }
 }

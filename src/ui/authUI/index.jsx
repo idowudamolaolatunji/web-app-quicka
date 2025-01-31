@@ -80,7 +80,7 @@ function index({
 
                     <AuthUserRating />
 
-                    <CopyrightText white customStyle={{ justifyContent: "flex-start", paddingTop: "1.4rem", color: "#fff" }} />
+                    <CopyrightText darkLogo={false} customStyle={{ justifyContent: "flex-start", paddingTop: "1.4rem", color: "#fff" }} />
                 </div>
             </section>
         </>

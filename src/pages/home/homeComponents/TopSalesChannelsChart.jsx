@@ -182,12 +182,12 @@ function TopSalesChannelsChart() {
                     />
                 </div>
             ) : (
-                <>
+                <React.Fragment>
                     <div id="chart" className='dougnot-chart'>
                         <ReactApexChart options={options} series={series} type="donut" height={250} />
                     </div>
                     <div id="html-dist"></div>
-                </>
+                </React.Fragment>
             )}
         </>
     )

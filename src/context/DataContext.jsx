@@ -23,6 +23,7 @@ export const DataProvider = ({ children }) => {
 
     const { store } = useAuthContext();
     const currencyName = store?.currency?.name;
+    const onlyDesktop = width > 600 ? true : false
 
     /////////////////////////////////////////////////////
     /////////////////////////////////////////////////////
@@ -35,12 +36,12 @@ export const DataProvider = ({ children }) => {
     const [activeDisplayTab, setActiveDisplayTab] = useState(localStorage.getItem(PRODUCT_TAB_KEY) ? JSON.parse(localStorage.getItem(PRODUCT_TAB_KEY)) : "table");
     const [showInsights, setShowInsights] = useState(
         localStorage.getItem(SHOW_INSIGHTS_KEY) ? JSON.parse(localStorage.getItem(SHOW_INSIGHTS_KEY)) : {
-        product: false,
-        order: false,
-        customer: false,
-        transaction: false,
-        campaign: false,
-        discount: false
+        product: onlyDesktop,
+        order: onlyDesktop,
+        customer: onlyDesktop,
+        transaction: onlyDesktop,
+        campaign: onlyDesktop,
+        discount: onlyDesktop
     });
     const [homeInsightPeriod, setHomeInsightPeriod] = useState("today");
 
