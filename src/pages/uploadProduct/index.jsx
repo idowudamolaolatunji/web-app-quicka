@@ -290,7 +290,8 @@ function index({ isnew=false, close, ismodal=false }) {
                 throw new Error(data?.message);
             }
             
-            // SET RESPONSE MESSAGE
+            // CLEAR FIELDS AND SET RESPONSE MESSAGE
+            handleClearFields();
             setResponse({ status: "success", message: data?.message });
             if(!ismodal && !id) {
                 console.log(id)
@@ -299,11 +300,8 @@ function index({ isnew=false, close, ismodal=false }) {
 
             // MODIFY THE STORE IN THE COOKIE, IF NEW
             if(isnew) handleStore(data?.data?.store);
-
-            // CLEAR
-            handleClearFields();
             
-            const timing = isnew ? 2500 : 1500
+            const timing = isnew ? 2000 : 1000
             setTimeout(function () {
                 handleFetchMyStoreProducts()
                 handleFetchMyStoreDiscounts()

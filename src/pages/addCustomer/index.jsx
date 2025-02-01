@@ -212,10 +212,10 @@ function index({ close, isModal }) {
             if (!status || status != 'success') throw new Error(message);
 
             // SET RESPONSE MESSAGE
-            setResponse({ status, message });
             handleClearFields();
+            setResponse({ status, message });
             
-            setTimeout(() => navigate(-1), 1500);
+            setTimeout(() => navigate(-1), 1000);
             handleFetchMyStoreCustomers()
 
         } catch (err) {

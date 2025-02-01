@@ -418,7 +418,6 @@ function EditDetails() {
 
                                 <input type='number' id='zip' name='zipCode' placeholder='Enter zip code' className='form--input' value={storeData.zipCode} onChange={handleStoreDataChange} />
                             </div>
-
                         </div>
                     </div>
                 </div>

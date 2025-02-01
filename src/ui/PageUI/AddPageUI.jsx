@@ -12,7 +12,7 @@ import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
 
-function AddPageActions({ id, handleClear, handleSubmit, customStyle }) {
+function AddPageActions({ id, loader, handleClear, handleSubmit, customStyle }) {
     const navigate = useNavigate();
 
     return (
@@ -22,7 +22,7 @@ function AddPageActions({ id, handleClear, handleSubmit, customStyle }) {
             ) : (
                 <button className='button clear--button' onClick={handleClear}>Clear Fields</button>
             )}
-            <button className='button submit--button' onClick={handleSubmit}>Submit</button>
+            <button className='button submit--button' disabled={loader} onClick={handleSubmit}>Submit</button>
         </div>
     )
 }
@@ -70,6 +70,7 @@ function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, res
                     {(width > 600) && (
                         <AddPageActions
                             id={id}
+                            loader={mainLoader}
                             handleClear={handleClear}
                             handleSubmit={handleSubmit}
                         />
@@ -84,6 +85,7 @@ function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, res
                 {(width < 600 || btnBelow) && (
                     <AddPageActions
                         id={id}
+                        loader={mainLoader}
                         handleClear={handleClear}
                         handleSubmit={handleSubmit}
                         customStyle={{ marginTop: "4rem" }}

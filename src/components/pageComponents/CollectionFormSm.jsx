@@ -92,10 +92,13 @@ function CollectionFormSm({ close, editingItem }) {
             if (res?.status !== 201 && data?.status !== 'success') {
                 throw new Error(data?.message);
             }
+
+            // CLEAR FIELDS AND SET RESPONSE MESSAGE
+            handleClearFields()
             setResponse({ status: "success", message: data?.message });
 
             handleFetchMyStoreCollections()
-            setTimeout(() => close(), 1200);
+            setTimeout(() => close(), 1000);
 
         } catch (err) {
             setResponse({ status: "error", message: err?.message });
@@ -137,7 +140,7 @@ function CollectionFormSm({ close, editingItem }) {
                     ) : (
                         <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
                     )}
-                    <button className='button submit--button' onClick={handleSubmitCollection}>{loading ? <Spinner /> : "Submit"}</button>
+                    <button className='button submit--button' onClick={handleSubmitCollection} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
 
             </div>

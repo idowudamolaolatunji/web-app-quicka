@@ -114,9 +114,10 @@ function AddCustomerFormSm({ close }) {
             const { status, message } = data;
             if (!status || status != 'success') throw new Error(message);
 
-            // SET RESPONSE MESSAGE
+            // CLEAR FIELDS AND SET RESPONSE MESSAGE
+            handleClearFields();
             setResponse({ status, message });
-            setTimeout(() => close(), 1200);
+            setTimeout(() => close(), 1000);
             handleFetchMyStoreCustomers()
 
         } catch (err) {
@@ -188,7 +189,7 @@ function AddCustomerFormSm({ close }) {
 
                 <div className="page__section--actions">
                     <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
-                    <button className='button submit--button' onClick={handleCreateCustomer}>{loading ? <Spinner /> : "Submit"}</button>
+                    <button className='button submit--button' onClick={handleCreateCustomer} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
             </div>
 

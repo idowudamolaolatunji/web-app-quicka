@@ -223,7 +223,7 @@ function StoreCustom({ isnew, close }) {
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
-            }, isnew ? 5000 : 3000);
+            }, isnew ? 2500 : 1500);
 
         } catch (err) {
             const message = handleFetchError(err?.message)
@@ -468,7 +468,7 @@ function StoreCustom({ isnew, close }) {
 
                     <div className="page__section--actions" style={width > 450 ? { marginLeft: "auto" } : {}}>
                         <button className='button clear--button' onClick={close}>Cancel</button>
-                        <button className='button submit--button' onClick={handleSubmitCustomStore}>Save</button>
+                        <button className='button submit--button' onClick={handleSubmitCustomStore} disabled={loading}>Save</button>
                     </div>
                 </form>
             </section>

@@ -212,12 +212,12 @@ function index() {
             const { status, message } = data;
             if (status !== 'success') throw new Error(message);
 
-            // SET RESPONSE MESSAGE
+            // CLEAR FIELDS AND SET RESPONSE MESSAGE
+            handleClearFields();
             setResponse({ status: "success", message });
             setShowConfetti(true)
-            handleClearFields();
 
-            setTimeout(() => navigate(-1), 1500);
+            setTimeout(() => navigate(-1), 1000);
             handleFetchMyStoreOrders();
             handleFetchMyStoreProducts();
             handleFetchMyStoreTransactions();

@@ -123,7 +123,7 @@ function index({ close, isnew, isModal }) {
             const data = await res.json();
             if (!data?.status || data?.status != 'success') throw new Error(data?.message);
             
-            // SET RESPONSE MESSAGE
+            // CLEAR FIELDS AND SET RESPONSE MESSAGE
             handleClearFields();
             isnew && setShowConfetti(true);
             setResponse({ status: "success", message: data?.message });
@@ -135,7 +135,7 @@ function index({ close, isnew, isModal }) {
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
-            }, isnew ? 2500 : 1500);
+            }, isnew ? 2000 : 1000);
 
         } catch (err) {
             const message = handleFetchError(err?.message)

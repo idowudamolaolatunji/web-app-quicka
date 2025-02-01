@@ -153,7 +153,7 @@ function BankDetails({ isnew, close }) {
             const { status, message } = data;
             if (!status || status != 'success') throw new Error(message);
 
-            // SET RESPONSE MESSAGE
+            // CLEAR FIELDS AND SET RESPONSE MESSAGE
             handleClearFields();
             setResponse({ status: "success", message });
             isnew && setShowConfetti(true);
@@ -165,7 +165,7 @@ function BankDetails({ isnew, close }) {
             setTimeout(function () {
                 if (isnew) close();
                 else navigate(-1)
-            }, isnew ? 2500 : 1500);
+            }, isnew ? 2000 : 1000);
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });
