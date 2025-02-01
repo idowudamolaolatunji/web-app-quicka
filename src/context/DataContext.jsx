@@ -32,6 +32,7 @@ export const DataProvider = ({ children }) => {
     const [location, setLocation] = useState({ country: [], state: [], city: [] });
     const [showFilterModal, setShowFilterModal] = useState({ name: "", isShown: false });
     ////////////////////////////////////////////////////////////////////////////////////////
+    const [homeInsightPeriod, setHomeInsightPeriod] = useState("all-time");
     const [isMenuCollapsed, setIsMenuCollapsed] = useState(localStorage.getItem(MENU_COLLAPSED_KEY) ? JSON.parse(localStorage.getItem(MENU_COLLAPSED_KEY)) : false);
     const [activeDisplayTab, setActiveDisplayTab] = useState(localStorage.getItem(PRODUCT_TAB_KEY) ? JSON.parse(localStorage.getItem(PRODUCT_TAB_KEY)) : "table");
     const [showInsights, setShowInsights] = useState(
@@ -43,7 +44,6 @@ export const DataProvider = ({ children }) => {
         campaign: onlyDesktop,
         discount: onlyDesktop
     });
-    const [homeInsightPeriod, setHomeInsightPeriod] = useState("today");
 
     
     const handleToggleFilter = function(pageName) {

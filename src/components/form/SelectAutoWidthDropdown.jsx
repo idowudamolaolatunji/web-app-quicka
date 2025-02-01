@@ -50,10 +50,6 @@ export default function SelectAutoWidthDropdown({ menus, period, setPeriod }) {
         setPeriod(event.target.value);
     };
 
-    React.useEffect(function () {
-        setPeriod(menus[0]?.value);
-    }, []);
-
     return (
         <FormControl>
             <SelectStyled

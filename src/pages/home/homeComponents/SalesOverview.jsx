@@ -8,7 +8,7 @@ const datePeriods = [
 ]
 
 function SalesOverview() {
-    const [period, setPeriod] = useState("");
+    const [period, setPeriod] = useState("this-year");
     
     return (
         <div className='card sales-section'>

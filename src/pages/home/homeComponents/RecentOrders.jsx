@@ -66,7 +66,7 @@ function RecentOrders() {
         {
             name: 'Channel', selector: row => (
                 <TooltipUI placement='top' title={cap1stLetter(row.channel)}>
-                    <img width={'40px'} alt={row.channel} src={imgString(row.channel)} />
+                    <img width={width > 450 ? "38px" : "25px"} alt={row.channel} src={imgString(row.channel)} />
                 </TooltipUI>
             ), width: '70px'
         },

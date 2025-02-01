@@ -20,6 +20,8 @@ function InsightGrid() {
         else if (period === 'this-month') startDate.startOf('month');
         else if (period === 'today') startDate.startOf('day'); 
         else startDate.startOf('year');
+
+        if(period == "all-time") return docs;
         
         return docs.filter((doc) => {
             const docDate = moment(doc[dateKey], 'YYYY-MM-DD');

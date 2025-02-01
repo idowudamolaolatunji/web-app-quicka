@@ -19,6 +19,7 @@ import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 import { GoDotFill } from 'react-icons/go';
 import Info from '../../components/elements/Info';
+import { useWindowSize } from 'react-use';
 
 ///////////////////////////////////////////////
 
@@ -30,6 +31,7 @@ const settlement_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing
 
 
 function index() {
+    const { width } = useWindowSize()
     const navigate = useNavigate()
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -62,7 +64,7 @@ function index() {
         {
             name: 'Sales Channel', selector: row => (
                 <TooltipUI placement='top' title={cap1stLetter(row?.order?.channel)}>
-                    <img width={'40px'} alt={row?.order?.channel} src={imgString(row?.order?.channel)} />
+                    <img width={width > 450 ? "38px" : "25px"} alt={row?.order?.channel} src={imgString(row?.order?.channel)} />
                 </TooltipUI>
             ), width: '100px'
         },

@@ -11,6 +11,7 @@ const datePeriods = [
     { value: 'this-week', title: 'This Week' },
     { value: 'this-month', title: 'This Month' },
     { value: 'this-year', title: 'This Year' },
+    { value: 'all-time', title: 'All Time' },
 ]
 
 function HomeInsightContainer() {
@@ -32,7 +33,7 @@ function HomeInsightContainer() {
                         {width <= 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setHomeInsightPeriod} />}
                     </span>
 
-                    <p>This is what <span>{store?.name}</span> {period == "today" ? "is" : period == "last-week" ? "was" : "has been"} up to {period?.replace("-", " ")}!</p>
+                    <p>This is what <span>{store?.name}</span> {period == "today" ? "is" : period == "last-week" ? "was" : "has been"} up to {period == "all-time" ? "since onboarded" : period?.replace("-", " ")}!</p>
                 </div>
 
                 {width > 450 && <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setHomeInsightPeriod} />}

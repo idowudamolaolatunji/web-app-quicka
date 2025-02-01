@@ -63,7 +63,7 @@ function TopProducts() {
     const itemLength = topProducts?.length
     const noError = (!error.order || !error.product)
 
-    const [period, setPeriod] = useState("");
+    const [period, setPeriod] = useState("this-week");
 
 
     return (

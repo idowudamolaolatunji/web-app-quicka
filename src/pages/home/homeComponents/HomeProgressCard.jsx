@@ -22,12 +22,24 @@ function HomeProgressCard({ title, icon, value, upTrend, percent, days }) {
         <div className='prog-figure-bottom'>
             <span className='prog-figure-value'>{currency}{formatNumber(value, 2)}</span>
             <div className='prog-figure-info'>
-                <span className='prog-figure-chart' style={ upTrend ? { color: 'green' } : { color: 'red' } }>
-                    {upTrend ? <HiMiniArrowTrendingUp /> : <HiMiniArrowTrendingDown />}
-                    
-                    <p>{percent !== 0 && (upTrend ? '+' : '-')}{Math.abs(percent).toFixed(0)}%</p>
-                </span>
-                <p className='prog-figure-detail'>vs last {days} {period}</p>
+                {period == "all-time" ? (
+                    <React.Fragment>
+                        <span className='prog-figure-chart' style={{ color: 'green' }}>
+                            <HiMiniArrowTrendingUp />
+                            <p>{Math.abs(percent).toFixed(0)}%</p>
+                        </span>
+                        <p className='prog-figure-detail'>since joined</p>
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                        <span className='prog-figure-chart' style={ upTrend ? { color: 'green' } : { color: 'red' } }>
+                            {upTrend ? <HiMiniArrowTrendingUp /> : <HiMiniArrowTrendingDown />}
+                            
+                            <p>{percent !== 0 && (upTrend ? '+' : '-')}{Math.abs(percent).toFixed(0)}%</p>
+                        </span>
+                        <p className='prog-figure-detail'>vs last {days} {period}</p>
+                    </React.Fragment>
+                )}
             </div>
         </div>
     </figure>
