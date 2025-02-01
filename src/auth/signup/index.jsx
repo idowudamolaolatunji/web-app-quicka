@@ -238,6 +238,7 @@ function index() {
                             placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                             value={formData.password}
                             onChange={handleFormChange}
+                            autoComplete='password'
                         />
                         <div className='form--input-icon' onClick={() => handlePasswordShown("main")}>
                             {showPassword.main ? <ImEye /> : <ImEyeBlocked />}
@@ -259,6 +260,7 @@ function index() {
                             placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                             value={formData.passwordConfirm}
                             onChange={handleFormChange}
+                            autoComplete='password'
                         />
                         <div className='form--input-icon' onClick={() => handlePasswordShown("confirm")}>
                             {showPassword.confirm ? <ImEye /> : <ImEyeBlocked />}
