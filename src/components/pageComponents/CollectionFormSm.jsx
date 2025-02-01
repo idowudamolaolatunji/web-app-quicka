@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import Spinner from "../spinner/simple";
 import Asterisk from '../elements/Asterisk'
-import { IoCloudDownloadOutline } from 'react-icons/io5';
+import { createPortal } from 'react-dom';
+import CustomAlert from '../layout/CustomAlert';
+import ImageUploadInput from '../form/ImageUploadInput';
+import { useAuthContext } from '../../context/AuthContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { validateCollectionForm } from '../../utils/validationHelper';
 
-import Spinner from "../spinner/simple";
-import { createPortal } from 'react-dom';
-import CustomAlert from '../layout/CustomAlert';
-import { useAuthContext } from '../../context/AuthContext';
-import ImageUploadInput from '../form/ImageUploadInput';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,13 +15,12 @@ function CollectionFormSm({ close, editingItem }) {
     const { shouldKick, formdataHeader } = useAuthContext();
     const { handleFetchMyStoreCollections } = useFetchedContext();
 
-    console.log(editingItem)
-
     const [image, setImage] = useState({ preview: "", file: "" });
     const [collectionData, setCollectionData] = useState({ name: "", description: "" });
     const [collectionFormError, setCollectionFormError] = useState("");
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
+
 
     const handleImageChange = function (event) {
         const file = event.target.files[0];
@@ -50,7 +48,6 @@ function CollectionFormSm({ close, editingItem }) {
             name: "",
             description: ""
         });
-        setCollectionFormError({});
     }
 
 
@@ -94,7 +91,7 @@ function CollectionFormSm({ close, editingItem }) {
             }
 
             // CLEAR FIELDS AND SET RESPONSE MESSAGE
-            handleClearFields()
+            // handleClearFields()
             setResponse({ status: "success", message: data?.message });
 
             handleFetchMyStoreCollections()
@@ -108,7 +105,7 @@ function CollectionFormSm({ close, editingItem }) {
     }
 
     return (
-        <>
+        <React.Fragment>
             {(response.message || response.status) && (
                 createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
             )}
@@ -133,7 +130,6 @@ function CollectionFormSm({ close, editingItem }) {
                     <textarea name="description" id="description" className="form--input" placeholder='Description..' value={collectionData.description} onChange={handleChangeCollectionData} />
                 </div>
 
-
                 <div className="page__section--actions">
                     {editingItem ? (
                         <button className='button clear--button' onClick={() => {}}>Close</button>
@@ -142,9 +138,8 @@ function CollectionFormSm({ close, editingItem }) {
                     )}
                     <button className='button submit--button' onClick={handleSubmitCollection} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
-
             </div>
-        </>
+        </React.Fragment>
 
     )
 }

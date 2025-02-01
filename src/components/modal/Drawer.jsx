@@ -14,7 +14,7 @@ function Drawer({ title, children, setClose }) {
             <Overlay handleClose={handleClose} />
             <div className="drawer--modal">
                 <div className="drawer--head">
-                    <span className='flex' style={{ flexDirection: "row" }}>
+                    <span className='flex' style={{ flexDirection: "row", alignItems: "center" }}>
                         <BackButton close={handleClose} />
                         <h3 className="page__section--title">{title}</h3>
                     </span>

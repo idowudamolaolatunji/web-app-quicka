@@ -216,9 +216,9 @@ function index() {
                         inputProps={{ name: 'phone', id: 'phone' }}
                         onChange={(num, countryOpts) => handleFormChange(null, num, countryOpts)}
                         inputClass='phone-input'
-                        buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0', width: "100%" }}
+                        buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
                         countryCodeEditable={false}
-                        dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem', width: "100%" }}
+                        dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
                     />
 
                     <span className="form--error-message">
