@@ -110,7 +110,7 @@ function index() {
     };
 
     useEffect(function() {
-        document.title = "Quicka | Record sales";
+        document.title = "Quicka | Record orders";
 
         if((customers?.length < 1 && error?.customer) || (products?.length < 1 && error?.product)) {
             handleFetchMyStoreCustomers();
@@ -252,7 +252,7 @@ function index() {
             )}
 
             <AddPageUI
-                pageTitle="Record Orders"
+                pageTitle="Create Orders"
                 pageIcon={<MdOutlineShoppingBag />}
                 close={() => navigate(-1)}
                 mainLoader={loading.mainLoading}

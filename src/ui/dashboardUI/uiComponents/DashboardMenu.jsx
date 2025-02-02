@@ -18,6 +18,8 @@ import { PiCoins, PiCoinsBold } from 'react-icons/pi';
 import { useAuthContext } from '../../../context/AuthContext';
 import { SlGlobe } from 'react-icons/sl';
 import TooltipUI from '../../../components/layout/TooltipUI';
+import { HiOutlineShoppingCart } from "react-icons/hi";
+
 
 
 function DashboardMenu() {
@@ -45,7 +47,7 @@ function DashboardMenu() {
                         )}
                         <ul className='menu--list'>
                             <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
-                            <MenuLink icon={<MdOutlineShoppingBag />} title='Orders / Sales' link='/orders' />
+                            <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
                             <MenuLink icon={<LuTags />} title='Products' link='/products' />
                             <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                             <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
@@ -101,7 +103,7 @@ function DashboardMenu() {
                             </span>
                             <ul className='menu--list'>
                                 <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
-                                <MenuLink icon={<MdOutlineShoppingBag />} title='Orders / Sales' link='/orders' />
+                                <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Products' link='/products' />
                                 <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                                 <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />

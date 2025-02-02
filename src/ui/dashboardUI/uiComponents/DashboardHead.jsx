@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import logo_img from '../../../assets/images/logo/logo-black.png'
 import { useDataContext } from '../../../context/DataContext';
-import { IoChevronDownSharp } from 'react-icons/io5';
+import { IoChevronDownSharp, IoMoon, IoSunny } from 'react-icons/io5';
 import { RiMenu3Fill } from 'react-icons/ri';
 import { LuBell, LuPanelLeftClose, LuPanelRightClose, LuRefreshCcw } from 'react-icons/lu';
 
@@ -21,8 +21,9 @@ import { useFetchedContext } from '../../../context/FetchedContext';
 function DashboardHead() {
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
-    const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
     const { globalConnectionError, handleGlobalRefetch } = useFetchedContext();
+    const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
+    // const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu, displayMode, handleToggleDisplayMode } = useDataContext();
 
     const [isShownDropdown, setIsShownDropdown] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -61,6 +62,20 @@ function DashboardHead() {
                     <div className=""></div>
 
                     <div className="nav--others">
+                        {/* {width > 600 && (
+                            <DefaultButton>
+                                <TooltipUI placement='top' title={`Switch to ${displayMode == "dark" ? "light" : "dark"} mode`}>
+                                    <div className="nav--icon" onClick={handleToggleDisplayMode}>
+                                        {displayMode == "light" ? (
+                                            <IoSunny style={{ color: "orange" }} />
+                                        ) : (
+                                            <IoMoon style={{ color: "#aaa" }} />
+                                        )}
+                                    </div>
+                                </TooltipUI>
+                            </DefaultButton>
+                        )} */}
+
                         {(width > 600 && !globalConnectionError && store?.storeOnboardCompleted ) && (
                             <DefaultButton>
                                 <TooltipUI placement='top' title="Reload app">
@@ -71,11 +86,6 @@ function DashboardHead() {
                             </DefaultButton>
                         )}
 
-                        {/* {store?.storeOnboardCompleted  && (
-                            <a href={`https://${store?.storeUrl}`} target='_blank' className='store--btn'>
-                                View Store <MdOutlineStorefront />
-                            </a>
-                        )} */}
 
                         <DefaultButton>
                             <div className="nav--icon">

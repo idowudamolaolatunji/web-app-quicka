@@ -64,7 +64,7 @@ function index() {
         {
             name: 'Sales Channel', selector: row => (
                 <TooltipUI placement='top' title={cap1stLetter(row?.order?.channel)}>
-                    <img width={width > 450 ? "38px" : "25px"} alt={row?.order?.channel} src={imgString(row?.order?.channel)} />
+                    <img width={width > 450 ? "32px" : "24px"} alt={row?.order?.channel} src={imgString(row?.order?.channel)} />
                 </TooltipUI>
             ), width: '100px'
         },

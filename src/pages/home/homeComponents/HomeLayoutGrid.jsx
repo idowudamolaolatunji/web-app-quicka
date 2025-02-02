@@ -8,7 +8,7 @@ import VisitorOverview from './VisitorOverview'
 import TopProducts from './TopProducts'
 import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../../context/DataContext';
-import NewsBox from './NewsBox';
+import ReferBox from './ReferBox';
 
 function HomeLayoutGrid() {
     const { width } = useWindowSize();
@@ -19,15 +19,15 @@ function HomeLayoutGrid() {
         <div className={`home--grid ${isCollapsedBtw900and1000 ? 'column-1fr' : ''}`}>
             <div className="grid--left">
                 <HomeInsightContainer />
+                {width > 600 && <ReferBox />}
                 <SalesOverview />
-                <RecentOrders />
+                {width <= 600 && <ReferBox />}
             </div>
 
             <div className="grid--right">
                 <VisitorOverview />
                 <TopProducts />
                 <TopSalesChannels />
-                {/* <QuickActions /> */}
             </div>
         </div>
     )

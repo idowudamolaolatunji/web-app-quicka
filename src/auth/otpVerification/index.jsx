@@ -7,7 +7,7 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { validateAuthForm } from '../../utils/validationHelper';
 
 import { HiFingerPrint } from 'react-icons/hi';
-import data_img from '../../assets/images/resources/ali-mkumbwa-K-f_gTvdwTM-unsplash.jpg'
+import data_img from '../../assets/images/resources/man_celebrating.jpg'
 import AuthsUI from '../../ui/authUI';
 import isOnline from 'is-online';
 

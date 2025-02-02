@@ -114,6 +114,16 @@ body:has(.dashboard--base) {
 .collapsed .link--btn {
     justify-content: center;
 }
+.refer-section {
+    background-image: linear-gradient(to right, #fafbf2 50%, var(--color-brand-50));
+}
+.refer-section .link--btn {
+    margin: .8rem 0 0;
+    border: 1.4px solid var(--color-brand-100);
+}
+.refer-section .link--btn svg {
+    cursor: pointer;
+}
 
 .nav--icon {
     background-color: var(--white-2);

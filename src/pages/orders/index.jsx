@@ -49,7 +49,7 @@ function index() {
         {
             name: "Channel", selector: row => (
                 <TooltipUI placement="top" title={cap1stLetter(row.channel)}>
-                    <img width={width > 450 ? "38px" : "25px"} alt={row.channel} src={imgString(row.channel)} />
+                    <img width={width > 450 ? "32px" : "24px"} alt={row.channel} src={imgString(row.channel)} />
                 </TooltipUI>
             ), width: "70px"
         },
@@ -174,7 +174,7 @@ function index() {
                 columns={columns}
                 shouldSelect={false}
                 addUrl="orders/record"
-                addBtnStr="Record sales"
+                addBtnStr="Record orders"
                 emptyText={emptyText}
                 emptyBtns={emptyBtns}
                 emptyImg={emptyImg}
@@ -197,7 +197,7 @@ function index() {
                 {/*  */}
                 {orders?.length > 0 && (
                     <div className="top--bar info" style={{ margin: "2rem 0" }}>
-                        <Info text="Recieve orders from your online store and record sales from any offline channel" />
+                        <Info text="Recieve orders from your online store and record order from any offline channel" />
                     </div>
                 )}
 
