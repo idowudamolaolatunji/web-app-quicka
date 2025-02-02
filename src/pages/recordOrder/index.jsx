@@ -28,6 +28,7 @@ import { formatNumber } from '../../utils/helper.js';
 import { paymentMethodData, deliveryStatusData } from '../../utils/data.jsx'
 import { channelData } from '../../utils/data.js'
 import moment from 'moment';
+import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -252,8 +253,8 @@ function index() {
             )}
 
             <AddPageUI
-                pageTitle="Create Orders"
-                pageIcon={<MdOutlineShoppingBag />}
+                pageTitle="Record Orders"
+                pageIcon={<HiOutlineShoppingCart />}
                 close={() => navigate(-1)}
                 mainLoader={loading.mainLoading}
                 response={response}

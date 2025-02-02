@@ -1,40 +1,8 @@
-import React, { lazy, Suspense, useEffect, useLayoutEffect } from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './utils/ProtectedRoute';
 import 'react-loading-skeleton/dist/skeleton.css'
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-// const Login = lazy(() => import('./auth/login'));
-// const Signup = lazy(() => import('./auth/signup'));
-// const Error = lazy(() => import('./pages/error'));
-
-// const DashboardHome = lazy(() => import('./pages/home'));
-// const Orders = lazy(() => import('./pages/orders'));
-// const Products = lazy(() => import('./pages/products'));
-// const RecordOrders = lazy(() => import('./pages/orders/orderComponents/RecordOrder'));
-// const UploadProduct = lazy(() => import('./pages/products/productComponents/UploadProduct'));
-// const CreateCustomers = lazy(() => import('./pages/customers/customerComponents/CreateCustomers'));
-// const ProductItem = lazy(() => import('./pages/products/productComponents/ProductItem'));
-// const OrderItem = lazy(() => import('./pages/orders/orderComponents/OrderItem'));
-// const CustomerItem = lazy(() => import('./pages/customers'));
-// const Transaction = lazy(() => import('./pages/transactions'));
-// const Settings = lazy(() => import('./pages/settings'));
-// const Profile = lazy(() => import('./pages/profile'));
-// const ConnectedApps = lazy(() => import('./pages/connectedApps'));
-// const StoreCustomisation = lazy(() => import('./pages/storeCustomization'));
-// const CustomDomain = lazy(() => import('./pages/customDomain'));
-// const StoreDetails = lazy(() => import('./pages/storeInfo'));
-// const Customers = lazy(() => import('./pages/customers'));
-// const DiscountCoupon = lazy(() => import('./pages/salesAndCoupon'));
-// const Delivery = lazy(() => import('./pages/delivery'));
-// const Subscription = lazy(() => import('./pages/subscription'));
-// const Analytics = lazy(() => import('./pages/analytics'));
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 
 // AUTHENTICATION PAGES
@@ -99,7 +67,6 @@ function App() {
 
     return (
 
-        <Suspense>
         <BrowserRouter>
             <Routes>
                 {/* UNPROTECTED ROUTES */}
@@ -165,7 +132,6 @@ function App() {
                 </Route>
             </Routes>
         </BrowserRouter>
-        </Suspense>
     )
 }
 

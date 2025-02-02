@@ -35,7 +35,7 @@ export function imgString(imgType) {
     if (imgType === 'instagram') return instagram;
     if (imgType === 'whatsapp') return whatsapp;
     if (imgType === 'twitter') return twitter;
-    if (imgType === 'flutterwave store') return flutterwave_store;
+    if (imgType === 'flutterwave') return flutterwave_store;
     if (imgType === 'jiji') return jiji;
     if (imgType === 'jumia') return jumia;
     if (imgType === 'konga') return konga;

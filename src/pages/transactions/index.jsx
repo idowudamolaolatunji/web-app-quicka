@@ -46,7 +46,7 @@ function index() {
     const offlineTransactions = transactions?.filter(transaction => transaction?.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction?.order?.profit || 0, 0);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
-    const [activeTab, setActiveTab] = useState("");
+    const [activeTab, setActiveTab] = useState("transaction");
     const [search, setSearch] = useState('');
     
     
