@@ -58,7 +58,7 @@ function TopProducts() {
     const { width } = useWindowSize();
     const { orders, products, error } = useFetchedContext();
     /////////////////////////////////////////////////
-    const [period, setPeriod] = useState("week");
+    const [period, setPeriod] = useState("month");
 
     const threshold = 1;
     const amountToShow = 3;
@@ -111,7 +111,7 @@ function TopProducts() {
                 )}
 
                 {((!topThreeItems || itemLength < 1) && hasNoError) && (
-                    <Empty text={`best selling product ${itemLength < 1 ? "this "+period : "yet"}!`} />
+                    <Empty text={`best selling product yet${itemLength < 1 ? ", this "+period : ""}!`} />
                 )}
 
                 {itemLength > 0 && topThreeItems?.map(product => (

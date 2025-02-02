@@ -915,6 +915,9 @@ a.upgrade--link:hover {
         margin-left: -1.68rem;
         width: 70rem;
     }
+    .visitor-section #chart {
+        width: 100%;
+    }
 }
 
 
