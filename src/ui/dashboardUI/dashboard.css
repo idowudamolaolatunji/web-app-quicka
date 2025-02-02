@@ -653,14 +653,15 @@ span.item--user-img {
     .nav--icon {
         background-color: transparent;
         border-radius: 0;
-        color: var(--grey-1);
+        padding: 0;
+        padding-left: 1rem;
     }
     .nav--icon:hover {
         background-color: transparent;
-        color: initial;
+        color: var(--grey-1);
     }
     .nav--icon svg {
-        font-size: 2.2rem;
+        font-size: 2.8rem;
     }
 
     .menu--text {
