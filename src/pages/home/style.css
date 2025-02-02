@@ -847,6 +847,25 @@ a.upgrade--link:hover {
 
 
 
+.refer-section .link {
+    display: inline-block;
+    margin: 1rem 0 0;
+    font-size: 1.34rem;
+    font-weight: 500;
+    color: #444;
+    text-decoration: underline !important;
+    color: var(--color-brand-500);
+
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+.refer-section .link svg {
+    font-size: 2rem;
+}
+
+
 
 /* ============================================= */
 /*  */
