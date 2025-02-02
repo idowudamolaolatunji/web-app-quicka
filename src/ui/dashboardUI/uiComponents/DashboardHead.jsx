@@ -87,11 +87,17 @@ function DashboardHead() {
                         )}
 
 
-                        <DefaultButton>
+                        {width > 600 ? (
+                            <DefaultButton>
+                                <div className="nav--icon">
+                                    <LuBell />
+                                </div>
+                            </DefaultButton>
+                        ) : (
                             <div className="nav--icon">
                                 <LuBell />
                             </div>
-                        </DefaultButton>
+                        )}
 
                         <DefaultButton customStyle={{ fontFamily: 'inherit' }}>
                             <div className='nav--user' onClick={handleShowDropdown}>

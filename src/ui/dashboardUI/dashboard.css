@@ -646,11 +646,21 @@ span.item--user-img {
     .dashboard--sidemenu {
         min-width: 100%;
     }
-    .store--btn {
-        display: none;
-    }
     .nav--others {
         gap: .8rem;
+    }
+
+    .nav--icon {
+        background-color: transparent;
+        border-radius: 0;
+        color: var(--grey-1);
+    }
+    .nav--icon:hover {
+        background-color: transparent;
+        color: initial;
+    }
+    .nav--icon svg {
+        font-size: 2.2rem;
     }
 
     .menu--text {

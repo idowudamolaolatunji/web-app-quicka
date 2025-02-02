@@ -66,7 +66,7 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
                     </span>
                 </span>
             </Link>
-            <div className="dropdown--item"><ImDisplay />Maintain Site</div>
+            {/* <div className="dropdown--item"><ImDisplay />Maintain Site</div> */}
             <Link className={`dropdown--item ${pathname.includes("/settings") ? "is-active" : ""}`} to="/dashboard/settings"><IoSettingsOutline /> Settings</Link>
 
             {(width < 600 && store?.storeOnboardCompleted && !globalConnectionError) && (
