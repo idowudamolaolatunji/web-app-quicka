@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useWindowSize } from 'react-use';
 
 const series = [
     {
@@ -71,9 +72,11 @@ const options = {
 };
 
 function VisitorOverview() {
+    const { width } = useWindowSize();
+
     return (
         <div className='card visitor-section' style={{ paddingBottom: 0 }}>
-            <div className="section--heading">
+            <div className="section--heading" style={width < 450 ? {  textAlign: "center", width: "100%", justifyContent: "center" } : {}}>
                 <h2>Website Visitors</h2>
                 <p>See how many person visit your wesite.</p>
             </div>

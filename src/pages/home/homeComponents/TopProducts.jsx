@@ -68,7 +68,7 @@ function TopProducts() {
 
     return (
         <div className='card top-product-section'>
-            <div className="section--top" style={ width < 450 ? { flexDirection: "column", textAlign: "center", width: "100%", alignItems: "center" } : {} }>
+            <div className="section--top" style={width < 450 ? { flexDirection: "column", textAlign: "center", width: "100%", alignItems: "center" } : {}}>
                 <div className="section--heading">
                     <h2>Best Selling Products </h2>
                     <p>Top <label className='value'>{itemLength || ""}</label> item{itemLength != 1 ? "s" : ""} that {itemLength != 1 ? "are" : "is"} selling the most. 

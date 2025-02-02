@@ -1061,3 +1061,33 @@ useEffect(function () {
 
 // else if (period === 'last-week') startDate.startOf('week').subtract(1, 'week');
 // else if (period === 'yesterday') startDate.startOf('day').subtract(1, "day"); 
+
+
+
+
+<!-- FROM OLD TAJIFY WALLET -->
+.wallet.insight:nth-child(1) {
+    background-color: #d7ecd1e2;
+    border-color: 	#d0ecc8;
+}
+.wallet.insight:nth-child(1) .insight--icon {
+    color: #008001;
+    background-color: #d0ecc8;
+}
+.wallet.insight:nth-child(2) {
+    background-color: #fdd8f2e2;
+    border-color: 	#fdd0ef;
+}
+.wallet.insight:nth-child(2) .insight--icon {
+    color: #ff0066;
+    background-color: #fdd0ef;
+}
+.wallet.insight:nth-child(3) {
+    background-color: #d5d4f9e2;
+    border-color: 	#d1cff4;
+    
+}
+.wallet.insight:nth-child(3) .insight--icon {
+    color: #4e48f0;
+    background-color: #d1cff4;
+}

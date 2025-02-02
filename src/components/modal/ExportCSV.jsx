@@ -89,7 +89,7 @@ function ExportCSV({ title, data, setClose }) {
 
                 <div className="modal--body">
                     <p>
-                        All {title} data will be exported, Either to the email provided or can be downloded!
+                        All {title} data will be exported, Either to the email provided or directly downloded!
                         <br />
 
                         {store?.subscriptionType == "free" && (
