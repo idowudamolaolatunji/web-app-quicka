@@ -81,7 +81,7 @@ function ExportCSV({ title, data, setClose }) {
             <Overlay handleClose={handleClose} />
             <div className='export modal'>
                 <div className="modal--head">
-                    <h3>Export {title}(s) CSV</h3>
+                    <h3>Export {title}s data into a CSV</h3>
                     <span onClick={handleClose}>
                         <AiOutlineClose />
                     </span>

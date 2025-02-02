@@ -154,7 +154,7 @@ function VisitorOverview() {
         <div className='card visitor-section' style={{ paddingBottom: 0 }}>
             <div className="section--heading" style={width < 450 ? { textAlign: "center", width: "100%", justifyContent: "center" } : {}}>
                 <h2>Website Visitors</h2>
-                <p>See how much traffic visit your store website in the last 3 months.</p>
+                <p>See how much traffic visit your store website in the last 90 days.</p>
             </div>
 
             <React.Fragment>

@@ -7,7 +7,7 @@ export function formatNumber(amount, dec = 0) {
 }
 
 export function todayDate() {
-	return moment().format("dddd, MMMM D, YYYY");
+	return moment().format("dddd, MMMM Do YYYY");
 }
 
 export function dateTimeFormat(givenDate) {

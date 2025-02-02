@@ -12,7 +12,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 // const Error = lazy(() => import('./pages/error'));
 
 // const DashboardHome = lazy(() => import('./pages/home'));
-const Orders = lazy(() => import('./pages/orders'));
+// const Orders = lazy(() => import('./pages/orders'));
 // const Products = lazy(() => import('./pages/products'));
 // const RecordOrders = lazy(() => import('./pages/orders/orderComponents/RecordOrder'));
 // const UploadProduct = lazy(() => import('./pages/products/productComponents/UploadProduct'));
@@ -59,7 +59,7 @@ import CreateDiscount from './pages/createDiscount';
 import RunSpecialSale from './pages/runSpecialSales';
 
 import Products from './pages/products';
-// import Orders from './pages/orders';
+import Orders from './pages/orders';
 import Customers from './pages/customers';
 import Delivery from './pages/delivery';
 import Campaigns from './pages/campaigns';

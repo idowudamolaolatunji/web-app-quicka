@@ -111,7 +111,7 @@ function TopProducts() {
                 )}
 
                 {((!topThreeItems || itemLength < 1) && hasNoError) && (
-                    <Empty text={`best selling product yet${itemLength < 1 ? ", this "+period : ""}!`} />
+                    <Empty text={`best selling product yet, this ${period}!`} />
                 )}
 
                 {itemLength > 0 && topThreeItems?.map(product => (
