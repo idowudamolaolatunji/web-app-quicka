@@ -1063,6 +1063,92 @@ useEffect(function () {
 // else if (period === 'yesterday') startDate.startOf('day').subtract(1, "day"); 
 
 
+<!-- TOP PRODUCTS  -->
+// products.filter(product => product?.trackInventory && product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, amountToShow)
+
+
+
+<!-- WEBSITE VISITOR'S CHART -->
+
+// const series = [
+//     {
+//         name: 'Website Visitors',
+//         data: [0, 140, 3],
+//         color: '#FF6B30'
+//     }
+// ];
+
+
+// const options = {
+//     chart: {
+//         toolbar: {
+//             show: false,
+//         },
+//         font: {
+//             family: 'Raleway, sans-serif',
+//             size: '20px',
+//             color: '#333',
+//         },
+//         zoom: {
+//             type: 'x',
+//             // enabled: true,
+//             enabled: false,
+//             autoScaleYaxis: true,
+//         },
+//     },
+//     stroke: {
+//         width: 1.6,
+//         curve: 'smooth'
+//     },
+//     dataLabels: {
+//         enabled: false,
+//     },
+//     grid: {
+//         borderColor: '#f1f1f1',
+//         xaxis: {
+//             lines: {
+//                 show: false,
+//             },
+//         },
+//         yaxis: {
+//             lines: {
+//                 show: true,
+//             },
+//         },
+//     },
+//     tooltip: {
+//         y: {
+//             formatter: val => formatNumber(val),
+//         },
+//     },
+//     xaxis: {
+//         categories: ["Dec", "Jan", "Feb"],
+//         labels: {
+//             style: {
+//                 fontSize: "11px",
+//                 fontWeight: 500,
+//                 fontFamily: "inherit",
+//                 colors: "#444",
+//             },
+//         },
+//     },
+//     yaxis: {
+//         labels: {
+//             style: {
+//                 fontSize: '12px',
+//                 fontWeight: 500,
+//                 fontFamily: 'inherit',
+//                 colors: '#444',
+//             },
+//             formatter: (value) => {
+//                 if (value >= 1000) return (value / 1000).toFixed(value % 1000 === 0 ? 0 : 1) + 'k';
+//                 else if (value % 1 === 0) return value;
+//                 else return '';
+//             },
+//         },
+//         min: 0,
+//     }
+// };
 
 
 <!-- FROM OLD TAJIFY WALLET -->

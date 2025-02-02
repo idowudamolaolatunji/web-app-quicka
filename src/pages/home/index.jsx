@@ -18,10 +18,10 @@ function index() {
     const { store } = useAuthContext();
     const { loader, globalConnectionError } = useFetchedContext();
     
-
     useEffect(function () {
         window.scrollTo(0, 0)
     }, [])
+
 
     return (
         <>

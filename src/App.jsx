@@ -12,7 +12,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 // const Error = lazy(() => import('./pages/error'));
 
 // const DashboardHome = lazy(() => import('./pages/home'));
-// const Orders = lazy(() => import('./pages/orders'));
+const Orders = lazy(() => import('./pages/orders'));
 // const Products = lazy(() => import('./pages/products'));
 // const RecordOrders = lazy(() => import('./pages/orders/orderComponents/RecordOrder'));
 // const UploadProduct = lazy(() => import('./pages/products/productComponents/UploadProduct'));
@@ -59,7 +59,7 @@ import CreateDiscount from './pages/createDiscount';
 import RunSpecialSale from './pages/runSpecialSales';
 
 import Products from './pages/products';
-import Orders from './pages/orders';
+// import Orders from './pages/orders';
 import Customers from './pages/customers';
 import Delivery from './pages/delivery';
 import Campaigns from './pages/campaigns';
@@ -86,7 +86,7 @@ import Expenses from './pages/expenses';
 import RecordExpenses from './pages/recordExpenses';
 import Subscription from './pages/subscription';
 import SubscriptionPlans from './pages/subscription/subPages/ChoosePlan';
-// import Referrals from './pages/referrals';
+import Referrals from './pages/referrals';
 // import CommunityForums from './pages/communityForums';
 
 
@@ -99,6 +99,7 @@ function App() {
 
     return (
 
+        <Suspense>
         <BrowserRouter>
             <Routes>
                 {/* UNPROTECTED ROUTES */}
@@ -159,11 +160,12 @@ function App() {
                     <Route path='/dashboard/subscription/choose-plan' element={<SubscriptionPlans />}></Route>
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/profile' element={<Profile />}></Route>
+                    <Route path='/dashboard/referrals' element={<Referrals />}></Route>
                     {/* <Route path='/dashboard/community-forums' element={<CommunityForums />}></Route> */}
-                    {/* <Route path='/dashboard/referrals' element={<Referrals />}></Route> */}
                 </Route>
             </Routes>
         </BrowserRouter>
+        </Suspense>
     )
 }
 

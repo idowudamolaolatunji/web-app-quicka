@@ -654,14 +654,14 @@ span.item--user-img {
         background-color: transparent;
         border-radius: 0;
         padding: 0;
-        padding-left: 1rem;
+        margin-right: .6rem;
     }
     .nav--icon:hover {
         background-color: transparent;
         color: var(--grey-1);
     }
     .nav--icon svg {
-        font-size: 2.8rem;
+        font-size: 2.6rem;
     }
 
     .menu--text {

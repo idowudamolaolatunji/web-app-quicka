@@ -10,11 +10,12 @@ import { useNavigate } from 'react-router-dom';
 import ErrorComponent from '../../../components/layout/ErrorComponent';
 import Info from '../../../components/elements/Info';
 import { ImInfo } from 'react-icons/im';
+import moment from 'moment';
 
 
 const datePeriods = [
-    { value: 'this-week', title: 'This Week' },
-    { value: 'this-month', title: 'This Month' },
+    { value: 'week', title: 'This Week' },
+    { value: 'month', title: 'This Month' },
 ];
 
 
@@ -55,15 +56,35 @@ function ProductFigure({ product }) {
 
 function TopProducts() {
     const { width } = useWindowSize();
-    const { products, error } = useFetchedContext();
+    const { orders, products, error } = useFetchedContext();
+    /////////////////////////////////////////////////
+    const [period, setPeriod] = useState("week");
 
-    const threshold = 2;
-    const amount = 3;
-    const topProducts = products.filter(product => product?.trackInventory && product.soldAmount >= threshold).sort((a, b) => b.soldAmount - a.soldAmount).slice(0, amount);
-    const itemLength = topProducts?.length
-    const noError = (!error.order || !error.product)
+    const threshold = 1;
+    const amountToShow = 3;
+    const hasNoError = (!error.order || !error.product)
 
-    const [period, setPeriod] = useState("this-week");
+
+    const lookupTopProductByDuration = function(period) {
+        // I DON'T REALLY UNDERSTAND HOW THIS WORKS, BUT THANKS TO META AI, IT DOES
+        const startDate = moment().startOf(period)
+        const ordersInPeriod = orders.filter(order => moment(order.orderDate).isSameOrAfter(startDate));
+        const productSales = ordersInPeriod.reduce((acc, order) => {
+            order.products.forEach(product => {
+                const productData = products.find(p => p.name === product.name);
+                if (productData?.trackInventory && productData.soldAmount >= threshold) {
+                    acc[product.name] = (acc[product.name] || 0) + product.quantity;
+                }
+            });
+
+            return acc;
+        }, {});
+
+        return Object.keys(productSales).sort((a, b) => productSales[b] - productSales[a]).slice(0, amountToShow).map(productName => products.find(product => product.name === productName));
+    }
+
+    const topThreeItems = lookupTopProductByDuration(period);
+    const itemLength = topThreeItems?.length
 
 
     return (
@@ -85,11 +106,15 @@ function TopProducts() {
             </div>
 
             <div className='top-product--container'>
-                {(!noError && products?.length < 1) && (
+                {(!hasNoError && products?.length < 1) && (
                     <ErrorComponent text={error?.product} />
                 )}
 
-                {itemLength > 0 && topProducts?.map(product => (
+                {((!topThreeItems || itemLength < 1) && hasNoError) && (
+                    <Empty text={`best selling product ${itemLength < 1 ? "this "+period : "yet"}!`} />
+                )}
+
+                {itemLength > 0 && topThreeItems?.map(product => (
                     <ProductFigure product={product} key={product._id} />
                 ))}
 
@@ -97,10 +122,6 @@ function TopProducts() {
                     <span style={{ marginTop: "1.5rem" }}>
                         <Info text="Only items you choose to track inventory is shown" />
                     </span>
-                )}
-
-                {((!topProducts || topProducts.length < 1) && noError) && (
-                    <Empty text="best selling product yet!" />
                 )}
             </div>
 

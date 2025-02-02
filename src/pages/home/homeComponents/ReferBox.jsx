@@ -22,7 +22,7 @@ function ReferBox() {
             <img src={img} style={{ width: width > 450 ? "7.8rem" : "6rem" }} alt="" />
         </div>
 
-        <Link className="link" to="/dashboard/referral" style={{ marginTop: width > 450 && "-2rem" }}>View Referrals <BiChevronRight /></Link>
+        <Link className="link" to="/dashboard/referral" style={{ marginTop: width > 450 && "-2rem" }}>Go to Referrals Page <BiChevronRight /></Link>
 
         {/* <div className="link--btn" style={{ marginTop: width > 450 && "-2rem" }}>
             Referral Code:{" "}

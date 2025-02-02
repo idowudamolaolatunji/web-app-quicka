@@ -446,7 +446,7 @@ a.upgrade--link:hover {
     overflow-x: auto !important;
 }
 #chart {
-    min-width: 100%;
+    min-width: fit-content;
     width: 100%;
     margin-top: 2rem;
 }
@@ -457,7 +457,10 @@ a.upgrade--link:hover {
 #chart .apexcharts-legend {
     padding: 0 !important;
 }
-/* apexcharts-tooltip */
+
+.visitor-section #chart {
+    width: fit-content;
+}
 /* ============================================= */
 
 
@@ -593,7 +596,7 @@ a.upgrade--link:hover {
 }
 .insight--figure:nth-child(3) svg {
     /* color: #008001; */
-    color: var(--color-brand-700);
+    color: var(--color-brand-500);
 }
 
 .insight--figure:nth-child(4) {
@@ -850,7 +853,7 @@ a.upgrade--link:hover {
 .refer-section .link {
     display: inline-block;
     margin: 1rem 0 0;
-    font-size: 1.34rem;
+    font-size: 1.36rem;
     font-weight: 500;
     color: #444;
     text-decoration: underline !important;
@@ -858,11 +861,12 @@ a.upgrade--link:hover {
 
     display: flex;
     align-items: center;
-    gap: .4rem;
+    gap: 0;
+    width: fit-content;
 }
 
 .refer-section .link svg {
-    font-size: 2rem;
+    font-size: 2.24rem;
 }
 
 

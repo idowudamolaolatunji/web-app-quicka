@@ -1,11 +1,9 @@
 import React from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import UserIntialsImage from './UserIntialsImage';
 import { useAuthContext } from '../../context/AuthContext';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
-
-import { ImDisplay } from 'react-icons/im';
-import { IoLogOutOutline, IoSettingsOutline } from 'react-icons/io5';
+import { IoLogOutOutline, IoMegaphoneOutline, IoSettingsOutline } from 'react-icons/io5';
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { SlReload } from 'react-icons/sl';
@@ -66,8 +64,9 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
                     </span>
                 </span>
             </Link>
-            {/* <div className="dropdown--item"><ImDisplay />Maintain Site</div> */}
+
             <Link className={`dropdown--item ${pathname.includes("/settings") ? "is-active" : ""}`} to="/dashboard/settings"><IoSettingsOutline /> Settings</Link>
+            <Link className={`dropdown--item ${pathname.includes("/referrals") ? "is-active" : ""}`} to="/dashboard/referrals"><IoMegaphoneOutline /> Referrals</Link>
 
             {(width < 600 && store?.storeOnboardCompleted && !globalConnectionError) && (
                 <div className="dropdown--item" onClick={handleReloadApp}><SlReload />Reload app</div>

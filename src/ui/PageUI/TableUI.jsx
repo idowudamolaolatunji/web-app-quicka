@@ -182,7 +182,7 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
                         <DataTable
                             // actions={actionsMemo}
                             // selectableRowsComponent={Checkbox}
-                            paginationRowsPerPageOptions={[10, 25, 50, 100]}
+                            paginationRowsPerPageOptions={[5, 10, 25, 50]}
                             data={data}
                             columns={columns}
                             pagination

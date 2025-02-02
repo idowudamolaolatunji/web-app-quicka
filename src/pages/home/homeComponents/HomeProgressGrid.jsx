@@ -19,8 +19,6 @@ function ProgressGrid() {
     const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1050);
     const period = homeInsightPeriod == "today" ? "day" : homeInsightPeriod?.replace("this-", "");
 
-    console.log(period)
-
     // const noData = !orders || orders?.length < 1;
     // const noSettle = !settlements || settlements?.length < 1;
 

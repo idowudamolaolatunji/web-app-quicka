@@ -105,7 +105,7 @@ function DashboardHead() {
                                     <UserIntialsImage />
                                 </div>
                                 <div className='user--info'>
-                                    <p className='user--name'>{`${user.firstname} ${user.lastname}`}</p>
+                                    <p className='user--name'>{`${user?.firstname} ${user?.lastname}`}</p>
                                     <IoChevronDownSharp />
                                 </div>
                             </div>
