@@ -15,7 +15,7 @@ function VisitorOverview() {
 
     const websiteVisitors = [
         {
-            createdAt: "2025-12-28T17:52:08.049+00:00"
+            createdAt: "2024-12-28T17:52:08.049+00:00"
         },
         {
             createdAt: "2025-01-30T17:52:08.049+00:00"
@@ -39,10 +39,13 @@ function VisitorOverview() {
             createdAt: "2025-02-02T17:52:08.049+00:00"
         },
         {
-            createdAt: "2025-02-02T17:52:08.049+00:00"
+            createdAt: "2025-02-03T17:52:08.049+00:00"
         },
         {
-            createdAt: "2025-02-02T17:52:08.049+00:00"
+            createdAt: "2025-02-03T17:52:08.049+00:00"
+        },
+        {
+            createdAt: "2025-02-03T17:52:08.049+00:00"
         },
     ];
 
@@ -59,11 +62,11 @@ function VisitorOverview() {
     websiteVisitors?.forEach((visitor) => {
       const createdAtMonth = moment(visitor?.createdAt).format('MMM');
         if (createdAtMonth === currentMonth) {
-            visitorData[0] += 1;
+            visitorData[2] += 1;
         } else if (createdAtMonth === lastMonth) {
             visitorData[1] += 1;
         } else if (createdAtMonth === twoMonthsAgo) {
-            visitorData[2] += 1;
+            visitorData[0] += 1;
         }
     });
 

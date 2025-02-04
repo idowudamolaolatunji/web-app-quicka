@@ -6,8 +6,6 @@ import ErrorComponent from '../../../components/layout/ErrorComponent';
 import { useWindowSize } from 'react-use';
 
 
-
-
 function TopSalesChannels() {
     const navigate = useNavigate();
     const { width } = useWindowSize();

@@ -30,9 +30,6 @@ function Header({ Logo, about, color }) {
                         <Link to="" className="nav__link">Collection</Link>
                         <SlArrowDown className="nav_icon" />
                     </li>
-                    <li className="nav__item">
-                        <Link to="" className="nav__link">Contact</Link>
-                    </li>
                 </ul>
             </nav>
 
@@ -46,7 +43,7 @@ function Header({ Logo, about, color }) {
                     <p className="icon--detail" style={{ backgroundColor: color }}>{12}</p>
                 </span>
 
-                <span className="header__icon" onClick={() => navigate('/cart')}>
+                <span className="header__icon">
                     <AiOutlineShoppingCart className="icon__el" />
                     <p className="icon--detail" style={{ backgroundColor: color }}>{2}</p>
                 </span>

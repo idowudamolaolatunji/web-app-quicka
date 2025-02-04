@@ -31,7 +31,7 @@ function HomeTop() {
     return (
         <React.Fragment>
             {(store?.subscriptionType == "free" && showSub) && (
-                <div className='home--sub'>
+                <div className='home--sub' style={{ border: "1px solid red"}}>
                     {remaining >= 1 ? (
                         <React.Fragment>
                             <div className="sub--mini">
@@ -77,6 +77,12 @@ function HomeTop() {
                             </div>
                         </React.Fragment>
                     )}
+
+                    {/* <div className="dots dots-container">
+                        <div className="dot" />
+                        <div className="dot" />
+                        <div className="dot" />
+                    </div> */}
                 </div>
             )}
 

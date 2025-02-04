@@ -9,6 +9,7 @@ import { BiChevronDown } from 'react-icons/bi';
 import ColorBox from '../../../components/elements/ColorBox';
 import Line from '../../../components/elements/Line';
 import { useWindowSize } from 'react-use';
+import { SiUber } from 'react-icons/si';
 
 function OrderItem() {
     const { id } = useParams();
@@ -142,7 +143,8 @@ function OrderItem() {
                         <div className="card form">
                             <div className="section--heading">
                                 <h2>Order Item</h2>
-                                {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+                                {/* {width > 400 && <Line border={1.4} where="Top" value="1rem" />} */}
+                                <Line border={1.4} where="Top" value="1rem" />
                             </div>
 
                             <div className="item__preview--grid grid--1x1">
@@ -171,12 +173,12 @@ function OrderItem() {
                                 </div>
 
                                 <span className="">
-                                        <p>2 x ₦10,000</p>
-                                        <span>
-                                            Sub total
-                                            <p>₦20,000</p>
-                                        </span>
+                                    <p>2 x ₦10,000</p>
+                                    <span>
+                                        Sub total
+                                        <p>₦20,000</p>
                                     </span>
+                                </span>
                             </div>
                         </div>
 
@@ -184,10 +186,14 @@ function OrderItem() {
                         <div className="card form">
                             <div className="section--heading">
                                 <h2>Order Summary</h2>
-                                {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+                                <Line border={1.4} where="Top" value="1rem" />
                             </div>
 
+                            <div className="item__preview--item">
 
+                                
+
+                            </div>
                         </div>
                     </div>
 
@@ -195,6 +201,7 @@ function OrderItem() {
                         <div className="card">
                             <div className="section--heading">
                                 <h2>Brief Overview</h2>
+                                <Line border={1.4} where="Top" value="1rem" />
                             </div>
 
                             
@@ -204,8 +211,8 @@ function OrderItem() {
                         <div className="card">
                             <div className="section--heading">
                                 <h2>Brief Overview</h2>
+                                <Line border={1.4} where="Top" value="1rem" />
                             </div>
-
 
                         </div>
                     </div>

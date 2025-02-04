@@ -55,7 +55,6 @@ import RecordExpenses from './pages/recordExpenses';
 import Subscription from './pages/subscription';
 import SubscriptionPlans from './pages/subscription/subPages/ChoosePlan';
 import Referrals from './pages/referrals';
-// import CommunityForums from './pages/communityForums';
 
 
 
@@ -66,7 +65,6 @@ function App() {
     }, []);
 
     return (
-
         <BrowserRouter>
             <Routes>
                 {/* UNPROTECTED ROUTES */}
@@ -128,7 +126,6 @@ function App() {
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/profile' element={<Profile />}></Route>
                     <Route path='/dashboard/referrals' element={<Referrals />}></Route>
-                    {/* <Route path='/dashboard/community-forums' element={<CommunityForums />}></Route> */}
                 </Route>
             </Routes>
         </BrowserRouter>

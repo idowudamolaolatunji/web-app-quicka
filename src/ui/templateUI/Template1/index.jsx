@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from './templateComponents/Header'
+import Header from '../Template2/templateComponents/Header'
 import TopHeadline from './templateComponents/TopHeadline'
 import TopBanner from './templateComponents/TopBanner'
 import CollectionLists from './templateComponents/CollectionLists'
