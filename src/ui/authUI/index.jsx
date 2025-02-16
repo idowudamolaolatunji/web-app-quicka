@@ -76,7 +76,7 @@ function index({
                         <img src={logo_white} alt="quicka logo" />
                     </div>
                     <h3 className="auth--right-heading">{heading}</h3>
-                    <p className='auth--right-text'>Take Control, Grow, Manage, market, and succeed with easy-to-use tools designed for entrepreneurs like you. Trusted by 100+ businesses</p>
+                    <p className='auth--right-text'>Take Control, Grow, Manage, market, and succeed with easy-to-use tools designed for entrepreneurs like you. Trusted by 200+ businesses</p>
 
                     <AuthUserRating />
 

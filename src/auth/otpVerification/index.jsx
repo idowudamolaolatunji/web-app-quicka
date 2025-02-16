@@ -83,7 +83,7 @@ function index() {
 
             const data = await res.json();
             console.log(data);
-            if (!data?.status || data?.status !== 'success') {
+            if (data?.status !== 200 || data?.status !== 'success') {
                 throw new Error(data.message);
             }
 

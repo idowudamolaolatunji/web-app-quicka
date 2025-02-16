@@ -152,7 +152,7 @@ function index() {
                     <h2 className='form--heading' style={width > 850 ? { color: '#ff7a49' } : { color: 'inherit' }}>Create {width > 362 && "an"} Account 🎉</h2>
                     {width <= 850 && (
                         <div className='auth--extra-info'>
-                            <p className='auth--right-text'>Simplify, Automate, Dominate: Business Made Easy with easy-to-use tools designed for entrepreneurs like you. Trusted by 100+ businesses</p>
+                            <p className='auth--right-text'>Simplify, Automate, Dominate: Business Made Easy with easy-to-use tools designed for entrepreneurs like you. Trusted by 200+ businesses</p>
                             <AuthUserRating />
                         </div>
                     )}

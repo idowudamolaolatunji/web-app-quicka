@@ -178,10 +178,16 @@
     background-color: transparent;
 }
 
+.auth--left-link:hover {
+    color: var(--color-brand-500);
+}
+
+
 .form--info button:hover,
 .auth--left-link:hover,
 .form--flex a:hover,
 .form--info a:hover {
+    color: var(--color-brand-500);
     text-shadow: var(--text-shadow) var(--color-brand-500);
 }
 

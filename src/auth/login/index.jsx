@@ -150,7 +150,7 @@ function index() {
                     <h2 className='form--heading'>Welcome Back!👋🏿</h2>
                     {width <= 850 && (
                         <div className='auth--extra-info'>
-                            <p className='auth--right-text'>Take Control, Grow, Manage, market, and succeed with easy-to-use tools designed for entrepreneurs like you. Trusted by 100+ businesses</p>
+                            <p className='auth--right-text'>Take Control, Grow, Manage, market, and succeed with easy-to-use tools designed for entrepreneurs like you. Trusted by 200+ businesses</p>
                             <AuthUserRating />
                         </div>
                     )}

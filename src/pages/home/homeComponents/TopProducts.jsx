@@ -102,7 +102,7 @@ function TopProducts() {
                     </p>
                 </div>
 
-                <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />
+                {/* <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} /> */}
             </div>
 
             <div className='top-product--container'>

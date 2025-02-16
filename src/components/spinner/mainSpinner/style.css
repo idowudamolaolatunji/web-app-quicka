@@ -88,9 +88,7 @@
 		transform: scaleY(1);
 	}
 
-	70%,
-	85%,
-	100% {
+	70%, 85%, 100% {
 		transform: scaleY(1);
 	}
 
