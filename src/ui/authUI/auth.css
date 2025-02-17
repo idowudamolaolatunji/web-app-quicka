@@ -727,7 +727,8 @@ button.onboard--next {
     .auth--left-container {
         height: auto;
         display: unset;
-        height: 95%;
+        /* height: 95%; */
+        height: 92.5%;
     }
     .auth--left-container.centered {
         flex-direction: unset;

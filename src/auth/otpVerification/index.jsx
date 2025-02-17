@@ -83,8 +83,8 @@ function index() {
 
             const data = await res.json();
             console.log(data);
-            if (data?.status !== 200 || data?.status !== 'success') {
-                throw new Error(data.message);
+            if (!data?.status || data?.status !== 'success') {
+                throw new Error(data?.message);
             }
 
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
@@ -127,6 +127,7 @@ function index() {
             handleResetResponse();
 
             const data = await res.json();
+
             if (!data?.status || data?.status !== 'success') {
                 throw new Error(data?.message);
             }
