@@ -100,9 +100,9 @@ function GetStarted() {
             hasPaymentDetails, hasFirstProduct, hasDeliveryRate, hasCustomisedStore
         } = store?.storeOnboard;
 
-        updateState("hasPaymentDetails", hasPaymentDetails);
         updateState("hasFirstProduct", hasFirstProduct);
         updateState("hasDeliveryRate", hasDeliveryRate);
+        updateState("hasPaymentDetails", hasPaymentDetails);
         updateState("hasCustomisedStore", hasCustomisedStore);
 
         setTimeout(() => setLoading(false), 200);
@@ -184,7 +184,7 @@ function GetStarted() {
                             ) : (
                                 <span key={i} />
                             )
-                            )))}
+                        )))}
                     </div>
                 </span>
 

@@ -5,7 +5,7 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
-import { formatDateSince, formatNumber } from '../../utils/helper';
+import { formatDate, formatNumber } from '../../utils/helper';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
@@ -60,8 +60,8 @@ function index() {
         {
             name: 'Created Date',
             selector: row => (
-                <TooltipUI placement='top' title={formatDateSince(row?.createdAt)}>
-                    <p className='value'>{formatDateSince(row?.createdAt)}</p>
+                <TooltipUI placement='top' title={formatDate(row?.createdAt)}>
+                    <p className='value'>{formatDate(row?.createdAt)}</p>
                 </TooltipUI>
             ),
         },

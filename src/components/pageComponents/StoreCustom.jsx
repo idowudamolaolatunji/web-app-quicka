@@ -175,6 +175,7 @@ function StoreCustom({ isnew, close }) {
 
 
     async function handleSubmitCustomStore() {
+        console.log("Clicked!!")
         // SET LOADER
         handleResetResponse()
         handleLoading("mainLoading", true);
@@ -468,7 +469,7 @@ function StoreCustom({ isnew, close }) {
 
                     <div className="page__section--actions" style={width > 450 ? { marginLeft: "auto" } : {}}>
                         <button className='button clear--button' onClick={close}>Cancel</button>
-                        <button className='button submit--button' onClick={handleSubmitCustomStore} disabled={loading}>Save</button>
+                        <button className='button submit--button' onClick={handleSubmitCustomStore} disabled={loading.mainLoading}>Save</button>
                     </div>
                 </form>
             </section>

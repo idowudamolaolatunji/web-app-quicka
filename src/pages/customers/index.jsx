@@ -8,7 +8,7 @@ import { FiUser, FiUsers } from 'react-icons/fi';
 import emptyImg from '../../assets/images/illustrations/customer.png'
 import { TbUserSquare } from 'react-icons/tb';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { formatDateSince } from '../../utils/helper';
+import { formatDate } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
@@ -70,8 +70,8 @@ function index() {
         {
             name: "Date Added",
             selector: row => (
-                <TooltipUI placement='top' title={formatDateSince(row.createdAt)}>
-                    <p className='value'>{formatDateSince(row.createdAt)}</p>
+                <TooltipUI placement='top' title={formatDate(row.createdAt)}>
+                    <p className='value'>{formatDate(row.createdAt)}</p>
                 </TooltipUI>
             )
         },
