@@ -58,13 +58,11 @@
     }
     .error__heading {
         font-size: 8rem;
-        /* margin-bottom: 1rem; */
     }
     .error__heading span {
         display: none;
     }
     .error__text {
         font-size: 1.6rem;
-        /* margin-bottom: 1.4rem; */
     }
 }
