@@ -271,7 +271,9 @@ function index({ close, isModal }) {
                         <div className="form--item">
                             <div className="form--flex" style={{ justifyContent: "flex-start", gap: ".5rem" }}>
                                 <CheckBoxInput isChecked={checked} setIsChecked={setChecked} />
-                                <label htmlFor='description' className="form--label" onClick={() => setChecked(!checked)}>Add Customer Pics (optional)</label>
+                                <div onClick={() => setChecked(!checked)}>
+                                    <label htmlFor='description' className="form--label">Add Customer Pics (optional)</label>
+                                </div>
                             </div>
 
                             {checked && (
