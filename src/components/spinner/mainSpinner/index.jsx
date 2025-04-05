@@ -4,8 +4,9 @@ import { useWindowSize } from 'react-use';
 
 function index() {
     const { width } = useWindowSize();
+    
     return (
-        <div className="spinner--container">
+        <div className="spinner--container" role="presentation">
             <div className="main_spinner" style={width > 850  ? { 
                 transform: 'translateY(13rem)'
             } : { 

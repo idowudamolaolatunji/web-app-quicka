@@ -18,6 +18,7 @@ function OrderItem() {
     const { handleFetchOneItem } = useFetchedContext();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+
     const [item, setItem] = useState({
         _id: "67991948baf37f41eb865340",
         store: "6794dfc7a535c14711135078",
@@ -36,7 +37,7 @@ function OrderItem() {
                     { type: "Size", value: "33" },
                 ],
             }
-        ],        
+        ],
         customer: {
             contact: {
                 countryCode: "ng",
@@ -157,6 +158,7 @@ function OrderItem() {
                                                 <p>{collection?.name}</p>
                                             ))}
                                         </span>
+                                        
                                         <span>
                                             {item.products[0]?.variations.map(variant => (
                                                 <span>

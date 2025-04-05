@@ -73,9 +73,11 @@
     justify-content: center;
     transition: all .3s;
 }
+.form--img-round:hover,
 .form--img-box:hover {
     border-color: var(--color-brand-500);
 }
+.form--img-round.dropping,
 .form--img-box.dropping {
     border-color: var(--color-brand-500);
     color: var(--color-brand-500) !important;
@@ -89,17 +91,72 @@
     text-align: center;
     max-width: 70%;
 }
+.form--img-round svg,
 .form--img-box svg {
     font-size: 2rem;
 }
+.form--img-round h3,
 .form--img-box h3 {
     font-size: 1.3rem;
     font-weight: 500;
 }
+.form--img-round p,
 .form--img-box p {
     font-size: 1.2rem;
     line-height: 1.5;
 }
+
+
+.form--img-round {
+    position: relative;
+    border-radius: 1rem;
+    border: 1.4px dashed #ddd;
+    padding: .2rem;
+    overflow: hidden;
+}
+.form--img-round-chid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(.4rem);
+    -webkit-backdrop-filter: blur(.4rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+    cursor: pointer;
+}
+
+.form--img-round:hover .form--img-round p {
+    color: var(--color-brand-500) !important;
+}
+.form--img-round:hover .form--img-round-chid,
+.form--img-round.dropping .form--img-round-chid {
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+}
+.form--img-round.img--preview .form--img-round-chid {
+    backdrop-filter: blur(.1rem);
+    -webkit-backdrop-filter: blur(.1rem);
+}
+.form--img-round svg {
+    margin-bottom: .4rem;
+}
+.form--img-round .form--upload-btn {
+    position: absolute;
+    top: .6rem !important;
+    right: .6rem !important;
+    padding: .34rem;
+}
+.form--img-round .form--upload-btn svg {
+    font-size: 1.8rem;
+    margin-bottom: 0;
+}
+
+
 /* ============== */
 .form--image .img--grid {
     display: grid;

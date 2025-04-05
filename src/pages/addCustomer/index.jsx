@@ -12,6 +12,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import AddPageUI from '../../ui/PageUI/AddPageUI';
 import isOnline from 'is-online';
+import CheckBoxInput from '../../components/form/CheckBoxInput';
+import ProfileImageUploader from '../../components/form/ProfileImageUploader';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -36,6 +38,8 @@ function index({ close, isModal }) {
     const [state, setState] = useState([]);
     const [city, setCity] = useState([]);
 
+    const [checked, setChecked] = useState(false);
+    const [image, setImage] = useState({ preview: "", file: null });
 
     const [customerFormErrors, setCustomerFormErrors] = useState({});
     const [customerData, setCustomerData] = useState({
@@ -68,6 +72,18 @@ function index({ close, isModal }) {
             [name]: value,
         });
     };
+
+    const handleImageChange = function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setImage({ preview: imageUrl, file });
+        }
+    };
+
+    const handleRemoveImage = function() {
+        setImage({ preview: "", file: "" });
+    }
 
 
     const handleClearFields = function() {
@@ -251,6 +267,21 @@ function index({ close, isModal }) {
                             {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                         </div>
 
+
+                        <div className="form--item">
+                            <div className="form--flex" style={{ justifyContent: "flex-start", gap: ".5rem" }}>
+                                <CheckBoxInput isChecked={checked} setIsChecked={setChecked} />
+                                <label htmlFor='description' className="form--label">Add Customer Pics (optional)</label>
+                            </div>
+
+                            {checked && (
+                                <ProfileImageUploader
+                                    preview={image.preview}
+                                    handleChange={handleImageChange}
+                                    handleRemove={handleRemoveImage}
+                                />
+                            )}
+                        </div>
 
                         <div className="form--grid">
                             <div className="form--item">
