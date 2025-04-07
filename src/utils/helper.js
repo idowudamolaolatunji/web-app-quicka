@@ -214,7 +214,6 @@ export function getRemainingMinutes(dateTimeStr) {
 }
 
 let intervalId = null;
-
 export function countdownTimer(dateTimeStr, callback) {
 	if (intervalId) {
 		clearInterval(intervalId);

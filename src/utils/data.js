@@ -41,7 +41,6 @@ export const units = [
 	{ name: "g", value: "g" },
 ];
 
-
 export const colors = [
     "#df02a5", // Pastel Pink
     "#2E865F", // Forest Green

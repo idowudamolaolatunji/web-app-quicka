@@ -22,7 +22,6 @@ export const discountSelectionTypeData = [
     { label: <p className='flex align'><TbShoppingBagDiscount /> Select Products for discount</p>, value: "product-bundle" },
 ];
 
-
 export const couponSelectionTypeData = [
     { label: <p className='flex align'><LuClipboardList /> All Products</p>, value: "all" },
     { label: <p className='flex align'><LuTag /> Single Product</p>, value: "single" },
