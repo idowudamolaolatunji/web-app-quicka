@@ -2,31 +2,31 @@ import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use';
 import CurrencyInput from 'react-currency-input-field';
 
-import Info from '../../components/elements/Info';
-import Line from '../../components/elements/Line';
-import Asterisk from '../../components/elements/Asterisk';
-import QuillEditor from '../../components/form/QuillEditor';
-import { useAuthContext } from '../../context/AuthContext';
-import { useFetchedContext } from '../../context/FetchedContext';
-import MainDropdownSelect from '../../components/form/MainDropdownSelect';
+import Info from '../../../components/elements/Info';
+import Line from '../../../components/elements/Line';
+import Asterisk from '../../../components/elements/Asterisk';
+import QuillEditor from '../../../components/form/QuillEditor';
+import { useAuthContext } from '../../../context/AuthContext';
+import { useFetchedContext } from '../../../context/FetchedContext';
+import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
 
 import { LuTags } from 'react-icons/lu';
 import { FaCheck } from 'react-icons/fa';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { validateProductForm } from '../../utils/validationHelper';
+import { validateProductForm } from '../../../utils/validationHelper';
 import { useNavigate, useParams } from 'react-router-dom';
-import Drawer from '../../components/modal/Drawer';
-import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
+import Drawer from '../../../components/modal/Drawer';
+import CollectionFormSm from '../../../components/pageComponents/CollectionFormSm';
 import { createPortal } from 'react-dom';
-import { units } from '../../utils/data';
+import { units } from '../../../utils/data';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { Switch } from '@mui/material';
-import AddPageUI from '../../ui/PageUI/AddPageUI';
-import MultipleImageUploadInput from '../../components/form/MultipleImageUploadInput';
+import AddPageUI from '../../../ui/PageUI/AddPageUI';
+import MultipleImageUploadInput from '../../../components/form/MultipleImageUploadInput';
 import isOnline from 'is-online';
 
 
-function index({ isnew=false, close, ismodal=false }) {
+export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     const navigate = useNavigate();
     const { id } = useParams();
     
@@ -601,5 +601,3 @@ function index({ isnew=false, close, ismodal=false }) {
         </>
     )
 }
-
-export default index

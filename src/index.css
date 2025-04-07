@@ -31,16 +31,9 @@ body {
     --border-color: #d4d7db;
     --white-1: #fff;
     --white-2: #f5f5f5;
-
     --grey-1: #5c636d;
     --grey-2: #555;
-
     --text-shadow: 0 0.4rem 4rem;
-
-    /* --color-brand-50: #EEF1FF;
-    --color-brand-100: #ECF2FF;
-    --color-brand-300: #BFACE2;
-    --color-brand-500: #655DBB; */
 
     --color-brand-10: #fffcfb;
     --color-brand-50: #fff0eb;
@@ -50,11 +43,9 @@ body {
     --color-brand-500: #ff7a49;
     --color-brand-700: #FF6B35;
     --color-brand-900: #ff5529;
-
 }
 
-ul,
-ol {
+ul, ol {
 	list-style: none;
 }
 
@@ -65,10 +56,10 @@ a:visited {
 	transition: all .3s;
 }
 
-form,
 a,
-button,
+form,
 input,
+button,
 textarea,
 select {
 	font-family: inherit;
@@ -98,10 +89,6 @@ h6 {
 
 input[type="file"] {
 	display: none;
-}
-
-width-100 {
-	width: 100%;
 }
 
 img {
@@ -298,7 +285,6 @@ button {
 	background-color: #d6ecd073;
 }
 
-
 .modal.integrated,
 .modal.delete,
 .modal.simple,
@@ -359,7 +345,6 @@ button {
 
 
 
-
 .export .modal--head {
 	border-bottom: none;
 }
@@ -386,7 +371,6 @@ button {
 	font-size: 1.2rem;
 	font-weight: 600;
 }
-
 .export .modal--form {
 	display: grid;
 	grid-template-columns: 1fr auto;
@@ -1037,7 +1021,6 @@ button {
 		font-size: 1.6rem;
 		line-height: 1.2;
 	}
-	
 }
 
 @media screen and (max-width: 450px) {

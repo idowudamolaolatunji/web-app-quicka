@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import { useDataContext } from '../../context/DataContext';
-import MainDropdownSelect from '../../components/form/MainDropdownSelect';
+import { useDataContext } from '../../../context/DataContext';
+import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
 import { FiUsers } from 'react-icons/fi';
 import { useWindowSize } from 'react-use';
-import Line from '../../components/elements/Line';
-import Asterisk from '../../components/elements/Asterisk';
+import Line from '../../../components/elements/Line';
+import Asterisk from '../../../components/elements/Asterisk';
 import PhoneInput from 'react-phone-input-2';
-import { validateCustomerForm } from '../../utils/validationHelper';
-import { useAuthContext } from '../../context/AuthContext';
+import { validateCustomerForm } from '../../../utils/validationHelper';
+import { useAuthContext } from '../../../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useFetchedContext } from '../../context/FetchedContext';
-import AddPageUI from '../../ui/PageUI/AddPageUI';
+import { useFetchedContext } from '../../../context/FetchedContext';
+import AddPageUI from '../../../ui/PageUI/AddPageUI';
 import isOnline from 'is-online';
-import CheckBoxInput from '../../components/form/CheckBoxInput';
-import ProfileImageUploader from '../../components/form/ProfileImageUploader';
+import CheckBoxInput from '../../../components/form/CheckBoxInput';
+import ProfileImageUploader from '../../../components/form/ProfileImageUploader';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
-function index({ close, isModal }) {
+export default function NewCustomer({ close, isModal }) {
     const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
@@ -39,7 +39,7 @@ function index({ close, isModal }) {
     const [city, setCity] = useState([]);
 
     const [checked, setChecked] = useState(false);
-    const [image, setImage] = useState({ preview: "", file: null });
+    const [customerImage, setCustumerImage] = useState({ preview: "", file: null });
 
     const [customerFormErrors, setCustomerFormErrors] = useState({});
     const [customerData, setCustomerData] = useState({
@@ -77,12 +77,12 @@ function index({ close, isModal }) {
         const file = event.target.files[0];
         if (file) {
             const imageUrl = URL.createObjectURL(file);
-            setImage({ preview: imageUrl, file });
+            setCustumerImage({ preview: imageUrl, file });
         }
     };
 
     const handleRemoveImage = function() {
-        setImage({ preview: "", file: "" });
+        setCustumerImage({ preview: "", file: "" });
     }
 
 
@@ -104,6 +104,8 @@ function index({ close, isModal }) {
         setState([]);
         setCity([]);
         window?.scrollTo({ top: 0, behavior: "smooth" });
+        setChecked(false)
+        setCustumerImage({ preview: "", file: null });
         setCustomerFormErrors({});
     }
 
@@ -272,13 +274,13 @@ function index({ close, isModal }) {
                             <div className="form--flex" style={{ justifyContent: "flex-start", gap: ".5rem" }}>
                                 <CheckBoxInput isChecked={checked} setIsChecked={setChecked} />
                                 <div onClick={() => setChecked(!checked)}>
-                                    <label htmlFor='description' className="form--label">Add Customer Pics (optional)</label>
+                                    <p htmlFor='description' className="form--label">Add Customer Pics (optional)</p>
                                 </div>
                             </div>
 
                             {checked && (
                                 <ProfileImageUploader
-                                    preview={image.preview}
+                                    preview={customerImage.preview}
                                     handleChange={handleImageChange}
                                     handleRemove={handleRemoveImage}
                                 />
@@ -389,5 +391,3 @@ function index({ close, isModal }) {
         </AddPageUI>
     )
 }
-
-export default index

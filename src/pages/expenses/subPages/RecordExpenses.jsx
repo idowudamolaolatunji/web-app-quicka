@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import CurrencyInput from 'react-currency-input-field';
-import Asterisk from '../../components/elements/Asterisk';
-import QuillEditor from '../../components/form/QuillEditor';
+import Asterisk from '../../../components/elements/Asterisk';
+import QuillEditor from '../../../components/form/QuillEditor';
 import { useWindowSize } from 'react-use';
-import Line from '../../components/elements/Line';
+import Line from '../../../components/elements/Line';
 import { PiCoinsBold } from 'react-icons/pi';
-import { useAuthContext } from '../../context/AuthContext';
+import { useAuthContext } from '../../../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useFetchedContext } from '../../context/FetchedContext';
-import AddPageUI from '../../ui/PageUI/AddPageUI';
+import { useFetchedContext } from '../../../context/FetchedContext';
+import AddPageUI from '../../../ui/PageUI/AddPageUI';
 import isOnline from 'is-online';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 
-function index() {
+export default function RecordExpenses() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
@@ -141,5 +141,3 @@ function index() {
         </AddPageUI>
     )
 }
-
-export default index

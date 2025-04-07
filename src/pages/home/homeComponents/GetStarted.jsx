@@ -8,8 +8,8 @@ import { IoCheckmarkDone } from 'react-icons/io5';
 import { TbTruckDelivery } from 'react-icons/tb';
 import Spinner from '../../../components/spinner/mainSpinner'
 import FullScreen from '../../../components/modal/FullScreen';
-import UploadProduct from '../../uploadProduct';
-import CreateDelivery from '../../createDelivery';
+import UploadProduct from '../../products/subPages/UploadProduct';
+import CreateDelivery from '../../delivery/subPages/CreateDelivery';
 import BankDetails from '../../../components/pageComponents/BankDetails';
 import StoreCustom from '../../../components/pageComponents/StoreCustom';
 import CustomAlert from '../../../components/layout/CustomAlert';

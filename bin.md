@@ -1,3 +1,8 @@
+    /* --color-brand-50: #EEF1FF;
+    --color-brand-100: #ECF2FF;
+    --color-brand-300: #BFACE2;
+    --color-brand-500: #655DBB; */
+
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Rating } from '@mui/material';
@@ -1177,3 +1182,14 @@ useEffect(function () {
     color: #4e48f0;
     background-color: #d1cff4;
 }
+
+
+
+<!-- # BANKS BY COUNTRY
+# https://api.flutterwave.com/v3/banks/{country}
+
+# RESOLVE
+# https://api-dashboard.flutterwave.com/account/resolve
+
+# https://api.flutterwave.com/v3/banks/{id}/branches
+# Query the branch code for a specific Bank. This is required for Bank transfers to Benin, Cameroon, Chad, Côte d’Ivoire, DR Congo, Gabon, Ghana, Malawi, Rwanda, Senegal, Sierra Leone, Tanzania, and Uganda. -->

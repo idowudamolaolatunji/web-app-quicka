@@ -17,14 +17,14 @@ import Error from './pages/error';
 
 // GENERAL DASHBOARD PAGES 
 import DashboardHome from './pages/home';
-import UploadProduct from './pages/uploadProduct';
-import RecordOrder from './pages/recordOrder';
-import AddCustomer from './pages/addCustomer';
-import CreateDelivery from './pages/createDelivery';
+import RecordOrder from './pages/orders/subPages/RecordOrder';
+import UploadProduct from './pages/products/subPages/UploadProduct';
+import AddCustomer from './pages/customers/subPages/NewCustomer';
+import CreateDelivery from './pages/delivery/subPages/CreateDelivery';
 import RunCampaign from './pages/campaigns/subPages/RunCampaign';
-import CreateCoupon from './pages/createCoupon';
-import CreateDiscount from './pages/createDiscount';
-import RunSpecialSale from './pages/runSpecialSales';
+import CreateCoupon from './pages/discountCoupon/subPages/CreateCoupon';
+import CreateDiscount from './pages/discountCoupon/subPages/CreateDiscount';
+import RunSpecialSale from './pages/discountCoupon/subPages/RunSpecialSales';
 
 import Products from './pages/products';
 import Orders from './pages/orders';
@@ -51,7 +51,7 @@ import CustomizeTheme from './pages/storeCustomization/subPages/CustomizeTheme';
 import EditStoreDetails from './pages/storeDetails/subPages/EditDetails';
 
 import Expenses from './pages/expenses';
-import RecordExpenses from './pages/recordExpenses';
+import RecordExpenses from './pages/expenses/subPages/RecordExpenses';
 import Subscription from './pages/subscription';
 import SubscriptionPlans from './pages/subscription/subPages/ChoosePlan';
 import Referrals from './pages/referrals';

@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { TbBasketDiscount, TbRosetteDiscount } from 'react-icons/tb';
 import { useNavigate, useParams } from 'react-router-dom';
-import AddPageUI from '../../ui/PageUI/AddPageUI';
-import Line from '../../components/elements/Line';
-import Asterisk from '../../components/elements/Asterisk';
+import AddPageUI from '../../../ui/PageUI/AddPageUI.jsx';
+import Line from '../../../components/elements/Line.jsx';
+import Asterisk from '../../../components/elements/Asterisk.jsx';
 import { useWindowSize } from 'react-use';
 import CurrencyInput from 'react-currency-input-field';
-import { useAuthContext } from '../../context/AuthContext';
-import { useFetchedContext } from '../../context/FetchedContext';
-import MainDropdownSelect from '../../components/form/MainDropdownSelect';
-import ProductPreview from '../../components/layout/ProductPreview';
-import { discountSelectionTypeData } from "../../utils/data.jsx";
+import { useAuthContext } from '../../../context/AuthContext.jsx';
+import { useFetchedContext } from '../../../context/FetchedContext.jsx';
+import MainDropdownSelect from '../../../components/form/MainDropdownSelect.jsx';
+import ProductPreview from '../../../components/layout/ProductPreview.jsx';
+import { discountSelectionTypeData } from "../../../utils/data.jsx";
 import { FaCheck } from 'react-icons/fa';
-import Info from '../../components/elements/Info.jsx';
+import Info from '../../../components/elements/Info.jsx';
 
 
-function index() {
+export default function CreateDiscount() {
     const navigate = useNavigate();
     const { id } = useParams();
     const { width } = useWindowSize();
@@ -254,5 +254,3 @@ function index() {
         </AddPageUI>
     )
 }
-
-export default index

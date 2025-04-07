@@ -1,39 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use';
 
-import Asterisk from '../../components/elements/Asterisk.jsx';
-import QuillEditor from '../../components/form/QuillEditor.jsx';
+import Asterisk from '../../../components/elements/Asterisk.jsx';
+import QuillEditor from '../../../components/form/QuillEditor.jsx';
 
 import { MdOutlineShoppingBag } from 'react-icons/md';
-import { useAuthContext } from '../../context/AuthContext.jsx';
-import Line from '../../components/elements/Line.jsx';
+import { useAuthContext } from '../../../context/AuthContext.jsx';
+import Line from '../../../components/elements/Line.jsx';
 import { AiOutlinePlus } from 'react-icons/ai';
-import Info from '../../components/elements/Info.jsx';
-import MainDropdownSelect from '../../components/form/MainDropdownSelect.jsx';
+import Info from '../../../components/elements/Info.jsx';
+import MainDropdownSelect from '../../../components/form/MainDropdownSelect.jsx';
 
-import { useFetchedContext } from '../../context/FetchedContext.jsx';
-import Drawer from '../../components/modal/Drawer.jsx';
+import { useFetchedContext } from '../../../context/FetchedContext.jsx';
+import Drawer from '../../../components/modal/Drawer.jsx';
 
-import { validateOrderForm } from '../../utils/validationHelper.js';
+import { validateOrderForm } from '../../../utils/validationHelper.js';
 import { useNavigate } from 'react-router-dom';
-import AddCustomerFormSm from '../../components/pageComponents/AddCustomerFormSm.jsx';
+import AddCustomerFormSm from '../../../components/pageComponents/AddCustomerFormSm.jsx';
 import { createPortal } from 'react-dom';
-import UploadProduct from '../uploadProduct/index.jsx';
-import FullScreen from '../../components/modal/FullScreen.jsx';
-import ProductQuantityCard from '../../components/layout/ProductQuantityCard.jsx';
-import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
+import UploadProduct from '../../products/subPages/UploadProduct.jsx';
+import FullScreen from '../../../components/modal/FullScreen.jsx';
+import ProductQuantityCard from '../../../components/layout/ProductQuantityCard.jsx';
+import AddPageUI from '../../../ui/PageUI/AddPageUI.jsx';
 import isOnline from 'is-online';
-import CurrencyInputField from '../../components/form/CurrencyInputField.jsx';
-import { formatNumber } from '../../utils/helper.js';
-import { paymentMethodData, deliveryStatusData } from '../../utils/data.jsx'
-import { channelData } from '../../utils/data.js'
+import CurrencyInputField from '../../../components/form/CurrencyInputField.jsx';
+import { formatNumber } from '../../../utils/helper.js';
+import { paymentMethodData, deliveryStatusData } from '../../../utils/data.jsx'
+import { channelData } from '../../../utils/data.js'
 import moment from 'moment';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
 
-function index() {
+export default function RecordOrder() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, shouldKick, currency } = useAuthContext();
@@ -434,5 +434,3 @@ function index() {
         </>
     )
 }
-
-export default index

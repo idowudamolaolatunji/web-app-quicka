@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import AddPageUI from '../../ui/PageUI/AddPageUI';
-import Line from '../../components/elements/Line';
-import Asterisk from '../../components/elements/Asterisk';
+import AddPageUI from '../../../ui/PageUI/AddPageUI.jsx';
+import Line from '../../../components/elements/Line.jsx';
+import Asterisk from '../../../components/elements/Asterisk.jsx';
 import { useWindowSize } from 'react-use';
 import { RiCoupon3Line } from 'react-icons/ri';
-import { couponSelectionTypeData } from '../../utils/data.jsx';
-import { useAuthContext } from '../../context/AuthContext';
-import { useFetchedContext } from '../../context/FetchedContext';
+import { couponSelectionTypeData } from '../../../utils/data.jsx';
+import { useAuthContext } from '../../../context/AuthContext.jsx';
+import { useFetchedContext } from '../../../context/FetchedContext.jsx';
 import { nanoid } from 'nanoid';
-import Info from '../../components/elements/Info.jsx';
+import Info from '../../../components/elements/Info.jsx';
 import CurrencyInput from 'react-currency-input-field';
 import CollapsibleDiv from 'react-collapsible';
 import { MdArrowDropDown } from 'react-icons/md';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import ProductPreview from '../../components/layout/ProductPreview.jsx';
-import MainDropdownSelect from '../../components/form/MainDropdownSelect.jsx';
+import ProductPreview from '../../../components/layout/ProductPreview.jsx';
+import MainDropdownSelect from '../../../components/form/MainDropdownSelect.jsx';
 import { FaCheck } from 'react-icons/fa';
 
 
-function index() {
+export default function CreateCoupon() {
     const navigate = useNavigate();
     const { id } = useParams();
     const { width } = useWindowSize();
@@ -375,5 +375,3 @@ function index() {
         </AddPageUI>
     )
 }
-
-export default index
