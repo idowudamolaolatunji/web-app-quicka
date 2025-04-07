@@ -1264,11 +1264,6 @@
 	.page__section--insights.insight--grid {
 		grid-template-columns: 1fr;
 	}
-
-	.profile--image {
-		width: 11.5rem;
-		height: 11.5rem;
-	}
 }
 
 @media screen and (max-width: 365px) {
