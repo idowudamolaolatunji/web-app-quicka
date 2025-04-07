@@ -107,7 +107,8 @@ function App() {
                     <Route path='/dashboard/campaigns' element={<Campaigns />}></Route>
                     <Route path='/dashboard/campaigns/run' element={<RunCampaign />}></Route>
                     <Route path='/dashboard/store-customisation' element={<StoreCustomization />}></Route>
-                    <Route path='/dashboard/store-customisation/customise/:id' element={<CustomizeTheme />}></Route>
+                    <Route path='/dashboard/store-customisation/customise' element={<CustomizeTheme />}></Route>
+                    <Route path='/dashboard/store-customisation/preview' element={<PreviewTheme />}></Route>
                     <Route path='/dashboard/integrated-apps' element={<ConnectedApps />}></Route>
                     <Route path='/dashboard/custom-domain' element={<CustomDomain />}></Route>
                     <Route path='/dashboard/custom-domain/add-domain' element={<ConnectDomain />}></Route>

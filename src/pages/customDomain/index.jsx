@@ -10,7 +10,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import TableUI from '../../ui/PageUI/TableUI';
 import ConnectionError from '../../components/layout/ConnectionError';
 import { useNavigate } from 'react-router-dom';
-import "./domain.css";
+import "./style.css";
 
 
 const emptyTitle = "Add Custom Domain URL!";

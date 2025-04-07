@@ -109,7 +109,7 @@ export default function BuyDomain() {
                         </div>
 
                         <div className="domain__support">
-                            <p className='support--text'>Our support team are here 24/7 to help you fix any issues your are have and find the perfect domain for your store.</p>
+                            <p className='support--text'>Our support team are here 24/7 to help you fix any issues you're having and find the perfect domain for your store.</p>
 
                             <div className="support--options">
                                 <span className='support--subtext'>
