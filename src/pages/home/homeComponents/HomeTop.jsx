@@ -72,7 +72,7 @@ function HomeTop() {
                             </div>
 
                             <div className="sub--mini" style={{ gap: '2rem' }}>
-                                <button onClick={() => navigate('/dashboard/subscription/full')}className='sub--btn'>Choose a plan</button>
+                                <button onClick={() => navigate('/dashboard/subscription/choose-plan')}className='sub--btn'>Choose a plan</button>
                                 <MdOutlineClose style={{ fontSize: '2.4rem', cursor: 'pointer' }} onClick={() => setShowSub(false)} /> 
                             </div>
                         </React.Fragment>

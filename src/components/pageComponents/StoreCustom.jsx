@@ -29,41 +29,51 @@ import demo_logo from '../../assets/images/dummy_items/dummy_logo.png'
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
-function StoreCustom({ isnew, close }) {
+export default function StoreCustom({ isnew, close }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { store, shouldKick, handleStore, formdataHeader } = useAuthContext();
     const { handleFetchError } = useFetchedContext();
 
+    const { contact, customDetail, otherPages, socialProfiles } = store;
     const width450False = width < 450 ? false : true;
 
     const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
     const [response, setResponse] = useState({ status: "", message: "" });
     const [showConfetti, setShowConfetti] = useState(false);
 
-    const [storeLogo, setStoreLogo] = useState({ preview: "", file: "" });
-    const [banner, setBanner] = useState({ preview: "", file: "" });
-    const [favicon, setFavicon] = useState({ preview: "", file: "" });
+    const [storeLogo, setStoreLogo] = useState({
+        preview: store?.storeLogo?.url ?? "",
+        file: ""
+    });
+    const [banner, setBanner] = useState({
+        preview: store?.banner?.url ?? "",
+        file: ""
+    });
+    const [favicon, setFavicon] = useState({
+        preview: store?.favicon?.url ?? "",
+        file: ""
+    });
 
     const [selectedColor, setSelectedColor] = useState("");
     const [customColor, setCustomColor] = useState({ color: "", isValid: false });
 
     const [storeData, setStoreData] = useState({
-        headline: "",
-        heading: "",
-        subHeading: "",
-        brandColor: "",
+        headline: customDetail?.headline || "",
+        heading: customDetail?.heading || "",
+        subHeading: customDetail?.subHeading || "",
+        brandColor: customDetail?.brandColor || "",
 
-        aboutPage: width450False,
-        returnPolicyPage: width450False,
-        aboutDescription: "",
-        returnPolicyDescription: "",
+        aboutPage: otherPages?.aboutPage || width450False,
+        returnPolicyPage: otherPages?.returnPolicyPage || width450False,
+        aboutDescription: otherPages?.aboutDescription || "",
+        returnPolicyDescription: otherPages?.returnPolicyDescription || "",
 
-        instagram: "",
-        whatsapp: store?.contact?.phone ? store?.contact?.phone : "",
-        facebook: "",
-        twitter: "",
-        tiktok: "",
+        instagram: socialProfiles?.instagram || "",
+        whatsapp: socialProfiles?.whatsapp || contact?.phone || "",
+        facebook: socialProfiles?.facebook || "",
+        twitter: socialProfiles?.twitter || "",
+        tiktok: socialProfiles?.tiktok || "",
     });
 
 
@@ -235,8 +245,7 @@ function StoreCustom({ isnew, close }) {
     }
 
     return (
-        <>
-
+        <React.Fragment>
             {showConfetti && <Confetti customHeight={2500} customGv={0.1} />}
             {loading.mainLoading && createPortal(<Spinner />, document.body)}
             {(response.message || response.status) && (
@@ -250,7 +259,6 @@ function StoreCustom({ isnew, close }) {
                         <h2 className="page__section--title">Customize {isnew ? "Your Store" : "Store Theme"}<MdOutlineStorefront /></h2>
                     </span>
                 </div>
-
 
                 <form className="product__upload--container custom" onSubmit={e => e.preventDefault()}>
 
@@ -348,7 +356,7 @@ function StoreCustom({ isnew, close }) {
                             <label className='form--label'>Theme, Brand color and Favicon <Asterisk /></label>
                             <p className="custom--subtext">Select or customize your brand color and Favicon</p>
                             <p className="custom--subtext">
-                                <div><Info /> The favicon is your store logo icon that will appear in your browser tab.</div><br />
+                                <div><Info /> The favicon is your store icon that will appear in your browser tab.</div><br />
                             </p>
                         </span>
 
@@ -473,8 +481,6 @@ function StoreCustom({ isnew, close }) {
                     </div>
                 </form>
             </section>
-        </>
+        </React.Fragment>
     )
 }
-
-export default StoreCustom

@@ -7,7 +7,7 @@ ring.register()
 function index() {
   return (
     <l-ring
-        size="12.5"
+        size="13.5"
         stroke="1.25"
         bg-opacity="0"
         speed="2" 

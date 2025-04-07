@@ -620,6 +620,11 @@ button {
 	height: 3.4rem;
 	border-radius: 0.2rem;
 }
+.flex-align-top {
+	display: flex;
+	align-items: flex-start;
+	gap: .6rem;
+}
 
 .general--btn {
 	padding: 1rem 1.2rem;

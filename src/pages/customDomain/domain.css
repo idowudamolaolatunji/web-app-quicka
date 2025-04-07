@@ -1,0 +1,68 @@
+
+
+
+.domain__search {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: -1rem;
+    transition: all .2s;
+}
+
+.domain__search.form--input {
+    padding: 0 0 0 1rem;
+}
+.domain__search svg {
+    font-size: 1.8rem;
+    color: var(--color-brand-500);
+    padding-right: -.3rem;
+}
+.domain__search--input {
+    width: 100%;
+    border: none;
+    padding: 1.6rem 1rem 1.6rem .8rem;
+    border-radius: 1rem;
+    font-family: inherit;
+    color: inherit;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+.domain__search--input:active,
+.domain__search--input:focus {
+    outline: none;
+}
+
+
+.domain__support {
+    margin-top: .8rem;
+}
+.domain__support,
+.support--options {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 1.4rem;
+}
+.support--text {
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: inherit;
+}
+.support--options {
+    gap: .68rem;
+}
+.support--subtext {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    color: var(--color-brand-500);
+}
+.support--subtext svg {
+    font-weight: 1.8rem;
+}
+.support--subtext p {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+

@@ -12,13 +12,16 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineWorkspacePremium } from 'react-icons/md';
 import ComingSoon from '../../components/layout/ComingSoon';
+import { useAuthContext } from '../../context/AuthContext';
 
 
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { store } = useAuthContext();
     const { globalConnectionError } = useFetchedContext();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const { template } = store.customDetail;
 
     useEffect(function() {
         setLoading(true);
@@ -66,29 +69,46 @@ function index() {
 
                     <div className="theme--grid">
 
-                        <figure className='theme__figure custom--display active'>
-                            <Template1 logo={demo_logo} />
+                        <figure className={`theme__figure custom--display ${template == "basic" ? "active" : ""}`}>
+                            <div className={`theme__figure--display ${template == "basic" ? "active" : ""}`}>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/basic")}>Customize</button>
+
+                                <Template1 logo={demo_logo} />
+                            </div>
+
                             <figcaption className='theme__figure--detail'>
-                                <span className='theme__figure--detail-main'>
+                                <span className='main'>
                                     <h3 className='theme__figure--title'>Basic</h3>
-                                    <span className='theme__figure--type'>Current theme</span>
+                                    <span className='theme__figure--type'>{template == "basic" ? "Current theme" : "Free"}</span>
                                 </span>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/1")}>Use Theme </button>
+
+                                {template !== "basic" && (
+                                    <button className='theme__figure--btn' onClick={() => navigate("customise/basic")}>Preview</button>
+                                )}
                             </figcaption>
                         </figure>
 
-                        {/* {width <= 600 && <Line border={1.4} />}
 
-                        <figure className='theme__figure custom--display'>
-                            <Template2 logo={demo_logo} />
+                        {width <= 600 && <Line border={1.4} />}
+
+                        <figure className={`theme__figure custom--display ${template == "minimalist" ? "active" : ""}`}>
+                            <div className={`theme__figure--display ${template == "minimalist" ? "active" : ""}`}>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise/minimalist")}>Customize</button>
+
+                                <Template1 logo={demo_logo} />
+                            </div>
+                            
                             <figcaption className='theme__figure--detail'>
-                                <span className='theme__figure--detail-main'>
-                                    <h3 className='theme__figure--title'>Minimalist</h3>
-                                    <span className='theme__figure--type'>Free</span>
+                                <span className='main'>
+                                    <h3 className='theme__figure--title'>minimalist</h3>
+                                    <span className='theme__figure--type'>{template == "minimalist" ? "Current theme" : "Free"}</span>
                                 </span>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/2")}>Use Theme </button>
+
+                                {template !== "minimalist" && (
+                                    <button className='theme__figure--btn' onClick={() => navigate("customise/basic")}>Preview</button>
+                                )}
                             </figcaption>
-                        </figure> */}
+                        </figure>
 
                     </div>
                 </div>
@@ -107,13 +127,13 @@ function index() {
                     {/* <div className="theme--grid">
                         <figure className='theme__figure custom--display'>
                             <Template1 logo={demo_logo} />
-                            <figcaption className='theme__figure--detail'>
+                            <div className='theme__figure--detail'>
                                 <span className='theme__figure--detail-main'>
                                     <h3 className='theme__figure--title'>Elegant</h3>
                                     <span className='theme__figure--type'>Premium</span>
                                 </span>
                                 <button className='theme__figure--btn' onClick={() => navigate("customise/3")}>Use Theme </button>
-                            </figcaption>
+                            </div>
                         </figure>
                     </div> */}
 
