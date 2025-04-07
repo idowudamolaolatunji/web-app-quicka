@@ -1,15 +1,11 @@
 import React from 'react'
 import { AiFillInfoCircle } from 'react-icons/ai'
 
-function Info({ text, type = "text", children }) {
+function Info({ text }) {
     return (
-        <span className='info--item' style={type == "html" ? { alignItems: "flex-start", gap: ".68rem" } : {}}>
+        <span className='info--item'>
             <AiFillInfoCircle />
-            {type == "text" ? (
-                <p>{text}</p>
-            ) : (
-                <div>{children}</div>
-            )}
+            <p>{text}</p>
         </span>
     )
 }

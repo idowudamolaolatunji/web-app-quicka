@@ -56,6 +56,7 @@ function index() {
 
     useEffect(function () {
         document.title = "Quicka | Run Campaign";
+        window.scrollTo(0, 0);
     }, []);
 
 
