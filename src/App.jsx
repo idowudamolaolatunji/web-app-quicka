@@ -48,6 +48,7 @@ import CustomDomain from './pages/customDomain';
 import ConnectDomain from './pages/customDomain/subPages/ConnectDomain';
 import BuyDomain from './pages/customDomain/subPages/BuyDomain';
 import CustomizeTheme from './pages/storeCustomization/subPages/CustomizeTheme';
+import PreviewTheme from './pages/storeCustomization/subPages/PreviewTheme';
 import EditStoreDetails from './pages/storeDetails/subPages/EditDetails';
 
 import Expenses from './pages/expenses';

@@ -71,7 +71,7 @@ function index() {
 
                         <figure className={`theme__figure custom--display ${template == "basic" ? "active" : ""}`}>
                             <div className={`theme__figure--display ${template == "basic" ? "active" : ""}`}>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/basic")}>Customize</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise?theme=basic")}>Customize</button>
 
                                 <Template1 logo={demo_logo} />
                             </div>
@@ -83,7 +83,7 @@ function index() {
                                 </span>
 
                                 {template !== "basic" && (
-                                    <button className='theme__figure--btn' onClick={() => navigate("customise/basic")}>Preview</button>
+                                    <button className='theme__figure--btn' onClick={() => navigate("customise?theme=basic")}>Preview</button>
                                 )}
                             </figcaption>
                         </figure>
@@ -93,7 +93,7 @@ function index() {
 
                         <figure className={`theme__figure custom--display ${template == "minimalist" ? "active" : ""}`}>
                             <div className={`theme__figure--display ${template == "minimalist" ? "active" : ""}`}>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/minimalist")}>Customize</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customise?theme=minimalist")}>Customize</button>
 
                                 <Template1 logo={demo_logo} />
                             </div>
@@ -105,7 +105,7 @@ function index() {
                                 </span>
 
                                 {template !== "minimalist" && (
-                                    <button className='theme__figure--btn' onClick={() => navigate("customise/basic")}>Preview</button>
+                                    <button className='theme__figure--btn' onClick={() => navigate("customise?theme=minimalist")}>Preview</button>
                                 )}
                             </figcaption>
                         </figure>
