@@ -5,7 +5,7 @@
     width: 100%;
     display: flex;
     align-items: center;
-    margin-top: -1rem;
+    margin-top: -.4rem;
     transition: all .2s;
 }
 
@@ -34,20 +34,20 @@
 
 
 .domain__support {
-    margin-top: .8rem;
+    margin-top: .4rem;
 }
 .domain__support,
 .support--options {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
-    gap: 1.4rem;
+    gap: 1.8rem;
 }
 .support--text {
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.4;
-    color: inherit;
+    color: #777;
 }
 .support--options {
     gap: .68rem;
@@ -61,8 +61,9 @@
 .support--subtext svg {
     font-weight: 1.8rem;
 }
-.support--subtext p {
+.support--subtext a {
     font-size: 1.2rem;
     font-weight: 500;
+    text-decoration: none;
 }
 

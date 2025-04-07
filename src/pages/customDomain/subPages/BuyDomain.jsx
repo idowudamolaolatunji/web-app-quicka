@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import BackButton from '../../../components/button/BackButton'
-import Info from '../../../components/elements/Info'
 import { useNavigate } from 'react-router-dom'
 import { LuBadgeInfo } from 'react-icons/lu';
 import Line from '../../../components/elements/Line';
 import SpinnerTiny from "../../../components/spinner/tiny"
 import { GoSearch } from "react-icons/go";
 import { HiOutlineEnvelope, HiOutlinePhone  } from "react-icons/hi2";
+import { BiPurchaseTagAlt } from 'react-icons/bi';
 
 
 export default function BuyDomain() {
@@ -14,7 +14,12 @@ export default function BuyDomain() {
     const [loading, setLoading] = useState({ tiny: false, main: false })
     const [domainQuery, setDomainQuery] = useState("");
     const [domainResult, setDomainResult] = useState(null)
-    const [nameError, setNameError] = useState("")
+    const [nameError, setNameError] = useState("");
+
+    useEffect(function() {
+        document.title = "Quicka | Buy domain";
+        window.scrollTo(0, 0);
+    }, [])
 
     useEffect(function() {
         async function handleSearch() {
@@ -46,7 +51,7 @@ export default function BuyDomain() {
             <div className='page__section--heading'>
                 <span className="flex" style={{ gap: "1.4rem" }}>
                     <BackButton close={() => navigate(-1)} />
-                    <h2 className="page__section--title">Buy Domain</h2>
+                    <h2 className="page__section--title">Buy Domain <BiPurchaseTagAlt /></h2>
                 </span>
 
             </div>
@@ -91,7 +96,7 @@ export default function BuyDomain() {
 
                         <Line border={1.4} where="Top" value="1rem" />
 
-                        <div style={{ marginBottom: "1.5rem" }} />
+                        {!domainResult && <div style={{ marginBottom: "1.4rem" }} />}
                     </div>
 
                 </div>
@@ -104,16 +109,16 @@ export default function BuyDomain() {
                         </div>
 
                         <div className="domain__support">
-                            <p className='support--text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, laborum.</p>
+                            <p className='support--text'>Our support team are here 24/7 to help you fix any issues your are have and find the perfect domain for your store.</p>
 
                             <div className="support--options">
                                 <span className='support--subtext'>
                                     <HiOutlinePhone  />
-                                    <p className='value'>+234 905 7643 470</p>
+                                    <a href="tel:+2349057643470" className='value'>+234 905 7643 470</a>
                                 </span>
                                 <span className='support--subtext'>
                                     <HiOutlineEnvelope />
-                                    <p>support@getquicka.com</p>
+                                    <a href="mailto:support@getquicka.com">support@getquicka.com</a>
                                 </span>
                             </div>
                         </div>
