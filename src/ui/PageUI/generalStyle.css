@@ -316,6 +316,10 @@
 .table-customer svg {
 	font-size: 1.8rem;
 }
+.table-customer img {
+	padding: .16rem;
+	border-radius: .4rem;
+}
 
 
 

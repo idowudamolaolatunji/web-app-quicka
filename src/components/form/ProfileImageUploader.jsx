@@ -47,14 +47,13 @@ function ProfileImageUploader({ name="image", preview, handleChange, size="100px
                 />
                 
                 <div className="form--img-round-chid">
-                    {preview ? (
-                        <button onClick={handleRemove} className='form--upload-btn delete'><AiOutlineDelete /></button> 
-                    ) : (!dragging) ? (
+                    {(!dragging && !preview) && (
                         <React.Fragment>
                             <LuPen style={{ color: '#ff7a49' }} />
                             <h3>Choose image</h3>
                         </React.Fragment>
-                    ) : (
+                    )} 
+                    {(dragging && !preview) && (
                         <React.Fragment>
                             <GoStack style={{ color: '#ff7a49' }} />
                             <h3>Drop image</h3>
@@ -62,6 +61,10 @@ function ProfileImageUploader({ name="image", preview, handleChange, size="100px
                     )}
                 </div>
             </label>
+
+            {preview && (
+                <button onClick={handleRemove} className='form--upload-btn delete'><AiOutlineDelete /></button> 
+            )}
 
         </span>
     )

@@ -88,9 +88,14 @@ function OrderItem() {
         }
     }
 
+    useEffect(function() {
+        window.scrollTo(0, 0);
+        document.title = `Quicka | Order Id: ${item.orderId}`;
+    }, [item]);
+
     useEffect(function () {
         getItem();
-    }, [id])
+    }, [id]);
 
     return (
         <>

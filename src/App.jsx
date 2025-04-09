@@ -19,7 +19,7 @@ import Error from './pages/error';
 import DashboardHome from './pages/home';
 import RecordOrder from './pages/orders/subPages/RecordOrder';
 import UploadProduct from './pages/products/subPages/UploadProduct';
-import AddCustomer from './pages/customers/subPages/NewCustomer';
+import AddCustomer from './pages/customers/subPages/AddCustomer';
 import CreateDelivery from './pages/delivery/subPages/CreateDelivery';
 import RunCampaign from './pages/campaigns/subPages/RunCampaign';
 import CreateCoupon from './pages/promotions/subPages/CreateCoupon';

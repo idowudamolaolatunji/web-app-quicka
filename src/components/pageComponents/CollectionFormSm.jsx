@@ -132,9 +132,9 @@ function CollectionFormSm({ close, editingItem }) {
 
                 <div className="page__section--actions">
                     {editingItem ? (
-                        <button className='button clear--button' onClick={() => {}}>Close</button>
+                        <button className='button clear--button' onClick={() => {}} disabled={loading}>Close</button>
                     ) : (
-                        <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
+                        <button className='button clear--button' onClick={handleClearFields} disabled={loading}>Clear Fields</button>
                     )}
                     <button className='button submit--button' onClick={handleSubmitCollection} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>

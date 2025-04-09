@@ -59,7 +59,7 @@ function index() {
             ), width: "100px"
         },
         {
-            name: "Custumer", selector: row => row.customer?.name || "-- Not Added --", width: "150px"
+            name: "Custumer", selector: row => row.customer?.fullname || "-- Not Added --", width: "150px"
         },
         {
             name: "Product(s)", selector: row => (

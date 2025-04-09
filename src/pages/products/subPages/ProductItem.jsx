@@ -14,7 +14,35 @@ function ProductItem() {
     const [item, setItem] = useState(null);
     ////////////////////////////////////////////////////
 
-    const Title = function () {
+
+    const getItem = async function () {
+        console.log("me")
+        
+        try {
+            console.log("me2", id)
+            const data = await handleFetchItem(title, id);
+            console.log("me3")
+            if (!data) throw new Error("Connection Error");
+            setItem(data)
+            console.log("me3")
+        } catch (err) {
+            setError(true)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(function() {
+        window.scrollTo(0, 0);
+        document.title = `Quicka | Product Item ${item?.name}`;
+    }, [item]);
+
+    useEffect(function () {
+        getItem();
+    }, [id])
+
+
+    const PageTitle = function () {
         return (
             <>
                 {item?.name}
@@ -25,29 +53,12 @@ function ProductItem() {
         )
     }
 
-    const getItem = async function () {
-        setError(false)
-        try {
-            const data = await handleFetchItem(title, id);
-            if (!data) throw new Error("Connection Error");
-            setItem(data)
-        } catch (err) {
-            setError(true)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(function () {
-        getItem();
-    }, [id])
-
     return (
         <>
             <ItemPreviewPageUI
                 pageType={title}
                 item={item}
-                pageTitle={item?.name ? <Title /> : "Product Details"}
+                pageTitle={item?.name ? <PageTitle /> : "Product Details"}
                 loading={loading}
             >
                 <p>Product</p>

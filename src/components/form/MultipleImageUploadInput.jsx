@@ -68,7 +68,7 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
     }
 
     return (
-        <>
+        <React.Fragment>
             {showModal && <Delete close={() => setShowModal(false)} fn={handleDelete} text="This image will be deleted!" />}
 
             <ReactImageUploading
@@ -166,7 +166,7 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
                     </>
                 )}
             </ReactImageUploading>
-        </>
+        </React.Fragment>
     )
 }
 

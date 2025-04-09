@@ -47,7 +47,13 @@ function index() {
             name: "Customer Name",
             selector: row => (
                 <span className="grid grid-2-4rem-1fr">
-                    <span className='table-customer'><FiUser /></span>
+                    <span className='table-customer'>
+                        {row?.image?.url ? (
+                            <img src={row?.image?.url} />
+                        ) : (
+                            <FiUser />
+                        )}
+                    </span>
                     <p>{`${row?.firstname} ${row?.lastname}`}</p>
                 </span>
             ),

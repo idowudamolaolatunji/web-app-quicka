@@ -32,7 +32,8 @@ export const FetchedProvider = ({ children }) => {
     const [special_sales, setspecial_sales] = useState([]);
 
     // LOADER STATES
-    const [storeLoader, setStoreLoader] = useState(true);
+    // const [storeLoader, setStoreLoader] = useState(true);
+    const [storeLoader, setStoreLoader] = useState(false);
     const [orderLoader, setOrderLoader] = useState(true);
     const [productLoader, setProductLoader] = useState(true);
     const [deliveryLoader, setDeliveryLoader] = useState(true);
@@ -132,6 +133,7 @@ export const FetchedProvider = ({ children }) => {
 
     // FETCH UNPROTECTED STORE ITEM BY ID
     async function handleFetchOneItem(title, id) {
+        console.log(title);
         const productIdentifier = title == "product" ? "identifier/" : "";
         const url = `${import.meta.env.VITE_API_URL}/${title}s/${productIdentifier}${id}`;
         const res = await fetch(url, {
@@ -426,6 +428,7 @@ export const FetchedProvider = ({ children }) => {
         setspecial_sales([]);
 
         if(token && user) {
+            // handleFetchStore();
             handleFetchMyStoreOrders();
             handleFetchMyStoreProducts();
             handleFetchMyStoreCustomers();
