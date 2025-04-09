@@ -70,7 +70,7 @@ export default function StoreCustom({ isnew, close }) {
         returnPolicyDescription: otherPages?.returnPolicyDescription || "",
 
         instagram: socialProfiles?.instagram || "",
-        whatsapp: socialProfiles?.whatsapp || contact?.phone || "",
+        whatsapp: contact?.phone || "",
         facebook: socialProfiles?.facebook || "",
         twitter: socialProfiles?.twitter || "",
         tiktok: socialProfiles?.tiktok || "",
@@ -270,6 +270,7 @@ export default function StoreCustom({ isnew, close }) {
                                 <LogoUploadInput
                                     name="storeLogo"
                                     logoPreview={storeLogo.preview}
+                                    hasFile={storeLogo.file && true}
                                     handleLogoChange={handleImageChange}
                                     handleLogoRemove={() => handleRemoveImage("storeLogo")}
                                 />

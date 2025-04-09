@@ -22,9 +22,9 @@ import UploadProduct from './pages/products/subPages/UploadProduct';
 import AddCustomer from './pages/customers/subPages/NewCustomer';
 import CreateDelivery from './pages/delivery/subPages/CreateDelivery';
 import RunCampaign from './pages/campaigns/subPages/RunCampaign';
-import CreateCoupon from './pages/discountCoupon/subPages/CreateCoupon';
-import CreateDiscount from './pages/discountCoupon/subPages/CreateDiscount';
-import RunSpecialSale from './pages/discountCoupon/subPages/RunSpecialSales';
+import CreateCoupon from './pages/promotions/subPages/CreateCoupon';
+import CreateDiscount from './pages/promotions/subPages/CreateDiscount';
+import RunSpecialSale from './pages/promotions/subPages/RunSpecialSales';
 
 import Products from './pages/products';
 import Orders from './pages/orders';
@@ -36,7 +36,7 @@ import Analytics from './pages/analytics';
 import ProductItem from './pages/products/subPages/ProductItem';
 import OrderItem from './pages/orders/subPages/OrderItem';
 import CustomerItem from './pages/customers/subPages/CustomerItem';
-import DiscountCoupon from './pages/discountCoupon';
+import DiscountCoupon from './pages/promotions';
 
 import Transaction from './pages/transactions';
 import Settings from './pages/settings';
@@ -54,9 +54,9 @@ import EditStoreDetails from './pages/storeDetails/subPages/EditDetails';
 import Expenses from './pages/expenses';
 import RecordExpenses from './pages/expenses/subPages/RecordExpenses';
 import Subscription from './pages/subscription';
-import SubscriptionPlans from './pages/subscription/subPages/ChoosePlan';
+import ChoosePlan from './pages/subscription/subPages/ChoosePlan';
+import CancelPlan from './pages/subscription/subPages/CancelPlan';
 import Referrals from './pages/referrals';
-
 
 
 function App() {
@@ -90,7 +90,7 @@ function App() {
                     <Route path='/dashboard/delivery-rates' element={<Delivery />}></Route>
                     <Route path='/dashboard/transactions' element={<Transaction />}></Route>
                     <Route path='/dashboard/analytics' element={<Analytics />}></Route>
-                    <Route path='/dashboard/discounts' element={<DiscountCoupon />}></Route>
+                    <Route path='/dashboard/promotions' element={<DiscountCoupon />}></Route>
 
                     <Route path='/dashboard/orders/record' element={<RecordOrder />}></Route>
                     <Route path='/dashboard/products/upload' element={<UploadProduct />}></Route>
@@ -107,9 +107,9 @@ function App() {
 
                     <Route path='/dashboard/campaigns' element={<Campaigns />}></Route>
                     <Route path='/dashboard/campaigns/run' element={<RunCampaign />}></Route>
-                    <Route path='/dashboard/store-customisation' element={<StoreCustomization />}></Route>
-                    <Route path='/dashboard/store-customisation/customise' element={<CustomizeTheme />}></Route>
-                    <Route path='/dashboard/store-customisation/preview' element={<PreviewTheme />}></Route>
+                    <Route path='/dashboard/store-customization' element={<StoreCustomization />}></Route>
+                    <Route path='/dashboard/store-customization/customize' element={<CustomizeTheme />}></Route>
+                    <Route path='/dashboard/store-customization/preview' element={<PreviewTheme />}></Route>
                     <Route path='/dashboard/integrated-apps' element={<ConnectedApps />}></Route>
                     <Route path='/dashboard/custom-domain' element={<CustomDomain />}></Route>
                     <Route path='/dashboard/custom-domain/add-domain' element={<ConnectDomain />}></Route>
@@ -117,15 +117,16 @@ function App() {
                     <Route path='/dashboard/store-details' element={<StoreDetails />}></Route>
                     <Route path='/dashboard/store-details/edit' element={<EditStoreDetails />}></Route>
 
-                    <Route path='/dashboard/discounts/create' element={<CreateDiscount />}></Route>
-                    <Route path='/dashboard/discounts/coupon/create' element={<CreateCoupon />}></Route>
-                    <Route path='/dashboard/discounts/special-sales/run' element={<RunSpecialSale />}></Route>
+                    <Route path='/dashboard/promotions/discounts/create' element={<CreateDiscount />}></Route>
+                    <Route path='/dashboard/promotions/coupon/create' element={<CreateCoupon />}></Route>
+                    <Route path='/dashboard/promotions/special-sales/run' element={<RunSpecialSale />}></Route>
                     <Route path='/dashboard/expenses' element={<Expenses />}></Route>
                     <Route path='/dashboard/expenses/record' element={<RecordExpenses />}></Route>
                     <Route path='/dashboard/expenses/:id/edit' element={<RecordExpenses />}></Route>
 
                     <Route path='/dashboard/subscription' element={<Subscription />}></Route>
-                    <Route path='/dashboard/subscription/choose-plan' element={<SubscriptionPlans />}></Route>
+                    <Route path='/dashboard/subscription/choose-plan' element={<ChoosePlan />}></Route>
+                    <Route path='/dashboard/subscription/cancel-plan' element={<CancelPlan />}></Route>
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/profile' element={<Profile />}></Route>
                     <Route path='/dashboard/referrals' element={<Referrals />}></Route>

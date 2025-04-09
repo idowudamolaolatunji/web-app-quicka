@@ -92,7 +92,7 @@ function ExportCSV({ title, data, setClose }) {
                         All {title} data will be exported, Either to the email provided or directly downloded!
                         <br />
 
-                        {store?.subscriptionType == "free" && (
+                        {store?.subscription?.type == "free" && (
                             <span style={{ paddingTop: "1rem", display: "inline-block" }}>
                                 You have <strong>"{!hasConvert ? "No" : hasConvert} More Free Exports"</strong> {!hasConvert ? "😔" : "😉"} left!{" "}
 

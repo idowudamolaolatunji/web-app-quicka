@@ -303,6 +303,7 @@ function EditDetails() {
                             
                             <LogoUploadInput
                                 logoPreview={logo.preview}
+                                hasFile={logo.file && true}
                                 handleLogoChange={handleImageChange}
                                 handleLogoRemove={handleImageRemove}
                             />

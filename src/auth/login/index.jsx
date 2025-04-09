@@ -65,6 +65,7 @@ function index() {
         handleLoading('mainLoading', true);
         setIsRequesting(true);
         handleResetResponse();
+        setShowPassword(false);
         try {
             // CHECK CONNECTION
             const connected = await isOnline();
@@ -110,6 +111,7 @@ function index() {
                 return;
             }
 
+            console.log(data?.data)
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
             setResponse({ status, message });
             setTimeout(function () {

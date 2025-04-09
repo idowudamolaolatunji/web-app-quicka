@@ -22,7 +22,7 @@ import { HiOutlineShoppingCart } from "react-icons/hi";
 
 
 
-function DashboardMenu() {
+export default function DashboardMenu() {
     const { isMenuCollapsed, showSidemenu, handleShowSidemenu, animateOut } = useDataContext();
     const { width } = useWindowSize();
     const { store } = useAuthContext();
@@ -51,7 +51,7 @@ function DashboardMenu() {
                             <MenuLink icon={<LuTags />} title='Products' link='/products' />
                             <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                             <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
-                            <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/discounts' />
+                            <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
                             <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                         </ul>
                     </div>
@@ -65,7 +65,7 @@ function DashboardMenu() {
                         <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
                         <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' />
                         <MenuLink icon={<TbWorldWww />} title='Custom Domain' link='/custom-domain' />
-                        <MenuLink icon={<BiCustomize />} title='Store Customisation' link='/store-customisation' />
+                        <MenuLink icon={<BiCustomize />} title='Store Customization' link='/store-customization' />
                     </ul>
 
                     <Line where={'Top'} value={'0.34rem'} border={1.4} />
@@ -107,7 +107,7 @@ function DashboardMenu() {
                                 <MenuLink icon={<LuTags />} title='Products' link='/products' />
                                 <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                                 <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
-                                <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/discounts' />
+                                <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
                                 <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                             </ul>
                         </div>
@@ -121,7 +121,7 @@ function DashboardMenu() {
                             <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' />
                             <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
                             <MenuLink icon={<TbWorldWww />} title='Custom Domain' link='/custom-domain' />
-                            <MenuLink icon={<BiCustomize />} title='Site Customisation' link='/store-customisation' />
+                            <MenuLink icon={<BiCustomize />} title='Site Customization' link='/store-customization' />
                         </ul>
 
                         <Line where={'Top'} value={'0.34rem'} border={1.4} />
@@ -139,5 +139,3 @@ function DashboardMenu() {
         </>
     )
 }
-
-export default DashboardMenu

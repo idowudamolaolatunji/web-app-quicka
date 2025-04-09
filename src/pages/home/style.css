@@ -18,6 +18,8 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.upgrade--link.premium,
 .home--sub {
     padding: 2rem 2rem 2.4rem;
     background-color: #242424;

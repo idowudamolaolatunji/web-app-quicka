@@ -37,16 +37,18 @@ function GetStarted() {
     
     const [stepsToComplete, setStepsToComplete] = useState(localStorage.getItem(STEPS_PROGRESS) ? JSON.parse(localStorage.getItem(STEPS_PROGRESS)) : [
         { id: 1, name: 'Onboard', tipText: 'Store and Dashboard Created!', completed: true },
-        { id: 2, name: 'hasCustomisedStore', tipText: 'Store Customized!', completed: false, shortText: 'Customize your Store' },
+        { id: 2, name: 'hasCustomizedStore', tipText: 'Store Customized!', completed: false, shortText: 'Customize your Store' },
         { id: 3, name: 'hasFirstProduct', tipText: 'First Product Uploaded!', completed: false, shortText: 'Upload First Product' },
         { id: 4, name: 'hasDeliveryRate', tipText: 'Delivery Rate Created!', completed: false, shortText: 'Set Delivery Rates' },
         { id: 5, name: 'hasPaymentDetails', tipText: 'Bank / payment Details Added!', completed: false, shortText: 'Set Payment details' }
     ]);
 
+    // console.log(stepsToComplete[1])
+
     const [showModal, setShowModal] = useState({
-        store: false,
+        customize: false,
         product: false,
-        bank: false,
+        payment: false,
         delivery: false,
         welcome: globalConnectionError ? false : true,
     });
@@ -71,10 +73,6 @@ function GetStarted() {
         )));
     };
 
-    // const handleLoading = function (key, value) {
-    //     setLoading({ ...loading, [key]: value });
-    // }
-
     const handleOpenModal = function(e) {
         const { name } = e.target;
         setShowModal({...showModal, [name]: true });
@@ -95,15 +93,14 @@ function GetStarted() {
     // THIS HERE IS BRILLIANT
     useEffect(function () {
         setLoading(true);
-
         const {
-            hasPaymentDetails, hasFirstProduct, hasDeliveryRate, hasCustomisedStore
+            hasPaymentDetails, hasFirstProduct, hasDeliveryRate, hasCustomizedStore
         } = store?.storeOnboard;
 
         updateState("hasFirstProduct", hasFirstProduct);
         updateState("hasDeliveryRate", hasDeliveryRate);
         updateState("hasPaymentDetails", hasPaymentDetails);
-        updateState("hasCustomisedStore", hasCustomisedStore);
+        updateState("hasCustomizedStore", hasCustomizedStore);
 
         setTimeout(() => setLoading(false), 200);
     }, [showModal]);
@@ -146,7 +143,7 @@ function GetStarted() {
     }
 
     return (
-        <>
+        <React.Fragment>
             {loading && <Spinner />}
             {(response.status || response.message) && (
                 <CustomAlert type={response.status} message={response.message} />
@@ -190,13 +187,13 @@ function GetStarted() {
 
                 {/* GET STARTED ITEMS */}
                 <div className="get-started-opts">
-                    <div className={`opts--items ${handleCheckIfCompleted("hasCustomisedStore") ? 'is-completed' : ''}`}>
+                    <div className={`opts--items ${handleCheckIfCompleted("hasCustomizedStore") ? 'is-completed' : ''}`}>
                         <div className="opts--heading">
                             <span className='opts--icon'><MdOutlineStorefront /></span>
                             <h3>Customize your online store.</h3>
                         </div>
                         <p>Select a theme, upload your logo, choose colors, and add images to customize your website.</p>
-                        <button name='store' onClick={handleOpenModal}>{handleCheckIfCompleted("hasCustomisedStore") ? <CompletedTagUI /> : 'Customize store'}</button>
+                        <button name='customize' onClick={handleOpenModal}>{handleCheckIfCompleted("hasCustomizedStore") ? <CompletedTagUI /> : 'Customize store'}</button>
                     </div>
 
                     <div className={`opts--items ${handleCheckIfCompleted("hasFirstProduct") ? 'is-completed' : ''}`}>
@@ -231,7 +228,7 @@ function GetStarted() {
                             <h3>Add payment details for payout.</h3>
                         </div>
                         <p>Bank or payment details is needed to allow you start collecting payment when you make sales through your website.</p>
-                        <button name="bank" onClick={handleOpenModal}>{handleCheckIfCompleted("hasPaymentDetails") ? <CompletedTagUI /> : 'Set up payment'}</button>
+                        <button name="payment" onClick={handleOpenModal}>{handleCheckIfCompleted("hasPaymentDetails") ? <CompletedTagUI /> : 'Set up payment'}</button>
                     </div>
                 </div>
 
@@ -244,15 +241,15 @@ function GetStarted() {
                 </BgSimple>
             )}
 
-            {(showModal.bank || showModal.delivery || showModal.product || showModal.store) && (
+            {(showModal.payment || showModal.delivery || showModal.product || showModal.customize) && (
                 <FullScreen style={{ maxWidth: '100rem', margin: '0 auto' }}>
-                    {showModal.bank && <BankDetails isnew close={() => handleCloseModal('bank')} />}
-                    {showModal.store && <StoreCustom isnew  close={() => handleCloseModal('store')} />}
+                    {showModal.payment && <BankDetails isnew close={() => handleCloseModal('payment')} />}
+                    {showModal.customize && <StoreCustom isnew  close={() => handleCloseModal('customize')} />}
                     {showModal.product && <UploadProduct isnew close={() => handleCloseModal('product')} />}
                     {showModal.delivery && <CreateDelivery isnew close={() => handleCloseModal('delivery')} />}
                 </FullScreen>
             )}
-        </>
+        </React.Fragment>
     )
 }
 

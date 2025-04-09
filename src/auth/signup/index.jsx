@@ -103,7 +103,8 @@ function index() {
         }
         
         handleLoading('mainLoading', true);
-        handleResetResponse()
+        handleResetResponse();
+        setShowPassword({ main: false, confirm: false });
         try {
             // CHECK CONNECTION
             const connected = await isOnline();

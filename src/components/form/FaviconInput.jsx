@@ -9,7 +9,7 @@ export default function FaviconInput({ preview, handleChange }) {
     const [response, setResponse] = useState({ status: "", message: "" });
 
     const handleClick = function () {
-        if (store?.subscriptionType == "paid") return;
+        if (store?.subscription?.type == "paid") return;
         setResponse({ status: "error", message: "Only for paid users" });
 
         setTimeout(() => {
@@ -27,7 +27,7 @@ export default function FaviconInput({ preview, handleChange }) {
                 <span><img src={preview || (store?.favicon?.url ? store?.favicon?.url : fav_demo)} alt="brand logo" /></span>
 
                 <div className='form--item'>
-                    {store?.subscriptionType == "paid" && (
+                    {store?.subscription?.type == "paid" && (
                         <input type='file' id="favicon" name="favicon" onChange={handleChange} accept="image/*" />
                     )}
 

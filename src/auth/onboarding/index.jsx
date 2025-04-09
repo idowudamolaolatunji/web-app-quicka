@@ -329,6 +329,7 @@ function index() {
                                     <label className="form--label" htmlFor='logo'>Business Logo (Optional)</label>
                                     <LogoUploadInput
                                         logoPreview={image.preview}
+                                        hasFile={image.file && true}
                                         handleLogoChange={handleImageChange}
                                         handleLogoRemove={handleImageRemove}
                                     />

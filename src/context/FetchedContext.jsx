@@ -91,7 +91,7 @@ export const FetchedProvider = ({ children }) => {
     const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || deliveryError || campaignError || discountError || couponError || storeSaleError );
 
     const handleGlobalRefetch = function() {
-        handleFetchStore()
+        handleFetchStore();
         handleFetchMyStoreOrders();
         handleFetchMyStoreProducts();
         handleFetchMyStoreCustomers()
@@ -426,7 +426,6 @@ export const FetchedProvider = ({ children }) => {
         setspecial_sales([]);
 
         if(token && user) {
-            handleFetchStore()
             handleFetchMyStoreOrders();
             handleFetchMyStoreProducts();
             handleFetchMyStoreCustomers();

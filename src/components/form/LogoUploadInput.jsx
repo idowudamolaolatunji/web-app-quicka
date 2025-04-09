@@ -4,7 +4,7 @@ import { useAuthContext } from '../../context/AuthContext'
 import logo_demo from '../../assets/images/dummy_items/demo_quicka_logo.png'
 
 
-function LogoUploadInput({ name="logo", logoPreview, handleLogoChange, handleLogoRemove }) {
+function LogoUploadInput({ name="logo", logoPreview, hasFile, handleLogoChange, handleLogoRemove }) {
     const { store } = useAuthContext()
 
   return (
@@ -17,7 +17,7 @@ function LogoUploadInput({ name="logo", logoPreview, handleLogoChange, handleLog
             <div className="flex" style={{ flexDirection: "row" }}>
                 <label htmlFor={name} className='form--upload-btn'>{(store?.storeLogo?.url || logoPreview) ? "Change" : "Upload"} Logo</label>
 
-                {logoPreview && <button onClick={handleLogoRemove} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
+                {hasFile && <button onClick={handleLogoRemove} className='form--upload-btn' style={{ padding: ".45rem .68rem", fontSize: "2rem", color: "red", backgroundColor: "#eee" }}><AiOutlineDelete /></button>}
             </div>
             <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>
                 Recommended size <i className='value'> 256x256</i> <br />PNG, SVG or JPG up to 2MB.

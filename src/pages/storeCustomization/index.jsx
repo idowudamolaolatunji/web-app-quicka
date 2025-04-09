@@ -38,7 +38,7 @@ function index() {
 
             <div className='page__section--heading'>
                 <span>
-                    <h2 className="page__section--title">Store Customisation</h2>
+                    <h2 className="page__section--title">Store customization</h2>
                     <p className='page__section--text'>Personalize your store's appearance with our customizable themes.</p>
                 </span>
             </div>
@@ -71,7 +71,7 @@ function index() {
 
                         <figure className={`theme__figure custom--display ${template == "basic" ? "active" : ""}`}>
                             <div className={`theme__figure--display ${template == "basic" ? "active" : ""}`}>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise?theme=basic")}>Customize</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customize?theme=basic")}>Customize</button>
 
                                 <Template1 logo={demo_logo} />
                             </div>
@@ -83,7 +83,7 @@ function index() {
                                 </span>
 
                                 {template !== "basic" && (
-                                    <button className='theme__figure--btn' onClick={() => navigate("customise?theme=basic")}>Preview</button>
+                                    <button className='theme__figure--btn' onClick={() => navigate("customize?theme=basic")}>Preview</button>
                                 )}
                             </figcaption>
                         </figure>
@@ -93,7 +93,7 @@ function index() {
 
                         <figure className={`theme__figure custom--display ${template == "minimalist" ? "active" : ""}`}>
                             <div className={`theme__figure--display ${template == "minimalist" ? "active" : ""}`}>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise?theme=minimalist")}>Customize</button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customize?theme=minimalist")}>Customize</button>
 
                                 <Template1 logo={demo_logo} />
                             </div>
@@ -105,7 +105,7 @@ function index() {
                                 </span>
 
                                 {template !== "minimalist" && (
-                                    <button className='theme__figure--btn' onClick={() => navigate("customise?theme=minimalist")}>Preview</button>
+                                    <button className='theme__figure--btn' onClick={() => navigate("customize?theme=minimalist")}>Preview</button>
                                 )}
                             </figcaption>
                         </figure>
@@ -132,12 +132,12 @@ function index() {
                                     <h3 className='theme__figure--title'>Elegant</h3>
                                     <span className='theme__figure--type'>Premium</span>
                                 </span>
-                                <button className='theme__figure--btn' onClick={() => navigate("customise/3")}>Use Theme </button>
+                                <button className='theme__figure--btn' onClick={() => navigate("customize/3")}>Use Theme </button>
                             </div>
                         </figure>
                     </div> */}
 
-                    <ComingSoon feature="Premium theme" />
+                    <ComingSoon feature="Premium theme" action={false} />
                 </div>
 
 
