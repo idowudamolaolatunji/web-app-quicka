@@ -309,3 +309,38 @@ export function validateCollectionForm(name) {
 
 	return error;
 }
+
+
+export function validateDiscountForm(data, currency) {
+	const errors = {};
+
+	if (!data.title.trim()) {
+		errors.title = "Discount title is required";
+	} else if (data.title.length < 3) {
+		errors.title = "Discount title must be more than 3 characters!";
+	}
+
+	if (data.discountType == "no-discount") {
+		errors.discountType = "A discount type is required";
+	}
+
+	if (data.discountType != "no-discount" && !data.discountValue) {
+		errors.discountValue = "Discount value is required";
+	} else if (+data.discountValue < 1) {
+		errors.discountValue = `Discount value cannot be ${data.discountType == "percentage" ? "0%" : currency + "0"}`;
+	}
+
+	if (data.selectionType != "all" && data.discountProducts.length < 1) {
+		errors.discountProducts = "Select at least one product for discount";
+	}
+
+	if (data.setvalidity && !data.startDate) {
+		errors.startDate = "Start Date is required";
+	} 
+	
+	if (data.setvalidity && !data.endDate) {
+		errors.endDate = "End Date is required";
+	}
+
+	return errors;
+}

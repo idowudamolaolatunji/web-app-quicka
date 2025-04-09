@@ -13,14 +13,16 @@ import ProductPreview from '../../../components/layout/ProductPreview.jsx';
 import { discountSelectionTypeData } from "../../../utils/data.jsx";
 import { FaCheck } from 'react-icons/fa';
 import Info from '../../../components/elements/Info.jsx';
+import { validateDiscountForm } from '../../../utils/validationHelper.js';
 
 
 export default function CreateDiscount() {
     const navigate = useNavigate();
     const { id } = useParams();
     const { width } = useWindowSize();
-    const { currency } = useAuthContext();
-    const { products, } = useFetchedContext()
+    const { currency, headers, shouldKick } = useAuthContext();
+    const { products, handleFetchError, handleFetchMyStoreDiscounts } = useFetchedContext()
+    const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     //////////////////////////////////////////////////////////
     const [selection, setSelection] = useState([discountSelectionTypeData[1] || []]);
@@ -53,6 +55,7 @@ export default function CreateDiscount() {
             startDate: "",
             endDate: ""
         });
+        setDiscountProducts([])
 
         window?.scrollTo({ top: 0, behavior: "smooth" });
         setDiscountFormErrors({});
@@ -84,7 +87,61 @@ export default function CreateDiscount() {
     }, []);
 
 
-    async function handleSubmitDiscount() {}
+    async function handleSubmitDiscount() {
+        let formData = {
+            ...discountData,
+            discountProducts
+        }
+
+        const newErrors = validateDiscountForm(formData, currency);
+        console.log(newErrors)
+        setDiscountFormErrors(newErrors);
+        if (Object.keys(newErrors).length >= 1) {
+            setResponse({ status: "error", message: "Fill required fields to proceed!" });
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
+            return;
+        };
+
+        // SET LOADER
+        handleResetResponse()
+        setLoading(true);
+
+        const parameter = id ? `/${id}` : "/"
+        const itemIds = discountProducts?.map(product => product?._id);
+
+        try {
+            // MAKE REQUEST
+            const res = await fetch(`${BASE_API_URL}/discounts${parameter}`, {
+                headers,
+                method: id ? "PATCH" : "POST",
+                body: JSON.stringify({
+                    ...discountData,
+                    itemIds,
+                })
+            });
+            shouldKick(res);
+
+            const data = await res.json();
+            if (res?.status != 201 && data?.status !== 'success') {
+                throw new Error(data?.message);
+            }
+            
+            // CLEAR FIELDS AND SET RESPONSE MESSAGE
+            handleClearFields();
+            setResponse({ status: "success", message: data?.message });
+            setShowConfetti(true);
+
+            setTimeout(function () {
+                handleFetchMyStoreDiscounts()
+            }, 1000);
+
+        } catch (err) {
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
+        } finally {
+            setLoading(false)
+        }
+    }
 
 
     return (
@@ -113,8 +170,8 @@ export default function CreateDiscount() {
                     </div>
 
                     <div className="form--item">
-                        <label htmlFor="name" className="form--label">Discount Title <Asterisk /></label>
-                        <input type="text" name="name" id="name" value={discountData.title} onChange={handleChangeDiscountData} className="form--input" placeholder="Discount title, Example: Sales Discount" />
+                        <label htmlFor="title" className="form--label">Discount Title <Asterisk /></label>
+                        <input type="text" name="title" id="title" value={discountData.title} onChange={handleChangeDiscountData} className="form--input" placeholder="Discount title, Example: Sales Discount" />
                         <span className="form--error-message">
                             {discountFormErrors.title && discountFormErrors.title}
                         </span>
@@ -133,6 +190,9 @@ export default function CreateDiscount() {
                             >Fixed Value ({currency})<span></span>
                             </div>
                         </div>
+                        <span className="form--error-message">
+                            {discountFormErrors.discountType && discountFormErrors.discountType}
+                        </span>
                     </div>
 
 
@@ -169,9 +229,6 @@ export default function CreateDiscount() {
                                         decimalsLimit={0}
                                         onValueChange={(value, name, _) => setDiscountData({ ...discountData, [name]: value })}
                                     />
-                                    <span className="form--error-message">
-                                        {discountFormErrors.discountValue && discountFormErrors.discountValue}
-                                    </span>
                                 </div>
                             )}
                         </div>

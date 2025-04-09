@@ -37,38 +37,38 @@ const special_sales_emptyBtns = [
     { title: <><VscRunCoverage />Run Store Sales</>, link: "/dashboard/promotions/special-sales/run" },
 ];
 
-// const dataTest = [
-//     {
-//         _id: "342593780f797d9ec2115cbd",
-//         store: "6794dfc7a535c14711135078",
-//         title: "10% Discount",
-//         startDate: "2025-01-29T01:44:24.808Z",
-//         endDate: "2025-02-27T01:44:24.812Z",
-//         status: "active",
-//         couponType: "percentage",
-//         couponGroup: "all",
-//         couponItems: null,
-//         couponValue: 10,
-//         couponValueInFigure: "10%",
-//         couponValidity: "60days",
-//         couponCode: "394EIDJS"
-//     },
-//     {
-//         _id: "679593780f797d9ec2115cbd",
-//         store: "6794dfc7a535c14711135078",
-//         title: "New Product Discount",
-//         couponType: "fixed-price",
-//         couponGroup: "bundle",
-//         couponItems: ["494989839id9dif93i9", "8838473e387e387e83"],
-//         couponValue: 10000,
-//         status: "inactive",
-//         couponValueInFigure: "₦33,433",
-//         startDate: "2025-01-26T01:44:24.808Z",        
-//         endDate: "2025-03-27T01:44:24.812Z",
-//         couponValidity: "60days",
-//         couponCode: "JDN833E3"
-//     }
-// ]
+const dataTest = [
+    {
+        _id: "342593780f797d9ec2115cbd",
+        store: "6794dfc7a535c14711135078",
+        title: "10% Discount",
+        startDate: "2025-01-29T01:44:24.808Z",
+        endDate: "2025-02-27T01:44:24.812Z",
+        status: "active",
+        couponType: "percentage",
+        couponGroup: "all",
+        couponItems: null,
+        couponValue: 10,
+        couponValueInFigure: "10%",
+        couponValidity: "60days",
+        couponCode: "394EIDJS"
+    },
+    {
+        _id: "679593780f797d9ec2115cbd",
+        store: "6794dfc7a535c14711135078",
+        title: "New Product Discount",
+        couponType: "fixed-price",
+        couponGroup: "bundle",
+        couponItems: ["494989839id9dif93i9", "8838473e387e387e83"],
+        couponValue: 10000,
+        status: "inactive",
+        couponValueInFigure: "₦33,433",
+        startDate: "2025-01-26T01:44:24.808Z",        
+        endDate: "2025-03-27T01:44:24.812Z",
+        couponValidity: "60days",
+        couponCode: "JDN833E3"
+    }
+]
 
 // const dataTestD = [
 //     {
@@ -298,7 +298,7 @@ function index() {
             emptyImg={activeTab == "discount" ? discount_emptyImg : activeTab == "coupon" ? coupon_emptyImg : special_sales_emptyImg}
             emptyBtns={activeTab == "discount" ? discount_emptyBtns : activeTab == "coupon" ? coupon_emptyBtns : special_sales_emptyBtns}
             emptyTitle={activeTab == "discount" ? discount_emptyTitle : activeTab == "coupon" ? coupon_emptyTitle : special_sales_emptyTitle}
-            addUrl={activeTab == "discount" ? "discounts/create" : activeTab == "coupon" ? "discounts/coupon/create" : "discounts/special-sales/run"}
+            addUrl={activeTab == "discount" ? "promotions/discounts/create" : activeTab == "coupon" ? "promotions/coupon/create" : "promotions/special-sales/run"}
             loader={loader} error={error}
             hasLink={false}
             headTabs={<HeadTabs />}
