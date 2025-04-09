@@ -326,12 +326,57 @@ export function validateDiscountForm(data, currency) {
 
 	if (data.discountType != "no-discount" && !data.discountValue) {
 		errors.discountValue = "Discount value is required";
-	} else if (+data.discountValue < 1) {
+	} else if (data.discountType != "no-discount" && Number(data.discountValue) < 1) {
 		errors.discountValue = `Discount value cannot be ${data.discountType == "percentage" ? "0%" : currency + "0"}`;
 	}
 
 	if (data.selectionType != "all" && data.discountProducts.length < 1) {
 		errors.discountProducts = "Select at least one product for discount";
+	}
+
+	if (data.setvalidity && !data.startDate) {
+		errors.startDate = "Start Date is required";
+	} 
+	
+	if (data.setvalidity && !data.endDate) {
+		errors.endDate = "End Date is required";
+	}
+
+	return errors;
+}
+
+export function validateCouponForm(data, currency) {
+	const errors = {};
+
+	if (!data.title.trim()) {
+		errors.title = "Discount title is required";
+	} else if (data.title.length < 3) {
+		errors.title = "Discount title must be more than 3 characters!";
+	}
+
+	if (!data.couponCode) {
+		errors.couponCode = "Generate a coupon code";
+	}
+
+	if (data.couponType == "none") {
+		errors.couponType = "Select a coupon type";
+	}
+
+	console.log(data.couponValue)
+	if (data.couponType != "none" && !data.couponValue) {
+		errors.couponValue = "Coupon value is required";
+	} else if (data.couponType != "none" && Number(data.couponValue) < 1) {
+		errors.couponValue = `Coupon value cannot be ${data.couponType == "percentage" ? "0%" : currency + "0"}`;
+	}
+	
+	if (data.couponGroup == "collections" && data.couponCollection.length < 1) {
+		errors.couponCollection = "Select at least one product collection for this coupon";
+	}
+	if (data.couponGroup == "single" && data.couponProducts.length < 1) {
+		errors.couponProducts = "Select at least one product for this coupon";
+	}
+	if (data.couponGroup == "bundle" && data.couponProducts.length < 2) {
+		errors.couponProducts = "Select at least (2) products for this coupon";
 	}
 
 	if (data.setvalidity && !data.startDate) {

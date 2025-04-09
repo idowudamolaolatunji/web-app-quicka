@@ -17,14 +17,16 @@ import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import ProductPreview from '../../../components/layout/ProductPreview.jsx';
 import MainDropdownSelect from '../../../components/form/MainDropdownSelect.jsx';
 import { FaCheck } from 'react-icons/fa';
+import { validateCouponForm } from '../../../utils/validationHelper.js';
 
 
 export default function CreateCoupon() {
     const navigate = useNavigate();
     const { id } = useParams();
     const { width } = useWindowSize();
-    const { currency } = useAuthContext();
-    const { products, collections } = useFetchedContext()
+    const { currency, shouldKick, headers } = useAuthContext();
+    const { products, collections, handleFetchMyStoreCoupons, handleFetchError  } = useFetchedContext()
+    const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     //////////////////////////////////////////////////////////
     const [isGenerated, setIsGenerated] = useState(false);
@@ -42,7 +44,6 @@ export default function CreateCoupon() {
         title: "",
         couponValue: null,
         couponType: "none",
-        couponItems: [],
         maxDiscountValue: null,
         couponGroup: "all",
         setvalidity: true,
@@ -61,7 +62,6 @@ export default function CreateCoupon() {
             title: "",
             couponValue: null,
             couponType: "none",
-            couponItems: [],
             maxDiscountValue: null,
             couponGroup: "all",
             setvalidity: true,
@@ -123,7 +123,63 @@ export default function CreateCoupon() {
     }, [couponData.couponCode])
 
 
-    async function handleSubmitCoupon() {}
+    async function handleSubmitCoupon() {
+        let formData = {
+            ...couponData,
+            couponProducts,
+            couponCollection
+        }
+
+        const newErrors = validateCouponForm(formData, currency);
+        console.log(newErrors)
+        setCouponFormErrors(newErrors);
+        if (Object.keys(newErrors).length >= 1) {
+            setResponse({ status: "error", message: "Fill required fields to proceed!" });
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
+            return;
+        };
+
+        // SET LOADER
+        handleResetResponse()
+        setLoading({ ...loading, main: true });
+
+        const parameter = id ? `/${id}` : "/"
+        const productIds = couponProducts?.map(product => product?._id);
+        const collectionIds = couponCollection?.map(collection => collection?._id);
+        const itemIds = couponData.couponGroup == "collections" ? collectionIds : productIds
+        try {
+            // MAKE REQUEST
+            const res = await fetch(`${BASE_API_URL}/coupons${parameter}`, {
+                headers,
+                method: id ? "PATCH" : "POST",
+                body: JSON.stringify({
+                    ...couponData,
+                    itemIds,
+                })
+            });
+            shouldKick(res);
+
+            const data = await res.json();
+            if (res?.status != 201 && data?.status !== 'success') {
+                throw new Error(data?.message);
+            }
+            
+            // CLEAR FIELDS AND SET RESPONSE MESSAGE
+            handleClearFields();
+            setResponse({ status: "success", message: data?.message });
+            setShowConfetti(true);
+
+            setTimeout(function () {
+                handleFetchMyStoreCoupons()
+            }, 1000);
+
+        } catch (err) {
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
+        } finally {
+        setLoading({ ...loading, main: false });
+        }
+    }
 
 
     return (
@@ -155,7 +211,7 @@ export default function CreateCoupon() {
                     <div className="form--grid">
                         <div className="form--item">
                             <label htmlFor="title" className="form--label">Coupon Title <Asterisk /></label>
-                            <input type="text" name="title" id="title" value={couponData.title} onChange={handleChangeCouponData} className="form--input" placeholder="Coupon title, Example: 10% Discount" />
+                            <input type="text" name="title" id="title" value={couponData.title} onChange={handleChangeCouponData} className="form--input" placeholder="Coupon title, Example: 10% Off Sales" />
                             <span className="form--error-message">
                                 {couponFormErrors.title && couponFormErrors.title}
                             </span>
@@ -178,7 +234,7 @@ export default function CreateCoupon() {
 
                     
                     <div className="form--item">
-                        <label htmlFor="discount-price" className="form--label">Coupon Type <Asterisk /></label>
+                        <label className="form--label">Coupon Type <Asterisk /></label>
                         <div className="form--clicks" style={width < 500 ? { gridTemplateColumns: "repeat(2, 1fr)" } : {}}>
                             <div className={`form--click ${couponData.couponType == "none" ? 'is-selected' : ''}`} onClick={() => setCouponData({ ...couponData, couponType: "none" })}
                             >None<span></span>
@@ -190,16 +246,19 @@ export default function CreateCoupon() {
                             >Fixed Value ({currency})<span></span>
                             </div>
                         </div>
+                        <span className="form--error-message">
+                            {couponFormErrors.couponType && couponFormErrors.couponType}
+                        </span>
                     </div>
 
                     {(couponData.couponType !== "none") && (
                         <React.Fragment>
                             <div className={couponData.couponType == "percentage" ? "form--grid" : ""}>
                                 <div className="form--item">
-                                    <label htmlFor="discount-price" className="form--label">Discount {couponData.couponType == "percentage" ? "Percentage (%)" : `Price (${currency})`} <Asterisk /></label>
+                                    <label htmlFor="coupon-price" className="form--label">Coupon {couponData.couponType == "percentage" ? "Percentage (%)" : `Price (${currency})`} <Asterisk /></label>
                                     <CurrencyInput
-                                        id="discount-price"
-                                        name="discountValue"
+                                        id="coupon-price"
+                                        name="couponValue"
                                         className="form--input"
                                         placeholder={couponData.couponType == "fixed-price" ? `${currency}7,000` : "20%"}
                                         value={couponData.couponValue}
@@ -215,9 +274,9 @@ export default function CreateCoupon() {
 
                                 {couponData.couponType == "percentage" && (
                                     <div className="form--item">
-                                        <label htmlFor="discount-price" className="form--label">Maximum Discount Amount (optional)</label>
+                                        <label htmlFor="coupon-price" className="form--label">Maximum Discount Amount (optional)</label>
                                         <CurrencyInput
-                                            id="discount-price"
+                                            id="coupon-price"
                                             name="maxDiscountValue"
                                             className="form--input"
                                             placeholder={`${currency}7,000`}
@@ -226,9 +285,6 @@ export default function CreateCoupon() {
                                             decimalsLimit={0}
                                             onValueChange={(value, name, _) => setCouponData({ ...couponData, [name]: value })}
                                         />
-                                        <span className="form--error-message">
-                                            {couponFormErrors.couponValue && couponFormErrors.couponValue}
-                                        </span>
                                     </div>
                                 )}
                             </div>

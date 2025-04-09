@@ -40,9 +40,9 @@ export const FetchedProvider = ({ children }) => {
     const [customerLoader, setCustomerLoader] = useState(true);
     const [collectionLoader, setCollectionLoader] = useState(true);
     const [transactionLoader, setTransactionLoader] = useState(true);
+    const [couponLoader, setCouponLoader] = useState(true);
+    const [discountLoader, setDiscountLoader] = useState(true);
     const [campaignLoader, setCampaignLoader] = useState(false);
-    const [couponLoader, setCouponLoader] = useState(false);
-    const [discountLoader, setDiscountLoader] = useState(false);
     const [storeSaleLoader, setStoreSaleLoader] = useState(false);
     const [settlementLoader, setSettlementLoader] = useState(false);
 
@@ -100,10 +100,10 @@ export const FetchedProvider = ({ children }) => {
         handleFetchMyStoreCollections();
         handleFetchMyStoreDeliveryRates();
         handleFetchMyStoreDiscounts();
+        handleFetchMyStoreCoupons();
         /////////////////////////////////////
         // handleFetchMyStoreSettlements();
         // handleFetchMyStoreCampaigns();
-        // handleFetchMyStoreCoupons();
         // handleFetchMyStoreRunningSales();
         
     }
@@ -436,9 +436,9 @@ export const FetchedProvider = ({ children }) => {
             handleFetchMyStoreDeliveryRates();
             handleFetchMyStoreTransactions();
             handleFetchMyStoreDiscounts();
+            handleFetchMyStoreCoupons();
             // handleFetchMyStoreSettlements();
             // handleFetchMyStoreCampaigns();
-            // handleFetchMyStoreCoupons();
             // handleFetchMyStoreRunningSales();
         }
     }, [token, user])
