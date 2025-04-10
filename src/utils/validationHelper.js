@@ -349,9 +349,9 @@ export function validateCouponForm(data, currency) {
 	const errors = {};
 
 	if (!data.title.trim()) {
-		errors.title = "Discount title is required";
+		errors.title = "Coupon title is required";
 	} else if (data.title.length < 3) {
-		errors.title = "Discount title must be more than 3 characters!";
+		errors.title = "Coupon title must be more than 3 characters!";
 	}
 
 	if (!data.couponCode) {
@@ -362,7 +362,6 @@ export function validateCouponForm(data, currency) {
 		errors.couponType = "Select a coupon type";
 	}
 
-	console.log(data.couponValue)
 	if (data.couponType != "none" && !data.couponValue) {
 		errors.couponValue = "Coupon value is required";
 	} else if (data.couponType != "none" && Number(data.couponValue) < 1) {
@@ -387,5 +386,27 @@ export function validateCouponForm(data, currency) {
 		errors.endDate = "End Date is required";
 	}
 
+	return errors;
+}
+
+export function validateExpensesForm(data, currency) {
+	const errors = {};
+
+	if (!data.title.trim()) {
+		errors.title = "Expenses title is required";
+	} else if (data.title.length < 3) {
+		errors.title = "Expenses title must be more than 3 characters!";
+	}
+
+	if (!data.amount) {
+		errors.amount = "Expenses amount is required";
+	} else if (Number(data.amount) < 1) {
+		errors.amount = `Expenses amount cannot be ${currency}0`;
+	}
+
+	if (!data.date) {
+		errors.date = "Expenses Date is required";
+	}
+	
 	return errors;
 }

@@ -58,7 +58,7 @@ export default function CreateDelivery({ close, isnew, isModal }) {
     }
 
     useEffect(function () {
-        document.title = "Quicka | Delivery Rates"
+        document.title = `Quicka | ${id ? `Editing ${deliveryData.title} rate` : "Creating Rate"}`
         !isnew && window.scrollTo(100, 0);
     }, []);
 

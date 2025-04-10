@@ -5,7 +5,7 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
-import { formatDate, formatNumber } from '../../utils/helper';
+import { dateTimeFormat, formatNumber } from '../../utils/helper';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
@@ -24,7 +24,7 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     
-    const { loader, error, expenses, handleDeleteOneItem, handleFetchMyStorEexpenses } = useFetchedContext();
+    const { loader, error, expenses, handleDeleteOneItem, handleFetchMyStoreExpenses } = useFetchedContext();
     const currency = store?.currency?.symbol;
 
     ////////////////////////////////////////////////////////
@@ -43,25 +43,23 @@ function index() {
             selector: row => <span className='table--info'>
                 <h3>{row?.title}</h3>
             </span>,
-            width: width > 600 && "25%",
+            width: width > 600 && "20%",
         },
         {
             name: "Expense Amount",
             selector: row => (
-              <p className='value'>{currency}{formatNumber(row?.fee)}</p>
+              <p className='value'>{currency}{formatNumber(row?.amount)}</p>
             ),
         },
         {
             name: 'Addtional description',
-            selector: row => (
-                <p className='value'>{currency}{formatNumber(row?.fee)}</p>
-            ),
+            selector: row => row?.description || "--",
         },
         {
-            name: 'Created Date',
+            name: 'Expenses Date',
             selector: row => (
-                <TooltipUI placement='top' title={formatDate(row?.createdAt)}>
-                    <p className='value'>{formatDate(row?.createdAt)}</p>
+                <TooltipUI placement='top' title={dateTimeFormat(row?.date || row?.createdAt)}>
+                    <p className='value'>{dateTimeFormat(row?.date || row?.createdAt)}</p>
                 </TooltipUI>
             ),
         },
@@ -80,7 +78,7 @@ function index() {
             <div className='content'>
                 <span className='flex'>
                     <TooltipUI placement='top' title="Reload Expenses">
-                        <button className='table--btn' onClick={handleFetchMyStoreDeliveryRates}><MdOutlineRefresh /></button>
+                        <button className='table--btn' onClick={handleFetchMyStoreExpenses}><MdOutlineRefresh /></button>
                     </TooltipUI>
                 </span>
             </div>
@@ -93,25 +91,25 @@ function index() {
     }, []);
     
 
-    // async function deleteItem() {
-    //     try {
-    //         setDeleteLoader(true)
-    //         await handleDeleteOneItem("expense", selectedId);
-    //         handleFetchMyStoreDeliveryRates();
-    //         setShowModal(false)
-    //     } catch(err) {
-    //         console.log(err);
-    //     } finally {
-    //         setDeleteLoader(false);
-    //     }
-    // }
+    async function deleteItem() {
+        try {
+            setDeleteLoader(true)
+            await handleDeleteOneItem("expenses", selectedId);
+            handleFetchMyStoreExpenses();
+            setShowModal(false)
+        } catch(err) {
+            console.log(err);
+        } finally {
+            setDeleteLoader(false);
+        }
+    }
 
     return (
         <PageUI
             columns={columns}
             data={expenses}
             items={expenses}
-            pageName="expense"
+            pageName="expenses"
             shouldSelect={true}
             addBtnStr="Record Expenses"
             emptyText={emptyText}
@@ -125,13 +123,13 @@ function index() {
             pointOnHover={false}
             loader={loader} error={error}
 
-            // deleteObj={{ 
-            //     fn: deleteItem,
-            //     title: "delivery rate",
-            //     close: setShowModal,
-            //     show: showModal,
-            //     loader: deleteLoader
-            // }}
+            deleteObj={{ 
+                fn: deleteItem,
+                title: "expenses",
+                close: setShowModal,
+                show: showModal,
+                loader: deleteLoader
+            }}
         />
     )
 }

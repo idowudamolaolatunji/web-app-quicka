@@ -28,6 +28,7 @@ export const FetchedProvider = ({ children }) => {
     const [campaigns, setCampaigns] = useState([]);
     const [discounts, setDiscounts] = useState([]);
     const [coupons, setCoupons] = useState([]);
+    const [expenses, setExpenses] = useState([]);
     const [settlements, setSettlements] = useState([]);
     const [special_sales, setspecial_sales] = useState([]);
 
@@ -42,6 +43,7 @@ export const FetchedProvider = ({ children }) => {
     const [transactionLoader, setTransactionLoader] = useState(true);
     const [couponLoader, setCouponLoader] = useState(true);
     const [discountLoader, setDiscountLoader] = useState(true);
+    const [expensesLoader, setExpensesLoader] = useState(true);
     const [campaignLoader, setCampaignLoader] = useState(false);
     const [storeSaleLoader, setStoreSaleLoader] = useState(false);
     const [settlementLoader, setSettlementLoader] = useState(false);
@@ -56,6 +58,7 @@ export const FetchedProvider = ({ children }) => {
     const [campaignError, setCampaignError] = useState("");
     const [discountError, setDiscountError] = useState("");
     const [couponError, setCouponError] = useState("");
+    const [expensesError, setExpensesError] = useState("");
     const [storeSaleError, setStoreSaleError] = useState("");
     const [settlementError, setSettlementError] = useState("");
 
@@ -71,6 +74,7 @@ export const FetchedProvider = ({ children }) => {
         campaign: campaignLoader,
         discount: discountLoader,
         coupon: couponLoader,
+        expenses: expensesLoader,
         special_sales: storeSaleLoader,
         settlement: settlementLoader,
     }
@@ -84,12 +88,13 @@ export const FetchedProvider = ({ children }) => {
         transaction: transactionError,
         discount: discountError,
         coupon: couponError,
+        expenses: expensesError,
         special_sales: storeSaleError,
         settlement: settlementError,
     }
     
     // GLOBAL ERROR & GLOBAL REFETCH
-    const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || deliveryError || campaignError || discountError || couponError || storeSaleError );
+    const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || deliveryError || campaignError || discountError || couponError || expensesError || storeSaleError );
 
     const handleGlobalRefetch = function() {
         handleFetchStore();
@@ -101,6 +106,7 @@ export const FetchedProvider = ({ children }) => {
         handleFetchMyStoreDeliveryRates();
         handleFetchMyStoreDiscounts();
         handleFetchMyStoreCoupons();
+        handleFetchMyStoreExpenses();
         /////////////////////////////////////
         // handleFetchMyStoreSettlements();
         // handleFetchMyStoreCampaigns();
@@ -133,7 +139,6 @@ export const FetchedProvider = ({ children }) => {
 
     // FETCH UNPROTECTED STORE ITEM BY ID
     async function handleFetchOneItem(title, id) {
-        console.log(title);
         const productIdentifier = title == "product" ? "identifier/" : "";
         const url = `${import.meta.env.VITE_API_URL}/${title}s/${productIdentifier}${id}`;
         const res = await fetch(url, {
@@ -383,6 +388,28 @@ export const FetchedProvider = ({ children }) => {
         }
     }
 
+    // FETCH PROTECTED STORE EXPENSES
+    async function handleFetchMyStoreExpenses () {
+        setExpensesError("");
+        setExpensesLoader(true);
+        setExpenses([]);
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            const res = await fetch(`${BASE_API_URL}/expenses/mine/expenses`, { method: "GET", headers });
+            shouldKick(res);
+
+            const data = await res.json();
+            if(data.status == "fail") throw new Error();
+            if (data?.data) setExpenses(data?.data?.expenses);
+        } catch (err) {
+            const errMessage = handleFetchError(err?.message)
+            setExpensesError(errMessage)
+        } finally {
+            setExpensesLoader(false);
+        }
+    }
+
     // FETCH PROTECTED STORE RUNNING SALES
     async function handleFetchMyStoreRunningSales () {
         setStoreSaleError("");
@@ -442,6 +469,7 @@ export const FetchedProvider = ({ children }) => {
             handleFetchMyStoreTransactions();
             handleFetchMyStoreDiscounts();
             handleFetchMyStoreCoupons();
+            handleFetchMyStoreExpenses();
             // handleFetchMyStoreSettlements();
             // handleFetchMyStoreCampaigns();
             // handleFetchMyStoreRunningSales();
@@ -455,6 +483,7 @@ export const FetchedProvider = ({ children }) => {
         loader,
         orders,
         coupons,
+        expenses,
         products,
         campaigns,
         discounts,
@@ -480,6 +509,7 @@ export const FetchedProvider = ({ children }) => {
         handleFetchMyStoreDeliveryRates,
         handleFetchMyStoreDiscounts,
         handleFetchMyStoreCoupons,
+        handleFetchMyStoreExpenses,
         // handleFetchMyStoreSettlements,
         // handleFetchMyStoreCampaigns,
         // handleFetchMyStoreRunningSales,

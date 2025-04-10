@@ -10,47 +10,33 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import AddPageUI from '../../../ui/PageUI/AddPageUI';
 import isOnline from 'is-online';
-
-
-const BASE_API_URL = import.meta.env.VITE_API_URL;
+import moment from 'moment';
+import { validateExpensesForm } from '../../../utils/validationHelper';
 
 
 export default function RecordExpenses() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { headers, store, handleStore, shouldKick } = useAuthContext();
+    const { headers, store, shouldKick } = useAuthContext();
     const { handleFetchMyStoreExpenses, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
     const currency = store?.currency?.symbol;
+    const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     const [expensesFormErrors, setExpensesFormErrors] = useState({})
     const [expensesData, setExpensesData] = useState({ title: "", amount: null, date: "" });
 
-    const [image, setImage] = useState({ preview: "", file: "" })
     const [description, setDescription] = useState('')
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
 
-
-    const handleImageChange = function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setImage({ preview: imageUrl, file });
-        }
-    };
-
     const handleExpensesDataChange = function (e) {
         const { name, value } = e?.target;
-        setCollectionData({
-            ...collectionData,
+        setExpensesData({
+            ...expensesData,
             [name]: value,
         })
-    }
-
-    const handleRemoveImage = function () {
-        setImage({ preview: "", file: "" });
     }
 
     function handleClearFields() {
@@ -66,11 +52,78 @@ export default function RecordExpenses() {
     }
 
     useEffect(function () {
-        document.title = "Quicka | Record Expenses"
+        document.title = `Quicka | ${id ? `Editing ${expensesData.title} expenses` : "Recording Expenses"}`
     }, []);
 
 
-    async function handleRecordExpenses() { }
+    useEffect(function() {
+        (async () => {
+            if(id) {
+                setLoading(true);
+                const fetchedItem = await handleFetchOneItem("expense", id);
+                console.log(fetchedItem)
+
+                if(fetchedItem) {
+                    setLoading(false); 
+                    setExpensesData({
+                        title: fetchedItem?.title || "",
+                        amount: fetchedItem?.amount || null,
+                        date: new Date(fetchedItem?.date).toISOString().slice(0, 16) || ""
+                    });
+                    setDescription(fetchedItem?.description || "");
+                }
+            }
+        })();
+
+    }, [id]);
+
+
+    async function handleRecordExpenses() {
+        const newErrors = validateExpensesForm(expensesData, currency);
+        setExpensesFormErrors(newErrors);
+        if (Object.keys(newErrors).length >= 1) {
+            setResponse({ status: "error", message: "Fill required fields to proceed!" });
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
+            return;
+        };
+
+        // SET LOADER
+        setResponse({ status: "", message: "" });
+        setLoading(true);
+
+        const parameter = id ? `/${id}` : "/"
+
+        try {
+            // MAKE REQUEST
+            const res = await fetch(`${BASE_API_URL}/expenses${parameter}`, {
+                headers,
+                method: id ? "PATCH" : "POST",
+                body: JSON.stringify({ ...expensesData, description })
+            });
+
+            shouldKick(res);
+
+            const data = await res.json();
+            if (res?.status != 201 && data?.status !== 'success') {
+                throw new Error(data?.message);
+            }
+            
+            // CLEAR FIELDS AND SET RESPONSE MESSAGE
+            handleClearFields();
+            setResponse({ status: "success", message: data?.message });
+
+            setTimeout(function () {
+                handleFetchMyStoreExpenses()
+                navigate(-1);
+            }, 2000);
+
+        } catch (err) {
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
+        } finally {
+            setLoading(false);
+        }
+    }
 
 
     return (
@@ -99,7 +152,7 @@ export default function RecordExpenses() {
 
                     <div className="form--item">
                         <label htmlFor="title" className="form--label">Expenses Title <Asterisk /></label>
-                        <input type="text" id="title" className="form--input" placeholder='Bills For Sept' value={expensesData.title} onChange={handleExpensesDataChange} />
+                        <input type="text" id="title" name='title' className="form--input" placeholder={"Shop rent for " + moment().format('MMMM')} value={expensesData.title} onChange={handleExpensesDataChange} />
                         <span className="form--error-message">
                             {expensesFormErrors.title && expensesFormErrors.title}
                         </span>
@@ -116,7 +169,7 @@ export default function RecordExpenses() {
                                 value={expensesData.amount}
                                 prefix={currency}
                                 decimalsLimit={0}
-                                onValueChange={(value, name, _) => setExpensesData({ ...expensesData, anmount: value })}
+                                onValueChange={(value, name, _) => setExpensesData({ ...expensesData, amount: value })}
                             />
                             <span className="form--error-message">
                                 {expensesFormErrors.amount && expensesFormErrors.amount}
