@@ -65,34 +65,34 @@ function RecentOrders() {
     const columns = [
         {
             name: 'Channel', selector: row => (
-                <TooltipUI placement='top' title={cap1stLetter(row.channel)}>
-                    <img width={width > 450 ? "32px" : "24px"} alt={row.channel} src={imgString(row.channel)} />
+                <TooltipUI placement='top' title={cap1stLetter(row?.channel)}>
+                    <img width={width > 450 ? "32px" : "24px"} alt={row?.channel} src={imgString(row?.channel)} />
                 </TooltipUI>
             ), width: '70px'
         },
         {
             name: 'Order Id', selector: row => (
-                <p className='value'>{row.orderId}</p>
+                <p className='value'>{row?.orderId}</p>
             ), width: '100px'
         },
         {
-            name: 'Custumer', selector: row => row.customer?.name || "-- Not Added --",
+            name: 'Custumer', selector: row => row?.customer?.name || "-- Not Added --",
             width: '150px'
         },
         {
             name: 'Product', selector: row => (
                 <TooltipUI placement='top' title={
                     <ul className='table--list'>
-                        {row.products?.map((item, index) => (
+                        {row?.products?.map((item, index) => (
                             <li key={index}><IoArrowRedoOutline /> {item?.name}</li>
                         ))}
                     </ul>
                 }>
                     <ul className='table--list'>
-                        {row.products?.slice(0, 3)?.map((item, index) => (
+                        {row?.products?.slice(0, 3)?.map((item, index) => (
                             <li key={index}><IoArrowRedo /> {truncateString(item?.name, 18)}</li>
                         ))}
-                        {row.products?.length > 3 && <li>...</li>}
+                        {row?.products?.length > 3 && <li>...</li>}
                     </ul>
                 </TooltipUI>
             ),
@@ -107,31 +107,31 @@ function RecentOrders() {
         {
             name: 'Payment', selector: row => (
                 <span className={`status status--${( row?.paymentStatus != "unpaid" ? "success" : "pending" )}`}>
-                    <p><GoDotFill />{row.paymentStatus}</p>
+                    <p><GoDotFill />{row?.paymentStatus}</p>
                 </span>
             ),
             width: '120px'
         },
         {
             name: 'Delievery', selector: row => (
-                <span className={`status status--${(row.deliveryStatus)}`}>
-                    <p><GoDotFill />{row.deliveryStatus}</p>
+                <span className={`status status--${(row?.deliveryStatus)}`}>
+                    <p><GoDotFill />{row?.deliveryStatus}</p>
                 </span>
             ),
             width: '135px'
         },
         {
             name: 'Status', selector: row => (
-                <span className={`status status--${(row.orderStatus)}`}>
-                    <p><GoDotFill />{row.orderStatus}</p>
+                <span className={`status status--${(row?.orderStatus)}`}>
+                    <p><GoDotFill />{row?.orderStatus}</p>
                 </span>
             ),
             width: '120px'
         },
         {
             name: 'Date Ordered', selector: row => (
-                <TooltipUI placement='top' title={formatDate(row.orderDate)}>
-                    <p>{formatDate(row.orderDate)}</p>
+                <TooltipUI placement='top' title={formatDate(row?.orderDate)}>
+                    <p>{formatDate(row?.orderDate)}</p>
                 </TooltipUI>
             ), width: '150px'
         },
@@ -162,7 +162,7 @@ function RecentOrders() {
                         columns={columns}
                         pointerOnHover={true}
                         customStyles={customStyles}
-                        onRowClicked={(row) => navigate(`/dashboard/orders/${row.id}`)}
+                        onRowClicked={(row) => navigate(`/dashboard/orders/${row?.id}`)}
                         noDataComponent={<Empty text="recent orders yet!" />}
                     />
                 </div>

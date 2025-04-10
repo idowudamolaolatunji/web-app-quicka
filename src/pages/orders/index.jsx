@@ -48,30 +48,30 @@ function index() {
     const columns = [
         {
             name: "Channel", selector: row => (
-                <TooltipUI placement="top" title={cap1stLetter(row.channel)}>
-                    <img width={width > 450 ? "32px" : "24px"} alt={row.channel} src={imgString(row.channel)} />
+                <TooltipUI placement="top" title={cap1stLetter(row?.channel)}>
+                    <img width={width > 450 ? "32px" : "24px"} alt={row?.channel} src={imgString(row?.channel)} />
                 </TooltipUI>
             ), width: "70px"
         },
         {
             name: "Order Id", selector: row => (
-                <Link to={row?._id} className="value">{row.orderId}</Link>
+                <Link to={row?._id} className="value">{row?.orderId}</Link>
             ), width: "100px"
         },
         {
-            name: "Custumer", selector: row => row.customer?.fullname || "-- Not Added --", width: "150px"
+            name: "Custumer", selector: row => row?.customer?.fullname || "-- Not Added --", width: "150px"
         },
         {
             name: "Product(s)", selector: row => (
                 <TooltipUI placement="top" title={
                     <ul className="table--list">
-                        {row.products?.map((item, index) => (
+                        {row?.products?.map((item, index) => (
                             <li key={index}><IoArrowRedoOutline /> {item?.name}</li>
                         ))}
                     </ul>
                 }>
                     <ul className="table--list">
-                        {row.products?.slice(0, 3)?.map((item, index) => (
+                        {row?.products?.slice(0, 3)?.map((item, index) => (
                             <li key={index}>
                                 {width > 600 ? (
                                     <Link to={item?.productId || "/"}><IoArrowRedo /></Link>
@@ -81,7 +81,7 @@ function index() {
                                 {truncateString(item?.name, 18)}
                             </li>
                         ))}
-                        {row.products?.length > 3 && <li>...</li>}
+                        {row?.products?.length > 3 && <li>...</li>}
                     </ul>
                 </TooltipUI>
             ),
@@ -94,32 +94,32 @@ function index() {
         },
         {
             name: "Payment", selector: row => (
-                <span className={`status status--${( row.paymentStatus != "unpaid" ? "success" : "pending" )}`}>
-                    <p><GoDotFill />{row.paymentStatus}</p>
+                <span className={`status status--${row?.paymentStatus}`}>
+                    <p><GoDotFill />{row?.paymentStatus}</p>
                 </span>
             ),
             width: "120px"
         },
         {
             name: "Delievery", selector: row => (
-                <span className={`status status--${(row.deliveryStatus)}`}>
-                    <p><GoDotFill />{row.deliveryStatus}</p>
+                <span className={`status status--${row?.deliveryStatus}`}>
+                    <p><GoDotFill />{row?.deliveryStatus}</p>
                 </span>
             ),
             width: "135px"
         },
         {
             name: "Status", selector: row => (
-                <span className={`status status--${(row.orderStatus)}`}>
-                    <p><GoDotFill />{row.orderStatus}</p>
+                <span className={`status status--${row?.orderStatus}`}>
+                    <p><GoDotFill />{row?.orderStatus}</p>
                 </span>
             ),
             width: "120px"
         },
         {
             name: "Date Sold", selector: row => (
-                <TooltipUI placement="top" title={formatDate(row.orderDate)}>
-                    <p>{formatDate(row.orderDate)}</p>
+                <TooltipUI placement="top" title={formatDate(row?.orderDate)}>
+                    <p>{formatDate(row?.orderDate)}</p>
                 </TooltipUI>
             ),
         },

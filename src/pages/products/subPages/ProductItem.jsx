@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { useParams } from 'react-router-dom';
-import ItemPreviewPageUI from '../../../ui/PageUI/ItemPreviewPageUI';
 import { GoDotFill } from 'react-icons/go';
+import Spinner from '../../../components/spinner/mainSpinner';
+import CustomAlert from '../../../components/layout/CustomAlert';
 
 
 function ProductItem() {
     const title = "product"
     const { id } = useParams();
-    const { handleFetchItem } = useFetchedContext();
+    const { handleFetchOneItem } = useFetchedContext();
+    
+    ////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
+    const [response, setResponse] = useState({ status: null, message: null });
     const [error, setError] = useState(false);
     const [item, setItem] = useState(null);
     ////////////////////////////////////////////////////
 
 
     const getItem = async function () {
-        console.log("me")
-        
         try {
-            console.log("me2", id)
-            const data = await handleFetchItem(title, id);
-            console.log("me3")
+            const data = await handleFetchOneItem(title, id);
             if (!data) throw new Error("Connection Error");
             setItem(data)
-            console.log("me3")
         } catch (err) {
             setError(true)
         } finally {
@@ -34,9 +33,10 @@ function ProductItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Product Item ${item?.name}`;
+        document.title = `Quicka | Product Item: #${item?.productId}`;
     }, [item]);
 
+    
     useEffect(function () {
         getItem();
     }, [id])
@@ -44,26 +44,26 @@ function ProductItem() {
 
     const PageTitle = function () {
         return (
-            <>
+            <React.Fragment>
                 {item?.name}
                 <span className={`status status--${(item?.status)}`}>
                     <p><GoDotFill />{item?.status}</p>
                 </span>
-            </>
+            </React.Fragment>
         )
     }
 
     return (
-        <>
-            <ItemPreviewPageUI
-                pageType={title}
-                item={item}
-                pageTitle={item?.name ? <PageTitle /> : "Product Details"}
-                loading={loading}
-            >
-                <p>Product</p>
-            </ItemPreviewPageUI>
-        </>
+        <React.Fragment>
+            {loading && <Spinner />}
+            {(response.message || response.status) && (
+                <CustomAlert type={response.status} message={response.message} />
+            )}
+
+           
+            <p>Product</p>
+
+        </React.Fragment>
     )
 }
 

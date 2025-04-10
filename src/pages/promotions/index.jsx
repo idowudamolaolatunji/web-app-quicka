@@ -114,7 +114,7 @@ function index() {
         {
             selector: (row) => (
                 <span className='table--actions'>
-                    <button className='table--btn' onClick={() => handleShowModal(row._id)}><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
             width: "10rem"
@@ -183,7 +183,7 @@ function index() {
         {
             selector: (row) => (
                 <span className='table--actions'>
-                    <button className='table--btn' onClick={() => handleShowModal(row._id)}><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
             width: "10rem"

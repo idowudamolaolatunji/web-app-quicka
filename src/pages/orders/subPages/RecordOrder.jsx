@@ -134,7 +134,7 @@ export default function RecordOrder() {
             quantity: 1,
             discount: 0,
             productId: product?.productId,
-            image: product?.images[0]?.url
+            image: product?.images[0]?.url,
         }));
         setSelectedProducts(initValue);
     }, [orderProducts]);
@@ -233,7 +233,7 @@ export default function RecordOrder() {
 
 
     return (
-        <>
+        <React.Fragment>
             {showModal.product && (
                 <FullScreen style={{ maxWidth: '108rem', margin: '0 auto' }}>
                     <UploadProduct ismodal close={() => handleToggleModal("product")} />
@@ -431,6 +431,6 @@ export default function RecordOrder() {
                     </div>
                 </div>
             </AddPageUI>
-        </>
+        </React.Fragment>
     )
 }

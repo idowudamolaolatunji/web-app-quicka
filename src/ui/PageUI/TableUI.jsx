@@ -63,7 +63,7 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
 
     const handleSelectedRow = function ({ allSelected, selectedCount, selectedRows }) {
         const ids = [];
-        selectedRows?.map(row => ids.push(row._id));
+        selectedRows?.map(row => ids.push(row?._id));
         setSelectedRowsId(ids);
     }
 

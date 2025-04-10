@@ -513,12 +513,15 @@ button {
 	gap: .24rem;
 }
 
-
+.status--unpaid p,
 .status--inactive p,
 .status--failed p {
 	/* background-color: #ff9797b7; */
 	color: #ff0000;
 }
+
+
+.status--partially p,
 .status--pending p,
 .status--processing p,
 .status--published p {
@@ -557,10 +560,13 @@ button {
 	background-color: #ff9797b7;
 }
 
+
+.heading--row .status--processing p,
 .heading--row .status--pending p {
 	background-color: #eef1ff;
 }
 
+.heading--row .status--in-transit p,
 .heading--row .status--partially p {
 	background-color: #fff2e8;
 }

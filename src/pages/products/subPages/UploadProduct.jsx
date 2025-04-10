@@ -36,7 +36,6 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     const currency = store?.currency?.symbol;
-    
 
     //////////////////////////////////////////////////////////
     const [loading, setLoading] = useState(false);

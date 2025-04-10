@@ -67,7 +67,7 @@ function index() {
             selector: row => (
                 <span className='table--actions'>
                     <button className='table--btn' onClick={() => navigate(`${row?._id}/edit`)}><RiEdit2Line /></button>
-                    <button className='table--btn' onClick={() => handleShowModal(row._id)}><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
         },

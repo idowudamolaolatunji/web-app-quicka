@@ -35,19 +35,18 @@ export function formatDateSince(givenDate) {
 	const now = moment();
 	const diff = now.diff(date);
 
-	if (diff < 3600000) {
-		// less than 1 hour
+	if (diff < 60000) {
+		// less than 1 minute
 		const seconds = Math.floor(diff / 1000);
 		return `${seconds} secs ago`;
+	} else if (diff < 3600000) {
+		// less than 1 hour
+		const minutes = Math.floor(diff / 60000);
+		return `${minutes} mins ago`;
 	} else if (diff < 86400000) {
 		// less than 1 day
-		const minutes = Math.floor(diff / 60000);
-		if (minutes < 60) {
-			return `${minutes} mins ago`;
-		} else {
-			const hours = Math.floor(diff / 3600000);
-			return `${hours} hours ago`;
-		}
+		const hours = Math.floor(diff / 3600000);
+		return `${hours} hours ago`;
 	} else if (diff < 172800000) {
 		// yesterday
 		return `Yesterday at ${date.format("h:mm a")}`;

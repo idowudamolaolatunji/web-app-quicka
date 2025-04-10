@@ -76,8 +76,8 @@ function index() {
         {
             name: "Date Added",
             selector: row => (
-                <TooltipUI placement='top' title={formatDate(row.createdAt)}>
-                    <p className='value'>{formatDate(row.createdAt)}</p>
+                <TooltipUI placement='top' title={formatDate(row?.createdAt)}>
+                    <p className='value'>{formatDate(row?.createdAt)}</p>
                 </TooltipUI>
             )
         },
@@ -85,7 +85,7 @@ function index() {
             selector: row => (
                 <span className='table--actions'>
                     <button className='table--btn' onClick={() => navigate(`${row?._id}/edit`)}><RiEdit2Line /></button>
-                    <button className='table--btn' onClick={() => handleShowModal(row._id)}><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
         }
