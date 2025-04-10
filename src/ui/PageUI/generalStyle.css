@@ -72,6 +72,7 @@
 	display: flex;
 	align-items: center;
 	gap: 0.6rem;
+	min-width:max-content;
 }
 
 .page__section-top-btn.more {

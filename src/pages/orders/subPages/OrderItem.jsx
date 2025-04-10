@@ -13,8 +13,10 @@ import Spinner from '../../../components/spinner/mainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Delete from '../../../components/modal/Delete';
 import { GoDotFill } from 'react-icons/go';
-import { TbTruckDelivery } from 'react-icons/tb';
+import { TbCashRegister, TbTruckDelivery } from 'react-icons/tb';
 import { BsCash } from 'react-icons/bs';
+import { MdOutlinePendingActions } from 'react-icons/md';
+import { LuPackageCheck } from 'react-icons/lu';
 
 
 function OrderItem() {
@@ -156,38 +158,41 @@ function OrderItem() {
                 <Spinner />
             ) : (
                 <div className='item__preview--section'>
-                    <div className='page__section--heading' style={{  alignItems: "flex-start" }}>
+                    <div className='page__section--heading' style={{ alignItems: "flex-start" }}>
                         <span style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
                             <BackButton close={() => navigate(-1)} />
 
                             <div className="heading--col">
-                                <div className="heading--row" style={{ flexWrap: "wrap" }}>
+                                <div className="heading--row">
                                     <h2 className="page__section--title">
                                         Order Id:
                                         <span className="value" style={{ fontSize: "2rem" }}>{item?.orderId}</span>
                                     </h2>
                                 </div>
 
-                                <div className="heading--row" >
+                                <div className="heading--row" style={{ flexWrap: "wrap" }}>
                                     <span className={`status status--${item?.paymentStatus}`}>
-                                        <p><BsCash /> {item?.paymentStatus}</p>
+                                        <p><TbCashRegister /> {item?.paymentStatus}</p>
                                     </span>
                                     <span className={`status status--${item?.deliveryStatus}`}>
-                                        <p><TbTruckDelivery /> {item?.deliveryStatus}</p>
+                                        <p><TbTruckDelivery style={{ fontSize: "1.8rem" }} /> {item?.deliveryStatus}</p>
                                     </span>
                                     <span className={`status status--${item?.orderStatus}`}>
-                                        <p>{item?.orderStatus}</p>
+                                        <p>
+                                            {item?.orderStatus == "processing" ? <MdOutlinePendingActions /> : <LuPackageCheck />}
+                                            {item?.orderStatus}
+                                        </p>
                                     </span>
                                 </div>
 
-                                <p style={{ fontSize: "1.28rem", padding: "0" }} className='preview--body-item'>
-                                    Ordered: {formatDateSince(item?.orderDate)}
+                                <p style={{ fontSize: "1.28rem", padding: "0", textTransform: "none" }} className='preview--body-item'>
+                                    Ordered, {formatDateSince(item?.orderDate)}
                                 </p>
                             </div>
                         </span>
 
                         <span className='page__section--btns'>
-                            <button className="page__section-top-btn table--btn" onClick={() => setShowDeleteModal(true)} style={{ padding: "0.4rem 1rem" }}>
+                            <button className="page__section-top-btn" onClick={() => setShowDeleteModal(true)} style={{ fontWeight: "600", color: "#444" }}>
                                 Delete <RiDeleteBin5Line size={20} />
                             </button>
                             <span className="page__section--action" onMouseLeave={() => {}}>

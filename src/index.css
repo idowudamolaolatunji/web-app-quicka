@@ -537,15 +537,14 @@ button {
 	color: #008001;
 }
 
+.status--in-transit p,
 .status--expired p,
 .status--draft p {
 	/* background-color: #f1f1f1; */
 	color: #888;
 }
-.status--in-transit p {
-	/* background-color: #fff2e8; */
-	color: #f8cba6;
-}
+/* background-color: #fff2e8; */
+/* color: #f8cba6; */
 
 
 /*  */
@@ -553,6 +552,16 @@ button {
 	padding: 0.4rem 0.6rem;
 	border-radius: 0.6rem;
 	margin-left: 0;
+
+	display: flex;
+	align-items: flex-end;
+	gap: .4rem;
+	text-transform: none;
+	overflow-wrap: auto;
+	hyphens: unset;
+}
+.heading--row .status p svg {
+	font-size: 1.6rem;
 }
 
 .heading--row .status--unpaid p,
@@ -566,7 +575,9 @@ button {
 	background-color: #eef1ff;
 }
 
-.heading--row .status--in-transit p,
+.heading--row .status--in-transit p {
+	background-color: #f1f1f1;
+}
 .heading--row .status--partially p {
 	background-color: #fff2e8;
 }
