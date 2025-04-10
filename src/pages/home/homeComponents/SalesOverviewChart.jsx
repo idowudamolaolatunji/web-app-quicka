@@ -13,7 +13,8 @@ function OverviewChart({ period }) {
     const { orders } = useFetchedContext();
     
     const isData = orders?.length > 0 ? true : false;
-    const completedOrders = orders?.filter(order => order.orderStatus == "completed");
+    // const completedOrders = orders?.filter(order => order.orderStatus == "completed");
+    const completedOrders = orders?.filter(order => order.paymentStatus == "paid");
     const currency = store?.currency?.symbol;
 
     const handleGetYearlyData = function() {

@@ -12,15 +12,14 @@ import { useWindowSize } from 'react-use';
 import Spinner from '../../../components/spinner/mainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Delete from '../../../components/modal/Delete';
-import { GoDotFill } from 'react-icons/go';
 import { TbCashRegister, TbTruckDelivery } from 'react-icons/tb';
-import { BsCash } from 'react-icons/bs';
 import { MdOutlinePendingActions, MdWhatsapp } from 'react-icons/md';
 import { LuPackageCheck } from 'react-icons/lu';
 import { useAuthContext } from '../../../context/AuthContext';
-import { FiUser, FiUsers } from 'react-icons/fi';
 import { HiOutlineEnvelope, HiOutlinePhone, HiOutlineUser } from 'react-icons/hi2';
 import { PiMapPinArea } from "react-icons/pi";
+import { GoDotFill } from 'react-icons/go';
+import { imgString } from '../../../assets/images/png_elements';
 
 
 function OrderItem() {
@@ -42,6 +41,7 @@ function OrderItem() {
     const [error, setError] = useState(false);
     const [item, setItem] = useState(null);
     ////////////////////////////////////////////////////
+
     /*
         {
             _id: "67991948baf37f41eb865340",
@@ -243,16 +243,26 @@ function OrderItem() {
                                     <h2>Order Summary</h2>
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
-
-                                <div className="item__preview--summary">
-
+                                
+                                <div className="item__preview--summary order">
+                                    <div className='preview--body-item' style={{ marginTop: "-.8rem" }}>
+                                        Sales Channel 
+                                        <span className='preview--body-value flex' style={{ flexDirection: "row", gap: ".68rem", textTransform: "capitalize" }}>
+                                        {item?.channel} <img style={{ width: "2.8rem" }} alt={item?.channel} src={imgString(item?.channel)} />
+                                        </span>
+                                    </div>
+                                    <div className='preview--body-item'><span>Item Price <span className='value'>x {item?.orderTotalQuantity}</span></span><span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div>
+                                    <div className='preview--body-item'>Order Discount <span className='preview--body-value value'>{item?.orderDiscountAmount ? `-${currency}${formatNumber(item?.orderDiscountAmount)}` : "--"}</span></div>
+                                    <div className='preview--body-item'>Delivery Fee <span className='preview--body-value value'>{item?.orderDeliveryFee ? `${currency}${formatNumber(item?.orderDeliveryFee)}` : "--"}</span></div>
+                                    <div className='preview--body-item'>Total Paid <span className='preview--body-value value'>{currency}{formatNumber(item?.orderSubTotal)}</span></div>
+                                    <div className='preview--body-item'>My Profit <span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div>
                                 </div>
                             </div>
                         </div>
 
 
                         <div className="right--side">
-                            <div className="card">
+                            <div className="card form">
                                 <div className="section--heading">
                                     <h2>Customer information</h2>
                                     <Line border={1.4} where="Top" value="1rem" />
@@ -261,13 +271,13 @@ function OrderItem() {
                                 <div className="item__preview--customer">
                                     <span className="item--box" onClick={() => navigate(`/dashboard/customers/${item?.customer?._id}`)}>
                                         <div className='table-customer'>
-                                            {!item?.customer?.image?.url ? (
+                                            {item?.customer?.image?.url ? (
                                                 <img src={item?.customer?.image?.url} />
                                             ) : (
                                                 <HiOutlineUser />
                                             )}
                                         </div>
-                                        <p className="box--text">{item?.customer?.fullname}</p>
+                                        <p className="box--text" style={{ textTransform: "capitalize" }}>{item?.customer?.fullname}</p>
                                     </span>
 
                                     <span className="item--box">
@@ -284,22 +294,34 @@ function OrderItem() {
                                     </span>
                                     <span className="item--box">
                                         <span className="box--icon"><MdWhatsapp /></span>
-                                        <a className="box--text" target='_blank' href={`https://wa.me/${item?.customer?.contact?.phone}`}>message</a>
+                                        <a className="box--text link" target='_blank' href={`https://wa.me/${item?.customer?.contact?.phone}`}>Message via whatsapp</a>
                                     </span>
                                 </div>
                             </div>
 
 
-                            <div className="card">
+                            <div className="card form">
                                 <div className="section--heading">
                                     <h2>Payment Summary</h2>
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
 
+                                <div className="item__preview--summary payment">
+                                    <div className='preview--body-item'>Amount Paid <span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div>
+                                    <div className='preview--body-item'>Payment Status <span className={`status status--${item?.paymentStatus}`}><p><GoDotFill /> {item?.paymentStatus}</p></span></div>
+                                    <div className='preview--body-item'>
+                                        Payment Method
+                                        {item?.paymentMethod ? (
+                                            <span className={`status status--pending`}><p><GoDotFill /> {String(item?.paymentMethod).replace("-", " ")}</p></span>
+                                        ) : (
+                                            <span className={`status status--draft`}><p><GoDotFill /> none</p></span>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
 
 
-                            <div className="card">
+                            <div className="card form">
                                 <div className="section--heading">
                                     <h2>Delivery Details</h2>
                                     <Line border={1.4} where="Top" value="1rem" />

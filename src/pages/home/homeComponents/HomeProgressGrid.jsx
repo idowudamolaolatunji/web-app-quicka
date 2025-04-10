@@ -22,10 +22,13 @@ function ProgressGrid() {
     // const noData = !orders || orders?.length < 1;
     // const noSettle = !settlements || settlements?.length < 1;
 
-    // FILTERED HERE TO GET ALL COMPLETED SALES AND ALL COMPLETED OFFLINE SALES
-    const allSales = orders?.filter(order => order.orderStatus == 'completed');
-    const offlineSales = orders?.filter(order => order.orderStatus == 'completed' && order.channel != "online store");
-    const settlementSales = orders?.filter(order => order.orderStatus == 'completed' && order.channel == "online store");
+    // FILTERED HERE TO GET ALL COMPLETED SALES AND ALL COMPLETED OFFLINE SALES OR PAID SALES (COME BACK)
+    // const allSales = orders?.filter(order => order.orderStatus == 'completed');
+    // const offlineSales = orders?.filter(order => order.orderStatus == 'completed' && order.channel != "online store");
+    // const settlementSales = orders?.filter(order => order.orderStatus == 'completed' && order.channel == "online store");
+    const allSales = orders?.filter(order => order.paymentStatus == 'paid');
+    const offlineSales = orders?.filter(order => order.paymentStatus == 'paid' && order.channel != "online store");
+    const settlementSales = orders?.filter(order => order.paymentStatus == 'paid' && order.channel == "online store");
 
     // WE CALCULATED FOR THE TOTAL SALE AND TOTAL OFFLINE SALES, BY MAPPING AND REDUCING..
     // const totalSales = allSales.reduce((acc, sale) => acc + sale?.profit, 0);
