@@ -132,8 +132,9 @@ export default function CreateDiscount() {
             setShowConfetti(true);
 
             setTimeout(function () {
-                handleFetchMyStoreDiscounts()
-            }, 1000);
+                handleFetchMyStoreDiscounts();
+                navigate(-1);
+            }, 2000);
 
         } catch (err) {
             const message = handleFetchError(err?.message)
@@ -256,7 +257,7 @@ export default function CreateDiscount() {
                         <div className="form--item">
                             <label htmlFor="name" className="form--label">Product(s) <Asterisk /></label>
 
-                            <MainDropdownSelect title="Product" options={products} field="name" value={discountProducts} setValue={setDiscountProducts} noDataLabel="No product found!" multiple={true} />
+                            <MainDropdownSelect title="Product" subtitle="Product(s) to add discount" options={products} field="name" value={discountProducts} setValue={setDiscountProducts} noDataLabel="No product found!" multiple={true} />
 
                             <span className="form--error-message">
                                 {discountFormErrors.discountProducts && discountFormErrors.discountProducts}
@@ -283,7 +284,7 @@ export default function CreateDiscount() {
                             </div>
                             <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Set Validity Period</label>
                         </div>
-                        <Info text="How long this discount is valid for" />
+                        <Info text="How long this discount is valid for (Default of 60days)" />
                     </div>
 
 

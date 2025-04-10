@@ -369,7 +369,12 @@ export const FetchedProvider = ({ children }) => {
         try {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
-            // code goes here...
+            const res = await fetch(`${BASE_API_URL}/coupons/mine/coupons`, { method: "GET", headers });
+            shouldKick(res);
+
+            const data = await res.json();
+            if(data.status == "fail") throw new Error();
+            if (data?.data) setCoupons(data?.data?.coupons);
         } catch (err) {
             const errMessage = handleFetchError(err?.message)
             setCouponError(errMessage)
@@ -474,9 +479,9 @@ export const FetchedProvider = ({ children }) => {
         handleFetchMyStoreTransactions,
         handleFetchMyStoreDeliveryRates,
         handleFetchMyStoreDiscounts,
+        handleFetchMyStoreCoupons,
         // handleFetchMyStoreSettlements,
         // handleFetchMyStoreCampaigns,
-        // handleFetchMyStoreCoupons,
         // handleFetchMyStoreRunningSales,
     }
 

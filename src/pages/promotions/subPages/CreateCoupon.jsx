@@ -30,7 +30,7 @@ export default function CreateCoupon() {
 
     //////////////////////////////////////////////////////////
     const [isGenerated, setIsGenerated] = useState(false);
-    const [selection, setSelection] = useState([couponSelectionTypeData[1] || []]);
+    const [selection, setSelection] = useState([couponSelectionTypeData[0] || []]);
     const [couponProducts, setCouponProducts] = useState([]);
     const [couponCollection, setCouponCollection] = useState([]);
     
@@ -38,7 +38,6 @@ export default function CreateCoupon() {
     const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false);
 
-    const [showAdvance, setShowAdvance] = useState()
     const [couponFormErrors, setCouponFormErrors] = useState({})
     const [couponData, setCouponData] = useState({
         title: "",
@@ -47,12 +46,9 @@ export default function CreateCoupon() {
         maxDiscountValue: null,
         couponGroup: "all",
         setvalidity: true,
-
         startDate: "",
         endDate: "",
         couponCode: "",
-    
-        minimumCartValue: null,
         maxPerUser: null,
         maxTotalUsage: null,
     })
@@ -68,7 +64,6 @@ export default function CreateCoupon() {
             startDate: "",
             endDate: "",
             couponCode: "",
-            minimumCartValue: null,
             maxPerUser: null,
             maxTotalUsage: null,
         });
@@ -96,7 +91,7 @@ export default function CreateCoupon() {
         setCouponData({ ...couponData, couponGroup: tag })
     }
 
-    // REMOVE A PRODUCT FROM THE DISCOUNT PRODUCTS ARRAY
+    // REMOVE A PRODUCT FROM THE Coupon PRODUCTS ARRAY
     const handleRemoveItem = function(id) {
         setCouponProducts(prev => prev?.filter(product => product._id !== id))
     }
@@ -146,7 +141,8 @@ export default function CreateCoupon() {
         const parameter = id ? `/${id}` : "/"
         const productIds = couponProducts?.map(product => product?._id);
         const collectionIds = couponCollection?.map(collection => collection?._id);
-        const itemIds = couponData.couponGroup == "collections" ? collectionIds : productIds
+        const itemIds = (couponData.couponGroup == "collections" ? collectionIds : productIds) || [];
+
         try {
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/coupons${parameter}`, {
@@ -154,6 +150,7 @@ export default function CreateCoupon() {
                 method: id ? "PATCH" : "POST",
                 body: JSON.stringify({
                     ...couponData,
+                    startDate: couponData.startDate || Date.now(),
                     itemIds,
                 })
             });
@@ -171,13 +168,14 @@ export default function CreateCoupon() {
 
             setTimeout(function () {
                 handleFetchMyStoreCoupons()
-            }, 1000);
+                navigate(-1);
+            }, 2000);
 
         } catch (err) {
             const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
         } finally {
-        setLoading({ ...loading, main: false });
+            setLoading({ ...loading, main: false });
         }
     }
 
@@ -332,11 +330,8 @@ export default function CreateCoupon() {
                                         </span>
                                     </div>
                                 </div>
-
                             </CollapsibleDiv>
-
                         </React.Fragment>
-
                     )}
 
                 </div>
@@ -361,9 +356,9 @@ export default function CreateCoupon() {
 
                     {(couponData.couponGroup == "bundle" || couponData.couponGroup == "single") && (
                         <div className="form--item">
-                            <label htmlFor="name" className="form--label">Product(s) <Asterisk /></label>
+                            <label htmlFor="name" className="form--label">Coupon Product{couponData.couponGroup == "bundle" ? "s" : ""} <Asterisk /></label>
 
-                            <MainDropdownSelect title="Product" options={products} field="name" value={couponProducts} setValue={setCouponProducts} noDataLabel="No product found!" multiple={couponData.couponGroup == "bundle" ? true : false} />
+                            <MainDropdownSelect subtitle={`Product${couponData.couponGroup == "bundle" ? "s" : ""} to add coupon`} title="Product" options={products} field="name" value={couponProducts} setValue={setCouponProducts} noDataLabel="No product found!" multiple={couponData.couponGroup == "bundle" ? true : false} />
 
                             <span className="form--error-message">
                                 {couponFormErrors.couponProducts && couponFormErrors.couponProducts}
@@ -400,7 +395,7 @@ export default function CreateCoupon() {
                             </div>
                             <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Set Validity Period</label>
                         </div>
-                        <Info text="How long this discount is valid for" />
+                        <Info text="How long this coupon is valid for (Default of 30 days)" />
                     </div>
 
 

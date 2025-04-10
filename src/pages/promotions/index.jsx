@@ -37,68 +37,6 @@ const special_sales_emptyBtns = [
     { title: <><VscRunCoverage />Run Store Sales</>, link: "/dashboard/promotions/special-sales/run" },
 ];
 
-const dataTest = [
-    {
-        _id: "342593780f797d9ec2115cbd",
-        store: "6794dfc7a535c14711135078",
-        title: "10% Discount",
-        startDate: "2025-01-29T01:44:24.808Z",
-        endDate: "2025-02-27T01:44:24.812Z",
-        status: "active",
-        couponType: "percentage",
-        couponGroup: "all",
-        couponItems: null,
-        couponValue: 10,
-        couponValueInFigure: "10%",
-        couponValidity: "60days",
-        couponCode: "394EIDJS"
-    },
-    {
-        _id: "679593780f797d9ec2115cbd",
-        store: "6794dfc7a535c14711135078",
-        title: "New Product Discount",
-        couponType: "fixed-price",
-        couponGroup: "bundle",
-        couponItems: ["494989839id9dif93i9", "8838473e387e387e83"],
-        couponValue: 10000,
-        status: "inactive",
-        couponValueInFigure: "₦33,433",
-        startDate: "2025-01-26T01:44:24.808Z",        
-        endDate: "2025-03-27T01:44:24.812Z",
-        couponValidity: "60days",
-        couponCode: "JDN833E3"
-    }
-]
-
-// const dataTestD = [
-//     {
-//         _id: "342593780f797d9ec2115cbd",
-//         store: "6794dfc7a535c14711135078",
-//         title: "10% Discount",
-//         startDate: "2025-01-29T01:44:24.808Z",
-//         endDate: "2025-02-27T01:44:24.812Z",
-//         status: "active",
-//         discountType: "percentage",
-//         items: ["494989839id9dif93i9", "8838473e387e387e83"],
-//         discountValue: 10,
-//         discountValueInFigure: "10%",
-//         discountValidity: "60days" 
-//     },
-//     {
-//         _id: "679593780f797d9ec2115cbd",
-//         store: "6794dfc7a535c14711135078",
-//         title: "New Product Discount",
-//         discountType: "fixed-price",
-//         items: ["8838473e387e387e83"],
-//         discountValue: 10000,
-//         status: "inactive",
-//         discountValueInFigure: "₦33,433",
-//         startDate: "2025-01-26T01:44:24.808Z",        
-//         endDate: "2025-03-27T01:44:24.812Z",
-//         discountValidity: "60days" 
-//     }
-// ]
-
 function index() {
     const navigate = useNavigate()
     const location = useLocation();
@@ -107,7 +45,7 @@ function index() {
     ///////////////////////////////////////////
     const { showInsights } = useDataContext()
     const {
-        loader, error, discounts, coupons, special_sales, handleDeleteOneItem, handleFetchMyStoreDiscounts
+        loader, error, discounts, coupons, special_sales, handleDeleteOneItem, handleFetchMyStoreDiscounts, handleFetchMyStoreCoupons
     } = useFetchedContext();
     ////////////////////////////////////////////////////////
     const [deleteLoader, setDeleteLoader] = useState(false);
@@ -158,7 +96,7 @@ function index() {
         {
             name: "Validity",
             selector: (row) => (
-                <TooltipUI placement="top" title={`From ${dateTimeFormat(row?.startDate)} to ${dateTimeFormat(row?.endDate)}`}>
+                <TooltipUI placement="top" title={`From ${dateTimeFormat(row?.startDate || row?.createdAt)} to ${dateTimeFormat(row?.endDate)}`}>
                     <p>{row?.discountValidity}</p>
                 </TooltipUI>
             ),
@@ -177,12 +115,12 @@ function index() {
         {
             name: "Coupon Title",
             selector: (row) => row?.title,
-            minWidth: "16rem"
+            minWidth: "15rem"
         },
         {
             name: "Coupon Type",
             selector: (row) => row?.couponType == "fixed-price" ? "Fixed Price" : "Percentage",
-            minWidth: "12rem"
+            minWidth: "10rem"
         },
         {
             name: "Code",
@@ -211,12 +149,12 @@ function index() {
                     <p><GoDotFill />{row?.status}</p>
                 </span>
             ),
-            width: "12rem"
+            width: "10rem"
         },
         {
             name: "Validity",
             selector: (row) => (
-                <TooltipUI placement="top" title={`From ${dateTimeFormat(row?.startDate)} to ${dateTimeFormat(row?.endDate)}`}>
+                <TooltipUI placement="top" title={`From ${dateTimeFormat(row?.startDate || row?.createdAt)} to ${dateTimeFormat(row?.endDate)}`}>
                     <p>{row?.couponValidity}</p>
                 </TooltipUI>
             ),
@@ -241,7 +179,7 @@ function index() {
             <div className='content'>
                 <span className='flex'>
                     <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={() => handleFetchMyStoreDiscounts()}><MdOutlineRefresh /></button>
+                        <button className='table--btn' onClick={() => activeTab == "discount" ? handleFetchMyStoreDiscounts() : handleFetchMyStoreCoupons()}><MdOutlineRefresh /></button>
                     </TooltipUI>
                 </span>
             </div>

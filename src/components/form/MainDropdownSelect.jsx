@@ -4,7 +4,7 @@ import { useWindowSize } from 'react-use'
 import { truncateString } from '../../utils/helper';
 
 
-function MainDropdownSelect({ options, multiple=false, field, title, value, searchable = true, setValue, noDataLabel="No Data", customClass="", clearable=true }) {
+function MainDropdownSelect({ options, multiple=false, field, title, value, searchable = true, setValue, noDataLabel="No Data", customClass="", clearable=true, subtitle }) {
     const { width } = useWindowSize();
 
     return (
@@ -23,7 +23,7 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                 clearable={clearable}
                 color='#ff7a49'
                 onChange={(values) => setValue(values)}
-                placeholder={`Select ${title}`}
+                placeholder={`Select ${subtitle || title}`}
                 clearOnSelect={true}
                 noDataLabel={noDataLabel}
                 addPlaceholder={multiple ? " + add." : ""}
