@@ -12,7 +12,7 @@ import { formatDate } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 
@@ -46,7 +46,7 @@ function index() {
         {
             name: "Customer Name",
             selector: row => (
-                <span className="grid grid-2-4rem-1fr">
+                <Link className="grid grid-2-4rem-1fr" to={`${row?._id}`}>
                     <span className='table-customer'>
                         {row?.image?.url ? (
                             <img src={row?.image?.url} />
@@ -55,7 +55,7 @@ function index() {
                         )}
                     </span>
                     <p>{`${row?.firstname} ${row?.lastname}`}</p>
-                </span>
+                </Link>
             ),
             width: width < 450 ? "180px" : ""
         },

@@ -320,6 +320,18 @@
 	padding: .16rem;
 	border-radius: .5rem;
 }
+.table--copy-btn {
+	padding: .3rem;
+	border-radius: .4rem;
+}
+.table--copy-btn:hover svg {
+	color: var(--color-brand-500);
+}
+.table--copy-btn svg {
+	font-size: 1.6rem;
+	color: #555;
+	transition: all .3s;
+}
 
 
 

@@ -3,7 +3,7 @@ import { useLocation, useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { RiCoupon3Line, RiCouponLine, RiDeleteBin5Line, RiDiscountPercentLine, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/layout/TooltipUI';
-import { MdOutlineRefresh } from 'react-icons/md';
+import { MdContentCopy, MdOutlineRefresh } from 'react-icons/md';
 import { calRemainingDays, cap1stLetter, dateTimeFormat, formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
 import Tab from '../../components/elements/Tab';
@@ -52,6 +52,7 @@ function index() {
     const [selectedId, setSelectedId] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState("discount");
+    const [actionText, setActionText] = useState("Copy");
     ///////////////////////////////////////////////////////
     const data = activeTab == "discount" ? discounts : activeTab == "coupon" ? coupons : special_sales; 
     const activeCoupons = coupons?.filter(coupon => coupon?.status === "active")?.length 
@@ -59,6 +60,15 @@ function index() {
     const handleShowModal = function(id) {
         setShowModal(true);
         setSelectedId(id);
+    }
+
+    const handleCopyCode = function(code) {
+        navigator.clipboard.writeText(code);
+        setActionText("Copied ✔");
+        
+        setTimeout(() => {
+            setActionText("Copy");
+        }, 2000);
     }
 
     const discount_columns = [
@@ -125,12 +135,23 @@ function index() {
         {
             name: "Code",
             selector: (row) => (
-                <TooltipUI placement="top" title={`Expires in ${
-                    calRemainingDays(row?.startDate, row?.endDate)
-                } days`}>
-                    <p className='value'>{row?.couponCode}</p>
-                </TooltipUI>
+                <span style={{ display: "flex", alignItems: "center", gap: ".34rem" }}>
+                    <TooltipUI placement="top" title={`Expires in ${
+                        calRemainingDays(row?.startDate || row?.createdAt, row?.endDate)
+                    } days`}>
+                        <p className='value'>{row?.couponCode}</p>
+                    </TooltipUI>
+
+                    {row?.status != "expired" && (
+                        <TooltipUI placement="top" title={actionText}>
+                            <button className="table--copy-btn" onClick={() => handleCopyCode(row?.couponCode)}>
+                                <MdContentCopy />
+                            </button>
+                        </TooltipUI>
+                    )}
+                </span>
             ),
+            width: "15rem"
         },
         {
             name: "Applies To",

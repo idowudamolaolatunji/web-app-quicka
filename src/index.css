@@ -533,6 +533,8 @@ button {
 	/* background-color: #d7ecd1b7; */
 	color: #008001;
 }
+
+.status--expired p,
 .status--draft p {
 	/* background-color: #f1f1f1; */
 	color: #888;

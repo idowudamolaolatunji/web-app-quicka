@@ -10,6 +10,8 @@ import ColorBox from '../../../components/elements/ColorBox';
 import Line from '../../../components/elements/Line';
 import { useWindowSize } from 'react-use';
 import { SiUber } from 'react-icons/si';
+import Spinner from '../../../components/spinner/mainSpinner';
+
 
 function OrderItem() {
     const { id } = useParams();
@@ -19,68 +21,72 @@ function OrderItem() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    const [item, setItem] = useState({
-        _id: "67991948baf37f41eb865340",
-        store: "6794dfc7a535c14711135078",
-        products: [
+    const [item, setItem] = useState(null
+        /*
             {
-                id: "6796e37935af332982842ed4",
-                name: "Nude Sunbo Slippers SS007 - Size 40",
-                quantity: 2,
-                price: 100000,
-                discount: 20000,
-                productId: "",
-                image: "https://res.cloudinary.com/du8iw1efa/image/upload/c_fill,g_auto,h_950,q_80,w_950/v1/products/product-1737963632418-2?_a=BAMCkGOY0",
-                product_collection: [ { name: "Sneakers" } ],
-                variations: [
-                    { type: "Color", value: "Red" },
-                    { type: "Size", value: "33" },
+                _id: "67991948baf37f41eb865340",
+                store: "6794dfc7a535c14711135078",
+                products: [
+                    {
+                        id: "6796e37935af332982842ed4",
+                        name: "Nude Sunbo Slippers SS007 - Size 40",
+                        quantity: 2,
+                        price: 100000,
+                        discount: 20000,
+                        productId: "",
+                        image: "https://res.cloudinary.com/du8iw1efa/image/upload/c_fill,g_auto,h_950,q_80,w_950/v1/products/product-1737963632418-2?_a=BAMCkGOY0",
+                        product_collection: [ { name: "Sneakers" } ],
+                        variations: [
+                            { type: "Color", value: "Red" },
+                            { type: "Size", value: "33" },
+                        ],
+                    }
                 ],
+                customer: {
+                    contact: {
+                        countryCode: "ng",
+                        dialCode: "234",
+                        phoneNumber: "9057643470",
+                        phone: "2349057643470",
+                        email: "damolaidowudavid@gmail.com"
+                    },
+                    shippingAddress: {
+                        country: {
+                            name: "Nigeria",
+                            iso2: "NG"
+                        }
+                    },
+                    _id: "6798ae6160c27aeb8a0c7252",
+                    firstname: "idowu",
+                    lastname: "olatunji",
+                    createdAt: "2025-01-28T10:16:01.208Z",
+                    fullname: "idowu olatunji"
+                },
+                description: "",
+                orderSubTotal: 190000,
+                orderDeliveryFee: 10000,
+                orderTotalQuantity: 2,
+                profit: 180000,
+                orderDate: "2025-01-28T17:51:00.000Z",
+                channel: "instagram",
+                paymentStatus: "paid",
+                paymentMethod: "cash",
+                deliveryStatus: "delivered",
+                orderStatus: "completed",
+                createdAt: "2025-01-28T17:52:08.049Z",
+                orderId: "#78080",
             }
-        ],
-        customer: {
-            contact: {
-                countryCode: "ng",
-                dialCode: "234",
-                phoneNumber: "9057643470",
-                phone: "2349057643470",
-                email: "damolaidowudavid@gmail.com"
-            },
-            shippingAddress: {
-                country: {
-                    name: "Nigeria",
-                    iso2: "NG"
-                }
-            },
-            _id: "6798ae6160c27aeb8a0c7252",
-            firstname: "idowu",
-            lastname: "olatunji",
-            createdAt: "2025-01-28T10:16:01.208Z",
-            fullname: "idowu olatunji"
-        },
-        description: "",
-        orderSubTotal: 190000,
-        orderDeliveryFee: 10000,
-        orderTotalQuantity: 2,
-        profit: 180000,
-        orderDate: "2025-01-28T17:51:00.000Z",
-        channel: "instagram",
-        paymentStatus: "paid",
-        paymentMethod: "cash",
-        deliveryStatus: "delivered",
-        orderStatus: "completed",
-        createdAt: "2025-01-28T17:52:08.049Z",
-        orderId: "#78080",
-    });
+        */
+    );
     ////////////////////////////////////////////////////
 
 
     const getItem = async function () {
         setError(false);
         try {
-            // const data = await handleFetchOneItem("order", id);
-            // if (!data) throw new Error("Connection Error");
-            // setItem(data)
+            const data = await handleFetchOneItem("order", id);
+            if (!data) throw new Error("Connection Error");
+            setItem(data)
         } catch (err) {
             setError(true)
         } finally {
@@ -90,7 +96,7 @@ function OrderItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Order Id: ${item.orderId}`;
+        document.title = `Quicka | Order Id: ${item?.map}`;
     }, [item]);
 
     useEffect(function () {
@@ -99,6 +105,7 @@ function OrderItem() {
 
     return (
         <>
+            {loading && <Spinner />}
 
             <div className='item__preview--section'>
                 <div className='page__section--heading' style={{  alignItems: "flex-start" }}>
@@ -155,17 +162,17 @@ function OrderItem() {
 
                             <div className="item__preview--grid grid--1x1">
                                 <div className="item__preview--item">
-                                    <img style={{ width: "10rem" }} src={item.products[0]?.image} alt={item.products[0]?.name} />
+                                    <img style={{ width: "10rem" }} src={item?.products[0]?.image} alt={item?.products[0]?.name} />
                                     <div className="">
                                         <p>{item?.products[0].name}</p>
                                         <span>
-                                            {item.products[0]?.product_collection.map(collection => (
+                                            {item?.products[0]?.product_collection?.map(collection => (
                                                 <p>{collection?.name}</p>
                                             ))}
                                         </span>
                                         
                                         <span>
-                                            {item.products[0]?.variations.map(variant => (
+                                            {item?.products[0]?.variations?.map(variant => (
                                                 <span>
                                                     <p>{variant?.type}</p>
                                                     {(variant.type).toLowerCase() == "color" ? (

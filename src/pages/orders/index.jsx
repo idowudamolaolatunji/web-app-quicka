@@ -55,7 +55,7 @@ function index() {
         },
         {
             name: "Order Id", selector: row => (
-                <p className="value">{row.orderId}</p>
+                <Link to={row?._id} className="value">{row.orderId}</Link>
             ), width: "100px"
         },
         {
