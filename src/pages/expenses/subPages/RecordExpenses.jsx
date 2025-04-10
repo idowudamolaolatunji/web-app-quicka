@@ -61,7 +61,6 @@ export default function RecordExpenses() {
             if(id) {
                 setLoading(true);
                 const fetchedItem = await handleFetchOneItem("expense", id);
-                console.log(fetchedItem)
 
                 if(fetchedItem) {
                     setLoading(false); 
@@ -94,6 +93,10 @@ export default function RecordExpenses() {
         const parameter = id ? `/${id}` : "/"
 
         try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/expenses${parameter}`, {
                 headers,
