@@ -225,7 +225,7 @@ function OrderItem() {
                                             </div>
 
                                             <div className="item__preview--info">
-                                                <p className='value'>{product?.quantity} x {currency}{formatNumber(product?.price)}</p>
+                                                <p className='value'><input className='form--input' value={product?.quantity} /> x {currency}{formatNumber(product?.price)}</p>
                                                 <span className='preview--body-item' style={{ border: "none", padding: 0 }}>Sub total</span>
                                                 <p className='value'>₦{formatNumber(product?.quantity * product?.price)}</p>
                                             </div>
