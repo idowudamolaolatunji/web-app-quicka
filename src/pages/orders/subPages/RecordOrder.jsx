@@ -135,6 +135,7 @@ export default function RecordOrder() {
             discount: 0,
             productId: product?.productId,
             image: product?.images[0]?.url,
+            product_collection: product?.product_collection?.map(collection => collection?.name),
         }));
         setSelectedProducts(initValue);
     }, [orderProducts]);

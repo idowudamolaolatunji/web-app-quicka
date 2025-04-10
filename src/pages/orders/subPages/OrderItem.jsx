@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../../components/button/BackButton';
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
-import { formatDateSince } from '../../../utils/helper';
+import { formatDateSince, formatNumber } from '../../../utils/helper';
 import { BiChevronDown } from 'react-icons/bi';
 import ColorBox from '../../../components/elements/ColorBox';
 import Line from '../../../components/elements/Line';
@@ -17,12 +17,14 @@ import { TbCashRegister, TbTruckDelivery } from 'react-icons/tb';
 import { BsCash } from 'react-icons/bs';
 import { MdOutlinePendingActions } from 'react-icons/md';
 import { LuPackageCheck } from 'react-icons/lu';
+import { useAuthContext } from '../../../context/AuthContext';
 
 
 function OrderItem() {
     const { id } = useParams();
     const { width } = useWindowSize();
     const navigate = useNavigate();
+    const { currency } = useAuthContext();
     const { handleFetchOneItem,
         handleDeleteOneItem,
         handleFetchMyStoreOrders,
@@ -159,37 +161,37 @@ function OrderItem() {
             ) : (
                 <div className='item__preview--section'>
                     <div className='page__section--heading' style={{ alignItems: "flex-start" }}>
-                        <span style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                            <BackButton close={() => navigate(-1)} />
+                        <div className="heading--col">
+                            <span style={{ display: "flex", gap: "1rem" }}>
+                                <BackButton close={() => navigate(-1)} />
 
-                            <div className="heading--col">
                                 <div className="heading--row">
                                     <h2 className="page__section--title">
                                         Order Id:
                                         <span className="value" style={{ fontSize: "2rem" }}>{item?.orderId}</span>
                                     </h2>
                                 </div>
+                            </span>
 
-                                <div className="heading--row" style={{ flexWrap: "wrap" }}>
-                                    <span className={`status status--${item?.paymentStatus}`}>
-                                        <p><TbCashRegister /> {item?.paymentStatus}</p>
-                                    </span>
-                                    <span className={`status status--${item?.deliveryStatus}`}>
-                                        <p><TbTruckDelivery style={{ fontSize: "1.8rem" }} /> {item?.deliveryStatus}</p>
-                                    </span>
-                                    <span className={`status status--${item?.orderStatus}`}>
-                                        <p>
-                                            {item?.orderStatus == "processing" ? <MdOutlinePendingActions /> : <LuPackageCheck />}
-                                            {item?.orderStatus}
-                                        </p>
-                                    </span>
-                                </div>
-
-                                <p style={{ fontSize: "1.28rem", padding: "0", textTransform: "none" }} className='preview--body-item'>
-                                    Ordered, {formatDateSince(item?.orderDate)}
-                                </p>
+                            <div className="heading--row">
+                                <span className={`status status--${item?.paymentStatus}`}>
+                                    <p><TbCashRegister /> {item?.paymentStatus}</p>
+                                </span>
+                                <span className={`status status--${item?.deliveryStatus}`}>
+                                    <p><TbTruckDelivery style={{ fontSize: "1.8rem" }} /> {item?.deliveryStatus}</p>
+                                </span>
+                                <span className={`status status--${item?.orderStatus}`}>
+                                    <p>
+                                        {item?.orderStatus == "processing" ? <MdOutlinePendingActions /> : <LuPackageCheck />}
+                                        {item?.orderStatus}
+                                    </p>
+                                </span>
                             </div>
-                        </span>
+
+                            <p style={{ fontSize: "1.28rem", padding: "0", textTransform: "none" }} className='preview--body-item'>
+                                Ordered item{item?.products?.length > 1 ? "s" : ""}, {formatDateSince(item?.orderDate)}
+                            </p>
+                        </div>
 
                         <span className='page__section--btns'>
                             <button className="page__section-top-btn" onClick={() => setShowDeleteModal(true)} style={{ fontWeight: "600", color: "#444" }}>
@@ -205,46 +207,32 @@ function OrderItem() {
                         <div className="left--side">
                             <div className="card form">
                                 <div className="section--heading">
-                                    <h2>Order Item</h2>
+                                    <h2>Order Item (<span className='value'>{item?.products?.length}</span>)</h2>
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
 
-                                <div className="item__preview--grid grid--1x1">
-                                    <div className="item__preview--item">
-                                        <img style={{ width: "10rem" }} src={item?.products[0]?.image} alt={item?.products[0]?.name} />
-                                        <div className="">
-                                            <p>{item?.products[0].name}</p>
-                                            <span>
-                                                {item?.products[0]?.product_collection?.map(collection => (
-                                                    <p>{collection?.name}</p>
-                                                ))}
-                                            </span>
-                                            
-                                            <span>
-                                                {item?.products[0]?.variations?.map(variant => (
-                                                    <span>
-                                                        <p>{variant?.type}</p>
-                                                        {(variant.type).toLowerCase() == "color" ? (
-                                                            <ColorBox color={variant?.value} />
-                                                        ) : (
-                                                            <p>{variant?.value}</p>
-                                                        )}
-                                                    </span>
-                                                ))}
-                                            </span>
-                                        </div>
-                                    </div>
+                                <div className="item__preview--grid grid--2x1" style={{ alignItems: "center" }}>
+                                    {item?.products?.map(product => (
+                                        <React.Fragment>
+                                            <div className="item__preview--item">
+                                                <img className="item--image" src={product?.image} alt={product?.name} />
+                                                <div className="item--details">
+                                                    {product?.product_collection?.map((collection, i) => (
+                                                        <p className='product__figure--collection' key={i}>{collection}</p>
+                                                    ))}
+                                                    <h3 className='item--title'>{product?.name}</h3>
+                                                </div>
+                                            </div>
 
-                                    <span className="">
-                                        <p>2 x ₦10,000</p>
-                                        <span>
-                                            Sub total
-                                            <p>₦20,000</p>
-                                        </span>
-                                    </span>
+                                            <div className="item__preview--info">
+                                                <p className='value'>{product?.quantity} x {currency}{formatNumber(product?.price)}</p>
+                                                <span className='preview--body-item' style={{ border: "none", padding: 0 }}>Sub total</span>
+                                                <p className='value'>₦{formatNumber(product?.quantity * product?.price)}</p>
+                                            </div>
+                                        </React.Fragment>
+                                    ))}
                                 </div>
                             </div>
-
 
                             <div className="card form">
                                 <div className="section--heading">
@@ -254,26 +242,33 @@ function OrderItem() {
 
                                 <div className="item__preview--item">
 
-                                    
-
                                 </div>
                             </div>
                         </div>
 
+
                         <div className="right--side">
                             <div className="card">
                                 <div className="section--heading">
-                                    <h2>Brief Overview</h2>
+                                    <h2>Customer information</h2>
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
 
-                                
                             </div>
 
 
                             <div className="card">
                                 <div className="section--heading">
-                                    <h2>Brief Overview</h2>
+                                    <h2>Payment Summary</h2>
+                                    <Line border={1.4} where="Top" value="1rem" />
+                                </div>
+
+                            </div>
+
+
+                            <div className="card">
+                                <div className="section--heading">
+                                    <h2>Delivery Details</h2>
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
 
