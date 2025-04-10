@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useFetchedContext } from '../../../context/FetchedContext';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../../components/button/BackButton';
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { formatDateSince, formatNumber } from '../../../utils/helper';
-import { BiChevronDown } from 'react-icons/bi';
+import { BiChevronDown, BiMapPin } from 'react-icons/bi';
 import ColorBox from '../../../components/elements/ColorBox';
 import Line from '../../../components/elements/Line';
 import { useWindowSize } from 'react-use';
@@ -15,9 +15,12 @@ import Delete from '../../../components/modal/Delete';
 import { GoDotFill } from 'react-icons/go';
 import { TbCashRegister, TbTruckDelivery } from 'react-icons/tb';
 import { BsCash } from 'react-icons/bs';
-import { MdOutlinePendingActions } from 'react-icons/md';
+import { MdOutlinePendingActions, MdWhatsapp } from 'react-icons/md';
 import { LuPackageCheck } from 'react-icons/lu';
 import { useAuthContext } from '../../../context/AuthContext';
+import { FiUser, FiUsers } from 'react-icons/fi';
+import { HiOutlineEnvelope, HiOutlinePhone, HiOutlineUser } from 'react-icons/hi2';
+import { PiMapPinArea } from "react-icons/pi";
 
 
 function OrderItem() {
@@ -212,7 +215,7 @@ function OrderItem() {
                                 </div>
 
                                 <div className="item__preview--grid grid--2x1" style={{ alignItems: "center" }}>
-                                    {item?.products?.map(product => (
+                                    {item?.products?.map((product, i) => (
                                         <React.Fragment>
                                             <div className="item__preview--item">
                                                 <img className="item--image" src={product?.image} alt={product?.name} />
@@ -221,12 +224,13 @@ function OrderItem() {
                                                         <p className='product__figure--collection' key={i}>{collection}</p>
                                                     ))}
                                                     <h3 className='item--title'>{product?.name}</h3>
+                                                    <p className='flex align'><span className="preview--body-item">Quality - </span> <span className="value" style={{ fontSize: "1.4rem" }}>{product?.quantity}</span></p>
                                                 </div>
                                             </div>
 
                                             <div className="item__preview--info">
                                                 <p className='value'><input className='form--input' value={product?.quantity} /> x {currency}{formatNumber(product?.price)}</p>
-                                                <span className='preview--body-item' style={{ border: "none", padding: 0 }}>Sub total</span>
+                                                <span className='preview--body-item'>Sub total</span>
                                                 <p className='value'>₦{formatNumber(product?.quantity * product?.price)}</p>
                                             </div>
                                         </React.Fragment>
@@ -240,7 +244,7 @@ function OrderItem() {
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
 
-                                <div className="item__preview--item">
+                                <div className="item__preview--summary">
 
                                 </div>
                             </div>
@@ -254,6 +258,35 @@ function OrderItem() {
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
 
+                                <div className="item__preview--customer">
+                                    <span className="item--box" onClick={() => navigate(`/dashboard/customers/${item?.customer?._id}`)}>
+                                        <div className='table-customer'>
+                                            {!item?.customer?.image?.url ? (
+                                                <img src={item?.customer?.image?.url} />
+                                            ) : (
+                                                <HiOutlineUser />
+                                            )}
+                                        </div>
+                                        <p className="box--text">{item?.customer?.fullname}</p>
+                                    </span>
+
+                                    <span className="item--box">
+                                        <span className="box--icon"><HiOutlinePhone /></span>
+                                        <p className="box--text value" style={{ fontSize: "1.2rem" }}>+{item?.customer?.contact?.phone}</p>
+                                    </span>
+                                    <span className="item--box" onclick="window.location.href='mailto:user@example.com'">
+                                        <span className="box--icon"><HiOutlineEnvelope /></span>
+                                        <p className="box--text">{item?.customer?.contact?.email}</p>
+                                    </span>
+                                    <span className="item--box">
+                                        <span className="box--icon" style={{ width: "3rem" }}><PiMapPinArea /></span>
+                                        <p className="box--text">{item?.customer?.shippingAddress?.address}</p>
+                                    </span>
+                                    <span className="item--box">
+                                        <span className="box--icon"><MdWhatsapp /></span>
+                                        <a className="box--text" target='_blank' href={`https://wa.me/${item?.customer?.contact?.phone}`}>message</a>
+                                    </span>
+                                </div>
                             </div>
 
 

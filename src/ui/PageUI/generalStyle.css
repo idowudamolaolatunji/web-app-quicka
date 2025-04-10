@@ -682,8 +682,14 @@
 .item__preview--grid.grid--1x1 {
 	grid-template-columns: 1fr 1fr;
 }
+.item__preview--grid.grid--1-6x1 {
+	grid-template-columns: 1.6fr 1fr;
+}
 .item__preview--grid.grid--2x1 {
 	grid-template-columns: 2fr 1fr;
+}
+.item__preview--grid.grid--2-4x1 {
+	grid-template-columns: 2.4fr 1fr;
 }
 .item__preview--grid .left--side,
 .item__preview--grid .right--side {
@@ -691,12 +697,15 @@
 	flex-direction: column;
 	gap: 2rem;
 }
-
+.item__preview--grid .preview--body-item {
+	border: none;
+	padding: 0;
+}
 
 .item__preview--item {
 	display: flex;
 	align-items: flex-start;
-	gap: 1.2rem;
+	gap: 2rem;
 }
 .item__preview--item .item--details {
 	display: flex;
@@ -707,26 +716,63 @@
 .item__preview--item .item--image {
 	width: 10rem;
 	border-radius: .4rem;
+	padding: .6rem;
+	background-color: #eee;
 }
 .item__preview--item .item--title {
-	font-size: 1.8rem;
+	font-size: 1.7rem;
+	line-height: 1.2;
 }
 
 .item__preview--info {
 	display: flex;
 	flex-direction: column;
-	gap: .6rem;
+	gap: .8rem;
+	align-items: flex-end;
+	padding-right: 1rem;
 }
 .item__preview--info p {
-	font-size: 1.58rem;
+	font-size: 1.52rem;
 	font-weight: 500;
+	color: #444;
 }
 .item__preview--info .form--input {
 	padding: .4rem;
 	width: 2rem;
 }
 
+.item__preview--customer {
+	margin-top: 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+.item__preview--customer .item--box {
+	display: flex;
+	align-items: center;
+	gap: .8rem;
+}
 
+.item--box .box--icon {
+	width: 2.4rem;
+	height: 2.4rem;
+	border-radius: .4rem;
+	background-color: #eee;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-brand-500);
+}
+.item--box a.box--text,
+.item--box p.box--text {
+	font-size: 1.3rem;
+	font-weight: 500;
+	color: #555;
+	cursor: pointer;
+}
+.item--box a.box--text {
+	color: var(--color-brand-500);
+}
 
 
 
@@ -1070,6 +1116,9 @@
 .analytics--grid.grid--2x1 {
 	grid-template-columns: 2fr 1fr;
 }
+.analytics--grid.grid--2x1 {
+	grid-template-columns: 2fr 1fr;
+}
 .analytics--container .card {
 	max-width: 100%;
 }
@@ -1120,8 +1169,12 @@
 
 
 	.item__preview--grid.grid--1x1,
-	.item__preview--grid.grid--2x1 {
+	.item__preview--grid.grid--2x1,
+	.item__preview--grid.grid--2-4x1 {
 		grid-template-columns: 1fr;
+	}
+	.item__preview--info {
+		align-items: flex-start;
 	}
 }
 
