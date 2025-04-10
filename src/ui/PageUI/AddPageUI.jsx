@@ -28,7 +28,7 @@ function AddPageActions({ id, loader, handleClear, handleSubmit, customStyle }) 
 }
 
 
-function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, response, handleClear, handleSubmit, confetti, children, hasExplainer=true, btnBelow=true /* need to implement d hasExplainer */ }) {
+function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, response, handleClear, handleSubmit, confetti, children, hasExplainer=true, btnBelow=true, noClearField=false /* need to implement d hasExplainer */ }) {
     const { id } = useParams();
     const { width } = useWindowSize();
 
@@ -69,7 +69,7 @@ function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, res
 
                     {(width > 600) && (
                         <AddPageActions
-                            id={id}
+                            id={id || noClearField}
                             loader={mainLoader}
                             handleClear={handleClear}
                             handleSubmit={handleSubmit}
@@ -84,7 +84,7 @@ function AddPageUI({ pageTitle, pageIcon, close, isnew, ismodal, mainLoader, res
 
                 {(width < 600 || btnBelow) && (
                     <AddPageActions
-                        id={id}
+                        id={id || noClearField}
                         loader={mainLoader}
                         handleClear={handleClear}
                         handleSubmit={handleSubmit}

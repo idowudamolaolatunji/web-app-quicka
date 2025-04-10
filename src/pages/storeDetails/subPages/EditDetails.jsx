@@ -286,6 +286,7 @@ function EditDetails() {
             handleSubmit={handleSubmit}
             hasExplainer={false}
             btnBelow={true}
+            noClearField={true}
         >
 
             <div className="product__upload--container">
