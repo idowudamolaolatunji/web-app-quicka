@@ -21,6 +21,7 @@ function index() {
     const { store } = useAuthContext();
     const { globalConnectionError } = useFetchedContext();
     const [loading, setLoading] = useState(false);
+    const { subscription } = store;
     const { template } = store.customDetail;
 
     useEffect(function() {
@@ -124,20 +125,28 @@ function index() {
                         <p>Feature-rich <strong>premium<MdOutlineWorkspacePremium style={{ fontSize: "1.8rem", marginBottom: "-.48rem" }} /></strong>templates&mdash; with effortless and easy customization.</p>
                     </div>
 
-                    {/* <div className="theme--grid">
-                        <figure className='theme__figure custom--display'>
-                            <Template1 logo={demo_logo} />
-                            <div className='theme__figure--detail'>
-                                <span className='theme__figure--detail-main'>
-                                    <h3 className='theme__figure--title'>Elegant</h3>
-                                    <span className='theme__figure--type'>Premium</span>
-                                </span>
-                                <button className='theme__figure--btn' onClick={() => navigate("customize/3")}>Use Theme </button>
-                            </div>
-                        </figure>
-                    </div> */}
+                    <div className="theme--grid">
 
-                    <ComingSoon feature="Premium theme" action={false} />
+                        <figure className={`theme__figure custom--display ${template == "modern" ? "active" : ""}`}>
+                            <div className={`theme__figure--display ${template == "modern" ? "active" : ""}`}>
+                                <button className='theme__figure--btn' onClick={() => navigate("customize?theme=modern")}>Customize</button>
+                                <Template1 logo={demo_logo} />
+                            </div>
+
+                            <figcaption className='theme__figure--detail'>
+                                <span className='main'>
+                                    <h3 className='theme__figure--title'>Modern</h3>
+                                    <span className='theme__figure--type'>{template == "modern" ? "Current theme" : "Premium"}</span>
+                                </span>
+
+                                {(template !== "modern" && subscription?.type != "free") && (
+                                    <button className='theme__figure--btn' onClick={() => navigate("customize?theme=modern")}>Preview</button>
+                                )}
+                            </figcaption>
+                        </figure>
+                       
+                        {/* more premuim to come here.. */}
+                    </div>
                 </div>
 
 

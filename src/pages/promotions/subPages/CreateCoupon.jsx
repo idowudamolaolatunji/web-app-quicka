@@ -115,7 +115,12 @@ export default function CreateCoupon() {
             ...couponData,
             couponCode: couponData.couponCode.replace(/[^a-zA-Z0-9\s]/g, '').replace(/^\s+/, '')
         })
-    }, [couponData.couponCode])
+    }, [couponData.couponCode]);
+
+
+    useEffect(function() {
+        setCouponData({ ...couponData, startDate: "", endDate: "" })
+    }, [couponData.setvalidity])
 
 
     async function handleSubmitCoupon() {
@@ -222,7 +227,6 @@ export default function CreateCoupon() {
                                 <input type="text" name="couponCode" id="couponCode" value={loading.code ? "Loading.." : couponData.couponCode.slice(0, 8).toUpperCase()} onChange={handleChangeCouponData} className="form--input" placeholder="Create an 8 Character Code" disabled={isGenerated} />
 
                                 <span className='url--box coupon' onClick={() => !isGenerated ? handleGenerateCode() : ""} style={isGenerated ? { cursor: "auto" } : {}}>{!isGenerated ? "Generate Code" : "Generated!"}</span>
-
                             </div>
                             <span className="form--error-message">
                                 {couponFormErrors.couponCode && couponFormErrors.couponCode}

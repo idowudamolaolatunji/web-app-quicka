@@ -4,6 +4,7 @@
     display: grid;
     grid-template-columns: 2.2fr 1.8fr;
     gap: 1.3rem;
+    align-items:start;
 }
 .product__upload--container .containers {
     display: flex;

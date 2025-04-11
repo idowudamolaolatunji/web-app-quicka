@@ -91,10 +91,16 @@ export function joinedSinceFormat(givenDate) {
 	}
 }
 
-export function calRemainingDays(startDate, endDate) {
+export function calDatesBtw(startDate, endDate) {
 	const start = moment(startDate);
 	const end = moment(endDate);
 	return end.diff(start, "days");
+}
+
+export function calRemainingDays(endDate) {
+	const now = moment();
+	const end = moment(endDate);
+	return end.diff(now, "days");
 }
 
 export function truncateString(input, num = 25) {

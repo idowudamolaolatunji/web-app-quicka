@@ -32,10 +32,10 @@ function ProductItem() {
     const [item, setItem] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     ////////////////////////////////////////////////////
+    const [currMainImg, setCurrMainImg] = useState("");
 
     const colorsVariants = item?.variations?.filter(variant => variant.type.toLowerCase() === 'color');
     const othersVariants = item?.variations?.filter(variant => variant.type.toLowerCase() !== 'color');
-
 
     const getItem = async function () {
         try {
@@ -52,6 +52,7 @@ function ProductItem() {
     useEffect(function() {
         window.scrollTo(0, 0);
         document.title = `Quicka | Product Id: ${item?.productId}`;
+        setCurrMainImg(item?.images[0]?.url)
     }, [item]);
 
     
@@ -135,7 +136,7 @@ function ProductItem() {
 
                         <span className='page__section--btns'>
                             <button className="page__section-top-btn" onClick={() => navigate("edit")} style={{ fontWeight: "600", color: "#444" }}>
-                                <RiEdit2Fill size={20} />
+                                <RiEdit2Fill size={20} /> {width > 800 ? "Edit Item" : "Edit"}
                             </button>
                             <button className="page__section-top-btn add" onClick={() => setShowDeleteModal(true)} style={{ fontWeight: "600", color: "#444" }}>
                                 <RiDeleteBin5Line size={20} />
@@ -203,11 +204,16 @@ function ProductItem() {
                                 </div>
                             
                                 <div className="item__preview--images"> 
-                                    <img src={item?.images?.[0]?.url} alt={item?.name + " - 1"} /> 
+                                    <img src={currMainImg} alt={item?.name + " - 1"} /> 
                                     {item?.images?.length > 1 && (
                                         <span className="images--img"> 
-                                            {item?.images?.slice(1).map((img, i) => (
+                                            {/* {item?.images?.slice(1).map((img, i) => (
                                                 <img src={img?.url} alt={`${item?.name} - ${i + 1}`} />
+                                            ))} */}
+                                            {item?.images?.map((img, i) => (
+                                                <span onClick={() => setCurrMainImg(img?.url)}>
+                                                    <img src={img?.url} alt={`${item?.name} - ${i + 1}`} className={currMainImg == img?.url ? 'active-img' : ""} />
+                                                </span>
                                             ))}
                                         </span>
                                     )}

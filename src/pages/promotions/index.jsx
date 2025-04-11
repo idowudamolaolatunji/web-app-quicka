@@ -4,7 +4,7 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { RiCoupon3Line, RiCouponLine, RiDeleteBin5Line, RiDiscountPercentLine, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { MdContentCopy, MdOutlineRefresh } from 'react-icons/md';
-import { calRemainingDays, cap1stLetter, dateTimeFormat, formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
+import { calDatesBtw, cap1stLetter, dateTimeFormat, formatNumber, ymdDateFormat, ymdDateSlashFormat } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
 import Tab from '../../components/elements/Tab';
 import { VscRunCoverage } from 'react-icons/vsc';
@@ -137,7 +137,7 @@ function index() {
             selector: (row) => (
                 <span style={{ display: "flex", alignItems: "center", gap: ".34rem" }}>
                     <TooltipUI placement="top" title={`Expires in ${
-                        calRemainingDays(row?.startDate || row?.createdAt, row?.endDate)
+                        calDatesBtw(row?.startDate || row?.createdAt, row?.endDate)
                     } days`}>
                         <p className='value'>{row?.couponCode}</p>
                     </TooltipUI>

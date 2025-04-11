@@ -8,6 +8,10 @@ import BackButton from '../../../components/button/BackButton';
 import Spinner from '../../../components/spinner/mainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Delete from '../../../components/modal/Delete';
+import { RiAddFill, RiDeleteBin5Line } from 'react-icons/ri';
+import { BiChevronDown } from 'react-icons/bi';
+import { GoDotFill } from 'react-icons/go';
+import { calRemainingDays, formatDateSince } from '../../../utils/helper';
 
 
 export default function DiscountItem() {
@@ -94,17 +98,46 @@ export default function DiscountItem() {
         ) : (
             <div className='item__preview--section'>
                 <div className='page__section--heading' style={{ alignItems: "flex-start" }}>
-                    <span style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                        <BackButton close={() => navigate(-1)} />
+                    <div className="heading--col">
+                        <span style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+                            <BackButton close={() => navigate(-1)} />
 
-                        <div className="heading--row" style={{ flexWrap: "wrap" }}>
-                            <h2 className="page__section--title">
-                                Disscount Details
-                            </h2>
-                        </div>
+                            <div className="heading--row" style={{ flexWrap: "wrap" }}>
+                                <h2 className="page__section--title">
+                                    Discount Details
+                                </h2>
+                                {width > 370 && (
+                                    <span className={`status status--${item?.status}`}>
+                                        <p style={{ textTransform: "capitalize" }}><GoDotFill /> {item?.status}</p>
+                                    </span>
+                                )}
+                            </div>
+                        </span>
+
+                        {width <= 370 && (
+                            <div className="heading--row" style={{ flexWrap: "wrap" }}>
+                                <span className={`status status--${item?.status}`}>
+                                    <p style={{ textTransform: "capitalize" }}><GoDotFill /> {item?.status}</p>
+                                </span>
+                            </div>
+                        )}
+
+                        <p style={{ fontSize: "1.28rem", padding: "0", textTransform: "none" }} className='preview--body-item'>
+                            Created for a {item?.discountValidity} period, {item?.status == "active" ? `ends in just ${calRemainingDays(item?.endDate)} days` : `but has ${item?.status == "inactive" ? "been inactive" : "expired"} since ${formatDateSince(item?.endDate)}`}.
+                        </p>
+                    </div>
+
+                    <span className='page__section--btns'>
+                        <button className="page__section-top-btn add" onClick={() => setShowDeleteModal(true)} style={{ fontWeight: "600", color: "#444" }}>
+                            <RiDeleteBin5Line size={20} />
+                        </button>
+                        <button className="page__section-top-btn" onClick={() => {}} style={{ fontWeight: "600", color: "#444" }}>
+                            <RiAddFill size={20} /> {width > 800 ? "Add Items" : "Add"}
+                        </button>
+                        <span className="page__section--action" onMouseLeave={() => {}}>
+                            <button onClick={() => {}} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
+                        </span>
                     </span>
-
-                    {/* hed based thingss go here */}
                 </div>
 
                 {/* Section based things go here */}

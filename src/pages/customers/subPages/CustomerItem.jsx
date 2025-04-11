@@ -24,6 +24,7 @@ import DataTable from 'react-data-table-component';
 import Empty from '../../../components/layout/Empty';
 import moment from 'moment';
 import { TbCashRegister } from 'react-icons/tb';
+import ErrorComponent from '../../../components/layout/ErrorComponent';
 
 
 export default function CustomerItem() {
@@ -35,7 +36,6 @@ export default function CustomerItem() {
     const { orders, handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
     const avatar = "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png"
     const purchaseHistoryData =  orders.filter(order => order.customer._id === id) || [];
-    console.log(purchaseHistoryData)
 
     const purchaseHistoryColumns = [
         {
@@ -148,9 +148,9 @@ export default function CustomerItem() {
     const paymentMethods = {};
 
     // HERE WE MAP TO GET THE MOST BOUGHT ITEM, AND THE MOST RECENT PURCHASE
-    orders?.length > 0 && orders.forEach(order => {
+    purchaseHistoryData?.length > 0 && purchaseHistoryData?.forEach(order => {
         order.products.forEach(product => {
-            const count = orders.reduce((acc, curr) => {
+            const count = purchaseHistoryData.reduce((acc, curr) => {
                 return acc + curr.products.filter(p => p.name === product.name).reduce((a, c) => a + c.quantity, 0);
             }, 0);
             console.log(count)
@@ -346,11 +346,13 @@ export default function CustomerItem() {
                                                 <img src={mostBoughtItem?.image} alt={mostBoughtItem?.name} />
                                                 <span>
                                                     <p className='insights-item-value'>{width < 450 ? truncateString(mostBoughtItem?.name, 20) : mostBoughtItem?.name}</p>
-                                                    <span className='flex-align-center'>
-                                                        {mostBoughtItem?.product_collection?.map((collection, i) => (
+                                                    <span className='flex-align-center' style={{ flexWrap: "wrap" }}>
+                                                        {mostBoughtItem?.product_collection?.slice(0, 2)?.map((collection, i) => (
                                                             <p className='product__figure--collection' key={i}>{collection}</p>
                                                         ))}
+                                                        <span className='insights-item-title flex-align-center' style={{ fontSize: "1rem" }}><GoDotFill /> <span>Bought <span className='value'>{maxBoughtItemCount}</span> {mostBoughtItem?.unit || "pair"}</span></span>
                                                     </span>
+
                                                 </span>
                                             </div>
                                         ) : (
@@ -371,7 +373,7 @@ export default function CustomerItem() {
                                         columns={purchaseHistoryColumns}
                                         pointerOnHover={true}
                                         customStyles={purchaseHistoryCustomStyles}
-                                        onRowClicked={(row) => navigate(`/dashboard/orders/${row?.id}`)}
+                                        onRowClicked={(row) => navigate(`/dashboard/orders/${row?._id}`)}
                                         noDataComponent={<Empty text="order history yet!" />}
                                         pagination
                                         paginationRowsPerPageOptions={[3, 5, 10]}
