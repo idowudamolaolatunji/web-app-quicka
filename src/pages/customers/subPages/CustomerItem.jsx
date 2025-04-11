@@ -220,7 +220,7 @@ export default function CustomerItem() {
     async function deleteItem() {
         try {
             setLoading(true)
-            await handleDeleteOneItem("customers", item?._id);
+            await handleDeleteOneItem(title+"s", item?._id);
             setResponse({ message: "Successful!", response: "success" })
             handleFetchMyStoreCustomers();
             
@@ -324,7 +324,7 @@ export default function CustomerItem() {
                                     <div className="preview--insights-item">
                                         <span className="insights-item-title">Preferred Payment</span>
                                         {purchaseHistoryData?.length > 0 ? (
-                                            <span className='insights-item-value status status--pending'><p><TbCashRegister />{mostUsedPaymentMethod}</p></span>
+                                            <span className='insights-item-value status status--pending'><p><TbCashRegister />{mostUsedPaymentMethod?.replace("-", " ")}</p></span>
                                         ) : (
                                             <span className='insights-item-value'>--</span>
                                         )}
@@ -402,7 +402,6 @@ export default function CustomerItem() {
                                     </span>
                                 </div>
                             </div>
-
 
                             <div className="card form">
                                 <div className="section--heading">
