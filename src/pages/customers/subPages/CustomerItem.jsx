@@ -24,6 +24,7 @@ export default function CustomerItem() {
     const navigate = useNavigate();
     const { currency } = useAuthContext()
     const { handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
+    const avatar = "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png"
    
     ////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
@@ -131,7 +132,22 @@ export default function CustomerItem() {
                     <div className="item__preview--grid grid--2x1">
                         <div className="left--side">
                             <div className="card form">
+                                <div className="item__preview--user">
+                                    <span className="user--image">
+                                        {item?.image?.url ? (
+                                            <img src={item?.image?.url} alt={item?.fullname} />
+                                        ) : (
+                                            <img src={avatar} alt="user avatar" />
+                                        )}
+                                    </span>
 
+                                    <div className="user--detail">
+                                        <h3 className="details--title">{item?.fullname}</h3>
+                                        <p style={{ fontSize: "1.28rem", padding: "0", textTransform: "none" }} className='preview--body-item'>
+                                            Joined Since, {formatDateSince(item?.createdAt)}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="card">
@@ -177,7 +193,7 @@ export default function CustomerItem() {
                                 <div className="item__preview--customer">
                                     <span className="item--box">
                                         <span className="box--icon" style={{ width: "3rem" }}><PiMapPinArea /></span>
-                                        <p className="box--text">{item?.shippingAddress?.address}</p>
+                                        <p className="box--text">{item?.shippingAddress?.address || "Address Not Selected"}</p>
                                     </span>
                                     <span className="item--box">
                                         <span className="box--icon" style={{ width: "2.6rem", padding: "0 .28rem" }}><img src={flagUrl} alt={item?.shippingAddress?.country?.name} /></span>

@@ -827,6 +827,30 @@
 	padding: .3rem;
 }
 
+.item__preview--user {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+.item__preview--user .user--image {
+	border-radius: 50%;
+	background-color: #eee;
+	padding: .48rem;
+}
+.item__preview--user .user--image img {
+	width: 7rem;
+	border-radius: 50%;
+}
+.item__preview--user .user--detail .details--title {
+	font-size: 1.85rem;	
+	font-weight: 600;
+	margin-bottom: .8rem;
+	text-transform: capitalize;
+}
+
+
+
+
 
 /* =============================================== */
 /* THE RSUITES DATARANGE INPUT */
