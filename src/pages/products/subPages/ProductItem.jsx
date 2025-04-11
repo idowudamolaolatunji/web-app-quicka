@@ -7,12 +7,13 @@ import CustomAlert from '../../../components/layout/CustomAlert';
 import BackButton from '../../../components/button/BackButton';
 import { TbCashRegister } from 'react-icons/tb';
 import { formatDateSince, formatNumber, truncateString } from '../../../utils/helper';
-import { RiDeleteBin5Line } from 'react-icons/ri';
+import { RiDeleteBin5Line, RiEdit2Fill } from 'react-icons/ri';
 import { BiChevronDown } from 'react-icons/bi';
 import Line from '../../../components/elements/Line';
 import { useAuthContext } from '../../../context/AuthContext';
 import ColorBox from '../../../components/elements/ColorBox';
 import { useWindowSize } from 'react-use';
+import Delete from '../../../components/modal/Delete';
 
 
 function ProductItem() {
@@ -21,13 +22,14 @@ function ProductItem() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { currency } = useAuthContext();
-    const { handleFetchOneItem } = useFetchedContext();
+    const { handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreProducts } = useFetchedContext();
     
     ////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
     const [response, setResponse] = useState({ status: null, message: null });
     const [error, setError] = useState(false);
     const [item, setItem] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     ////////////////////////////////////////////////////
 
     const colors = item?.variations?.filter(variant => variant.type.toLowerCase() === 'color');
@@ -48,34 +50,49 @@ function ProductItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Product Item: #${item?.productId}`;
+        document.title = `Quicka | Product Id: ${item?.productId}`;
     }, [item]);
 
     
     useEffect(function () {
         getItem();
-    }, [id])
+    }, [id]);
 
 
-    const PageTitle = function () {
-        return (
-            <React.Fragment>
-                {item?.name}
-                <span className={`status status--${(item?.status)}`}>
-                    <p><GoDotFill />{item?.status}</p>
-                </span>
-            </React.Fragment>
-        )
+    // DELETE FUNCTION
+    async function deleteItem() {
+        try {
+            setLoading(true)
+            await handleDeleteOneItem(`products`, item?._id);
+            setResponse({ message: "Successful!", response: "success" })
+            handleFetchMyStoreProducts();
+            
+            setTimeout(function() {
+                navigate(-1)
+                setShowDeleteModal(false);
+            }, 1000)
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
     }
+
 
     return (
         <React.Fragment>
+            {showDeleteModal && (
+                <Delete
+                    title={`"Product"`}
+                    close={setShowDeleteModal} 
+                    fn={deleteItem}
+                />
+            )}
+
             {(response.message || response.status) && (
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            
-            
             {(loading && !item) ? (
                 <Spinner />
             ) : (
@@ -112,8 +129,11 @@ function ProductItem() {
                         </div>
 
                         <span className='page__section--btns'>
-                            <button className="page__section-top-btn" onClick={() => {}} style={{ fontWeight: "600", color: "#444" }}>
-                                Delete <RiDeleteBin5Line size={20} />
+                            <button className="page__section-top-btn" onClick={() => navigate("edit")} style={{ fontWeight: "600", color: "#444" }}>
+                                <RiEdit2Fill size={20} />
+                            </button>
+                            <button className="page__section-top-btn add" onClick={() => setShowDeleteModal(true)} style={{ fontWeight: "600", color: "#444" }}>
+                                <RiDeleteBin5Line size={20} />
                             </button>
                             <span className="page__section--action" onMouseLeave={() => {}}>
                                 <button onClick={() => {}} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
@@ -187,8 +207,6 @@ function ProductItem() {
                                         </span>
                                     )}
                                 </div>
-
-
                             </div>
                         </div>
                     </div>

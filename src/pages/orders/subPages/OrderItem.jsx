@@ -42,62 +42,6 @@ function OrderItem() {
     const [item, setItem] = useState(null);
     ////////////////////////////////////////////////////
 
-    /*
-        {
-            _id: "67991948baf37f41eb865340",
-            store: "6794dfc7a535c14711135078",
-            products: [
-                {
-                    id: "6796e37935af332982842ed4",
-                    name: "Nude Sunbo Slippers SS007 - Size 40",
-                    quantity: 2,
-                    price: 100000,
-                    discount: 20000,
-                    productId: "",
-                    image: "https://res.cloudinary.com/du8iw1efa/image/upload/c_fill,g_auto,h_950,q_80,w_950/v1/products/product-1737963632418-2?_a=BAMCkGOY0",
-                    product_collection: [ { name: "Sneakers" } ],
-                    variations: [
-                        { type: "Color", value: "Red" },
-                        { type: "Size", value: "33" },
-                    ],
-                }
-            ],
-            customer: {
-                contact: {
-                    countryCode: "ng",
-                    dialCode: "234",
-                    phoneNumber: "9057643470",
-                    phone: "2349057643470",
-                    email: "damolaidowudavid@gmail.com"
-                },
-                shippingAddress: {
-                    country: {
-                        name: "Nigeria",
-                        iso2: "NG"
-                    }
-                },
-                _id: "6798ae6160c27aeb8a0c7252",
-                firstname: "idowu",
-                lastname: "olatunji",
-                createdAt: "2025-01-28T10:16:01.208Z",
-                fullname: "idowu olatunji"
-            },
-            description: "",
-            orderSubTotal: 190000,
-            orderDeliveryFee: 10000,
-            orderTotalQuantity: 2,
-            profit: 180000,
-            orderDate: "2025-01-28T17:51:00.000Z",
-            channel: "instagram",
-            paymentStatus: "paid",
-            paymentMethod: "cash",
-            deliveryStatus: "delivered",
-            orderStatus: "completed",
-            createdAt: "2025-01-28T17:52:08.049Z",
-            orderId: "#78080",
-        }
-    */
-
 
     const getItem = async function () {
         setError(false);

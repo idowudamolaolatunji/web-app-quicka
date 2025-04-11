@@ -1421,7 +1421,7 @@
 	.item__preview--summary.product .preview--body-item {
 		display: flex;
 		align-items: center;
-		gap: 2rem;
+		gap: 1.4rem;
 		flex-wrap: wrap;
 		justify-content: space-between;
 	}
