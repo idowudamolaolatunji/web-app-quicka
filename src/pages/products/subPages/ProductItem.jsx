@@ -64,7 +64,7 @@ function ProductItem() {
     async function deleteItem() {
         try {
             setLoading(true)
-            await handleDeleteOneItem(`products`, item?._id);
+            await handleDeleteOneItem("products", item?._id);
             setResponse({ message: "Successful!", response: "success" })
             handleFetchMyStoreProducts();
             
