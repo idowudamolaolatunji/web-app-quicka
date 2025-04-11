@@ -104,9 +104,11 @@ function OrderItem() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {(error && !item) && <ErrorComponent />}
-
-            {(loading && !item && !error) ? (
+            {(error && !item && !loading) ? (
+                <div style={{ height: "28rem" }} className='flex-align-center'>
+                    <ErrorComponent />
+                </div>
+            ) : (loading && !item && !error) ? (
                 <Spinner />
             ) : (
                 <div className='item__preview--section'>

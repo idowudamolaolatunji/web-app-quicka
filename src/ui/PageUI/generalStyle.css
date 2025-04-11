@@ -743,7 +743,8 @@
 }
 .item__preview--info .form--input {
 	padding: .4rem;
-	width: 2rem;
+	max-width: 2.2rem;
+	min-width: 2rem;
 }
 
 .item__preview--customer {
@@ -814,7 +815,8 @@
 	width: 100%;
 	border-radius: .5rem;
 	background-color: #eee;
-	padding: .6rem;
+	padding: .48rem;
+	overflow: hidden;
 }
 .item__preview--images .images--img {
 	display: grid;
@@ -824,7 +826,7 @@
 }
 .item__preview--images .images--img img {
 	width: 100%;
-	padding: .3rem;
+	padding: .2rem;
 }
 
 .item__preview--user {
@@ -847,9 +849,42 @@
 	margin-bottom: .8rem;
 	text-transform: capitalize;
 }
-.item__preview--history .table--head {
-	padding: 0;
+
+.item__preview--insights {
+	display: flex;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: 4.5rem;
+	margin-top: 2rem;
 }
+.item__preview--insights .preview--insights-item {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: .8rem;
+}
+.preview--insights-item .insights-item-title {
+	color: #888;
+	font-size: 1.3rem;
+	font-weight: 600;
+	text-transform: capitalize;
+}
+.preview--insights-item .insights-item-value {
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+.preview--insights-item .insights-item-product {
+	display: flex;
+	align-items: flex-start;
+	gap: .8rem;
+}
+.preview--insights-item .insights-item-product img {
+	width: 4.6rem;
+	border-radius: .4rem;
+}
+
+
+
 
 
 
@@ -1349,7 +1384,12 @@
 		grid-template-columns: 1.8fr 3fr;
 		gap: 2rem;
 	}
-	
+	.item__preview--insights {
+		gap: 2.8rem;
+	}
+	.item__preview--insights .preview--insights-item {
+		margin-right: 1.4rem;
+	}
 	
 }
 

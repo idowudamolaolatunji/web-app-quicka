@@ -649,6 +649,11 @@ button {
 	align-items: flex-start;
 	gap: .6rem;
 }
+.flex-align-center {
+	display: flex;
+	align-items: center;
+	gap: .6rem;
+}
 
 .general--btn {
 	padding: 1rem 1.2rem;

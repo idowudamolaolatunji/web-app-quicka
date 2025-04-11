@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { GoDotFill } from 'react-icons/go';
-import { cap1stLetter, formatDate, formatDateSince, formatNumber, truncateString } from '../../../utils/helper';
+import { cap1stLetter, formatDate, formatDateSince, formatNumber, truncateString, ymdDateSlashTimeFormat } from '../../../utils/helper';
 import Spinner from '../../../components/spinner/mainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Delete from '../../../components/modal/Delete';
@@ -22,6 +22,8 @@ import { useWindowSize } from 'react-use';
 import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import Empty from '../../../components/layout/Empty';
+import moment from 'moment';
+import { TbCashRegister } from 'react-icons/tb';
 
 
 export default function CustomerItem() {
@@ -29,10 +31,11 @@ export default function CustomerItem() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { currency } = useAuthContext()
+    const { currency } = useAuthContext();
     const { orders, handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
     const avatar = "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png"
-    const purchaseHistoryData =  orders.filter(order => order.customer._id === id);
+    const purchaseHistoryData =  orders.filter(order => order.customer._id === id) || [];
+    console.log(purchaseHistoryData)
 
     const purchaseHistoryColumns = [
         {
@@ -131,6 +134,52 @@ export default function CustomerItem() {
         }
     };
 
+    const totalAmountSpent = purchaseHistoryData?.reduce((sum, data) => sum + data?.orderSubTotal, 0) || 0;
+
+    let mostBoughtItem;
+    let mostRecentOrder;
+    let maxBoughtItemCount = 0;
+    let mostUsedSalesChannel = '';
+    let maxSalesChannelCount = 0;
+    let mostUsedPaymentMethod = '';
+    let maxPaymentMethodCount = 0;
+
+    const channels = {};
+    const paymentMethods = {};
+
+    // HERE WE MAP TO GET THE MOST BOUGHT ITEM, AND THE MOST RECENT PURCHASE
+    orders?.length > 0 && orders.forEach(order => {
+        order.products.forEach(product => {
+            const count = orders.reduce((acc, curr) => {
+                return acc + curr.products.filter(p => p.name === product.name).reduce((a, c) => a + c.quantity, 0);
+            }, 0);
+            console.log(count)
+            if (count > maxBoughtItemCount) {
+                maxBoughtItemCount = count;
+                mostBoughtItem = product
+            }
+        });
+
+        // ADDITIONALLY, WE TRY TO GET THE MOST USED SALES CHANNEL
+        channels[order?.channel] = (channels[order?.channel] || 0) + 1;
+        if (channels[order?.channel] > maxSalesChannelCount) {
+            maxSalesChannelCount = channels[order?.channel];
+            mostUsedSalesChannel = order?.channel;
+        }
+        
+        // AND THE MOST USED PAYMENT METHOD
+        paymentMethods[order.paymentMethod] = (paymentMethods[order.paymentMethod] || 0) + 1;
+        if (paymentMethods[order.paymentMethod] > maxPaymentMethodCount) {
+            maxPaymentMethodCount = paymentMethods[order.paymentMethod];
+            mostUsedPaymentMethod = order.paymentMethod;
+        }
+
+        // FINALLY, THE MOST RECENT PURCHASE
+        if (!mostRecentOrder || moment(order.orderDate).isAfter(moment(mostRecentOrder.orderDate))) {
+            mostRecentOrder = order;
+        }
+    });
+
     ////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
     const [response, setResponse] = useState({ status: null, message: null });
@@ -202,12 +251,13 @@ export default function CustomerItem() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {(error && !item) && <ErrorComponent />}
-
-            {(loading && !item && !error) ? (
+            {(error && !item && !loading) ? (
+                <div style={{ height: "28rem" }} className='flex-align-center'>
+                    <ErrorComponent />
+                </div>
+            ) : (loading && !item && !error) ? (
                 <Spinner />
             ) : (
-
                 <div className='item__preview--section'>
                     <div className='page__section--heading' style={{ alignItems: "flex-start" }}>
                         <span style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
@@ -251,6 +301,61 @@ export default function CustomerItem() {
                                         <p style={{ fontSize: "1.28rem", padding: "0", textTransform: "none" }} className='preview--body-item'>
                                             Joined Since, {formatDateSince(item?.createdAt)}
                                         </p>
+                                    </div>
+                                </div>
+
+                                <div className="item__preview--insights">
+                                    <div className="preview--insights-item">
+                                        <span className="insights-item-title">Total Order</span>
+                                        <p className='insights-item-value value'>{purchaseHistoryData?.length || 0}</p>
+                                    </div>
+                                    <div className="preview--insights-item">
+                                        <span className="insights-item-title">Total Amount Spent</span>
+                                        <p className='insights-item-value value'>{currency}{formatNumber(totalAmountSpent) || 0}</p>
+                                    </div>
+                                    <div className="preview--insights-item">
+                                        <span className="insights-item-title">Last Order</span>
+                                        {(purchaseHistoryData?.length > 0) ? (
+                                            <p className='insights-item-value value' style={{ fontSize: "1.3rem" }}>{ymdDateSlashTimeFormat(mostRecentOrder?.orderDate)}</p>
+                                        ) : (
+                                            <span className='insights-item-value'>--</span>
+                                        )}
+                                    </div>
+                                    <div className="preview--insights-item">
+                                        <span className="insights-item-title">Preferred Payment</span>
+                                        {purchaseHistoryData?.length > 0 ? (
+                                            <span className='insights-item-value status status--pending'><p><TbCashRegister />{mostUsedPaymentMethod}</p></span>
+                                        ) : (
+                                            <span className='insights-item-value'>--</span>
+                                        )}
+                                    </div>
+                                    <div className="preview--insights-item">
+                                        <span className="insights-item-title">Most Purchased channel</span>
+                                        {purchaseHistoryData?.length > 0 ? (
+                                            <p className='insights-item-value flex-align-center'>
+                                                {mostUsedSalesChannel} <img style={{ width: "2.8rem" }} alt={mostUsedSalesChannel} src={imgString(mostUsedSalesChannel)} />
+                                            </p>
+                                        ) : (
+                                            <span className='insights-item-value'>--</span>
+                                        )}
+                                    </div>
+                                    <div className="preview--insights-item">
+                                        <span className="insights-item-title">Most Purchsed Item</span>
+                                        {purchaseHistoryData?.length > 0 ? (
+                                            <div className="insights-item-product" onClick={() => navigate(`/dashboard/products/${mostBoughtItem?.productId}`)} style={{ cursor: "pointer" }}>
+                                                <img src={mostBoughtItem?.image} alt={mostBoughtItem?.name} />
+                                                <span>
+                                                    <p className='insights-item-value'>{width < 450 ? truncateString(mostBoughtItem?.name, 20) : mostBoughtItem?.name}</p>
+                                                    <span className='flex-align-center'>
+                                                        {mostBoughtItem?.product_collection?.map((collection, i) => (
+                                                            <p className='product__figure--collection' key={i}>{collection}</p>
+                                                        ))}
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            <span className='insights-item-value'>--</span>
+                                        )}
                                     </div>
                                 </div>
                             </div>

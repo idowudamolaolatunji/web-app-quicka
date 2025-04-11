@@ -94,9 +94,11 @@ function ProductItem() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {(error && !item) && <ErrorComponent />}
-
-            {(loading && !item && !error) ? (
+            {(error && !item && !loading) ? (
+                <div style={{ height: "28rem" }} className='flex-align-center'>
+                    <ErrorComponent />
+                </div>
+            ) : (loading && !item && !error) ? (
                 <Spinner />
             ) : (
                 <div className='item__preview--section'>
@@ -127,7 +129,7 @@ function ProductItem() {
                             )}
 
                             <p style={{ fontSize: "1.28rem", padding: "0", textTransform: "none" }} className='preview--body-item'>
-                                Created, {formatDateSince(item?.createdAt)}
+                                Uploaded product, {formatDateSince(item?.createdAt)}
                             </p>
                         </div>
 
