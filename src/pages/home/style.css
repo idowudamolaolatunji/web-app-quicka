@@ -888,6 +888,9 @@ a.upgrade--link:hover {
     .recent-section {
         max-width: 52rem;
     }
+    .recent-section.customer {
+        max-width: 20rem;
+    }
 }
 
 
@@ -896,6 +899,7 @@ a.upgrade--link:hover {
     .prog-figure:hover {
         transform: scale(1.05);
     }
+    
 }
 
 @media screen and (max-width: 56.25em) {

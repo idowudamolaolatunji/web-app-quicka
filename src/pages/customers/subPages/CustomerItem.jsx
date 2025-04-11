@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { GoDotFill } from 'react-icons/go';
-import { formatDateSince, formatNumber } from '../../../utils/helper';
-import Insight from '../../../components/layout/Insight';
+import { cap1stLetter, formatDate, formatDateSince, formatNumber, truncateString } from '../../../utils/helper';
 import Spinner from '../../../components/spinner/mainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Delete from '../../../components/modal/Delete';
@@ -16,23 +15,129 @@ import { MdWhatsapp } from 'react-icons/md';
 import Line from '../../../components/elements/Line';
 import { useAuthContext } from '../../../context/AuthContext';
 import { findFlagUrlByCountryName } from "country-flags-svg";
+import TooltipUI from '../../../components/layout/TooltipUI';
+import { imgString } from '../../../assets/images/png_elements';
+import { IoArrowRedo, IoArrowRedoOutline } from 'react-icons/io5';
+import { useWindowSize } from 'react-use';
+import { Link } from 'react-router-dom';
+import DataTable from 'react-data-table-component';
+import Empty from '../../../components/layout/Empty';
 
 
 export default function CustomerItem() {
     const title = "customer"
     const { id } = useParams();
     const navigate = useNavigate();
+    const { width } = useWindowSize();
     const { currency } = useAuthContext()
-    const { handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
+    const { orders, handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
     const avatar = "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png"
-   
+    const purchaseHistoryData =  orders.filter(order => order.customer._id === id);
+
+    const purchaseHistoryColumns = [
+        {
+            name: "Channel", selector: row => (
+                <TooltipUI placement="top" title={cap1stLetter(row?.channel)}>
+                    <img width={width > 450 ? "32px" : "24px"} alt={row?.channel} src={imgString(row?.channel)} />
+                </TooltipUI>
+            ), width: "70px"
+        },
+        {
+            name: "Order Id", selector: row => (
+                <Link to={row?._id} className="value">{row?.orderId}</Link>
+            ), width: "100px"
+        },
+        {
+            name: "Product(s)", selector: row => (
+                <TooltipUI placement="top" title={
+                    <ul className="table--list">
+                        {row?.products?.map((item, index) => (
+                            <li key={index}><IoArrowRedoOutline /> {item?.name}</li>
+                        ))}
+                    </ul>
+                }>
+                    <ul className="table--list">
+                        {row?.products?.slice(0, 3)?.map((item, index) => (
+                            <li key={index}>
+                                {width > 600 ? (
+                                    <Link to={item?.productId || "/"}><IoArrowRedo /></Link>
+                                ) : (
+                                    <IoArrowRedoOutline />
+                                )}
+                                {truncateString(item?.name, 18)}
+                            </li>
+                        ))}
+                        {row?.products?.length > 3 && <li>...</li>}
+                    </ul>
+                </TooltipUI>
+            ),
+            width: "180px"
+        },
+        {
+            name: "Amount", selector: row => (
+                <span className="value">{currency}{formatNumber(row?.orderSubTotal)}</span>
+            ), width: "100px"
+        },
+        {
+            name: "Status", selector: row => (
+                <span className={`status status--${row?.orderStatus}`}>
+                    <p><GoDotFill />{row?.orderStatus}</p>
+                </span>
+            ),
+            width: "120px"
+        },
+        {
+            name: "Date Sold", selector: row => (
+                <TooltipUI placement="top" title={formatDate(row?.orderDate)}>
+                    <p>{formatDate(row?.orderDate)}</p>
+                </TooltipUI>
+            ),
+        },
+    ];
+
+    const purchaseHistoryCustomStyles = {
+        table: {
+            style: {
+                overflowX: 'auto',
+            },
+        },    
+        head: {
+            style: {
+                fontSize: "1.44rem",
+                fontWeight: "600",
+                color: "#eee",
+                height: width < 450 ? "4rem" : "4.5rem"
+            },
+        },
+        rows: {
+            style: {
+                minHeight: '6rem',
+                fontSize: "1.3rem",
+                fontWeight: "500",
+                cursor: 'pointer'
+            },
+        },
+        headCells: {
+            style: {
+                paddingRight: '5px',
+                backgroundColor: '#343434',
+                height: width < 450 ? "4rem" : "4.5rem"
+            },
+        },
+        cells: {
+            style: {
+                textAlign: 'center'
+            }
+        }
+    };
+
     ////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
     const [response, setResponse] = useState({ status: null, message: null });
     const [error, setError] = useState(false);
     const [item, setItem] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [flagUrl, setFlagUrl] = useState("")
+    const [flagUrl, setFlagUrl] = useState("");
     ////////////////////////////////////////////////////
 
     const getItem = async function () {
@@ -150,13 +255,23 @@ export default function CustomerItem() {
                                 </div>
                             </div>
 
-                            <div className="card">
-                                <div className="section--heading">
+                            <div className="card recent-section customer form" style={{ padding: 0 }}>
+                                <div className="section--heading" style={{ padding: '2rem 2rem 0' }}>
                                     <h2>Purchase History</h2>
-                                    <Line border={1.4} where="Top" value="1rem" />
                                 </div>
 
-
+                                <div className="table-h">
+                                    <DataTable
+                                        data={purchaseHistoryData}
+                                        columns={purchaseHistoryColumns}
+                                        pointerOnHover={true}
+                                        customStyles={purchaseHistoryCustomStyles}
+                                        onRowClicked={(row) => navigate(`/dashboard/orders/${row?.id}`)}
+                                        noDataComponent={<Empty text="order history yet!" />}
+                                        pagination
+                                        paginationRowsPerPageOptions={[3, 5, 10]}
+                                    />
+                                </div>
                             </div>
                         </div>
 

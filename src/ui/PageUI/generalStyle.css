@@ -847,7 +847,9 @@
 	margin-bottom: .8rem;
 	text-transform: capitalize;
 }
-
+.item__preview--history .table--head {
+	padding: 0;
+}
 
 
 

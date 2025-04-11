@@ -33,7 +33,7 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
-    const { loader, error, orders, handleFetchMyStoreOrders, handleDeleteOneItem } = useFetchedContext()
+    const { loader, error, orders, handleFetchMyStoreOrders } = useFetchedContext()
     const currency = store?.currency?.symbol;
     
     const [search, setSearch] = useState('');
