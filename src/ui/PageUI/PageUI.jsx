@@ -17,10 +17,28 @@ import ConnectionError from '../../components/layout/ConnectionError';
 import Drawer from '../../components/modal/Drawer';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 
+/*
+    columns: for the table structure,
+    data: the table data that works with the columns,
+    items: same as data but for a different context,
+    emptyTitle
+    emptyText
+    emptyImg
+    emptyBtns
+    addUrl: this is for the buttons on the top right when a document alredy exists, 
+    shouldSelect: to make the table row selectable,
+    insights: this shows the insights, for the entire page,
+    hasLink: this determines where there is a link to go to when we click on a row,
+    action: this here shows an extra action modal,
+    addAction: this toggles / removes the action modal,
+    ...action, and addAction are mostly for product's collections,
+    deleteObj: this helps us delete by showing a modal,
+
+*/
 
 function PageUI({
     items, pageName, columns, data, addUrl, addBtnStr, hasLink = true, emptyTitle,
-    emptyText, emptyImg, emptyBtns, headTabs, error, loader, action, searchLoader, addAction,
+    emptyText, emptyImg, emptyBtns, headTabs, error, loader, action, addAction, searchLoader,
     activeDisplayTab = null, insights = true, children, deleteObj, shouldSelect, pointOnHover = true
 }) {
 

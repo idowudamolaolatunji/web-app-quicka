@@ -523,8 +523,7 @@ button {
 
 .status--partially p,
 .status--pending p,
-.status--processing p,
-.status--published p {
+.status--processing p {
 	/* background-color: #eef1ff; */
 	color: #655dbb;
 }
@@ -532,7 +531,8 @@ button {
 .status--active p,
 .status--success p,
 .status--completed p,
-.status--delivered p {
+.status--delivered p,
+.status--published p {
 	/* background-color: #d7ecd1b7; */
 	color: #008001;
 }

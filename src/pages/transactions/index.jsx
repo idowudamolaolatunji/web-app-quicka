@@ -77,16 +77,24 @@ function index() {
         {
             name: "Payment Type",
             selector: row => (
-                <span className="status status--success">
-                    <p><GoDotFill />{row?.paymentType == "bank-transfer" ? "transfer" : row?.paymentType}</p>
-                </span>
+                <>
+                    {row?.paymentType ? (
+                        <span className="status status--success">
+                            <p><GoDotFill />{row?.paymentType == "bank-transfer" ? "transfer" : row?.paymentType}</p>
+                        </span>
+                    ) : (
+                        <span className="status status--failed">
+                            <p><GoDotFill />Unpaid</p>
+                        </span>
+                    )}
+                </>
             )
         },
         {
             name: 'Status',
             selector: row => (
                 <span className={`status status--${row?.status}`}>
-                    <p><GoDotFill />{row?.status == "success" && "Successful"}</p>
+                    <p><GoDotFill />{row?.status == "success" ? "Successful" : "Pending"}</p>
                 </span>
             ),
         },
