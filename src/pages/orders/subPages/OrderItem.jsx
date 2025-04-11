@@ -20,6 +20,7 @@ import { HiOutlineEnvelope, HiOutlinePhone, HiOutlineUser } from 'react-icons/hi
 import { PiMapPinArea } from "react-icons/pi";
 import { GoDotFill } from 'react-icons/go';
 import { imgString } from '../../../assets/images/png_elements';
+import ErrorComponent from '../../../components/layout/ErrorComponent';
 
 
 function OrderItem() {
@@ -103,7 +104,9 @@ function OrderItem() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {(loading && !item) ? (
+            {(error && !item) && <ErrorComponent />}
+
+            {(loading && !item && !error) ? (
                 <Spinner />
             ) : (
                 <div className='item__preview--section'>
@@ -191,7 +194,7 @@ function OrderItem() {
                                 <div className="item__preview--summary order">
                                     <div className='preview--body-item' style={{ marginTop: "-.8rem" }}>
                                         Sales Channel 
-                                        <span className='preview--body-value flex' style={{ flexDirection: "row", gap: ".68rem", textTransform: "capitalize" }}>
+                                        <span className='preview--body-value flex' style={{ flexDirection: "row", gap: ".68rem", textTransform: "capitalize", alignItems: "center" }}>
                                         {item?.channel} <img style={{ width: "2.8rem" }} alt={item?.channel} src={imgString(item?.channel)} />
                                         </span>
                                     </div>

@@ -520,6 +520,9 @@ button {
 	color: #ff0000;
 }
 
+.product__figure--stat.status--published p {
+	color: #655dbb;
+}
 
 .status--partially p,
 .status--pending p,

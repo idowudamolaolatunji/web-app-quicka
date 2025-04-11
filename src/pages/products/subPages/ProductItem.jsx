@@ -14,6 +14,7 @@ import { useAuthContext } from '../../../context/AuthContext';
 import ColorBox from '../../../components/elements/ColorBox';
 import { useWindowSize } from 'react-use';
 import Delete from '../../../components/modal/Delete';
+import ErrorComponent from '../../../components/layout/ErrorComponent';
 
 
 function ProductItem() {
@@ -93,7 +94,9 @@ function ProductItem() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {(loading && !item) ? (
+            {(error && !item) && <ErrorComponent />}
+
+            {(loading && !item && !error) ? (
                 <Spinner />
             ) : (
                 <div className='item__preview--section'>
