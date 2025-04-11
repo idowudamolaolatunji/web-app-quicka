@@ -32,8 +32,8 @@ function ProductItem() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     ////////////////////////////////////////////////////
 
-    const colors = item?.variations?.filter(variant => variant.type.toLowerCase() === 'color');
-    const sizes = item?.variations?.filter(variant => variant.type.toLowerCase() !== 'color');
+    const colorsVariants = item?.variations?.filter(variant => variant.type.toLowerCase() === 'color');
+    const othersVariants = item?.variations?.filter(variant => variant.type.toLowerCase() !== 'color');
 
 
     const getItem = async function () {
@@ -173,14 +173,14 @@ function ProductItem() {
 
                                     <div className='preview--body-item'>Variations 
                                         <span className='preview--body-value'>
-                                            {colors && colors.length > 0 && (
+                                            {colorsVariants && colorsVariants.length > 0 && (
                                                 <span style={{ display: "flex", alignItems: "center", gap: ".48rem" }}>
-                                                    Color(s): {colors.map(color => <ColorBox color={color.value} />)}
+                                                    Color(s): {colorsVariants.map(color => <ColorBox color={color.value} />)}
                                                 </span>
                                             )}
-                                            {sizes && sizes.length > 0 && (
+                                            {othersVariants && othersVariants.length > 0 && (
                                                 <span style={{ display: "flex", alignItems: "center", gap: ".48rem" }}>
-                                                    Size(s): {sizes.map(size => size.value).join(', ')}
+                                                    {othersVariants[0].type}(s): {othersVariants.map(size => size.value).join(', ')}
                                                 </span>
                                             )}
                                         </span>
