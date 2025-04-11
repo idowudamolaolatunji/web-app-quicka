@@ -36,7 +36,9 @@ import Analytics from './pages/analytics';
 import ProductItem from './pages/products/subPages/ProductItem';
 import OrderItem from './pages/orders/subPages/OrderItem';
 import CustomerItem from './pages/customers/subPages/CustomerItem';
-import DiscountCoupon from './pages/promotions';
+import Promotions from './pages/promotions';
+import DiscountItem from './pages/promotions/subPages/DiscountItem';
+import CouponItem from './pages/promotions/subPages/CouponItem';
 
 import Transaction from './pages/transactions';
 import Settings from './pages/settings';
@@ -90,7 +92,7 @@ function App() {
                     <Route path='/dashboard/delivery-rates' element={<Delivery />}></Route>
                     <Route path='/dashboard/transactions' element={<Transaction />}></Route>
                     <Route path='/dashboard/analytics' element={<Analytics />}></Route>
-                    <Route path='/dashboard/promotions' element={<DiscountCoupon />}></Route>
+                    <Route path='/dashboard/promotions' element={<Promotions />}></Route>
 
                     <Route path='/dashboard/orders/record' element={<RecordOrder />}></Route>
                     <Route path='/dashboard/products/upload' element={<UploadProduct />}></Route>
@@ -120,6 +122,8 @@ function App() {
                     <Route path='/dashboard/promotions/discounts/create' element={<CreateDiscount />}></Route>
                     <Route path='/dashboard/promotions/coupon/create' element={<CreateCoupon />}></Route>
                     <Route path='/dashboard/promotions/special-sales/run' element={<RunSpecialSale />}></Route>
+                    <Route path='/dashboard/promotions/discounts/:id' element={<DiscountItem />}></Route>
+                    <Route path='/dashboard/promotions/coupons/:id' element={<CouponItem />}></Route>
                     <Route path='/dashboard/expenses' element={<Expenses />}></Route>
                     <Route path='/dashboard/expenses/record' element={<RecordExpenses />}></Route>
                     <Route path='/dashboard/expenses/:id/edit' element={<RecordExpenses />}></Route>

@@ -838,6 +838,7 @@
 	border-radius: 50%;
 	background-color: #eee;
 	padding: .48rem;
+	min-height: 8rem;
 }
 .item__preview--user .user--image img {
 	width: 7rem;

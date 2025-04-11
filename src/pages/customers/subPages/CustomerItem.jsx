@@ -290,14 +290,14 @@ export default function CustomerItem() {
                                 <div className="item__preview--user">
                                     <span className="user--image">
                                         {item?.image?.url ? (
-                                            <img src={item?.image?.url} alt={item?.fullname} />
+                                            <img src={item?.image?.url} alt={item?.firstname} />
                                         ) : (
                                             <img src={avatar} alt="user avatar" />
                                         )}
                                     </span>
 
                                     <div className="user--detail">
-                                        <h3 className="details--title">{item?.fullname}</h3>
+                                        <h3 className="details--title">{item?.firstname} {item?.lastname}</h3>
                                         <p style={{ fontSize: "1.28rem", padding: "0", textTransform: "none" }} className='preview--body-item'>
                                             Joined Since, {formatDateSince(item?.createdAt)}
                                         </p>
@@ -332,7 +332,7 @@ export default function CustomerItem() {
                                     <div className="preview--insights-item">
                                         <span className="insights-item-title">Most Purchased channel</span>
                                         {purchaseHistoryData?.length > 0 ? (
-                                            <p className='insights-item-value flex-align-center'>
+                                            <p className='insights-item-value flex-align-center' style={{ textTransform: "capitalize" }}>
                                                 {mostUsedSalesChannel} <img style={{ width: "2.8rem" }} alt={mostUsedSalesChannel} src={imgString(mostUsedSalesChannel)} />
                                             </p>
                                         ) : (

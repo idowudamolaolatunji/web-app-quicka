@@ -257,7 +257,8 @@ function index() {
             emptyTitle={activeTab == "discount" ? discount_emptyTitle : activeTab == "coupon" ? coupon_emptyTitle : special_sales_emptyTitle}
             addUrl={activeTab == "discount" ? "promotions/discounts/create" : activeTab == "coupon" ? "promotions/coupon/create" : "promotions/special-sales/run"}
             loader={loader} error={error}
-            hasLink={false}
+            hasLink={true}
+            toLink={`/dashboard/promotions/${activeTab}s`}
             headTabs={<HeadTabs />}
             shouldSelect={true}
 

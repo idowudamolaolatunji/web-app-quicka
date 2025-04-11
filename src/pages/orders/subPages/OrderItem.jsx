@@ -226,7 +226,7 @@ function OrderItem() {
                                                 <HiOutlineUser />
                                             )}
                                         </div>
-                                        <p className="box--text" style={{ textTransform: "capitalize" }}>{item?.customer?.fullname}</p>
+                                        <p className="box--text" style={{ textTransform: "capitalize" }}>{item?.customer?.firstname} {item?.customer?.lastname}</p>
                                     </span>
 
                                     <span className="item--box">

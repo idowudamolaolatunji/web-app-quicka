@@ -39,7 +39,8 @@ import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 function PageUI({
     items, pageName, columns, data, addUrl, addBtnStr, hasLink = true, emptyTitle,
     emptyText, emptyImg, emptyBtns, headTabs, error, loader, action, addAction, searchLoader,
-    activeDisplayTab = null, insights = true, children, deleteObj, shouldSelect, pointOnHover = true
+    activeDisplayTab = null, insights = true, children, deleteObj, shouldSelect, pointOnHover = true,
+    toLink=""
 }) {
 
     const navigate = useNavigate();
@@ -141,7 +142,7 @@ function PageUI({
                     hasLink={hasLink}
                     pointOnHover={pointOnHover}
                     selectableRows={shouldSelect}
-                    toLink={`/dashboard/${pageName}s`}
+                    toLink={toLink || `/dashboard/${pageName}s`}
                     loader={loader?.[pageName]}
                     error={error?.[pageName]}
                     headTabs={headTabs}

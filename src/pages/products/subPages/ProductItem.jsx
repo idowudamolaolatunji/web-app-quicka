@@ -173,7 +173,7 @@ function ProductItem() {
                                         )}
                                     </div>
                                     <div className='preview--body-item'>Product Unit <span className='preview--body-value'>{item?.unit || "--"}</span></div>
-                                    <div className='preview--body-item'>Discount <span className='preview--body-value value'>{item?.discount?.discountValueInFigure}</span></div>
+                                    <div className='preview--body-item'>Discount <span className='preview--body-value value'>{item?.discount?.discountType == "fixed-price" ? currency : ""}{item?.discount?.discountValueInFigure || ""}</span></div>
                                     <div className='preview--body-item'>Already Sold <span className='preview--body-value'>{item?.soldAmount || "None"}</span></div>
 
                                     <div className='preview--body-item'>Variations 

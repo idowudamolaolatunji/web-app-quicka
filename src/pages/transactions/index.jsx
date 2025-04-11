@@ -59,7 +59,7 @@ function index() {
         },
         {
             name: "Customer",
-            selector: row => row?.order?.customer?.fullname || "-- Not Added --"
+            selector: row => `${row?.order?.customer?.firstname} ${row?.order?.customer?.lastname}` || "-- Not Added --"
         },
         {
             name: 'Sales Channel', selector: row => (
