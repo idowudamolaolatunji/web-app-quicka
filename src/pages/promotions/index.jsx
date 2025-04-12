@@ -264,7 +264,7 @@ function index() {
 
             deleteObj={{ 
                 fn: deleteItem,
-                title: "",
+                title: `"${cap1stLetter(activeTab)}"`,
                 close: setShowModal,
                 show: showModal,
                 loader: deleteLoader
@@ -275,7 +275,7 @@ function index() {
                 <div className='page__section--insights insight--grid'>
                     <Insight loader={loader[activeTab]} title='Total Discounts' value={discounts?.length} icon={<TbBasketDiscount />} />
                     <Insight loader={loader[activeTab]} title='Active Coupons' value={activeCoupons || 0} icon={<RiCouponLine />} />
-                    <Insight loader={loader[activeTab]} title='Running Special Sales' value={0} icon={<LuPartyPopper />} />
+                    {/* <Insight loader={loader[activeTab]} title='Running Special Sales' value={0} icon={<LuPartyPopper />} /> */}
                 </div>
             )}
 

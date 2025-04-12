@@ -84,7 +84,7 @@ function index() {
                                 </span>
 
                                 {template !== "basic" && (
-                                    <button className='theme__figure--btn' onClick={() => navigate("customize?theme=basic")}>Preview</button>
+                                    <button className='theme__figure--btn' onClick={() => navigate("/dashboard/store-customization/preview?theme=basic")}>Preview</button>
                                 )}
                             </figcaption>
                         </figure>
@@ -106,7 +106,7 @@ function index() {
                                 </span>
 
                                 {template !== "minimalist" && (
-                                    <button className='theme__figure--btn' onClick={() => navigate("customize?theme=minimalist")}>Preview</button>
+                                    <button className='theme__figure--btn' onClick={() => navigate("/dashboard/store-customization/preview?theme=minimalist")}>Preview</button>
                                 )}
                             </figcaption>
                         </figure>
@@ -140,7 +140,7 @@ function index() {
                                 </span>
 
                                 {(template !== "modern" && subscription?.type != "free") && (
-                                    <button className='theme__figure--btn' onClick={() => navigate("customize?theme=modern")}>Preview</button>
+                                    <button className='theme__figure--btn' onClick={() => navigate("/dashboard/store-customization/preview?theme=modern")}>Preview</button>
                                 )}
                             </figcaption>
                         </figure>

@@ -42,38 +42,29 @@ export default function StoreCustom({ isnew, close }) {
     const [response, setResponse] = useState({ status: "", message: "" });
     const [showConfetti, setShowConfetti] = useState(false);
 
-    const [storeLogo, setStoreLogo] = useState({
-        preview: store?.storeLogo?.url ?? "",
-        file: ""
-    });
-    const [banner, setBanner] = useState({
-        preview: store?.banner?.url ?? "",
-        file: ""
-    });
-    const [favicon, setFavicon] = useState({
-        preview: store?.favicon?.url ?? "",
-        file: ""
-    });
+    const [storeLogo, setStoreLogo] = useState({ preview: "", file: null });
+    const [banner, setBanner] = useState({ preview: "", file: null });
+    const [favicon, setFavicon] = useState({ preview: "", file: null });
 
     const [selectedColor, setSelectedColor] = useState("");
     const [customColor, setCustomColor] = useState({ color: "", isValid: false });
 
     const [storeData, setStoreData] = useState({
-        headline: customDetail?.headline || "",
-        heading: customDetail?.heading || "",
-        subHeading: customDetail?.subHeading || "",
-        brandColor: customDetail?.brandColor || "",
+        headline: "",
+        heading: "",
+        subHeading: "",
+        brandColor: "",
 
-        aboutPage: otherPages?.aboutPage || width450False,
-        returnPolicyPage: otherPages?.returnPolicyPage || width450False,
-        aboutDescription: otherPages?.aboutDescription || "",
-        returnPolicyDescription: otherPages?.returnPolicyDescription || "",
+        aboutPage: width450False,
+        returnPolicyPage: width450False,
+        aboutDescription: "",
+        returnPolicyDescription: "",
 
-        instagram: socialProfiles?.instagram || "",
-        whatsapp: contact?.phone || "",
-        facebook: socialProfiles?.facebook || "",
-        twitter: socialProfiles?.twitter || "",
-        tiktok: socialProfiles?.tiktok || "",
+        instagram: "",
+        whatsapp: "",
+        facebook: "",
+        twitter: "",
+        tiktok: "",
     });
 
 
@@ -178,15 +169,43 @@ export default function StoreCustom({ isnew, close }) {
     }, [customColor, selectedColor]);
 
 
-
     useEffect(function () {
         !isnew && window.scrollTo(0, 0);
+
+        setStoreData({
+            headline: customDetail?.headline || "",
+            heading: customDetail?.heading || "",
+            subHeading: customDetail?.subHeading || "",
+            brandColor: customDetail?.brandColor || "",
+    
+            aboutPage: otherPages?.aboutPage || width450False,
+            returnPolicyPage: otherPages?.returnPolicyPage || width450False,
+            aboutDescription: otherPages?.aboutDescription || "",
+            returnPolicyDescription: otherPages?.returnPolicyDescription || "",
+    
+            instagram: socialProfiles?.instagram || "",
+            whatsapp: contact?.phone || "",
+            facebook: socialProfiles?.facebook || "",
+            twitter: socialProfiles?.twitter || "",
+            tiktok: socialProfiles?.tiktok || "",
+        });
+
+        setStoreLogo({
+            preview: store?.storeLogo?.url ?? "",
+            file: null
+        });
+        setBanner({ 
+            preview: store?.banner?.url || "",
+            file: null
+        })
+        setFavicon({
+            preview: store?.favicon?.url || "",
+            file: null
+        });
     }, []);
 
 
     async function handleSubmitCustomStore() {
-        console.log("Clicked!!")
-        // SET LOADER
         handleResetResponse()
         handleLoading("mainLoading", true);
 
@@ -215,8 +234,9 @@ export default function StoreCustom({ isnew, close }) {
             const connected = await isOnline();
             if (!connected) throw new Error("Internet Error");
 
+            const parameter = isnew ? "onboard/customize" : "customize/template"
             // MAKE REQUEST
-            const res = await fetch(`${BASE_API_URL}/stores/onboard/store`, {
+            const res = await fetch(`${BASE_API_URL}/stores/${parameter}`, {
                 method: "PATCH",
                 headers: formdataHeader,
                 body: formData
@@ -244,6 +264,7 @@ export default function StoreCustom({ isnew, close }) {
         }
     }
 
+    
     return (
         <React.Fragment>
             {showConfetti && <Confetti customHeight={2500} customGv={0.1} />}
