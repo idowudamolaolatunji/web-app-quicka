@@ -168,10 +168,11 @@ export default function StoreCustom({ isnew, close }) {
         }
     }, [customColor, selectedColor]);
 
-
     useEffect(function () {
         !isnew && window.scrollTo(0, 0);
+    }, []);
 
+    useEffect(function () {
         setStoreData({
             headline: customDetail?.headline || "",
             heading: customDetail?.heading || "",
@@ -202,7 +203,7 @@ export default function StoreCustom({ isnew, close }) {
             preview: store?.favicon?.url || "",
             file: null
         });
-    }, []);
+    }, [store]);
 
 
     async function handleSubmitCustomStore() {
