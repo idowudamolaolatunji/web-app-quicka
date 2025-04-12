@@ -757,6 +757,10 @@
 	align-items: center;
 	gap: .8rem;
 }
+.item__preview--customer button.general--btn {
+	padding: .64rem .8rem;
+	font-size: 1.34rem;
+}
 
 .item--box .box--icon {
 	width: 2.4rem;
@@ -1050,7 +1054,7 @@
 }
 
 .profile__container .card.form {
-	padding: 2rem 2.8rem !important;
+	padding: 2.2rem 3rem !important;
 }
 .profile__container .section--top {
 	align-items: center;
@@ -1064,7 +1068,7 @@
 .profile--top-details {
 	display: flex;
 	flex-direction: column;
-	gap: .68rem;
+	gap: .55rem;
 }
 .profile--top-details h3 {
 	font-weight: 600;
@@ -1072,10 +1076,10 @@
 	font-size: 1.86rem;
 }
 .profile--top-details p {
-	text-transform: capitalize;
-	font-size: 1.4rem;
+	text-transform: none;
+	font-size: 1.38rem;
 	font-weight: 500;
-	color: #555;
+	color: #777;
 }
 .profile--image {
 	position: relative;
@@ -1145,7 +1149,7 @@
 
 .profile--save-btn,
 .profile--edit-btn {
-	font-size: 1.28rem;
+	font-size: 1.32rem;
 	font-weight: 500;
 	border-radius: 0.4rem;
 	display: flex;
@@ -1153,25 +1157,28 @@
 	gap: .4rem;
 	padding: 0.48rem .84rem;
 	transition: all .35s;
-	color: var(--color-brand-500);
 }
 .profile--edit-btn {
-	border: .18rem solid var(--color-brand-500);
 	background-color: transparent;
+	color: #fff;
+	background-color: var(--color-brand-500);
+	border: .18rem solid transparent;
 }
 .profile--save-btn {
+	color: var(--color-brand-500);
 	background-color: var(--color-brand-50);
 	margin-left: auto;
 }
 
 .profile--save-btn svg,
 .profile--edit-btn svg {
-	font-size: 2rem;
+	font-size: 1.8rem;
 }
 .profile--edit-btn:hover {
-	background-color: var(--color-brand-500);
+	border: .18rem solid var(--color-brand-500);
 	color: #fff;
-	border-color: transparent;
+	background-color: transparent;
+	color: var(--color-brand-500);
 }
 
 .profile--main-details {
@@ -1179,6 +1186,7 @@
 	grid-template-columns: repeat(4, 1fr);
 	justify-content: space-between;
 	gap: 3rem;
+	margin-top: 2rem;
 }
 .profile--main-details .profile--info {
 	display: flex;
@@ -1275,12 +1283,12 @@
 	}
 	.profile__container {
 		align-items: center;
-		gap: 4rem;
+		gap: 2.4rem;
 	}
 	.profile__container .card.form {
-		border: none;
-		box-shadow: none;
-		padding: 0 !important;
+		/* border: none;
+		box-shadow: none; */
+		padding: 2rem 1.6rem !important;
 	}
 
 
@@ -1463,6 +1471,14 @@
 	.analytics--grid.grid--1x1,
 	.analytics--grid.grid--2x1 {
 		grid-template-columns: 1fr;
+	}
+
+	.profile--main-details {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+		gap: 3rem;
 	}
 
 	.item__preview--section .page__section--heading {

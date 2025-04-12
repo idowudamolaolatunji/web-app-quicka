@@ -142,7 +142,6 @@ export default function AddCustomer({ close, isModal }) {
         setCustomerFormErrors({});
     }
 
-
     useEffect(function() {
         document.title = "Quicka | Add Customer"
     }, [])

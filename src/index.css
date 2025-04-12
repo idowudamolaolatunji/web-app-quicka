@@ -67,7 +67,7 @@ select {
 }
 
 a:hover {
-	color: unset;
+	color: inherit;
 }
 
 /* Parent selector, finally 😃 */

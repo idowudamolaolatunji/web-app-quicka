@@ -65,7 +65,7 @@ function ProductItem() {
     async function deleteItem() {
         try {
             setLoading(true)
-            await handleDeleteOneItem("products", item?._id);
+            await handleDeleteOneItem(`products/${item?._id}`);
             setResponse({ message: "Successful!", response: "success" })
             handleFetchMyStoreProducts();
             
@@ -81,6 +81,14 @@ function ProductItem() {
     }
 
 
+    if(!item && error) {
+        return (
+            <div style={{ height: "28rem" }} className='flex-align-center'>
+                <ErrorComponent />
+            </div>
+        )
+    }
+
     return (
         <React.Fragment>
             {showDeleteModal && (
@@ -95,11 +103,7 @@ function ProductItem() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {(error && !item && !loading) ? (
-                <div style={{ height: "28rem" }} className='flex-align-center'>
-                    <ErrorComponent />
-                </div>
-            ) : (loading && !item && !error) ? (
+            {(loading && !item) ? (
                 <Spinner />
             ) : (
                 <div className='item__preview--section'>

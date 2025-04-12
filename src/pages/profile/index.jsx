@@ -8,7 +8,7 @@ import Line from '../../components/elements/Line';
 import Asterisk from '../../components/elements/Asterisk';
 import { RiEditLine } from 'react-icons/ri';
 import { useDataContext } from '../../context/DataContext';
-import { hideEmail } from '../../utils/helper';
+import { cap1stLetter, hideEmail } from '../../utils/helper';
 import ConnectionError from '../../components/layout/ConnectionError';
 import { useFetchedContext } from '../../context/FetchedContext';
 import SimpleModal from "../../components/modal/Simple"
@@ -127,7 +127,7 @@ export default function index() {
 
                         <div className="profile--top-details">
                             <h3>{user?.firstname} {user?.lastname}</h3>
-                            <p>Owner of {store?.name}</p>
+                            <p style={{ fontSize: "1.3rem" }}>Owner of {cap1stLetter(store?.name)}</p>
                             <p>From {store?.location?.state?.name && `${store?.location?.state?.name}, `}{store?.location?.country?.name}</p>
                         </div>
                         

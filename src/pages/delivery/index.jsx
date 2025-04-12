@@ -99,7 +99,7 @@ function index() {
     async function deleteItem() {
         try {
             setDeleteLoader(true)
-            await handleDeleteOneItem("delivery-rates", selectedId);
+            await handleDeleteOneItem(`delivery-rates/${selectedId}`);
             handleFetchMyStoreDeliveryRates();
             setShowModal(false)
         } catch(err) {

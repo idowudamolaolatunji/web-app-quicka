@@ -229,11 +229,9 @@ function index() {
 
     // THE DELETE FUNCTION..
     async function deleteItem() {
-        const urlparams = activeTab + "s"
-
         try {
             setDeleteLoader(true)
-            await handleDeleteOneItem(urlparams, selectedId);
+            await handleDeleteOneItem(`${activeTab}s/${selectedId}`);
             if(activeTab == "discount") handleFetchMyStoreDiscounts();
             if(activeTab == "coupon") handleFetchMyStoreCoupons();
             setShowModal(false)

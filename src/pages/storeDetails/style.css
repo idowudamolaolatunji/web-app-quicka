@@ -36,10 +36,14 @@
     font-size: 1.28rem;
     font-weight: 500;
     color: var(--color-brand-500);
-
+    
     display: flex;
     align-items: center;
     gap: .4rem;
+}
+.custom--link:hover {
+    color: var(--color-brand-500);
+	opacity: 0.7;
 }
 
 .custom--labels {
@@ -202,7 +206,7 @@
 }
 .preview--figure {
     padding: 1.4rem;
-    border-radius: .8rem;
+    border-radius: .7rem;
     border: 1.4px solid #eee;
     
     display: flex;

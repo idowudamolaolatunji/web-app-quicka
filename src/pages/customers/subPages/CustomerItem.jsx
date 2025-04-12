@@ -220,7 +220,7 @@ export default function CustomerItem() {
     async function deleteItem() {
         try {
             setLoading(true)
-            await handleDeleteOneItem(title+"s", item?._id);
+            await handleDeleteOneItem(`${title}s/${item?._id}`);
             setResponse({ message: "Successful!", response: "success" })
             handleFetchMyStoreCustomers();
             
@@ -235,6 +235,14 @@ export default function CustomerItem() {
         }
     }
 
+
+    if(!item && error) {
+        return (
+            <div style={{ height: "28rem" }} className='flex-align-center'>
+                <ErrorComponent />
+            </div>
+        )
+    }
 
     return (
         <React.Fragment>
@@ -251,11 +259,7 @@ export default function CustomerItem() {
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {(error && !item && !loading) ? (
-                <div style={{ height: "28rem" }} className='flex-align-center'>
-                    <ErrorComponent />
-                </div>
-            ) : (loading && !item && !error) ? (
+            {(loading && !item) ? (
                 <Spinner />
             ) : (
                 <div className='item__preview--section'>
@@ -297,7 +301,7 @@ export default function CustomerItem() {
                                     </span>
 
                                     <div className="user--detail">
-                                        <h3 className="details--title">{item?.firstname} {item?.lastname}</h3>
+                                        <h3 className="details--title">{item?.fullname}</h3>
                                         <p style={{ fontSize: "1.28rem", padding: "0", textTransform: "none" }} className='preview--body-item'>
                                             Joined Since, {formatDateSince(item?.createdAt)}
                                         </p>

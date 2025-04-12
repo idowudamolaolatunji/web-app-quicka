@@ -54,7 +54,7 @@ function index() {
                             <FiUser />
                         )}
                     </span>
-                    <p>{`${row?.firstname} ${row?.lastname}`}</p>
+                    <p>{row?.fullname}</p>
                 </Link>
             ),
             width: width < 450 ? "180px" : ""
@@ -99,7 +99,7 @@ function index() {
     async function deleteItem() {
         try {
             setDeleteLoader(true)
-            await handleDeleteOneItem("customers", selectedId);
+            await handleDeleteOneItem(`customers/${selectedId}`);
             handleFetchMyStoreCustomers();
             setShowModal(false)
         } catch(err) {

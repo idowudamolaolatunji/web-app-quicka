@@ -21,28 +21,32 @@ import { PiMapPinArea } from "react-icons/pi";
 import { GoDotFill } from 'react-icons/go';
 import { imgString } from '../../../assets/images/png_elements';
 import ErrorComponent from '../../../components/layout/ErrorComponent';
+import { AiOutlinePlus } from 'react-icons/ai';
+import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
+import Info from '../../../components/elements/Info';
+import { selectCustomer } from '../../../utils/fetch';
 
 
 function OrderItem() {
     const { id } = useParams();
     const { width } = useWindowSize();
     const navigate = useNavigate();
-    const { currency } = useAuthContext();
-    const { handleFetchOneItem,
-        handleDeleteOneItem,
-        handleFetchMyStoreOrders,
-            handleFetchMyStoreProducts,
-            handleFetchMyStoreTransactions,
-     } = useFetchedContext();
+    const { currency, headers } = useAuthContext();
+    const { customers, handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreOrders, handleFetchMyStoreTransactions } = useFetchedContext();
+
     ////////////////////////////////////////////////////
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    
     const [loading, setLoading] = useState(true);
     const [response, setResponse] = useState({ status: null, message: null });
     const [error, setError] = useState(false);
     const [item, setItem] = useState(null);
     ////////////////////////////////////////////////////
+    const [orderCustomer, setOrderCustomer] = useState([]);
+    const [showModal, setShowModal] = useState({ delete: false, customer: false });
+    const [addCustomer, setAddCustomer] = useState(false);
 
+    useEffect(function() {
+        console.log(orderCustomer)
+    }, [orderCustomer])
 
     const getItem = async function () {
         setError(false);
@@ -59,7 +63,10 @@ function OrderItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Order Id: ${item?.map}`;
+    }, [])
+
+    useEffect(function() {
+        document.title = `Quicka | Order Id: ${item?.orderId}`;
     }, [item]);
 
     useEffect(function () {
@@ -67,20 +74,26 @@ function OrderItem() {
     }, [id]);
 
 
+    const handleAddCustomer = async function() {
+        const result = await selectCustomer(item?._id, headers, orderCustomer[0]?._id);
+        if(result == "success") {
+            setItem({ ...item, customer: orderCustomer[0] });
+            handleFetchMyStoreOrders();
+        }
+    }
+
     // DELETE FUNCTION
     async function deleteItem() {
         try {
             setLoading(true)
-            await handleDeleteOneItem(`orders`, item?._id);
+            await handleDeleteOneItem(`orders/${item?._id}`);
             setResponse({ message: "Successful!", response: "success" })
-
             handleFetchMyStoreOrders();
-            handleFetchMyStoreProducts();
-            handleFetchMyStoreTransactions();
+            handleFetchMyStoreTransactions()
             
             setTimeout(function() {
                 navigate(-1)
-                setShowDeleteModal(false);
+                setShowModal({ ...showModal, delete: false });
             }, 1000)
         } catch (err) {
             console.log(err);
@@ -90,25 +103,29 @@ function OrderItem() {
     }
 
 
+    if(!item && error) {
+        return (
+            <div style={{ height: "28rem" }} className='flex-align-center'>
+                <ErrorComponent />
+            </div>
+        )
+    }
+
     return (
         <React.Fragment>
-            {showDeleteModal && (
+            {showModal.delete && (
                 <Delete 
                     title={`"Order"`}
-                    close={setShowDeleteModal} 
+                    close={() => setShowModal({ ...showModal, delete: false })} 
                     fn={deleteItem}
                 />
             )}
-            
+
             {(response.message || response.status) && (
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {(error && !item && !loading) ? (
-                <div style={{ height: "28rem" }} className='flex-align-center'>
-                    <ErrorComponent />
-                </div>
-            ) : (loading && !item && !error) ? (
+            {(loading && !item) ? (
                 <Spinner />
             ) : (
                 <div className='item__preview--section'>
@@ -146,7 +163,7 @@ function OrderItem() {
                         </div>
 
                         <span className='page__section--btns'>
-                            <button className="page__section-top-btn" onClick={() => setShowDeleteModal(true)} style={{ fontWeight: "600", color: "#444" }}>
+                            <button className="page__section-top-btn" onClick={() => setShowModal({ ...showModal, delete: true })} style={{ fontWeight: "600", color: "#444" }}>
                                 Delete <RiDeleteBin5Line size={20} />
                             </button>
                             <span className="page__section--action" onMouseLeave={() => {}}>
@@ -218,7 +235,7 @@ function OrderItem() {
                                 </div>
 
                                 <div className="item__preview--customer">
-                                    <span className="item--box" onClick={() => navigate(`/dashboard/customers/${item?.customer?._id}`)}>
+                                    <span className="item--box" onClick={() => item?.customer?._id ? navigate(`/dashboard/customers/${item?.customer?._id}`) : ""}>
                                         <div className='table-customer'>
                                             {item?.customer?.image?.url ? (
                                                 <img src={item?.customer?.image?.url} />
@@ -226,25 +243,54 @@ function OrderItem() {
                                                 <HiOutlineUser />
                                             )}
                                         </div>
-                                        <p className="box--text" style={{ textTransform: "capitalize" }}>{item?.customer?.firstname} {item?.customer?.lastname}</p>
+                                        <p className="box--text" style={{ textTransform: "capitalize" }}>{item?.customer?.fullname || "None Selected"}</p>
                                     </span>
 
-                                    <span className="item--box">
-                                        <span className="box--icon"><HiOutlinePhone /></span>
-                                        <p className="box--text value" style={{ fontSize: "1.2rem" }}>+{item?.customer?.contact?.phone}</p>
-                                    </span>
-                                    <span className="item--box" onclick="window.location.href='mailto:user@example.com'">
-                                        <span className="box--icon"><HiOutlineEnvelope /></span>
-                                        <p className="box--text">{item?.customer?.contact?.email}</p>
-                                    </span>
-                                    <span className="item--box">
-                                        <span className="box--icon" style={{ width: "2.8rem" }}><PiMapPinArea /></span>
-                                        <p className="box--text">{item?.customer?.shippingAddress?.address || "Address not selected"}</p>
-                                    </span>
-                                    <span className="item--box">
-                                        <span className="box--icon"><MdWhatsapp /></span>
-                                        <a className="box--text link" target='_blank' href={`https://wa.me/${item?.customer?.contact?.phone}`}>Message via whatsapp</a>
-                                    </span>
+                                    {item?.customer?._id ? (
+                                        <React.Fragment>
+                                            <span className="item--box">
+                                                <span className="box--icon"><HiOutlinePhone /></span>
+                                                <p className="box--text value" style={{ fontSize: "1.2rem" }}>+{item?.customer?.contact?.phone}</p>
+                                            </span>
+                                            <span className="item--box" onclick="window.location.href='mailto:user@example.com'">
+                                                <span className="box--icon"><HiOutlineEnvelope /></span>
+                                                <p className="box--text">{item?.customer?.contact?.email}</p>
+                                            </span>
+                                            <span className="item--box">
+                                                <span className="box--icon" style={{ width: "2.8rem" }}><PiMapPinArea /></span>
+                                                <p className="box--text">{item?.customer?.shippingAddress?.address || "Address not selected"}</p>
+                                            </span>
+                                            <span className="item--box">
+                                                <span className="box--icon"><MdWhatsapp /></span>
+                                                <a className="box--text link" target='_blank' href={`https://wa.me/${item?.customer?.contact?.phone}`}>Message via whatsapp</a>
+                                            </span>
+                                        </React.Fragment>
+                                    ) : (
+                                        <React.Fragment>
+                                            {!addCustomer ? (
+                                                <button className='form--add' style={{ alignSelf: "flex-start" }} onClick={() => setAddCustomer(true)}>
+                                                    <AiOutlinePlus />
+                                                    <p>Select Customer</p>
+                                                </button>
+                                            ) : (
+                                                <div className="form--item">
+                                                    <MainDropdownSelect title="Customer" options={customers} field="fullname" value={orderCustomer} setValue={setOrderCustomer} noDataLabel='No customer found!' />
+                                                    <Info text="If you don't have customer's details, Leave blank" />
+                                                    <div className="flex-align-center">
+                                                        <button className='form--add' style={{ alignSelf: "flex-end" }} onClick={() => setShowModal({ ...showModal, customer: true })}>
+                                                            <AiOutlinePlus />
+                                                            <p>New Customer</p>
+                                                        </button>
+                                                        <button className='general--btn' onClick={() => orderCustomer.length > 0 ? 
+                                                            handleAddCustomer()
+                                                            : setAddCustomer(false)}>
+                                                            {orderCustomer.length > 0 ? "Save" : 'Cancel'}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </React.Fragment>
+                                    )}
                                 </div>
                             </div>
 

@@ -73,7 +73,7 @@ export default function CouponItem() {
     async function deleteItem() {
         try {
             setLoading(true)
-            await handleDeleteOneItem(title+"s", item?._id);
+            await handleDeleteOneItem(`${title}s/${item?._id}`);
             setResponse({ message: "Successful!", response: "success" })
             handleFetchMyStoreCoupons();
             
@@ -86,6 +86,15 @@ export default function CouponItem() {
         } finally {
             setLoading(false);
         }
+    }
+
+
+    if(!item && error) {
+        return (
+            <div style={{ height: "28rem" }} className='flex-align-center'>
+                <ErrorComponent />
+            </div>
+        )
     }
 
 
@@ -135,11 +144,7 @@ export default function CouponItem() {
             <CustomAlert type={response.status} message={response.message} />
         )}
 
-        {(error && !item && !loading) ? (
-            <div style={{ height: "28rem" }} className='flex-align-center'>
-                <ErrorComponent />
-            </div>
-        ) : (loading && !item && !error) ? (
+        {(loading && !item) ? (
             <Spinner />
         ) : (
             <div className='item__preview--section'>

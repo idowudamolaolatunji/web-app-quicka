@@ -219,7 +219,7 @@ function index() {
     async function deleteItem() {
         try {
             setDeleteLoader(true)
-            await handleDeleteOneItem(`${tabShown}s`, selectedId);
+            await handleDeleteOneItem(`${tabShown}s/${selectedId}`);
             if (tabShown == "product") {
                 handleFetchMyStoreProducts();
             } else {

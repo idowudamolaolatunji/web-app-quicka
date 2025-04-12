@@ -59,7 +59,7 @@ export default function DiscountItem() {
     async function deleteItem() {
         try {
             setLoading(true)
-            await handleDeleteOneItem(title+"s", item?._id);
+            await handleDeleteOneItem(`${title}s/${item?._id}`);
             setResponse({ message: "Successful!", response: "success" })
             handleFetchMyStoreDiscounts();
             
@@ -72,6 +72,15 @@ export default function DiscountItem() {
         } finally {
             setLoading(false);
         }
+    }
+
+
+    if(!item && error) {
+        return (
+            <div style={{ height: "28rem" }} className='flex-align-center'>
+                <ErrorComponent />
+            </div>
+        )
     }
 
 
@@ -89,11 +98,7 @@ export default function DiscountItem() {
             <CustomAlert type={response.status} message={response.message} />
         )}
 
-        {(error && !item && !loading) ? (
-            <div style={{ height: "28rem" }} className='flex-align-center'>
-                <ErrorComponent />
-            </div>
-        ) : (loading && !item && !error) ? (
+        {(loading && !item) ? (
             <Spinner />
         ) : (
             <div className='item__preview--section'>
@@ -139,9 +144,6 @@ export default function DiscountItem() {
                         </span>
                     </span>
                 </div>
-
-                {/* Section based things go here */}
-
 
                 <div className="item__preview--grid grid--2x1">
                     <div className="left--side">

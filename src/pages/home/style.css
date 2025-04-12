@@ -424,7 +424,7 @@ a.upgrade--link:hover {
 
 .grid--left .card,
 .grid--right .card, .card {
-    border-radius: .8rem;
+    border-radius: .7rem;
     width: 100%;
     padding: 2.4rem 1.8rem;
     border: 1px solid #eff2f7;

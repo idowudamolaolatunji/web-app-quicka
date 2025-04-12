@@ -158,8 +158,8 @@ export const FetchedProvider = ({ children }) => {
     }
 
     // DELETE ONE STORE ITEM BY ID
-    async function handleDeleteOneItem(title, id) {
-        await fetch(`${BASE_API_URL}/${title}/${id}`, { method: "DELETE", headers });
+    async function handleDeleteOneItem(route) {
+        await fetch(`${BASE_API_URL}/${route}`, { method: "DELETE", headers });
     }
 
     // FETCH PROTECTED STORE COLLECTION
