@@ -193,7 +193,8 @@ button {
 	right: 0;
 	bottom: 0;
 	height: 100vh;
-	min-width: 40.5rem;
+	/* min-width: 40.5rem; */
+	width: 40rem;
 	transform: translateX(0);
 	animation: drawer-side-in .35s ease-in-out;
 	z-index: 100;
@@ -546,8 +547,10 @@ button {
 	/* background-color: #f1f1f1; */
 	color: #888;
 }
-/* background-color: #fff2e8; */
-/* color: #f8cba6; */
+.status--neutral {
+	/* background-color: #fff2e8; */
+	color: #f8cba6;
+}
 
 
 /*  */

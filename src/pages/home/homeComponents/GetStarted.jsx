@@ -20,7 +20,7 @@ import WatchedBtn from '../../../components/elements/WatchedBtn';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
-const STEPS_PROGRESS = import.meta.env.VITE_ONBOARD_STEPS_PROGRESS_KEY
+const STEPS_PROGRESS = import.meta.env.VITE_ONBOARD_STEPS_PROGRESS_KEY;
 
 function GetStarted() {
     const { width } = useWindowSize();
@@ -42,8 +42,6 @@ function GetStarted() {
         { id: 4, name: 'hasDeliveryRate', tipText: 'Delivery Rate Created!', completed: false, shortText: 'Set Delivery Rates' },
         { id: 5, name: 'hasPaymentDetails', tipText: 'Bank / payment Details Added!', completed: false, shortText: 'Set Payment details' }
     ]);
-
-    // console.log(stepsToComplete[1])
 
     const [showModal, setShowModal] = useState({
         customize: false,

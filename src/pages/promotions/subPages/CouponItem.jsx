@@ -12,6 +12,12 @@ import { GoDotFill } from 'react-icons/go';
 import { calRemainingDays, formatDateSince } from '../../../utils/helper';
 import { RiAddFill, RiDeleteBin5Line } from 'react-icons/ri';
 import { BiChevronDown } from 'react-icons/bi';
+import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
+import ProductPreview from '../../../components/layout/ProductPreview.jsx';
+import Drawer from '../../../components/modal/Drawer';
+import { BsHandbag } from 'react-icons/bs';
+import { HiOutlineCollection } from 'react-icons/hi';
+import TooltipUI from "../../../components/layout/TooltipUI.jsx";
 
 
 export default function CouponItem() {
@@ -20,7 +26,7 @@ export default function CouponItem() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { currency } = useAuthContext();
-    const { handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreCoupons } = useFetchedContext();
+    const { products, collections, handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreCoupons } = useFetchedContext();
 
     ////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
@@ -29,6 +35,9 @@ export default function CouponItem() {
     const [item, setItem] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     ////////////////////////////////////////////////////
+    const [couponProducts, setCouponProducts] = useState([]);
+    const [couponCollection, setCouponCollection] = useState([]);
+    const [showAddModal, setShowAddModal] = useState(false);
 
 
     const getItem = async function () {
@@ -55,6 +64,11 @@ export default function CouponItem() {
     }, [id]);
 
 
+    // REMOVE A PRODUCT FROM THE Coupon PRODUCTS ARRAY
+    const handleRemoveItem = function(id) {
+        setCouponProducts(prev => prev?.filter(product => product._id !== id))
+    }
+
     // DELETE FUNCTION
     async function deleteItem() {
         try {
@@ -79,10 +93,42 @@ export default function CouponItem() {
     <React.Fragment>
         {showDeleteModal && (
             <Delete
-                title={`"Customer"`}
+                // title={`"Coupon"`}
+                text=''
                 close={setShowDeleteModal} 
                 fn={deleteItem}
             />
+        )}
+
+        {showAddModal && (
+            <Drawer title={`Add Items`} setClose={() => setShowAddModal(false)}>
+                <div className="form--item" style={{ marginTop: "3rem" }}>
+                    <label className="form--label">
+                        Add {item?.couponGroup != "collections" ? (
+                            <>Products <BsHandbag /></>
+                        ) : (
+                            <>Collections <HiOutlineCollection /></>
+                        )} 
+                    </label>
+                    {item?.couponGroup !== "collections" ? (
+                        <React.Fragment>
+                            <MainDropdownSelect subtitle={`Product to add to add coupon`} title="Product" options={products} field="name" value={couponProducts} setValue={setCouponProducts} noDataLabel="No product found!" multiple={item?.couponGroup == "bundle" ? true : false} />
+                            {couponProducts?.length > 0 && (
+                                <div className="product--quantity-grid">
+                                    {couponProducts?.map((product) => (
+                                        <ProductPreview
+                                            product={product}
+                                            removeItem={handleRemoveItem}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </React.Fragment>
+                    ) : (
+                        <MainDropdownSelect title="Collection" options={collections} field="name" value={couponCollection} setValue={setCouponCollection} multiple={true} noDataLabel="No collection found!" />
+                    )}
+                </div>
+            </Drawer>
         )}
 
         {(response.message || response.status) && (
@@ -108,17 +154,35 @@ export default function CouponItem() {
                                 </h2>
 
                                 {width > 850 && (
-                                    <span className={`status status--${item?.status}`}>
-                                        <p style={{ textTransform: "capitalize" }}><GoDotFill /> {item?.status}</p>
-                                    </span>
+                                    <div className="heading--row" style={{ flexWrap: "wrap" }}>
+                                        <span className={`status status--${item?.status}`}>
+                                            <p style={{ textTransform: "capitalize" }}><GoDotFill /> {item?.status}</p>
+                                        </span>
+
+                                        <span className={`status status--neutral`}>
+                                            <p style={{ textTransform: "capitalize" }}> {item?.couponGroup != "collections" ? (
+                                                <><BsHandbag /> {item?.couponGroup} product</>
+                                            ) : (
+                                                <><HiOutlineCollection /> product {item?.couponGroup}</>
+                                            )}</p>
+                                        </span>
+                                    </div>
                                 )}
                             </div>
                         </span>
 
                         {width <= 850 && (
-                            <div className="heading--row" style={{ flexWrap: "wrap" }}>
+                            <div className="heading--row">
                                 <span className={`status status--${item?.status}`}>
                                     <p style={{ textTransform: "capitalize" }}><GoDotFill /> {item?.status}</p>
+                                </span>
+
+                                <span className={`status status--neutral`}>
+                                    <p style={{ textTransform: "capitalize" }}> {item?.couponGroup != "collections" ? (
+                                        <><BsHandbag /> {item?.couponGroup} product</>
+                                    ) : (
+                                        <><HiOutlineCollection /> product {item?.couponGroup}</>
+                                    )}</p>
                                 </span>
                             </div>
                         )}
@@ -132,9 +196,11 @@ export default function CouponItem() {
                         <button className="page__section-top-btn add" onClick={() => setShowDeleteModal(true)} style={{ fontWeight: "600", color: "#444" }}>
                             <RiDeleteBin5Line size={20} />
                         </button>
-                        <button className="page__section-top-btn" onClick={() => {}} style={{ fontWeight: "600", color: "#444" }}>
-                            <RiAddFill size={20} /> {width > 800 ? "Add Items" : "Add"}
-                        </button>
+                        <TooltipUI title={item?.couponGroup == "all" || (item?.couponGroup == "single" && item?.items?.length > 0) ? `Cannot add more items to ${item?.couponGroup} product` : "Add more items"} placement="top">
+                            <button className="page__section-top-btn" onClick={() => setShowAddModal(!showAddModal)} style={{ fontWeight: "600", color: "#444" }} disabled={item?.couponGroup == "all" || (item?.couponGroup == "single" && item?.items?.length > 0)}>
+                                <RiAddFill size={20} /> {width > 800 ? "Add Items" : "Add"}
+                            </button>
+                        </TooltipUI>
                         <span className="page__section--action" onMouseLeave={() => {}}>
                             <button onClick={() => {}} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
                         </span>
@@ -152,6 +218,7 @@ export default function CouponItem() {
                                 <Line border={1.4} where="Top" value="1rem" />
                             </div>
 
+                            
                             {/*  */}
                         </div>
 

@@ -38,7 +38,10 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
         },
         rows: {
             style: {
-                minHeight: width < 450 ? "7rem" : (name == "product" ? "8rem" : "7rem"),
+                minHeight: width < 450 ? "6.7rem" : (
+                    name == "product" ? "8rem" : 
+                    (name == "order" || name == "customer" || name == "transaction") ? "7rem" : "5.6rem"
+                ),
                 cursor: 'pointer',
                 fontSize: "1.34rem",
                 fontWeight: 500,

@@ -12,7 +12,6 @@ import { nanoid } from 'nanoid';
 import Info from '../../../components/elements/Info.jsx';
 import CurrencyInput from 'react-currency-input-field';
 import CollapsibleDiv from 'react-collapsible';
-import { MdArrowDropDown } from 'react-icons/md';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import ProductPreview from '../../../components/layout/ProductPreview.jsx';
 import MainDropdownSelect from '../../../components/form/MainDropdownSelect.jsx';
@@ -25,7 +24,7 @@ export default function CreateCoupon() {
     const { id } = useParams();
     const { width } = useWindowSize();
     const { currency, shouldKick, headers } = useAuthContext();
-    const { products, collections, handleFetchMyStoreCoupons, handleFetchError  } = useFetchedContext()
+    const { products, collections, handleFetchMyStoreCoupons, handleFetchError } = useFetchedContext()
     const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     //////////////////////////////////////////////////////////

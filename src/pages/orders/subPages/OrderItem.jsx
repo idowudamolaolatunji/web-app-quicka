@@ -166,7 +166,7 @@ function OrderItem() {
                                 <div className="item__preview--grid grid--2x1" style={{ alignItems: "center" }}>
                                     {item?.products?.map((product, i) => (
                                         <React.Fragment>
-                                            <div className="item__preview--item">
+                                            <Link className="item__preview--item" to={`/dashboard/products/${product?.productId}`}>
                                                 <img className="item--image" src={product?.image} alt={product?.name} />
                                                 <div className="item--details">
                                                     {product?.product_collection?.map((collection, i) => (
@@ -175,7 +175,7 @@ function OrderItem() {
                                                     <h3 className='item--title'>{product?.name}</h3>
                                                     <p className='flex align'><span className="preview--body-item">Quality - </span> <span className="value" style={{ fontSize: "1.4rem" }}>{product?.quantity}</span></p>
                                                 </div>
-                                            </div>
+                                            </Link>
 
                                             <div className="item__preview--info">
                                                 <p className='value'><input className='form--input' value={product?.quantity} /> x {currency}{formatNumber(product?.price)}</p>
@@ -238,8 +238,8 @@ function OrderItem() {
                                         <p className="box--text">{item?.customer?.contact?.email}</p>
                                     </span>
                                     <span className="item--box">
-                                        <span className="box--icon" style={{ width: "3rem" }}><PiMapPinArea /></span>
-                                        <p className="box--text">{item?.customer?.shippingAddress?.address}</p>
+                                        <span className="box--icon" style={{ width: "2.8rem" }}><PiMapPinArea /></span>
+                                        <p className="box--text">{item?.customer?.shippingAddress?.address || "Address not selected"}</p>
                                     </span>
                                     <span className="item--box">
                                         <span className="box--icon"><MdWhatsapp /></span>
@@ -261,7 +261,7 @@ function OrderItem() {
                                     <div className='preview--body-item'>
                                         Payment Method
                                         {item?.paymentMethod ? (
-                                            <span className={`status status--pending`}><p><GoDotFill /> {String(item?.paymentMethod).replace("-", " ")}</p></span>
+                                            <span className={`status status--pending`}><p><TbCashRegister /> {String(item?.paymentMethod).replace("-", " ")}</p></span>
                                         ) : (
                                             <span className={`status status--draft`}><p><GoDotFill /> none</p></span>
                                         )}

@@ -36,7 +36,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL
 export default function RecordOrder() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { headers, shouldKick, currency } = useAuthContext();
+    const { headers, shouldKick, currency, store } = useAuthContext();
     const { error, products, customers, handleFetchError, handleFetchMyStoreOrders, handleFetchMyStoreProducts, handleFetchMyStoreCustomers, handleFetchMyStoreTransactions } = useFetchedContext();
     // const today = moment().format();
     const today = moment.utc().format("YYYY-MM-DDTHH:mm:ss.SSSZ");
@@ -266,7 +266,6 @@ export default function RecordOrder() {
                 hasExplainer={true}
                 btnBelow={true}
             >
-
                 <div className="product__upload--container">
                     {width < 400 && <Line border={1.4} />}
 
@@ -332,9 +331,7 @@ export default function RecordOrder() {
                             </div>
                         </div>
 
-
                         {width < 400 && <Line border={1.4} />}
-
 
                         <div className="card form">
                             <div className="section--heading">
@@ -365,7 +362,6 @@ export default function RecordOrder() {
                                 <label className="form--label">Customer (optional)</label>
                                 <MainDropdownSelect title="Customer" options={customers} field="fullname" value={orderCustomer} setValue={setOrderCustomer} noDataLabel='No customer found!' />
                                 <Info text="If you don't have customer's details, Leave blank" />
-
                                 <button className='form--add' onClick={() => setShowModal({ ...showModal, customer: true })}>
                                     <AiOutlinePlus />
                                     <p>Add Customer</p>
@@ -408,7 +404,6 @@ export default function RecordOrder() {
                                     <label className="form--label">Payment Method <Asterisk /></label>
 
                                     <MainDropdownSelect title="a Payment Method" options={paymentMethodData} field="label" value={paymentMethod} setValue={setPaymentMethod} searchable={false} />
-
                                     <span className="form--error-message">
                                         {salesFormErrors.paymentMethod && salesFormErrors.paymentMethod}
                                     </span>

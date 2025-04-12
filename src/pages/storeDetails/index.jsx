@@ -44,7 +44,7 @@ function index() {
                     <span className='custom--labels' style={{ gap: ".6rem" }}>
                         <h3 className='custom--title'>{store?.name}</h3>
                         <a className='custom--link' target='_blank' href={`https://${store?.storeUrl}`} >
-                            www.{store?.storeUrl} {width > 400 && <AiOutlineLink />}
+                            https://{store?.storeUrl} {width > 400 && <AiOutlineLink />}
                         </a>
                         <p style={{ fontSize: "1.12rem", padding: "0" }} className='preview--body-item'>
                             {joinedSinceFormat(store?.createdAt)}
@@ -107,7 +107,7 @@ function index() {
 
                     <div className="preview--body">
                         <div className='preview--body-item'>Email-address <span className='preview--body-value'>{contact?.email}</span></div>
-                        <div className='preview--body-item'>Phone No. <span className='preview--body-value'>+{contact?.phone}</span></div>
+                        <div className='preview--body-item'>Phone No. <span className='preview--body-value value' style={{ fontSize: "1.2rem" }}>+{contact?.phone}</span></div>
                         <div className='preview--body-item'>Address <span className='preview--body-value'>{location?.address || "--"}</span></div>
                         <div className='preview--body-item'>Country <span className='preview--body-value'>{location?.country?.name || "--"}</span></div>
                         <div className='preview--body-item'>City & State <span className='preview--body-value'>{location?.state?.name ? `${location?.city?.name + ", "}${location?.state?.name}` : "--"}</span></div>

@@ -4,7 +4,7 @@ import { useWindowSize } from 'react-use'
 import { truncateString } from '../../utils/helper';
 
 
-function MainDropdownSelect({ options, multiple=false, field, title, value, searchable = true, setValue, noDataLabel="No Data", customClass="", clearable=true, subtitle }) {
+function MainDropdownSelect({ options, multiple=false, field, title, value, searchable = true, setValue, noDataLabel="No Data", customClass="", clearable=true, subtitle="" }) {
     const { width } = useWindowSize();
 
     return (
