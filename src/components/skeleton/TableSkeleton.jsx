@@ -70,18 +70,18 @@ export function TableHeadSkeleton({ title }) {
 }
 
 
-// export function TableCellSkeleton({ title }) {
-//     const count = (title == "product") ? 3 : 2;
-//     const height = 9;
+export function TableCellSkeleton({ title }) {
+    const count = (title == "product") ? 3 : 2;
+    const height = 9;
 
-//     return (
-//         <div style={{ minWidth: "90rem", padding: ".68rem .28rem", marginLeft: "-10rem" }}>
-//             <div className='table--grid' style={{ marginTop: "0.5rem" }}>
-//                 <Skeleton height={height} count={count} />
-//                 <Skeleton height={height} count={count} />
-//                 <Skeleton height={height} count={count} />
-//                 <Skeleton height={height} count={count} />
-//             </div>
-//         </div>
-//     )
-// }
+    return (
+        <div style={{ minWidth: "90rem", padding: ".68rem .28rem", marginLeft: "-10rem" }}>
+            <div className='table--grid' style={{ marginTop: "0.5rem" }}>
+                <Skeleton height={height} count={count} />
+                <Skeleton height={height} count={count} />
+                <Skeleton height={height} count={count} />
+                <Skeleton height={height} count={count} />
+            </div>
+        </div>
+    )
+}
