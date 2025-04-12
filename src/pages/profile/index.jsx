@@ -11,7 +11,7 @@ import { useDataContext } from '../../context/DataContext';
 import { cap1stLetter, hideEmail } from '../../utils/helper';
 import ConnectionError from '../../components/layout/ConnectionError';
 import { useFetchedContext } from '../../context/FetchedContext';
-import SimpleModal from "../../components/modal/Simple"
+import SimpleModal from "../../components/modal/SimpleModal"
 import ExtraSmall from '../../components/modal/ExtraSmall';
 import IntegrationModal from '../../components/modal/IntegrationModal';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
@@ -93,7 +93,6 @@ export default function index() {
 
     return (
         <React.Fragment>
-
             {globalConnectionError && <ConnectionError />}
 
             <section className='page__section--heading'>
@@ -194,10 +193,10 @@ export default function index() {
 
             
             {showModal.personal && (
-                <IntegrationModal setClose={() => handleShowModal("personal")}>
-                    <h3 className="modal--title">Edit Personal Information</h3>
+                <SimpleModal setClose={() => handleShowModal("personal")} title="Edit Personal Information" icon={<AiOutlineClose />} customstyle={{ width: "60rem" }}>
+                    <h3 className="modal--title"></h3>
 
-                </IntegrationModal>
+                </SimpleModal>
             )}
 
             {showModal.location && (

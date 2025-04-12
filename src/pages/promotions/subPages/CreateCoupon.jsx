@@ -336,10 +336,7 @@ export default function CreateCoupon() {
                             </CollapsibleDiv>
                         </React.Fragment>
                     )}
-
                 </div>
-
-
 
                 {width < 400 && <Line border={1.4} />}
 

@@ -32,8 +32,8 @@ const emptyBtns = [
 function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
+    const { loader, orders, handleFetchMyStoreOrders } = useFetchedContext()
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
-    const { loader, error, orders, handleFetchMyStoreOrders } = useFetchedContext()
     const currency = store?.currency?.symbol;
     
     const [search, setSearch] = useState('');
@@ -159,8 +159,7 @@ function index() {
 
 
     return (
-
-        <>
+        <React.Fragment>
             {(showFilterModal?.name == "order" && showFilterModal.isShown) && (
                 <Drawer title={`Order Filters`} setClose={() => handleToggleFilter("")}>
                     
@@ -181,7 +180,6 @@ function index() {
                 emptyTitle={emptyTitle}
                 emptyClassName="empty--order"
                 headTabs={<TableHeadTabs pageName="order" handleFetch={handleFetchMyStoreOrders} searchVal={search} setSearchVal={setSearch} />}
-                loader={loader} error={error}
                 searchLoader={searchLoader}
             >
 
@@ -194,15 +192,13 @@ function index() {
                     </div>
                 )}
 
-                {/*  */}
                 {orders?.length > 0 && (
                     <div className="top--bar info" style={{ margin: "2rem 0" }}>
                         <Info text="Recieve orders from your online store and record order from any offline channel" />
                     </div>
                 )}
-
             </PageUI>
-        </>
+        </React.Fragment>
     )
 }
 

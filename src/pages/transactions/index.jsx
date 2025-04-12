@@ -16,10 +16,12 @@ import Tab from '../../components/elements/Tab';
 import transaction_emptyImg from '../../assets/images/illustrations/transactions.png'
 import settlement_emptyImg from '../../assets/images/illustrations/settlement.png'
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
+import SimpleModal from '../../components/modal/SimpleModal';
 import Drawer from '../../components/modal/Drawer';
 import { GoDotFill } from 'react-icons/go';
 import Info from '../../components/elements/Info';
 import { useWindowSize } from 'react-use';
+import { AiOutlineClose } from 'react-icons/ai';
 
 ///////////////////////////////////////////////
 
@@ -31,15 +33,15 @@ const settlement_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing
 
 
 function index() {
-    const { width } = useWindowSize()
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const location = useLocation();
+    const { width } = useWindowSize();
     const queryParams = new URLSearchParams(location.search);
-    const tabParams = queryParams.get("tab")
+    const tabParams = queryParams.get("tab");
     ///////////////////////////////////////
     const { store } = useAuthContext();
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
-    const { loader, error, transactions, settlements, handleFetchMyStoreTransactions, handleFetchMyStoreSettlements } = useFetchedContext();
+    const { transactions, settlements, handleFetchMyStoreTransactions, handleFetchMyStoreSettlements } = useFetchedContext();
     const currency = store?.currency?.symbol;
 
     const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.profit, 0);
@@ -48,6 +50,8 @@ function index() {
     /////////////////////////////////////////////////////////////////////
     const [activeTab, setActiveTab] = useState("transaction");
     const [search, setSearch] = useState('');
+    const [showDetailModal, setShowDetailModal] = useState({ show: false, selectedData: null });
+    const { selectedData } = showDetailModal;
     
     
     const transaction_columns = [
@@ -121,28 +125,6 @@ function index() {
     const settlement_columns = [];
 
 
-    const HeadTabs = function () {
-        return (
-            <div className='content'>
-                <span className='flex'>
-                    <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={activeTab == "transaction" ? handleFetchMyStoreTransactions : handleFetchMyStoreSettlements}><MdOutlineRefresh /></button>
-                    </TooltipUI>
-
-                    <input type="text" className="table--input form--input" placeholder='search..' />
-                </span>
-
-                <span className="flex">
-                    <button className='table--btn'>Reset filter</button>
-
-                    <TooltipUI placement='top' title="Filters">
-                        <button className='table--btn'><MdOutlineFilterList /></button>
-                    </TooltipUI>
-                </span>
-            </div>
-        );
-    }
-
     useEffect(function () {
         document.title = `Quicka | ${activeTab == "transaction" ? "All Transactions" : "Payment Settlements"}`;
     }, []);
@@ -159,12 +141,40 @@ function index() {
     }, [tabParams]);
 
 
+    const handleCloseDetailModal = function() {
+        setShowDetailModal({ show: false, selectedData: null });
+    }
+
+
     return (
-        <>
+        <React.Fragment>
             {(showFilterModal?.name == activeTab && showFilterModal.isShown) && (
                 <Drawer title={`${cap1stLetter(activeTab)} Filters`} setClose={() => handleToggleFilter("")}>
                     
                 </Drawer>
+            )}
+
+            {showDetailModal.show && (
+                <SimpleModal
+                    setClose={handleCloseDetailModal}
+                    icon={<AiOutlineClose />}
+                    title={`${cap1stLetter(activeTab)} Detail ${activeTab && selectedData?.transactionId}`}
+                >
+
+                    <div className="item__preview--summary" style={{ marginTop: "2rem" }}>
+                        <div className='preview--body-item'>
+                            Sales Channel 
+                            <span className='preview--body-value flex' style={{ flexDirection: "row", gap: ".68rem", textTransform: "capitalize", alignItems: "center" }}>
+                                {selectedData?.order?.channel} <img style={{ width: "2.8rem" }} alt={selectedData?.order?.channel} src={imgString(selectedData?.order?.channel)} />
+                            </span>
+                        </div>
+                        {/* <div className='preview--body-item'><span>Product{item?.products?.length > 1 ? "s" : ""} Price <span className='value'>* {item?.orderTotalQuantity}</span></span><span className='preview--body-value value'>{currency}{formatNumber(item?.profit + item?.orderDiscountAmount)}</span></div>
+                        <div className='preview--body-item'>Order Discount <span className='preview--body-value value'>{item?.orderDiscountAmount ? `-${currency}${formatNumber(item?.orderDiscountAmount)}` : "--"}</span></div>
+                        <div className='preview--body-item'>Delivery Fee <span className='preview--body-value value'>{item?.orderDeliveryFee ? `${currency}${formatNumber(item?.orderDeliveryFee)}` : "--"}</span></div>
+                        <div className='preview--body-item'>Total Paid <span className='preview--body-value value'>{currency}{formatNumber(item?.orderSubTotal)}</span></div>
+                        <div className='preview--body-item'>Sales Profit <span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div> */}
+                    </div>
+                </SimpleModal>
             )}
             
             <PageUI
@@ -176,8 +186,9 @@ function index() {
                 emptyImg={activeTab == "transaction" ? transaction_emptyImg : settlement_emptyImg}
                 emptyTitle={activeTab == "transaction" ? transaction_emptyTitle : settlement_emptyTitle}
                 hasLink={false}
+                hasDetailModal={true}
                 shouldSelect={false}
-                loader={loader} error={error}
+                setDetailModal={setShowDetailModal}
                 pointOnHover={activeTab == "transaction" ? false : true}
                 headTabs={ activeTab == "transaction" ? (
                     <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreTransactions} />
@@ -205,7 +216,7 @@ function index() {
                     <Info text="Please note that all pending settlements are paid to your bank / payment account after 24 hours after the transaction occured" />
                 </div>
             </PageUI>
-        </>
+        </React.Fragment>
     )
 }
 

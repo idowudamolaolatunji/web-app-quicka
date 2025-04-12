@@ -211,23 +211,37 @@ function OrderItem() {
                                 </div>
                                 
                                 <div className="item__preview--summary order">
-                                    <div className='preview--body-item' style={{ marginTop: "-.8rem" }}>
+                                    <div className='preview--body-item' style={{ marginBottom: "-.48rem" }}>
                                         Sales Channel 
                                         <span className='preview--body-value flex' style={{ flexDirection: "row", gap: ".68rem", textTransform: "capitalize", alignItems: "center" }}>
-                                        {item?.channel} <img style={{ width: "2.8rem" }} alt={item?.channel} src={imgString(item?.channel)} />
+                                            {item?.channel} <img style={{ width: "2.4rem" }} alt={item?.channel} src={imgString(item?.channel)} />
                                         </span>
                                     </div>
-                                    <div className='preview--body-item'><span>Item Price <span className='value'>x {item?.orderTotalQuantity}</span></span><span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div>
+                                    <div className='preview--body-item'><span>Product{item?.products?.length > 1 ? "s" : ""} Price <span className='value'>* {item?.orderTotalQuantity}</span></span><span className='preview--body-value value'>{currency}{formatNumber(item?.profit + item?.orderDiscountAmount)}</span></div>
                                     <div className='preview--body-item'>Order Discount <span className='preview--body-value value'>{item?.orderDiscountAmount ? `-${currency}${formatNumber(item?.orderDiscountAmount)}` : "--"}</span></div>
                                     <div className='preview--body-item'>Delivery Fee <span className='preview--body-value value'>{item?.orderDeliveryFee ? `${currency}${formatNumber(item?.orderDeliveryFee)}` : "--"}</span></div>
                                     <div className='preview--body-item'>Total Paid <span className='preview--body-value value'>{currency}{formatNumber(item?.orderSubTotal)}</span></div>
-                                    <div className='preview--body-item'>My Profit <span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div>
+                                    <div className='preview--body-item'>Sales Profit <span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div>
                                 </div>
                             </div>
                         </div>
 
 
                         <div className="right--side">
+                            <div className="card form">
+                                <div className="section--heading">
+                                    <h2>Addition Note</h2>
+                                    <Line border={1.4} where="Top" value="1rem" />
+                                </div>
+                            
+                                {(!item?.description) ? (
+                                    <p style={{ fontSize: "1.4rem" }} dangerouslySetInnerHTML={{ __html: item?.description }}></p>
+                                ) : (
+                                    <p className='preview--body-item' style={{ padding: 0 }}>None Added</p>
+                                )}
+                            </div>
+                                
+
                             <div className="card form">
                                 <div className="section--heading">
                                     <h2>Customer information</h2>
@@ -294,14 +308,13 @@ function OrderItem() {
                                 </div>
                             </div>
 
-
                             <div className="card form">
                                 <div className="section--heading">
                                     <h2>Payment Summary</h2>
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
 
-                                <div className="item__preview--summary payment">
+                                <div className="item__preview--summary">
                                     <div className='preview--body-item'>Amount Paid <span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div>
                                     <div className='preview--body-item'>Payment Status <span className={`status status--${item?.paymentStatus}`}><p><GoDotFill /> {item?.paymentStatus}</p></span></div>
                                     <div className='preview--body-item'>

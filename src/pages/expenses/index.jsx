@@ -6,10 +6,11 @@ import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
 import { dateTimeFormat, formatNumber } from '../../utils/helper';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
 import emptyImg from '../../assets/images/illustrations/expenses.png'
+import SimpleModal from '../../components/modal/SimpleModal';
 
 
 ///////////////////////////////////////////////
@@ -24,18 +25,15 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     
-    const { loader, error, expenses, handleDeleteOneItem, handleFetchMyStoreExpenses } = useFetchedContext();
+    const { expenses, handleDeleteOneItem, handleFetchMyStoreExpenses } = useFetchedContext();
     const currency = store?.currency?.symbol;
 
     ////////////////////////////////////////////////////////
-    const [deleteLoader, setDeleteLoader] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-
-    const handleShowModal = function(id) {
-        setShowModal(true);
-        setSelectedId(id);
-    }
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showDetailModal, setShowDetailModal] = useState({ show: false, selectedData: null });
+    const { selectedData } = showDetailModal;
 
     const columns = [
         {
@@ -67,7 +65,7 @@ function index() {
             selector: row => (
                 <span className='table--actions'>
                     <button className='table--btn' onClick={() => navigate(`${row?._id}/edit`)}><RiEdit2Line /></button>
-                    <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
         },
@@ -85,52 +83,76 @@ function index() {
         );
     }
 
-
     useEffect(function() {
         document.title = "Quicka | Expenses";
     }, []);
     
+    const handleShowDeleteModal = function(id) {
+        setShowDeleteModal(true);
+        setSelectedId(id);
+    }
+
+    const handleCloseDetailModal = function() {
+        setShowDetailModal({ show: false, selectedData: null });
+    }
 
     async function deleteItem() {
         try {
-            setDeleteLoader(true)
+            setLoading(true)
             await handleDeleteOneItem(`expenses/${selectedId}`);
             handleFetchMyStoreExpenses();
-            setShowModal(false)
+            setShowDeleteModal(false)
         } catch(err) {
             console.log(err);
         } finally {
-            setDeleteLoader(false);
+            setLoading(false);
         }
     }
 
-    return (
-        <PageUI
-            columns={columns}
-            data={expenses}
-            items={expenses}
-            pageName="expenses"
-            shouldSelect={true}
-            addBtnStr="Record Expenses"
-            emptyText={emptyText}
-            emptyImg={emptyImg}
-            emptyBtns={emptyBtns}
-            emptyTitle={emptyTitle}
-            addUrl="expenses/record"
-            headTabs={<HeadTabs />}
-            insights={false}
-            hasLink={false}
-            pointOnHover={false}
-            loader={loader} error={error}
 
-            deleteObj={{ 
-                fn: deleteItem,
-                title: "expenses",
-                close: setShowModal,
-                show: showModal,
-                loader: deleteLoader
-            }}
-        />
+    return (
+        <React.Fragment>
+            {showDetailModal.show && (
+                <SimpleModal
+                    setClose={handleCloseDetailModal}
+                    icon={<AiOutlineClose />}
+                    title={`Expenses Detail`}
+                >
+                
+                    <div className="item__preview--summary" style={{ marginTop: "2rem" }}>
+                        <div className='preview--body-item'>Expenses Title <span className='preview--body-value value'>{selectedData?.title}</span></div>
+                    </div>
+                </SimpleModal>
+            )}
+
+            <PageUI
+                columns={columns}
+                data={expenses}
+                items={expenses}
+                pageName="expenses"
+                shouldSelect={true}
+                addBtnStr="Record Expenses"
+                emptyText={emptyText}
+                emptyImg={emptyImg}
+                emptyBtns={emptyBtns}
+                emptyTitle={emptyTitle}
+                addUrl="expenses/record"
+                headTabs={<HeadTabs />}
+                insights={false}
+                hasLink={false}
+                pointOnHover={false}
+                hasDetailModal={true}
+                setDetailModal={setShowDetailModal}
+
+                deleteObj={{ 
+                    fn: deleteItem,
+                    title: "expenses",
+                    close: setShowDeleteModal,
+                    show: showDeleteModal,
+                    loader: loading
+                }}
+            />
+        </React.Fragment>
     )
 }
 

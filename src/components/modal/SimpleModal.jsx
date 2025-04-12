@@ -1,7 +1,7 @@
 import React from 'react'
 import Overlay from '../layout/Overlay'
 
-function Simple({ title, icon, setClose, children }) {
+export default function SimpleModal({ title, icon, setClose, children, customstyle }) {
 
     function handleClose() {
         setClose(false)
@@ -10,15 +10,13 @@ function Simple({ title, icon, setClose, children }) {
   return (
     <>
         <Overlay handleClose={handleClose}/>
-        <div className='simple modal'>
+        <div className='simple modal' style={customstyle}>
             <div className="modal--head">
                 <h3>{title}</h3>
-                <span onClick={handleClose}>{icon}</span>
+                {icon && <span className='icon--box' onClick={handleClose}>{icon}</span>}
             </div>
             {children}
         </div>
     </>
   )
 }
-
-export default Simple

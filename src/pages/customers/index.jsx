@@ -28,19 +28,14 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
-    const { loader, error, customers, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
+    const { loader, customers, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
 
     ////////////////////////////////////////////////////////
-    const [deleteLoader, setDeleteLoader] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [search, setSearch] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [search, setSearch] = useState("");
 
-
-    const handleShowModal = function(id) {
-        setShowModal(true);
-        setSelectedId(id);
-    }
 
     const columns = [
         {
@@ -85,7 +80,7 @@ function index() {
             selector: row => (
                 <span className='table--actions'>
                     <button className='table--btn' onClick={() => navigate(`${row?._id}/edit`)}><RiEdit2Line /></button>
-                    <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
         }
@@ -95,17 +90,21 @@ function index() {
         document.title = "Quicka | Your Customers";
     }, []);
 
+    const handleShowDeleteModal = function(id) {
+        setShowDeleteModal(true);
+        setSelectedId(id);
+    }
 
     async function deleteItem() {
         try {
-            setDeleteLoader(true)
+            setLoading(true)
             await handleDeleteOneItem(`customers/${selectedId}`);
             handleFetchMyStoreCustomers();
-            setShowModal(false)
+            setShowDeleteModal(false)
         } catch(err) {
             console.log(err);
         } finally {
-            setDeleteLoader(false);
+            setLoading(false);
         }
     }
 
@@ -131,14 +130,13 @@ function index() {
                 emptyImg={emptyImg}
                 emptyTitle={emptyTitle}
                 headTabs={<TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomers}  />}
-                loader={loader} error={error}
 
                 deleteObj={{ 
                     fn: deleteItem,
                     title: "customer",
-                    close: setShowModal,
-                    show: showModal,
-                    loader: deleteLoader
+                    close: setShowDeleteModal,
+                    show: showDeleteModal,
+                    loader: loading
                 }}
             >
 

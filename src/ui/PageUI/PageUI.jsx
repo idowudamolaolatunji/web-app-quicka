@@ -29,6 +29,7 @@ import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
     shouldSelect: to make the table row selectable,
     insights: this shows the insights, for the entire page,
     hasLink: this determines where there is a link to go to when we click on a row,
+    hasDetailModal: ,
     action: this here shows an extra action modal,
     addAction: this toggles / removes the action modal,
     ...action, and addAction are mostly for product's collections,
@@ -38,15 +39,16 @@ import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 
 function PageUI({
     items, pageName, columns, data, addUrl, addBtnStr, hasLink = true, emptyTitle,
-    emptyText, emptyImg, emptyBtns, headTabs, error, loader, action, addAction, searchLoader,
+    emptyText, emptyImg, emptyBtns, headTabs, action, addAction, searchLoader,
     activeDisplayTab = null, insights = true, children, deleteObj, shouldSelect, pointOnHover = true,
-    toLink=""
+    toLink="", setDetailModal, hasDetailModal=false
 }) {
 
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { globalConnectionError } = useFetchedContext();
     const { handleToggleInsights, showInsights } = useDataContext();
+    const { loader, error, globalConnectionError } = useFetchedContext();
+    
 
     // CHECK THIS AGAIN LATER....
     const isItem = items && items.length > 0;
@@ -83,8 +85,8 @@ function PageUI({
                 <CustomAlert type={response.status} message={response.message} />
             )}
 
-            {/* {error[pageName] && <ConnectionError /> } */}
-            {globalConnectionError && <ConnectionError />}
+            {error[pageName] && <ConnectionError /> }
+            {/* {globalConnectionError && <ConnectionError />} */}
 
             {/* THIS IS FOR THE COLLECTION MODAL */}
             {action && (
@@ -143,6 +145,8 @@ function PageUI({
                     pointOnHover={pointOnHover}
                     selectableRows={shouldSelect}
                     toLink={toLink || `/dashboard/${pageName}s`}
+                    hasDetailModal={hasDetailModal}
+                    setDetailModal={setDetailModal}
                     loader={loader?.[pageName]}
                     error={error?.[pageName]}
                     headTabs={headTabs}

@@ -12,8 +12,9 @@ import { formatNumber } from '../../utils/helper';
 import { Checkbox } from '@mui/material';
 
 
-function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTabs,
+function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyComponent, headTabs,
     selectableRows, displayType = "table", open, loader, error, searchLoader, pointOnHover,
+    setDetailModal
 }) {
     
     const isData = data?.length > 0;
@@ -63,7 +64,6 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
         }
     };
     
-
     const handleSelectedRow = function ({ allSelected, selectedCount, selectedRows }) {
         const ids = [];
         selectedRows?.map(row => ids.push(row?._id));
@@ -74,6 +74,9 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
         navigate(`${toLink}/${row[name == "product" ? "productId" : "_id"]}`);
     }
 
+    const handleShowModal = function(row) {
+        setDetailModal({ show: true, selectedData: row })
+    }
 
     ///////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////
@@ -103,6 +106,7 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
     
         return result;
     }
+
     function downloadCSV(array) {
         const link = document.createElement('a');
         let csv = convertArrayOfObjectsToCSV(array);
@@ -125,9 +129,8 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
     ///////////////////////////////////////////////////////////////
 
 
-
     return (
-        <>
+        <React.Fragment>
             {(error && !isData && !loader) && (
                 <ErrorComponent customStyle={{ padding: "4.8rem 2rem" }} />
             )}
@@ -135,7 +138,7 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
             {((!isData && !error && !loader) && <>{emptyComponent}</>)}
 
             {loader && (
-                <>
+                <React.Fragment>
                     <TableHeadSkeleton title={name} />
                     {displayType == "grid" ? (
                         <div className="product__grid">
@@ -149,11 +152,11 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
                             <TableSkeleton title={name} />
                         </div>
                     )}
-                </>
+                </React.Fragment>
             )}
 
             {(!loader && isData) && (
-                <>
+                <React.Fragment>
                     <div className='table--head' style={displayType == "grid" ? { borderRadius: "0.4rem" } : {}}>
                         {selectedRowsId.length > 0 ? (
                             <span className='flex' style={{ gap: "1.6rem" }}>
@@ -172,7 +175,6 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
                                 {headTabs}
                             </React.Fragment>
                         )}
-
                     </div>
 
                     {displayType == "grid" ? (
@@ -199,11 +201,12 @@ function TableUI({ name, columns, data, toLink, hasLink, emptyComponent, headTab
                             progressComponent={<TableCellSkeleton title={name} />}
                             {...( hasLink && { highlightOnHover: width > 600 ? true : false })}
                             {...(hasLink && { onRowClicked: (row) => handleNavigate(row) })}
+                            {...(hasDetailModal && { onRowClicked: (row) => handleShowModal(row) })}
                         />
                     )}
-                </>
+                </React.Fragment>
             )}
-        </>
+        </React.Fragment>
     )
 }
 

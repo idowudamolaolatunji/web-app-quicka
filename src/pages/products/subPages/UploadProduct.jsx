@@ -123,6 +123,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         
         window?.scrollTo({ top: 0, behavior: "smooth" });
         setProductFormErrors({});
+        setResponse({ status: "", message: "" })
     }
 
 
@@ -210,7 +211,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
 
     }, [id]);
 
-    async function handleCreateProduct(e) {
+    async function handleSubmitProduct(e) {
         // FORM VALIDATIONS 
         let formData = {
             ...productData,
@@ -341,10 +342,10 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                 mainLoader={loading}
                 response={response}
                 handleClear={handleClearFields}
-                handleSubmit={handleCreateProduct}
+                handleSubmit={handleSubmitProduct}
                 confetti={showConfetti}
                 hasExplainer={id ? false : true}
-                btnBelow={true}
+                btnBelow={width < 750}
             >
 
                 <form className="product__upload--container" onSubmit={e => e.preventDefault()}>
@@ -400,6 +401,17 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 </button>
                             </div>
                         </div>
+
+                        {width > 750 && (
+                            <div className="page__section--actions" style={{ marginTop: "1.4rem" }}>
+                                {id ? (
+                                    <button className='button clear--button' onClick={() => navigate(-1)}>Cancel</button>
+                                ) : (
+                                    <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
+                                )}
+                                <button className='button submit--button' disabled={loading} onClick={handleSubmitProduct}>Submit</button>
+                            </div>
+                        )}
                     </div>
 
                     {width < 400 && <Line border={1.4} />}

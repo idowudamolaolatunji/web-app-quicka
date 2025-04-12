@@ -12,6 +12,7 @@ import { RiAddFill, RiDeleteBin5Line } from 'react-icons/ri';
 import { BiChevronDown } from 'react-icons/bi';
 import { GoDotFill } from 'react-icons/go';
 import { calRemainingDays, formatDateSince } from '../../../utils/helper';
+import TooltipUI from '../../../components/layout/TooltipUI';
 
 
 export default function DiscountItem() {

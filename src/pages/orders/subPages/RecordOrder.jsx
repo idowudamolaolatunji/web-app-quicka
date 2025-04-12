@@ -62,6 +62,7 @@ export default function RecordOrder() {
 
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [subTotal, setSubTotal] = useState({ total: 0, profit: 0 });
+    // subtotal total is everything including the delivery fee, while profit is minus delivery fee
     ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -159,7 +160,7 @@ export default function RecordOrder() {
             setOrderData({ ...orderData, deliveryFee: null })
         }
     }, [orderProducts, selectedProducts, orderData.deliveryFee]);
-
+console.log(subTotal)
 
     async function handleRecordOrder() {
         // FORM VALIDATIONS 

@@ -699,8 +699,7 @@
 }
 
 
-.item__preview--summary.product .preview--body-item,
-.item__preview--summary.payment .preview--body-item,
+.item__preview--summary .preview--body-item,
 .item__preview--info .preview--body-item,
 .item__preview--item .preview--body-item {
 	border: none;
@@ -783,21 +782,19 @@
 }
 
 
-.item__preview--summary.payment {
-	gap: 2.4rem;
-}
 .item__preview--summary {
 	display: flex;
 	flex-direction: column;
-	gap: 2rem;
+	gap: 2.4rem;
 }
+.item__preview--summary.order .preview--body-value {
+	font-size: 1.3rem;
+}
+
 .item__preview--summary.product {
 	gap: 2.4rem;
 	margin-top: 2rem;
 	gap: 2rem;
-}
-.item__preview--summary.order .preview--body-item {
-	padding-bottom: 2rem;
 }
 
 

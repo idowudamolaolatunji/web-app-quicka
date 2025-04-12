@@ -178,7 +178,7 @@ button {
 
 /* SIMPLE NORMAL MODAL */
 .modal.simple {
-	min-height: 40rem;
+	min-height: 30rem;
 	width: 50rem;
 }
 
@@ -219,6 +219,7 @@ button {
 }
 
 .modal.integrated .icon--box,
+.modal.simple .icon--box,
 .modal.bg-simple .icon--box {
 	position: absolute;
 	top: 1.6rem;
@@ -244,7 +245,7 @@ button {
 .icon--box:hover {
 	background-color: #eee;
 }
-/* .modal.bg-simple .icon--box:hover svg { */
+.modal.simple .icon--box:hover svg,
 .icon--box:hover svg {
 	transform: rotate(180deg);
 	color: var(--color-brand-500);
@@ -316,7 +317,7 @@ button {
 	font-size: 1.8rem;
 }
 .modal--head svg {
-	font-size: 2.4rem;
+	font-size: 2.2rem;
 	cursor: pointer;
 }
 .modal--form {

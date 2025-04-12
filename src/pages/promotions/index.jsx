@@ -44,32 +44,19 @@ function index() {
     const tabParams = queryParams.get("tab");
     ///////////////////////////////////////////
     const { showInsights } = useDataContext()
-    const {
-        loader, error, discounts, coupons, special_sales, handleDeleteOneItem, handleFetchMyStoreDiscounts, handleFetchMyStoreCoupons
+    const { 
+        loader, discounts, coupons, handleDeleteOneItem,
+        handleFetchMyStoreDiscounts, handleFetchMyStoreCoupons
     } = useFetchedContext();
     ////////////////////////////////////////////////////////
-    const [deleteLoader, setDeleteLoader] = useState(false);
-    const [selectedId, setSelectedId] = useState(null);
-    const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState("discount");
     const [actionText, setActionText] = useState("Copy");
+    const [loading, setLoading] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     ///////////////////////////////////////////////////////
-    const data = activeTab == "discount" ? discounts : activeTab == "coupon" ? coupons : special_sales; 
+    const data = activeTab == "discount" ? discounts : activeTab == "coupon" ? coupons : []; 
     const activeCoupons = coupons?.filter(coupon => coupon?.status === "active")?.length 
-
-    const handleShowModal = function(id) {
-        setShowModal(true);
-        setSelectedId(id);
-    }
-
-    const handleCopyCode = function(code) {
-        navigator.clipboard.writeText(code);
-        setActionText("Copied ✔");
-        
-        setTimeout(() => {
-            setActionText("Copy");
-        }, 2000);
-    }
 
     const discount_columns = [
         {
@@ -114,7 +101,7 @@ function index() {
         {
             selector: (row) => (
                 <span className='table--actions'>
-                    <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
             width: "10rem"
@@ -183,7 +170,7 @@ function index() {
         {
             selector: (row) => (
                 <span className='table--actions'>
-                    <button className='table--btn' onClick={() => handleShowModal(row?._id)}><RiDeleteBin5Line /></button>
+                    <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
             width: "10rem"
@@ -227,18 +214,32 @@ function index() {
     }, [activeTab]);
 
 
+    const handleShowDeleteModal = function(id) {
+        setShowDeleteModal(true);
+        setSelectedId(id);
+    }
+
+    const handleCopyCode = function(code) {
+        navigator.clipboard.writeText(code);
+        setActionText("Copied ✔");
+        
+        setTimeout(() => {
+            setActionText("Copy");
+        }, 2000);
+    }
+
     // THE DELETE FUNCTION..
     async function deleteItem() {
         try {
-            setDeleteLoader(true)
+            setLoading(true)
             await handleDeleteOneItem(`${activeTab}s/${selectedId}`);
             if(activeTab == "discount") handleFetchMyStoreDiscounts();
             if(activeTab == "coupon") handleFetchMyStoreCoupons();
-            setShowModal(false)
+            setShowDeleteModal(false)
         } catch(err) {
             console.log(err);
         } finally {
-            setDeleteLoader(false);
+            setLoading(false);
         }
     }
 
@@ -254,7 +255,6 @@ function index() {
             emptyBtns={activeTab == "discount" ? discount_emptyBtns : activeTab == "coupon" ? coupon_emptyBtns : special_sales_emptyBtns}
             emptyTitle={activeTab == "discount" ? discount_emptyTitle : activeTab == "coupon" ? coupon_emptyTitle : special_sales_emptyTitle}
             addUrl={activeTab == "discount" ? "promotions/discounts/create" : activeTab == "coupon" ? "promotions/coupon/create" : "promotions/special-sales/run"}
-            loader={loader} error={error}
             hasLink={true}
             toLink={`/dashboard/promotions/${activeTab}s`}
             headTabs={<HeadTabs />}
@@ -263,9 +263,9 @@ function index() {
             deleteObj={{ 
                 fn: deleteItem,
                 title: `"${cap1stLetter(activeTab)}"`,
-                close: setShowModal,
-                show: showModal,
-                loader: deleteLoader
+                close: setShowDeleteModal,
+                show: showDeleteModal,
+                loader: loading
             }}
         >
 

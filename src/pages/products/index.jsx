@@ -51,7 +51,7 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { showInsights, activeDisplayTab, showFilterModal, handleToggleFilter } = useDataContext();
-    const { loader, error, products, collections, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleDeleteOneItem } = useFetchedContext();
+    const { loader, products, collections, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleDeleteOneItem } = useFetchedContext();
 
     const currency = store?.currency?.symbol;
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
@@ -59,7 +59,7 @@ function index() {
     const totalInventoryWorth = products?.reduce((acc, product) => acc + product?.price, 0);
 
     ////////////////////////////////////////////////////////
-    const [deleteLoader, setDeleteLoader] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showCollectionForm, setShowCollectionForm] = useState(false);
@@ -218,7 +218,7 @@ function index() {
     // DELETE FUNCTION
     async function deleteItem() {
         try {
-            setDeleteLoader(true)
+            setLoading(true)
             await handleDeleteOneItem(`${tabShown}s/${selectedId}`);
             if (tabShown == "product") {
                 handleFetchMyStoreProducts();
@@ -229,7 +229,7 @@ function index() {
         } catch (err) {
             console.log(err);
         } finally {
-            setDeleteLoader(false);
+            setLoading(false);
         }
     }
 
@@ -269,7 +269,6 @@ function index() {
                     <TableHeadTabs pageName="collection" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCollections} />
                 )}
                 addBtnStr={tabShown == "product" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
-                loader={loader} error={error}
                 {...(tabShown == "product" && { activeDisplayTab })}
 
                 // THIS PART HERE IS FOR THE PRODUCT COLLECTION SORT OF MODAL
@@ -283,7 +282,7 @@ function index() {
                     title: tabShown,
                     close: setShowDeleteModal,
                     show: showDeleteModal,
-                    loader: deleteLoader,
+                    loader: loading,
                     open: handleShowDeleteModal
                 }}
             >
