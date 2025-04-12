@@ -191,6 +191,10 @@ export default function StoreCustom({ isnew, close }) {
             tiktok: socialProfiles?.tiktok || "",
         });
 
+        setCustomColor({ 
+            color: customDetail?.brandColor || "", 
+            isValid: customDetail?.brandColor ? true : false
+        });
         setStoreLogo({
             preview: store?.storeLogo?.url ?? "",
             file: null
@@ -278,7 +282,7 @@ export default function StoreCustom({ isnew, close }) {
                 <div className="page__section--heading">
                     <span className="flex justify">
                         <BackButton close={close} />
-                        <h2 className="page__section--title">Customize {isnew ? "Your Store" : "Store Theme"}<MdOutlineStorefront /></h2>
+                        <h2 className="page__section--title">Customize {isnew ? "Your Store" : "Store View"}<MdOutlineStorefront /></h2>
                     </span>
                 </div>
 
