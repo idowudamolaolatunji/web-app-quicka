@@ -61,7 +61,7 @@ function index() {
     }, [resent]);
 
 
-    async function handleSubmit() {
+    async function handleSubmitOtp() {
         const newErrors = validateAuthForm(formData, 'verify_otp');
         setFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
@@ -90,7 +90,7 @@ function index() {
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
             setResponse({ status: data?.status, message: data?.message });
 
-            const userId = data?.data?.user._id;
+            const userId = data?.data?.user?._id;
             localStorage.setItem(`${import.meta.env.VITE_USERID_KEY}`, userId);
             localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
 
@@ -191,7 +191,7 @@ function index() {
                     </span>
                 </div>
 
-                <button onClick={handleSubmit} type='button' className='form--submit'>Continue</button>
+                <button onClick={handleSubmitOtp} type='button' className='form--submit'>Continue</button>
 
                 {timeLeft == "00:00" && (
                     <div className="form--info">

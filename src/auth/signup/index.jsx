@@ -12,7 +12,8 @@ import Asterisk from '../../components/elements/Asterisk';
 import AuthUserRating from '../../components/layout/AuthUserRating';
 import AuthsUI from '../../ui/authUI';
 import isOnline from 'is-online';
-
+import { useGoogleLogin } from '@react-oauth/google';
+import google_img from "../../assets/images/png_elements/google-logo.png"
 
 
 function index() {
@@ -283,6 +284,23 @@ function index() {
                 </div>
 
                 <button type="submit" className='form--submit'>Continue</button>
+
+                <div className="or--text">or</div>
+
+                <button onClick={useGoogleLogin({
+                    onSuccess: async (codeResponse) => {
+                        
+                        console.log(await fetchTokens(codeResponse.code))
+                        // handleGoogleAuthLogin(tokenResponse)
+                    },
+                    select_account: true,
+                    flow: "auth-code",
+                    
+                    
+                })}
+                className="google--btn"
+                type="button"
+                >Register With Google <img src={google_img} alt='google-icon' /></button>
 
                 <div className="form--info">
                     <p>Already have an account? <Link to='/login'>Login</Link></p>

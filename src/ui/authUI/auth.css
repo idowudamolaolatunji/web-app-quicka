@@ -61,7 +61,7 @@
 .auth--form {
     display: flex;
     flex-direction: column;
-    gap: 1.8rem;
+    gap: 1.6rem;
     width: 80%;
     height: auto;
     scrollbar-width: none;
@@ -203,8 +203,8 @@
     display: inline-block;
     background-color: var(--color-brand-500);
     border: none;
-    padding: 1.2rem;
-    font-size: 1.68rem;
+    padding: 1rem 1.2rem;
+    font-size: 1.6rem;
     font-weight: 500;
     color: #fff;
     border-radius: .4rem;
@@ -630,11 +630,44 @@ button.onboard--next {
 }
 
 
-
+.google--btn {
+    background-color: var(--color-brand-10);
+    border: 1px solid var(--color-brand-500);
+    border-radius: .4rem;
+    padding: .68rem 1.2rem;
+    transition: all .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    font-size: 1.46rem;
+    font-weight: 500;
+    color: #555;
+}
+.google--btn img {
+    width: 2rem;
+}
+.google--btn:hover {
+    background-color: var(--color-brand-50);
+}
 
 /* ========================================= */
 
+.or--text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 100%;
+    display: flex;
+    gap: 1rem;
 
+}
+.or--text::before,
+.or--text::after {
+    content: "";
+    align-self: center;
+    width: 100%;
+    border-top: thin solid rgba(0, 0, 0, 0.12);
+}
 
 
 .auth__section .copyright--text {

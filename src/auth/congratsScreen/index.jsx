@@ -28,6 +28,7 @@ function index() {
             localStorage.removeItem(`${import.meta.env.VITE_CONGRATS_KEY}`);
             if (search.includes("?next=dashboard")) {
                 localStorage.removeItem(`${import.meta.env.VITE_USERID_KEY}`);
+                localStorage.removeItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`);
             }
         }, 1500);
     }
@@ -60,7 +61,7 @@ function index() {
     }, []);
 
     return (
-        <>
+        <React.Fragment>
             <Confetti />
 
             <section className='congrats--section'>
@@ -73,7 +74,7 @@ function index() {
                     </div>
                 )}
             </section>
-        </>
+        </React.Fragment>
     )
 }
 

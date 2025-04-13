@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useWindowSize } from 'react-use';
+import { useLocalStorage, useWindowSize } from 'react-use';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
 import { useFetchedContext } from '../../context/FetchedContext';
@@ -7,6 +7,7 @@ import { validateAuthForm } from '../../utils/validationHelper';
 
 // import data_img from '../../assets/images/resources/alex-robinson-rrI02QQ9GSQ-unsplash.jpg'
 import data_img from '../../assets/images/resources/mockup.png'
+import google_img from "../../assets/images/png_elements/google-logo.png"
 
 import { FaCheck } from 'react-icons/fa';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
@@ -14,13 +15,16 @@ import Asterisk from '../../components/elements/Asterisk';
 import AuthsUI from '../../ui/authUI';
 import AuthUserRating from '../../components/layout/AuthUserRating';
 import isOnline from 'is-online';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 
-
+const PREV_PATH = import.meta.env.VITE_PREV_URL_KEY
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 const headingText = "Manage your business online like the boss that you are."
 
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const [value, _, remove] = useLocalStorage(PREV_PATH);
     const { handleFetchError } = useFetchedContext();
     const { user, store, handleChange, handleStore } = useAuthContext();
 
@@ -55,6 +59,55 @@ function index() {
     }, []);
 
 
+    async function handleGoogleAuthLogin(response) {
+        setLoading({ ...loading, mainLoading: true })
+        try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if (!connected) throw new Error("Internet Error");
+
+            const { credential } = response;
+            const res = await fetch(`${BASE_API_URL}/auth/google/login`, {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({ token: credential }),
+            });
+        
+            const data = await res.json();
+            const { status, message, token } = data;
+            if (!status || status !== 'success') {
+                throw new Error(message);
+            }
+
+            // USER MUST HAVE SETUP THEIR STORE TO LOGIN
+            const { user, store } = data?.data;
+            if (!user.basicSetup) {
+                localStorage.setItem(`${import.meta.env.VITE_USERID_KEY}`, user?._id);
+                localStorage.setItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`, user?.authMethod || "google");
+
+                setResponse({ status, message });
+                setTimeout(function () {
+                    navigate('/onboarding');
+                }, 1000);
+                return;
+            }
+
+            setResponse({ status, message });
+            setTimeout(function () {
+                handleChange(user, token);
+                handleStore(store);
+            }, 500);
+
+        } catch(err) {
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
+        } finally {
+            setLoading({ ...loading, mainLoading: false })
+        }
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
         
@@ -71,7 +124,7 @@ function index() {
             const connected = await isOnline();
             if (!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+            const res = await fetch(`${BASE_API_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     "Content-type": "application/json"
@@ -103,6 +156,7 @@ function index() {
             const { user, store } = data?.data;
             if (!user.basicSetup) {
                 localStorage.setItem(`${import.meta.env.VITE_USERID_KEY}`, user._id);
+                localStorage.setItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`, user?.authMethod || "email/password");
 
                 setResponse({ status, message });
                 setTimeout(function () {
@@ -129,10 +183,14 @@ function index() {
 
     useEffect(function () {
         if (user && store) {
-            navigate("/");
+            if(value) {
+                navigate(value);
+                remove();
+            } else {
+                navigate("/");
+            }
         }
     }, [user, store])
-
 
 
     /*
@@ -145,11 +203,30 @@ function index() {
     
     */
 
+        const fetchTokens = async (code) => {
+            const response = await fetch('https://oauth2.googleapis.com/token', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: new URLSearchParams({
+                code,
+                client_id: '291060022856-g86o8iurqf61u7brq9n2r98r2evbspjo.apps.googleusercontent.com',
+                client_secret: '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',
+                redirect_uri: 'http://localhost:5173/login',
+                grant_type: 'authorization_code',
+              }),
+            });
+            console.log(await response.json())
+            return response.json();
+        };
+        
+
     return (
         <AuthsUI backText="Back to home" backLink="https://www.getquicka.com" dataimg={data_img} loading={loading?.mainLoading} response={response} heading={headingText} extras={{ marginBottom: '5.6rem' }}>
-            <form className="auth--form" onSubmit={handleSubmit}>
+            <form className="auth--form" onSubmit={handleSubmit} style={width > 850 ? { marginTop: "-2rem" /* this was because of the google button */ } : {}}>
                 <div>
-                    <h2 className='form--heading'>Welcome Back!👋🏿</h2>
+                    <h2 className='form--heading' style={width > 850 ? { marginBottom: "2rem" } : {}}>Welcome Back!👋🏿</h2>
                     {width <= 850 && (
                         <div className='auth--extra-info'>
                             <p className='auth--right-text'>Take Control, Grow, Manage, market, and succeed with easy-to-use tools designed for entrepreneurs like you. Trusted by 200+ businesses</p>
@@ -206,6 +283,31 @@ function index() {
                 </div>
 
                 <button type="submit" className='form--submit' disabled={isRequesting}>Login</button>
+
+                <div className="or--text">or</div>
+
+                {/* <GoogleLogin
+                    onSuccess={credentialResponse => {
+                        console.log(credentialResponse);
+                        handleGoogleAuthLogin(credentialResponse)
+                    }}
+                    context="use"
+                /> */}
+
+                <button onClick={useGoogleLogin({
+                    onSuccess: async (codeResponse) => {
+                        
+                        console.log(await fetchTokens(codeResponse.code))
+                        // handleGoogleAuthLogin(tokenResponse)
+                    },
+                    select_account: true,
+                    flow: "auth-code",
+                    
+                    
+                })}
+                className="google--btn"
+                type="button"
+                >Login With Google <img src={google_img} alt='google-icon' /></button>
 
                 <div className="form--info">
                     <p>Dont have an account? <Link to='/signup'>Create account</Link></p>

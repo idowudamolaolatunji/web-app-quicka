@@ -15,6 +15,7 @@ import MainDropdownSelect from '../../components/form/MainDropdownSelect';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
 import isOnline from 'is-online';
 import LogoUploadInput from '../../components/form/LogoUploadInput';
+import PhoneInput from 'react-phone-input-2';
 
 
 
@@ -22,6 +23,7 @@ function index() {
     const navigate = useNavigate();
     const { handleChange, handleStore } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
+    const AUTH_METHOD = localStorage.getItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`);
 
     const [loading, setLoading] = useState(false);
     const [tinyNameLoader, setTinyNameLoader] = useState(false);
@@ -43,6 +45,14 @@ function index() {
         regType: "",
     });
 
+    const [phoneData, setPhoneData] = useState({
+        phone: '',
+        phoneNumber: '',
+        dialCode: '',
+        countryCode: '',
+        country: '',
+    })
+
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
@@ -51,7 +61,16 @@ function index() {
         setResponse({ status: "", message: "" });
     }
 
-    const handleOnboardDataChange = function (e) {
+    const handleOnboardDataChange = function (e, val, opts) {
+        if (!e && (val || opts)) {
+            const { dialCode, countryCode, name } = opts;
+            const phone = val?.startsWith(dialCode + '0') ? val?.replace(dialCode + '0', dialCode) : val;
+            const phoneNumber = phone?.replace(dialCode, "");
+
+            setPhoneData({ ...phoneData, phone, phoneNumber, dialCode, countryCode, country: name });
+            return;
+        }
+
         const { name, value } = e?.target;
         let sanitizedValue;
 
@@ -344,24 +363,49 @@ function index() {
                                     </span>
                                 </div>
 
-                                <div className="form--item">
-                                    <label htmlFor="subdomain" className="form--label">Store URL</label>
-                                    <div className="form--input-box">
-                                        <input type="text" id='subdomain' className="form--input" placeholder='Store url' value={onboardingData.subdomain} name='subdomain' onChange={handleOnboardDataChange} />
+                                <div className={AUTH_METHOD == "google" ? "form--grid" : ""}>
+                                    <div className="form--item">
+                                        <label htmlFor="subdomain" className="form--label">Store URL</label>
+                                        <div className="form--input-box">
+                                            <input type="text" id='subdomain' className="form--input" placeholder='Store url' value={onboardingData.subdomain} name='subdomain' onChange={handleOnboardDataChange} />
 
-                                        {/* {(onboardingData.subdomain && !isCopied) ? ( */}
-                                        {(onboardingData.subdomain) ? (
-                                            <TooltipUI title="Copy URL" placement="top">
-                                            <span style={{ cursor: "copy" }} className='url--box' onClick={handleCopyLink}>.quicka.store</span>
-                                        </TooltipUI>
-                                        ) : (
-                                            <span className='url--box' onClick={handleCopyLink}>.quicka.store</span>
-                                        )}
+                                            {/* {(onboardingData.subdomain && !isCopied) ? ( */}
+                                            {(onboardingData.subdomain) ? (
+                                                <TooltipUI title="Copy URL" placement="top">
+                                                <span style={{ cursor: "copy" }} className='url--box' onClick={handleCopyLink}>.quicka.store</span>
+                                            </TooltipUI>
+                                            ) : (
+                                                <span className='url--box' onClick={handleCopyLink}>.quicka.store</span>
+                                            )}
+                                        </div>
+                                        <span className="form--error-message">
+                                            {(tinyUrlLoader && !onboardingErrors.subdomain) && <SpinnerTiny />}
+                                            {onboardingErrors.subdomain && onboardingErrors.subdomain}
+                                        </span>
                                     </div>
-                                    <span className="form--error-message">
-                                        {(tinyUrlLoader && !onboardingErrors.subdomain) && <SpinnerTiny />}
-                                        {onboardingErrors.subdomain && onboardingErrors.subdomain}
-                                    </span>
+                                    
+                                    {AUTH_METHOD == "google" && (
+                                        <div className="form--item">
+                                            <label htmlFor="subdomain" className="form--label">Phone Number <Asterisk /></label>
+
+                                            <PhoneInput
+                                                country={'ng'}
+                                                regions={'africa'}
+                                                value={onboardingData.phone}
+                                                inputProps={{ name: 'phone', id: 'phone' }}
+                                                onChange={(num, countryOpts) => handleOnboardDataChange(null, num, countryOpts)}
+                                                inputClass='phone-input'
+                                                buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
+                                                countryCodeEditable={false}
+                                                dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
+                                            />
+
+                                            <span className="form--error-message">
+                                                {onboardingErrors.phone && onboardingErrors.phone}
+                                            </span>
+                                        </div>
+                                    )}
+                                    
                                 </div>
 
                                 <div className="form--item">
