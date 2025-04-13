@@ -15,7 +15,7 @@ import Asterisk from '../../components/elements/Asterisk';
 import AuthsUI from '../../ui/authUI';
 import AuthUserRating from '../../components/layout/AuthUserRating';
 import isOnline from 'is-online';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 
 const PREV_PATH = import.meta.env.VITE_PREV_URL_KEY
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -218,7 +218,7 @@ function index() {
               }),
             });
             console.log(await response.json())
-            return response.json();
+            // return response.json();
         };
         
 
@@ -283,34 +283,24 @@ function index() {
                 </div>
 
                 <button type="submit" className='form--submit' disabled={isRequesting}>Login</button>
+                <div className="form--info">
+                    <p>Dont have an account? <Link to='/signup'>Create account</Link></p>
+                </div>
 
                 <div className="or--text">or</div>
 
-                {/* <GoogleLogin
-                    onSuccess={credentialResponse => {
-                        console.log(credentialResponse);
-                        handleGoogleAuthLogin(credentialResponse)
-                    }}
-                    context="use"
-                /> */}
-
-                <button onClick={useGoogleLogin({
-                    onSuccess: async (codeResponse) => {
-                        
-                        console.log(await fetchTokens(codeResponse.code))
-                        // handleGoogleAuthLogin(tokenResponse)
-                    },
-                    select_account: true,
-                    flow: "auth-code",
-                    
-                    
-                })}
-                className="google--btn"
-                type="button"
-                >Login With Google <img src={google_img} alt='google-icon' /></button>
-
-                <div className="form--info">
-                    <p>Dont have an account? <Link to='/signup'>Create account</Link></p>
+                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                    <GoogleLogin
+                        onSuccess={credentialResponse => {
+                            console.log(credentialResponse);
+                            handleGoogleAuthLogin(credentialResponse)
+                        }}
+                        text="signin_with"
+                        // width="100px"
+                        width="300px"
+                        ux_mode="redirect"
+                        size="large"
+                    />
                 </div>
             </form>
 

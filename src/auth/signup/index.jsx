@@ -12,8 +12,7 @@ import Asterisk from '../../components/elements/Asterisk';
 import AuthUserRating from '../../components/layout/AuthUserRating';
 import AuthsUI from '../../ui/authUI';
 import isOnline from 'is-online';
-import { useGoogleLogin } from '@react-oauth/google';
-import google_img from "../../assets/images/png_elements/google-logo.png"
+import { GoogleLogin } from '@react-oauth/google';
 
 
 function index() {
@@ -284,26 +283,22 @@ function index() {
                 </div>
 
                 <button type="submit" className='form--submit'>Continue</button>
+                <div className="form--info">
+                    <p>Already have an account? <Link to='/login'>Login</Link></p>
+                </div>
 
                 <div className="or--text">or</div>
 
-                <button onClick={useGoogleLogin({
-                    onSuccess: async (codeResponse) => {
-                        
-                        console.log(await fetchTokens(codeResponse.code))
-                        // handleGoogleAuthLogin(tokenResponse)
-                    },
-                    select_account: true,
-                    flow: "auth-code",
-                    
-                    
-                })}
-                className="google--btn"
-                type="button"
-                >Register With Google <img src={google_img} alt='google-icon' /></button>
-
-                <div className="form--info">
-                    <p>Already have an account? <Link to='/login'>Login</Link></p>
+                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                    <GoogleLogin
+                        onSuccess={credentialResponse => {
+                            console.log(credentialResponse);
+                        }}
+                        text="signup_with"
+                        width="100px"
+                        ux_mode="redirect"
+                        size="large"
+                    />
                 </div>
 
                 {width > 850 && <div style={{ paddingBottom: '6rem' }} />}

@@ -632,7 +632,7 @@ button.onboard--next {
 
 .google--btn {
     background-color: var(--color-brand-10);
-    border: 1px solid var(--color-brand-500);
+    border: 1.2px solid var(--color-brand-500);
     border-radius: .4rem;
     padding: .68rem 1.2rem;
     transition: all .3s;
@@ -741,6 +741,11 @@ button.onboard--next {
         display: unset;
     }
     /* this is a little bit of bad practice, but it works */
+
+    .google--btn,
+    .google--btn:hover {
+        background-color: var(--color-brand-30);
+    }
 }
 
 
