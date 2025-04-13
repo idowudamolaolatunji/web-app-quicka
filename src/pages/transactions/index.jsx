@@ -41,7 +41,7 @@ function index() {
     ///////////////////////////////////////
     const { store } = useAuthContext();
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
-    const { transactions, settlements, handleFetchMyStoreTransactions, handleFetchMyStoreSettlements } = useFetchedContext();
+    const { loader, transactions, settlements, handleFetchMyStoreTransactions, handleFetchMyStoreSettlements } = useFetchedContext();
     const currency = store?.currency?.symbol;
 
     const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.profit, 0);
