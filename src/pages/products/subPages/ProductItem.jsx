@@ -172,14 +172,14 @@ function ProductItem() {
                                     <div className='preview--body-item'>Product Price <span className='preview--body-value value'>{currency}{formatNumber(item?.price)}</span></div>
                                     <div className='preview--body-item'>Stock 
                                         {item?.trackInventory ? (
-                                            <span className='preview--body-value value'>{formatNumber(item?.stockAmount)}</span>
+                                            <span className='preview--body-value value'>{formatNumber(item?.stockAmount)} Items</span>
                                         ) : (
                                             <span className='preview--body-value'>"Inventory not tracked"</span>
                                         )}
                                     </div>
                                     <div className='preview--body-item'>Product Unit <span className='preview--body-value'>{item?.unit || "--"}</span></div>
-                                    <div className='preview--body-item'>Discount <span className='preview--body-value value'>{item?.discount?.discountType == "fixed-price" ? currency : ""}{item?.discount?.discountValueInFigure || ""}</span></div>
-                                    <div className='preview--body-item'>Already Sold <span className='preview--body-value'>{item?.soldAmount || "None"}</span></div>
+                                    <div className='preview--body-item'>Discount <span className='preview--body-value value'>{item?.discount?.discountType == "fixed-price" ? currency : "nill"}{item?.discount?.discountValueInFigure || ""}</span></div>
+                                    <div className='preview--body-item'>Already Sold <span className='preview--body-value'>{item?.soldAmount + " Items" || "None"}</span></div>
 
                                     <div className='preview--body-item'>Variations 
                                         <span className='preview--body-value'>
@@ -192,6 +192,9 @@ function ProductItem() {
                                                 <span style={{ display: "flex", alignItems: "center", gap: ".48rem" }}>
                                                     {othersVariants[0].type}(s): {othersVariants.map(size => size.value).join(', ')}
                                                 </span>
+                                            )}
+                                            {(colorsVariants?.length < 1 && othersVariants?.length < 1) && (
+                                                <>nill</>
                                             )}
                                         </span>
                                     </div>
@@ -209,18 +212,13 @@ function ProductItem() {
                             
                                 <div className="item__preview--images"> 
                                     <img src={currMainImg} alt={item?.name + " - 1"} /> 
-                                    {item?.images?.length > 1 && (
-                                        <span className="images--img"> 
-                                            {/* {item?.images?.slice(1).map((img, i) => (
-                                                <img src={img?.url} alt={`${item?.name} - ${i + 1}`} />
-                                            ))} */}
-                                            {item?.images?.map((img, i) => (
-                                                <span onClick={() => setCurrMainImg(img?.url)}>
-                                                    <img src={img?.url} alt={`${item?.name} - ${i + 1}`} className={currMainImg == img?.url ? 'active-img' : ""} />
-                                                </span>
-                                            ))}
-                                        </span>
-                                    )}
+                                    <span className="images--img"> 
+                                        {item?.images?.map((img, i) => (
+                                            <span onClick={() => setCurrMainImg(img?.url)}>
+                                                <img src={img?.url} alt={`${item?.name} - ${i + 1}`} className={currMainImg == img?.url ? 'active-img' : ""} />
+                                            </span>
+                                        ))}
+                                    </span>
                                 </div>
                             </div>
                         </div>

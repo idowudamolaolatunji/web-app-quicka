@@ -234,7 +234,7 @@ function OrderItem() {
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
                             
-                                {(!item?.description) ? (
+                                {(item?.description) ? (
                                     <p style={{ fontSize: "1.4rem" }} dangerouslySetInnerHTML={{ __html: item?.description }}></p>
                                 ) : (
                                     <p className='preview--body-item' style={{ padding: 0 }}>None Added</p>

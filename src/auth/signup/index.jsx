@@ -13,8 +13,10 @@ import AuthUserRating from '../../components/layout/AuthUserRating';
 import AuthsUI from '../../ui/authUI';
 import isOnline from 'is-online';
 import { GoogleLogin } from '@react-oauth/google';
-const BASE_API_URL = import.meta.env.VITE_API_URL;
 
+
+const BASE_API_URL = import.meta.env.VITE_API_URL;
+const authMethod = localStorage.getItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`)
 
 function index() {
     const { handleFetchError } = useFetchedContext();
@@ -110,8 +112,9 @@ function index() {
 
             // SAVE USER NEEDED INFO IN LOCALSTORAGE
             const { user } = data?.data;
-            localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
             localStorage.setItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`, user?.authMethod || "google");
+            localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
+            localStorage.setItem(`${import.meta.env.VITE_USERID_KEY}`, user._id);
 
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
             setResponse({ status: data.status, message: data.message });
@@ -338,7 +341,7 @@ function index() {
                         onSuccess={credentialResponse => {
                             handleGoogleAuthSignup(credentialResponse)
                         }}
-                        text="signup_with"
+                        text={authMethod == "google" ? "continue_with" : "signup_with"}
                         logo_alignment="center"
                         width="300px"
                         ux_mode="popup"
