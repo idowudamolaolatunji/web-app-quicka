@@ -7,8 +7,6 @@ import { validateAuthForm } from '../../utils/validationHelper';
 
 // import data_img from '../../assets/images/resources/alex-robinson-rrI02QQ9GSQ-unsplash.jpg'
 import data_img from '../../assets/images/resources/mockup.png'
-import google_img from "../../assets/images/png_elements/google-logo.png"
-
 import { FaCheck } from 'react-icons/fa';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import Asterisk from '../../components/elements/Asterisk';
@@ -74,6 +72,9 @@ function index() {
                 },
                 body: JSON.stringify({ token: credential }),
             });
+
+            // RESET THE RESPONSE STATE HERE
+            handleResetResponse();
         
             const data = await res.json();
             const { status, message, token } = data;
@@ -203,24 +204,6 @@ function index() {
     
     */
 
-        const fetchTokens = async (code) => {
-            const response = await fetch('https://oauth2.googleapis.com/token', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-              },
-              body: new URLSearchParams({
-                code,
-                client_id: '291060022856-g86o8iurqf61u7brq9n2r98r2evbspjo.apps.googleusercontent.com',
-                client_secret: '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',
-                redirect_uri: 'http://localhost:5173/login',
-                grant_type: 'authorization_code',
-              }),
-            });
-            console.log(await response.json())
-            // return response.json();
-        };
-        
 
     return (
         <AuthsUI backText="Back to home" backLink="https://www.getquicka.com" dataimg={data_img} loading={loading?.mainLoading} response={response} heading={headingText} extras={{ marginBottom: '5.6rem' }}>
@@ -292,13 +275,13 @@ function index() {
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                     <GoogleLogin
                         onSuccess={credentialResponse => {
-                            console.log(credentialResponse);
                             handleGoogleAuthLogin(credentialResponse)
                         }}
-                        text="signin_with"
+                        text="continue_with"
+                        logo_alignment="center"
                         // width="100px"
                         width="300px"
-                        ux_mode="redirect"
+                        ux_mode="popup"
                         size="large"
                     />
                 </div>

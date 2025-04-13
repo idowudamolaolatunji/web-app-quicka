@@ -7,6 +7,7 @@ import { IoLogOutOutline, IoMegaphoneOutline, IoSettingsOutline } from 'react-ic
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { SlReload } from 'react-icons/sl';
+import { googleLogout } from '@react-oauth/google';
 
 
 function Dropdown({ setIsShown, setLoading, setResponse }) {
@@ -41,8 +42,11 @@ function Dropdown({ setIsShown, setLoading, setResponse }) {
         try {
             handleClose();
             setLoading(true);
-            handleResetResponse()
-    
+            handleResetResponse();
+            if(user?.authMethod == "google") {
+                googleLogout();
+            }
+
             const result = await signoutUser();
             if (!result) throw new Error();
             setResponse({ status: "success", message: "Logout successful!" });

@@ -1,4 +1,4 @@
-export function validateOnboardForm(data) {
+export function validateOnboardForm(data, method) {
 	const errors = {};
 
 	if (!data.name.trim()) {
@@ -7,6 +7,14 @@ export function validateOnboardForm(data) {
 		errors.name = "Business name must be more than 3 characters long";
 	} else if (data.name.trim() && !data.subdomain) {
 		errors.subdomain = "A URL is needed for your store";
+	}
+
+	if(method == "google") {
+		if (!data?.phone.trim()) {
+			errors.phone = "Phone number is required";
+		} else if (data?.phone.length < 12) {
+			errors.phone = `Phone number must have 9 - 10 numbers after +${data.dialCode}`;
+		}
 	}
 
 	if (data.isRegistered == "yes" && !data.regType) {

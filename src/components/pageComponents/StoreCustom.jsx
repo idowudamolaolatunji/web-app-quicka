@@ -231,8 +231,18 @@ export default function StoreCustom({ isnew, close }) {
         formData.append("socialProfiles", JSON.stringify(socialProfiles));
         formData.append("customDetail", JSON.stringify(customDetail));
         formData.append("otherPages", JSON.stringify(otherPages));
-        formData.append("storeLogo", storeLogo.file);
-        formData.append("banner", banner.file);
+
+        if(storeLogo.file && isnew) {
+            formData.append("logo", storeLogo.file);
+        }
+
+        if(banner.file) {
+            formData.append("banner", banner.file);
+        }
+
+        if(!isnew && favicon.file) {
+            formData.append("favicon", favicon.file);
+        }
 
         try {
             // CHECK CONNECTION

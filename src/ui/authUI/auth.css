@@ -755,6 +755,12 @@ button.onboard--next {
     }
 }
 
+@media screen and (max-width: 550px) {
+    .auth--form.onboard .form--grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 
 @media screen and (max-width: 450px) {
     .auth__section {

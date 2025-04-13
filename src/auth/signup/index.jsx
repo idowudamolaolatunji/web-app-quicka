@@ -13,6 +13,7 @@ import AuthUserRating from '../../components/layout/AuthUserRating';
 import AuthsUI from '../../ui/authUI';
 import isOnline from 'is-online';
 import { GoogleLogin } from '@react-oauth/google';
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 
 function index() {
@@ -20,7 +21,7 @@ function index() {
     const headingText = "The Power to Manage Your Business, at Your Fingertips."
 
     const [showPassword, setShowPassword] = useState({ main: false, confirm: false });
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(true);
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState({ authLoading: false, mainLoading: false });
     const [response, setResponse] = useState({ status: '', message: '' })
@@ -84,6 +85,49 @@ function index() {
     }, [loading.mainLoading]);
 
 
+    async function handleGoogleAuthSignup(response) {
+        handleLoading('mainLoading', true);
+        try {
+            // CHECK CONNECTION
+            const connected = await isOnline();
+            if (!connected) throw new Error("Internet Error");
+
+            const { credential } = response;
+            const res = await fetch(`${BASE_API_URL}/auth/google/signup`, {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({ token: credential }),
+            });
+
+            // RESET THE RESPONSE STATE HERE
+            handleResetResponse();
+            const data = await res.json();
+            if (!data?.status || data?.status !== 'success') {
+                throw new Error(data.message);
+            }
+
+            // SAVE USER NEEDED INFO IN LOCALSTORAGE
+            const { user } = data?.data;
+            localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
+            localStorage.setItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`, user?.authMethod || "google");
+
+            // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
+            setResponse({ status: data.status, message: data.message });
+            setTimeout(function () {
+                navigate('/congratulations?next=onboarding');
+            }, 1000);
+
+        } catch(err) {
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
+        } finally {
+            setLoading({ ...loading, mainLoading: false })
+        }
+    }
+
+
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -110,7 +154,7 @@ function index() {
             const connected = await isOnline();
             if (!connected) throw new Error("Internet Error");
             
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
+            const res = await fetch(`${BASE_API_URL}/auth/signup`, {
                 method: 'POST',
                 headers: {
                     "Content-type": "application/json"
@@ -292,11 +336,12 @@ function index() {
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                     <GoogleLogin
                         onSuccess={credentialResponse => {
-                            console.log(credentialResponse);
+                            handleGoogleAuthSignup(credentialResponse)
                         }}
                         text="signup_with"
-                        width="100px"
-                        ux_mode="redirect"
+                        logo_alignment="center"
+                        width="300px"
+                        ux_mode="popup"
                         size="large"
                     />
                 </div>

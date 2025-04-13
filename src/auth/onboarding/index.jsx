@@ -18,12 +18,13 @@ import LogoUploadInput from '../../components/form/LogoUploadInput';
 import PhoneInput from 'react-phone-input-2';
 
 
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function index() {
     const navigate = useNavigate();
     const { handleChange, handleStore } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
-    const AUTH_METHOD = localStorage.getItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`);
+    const authMethod = localStorage.getItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`);
 
     const [loading, setLoading] = useState(false);
     const [tinyNameLoader, setTinyNameLoader] = useState(false);
@@ -31,11 +32,10 @@ function index() {
     // const [isCopied, setIsCopied] = useState(false);
 
     const [goalsChoosen, setGoalsChoosen] = useState([]);
-
     const [onboardingErrors, setOnboardingErrors] = useState({});
     const [response, setResponse] = useState({ status: null, message: null });
     const [onboardTabNum, setOnboardTabNum] = useState(1);
-    const [image, setImage] = useState({ file: "", preview: "" });
+    const [logo, setLogo] = useState({ file: "", preview: "" });
     const [selectedCategory, setSelectedCategory] = useState([]);
 
     const [onboardingData, setOnboardingData] = useState({
@@ -56,7 +56,6 @@ function index() {
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
-    console.log(storeCategories)
     const handleResetResponse = function () {
         setResponse({ status: "", message: "" });
     }
@@ -106,12 +105,12 @@ function index() {
         console.log(file)
         if (file) {
             const imageUrl = URL.createObjectURL(file);
-            setImage({ file, preview: imageUrl });
+            setLogo({ file, preview: imageUrl });
         }
     };
 
     const handleImageRemove = function () {
-        setImage({ file: "", preview: "" })
+        setLogo({ file: "", preview: "" })
     }
 
     // HNADLE GOING TO THE PREVIOUS FORM TAB
@@ -122,11 +121,11 @@ function index() {
 
     // HNADLE GOING TO THE NEXT FORM TAB
     function handleNextTab(e) {
-        const formData = { ...onboardingData, selectedCategory }
+        const formData = { ...onboardingData, selectedCategory, ...phoneData }
 
         if (onboardTabNum === 1) {
             // DO SOME VALIDATION AND IF ISCOPREATED IS YES, VALIDATE THE CONDITIONAL FIELD
-            const newErrors = validateOnboardForm(formData);
+            const newErrors = validateOnboardForm(formData, authMethod);
             console.log(newErrors)
             setOnboardingErrors(newErrors);
 
@@ -138,7 +137,7 @@ function index() {
             } else if (goalsChoosen.length > 5) {
                 return setResponse({ status: "error", message: `Select at most only 5 goal options!` });
             } else {
-                return handleOnboading();
+                return handleSubmitOnboading();
             }
         };
         setOnboardTabNum(prev => prev + 1);
@@ -263,7 +262,7 @@ function index() {
     }, [onboardingData?.subdomain])
 
     
-    async function handleOnboading() {
+    async function handleSubmitOnboading() {
         // RESET THE RESPONSE AND LOADING STATE HERE
         setLoading(true);
         handleResetResponse();
@@ -280,10 +279,18 @@ function index() {
             formData.append("regType", onboardingData.regType)
             formData.append("category", JSON.stringify(selectedCategory[0]))
             formData.append("goalsChoosen", JSON.stringify(goalsChoosen))
-            formData.append("image", image.file)
+            formData.append("image", logo.file);
+
+            if(authMethod == "google") {
+                formData.append("phone", phoneData.phone)
+                formData.append("phoneNumber", phoneData.phoneNumber)
+                formData.append("dialCode", phoneData.dialCode)
+                formData.append("countryCode", phoneData.countryCode)
+                formData.append("country", phoneData.country)
+            }
 
             // MAKE REQUEST
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/onboarding-store/${userId}`,
+            const res = await fetch(`${BASE_API_URL}/auth/onboarding-store/${userId}`,
                 { method: 'PATCH', body: formData }
             );
 
@@ -341,14 +348,14 @@ function index() {
                         </p>
                     </div>
 
-                    <div className="auth--form" style={{ width: '100%' }}>
+                    <div className="auth--form onboard" style={{ width: '100%' }}>
                         {onboardTabNum === 1 && (
                             <React.Fragment>
                                 <form className="form--item">
                                     <label className="form--label" htmlFor='logo'>Business Logo (Optional)</label>
                                     <LogoUploadInput
-                                        logoPreview={image.preview}
-                                        hasFile={image.file && true}
+                                        logoPreview={logo.preview}
+                                        hasFile={logo.file && true}
                                         handleLogoChange={handleImageChange}
                                         handleLogoRemove={handleImageRemove}
                                     />
@@ -363,7 +370,7 @@ function index() {
                                     </span>
                                 </div>
 
-                                <div className={AUTH_METHOD == "google" ? "form--grid" : ""}>
+                                <div className={authMethod == "google" ? "form--grid" : ""}>
                                     <div className="form--item">
                                         <label htmlFor="subdomain" className="form--label">Store URL</label>
                                         <div className="form--input-box">
@@ -384,7 +391,7 @@ function index() {
                                         </span>
                                     </div>
                                     
-                                    {AUTH_METHOD == "google" && (
+                                    {authMethod == "google" && (
                                         <div className="form--item">
                                             <label htmlFor="subdomain" className="form--label">Phone Number <Asterisk /></label>
 
