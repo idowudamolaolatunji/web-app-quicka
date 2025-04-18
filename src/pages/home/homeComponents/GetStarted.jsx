@@ -48,7 +48,7 @@ function GetStarted() {
         product: false,
         payment: false,
         delivery: false,
-        welcome: globalConnectionError ? false : true,
+        welcome: globalConnectionError ? false : false,
     });
 
     const completedSteps = stepsToComplete.filter(step => step.completed);
@@ -154,12 +154,10 @@ function GetStarted() {
                 <p className='get-started-subtitle'>Finalize your setup to get your store running, and make your website visible to the world.</p>
                 <span className='get-started-nums'>
 
-                    {(width <= 450 && !showModal.welcome) && (
-                        <WatchedBtn title="Watch how to setup"
-                            style={{ margin: "-.3rem 0 .3rem" }}
-                            action={() => setShowModal({...showModal, welcome: true })}
-                        />
-                    )}
+                    <WatchedBtn title="Watch how to setup"
+                        style={{ margin: "-.3rem 0 .3rem" }}
+                        action={() => setShowModal({...showModal, welcome: true })}
+                    />
 
                     <p>{
                         // HERE WE MODIFY THE TEXT BASED ON THE COMPLETED STEPS

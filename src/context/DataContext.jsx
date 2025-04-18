@@ -25,10 +25,6 @@ export const DataProvider = ({ children }) => {
     const { store } = useAuthContext();
     const currencyName = store?.currency?.name;
     const onlyDesktop = width > 600 ? true : false
-
-    const offer_trail = 7;
-    const offer_tenue = 90;
-    const offer_percent = 30;
     const free_trails = 14
     /////////////////////////////////////////////////////
     /////////////////////////////////////////////////////
@@ -197,15 +193,10 @@ export const DataProvider = ({ children }) => {
     };
     ////////////////////////////////////////////////////////
     
-    
 
     // CREATE CONTEXT DATA
     let contextData = {
-        offer_trail,
-        offer_tenue,
-        offer_percent,
         free_trails,
-
         isMenuCollapsed,
         handleMenuCollapse,
 

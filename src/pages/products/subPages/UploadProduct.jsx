@@ -24,6 +24,7 @@ import { Switch } from '@mui/material';
 import AddPageUI from '../../../ui/PageUI/AddPageUI';
 import MultipleImageUploadInput from '../../../components/form/MultipleImageUploadInput';
 import isOnline from 'is-online';
+import { formatNumber } from '../../../utils/helper';
 
 
 export default function UploadProduct({ isnew=false, close, ismodal=false }) {
@@ -250,6 +251,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             formData.append('description', description);
             formData.append('shortDescription', productData.shortDescription);
             formData.append('price', +productData.price);
+            formData.append('priceInFigure', `${currency}${formatNumber(productData.price)}`);
             formData.append('itemCost', +productData.itemCost);
             formData.append('stockAmount', +productData.stockAmount);
             formData.append('discountValue', +productData.discountValue);

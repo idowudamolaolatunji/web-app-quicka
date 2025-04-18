@@ -59,6 +59,7 @@ import Subscription from './pages/subscription';
 import ChoosePlan from './pages/subscription/subPages/ChoosePlan';
 import CancelPlan from './pages/subscription/subPages/CancelPlan';
 import Referrals from './pages/referrals';
+import Tutorials from './pages/tutorials';
 
 
 function App() {
@@ -134,6 +135,7 @@ function App() {
                     <Route path='/dashboard/settings' element={<Settings />}></Route>
                     <Route path='/dashboard/profile' element={<Profile />}></Route>
                     <Route path='/dashboard/referrals' element={<Referrals />}></Route>
+                    <Route path='/dashboard/tutorials' element={<Tutorials />}></Route>
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -266,7 +266,7 @@ function OrderItem() {
                                                 <span className="box--icon"><HiOutlinePhone /></span>
                                                 <p className="box--text value" style={{ fontSize: "1.2rem" }}>+{item?.customer?.contact?.phone}</p>
                                             </span>
-                                            <span className="item--box" onclick="window.location.href='mailto:user@example.com'">
+                                            <span className="item--box">
                                                 <span className="box--icon"><HiOutlineEnvelope /></span>
                                                 <p className="box--text">{item?.customer?.contact?.email}</p>
                                             </span>

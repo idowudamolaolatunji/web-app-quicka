@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use'
 import { useAuthContext } from '../../context/AuthContext';
-import UserIntialsImage from '../../components/layout/UserIntialsImage';
+import IntialsImage from '../../components/layout/IntialsImage';
 import { HiOutlineCloudUpload, HiOutlineSaveAs } from 'react-icons/hi';
-import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit, AiOutlinePlus } from 'react-icons/ai';
 import Line from '../../components/elements/Line';
 import Asterisk from '../../components/elements/Asterisk';
 import { RiEditLine } from 'react-icons/ri';
@@ -17,6 +17,7 @@ import IntegrationModal from '../../components/modal/IntegrationModal';
 import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import Info from "../../components/elements/Info"
 import MainDropdownSelect from '../../components/form/MainDropdownSelect';
+
 
 export default function index() {
     const { width } = useWindowSize();
@@ -32,12 +33,12 @@ export default function index() {
     const [state, setState] = useState([]);
     const [city, setCity] = useState([]);
 
-    const [showOldPassword, setShowOldPassword] = useState(false);
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
     const [profileImage, setProfileImage] = useState({ preview: "", file: null });
     const [showModal, setShowModal] = useState({ personal: false, location: false, password: false });
-    const [formPassword, setFormPassword] = useState({ oldPassword: "", password: "", passwordConfirm: ""});
+    const [formPassword, setFormPassword] = useState({ currentPassword: "", password: "", passwordConfirm: ""});
     const [formPasswordErrors, setFormPasswordErrors] = useState({});
 
 
@@ -115,7 +116,7 @@ export default function index() {
                                 {(profileImage.preview) ? (
                                     <img src={profileImage.preview} className='profile--image-preview' />
                                 ) : (
-                                    <UserIntialsImage />
+                                    <IntialsImage />
                                 )}
                             </label>
 
@@ -151,7 +152,7 @@ export default function index() {
                         <div className='profile--info'> <span className="info--title">First Name</span> <span className='info--value'>{user?.firstname || "--"}</span></div>
                         <div className='profile--info'> <span className="info--title">Last Name</span> <span className='info--value'>{user?.lastname || "--"}</span></div>
                         <div className='profile--info'> <span className="info--title">Date of Birth</span> <span className='info--value'>{user?.dob || "--"}</span></div>
-                        <div className='profile--info'> <span className="info--title">Email Address</span> <span className='info--value'>{hideEmail(contact?.email) || "--"}</span></div>
+                        <div className='profile--info'> <span className="info--title">Email Address</span> <span className='info--value' style={{ textTransform: "lowercase" }}>{hideEmail(contact?.email) || "--"}</span></div>
                         <div className='profile--info'> <span className="info--title">Phone Number</span> <span className='info--value value'>+{contact?.phone}</span></div>
                         <div className='profile--info'> <span className="info--title">Role</span> <span className='info--value'>Owner</span></div>
                     </div>
@@ -177,17 +178,23 @@ export default function index() {
                 <div className="card form">
                     <div className="section--heading">
                         <span className='section--top'>
-                            <h2>Password</h2>
-                            <button className='profile--edit-btn' onClick={() => handleShowModal("password")}>Edit <AiOutlineEdit /></button>
+                            <h2>{user?.authMethod == "google" ? "Create" : "Change"} Password</h2>
+                            <button className='profile--edit-btn' onClick={() => handleShowModal("password")}>{user?.authMethod == "google" ? <>Create <AiOutlinePlus /></> : <>Edit <AiOutlineEdit /></>}</button>
                         </span>
 
                         <Line border={1.4} where="Top" value="1rem" />
                     </div>
 
                     <div className="profile--main-details" style={isCollapsedBtw900and1000 ? { gridTemplateColumns: "repeat(3, 1fr)" } : {}}>
-                        <div className='profile--info'> <span className="info--title">Password</span> <span className='info--value'>*********************</span></div>
-                        <div className='profile--info'> <span className="info--title">Password Confirmation</span> <span className='info--value'>*********************</span></div>
+                        <div className='profile--info'> <span className="info--title">Password</span> <span className='info--value'>{user?.authMethod == "google" ? "nill" : "*********************"}</span></div>
+                        <div className='profile--info'> <span className="info--title">Password Confirmation</span> <span className='info--value'>{user?.authMethod == "google" ? "nill" : "*********************"}</span></div>
                     </div>
+                </div>
+
+                <div className="card form">
+                    <h3>Connect Google Account</h3>
+                    <p>Set up your ability to login with your Google account ({hideEmail(user?.email)})</p>
+                    <button>Connect Googe Account</button>
                 </div>
             </form>
 
@@ -224,27 +231,27 @@ export default function index() {
 
             {showModal.password && (
                 <SimpleModal setClose={() => handleShowModal("password")} title="Change Password" icon={<AiOutlineClose />}>
-                    <Info text="For you to change password you need to provide old password, as new password and a new password confirmation!" />
+                    <Info text="For you to change password you need to provide current password, a new password, and confirm new password!" />
 
                     <div className="profile--form">
                         <div className="form--item">
-                            <label className='form--label' htmlFor="password">Old Password <Asterisk /></label>
+                            <label className='form--label' htmlFor="password">Current Password <Asterisk /></label>
                             <div className="form--input-box">
                                 <input
-                                    type={showOldPassword ? "text" : "password"}
-                                    name='password'
+                                    type={showCurrentPassword ? "text" : "password"}
+                                    name='currentPassword'
                                     id="password"
                                     className='form--input'
                                     placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                                    value={formPassword.oldPassword}
+                                    value={formPassword.currentPassword}
                                     onChange={handlePasswordChange}
                                 />
-                                <div className='form--input-icon' onClick={() => setShowOldPassword(!showOldPassword)}>
-                                    {showOldPassword ? <ImEye /> : <ImEyeBlocked />}
+                                <div className='form--input-icon' onClick={() => setShowCurrentPassword(!showCurrentPassword)}>
+                                    {showCurrentPassword ? <ImEye /> : <ImEyeBlocked />}
                                 </div>
                             </div>
                             <span className="form--error-message">
-                                {formPasswordErrors.oldPassword && formPasswordErrors.oldPassword}
+                                {formPasswordErrors.currentPassword && formPasswordErrors.currentPassword}
                             </span>
                         </div>
 
@@ -271,7 +278,7 @@ export default function index() {
                         </div>
 
                         <div className="form--item">
-                            <label className='form--label' htmlFor="password">New Password Confirm <Asterisk /></label>
+                            <label className='form--label' htmlFor="password">Re-enter New Password <Asterisk /></label>
                             <div className="form--input-box">
                                 <input
                                     type={showPassword ? "text" : "password"}

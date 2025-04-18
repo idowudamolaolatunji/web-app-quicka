@@ -249,11 +249,8 @@ export function countdownTimer(dateTimeStr, callback) {
 
 
 export function hideEmail(email) {
-	// const [localPart, domain] = email.split('@');
-	// const hiddenLocalPart = localPart.slice(0, 4) + '*'.repeat(localPart.length - 4);
-	// return `${hiddenLocalPart}@${domain}`;
-	const words = String(email).split('@')[0];
-  	const hidden = words.slice(0, 3) + '*******';
-  	return hidden + '@' + email.split('@')[1];
+	const [local, domain] = email.split('@');
+	return local.slice(0, 3) + '******' + local.slice(-2) + '@' + domain;
+	
 }
   

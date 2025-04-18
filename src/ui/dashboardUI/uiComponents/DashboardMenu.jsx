@@ -6,19 +6,20 @@ import MenuButton from './MenuButton';
 import { openWidget, truncateString } from '../../../utils/helper';
 
 import { AiOutlineBank } from 'react-icons/ai';
-import { LuGlobe, LuLayoutPanelLeft, LuTags } from 'react-icons/lu';
+import { LuLayoutPanelLeft, LuTags } from 'react-icons/lu';
 import { FiUsers } from 'react-icons/fi';
-import { MdChatBubble, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineSsidChart, MdOutlineStorefront, MdOutlineWebhook } from 'react-icons/md';
-import { BiCustomize, BiLineChart, BiMailSend } from 'react-icons/bi';
+import { MdChatBubble, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
+import { BiCustomize, BiMailSend } from 'react-icons/bi';
 import { useDataContext } from '../../../context/DataContext';
 import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiStackLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
-import { TbDeviceAnalytics, TbPresentationAnalytics, TbTransactionDollar, TbTruckDelivery, TbWorldWww } from 'react-icons/tb';
-import { PiCoins, PiCoinsBold } from 'react-icons/pi';
+import { TbPresentationAnalytics, TbTruckDelivery, TbWorldWww } from 'react-icons/tb';
+import { PiCoinsBold } from 'react-icons/pi';
 import { useAuthContext } from '../../../context/AuthContext';
 import { SlGlobe } from 'react-icons/sl';
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { HiOutlineShoppingCart } from "react-icons/hi";
+import IntialsImage from '../../../components/layout/IntialsImage';
 
 
 
@@ -32,6 +33,11 @@ export default function DashboardMenu() {
             {width > 900 && (
                 <div className='dashboard--menu'>
                     <div className='menu--block'>
+
+                        {/* <div className="">
+                            <IntialsImage type="store" />
+                            luxeware
+                        </div> */}
 
                        <TooltipUI title="Visit Your Store" placement={isMenuCollapsed ? "right" : "bottom"}>
                             <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
@@ -71,10 +77,7 @@ export default function DashboardMenu() {
                     <Line where={'Top'} value={'0.34rem'} border={1.4} />
 
                     <ul className={"menu--list"}>
-                        {/* <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' /> */}
-                        {/* <MenuLink icon={<MdOutlineCampaign />} title='Referrals' link='/referrals' /> */}
                         <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
-                        <MenuLink icon={<MdOutlineSettings />} title='Settings' link='/settings' />
                         <MenuButton icon={<MdOutlineHelpOutline />} title='Help Center' action={openWidget} />
                     </ul>
                 </div>
@@ -122,16 +125,7 @@ export default function DashboardMenu() {
                             <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
                             <MenuLink icon={<TbWorldWww />} title='Custom Domain' link='/custom-domain' />
                             <MenuLink icon={<BiCustomize />} title='Site Customization' link='/store-customization' />
-                        </ul>
-
-                        <Line where={'Top'} value={'0.34rem'} border={1.4} />
-
-
-                        <ul className='menu--list'>
-                            {/* <MenuLink icon={<MdOutlineChatBubbleOutline />} title='Community and Forums' link='/community-forums' /> */}
-                            {/* <MenuLink icon={<MdOutlineCampaign  />} title='Referrals' link='/referrals' /> */}
                             <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
-                            <MenuLink icon={<MdOutlineSettings />} title='Settings' link='/settings' />
                         </ul>
                     </div>
                 </>

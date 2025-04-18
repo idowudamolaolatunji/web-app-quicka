@@ -11,7 +11,7 @@ import Dropdown from '../../../components/layout/Dropdown';
 import { Link } from 'react-router-dom';
 import DefaultButton from '../../../components/button/DefaultButton';
 import { useAuthContext } from '../../../context/AuthContext';
-import UserIntialsImage from '../../../components/layout/UserIntialsImage';
+import IntialsImage from '../../../components/layout/IntialsImage';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Spinner from '../../../components/spinner/mainSpinner'
 import TooltipUI from '../../../components/layout/TooltipUI';
@@ -102,7 +102,7 @@ function DashboardHead() {
                         <DefaultButton customStyle={{ fontFamily: 'inherit' }}>
                             <div className='nav--user' onClick={handleShowDropdown}>
                                 <div className="user--box">
-                                    <UserIntialsImage />
+                                    <IntialsImage />
                                 </div>
                                 <div className='user--info'>
                                     <p className='user--name'>{`${user?.firstname} ${user?.lastname}`}</p>
