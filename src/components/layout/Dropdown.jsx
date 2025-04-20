@@ -11,17 +11,14 @@ import { MdOutlinePlayLesson } from "react-icons/md";
 import { googleLogout } from '@react-oauth/google';
 
 
-function Dropdown({ setIsShown, setLoading, setResponse }) {
+function Dropdown({ handleToggle, setLoading, setResponse }) {
     const { width } = useWindowSize();
     const { pathname } = useLocation();
     const { user, signoutUser, store } = useAuthContext();
     const { handleGlobalRefetch, globalConnectionError } = useFetchedContext();
 
-    const ref = useOutsideClick(handleClose);
+    const ref = useOutsideClick(handleToggle);
 
-    function handleClose () {
-        setIsShown(false);
-    }
 
     const handleResetResponse = function () {
         setResponse({ status: '', message: '' });

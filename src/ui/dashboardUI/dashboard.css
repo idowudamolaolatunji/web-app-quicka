@@ -395,6 +395,7 @@ span.item--user-img {
     padding: .6rem;
     border-radius: .4rem;
     margin: -1rem 0 1.6rem;
+    position: relative;
 }
 .menu--store .item--user-img {
     width: 3rem;
@@ -431,6 +432,7 @@ span.item--user-img {
     border-radius: 2rem;
     transition: all .3s;
     cursor: pointer;
+    background-color: #fff;
 }
 .menu--action:hover {
     border-color: var(--color-brand-300);
@@ -442,8 +444,74 @@ span.item--user-img {
     font-size: 1.1rem;
 }
 
+.menu--store-dropdown {
+    background-color: #fff;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    border-bottom-left-radius: .4rem;
+    border-bottom-right-radius: .4rem;
+    padding: .68rem .8rem;
+    border: 1px solid #eff2f7;
+    box-shadow: 0 0 2px #0000001e, 0 0 10px #0000000d;
 
+    display: flex;
+    flex-direction: column;
+    gap: .64rem;
+}
+.menu--store-dropdown .menu--store {
+    margin: 0;
+    transition: all .3s;
+    border: 1.4px solid transparent;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+.menu--store-dropdown .menu--store:hover {
+    border-color: var(--color-brand-500);
+}
+.menu--store-dropdown .menu--store.is-current {
+    background-color: var(--color-brand-50);
+}
+.menu--store-dropdown .menu--store-select {
+    margin-left: auto;
+    width: 1.8rem;
+    height: 1.8rem;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.menu--store-dropdown .menu--store-select svg {
+    font-size: 1.6rem;
+    color: #fff;
+}
 
+.menu--store-dropdown .is-current .menu--store-select {
+    border: 2px solid var(--color-brand-500);
+}
+.menu--store-dropdown .is-current .menu--store-select svg {
+    background-color: #994020;
+}
+.menu--store-dropdown .menu--store-manage-btn {
+    padding: .6rem .8rem;
+    background-color: #444;
+    border-radius: .4rem;
+    color: #fff;
+    font-size: 1.24rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+}
+.menu--store-dropdown .menu--store-manage-btn svg {
+    font-size: 1.8rem;
+}
 
 
 
@@ -596,8 +664,12 @@ span.item--user-img {
 .dashboard--sidemenu .menu--store {
     background-color: transparent;
     padding: 0;
-    margin: 2.8rem 0 1.8rem;
+    margin: 4rem 0 1.4rem;
     gap: 1rem;
+}
+.dashboard--sidemenu .menu--store-dropdown .menu--store {
+    margin: 0;
+    padding: .6rem .8rem;
 }
 .dashboard--sidemenu .menu--store .item--user-img {
     width: 3.6rem;
@@ -776,31 +848,29 @@ span.item--user-img {
     }
 
     
-    .dashboard--sidemenu .menu--store {
-        gap: .8rem;
-    }
     .dashboard--sidemenu .menu--store .item--user-img {
-        width: 3.4rem;
-        height: 3.4rem;
+        width: 3.68rem;
+        height: 3.68rem;
+        background-color: #eee;
     }
     .dashboard--sidemenu .menu--store-detail {
         gap: .4rem;
     }
     .dashboard--sidemenu .menu--store-detail .text {
-        font-size: 1.36rem;
+        font-size: 1.4rem;
     }
     .dashboard--sidemenu .menu--store-detail .link--btn {
-        font-size: 1.2rem;
+        font-size: 1.24rem;
     }
     .dashboard--sidemenu .menu--store .menu--action {
         padding: .18rem .4rem;
         gap: .48rem;
     }
     .dashboard--sidemenu .menu--store .menu--action svg {
-        font-size: 1.4rem;
+        font-size: 1.48rem;
     }
     .dashboard--sidemenu .menu--store .menu--action p {
-        font-size: 1.2rem;
+        font-size: 1.28rem;
     }
 
 }

@@ -30,8 +30,8 @@ function DashboardHead() {
     const [response, setResponse] = useState({ status: "", message: "" });
 
 
-    const handleShowDropdown = function () {
-        setIsShownDropdown(true);
+    const handleToggleDropdown = function () {
+        setIsShownDropdown(!isShownDropdown);
     }
 
 
@@ -100,7 +100,7 @@ function DashboardHead() {
                         )}
 
                         <DefaultButton customStyle={{ fontFamily: 'inherit' }}>
-                            <div className='nav--user' onClick={handleShowDropdown}>
+                            <div className='nav--user' onClick={handleToggleDropdown}>
                                 <div className="user--box">
                                     <IntialsImage />
                                 </div>
@@ -113,7 +113,7 @@ function DashboardHead() {
 
                         {/* DROPDOWN MENU */}
                         {isShownDropdown && (
-                            <Dropdown isShown={isShownDropdown} setIsShown={setIsShownDropdown} setLoading={setLoading} setResponse={setResponse} />
+                            <Dropdown handleToggle={handleToggleDropdown} setLoading={setLoading} setResponse={setResponse} />
                         )}
                     </div>
 

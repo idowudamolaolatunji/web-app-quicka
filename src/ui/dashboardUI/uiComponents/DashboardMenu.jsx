@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MenuLink from './MenuLink';
 import Line from '../../../components/elements/Line';
 import Overlay from '../../../components/layout/Overlay';
@@ -8,7 +8,7 @@ import { openWidget, truncateString } from '../../../utils/helper';
 import { AiOutlineBank } from 'react-icons/ai';
 import { LuLayoutPanelLeft, LuTags } from 'react-icons/lu';
 import { FiUsers } from 'react-icons/fi';
-import { MdBusiness, MdChatBubble, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
+import { MdBusiness, MdChatBubble, MdOutlineAddBusiness, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
 import { BiCustomize, BiMailSend } from 'react-icons/bi';
 import { useDataContext } from '../../../context/DataContext';
 import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiStackLine } from 'react-icons/ri';
@@ -21,7 +21,8 @@ import TooltipUI from '../../../components/layout/TooltipUI';
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import IntialsImage from '../../../components/layout/IntialsImage';
 import { TbSitemap } from "react-icons/tb";
-import { IoIosArrowDown } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp, IoMdCheckmark } from 'react-icons/io';
+import { useOutsideClick } from '../../../hooks/useOutsideClick';
 
 
 
@@ -29,6 +30,13 @@ export default function DashboardMenu() {
     const { isMenuCollapsed, showSidemenu, handleShowSidemenu, animateOut } = useDataContext();
     const { width } = useWindowSize();
     const { store } = useAuthContext();
+    const ref = useOutsideClick(handleToggleStoreDropdown);
+
+    const [storeDropdown, setStoreDropdown] = useState(false);
+
+    function handleToggleStoreDropdown() {
+        setStoreDropdown(!storeDropdown);
+    }
 
     return (
         <>
@@ -49,22 +57,74 @@ export default function DashboardMenu() {
                                     </TooltipUI>
                                 </span>
 
-                                <div className="menu--action">
+                                <button className="menu--action" onClick={handleToggleStoreDropdown}>
                                     <MdBusiness />
                                     <p className='value'>1</p>
-                                    <IoIosArrowDown />
-                                </div>
+                                    {!storeDropdown ? <IoIosArrowDown /> : <IoIosArrowUp />}
+                                </button>
+
+                                {storeDropdown && (
+                                    <div className='menu--store-dropdown' ref={ref}>
+                                        <div className={`menu--store is-current`}>
+                                            <IntialsImage type="store" />
+
+                                            <span className="menu--store-detail">
+                                                <p className='text'>{truncateString(store?.name, 22)}</p>
+                                                <TooltipUI title="Visit Your Store" placement="bottom">
+                                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                                                        {truncateString(store?.storeUrl, 24)}
+                                                    </a>
+                                                </TooltipUI>
+                                            </span>
+
+                                            <div className="menu--store-select">
+                                                <IoMdCheckmark />
+                                            </div>
+                                        </div>
+                                        <div className={`menu--store`}>
+                                            <IntialsImage type="store" />
+
+                                            <span className="menu--store-detail">
+                                                <p className='text'>{truncateString("luxeware ng", 22)}</p>
+                                            </span>
+
+                                            <div className="menu--store-select">
+                                                <IoMdCheckmark />
+                                            </div>
+                                        </div>
+
+                                        <button className="menu--store-manage-btn">
+                                            <MdOutlineAddBusiness /> Manage your businesses
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         ) : (
-                            <div className="menu--store" style={{ flexDirection: "column", alignItems: "center", gap: ".6rem" }}>
+                            <div className="menu--store" style={{ flexDirection: "column", alignItems: "center", gap: ".6rem" }} onMouseLeave={() => setStoreDropdown(false)}>
                                 <IntialsImage type="store" />
                                 <TooltipUI title="Visit Your Store" placement="right">
                                     <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'><SlGlobe /></a>
                                 </TooltipUI>
-                                <div className="menu--action" style={{ padding: ".3rem .6rem"}}>
+                                <button className="menu--action" style={{ padding: ".3rem .6rem"}} onClick={handleToggleStoreDropdown}>
                                     <p className='value'>1</p>
                                     <IoIosArrowDown />
-                                </div>
+                                </button>
+
+                                {storeDropdown && (
+                                    <div className='menu--store-dropdown' ref={ref} style={{ padding: ".4rem .2rem"}}>
+                                        <div className={`menu--store is-current`} style={{ padding: ".4rem .2rem"}}>
+                                            <IntialsImage type="store" />
+                                        </div>
+
+                                        <div className={`menu--store`} style={{ padding: ".4rem .2rem"}}>
+                                            <IntialsImage type="store" />
+                                        </div>
+
+                                        <button className="menu--store-manage-btn">
+                                            <MdOutlineAddBusiness />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -132,11 +192,47 @@ export default function DashboardMenu() {
                                     </a>
                                 </span>
 
-                                <div className="menu--action">
+                                <button className="menu--action" onClick={handleToggleStoreDropdown} onMouseEnter={() => setStoreDropdown(!storeDropdown)}>
                                     <MdBusiness />
                                     <p className='value'>1</p>
                                     <IoIosArrowDown />
-                                </div>
+                                </button>
+
+                                {storeDropdown && (
+                                    <div className='menu--store-dropdown' ref={ref}>
+                                        <div className={`menu--store is-current`}>
+                                            <IntialsImage type="store" />
+
+                                            <span className="menu--store-detail">
+                                                <p className='text'>{truncateString(store?.name, 22)}</p>
+                                                <TooltipUI title="Visit Your Store" placement="bottom">
+                                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                                                        {truncateString(store?.storeUrl, 24)}
+                                                    </a>
+                                                </TooltipUI>
+                                            </span>
+
+                                            <div className="menu--store-select">
+                                                <IoMdCheckmark />
+                                            </div>
+                                        </div>
+                                        <div className={`menu--store`}>
+                                            <IntialsImage type="store" />
+
+                                            <span className="menu--store-detail">
+                                                <p className='text'>{truncateString(store?.name, 22)}</p>
+                                            </span>
+
+                                            <div className="menu--store-select">
+                                                <IoMdCheckmark />
+                                            </div>
+                                        </div>
+
+                                        <button className="menu--store-manage-btn">
+                                            <MdOutlineAddBusiness /> Manage your businesses
+                                        </button>
+                                    </div>
+                                )}
                             </div>
 
                             <Line where={'Bottom'} value={'1.6rem'} />
