@@ -16,9 +16,7 @@ function Dropdown({ handleToggle, setLoading, setResponse }) {
     const { pathname } = useLocation();
     const { user, signoutUser, store } = useAuthContext();
     const { handleGlobalRefetch, globalConnectionError } = useFetchedContext();
-
     const ref = useOutsideClick(handleToggle);
-
 
     const handleResetResponse = function () {
         setResponse({ status: '', message: '' });
@@ -26,19 +24,19 @@ function Dropdown({ handleToggle, setLoading, setResponse }) {
 
     const handleCloseByLink = function(e) {
         if (e.target.closest('.dropdown--item').tagName === 'A') {
-            handleClose();
+            handleToggle();
         };
     }
 
     const handleReloadApp = function() {
         handleGlobalRefetch();
-        handleClose();
+        handleToggle();
     }
 
     async function handleLogout() {
         // LOGOUT LOGIC
         try {
-            handleClose();
+            handleToggle();
             setLoading(true);
             handleResetResponse();
             if(user?.authMethod == "google") {

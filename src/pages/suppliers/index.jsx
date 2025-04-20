@@ -15,6 +15,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import { BiNetworkChart } from 'react-icons/bi';
 import { GiPayMoney } from 'react-icons/gi';
+import { PiNetwork } from 'react-icons/pi';
 
 
 const emptyTitle = "Add new supplier!";
@@ -134,7 +135,7 @@ export default function index() {
 
             {showInsights?.supplier && (
                 <div className='page__section--insights insight--grid'>
-                    <Insight title='Total Supplier' loader={loader?.supplier} value={0} icon={<BiNetworkChart />} />
+                    <Insight title='Total Supplier' loader={loader?.supplier} value={0} icon={<PiNetwork />} />
                     <Insight title='Total Amount Spent' loader={loader?.supplier} value={0} icon={<GiPayMoney />} />
                 </div>
             )}

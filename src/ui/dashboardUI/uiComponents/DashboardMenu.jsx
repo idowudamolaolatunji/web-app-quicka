@@ -14,13 +14,12 @@ import { useDataContext } from '../../../context/DataContext';
 import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiStackLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { TbPresentationAnalytics, TbTruckDelivery, TbWorldWww } from 'react-icons/tb';
-import { PiCoinsBold } from 'react-icons/pi';
+import { PiCoinsBold, PiNetwork } from 'react-icons/pi';
 import { useAuthContext } from '../../../context/AuthContext';
 import { SlGlobe } from 'react-icons/sl';
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import IntialsImage from '../../../components/layout/IntialsImage';
-import { TbSitemap } from "react-icons/tb";
 import { IoIosArrowDown, IoIosArrowUp, IoMdCheckmark } from 'react-icons/io';
 import { useOutsideClick } from '../../../hooks/useOutsideClick';
 
@@ -64,17 +63,15 @@ export default function DashboardMenu() {
                                 </button>
 
                                 {storeDropdown && (
-                                    <div className='menu--store-dropdown' ref={ref}>
+                                    <div className='menu--store-dropdown' ref={ref} style={{ top: "110%" }}>
                                         <div className={`menu--store is-current`}>
                                             <IntialsImage type="store" />
 
                                             <span className="menu--store-detail">
                                                 <p className='text'>{truncateString(store?.name, 22)}</p>
-                                                <TooltipUI title="Visit Your Store" placement="bottom">
-                                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                                        {truncateString(store?.storeUrl, 24)}
-                                                    </a>
-                                                </TooltipUI>
+                                                <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                                                    {truncateString(store?.storeUrl, 24)}
+                                                </a>
                                             </span>
 
                                             <div className="menu--store-select">
@@ -112,17 +109,24 @@ export default function DashboardMenu() {
 
                                 {storeDropdown && (
                                     <div className='menu--store-dropdown' ref={ref} style={{ padding: ".4rem .2rem"}}>
-                                        <div className={`menu--store is-current`} style={{ padding: ".4rem .2rem"}}>
-                                            <IntialsImage type="store" />
-                                        </div>
 
-                                        <div className={`menu--store`} style={{ padding: ".4rem .2rem"}}>
-                                            <IntialsImage type="store" />
-                                        </div>
+                                        <TooltipUI title={store?.name} placement="right">
+                                            <div className={`menu--store is-current`} style={{ padding: ".4rem .2rem"}}>
+                                                <IntialsImage type="store" />
+                                            </div>
+                                        </TooltipUI>
 
-                                        <button className="menu--store-manage-btn">
-                                            <MdOutlineAddBusiness />
-                                        </button>
+                                        <TooltipUI title={store?.name} placement="right">
+                                            <div className={`menu--store`} style={{ padding: ".4rem .2rem"}}>
+                                                <IntialsImage type="store" />
+                                            </div>
+                                        </TooltipUI>
+
+                                        <TooltipUI title="Manage Your Businesses" placement="right">
+                                            <button className="menu--store-manage-btn">
+                                                <MdOutlineAddBusiness />
+                                            </button>
+                                        </TooltipUI>
                                     </div>
                                 )}
                             </div>
@@ -139,7 +143,7 @@ export default function DashboardMenu() {
                             <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
                             <MenuLink icon={<LuTags />} title='Products' link='/products' />
                             <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
-                            <MenuLink icon={<TbSitemap />} title='Suppliers' link='/suppliers' />
+                            <MenuLink icon={<PiNetwork />} title='Suppliers' link='/suppliers' />
                             <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
                             <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
                             <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
@@ -192,7 +196,7 @@ export default function DashboardMenu() {
                                     </a>
                                 </span>
 
-                                <button className="menu--action" onClick={handleToggleStoreDropdown} onMouseEnter={() => setStoreDropdown(!storeDropdown)}>
+                                <button className="menu--action" onClick={handleToggleStoreDropdown}>
                                     <MdBusiness />
                                     <p className='value'>1</p>
                                     <IoIosArrowDown />
@@ -246,7 +250,7 @@ export default function DashboardMenu() {
                                 <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Products' link='/products' />
                                 <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
-                                <MenuLink icon={<TbSitemap />} title='Suppliers' link='/suppliers' />
+                                <MenuLink icon={<PiNetwork />} title='Suppliers' link='/suppliers' />
                                 <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
                                 <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
                                 <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />

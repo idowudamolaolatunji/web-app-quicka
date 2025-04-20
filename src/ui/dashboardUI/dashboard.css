@@ -448,7 +448,7 @@ span.item--user-img {
     background-color: #fff;
     width: 100%;
     position: absolute;
-    top: 100%;
+    top: 99%;
     left: 0;
     z-index: 10;
     border-bottom-left-radius: .4rem;
@@ -666,6 +666,9 @@ span.item--user-img {
     padding: 0;
     margin: 4rem 0 1.4rem;
     gap: 1rem;
+}
+.dashboard--sidemenu .menu--store-dropdown {
+    top: 135%;
 }
 .dashboard--sidemenu .menu--store-dropdown .menu--store {
     margin: 0;

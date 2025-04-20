@@ -6,11 +6,12 @@ import CopyrightText from '../../components/elements/CopyrightText';
 import DashboardMenu from './uiComponents/DashboardMenu';
 import DashboardHead from './uiComponents/DashboardHead';
 import './dashboard.css';
+import OnboardingFloater from '../../components/elements/OnboardingFloater';
 
 
 function DashboardBase({ children }) {
     const { width } = useWindowSize();
-    const { user } = useAuthContext() ;
+    const { user, store } = useAuthContext() ;
     const { isMenuCollapsed } = useDataContext();
 
     useEffect(function() {
@@ -28,6 +29,7 @@ function DashboardBase({ children }) {
 
                 <section className='content--block' style={width <= 600 ? { paddingBottom: "8rem"} : {}}>
                     {children}
+                    {!store?.storeOnboardCompleted && <OnboardingFloater /> }
                     {width > 600 && <CopyrightText />}
                 </section>
 
