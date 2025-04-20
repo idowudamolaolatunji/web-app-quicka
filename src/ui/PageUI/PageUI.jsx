@@ -89,11 +89,16 @@ function PageUI({
             {/* {globalConnectionError && <ConnectionError />} */}
 
             {/* THIS IS FOR THE COLLECTION MODAL */}
-            {action && (
+            {(action && pageName == "collection") && (
                 <Drawer title="Create Collection" setClose={addAction}>
                     <CollectionFormSm close={addAction} />
                 </Drawer>
             )}
+
+            {/* {action && (
+                <Drawer title="Create Collection" setClose={addAction}>
+                </Drawer>
+            )} */}
 
             {showExportModal && (
                 <ExportCSV data={data} title={pageName} setClose={setShowExportModal} />
@@ -104,7 +109,7 @@ function PageUI({
 
                 <span className='page__section--btns' style={(width500andIsItem && insights && (addUrl || addAction)) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
                     {(isItem && (addUrl || addAction)) && (
-                        <button className="page__section-top-btn add" onClick={() => pageName == "collection" ? addAction() : navigate(`/dashboard/${addUrl}`)}>
+                        <button className="page__section-top-btn add" onClick={() => (pageName == "collection" || pageName == "group") ? addAction() : navigate(`/dashboard/${addUrl}`)}>
                             {addBtnStr}<BiPlus />
                         </button>
                     )}

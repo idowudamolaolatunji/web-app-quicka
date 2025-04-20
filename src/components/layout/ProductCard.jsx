@@ -16,9 +16,9 @@ function ProductCard({ product, open, forTemplate }) {
     const currency = store?.currency?.symbol;
 
     return (
-        <figure className="product__figure">
+        <React.Fragment>
             {forTemplate ? (
-                <React.Fragment>
+                <figure className="product__figure">
                     <div className="product__figure--img">
                         <img src={forTemplate ? product?.images?.at(0) : empty_product} />
                     </div>
@@ -37,9 +37,9 @@ function ProductCard({ product, open, forTemplate }) {
                             <button className='table--btn'><BiShoppingBag />Buy now</button>
                         </span>
                     </figcaption>
-                </React.Fragment>
+                </figure>
             ) : (
-                <React.Fragment>
+                <figure className="product__figure display--product">
                     <Link to={`/dashboard/products/${product?.productId}`} className="product__figure--img">
                         <span className={`product__figure--stat status status--${(product?.status)}`}>
                             <p style={{ minWidth: "0" }}>
@@ -79,9 +79,9 @@ function ProductCard({ product, open, forTemplate }) {
                             <button className='table--btn' onClick={() => open(product?._id)}><RiDeleteBin5Line />{width > 500 ? "Delete" : ""}</button>
                         </span>
                     </figcaption>
-                </React.Fragment>
+                </figure>
             )}
-        </figure>
+        </React.Fragment>
     )
 }
 

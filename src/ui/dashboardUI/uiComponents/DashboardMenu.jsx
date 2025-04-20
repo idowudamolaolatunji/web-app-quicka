@@ -8,7 +8,7 @@ import { openWidget, truncateString } from '../../../utils/helper';
 import { AiOutlineBank } from 'react-icons/ai';
 import { LuLayoutPanelLeft, LuTags } from 'react-icons/lu';
 import { FiUsers } from 'react-icons/fi';
-import { MdChatBubble, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
+import { MdBusiness, MdChatBubble, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
 import { BiCustomize, BiMailSend } from 'react-icons/bi';
 import { useDataContext } from '../../../context/DataContext';
 import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiStackLine } from 'react-icons/ri';
@@ -21,6 +21,7 @@ import TooltipUI from '../../../components/layout/TooltipUI';
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import IntialsImage from '../../../components/layout/IntialsImage';
 import { TbSitemap } from "react-icons/tb";
+import { IoIosArrowDown } from 'react-icons/io';
 
 
 
@@ -35,16 +36,37 @@ export default function DashboardMenu() {
                 <div className='dashboard--menu'>
                     <div className='menu--block'>
 
-                        {/* <div className="">
-                            <IntialsImage type="store" />
-                            luxeware
-                        </div> */}
+                        {!isMenuCollapsed ? (
+                            <div className="menu--store">
+                                <IntialsImage type="store" />
 
-                       <TooltipUI title="Visit Your Store" placement={isMenuCollapsed ? "right" : "bottom"}>
-                            <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                <SlGlobe /> {!isMenuCollapsed ? truncateString(store?.storeUrl, 24) : ""}
-                            </a>
-                        </TooltipUI>
+                                <span className="menu--store-detail">
+                                    <p className='text'>{truncateString(store?.name, 22)}</p>
+                                    <TooltipUI title="Visit Your Store" placement="bottom">
+                                        <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                                            {truncateString(store?.storeUrl, 24)}
+                                        </a>
+                                    </TooltipUI>
+                                </span>
+
+                                <div className="menu--action">
+                                    <MdBusiness />
+                                    <p className='value'>1</p>
+                                    <IoIosArrowDown />
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="menu--store" style={{ flexDirection: "column", alignItems: "center", gap: ".6rem" }}>
+                                <IntialsImage type="store" />
+                                <TooltipUI title="Visit Your Store" placement="right">
+                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'><SlGlobe /></a>
+                                </TooltipUI>
+                                <div className="menu--action" style={{ padding: ".3rem .6rem"}}>
+                                    <p className='value'>1</p>
+                                    <IoIosArrowDown />
+                                </div>
+                            </div>
+                        )}
 
 
                         {!isMenuCollapsed && (
@@ -96,9 +118,26 @@ export default function DashboardMenu() {
                                 <RiCloseFill />
                             </span>
 
-                            <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                            {/* <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
                                 <SlGlobe /> {store?.storeUrl}
-                            </a>
+                            </a> */}
+
+                            <div className="menu--store">
+                                <IntialsImage type="store" />
+
+                                <span className="menu--store-detail">
+                                    <p className='text'>{truncateString(store?.name, width < 450 ? 25 : 30)}</p>
+                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                                        {truncateString(store?.storeUrl, width < 450 ? 28 : 35)}
+                                    </a>
+                                </span>
+
+                                <div className="menu--action">
+                                    <MdBusiness />
+                                    <p className='value'>1</p>
+                                    <IoIosArrowDown />
+                                </div>
+                            </div>
 
                             <Line where={'Bottom'} value={'1.6rem'} />
                               

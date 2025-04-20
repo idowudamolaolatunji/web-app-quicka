@@ -46,7 +46,7 @@ function index() {
     const tabParams = queryParams.get("tab")
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
-    const { loader, customers, customerGroups, newsletterCustomer, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
+    const { loader, customers, customerGroups, newsletterCustomers, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
 
     ////////////////////////////////////////////////////////
     const [tabShown, setTabShown] = useState("customer");
@@ -146,23 +146,25 @@ function index() {
     return (
         <PageUI
             pageName={tabShown}
-            items={tabShown == "customer" ? customers : tabShown == "group" ? "" : ""}
-            columns={tabShown == "customer" ? columns : tabShown == "group" ? "" : ""}
-            data={tabShown == "customer" ? customers : tabShown == "group" ? "" : ""}
             shouldSelect={true}
+            items={tabShown == "customer" ? customers : tabShown == "group" ? customerGroups : newsletterCustomers}
+            columns={tabShown == "customer" ? columns : tabShown == "group" ? "" : ""}
+            data={tabShown == "customer" ? customers : tabShown == "group" ? customerGroups : newsletterCustomers}
             addBtnStr={tabShown == "customer" ? "Add customer" : tabShown == "group" ? "Create Group" : ""}
             emptyText={tabShown == "customer" ? customer_emptyText : tabShown == "group" ? group_emptyText : newsletter_emptyText}
             emptyBtns={tabShown == "customer" ? customer_emptyBtns : tabShown == "group" ? group_emptyBtns : null}
             emptyImg={tabShown == "customer" ? customer_emptyImg : tabShown == "group" ? group_emptyImg : newsletter_emptyImg}
             emptyTitle={tabShown == "customer" ? customer_emptyTitle : tabShown == "group" ? group_emptyTitle : newsletter_emptyTitle}
-            {...(tabShown == "customer" ? { addUrl: "customers/add" } : tabShown == "group" ? { addAction: handleShowCustomerGroupForm, action: showCustomerGroupForm } : null)}
+            hasLink={tabShown == "customer" ? true : false}
 
+            {...(tabShown == "customer" ? { addUrl: "customers/add" } : tabShown == "group" ? { addAction: handleShowCustomerGroupForm, action: showCustomerGroupForm, addUrl: "" } : { addUrl: "" })}
+            
             headTabs={tabShown == "customer" ? (
                 <TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomers} />
             ) : ( tabShown == "group") ? (
                 <TableHeadTabs pageName="group" searchVal={search} setSearchVal={setSearch} handleFetch={""} />
             ) : (
-                <TableHeadTabs pageName="newsletter" searchVal={search} setSearchVal={setSearch} handleFetch={""} />
+                <TableHeadTabs pageName="newsletter" handleFetch={""} />
             )}
 
             deleteObj={{ 
@@ -176,9 +178,9 @@ function index() {
 
             {showInsights?.customer && (
                 <div className='page__section--insights insight--grid'>
-                    <Insight title='Total Customers' loader={loader?.customer} value={customers?.length || 0} icon={<FiUsers />} />
-                    <Insight title='Newsletter Customers' loader={loader?.customer} value={0} icon={<TbUserSquare />} />
-                    <Insight title='Total Customer Groups' loader={loader?.customer} value={0} icon={<TbUsersGroup />} />
+                    <Insight title='Total Customers' loader={loader[tabShown]} value={customers?.length || 0} icon={<FiUsers />} />
+                    <Insight title='Newsletter Customers' loader={loader[tabShown == "group" && newsletterCustomers]} value={0} icon={<TbUserSquare />} />
+                    <Insight title='Total Customer Groups' loader={loader[tabShown == "newsletter" && customerGroups]} value={0} icon={<TbUsersGroup />} />
                 </div>
             )}
 

@@ -353,6 +353,11 @@
 	border: 1.4px solid #f1f1f1;
 	padding: .48rem;
 	border-radius: 0.6rem;
+	transition: all .3s;
+}
+.product__figure.display--product:hover {
+	border-color: var(--color-brand-300);
+	transform: translateY(-.4rem) scale(1.025);
 }
 .product__figure--img {
 	position: relative;
@@ -1313,6 +1318,11 @@
 	.sub--details {
 		gap: 1.4rem;
 		flex-wrap: wrap;
+	}
+
+	.product__figure.display--product:hover {
+		border-color: #f1f1f1;
+		transform: translateY(0) scale(1);
 	}
 
 	.profile--main-details {
