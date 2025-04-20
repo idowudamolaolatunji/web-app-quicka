@@ -127,7 +127,7 @@ function index() {
 
     useEffect(function () {
         document.title = `Quicka | ${activeTab == "transaction" ? "All Transactions" : "Payment Settlements"}`;
-    }, []);
+    }, [activeTab]);
 
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE

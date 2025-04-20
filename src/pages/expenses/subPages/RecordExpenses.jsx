@@ -12,6 +12,10 @@ import AddPageUI from '../../../ui/PageUI/AddPageUI';
 import isOnline from 'is-online';
 import moment from 'moment';
 import { validateExpensesForm } from '../../../utils/validationHelper';
+import Info from '../../../components/elements/Info';
+import { AiOutlinePlus } from 'react-icons/ai';
+import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
+import { truncateString } from '../../../utils/helper';
 
 
 export default function RecordExpenses() {
@@ -19,14 +23,17 @@ export default function RecordExpenses() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, store, shouldKick } = useAuthContext();
-    const { handleFetchMyStoreExpenses, handleFetchError, handleFetchOneItem } = useFetchedContext();
+    const { suppliers, handleFetchMyStoreExpenses, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
     const currency = store?.currency?.symbol;
     const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     const [expensesFormErrors, setExpensesFormErrors] = useState({})
     const [expensesData, setExpensesData] = useState({ title: "", amount: null, date: "" });
-
+    
+    const [expenseSupplier, setExpenseSupplier] = useState([])
+    const [showModal, setShowModal] = useState({ supplier: false });
+    const [attachment, setAttachment] = useState(null)
     const [description, setDescription] = useState('')
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
@@ -37,6 +44,12 @@ export default function RecordExpenses() {
             ...expensesData,
             [name]: value,
         })
+    }
+
+    const handleAddAttachment = function (event) {
+        const file = event.target.files[0];
+        // if (file) console.log(file)
+        if (file) setAttachment(file);
     }
 
     function handleClearFields() {
@@ -185,6 +198,34 @@ export default function RecordExpenses() {
                             <span className="form--error-message">
                                 {expensesFormErrors.date && expensesFormErrors.date}
                             </span>
+                        </div>
+                    </div>
+
+                    <div className="form--item">
+                        <label htmlFor="" className="form--label">Supplier (optional)</label>
+                        <MainDropdownSelect title="Supplier" options={suppliers} field="fullname" value={expenseSupplier} setValue={setExpenseSupplier} noDataLabel='No upplier found!' />
+                        <Info text="If no supplier attached to expense, Leave blank" />
+                        <button className='form--add' onClick={() => setShowModal({ ...showModal, supplier: true })}>
+                            <AiOutlinePlus />
+                            <p>Add Suppier</p>
+                        </button>
+                        <span className="form--error-message" />
+                    </div>
+
+
+                    <div className="form--grid">
+                        <div className="form--item">
+                            <label htmlFor="amount" className="form--label">Attach File or Screenshots (optional)</label>
+                            <span className='add-file'>
+                                <label htmlFor="add-file" className='add-label'>{attachment ? "Change" : "Choose"} file</label>
+                                <span className='flex-align-center' style={{ gap: "1rem" }}>
+                                    <p>{!attachment?.name ? "No Choosen File" : truncateString(attachment?.name, 30)}</p>
+                                    {attachment && <button onClick={() => setAttachment(null)}>remove</button>}
+                                </span>
+                                <input type="file" name="" id="add-file" accept=".pdf, image/png, image/jpeg" maxLength={5} onChange={handleAddAttachment} />
+                            </span>
+                            <Info text="Supported file type: JPEG, PNG, PDF; Max size: 4MB" />
+                            <span className="form--error-message" />
                         </div>
                     </div>
 

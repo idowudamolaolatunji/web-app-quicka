@@ -25,10 +25,12 @@ import RunCampaign from './pages/campaigns/subPages/RunCampaign';
 import CreateCoupon from './pages/promotions/subPages/CreateCoupon';
 import CreateDiscount from './pages/promotions/subPages/CreateDiscount';
 import RunSpecialSale from './pages/promotions/subPages/RunSpecialSales';
+import AddSuppliers from './pages/suppliers/subPages/AddSuppliers';
 
 import Products from './pages/products';
 import Orders from './pages/orders';
 import Customers from './pages/customers';
+import Suppliers from './pages/suppliers';
 import Delivery from './pages/delivery';
 import Campaigns from './pages/campaigns';
 import Analytics from './pages/analytics';
@@ -90,6 +92,7 @@ function App() {
                     <Route path='/dashboard/orders' element={<Orders />}></Route>
                     <Route path='/dashboard/products' element={<Products />}></Route>
                     <Route path='/dashboard/customers' element={<Customers />}></Route>
+                    <Route path='/dashboard/suppliers' element={<Suppliers />}></Route>
                     <Route path='/dashboard/delivery-rates' element={<Delivery />}></Route>
                     <Route path='/dashboard/transactions' element={<Transaction />}></Route>
                     <Route path='/dashboard/analytics' element={<Analytics />}></Route>
@@ -98,8 +101,9 @@ function App() {
                     <Route path='/dashboard/orders/record' element={<RecordOrder />}></Route>
                     <Route path='/dashboard/products/upload' element={<UploadProduct />}></Route>
                     <Route path='/dashboard/customers/add' element={<AddCustomer />}></Route>
+                    <Route path='/dashboard/suppliers/add' element={<AddSuppliers />}></Route>
                     <Route path='/dashboard/delivery-rates/add' element={<CreateDelivery />}></Route>
-                    
+
                     <Route path='/dashboard/products/:id/edit' element={<UploadProduct />}></Route>
                     <Route path='/dashboard/customers/:id/edit' element={<AddCustomer />}></Route>
                     <Route path='/dashboard/delivery-rates/:id/edit' element={<CreateDelivery />}></Route>

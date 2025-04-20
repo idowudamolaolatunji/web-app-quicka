@@ -14,7 +14,7 @@ function OverviewChart({ period }) {
     
     const isData = orders?.length > 0 ? true : false;
     // const completedOrders = orders?.filter(order => order.orderStatus == "completed");
-    const completedOrders = orders?.filter(order => order.paymentStatus == "paid");
+    const completedOrders = orders?.filter(order => order.paymentStatus == "paid" && order.orderStatus != "canceled");
     const currency = store?.currency?.symbol;
 
     const handleGetYearlyData = function() {
@@ -40,7 +40,7 @@ function OverviewChart({ period }) {
     const handleProcessChart = function() {
         const series = [
             { name: 'Total Sales', data: new Array(12).fill(null), color: '#ff7a49' },
-            { name: 'Online Sales', data: new Array(12).fill(null), color: '#ffb59a' },
+            { name: 'Website Sales', data: new Array(12).fill(null), color: '#ffb59a' },
             { name: 'Offline Sales', data: new Array(12).fill(null), color: '#994020' },
         ];
 
@@ -51,7 +51,7 @@ function OverviewChart({ period }) {
 
             series[0].data[month] = (series[0].data[month] || 0) + sales; // Total Sales
             if (order.channel === 'online store') {
-                series[1].data[month] = (series[1].data[month] || 0) + sales; // Online Sales
+                series[1].data[month] = (series[1].data[month] || 0) + sales; // Website Sales
             } else {
                 series[2].data[month] = (series[2].data[month] || 0) + sales; // Offline Sales
             }

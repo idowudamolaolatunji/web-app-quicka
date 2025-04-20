@@ -29,7 +29,7 @@ import Info from '../../components/elements/Info';
 
 //////////////////////////////////////////////////////
 
-const product_emptyTitle = "Add new product!";
+const product_emptyTitle = "Create new product!";
 const product_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const product_emptyBtns = [
     { title: <><AiOutlinePlus />Add Product</>, link: "/dashboard/products/upload" },
@@ -38,7 +38,7 @@ const product_emptyBtns = [
 const collection_emptyTitle = "Add new collection!";
 const collection_emptyText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat aliquam vero perferendis sapiente iste assumenda nam, vel dicta ducimus at perferendis sapiente iste.";
 const collection_emptyBtns = [
-    { title: <><AiOutlinePlus />Create Collection</>, },
+    { title: <><AiOutlinePlus />Create Collection</> },
 ];
 
 
@@ -200,8 +200,8 @@ function index() {
     // DISPLAY THE DOCUMENT TITLE
     useEffect(function () {
         document.title = `Quicka | ${tabShown == "product" ?
-            "Your products" : "Product collections"}`;
-    }, []);
+            "Your products" : "Product Collections"}`;
+    }, [tabShown]);
 
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE

@@ -7,10 +7,16 @@ import TooltipUI from '../../components/layout/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
 import { dateTimeFormat, formatNumber } from '../../utils/helper';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
 import emptyImg from '../../assets/images/illustrations/expenses.png'
 import SimpleModal from '../../components/modal/SimpleModal';
+import { BiNetworkChart } from 'react-icons/bi';
+import { GiPayMoney } from 'react-icons/gi';
+import { useDataContext } from '../../context/DataContext';
+import Insight from '../../components/layout/Insight';
+import Tab from '../../components/elements/Tab';
+import { PiCoins } from 'react-icons/pi';
 
 
 ///////////////////////////////////////////////
@@ -22,14 +28,21 @@ const emptyBtns = [
 
 function index() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const tabParams = queryParams.get("tab")
+    
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    
-    const { expenses, handleDeleteOneItem, handleFetchMyStoreExpenses } = useFetchedContext();
+    const { showInsights } = useDataContext()
+    const { expenses, loader, handleDeleteOneItem, handleFetchMyStoreExpenses } = useFetchedContext();
     const currency = store?.currency?.symbol;
-
+    const totalSpent = expenses?.reduce((acc, expense) => acc + expense?.amount, 0);
+    
     ////////////////////////////////////////////////////////
+    const [tabShown, setTabShown] = useState("expense");
     const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState("");
     const [selectedId, setSelectedId] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showDetailModal, setShowDetailModal] = useState({ show: false, selectedData: null });
@@ -41,13 +54,18 @@ function index() {
             selector: row => <span className='table--info'>
                 <h3>{row?.title}</h3>
             </span>,
-            width: width > 600 && "20%",
+            width: width > 600 && "18%",
         },
         {
             name: "Expense Amount",
             selector: row => (
               <p className='value'>{currency}{formatNumber(row?.amount)}</p>
             ),
+        },
+        {
+            name: 'Supplier',
+            selector: row => row?.supplier?.fullname || "-- None Selected --",
+            width: "18%"
         },
         {
             name: 'Addtional description',
@@ -86,6 +104,16 @@ function index() {
     useEffect(function() {
         document.title = "Quicka | Expenses";
     }, []);
+
+    // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
+    useEffect(function () {
+        if (tabParams) {
+            setTabShown(tabParams)
+        } else {
+            navigate("?tab=expense")
+        }
+        setSearch("")
+    }, [tabParams]);
     
     const handleShowDeleteModal = function(id) {
         setShowDeleteModal(true);
@@ -138,20 +166,33 @@ function index() {
                 emptyTitle={emptyTitle}
                 addUrl="expenses/record"
                 headTabs={<HeadTabs />}
-                insights={false}
+                insights={true}
                 hasLink={false}
                 pointOnHover={false}
                 hasDetailModal={true}
                 setDetailModal={setShowDetailModal}
 
-                deleteObj={{ 
+                deleteObj={{
                     fn: deleteItem,
                     title: "expenses",
                     close: setShowDeleteModal,
                     show: showDeleteModal,
                     loader: loading
                 }}
-            />
+            >
+                {showInsights?.expenses && (
+                    <div className='page__section--insights insight--grid'>
+                        <Insight title='Total Expenses' loader={loader?.expenses} value={expenses?.length || 0} icon={<PiCoins />} />
+                        <Insight title='Total Amount Spent' loader={loader?.expenses} pre={currency} value={totalSpent} dec={totalSpent ? 2 : 0} icon={<GiPayMoney />} />
+                    </div>
+                )}
+
+                {/* THE TABS UI */}
+                <div className="page--tabs">
+                    <Tab title="Expenses" onClick={() => navigate("?tab=expense")} active={tabShown == "expense"} />
+                    <Tab title="Expenses Groups" onClick={() => navigate("?tab=group")} active={tabShown == "group"} />
+                </div>
+            </PageUI>
         </React.Fragment>
     )
 }

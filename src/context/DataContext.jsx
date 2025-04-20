@@ -44,7 +44,9 @@ export const DataProvider = ({ children }) => {
         customer: onlyDesktop,
         transaction: onlyDesktop,
         campaign: onlyDesktop,
-        discount: onlyDesktop
+        discount: onlyDesktop,
+        supplier: onlyDesktop,
+        expenses: onlyDesktop,
     });
 
     // const handleToggleDisplayMode = function() {

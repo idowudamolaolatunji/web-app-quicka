@@ -53,7 +53,7 @@ function PageUI({
     // CHECK THIS AGAIN LATER....
     const isItem = items && items.length > 0;
     const width500andIsItem = (isItem && width < 510);
-    const insightPageOrTabName = pageName == "collection" ? "product" : pageName == "settlement" ? "transaction" : (pageName == "special_sales" || pageName == "coupon") ? "discount" : pageName
+    const insightPageOrTabName = pageName == "collection" ? "product" : pageName == "settlement" ? "transaction" : (pageName == "special_sales" || pageName == "coupon") ? "discount" : (pageName == "group" || pageName == "newsletter") ? "customer" : pageName;
 
     const [showMoreActions, setShowMoreActions] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);

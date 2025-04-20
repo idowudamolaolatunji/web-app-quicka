@@ -501,6 +501,28 @@
 /* ======================================== */
 
 
+.add-file {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    flex-wrap: wrap;
+}
+.add-file .add-label {
+    padding: .8rem 1.2rem;
+    background-color: var(--color-brand-500);
+    color: #fff;
+    font-weight: 500;
+    font-size: 1.4rem;
+    border-radius: .4rem;
+    cursor: pointer;
+}
+.add-file p {
+    font-size: 1.28rem;
+}
+
+
+
+
 
 
 

@@ -20,6 +20,7 @@ import { SlGlobe } from 'react-icons/sl';
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import IntialsImage from '../../../components/layout/IntialsImage';
+import { TbSitemap } from "react-icons/tb";
 
 
 
@@ -56,6 +57,7 @@ export default function DashboardMenu() {
                             <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
                             <MenuLink icon={<LuTags />} title='Products' link='/products' />
                             <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
+                            <MenuLink icon={<TbSitemap />} title='Suppliers' link='/suppliers' />
                             <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
                             <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
                             <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
@@ -109,6 +111,7 @@ export default function DashboardMenu() {
                                 <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Products' link='/products' />
                                 <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
+                                <MenuLink icon={<TbSitemap />} title='Suppliers' link='/suppliers' />
                                 <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
                                 <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
                                 <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
