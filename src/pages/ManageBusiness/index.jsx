@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardHead from '../../ui/dashboardUI/uiComponents/DashboardHead'
 import BackButton from '../../components/button/BackButton'
 import { useAuthContext } from '../../context/AuthContext'
@@ -15,19 +15,35 @@ export default function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const handleSwitchStore = function(currStore) {
         setLoading(true);
         if(currStore?._id == store?._id) {
-            setTimeout(() => setLoading(false), 1000)
-            navigate("/dashboard");
+            setTimeout(function() {
+                setLoading(false)
+                navigate("/dashboard");
+            }, 1000)
             return;
         }
+    }
+    
+    const handleManageNew = function() {
+        setLoading(true);
+        try {
 
+            navigate("/manage-business/new");
+        } catch(err) {
 
+        } finally {
+            setLoading(false)
+        }
     }
 
+
+    useEffect(function() {
+        setTimeout(() => setLoading(false), 1000)
+    }, [])
 
   return (
     <React.Fragment>
@@ -41,7 +57,7 @@ export default function index() {
 
             <div className="manage--business-content">
                 <div className="content--top">
-                    <h4>Hi, CEO {user?.firstname} 👋🏿</h4>
+                    <h4>Hi, and Welcome back {user?.firstname} 👋🏿</h4>
                     <p>Let help you manage your businesses. Please select the business you want to continue with, Or click the button below to add a new or existing business</p>
                 </div>
 
@@ -52,7 +68,7 @@ export default function index() {
 
                             <span className="menu--store-detail">
                                 <p className='text'>
-                                    {truncateString("jdjwhdhsj jhehahshsh", width < 450 ? 16 : 30)}
+                                    {truncateString("jdjwhdhsj jhehahshsh", width < 450 ? 14 : 30)}
                                     <span className='sub-text'>{mystore?.location?.country?.name} ({mystore?.location?.country?.iso2})</span>
                                 </p>
                                 <a href={`https://${mystore?.storeUrl}`} target='_blank' className='link--btn'>
@@ -67,7 +83,7 @@ export default function index() {
                     ))}
                 </div>
 
-                <button className="content--btn" onClick="">
+                <button className="content--btn" onClick={handleManageNew}>
                     <RiApps2AddLine /> Add new or existing business
                 </button>
             </div>

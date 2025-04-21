@@ -47,7 +47,7 @@ function DashboardHead({ nonDashboard=false }) {
                         <img src={logo_img} alt='Quick logo' />
                     </Link>
 
-                    {!nonDashboard && (
+                    {!nonDashboard ? (
                         <DefaultButton>
                             <span className="hamburger--icon" onClick={(width > 900) ? handleMenuCollapse : handleShowSidemenu}>
                                 {(width > 900) ? (
@@ -57,6 +57,14 @@ function DashboardHead({ nonDashboard=false }) {
                                 )}
                             </span>
                         </DefaultButton>
+                    ) : (
+                        (width < 901) && (
+                            <DefaultButton>
+                                <span className="hamburger--icon" onClick={handleShowSidemenu}>
+                                    <RiMenu3Fill />
+                                </span>
+                            </DefaultButton>
+                        )
                     )}
                 </div>
 

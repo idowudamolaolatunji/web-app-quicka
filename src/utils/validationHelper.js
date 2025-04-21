@@ -9,7 +9,7 @@ export function validateOnboardForm(data, method) {
 		errors.subdomain = "A URL is needed for your store";
 	}
 
-	if(method == "google") {
+	if(method == "google" || method == "manage") {
 		if (!data?.phone.trim()) {
 			errors.phone = "Phone number is required";
 		} else if (data?.phone.length < 12) {

@@ -63,6 +63,7 @@ import ChoosePlan from './pages/subscription/subPages/ChoosePlan';
 import CancelPlan from './pages/subscription/subPages/CancelPlan';
 import Referrals from './pages/referrals';
 import Tutorials from './pages/tutorials';
+import ManageNew from './pages/ManageBusiness/subPages/ManageNew';
 
 
 function App() {
@@ -84,6 +85,7 @@ function App() {
                 <Route path='/onboarding' element={<Onboarding />}></Route>
                 <Route path='/congratulations' element={<Congrats />}></Route>
                 <Route path='/manage-business' element={<ManageBusiness />}></Route>
+                <Route path='/manage-business/new' element={<ManageNew />}></Route>
                 <Route path="*" element={<Error />} />
 
                 {/* PROTECTED ROUTES */}
