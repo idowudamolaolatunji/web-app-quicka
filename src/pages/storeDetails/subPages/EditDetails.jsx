@@ -249,7 +249,7 @@ function EditDetails() {
             }
 
             // MAKE REQUEST
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/edit-details`,
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/edit-details?slug=${store?.slug}`,
                 { method: 'PATCH', body: formData, headers: formdataHeader }
             );
             shouldKick(res)

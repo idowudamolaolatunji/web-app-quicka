@@ -241,7 +241,7 @@ export default function AddCustomer({ close, isModal }) {
         const shippingAddress = { address, zipCode, country: country[0], state: state[0], city: city[0] }
         
 
-        const end_point = id ? id : ""
+        const end_point = id ? `/${id}` : `?slug=${store?.slug}`
 
         try {
             // CHECK CONNECTION
@@ -259,7 +259,7 @@ export default function AddCustomer({ close, isModal }) {
             }
 
             // MAKE REQUEST
-            const res = await fetch(`${BASE_API_URL}/customers/${end_point}`, {
+            const res = await fetch(`${BASE_API_URL}/customers${end_point}`, {
                 headers: formdataHeader,
                 method: id ? "PATCH" : "POST",
                 body: formData

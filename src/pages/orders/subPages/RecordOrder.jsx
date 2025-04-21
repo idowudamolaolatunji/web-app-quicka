@@ -193,7 +193,7 @@ console.log(subTotal)
             if(!connected) throw new Error("Internet Error");
             
             // MAKE REQUEST
-            const res = await fetch(`${BASE_API_URL}/orders/record`, {
+            const res = await fetch(`${BASE_API_URL}/orders/record?slug=${store?.slug}`, {
                 headers,
                 method: "POST",
                 body: JSON.stringify({

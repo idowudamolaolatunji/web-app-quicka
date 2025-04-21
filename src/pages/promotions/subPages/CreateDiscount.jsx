@@ -106,7 +106,7 @@ export default function CreateDiscount() {
         handleResetResponse()
         setLoading(true);
 
-        const parameter = id ? `/${id}` : "/"
+        const parameter = id ? `/${id}` : `?slug=${store?.slug}`
         const itemIds = discountProducts?.map(product => product?._id);
 
         try {

@@ -12,7 +12,7 @@ import { validateCollectionForm } from '../../utils/validationHelper';
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function CollectionFormSm({ close, editingItem }) {
-    const { shouldKick, formdataHeader } = useAuthContext();
+    const { shouldKick, formdataHeader, store } = useAuthContext();
     const { handleFetchMyStoreCollections } = useFetchedContext();
 
     const [image, setImage] = useState({ preview: "", file: "" });
@@ -76,10 +76,10 @@ function CollectionFormSm({ close, editingItem }) {
         if(image.file) formData.append('image', image.file);
 
         // check if it's creating or editing
-        const parameter = editingItem ? editingItem?._id : "";
+        const parameter = editingItem ? `/${editingItem?._id}` : `?slug=${store?.slug}`;
 
         try {
-            const res = await fetch(`${BASE_API_URL}/collections/${parameter}`, {
+            const res = await fetch(`${BASE_API_URL}/collections${parameter}`, {
                 headers: formdataHeader,
                 method: editingItem ? "PATCH" : "POST",
                 body: formData

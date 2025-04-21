@@ -1252,6 +1252,120 @@
 
 
 
+
+
+/* ======================================== */
+/* MANAGE BUSINESS SECTION */
+/* ======================================== */
+
+.manage--business-section {
+	max-width: 70rem;
+	margin: 12rem auto 0;
+	padding: 1.8rem;
+}
+
+
+.manage--business-content {
+	margin-top: 4.8rem;
+	display: flex;
+	flex-direction: column;
+	gap: 3.6rem;
+}
+
+.manage--business-content .content--top {
+	text-align: center;
+}
+.manage--business-content .content--top h4 {
+	font-size: 1.6rem;
+	font-weight: 500;
+	margin-bottom: 1.2rem;
+}
+.manage--business-content .content--top p {
+	font-size: 1.34rem;
+	line-height: 1.4;
+}
+.manage--business-content .content--stores {
+	display: flex;
+	flex-direction: column;
+	gap: .8rem;
+}
+.manage--business-content .content--stores .menu--store {
+	padding: 1.2rem 1.6rem;
+	gap: .8rem;
+	background-color: transparent;
+	border: 1px solid #eff2f7;
+    box-shadow: 0 0 2px #0000001e, 0 0 10px #0000000d;
+	width: 100%;
+	transition: all .3s;
+	cursor: pointer;
+	margin: 0;
+}
+.manage--business-content .content--stores .menu--store:hover {
+	box-shadow: 0 0 2px #0000001e, 0 0 10px var(--color-brand-100);
+}
+.manage--business-content .content--stores .menu--store:hover svg {
+	color: var(--color-brand-500);
+	transform: scale(1.05) rotate(12deg);
+}
+.manage--business-content .content--stores .item--user-img {
+    width: 3.8rem;
+    height: 3.8rem;
+}
+.manage--business-content .content--stores .menu--store-detail {
+	gap: .34rem;
+}
+.manage--business-content .content--stores .menu--store-detail .text {
+	font-size: 1.4rem;
+	display: flex;
+	align-items: center;
+	gap: .8rem;
+}
+.manage--business-content .content--stores .menu--store-detail .sub-text {
+	font-size: 1.168rem;
+	color: #888;
+	font-weight: 500;
+}
+.manage--business-content .content--stores .menu--store .link--btn {
+    font-size: 1.24rem;
+}
+.manage--business-content .content--stores .menu--store svg {
+	font-size: 2.4rem;
+	color: #555;
+	transition: all .3s;
+}
+.manage--business-content .content--btn {
+	margin-top: -.8rem;
+	padding: .8rem 1.4rem;
+	font-size: 1.4rem;
+	font-weight: 500;
+	background-color: var(--color-brand-50);
+	color: var(--color-brand-500);
+	border-radius: .4rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	gap: .68rem;
+	transition: all .3s;
+}
+.manage--business-content .content--btn svg {
+	font-size: 2rem;
+}
+.manage--business-content .content--btn:hover {
+	background-color: var(--color-brand-500);
+	color: #fff;
+}
+
+
+
+
+
+
+
+/* ======================================== */
+/* MEDIA QUERY */
+/* ======================================== */
+
 @media screen and (max-width: 1050px) {
 	.product__grid {
 		grid-template-columns: repeat(4, 1fr);
@@ -1564,6 +1678,11 @@
 	.profile--edit-btn svg {
 		font-size: 1.8rem;
 	}
+
+	.manage--business-content .content--stores .menu--store {
+		padding: 1.2rem .6rem;
+	}
+	
 	
 }
 

@@ -18,7 +18,7 @@ import TooltipUI from '../../../components/layout/TooltipUI';
 import { useFetchedContext } from '../../../context/FetchedContext';
 
 
-function DashboardHead() {
+function DashboardHead({ nonDashboard=false }) {
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
     const { globalConnectionError, handleGlobalRefetch } = useFetchedContext();
@@ -42,20 +42,22 @@ function DashboardHead() {
             {(response.status || response.message) && <CustomAlert type={response.status} message={response.message} />}
 
             <header className='dashboard--header'>
-                <div className='logo--container' style={isMenuCollapsed ? { borderBottomColor: '#d4d7db' } : {}}>
+                <div className='logo--container' style={(isMenuCollapsed || nonDashboard) ? { borderBottomColor: '#d4d7db' } : {}}>
                     <Link to='/'>
                         <img src={logo_img} alt='Quick logo' />
                     </Link>
 
-                    <DefaultButton>
-                        <span className="hamburger--icon" onClick={(width > 900) ? handleMenuCollapse : handleShowSidemenu}>
-                            {(width > 900) ? (
-                                isMenuCollapsed ? <LuPanelRightClose style={{ fontSize: '2rem' }} /> : <LuPanelLeftClose style={{ fontSize: '2rem' }} />
-                            ) : (
-                                <RiMenu3Fill />
-                            )}
-                        </span>
-                    </DefaultButton>
+                    {!nonDashboard && (
+                        <DefaultButton>
+                            <span className="hamburger--icon" onClick={(width > 900) ? handleMenuCollapse : handleShowSidemenu}>
+                                {(width > 900) ? (
+                                    isMenuCollapsed ? <LuPanelRightClose style={{ fontSize: '2rem' }} /> : <LuPanelLeftClose style={{ fontSize: '2rem' }} />
+                                ) : (
+                                    <RiMenu3Fill />
+                                )}
+                            </span>
+                        </DefaultButton>
+                    )}
                 </div>
 
                 <div className='nav--container'>

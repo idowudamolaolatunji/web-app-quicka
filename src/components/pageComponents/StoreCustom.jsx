@@ -251,7 +251,7 @@ export default function StoreCustom({ isnew, close }) {
 
             const parameter = isnew ? "onboard/customize" : "customize/template"
             // MAKE REQUEST
-            const res = await fetch(`${BASE_API_URL}/stores/${parameter}`, {
+            const res = await fetch(`${BASE_API_URL}/stores/${parameter}?slug=${store?.slug}`, {
                 method: "PATCH",
                 headers: formdataHeader,
                 body: formData

@@ -239,7 +239,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         const itemUnit = unit[0]?.value || "";
         
         // check if it's creating new, first onboard or editing
-        const parameter = isnew ? "/onboard/product" : id ?`/${fetchedProduct?._id}` : "";
+        const parameter = isnew ? `/onboard/product?slug=${store?.slug}` : id ?`/${fetchedProduct?._id}` : `?slug=${store?.slug}`;
         
         try {
             // CHECK CONNECTION

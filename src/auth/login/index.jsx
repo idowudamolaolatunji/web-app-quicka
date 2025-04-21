@@ -84,7 +84,7 @@ function index() {
 
             // USER MUST HAVE SETUP THEIR STORE TO LOGIN
             const { user, store } = data?.data;
-            if (!user.basicSetup) {
+            if (!store.basicSetup) {
                 localStorage.setItem(`${import.meta.env.VITE_USERID_KEY}`, user?._id);
                 localStorage.setItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`, user?.authMethod || "google");
 
@@ -155,7 +155,7 @@ function index() {
 
             // USER MUST HAVE SETUP THEIR STORE TO LOGIN
             const { user, store } = data?.data;
-            if (!user.basicSetup) {
+            if (!store.basicSetup) {
                 localStorage.setItem(`${import.meta.env.VITE_USERID_KEY}`, user._id);
                 localStorage.setItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`, user?.authMethod || "email/password");
 
@@ -166,7 +166,6 @@ function index() {
                 return;
             }
 
-            console.log(data?.data)
             // UPDATE THE RESPONSE STATE WITH THE NEW VALUE
             setResponse({ status, message });
             setTimeout(function () {

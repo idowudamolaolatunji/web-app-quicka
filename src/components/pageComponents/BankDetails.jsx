@@ -141,7 +141,7 @@ function BankDetails({ isnew, close }) {
         const { code } = bankName[0];
 
         try {
-            const res = await fetch(`${BASE_API_URL}/stores/onboard/bank`, {
+            const res = await fetch(`${BASE_API_URL}/stores/onboard/bank?slug=${store?.slug}`, {
                 method: "POST",
                 headers,
                 body: JSON.stringify({

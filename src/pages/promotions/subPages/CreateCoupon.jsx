@@ -142,7 +142,7 @@ export default function CreateCoupon() {
         handleResetResponse()
         setLoading({ ...loading, main: true });
 
-        const parameter = id ? `/${id}` : "/"
+        const parameter = id ? `/${id}` : `?slug=${store?.slug}`
         const productIds = couponProducts?.map(product => product?._id);
         const collectionIds = couponCollection?.map(collection => collection?._id);
         const itemIds = (couponData.couponGroup == "collections" ? collectionIds : productIds) || [];

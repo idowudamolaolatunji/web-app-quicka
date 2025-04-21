@@ -400,6 +400,7 @@ span.item--user-img {
 .menu--store .item--user-img {
     width: 3rem;
     height: 3rem;
+    min-width: 3rem;
 }
 .menu--store-detail {
     display: flex;
@@ -501,7 +502,7 @@ span.item--user-img {
     background-color: #444;
     border-radius: .4rem;
     color: #fff;
-    font-size: 1.24rem;
+    font-size: 1rem;
     font-weight: 500;
     text-transform: capitalize;
     display: flex;
@@ -510,7 +511,7 @@ span.item--user-img {
     gap: .4rem;
 }
 .menu--store-dropdown .menu--store-manage-btn svg {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
 }
 
 
@@ -677,6 +678,8 @@ span.item--user-img {
 .dashboard--sidemenu .menu--store .item--user-img {
     width: 3.6rem;
     height: 3.6rem;
+}
+.dashboard--sidemenu .menu--store img.item--user-img {
     border: 1.4px solid var(--color-brand-300);
 }
 .dashboard--sidemenu .menu--store-detail {
@@ -779,6 +782,12 @@ span.item--user-img {
     .dashboard--menu {
         display: none;
     }
+    .menu--store-dropdown .menu--store-manage-btn {
+        font-size: 1.4rem;
+    }
+    .menu--store-dropdown .menu--store-manage-btn svg {
+        font-size: 1.8rem;
+    }
 }
 
 
@@ -854,6 +863,8 @@ span.item--user-img {
     .dashboard--sidemenu .menu--store .item--user-img {
         width: 3.68rem;
         height: 3.68rem;
+    }
+    .dashboard--sidemenu .menu--store img.item--user-img {
         background-color: #eee;
     }
     .dashboard--sidemenu .menu--store-detail {

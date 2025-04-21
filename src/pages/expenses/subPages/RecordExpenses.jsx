@@ -103,7 +103,7 @@ export default function RecordExpenses() {
         setResponse({ status: "", message: "" });
         setLoading(true);
 
-        const parameter = id ? `/${id}` : "/"
+        const parameter = id ? `/${id}` : `?slug=${store?.slug}`
 
         try {
             // CHECK CONNECTION

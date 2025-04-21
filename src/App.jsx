@@ -14,6 +14,7 @@ import VerifyOtp from './auth/otpVerification';
 import Onboarding from './auth/onboarding';
 import Congrats from './auth/congratsScreen';
 import Error from './pages/error';
+import ManageBusiness from "./pages/ManageBusiness"
 
 // GENERAL DASHBOARD PAGES 
 import DashboardHome from './pages/home';
@@ -82,6 +83,7 @@ function App() {
                 <Route path='/verify-otp' element={<VerifyOtp />}></Route>
                 <Route path='/onboarding' element={<Onboarding />}></Route>
                 <Route path='/congratulations' element={<Congrats />}></Route>
+                <Route path='/manage-business' element={<ManageBusiness />}></Route>
                 <Route path="*" element={<Error />} />
 
                 {/* PROTECTED ROUTES */}

@@ -2,8 +2,8 @@ import React from 'react'
 import { useAuthContext } from '../../context/AuthContext';
 import { getInitials } from '../../utils/helper';
 
-function IntialsImage({ type="user" }) {
-    const { user, store } = useAuthContext();
+function IntialsImage({ type="user", store }) {
+    const { user } = useAuthContext();
 
     return (
         <React.Fragment>

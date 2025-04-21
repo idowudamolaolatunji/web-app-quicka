@@ -101,7 +101,7 @@ export default function CreateDelivery({ close, isnew, isModal }) {
         setResponse({ status: "", message: "" });
         setLoading(true);
         
-        const end_point = isnew ? "onboard/rate" : id ? `/${id}` : ""
+        const end_point = isnew ? `/onboard/rate?slug=${store?.slug}` : id ? `/${id}` : `?slug=${store?.slug}`
         
         try {
             // CHECK CONNECTION
@@ -109,7 +109,7 @@ export default function CreateDelivery({ close, isnew, isModal }) {
             if(!connected) throw new Error("Internet Error");
 
             // MAKE REQUEST
-            const res = await fetch(`${BASE_API_URL}/delivery-rates/${end_point}`, {
+            const res = await fetch(`${BASE_API_URL}/delivery-rates${end_point}`, {
                 headers,
                 method: id ? "PATCH" : "POST",
                 body: JSON.stringify({

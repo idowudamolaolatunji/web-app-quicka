@@ -15,7 +15,7 @@ export default FetchedContext;
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const FetchedProvider = ({ children }) => {
-    const { token, user, shouldKick, headers, handleStore } = useAuthContext();
+    const { token, user, store, shouldKick, headers, handleStore } = useAuthContext();
 
     // DOCUMENT STATES
     const [collections, setCollections] = useState([]);
@@ -130,7 +130,7 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STORE AND OWNER DATA
     async function handleFetchStore() {
         setStoreLoader(true);
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store`, { method: "GET", headers });
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store?slug=${store?.slug}`, { method: "GET", headers });
         const data = await res.json();
         setStoreLoader(false)
         if(!data?.status || !res.ok) return
@@ -172,7 +172,7 @@ export const FetchedProvider = ({ children }) => {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_API_URL}/collections/mine/collections`, { method: "GET", headers })
+            const res = await fetch(`${BASE_API_URL}/collections/mine/collections?slug=${store?.slug}`, { method: "GET", headers })
             shouldKick(res);
 
             const data = await res.json();
@@ -196,7 +196,7 @@ export const FetchedProvider = ({ children }) => {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_API_URL}/products/mine/products`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/products/mine/products?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
 
@@ -221,7 +221,7 @@ export const FetchedProvider = ({ children }) => {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_API_URL}/orders/mine/orders`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/orders/mine/orders?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
             const data = await res.json();
@@ -246,7 +246,7 @@ export const FetchedProvider = ({ children }) => {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_API_URL}/customers/mine/customers`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/customers/mine/customers?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
             const data = await res.json();
@@ -271,7 +271,7 @@ export const FetchedProvider = ({ children }) => {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_API_URL}/delivery-rates/mine/delivery-rates`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/delivery-rates/mine/delivery-rates?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
             const data = await res.json();
@@ -295,7 +295,7 @@ export const FetchedProvider = ({ children }) => {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_API_URL}/transactions/mine/transactions`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/transactions/mine/transactions?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
             const data = await res.json();
@@ -352,7 +352,7 @@ export const FetchedProvider = ({ children }) => {
         try {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
-            const res = await fetch(`${BASE_API_URL}/discounts/mine/discounts`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/discounts/mine/discounts?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
             const data = await res.json();
@@ -374,7 +374,7 @@ export const FetchedProvider = ({ children }) => {
         try {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
-            const res = await fetch(`${BASE_API_URL}/coupons/mine/coupons`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/coupons/mine/coupons?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
             const data = await res.json();
@@ -396,7 +396,7 @@ export const FetchedProvider = ({ children }) => {
         try {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
-            const res = await fetch(`${BASE_API_URL}/expenses/mine/expenses`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/expenses/mine/expenses?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
             const data = await res.json();

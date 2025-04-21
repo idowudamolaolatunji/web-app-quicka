@@ -22,75 +22,74 @@ import { HiOutlineShoppingCart } from "react-icons/hi";
 import IntialsImage from '../../../components/layout/IntialsImage';
 import { IoIosArrowDown, IoIosArrowUp, IoMdCheckmark } from 'react-icons/io';
 import { useOutsideClick } from '../../../hooks/useOutsideClick';
-
+import { useNavigate } from 'react-router-dom';
 
 
 export default function DashboardMenu() {
+    const navigate = useNavigate();
     const { isMenuCollapsed, showSidemenu, handleShowSidemenu, animateOut } = useDataContext();
     const { width } = useWindowSize();
-    const { store } = useAuthContext();
+    const { user, store } = useAuthContext();
     const ref = useOutsideClick(handleToggleStoreDropdown);
-
+    
     const [storeDropdown, setStoreDropdown] = useState(false);
 
     function handleToggleStoreDropdown() {
         setStoreDropdown(!storeDropdown);
     }
 
+    const navigateToManageBusiness = function() {
+        navigate("/manage-business");
+    }
+
     return (
         <>
+
             {width > 900 && (
                 <div className='dashboard--menu'>
                     <div className='menu--block'>
 
                         {!isMenuCollapsed ? (
                             <div className="menu--store">
-                                <IntialsImage type="store" />
+                                <IntialsImage type="store" store={store} />
 
                                 <span className="menu--store-detail">
                                     <p className='text'>{truncateString(store?.name, 22)}</p>
                                     <TooltipUI title="Visit Your Store" placement="bottom">
                                         <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                            {truncateString(store?.storeUrl, 20)}
+                                            {truncateString(store?.storeUrl, 18)}
                                         </a>
                                     </TooltipUI>
                                 </span>
 
                                 <button className="menu--action" onClick={handleToggleStoreDropdown}>
                                     <MdBusiness />
-                                    <p className='value'>1</p>
+                                    <p className='value'>{user?.stores?.length || 1}</p>
                                     {!storeDropdown ? <IoIosArrowDown /> : <IoIosArrowUp />}
                                 </button>
 
                                 {storeDropdown && (
                                     <div className='menu--store-dropdown' ref={ref} style={{ top: "110%" }}>
-                                        <div className={`menu--store is-current`}>
-                                            <IntialsImage type="store" />
-
-                                            <span className="menu--store-detail">
-                                                <p className='text'>{truncateString(store?.name, 18)}</p>
-                                                <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                                    {truncateString(store?.storeUrl, 20)}
-                                                </a>
-                                            </span>
-
-                                            <div className="menu--store-select">
-                                                <IoMdCheckmark />
+                                        {user?.stores?.map(myStore => (
+                                            <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} key={myStore?._id}>
+                                                <IntialsImage type="store" store={myStore} />
+    
+                                                <span className="menu--store-detail">
+                                                    <p className='text'>{truncateString(myStore?.name, 18)}</p>
+                                                    {(myStore?._id == store?._id) && (
+                                                        <a href={`https://${myStore?.storeUrl}`} target='_blank' className='link--btn'>
+                                                            {truncateString(myStore?.storeUrl, 20)}
+                                                        </a>
+                                                    )}
+                                                </span>
+    
+                                                <div className="menu--store-select">
+                                                    <IoMdCheckmark />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className={`menu--store`}>
-                                            <IntialsImage type="store" />
-
-                                            <span className="menu--store-detail">
-                                                <p className='text'>{truncateString("luxeware ng", 22)}</p>
-                                            </span>
-
-                                            <div className="menu--store-select">
-                                                <IoMdCheckmark />
-                                            </div>
-                                        </div>
-
-                                        <button className="menu--store-manage-btn">
+                                        ))}
+                                       
+                                        <button className="menu--store-manage-btn" onClick={navigateToManageBusiness}>
                                             <MdOutlineAddBusiness /> Manage your businesses
                                         </button>
                                     </div>
@@ -98,32 +97,27 @@ export default function DashboardMenu() {
                             </div>
                         ) : (
                             <div className="menu--store" style={{ flexDirection: "column", alignItems: "center", gap: ".6rem" }} onMouseLeave={() => setStoreDropdown(false)}>
-                                <IntialsImage type="store" />
+                                <IntialsImage type="store" store={store} />
                                 <TooltipUI title="Visit Your Store" placement="right">
                                     <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'><SlGlobe /></a>
                                 </TooltipUI>
                                 <button className="menu--action" style={{ padding: ".3rem .6rem"}} onClick={handleToggleStoreDropdown}>
-                                    <p className='value'>1</p>
+                                    <p className='value'>{user?.stores?.length || 1}</p>
                                     <IoIosArrowDown />
                                 </button>
 
                                 {storeDropdown && (
                                     <div className='menu--store-dropdown' ref={ref} style={{ padding: ".4rem .2rem"}}>
-
-                                        <TooltipUI title={store?.name} placement="right">
-                                            <div className={`menu--store is-current`} style={{ padding: ".4rem .2rem"}}>
-                                                <IntialsImage type="store" />
-                                            </div>
-                                        </TooltipUI>
-
-                                        <TooltipUI title={store?.name} placement="right">
-                                            <div className={`menu--store`} style={{ padding: ".4rem .2rem"}}>
-                                                <IntialsImage type="store" />
-                                            </div>
-                                        </TooltipUI>
+                                        {user?.stores?.map(myStore => (
+                                            <TooltipUI title={store?.name} placement="right" key={myStore?._id}>
+                                                <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} style={{ padding: ".4rem .2rem"}}>
+                                                    <IntialsImage type="store" store={myStore} />
+                                                </div>
+                                            </TooltipUI>
+                                        ))}
 
                                         <TooltipUI title="Manage Your Businesses" placement="right">
-                                            <button className="menu--store-manage-btn">
+                                            <button className="menu--store-manage-btn" onClick={navigateToManageBusiness}>
                                                 <MdOutlineAddBusiness />
                                             </button>
                                         </TooltipUI>
@@ -182,12 +176,8 @@ export default function DashboardMenu() {
                                 <RiCloseFill />
                             </span>
 
-                            {/* <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                <SlGlobe /> {store?.storeUrl}
-                            </a> */}
-
                             <div className="menu--store">
-                                <IntialsImage type="store" />
+                                <IntialsImage type="store" store={store} />
 
                                 <span className="menu--store-detail">
                                     <p className='text'>{truncateString(store?.name, width < 450 ? 25 : 30)}</p>
@@ -198,41 +188,32 @@ export default function DashboardMenu() {
 
                                 <button className="menu--action" onClick={handleToggleStoreDropdown}>
                                     <MdBusiness />
-                                    <p className='value'>1</p>
+                                    <p className='value'>{user?.stores?.length || 1}</p>
                                     <IoIosArrowDown />
                                 </button>
 
                                 {storeDropdown && (
                                     <div className='menu--store-dropdown' ref={ref}>
-                                        <div className={`menu--store is-current`}>
-                                            <IntialsImage type="store" />
+                                        {user?.stores?.map(myStore => (
+                                            <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} key={myStore?._id}>
+                                                <IntialsImage type="store" store={myStore} />
 
-                                            <span className="menu--store-detail">
-                                                <p className='text'>{truncateString(store?.name, 22)}</p>
-                                                <TooltipUI title="Visit Your Store" placement="bottom">
-                                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                                        {truncateString(store?.storeUrl, 24)}
-                                                    </a>
-                                                </TooltipUI>
-                                            </span>
+                                                <span className="menu--store-detail">
+                                                    <p className='text'>{truncateString(myStore?.name, 22)}</p>
+                                                    <TooltipUI title="Visit Your Store" placement="bottom">
+                                                        <a href={`https://${myStore?.storeUrl}`} target='_blank' className='link--btn'>
+                                                            {truncateString(myStore?.storeUrl, 24)}
+                                                        </a>
+                                                    </TooltipUI>
+                                                </span>
 
-                                            <div className="menu--store-select">
-                                                <IoMdCheckmark />
+                                                <div className="menu--store-select">
+                                                    <IoMdCheckmark />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className={`menu--store`}>
-                                            <IntialsImage type="store" />
+                                        ))}
 
-                                            <span className="menu--store-detail">
-                                                <p className='text'>{truncateString(store?.name, 22)}</p>
-                                            </span>
-
-                                            <div className="menu--store-select">
-                                                <IoMdCheckmark />
-                                            </div>
-                                        </div>
-
-                                        <button className="menu--store-manage-btn">
+                                        <button className="menu--store-manage-btn" onClick={navigateToManageBusiness}>
                                             <MdOutlineAddBusiness /> Manage your businesses
                                         </button>
                                     </div>
