@@ -1327,6 +1327,7 @@
 }
 .manage--business-content .content--stores .menu--store .link--btn {
     font-size: 1.24rem;
+	max-width: max-content;
 }
 .manage--business-content .content--stores .menu--store svg {
 	font-size: 2.4rem;
