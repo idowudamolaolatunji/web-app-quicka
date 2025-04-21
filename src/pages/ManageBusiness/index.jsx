@@ -36,7 +36,7 @@ export default function index() {
         <DashboardHead nonDashboard={true} />
         <section className="manage--business-section">
             <span className="flex-align-center">
-                <BackButton /> <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>Back</p>
+                <BackButton /> {width > 450 && <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>Back</p>}
             </span>
 
             <div className="manage--business-content">
@@ -52,8 +52,8 @@ export default function index() {
 
                             <span className="menu--store-detail">
                                 <p className='text'>
-                                    {truncateString(mystore?.name, width < 450 ? 20 : 30)}
-                                    <span className='sub-text'>{mystore?.location?.country?.name} ({mystore?.location?.country?.iso2}){mystore?.location?.state?.name ? ", " + mystore?.location?.state?.name : ""}</span>
+                                    {truncateString("jdjwhdhsj jhehahshsh", width < 450 ? 16 : 30)}
+                                    <span className='sub-text'>{mystore?.location?.country?.name} ({mystore?.location?.country?.iso2})</span>
                                 </p>
                                 <a href={`https://${mystore?.storeUrl}`} target='_blank' className='link--btn'>
                                     {truncateString(mystore?.storeUrl, width < 450 ? 20 : 35)}

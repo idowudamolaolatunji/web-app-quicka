@@ -1680,11 +1680,26 @@
 		font-size: 1.8rem;
 	}
 
+	.manage--business-content {
+		margin-top: 2.4rem;
+	}
+	.manage--business-content .content--top p {
+		font-size: 1.28rem;
+		color: #777;
+	}
 	.manage--business-content .content--stores .menu--store {
 		padding: 1.2rem .6rem;
 	}
-	
-	
+	.manage--business-content .content--btn {
+		font-size: 1.34rem;
+	}
+	.manage--business-content .content--btn svg {
+		font-size: 1.8rem;
+	}
+	.manage--business-content .content--btn:hover {
+		background-color: var(--color-brand-50);
+		color: var(--color-brand-500);
+	}
 }
 
 @media screen and (max-width: 385px) {
