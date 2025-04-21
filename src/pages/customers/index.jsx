@@ -179,8 +179,8 @@ function index() {
             {showInsights?.customer && (
                 <div className='page__section--insights insight--grid'>
                     <Insight title='Total Customers' loader={loader[tabShown]} value={customers?.length || 0} icon={<FiUsers />} />
-                    <Insight title='Newsletter Customers' loader={loader[tabShown == "group" && newsletterCustomers]} value={0} icon={<TbUserSquare />} />
-                    <Insight title='Total Customer Groups' loader={loader[tabShown == "newsletter" && customerGroups]} value={0} icon={<TbUsersGroup />} />
+                    <Insight title='Newsletter Customers' loader={loader[tabShown]} value={0} icon={<TbUserSquare />} />
+                    <Insight title='Total Customer Groups' loader={loader[tabShown]} value={0} icon={<TbUsersGroup />} />
                 </div>
             )}
 
