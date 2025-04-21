@@ -7,18 +7,24 @@ import DashboardMenu from './uiComponents/DashboardMenu';
 import DashboardHead from './uiComponents/DashboardHead';
 import './dashboard.css';
 import OnboardingFloater from '../../components/elements/OnboardingFloater';
+import { useLocation } from 'react-router-dom';
 
 
 function DashboardBase({ children }) {
     const { width } = useWindowSize();
+    const { pathname } = useLocation();
     const { user, store } = useAuthContext() ;
     const { isMenuCollapsed } = useDataContext();
+    const showOnboardFloater = (
+        !store?.storeOnboardCompleted &&
+        pathname != "/" && pathname != "/dashboard"&&
+        pathname != "/dashboard/"
+    );
 
     useEffect(function() {
         document.title = `Quicka | ${user?.firstname}'s store dashboard ✨`
         window.scrollTo(0, 0);
     }, []);
-    
 
     return (
         <Fragment>
@@ -29,8 +35,8 @@ function DashboardBase({ children }) {
 
                 <section className='content--block' style={width <= 600 ? { paddingBottom: "8rem"} : {}}>
                     {children}
-                    {!store?.storeOnboardCompleted && <OnboardingFloater /> }
                     {width > 600 && <CopyrightText />}
+                    {showOnboardFloater && <OnboardingFloater /> }
                 </section>
 
                 {width <= 600 && <CopyrightText />}

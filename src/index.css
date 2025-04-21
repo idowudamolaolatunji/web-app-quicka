@@ -41,6 +41,7 @@ body {
     --color-brand-70: #ffece6;
     --color-brand-100: #ffe1d7;
     --color-brand-300: #ffb59a;
+    --color-brand-400: #fd875c;
     --color-brand-500: #ff7a49;
     --color-brand-700: #FF6B35;
     --color-brand-900: #ff5529;
@@ -1007,6 +1008,41 @@ button {
 	height: auto;
 }
 
+
+
+
+
+.onboarding--floater {
+	position: fixed;
+	bottom: 5%;
+	right: 2rem;
+	text-transform: capitalize;
+	background-color: var(--color-brand-500);
+	border-radius: 50rem;
+	width: fit-content;
+	padding: .48rem 1rem;
+	font-size: 1.05rem;
+	color: #fff;
+	cursor: pointer;
+}
+.onboarding--floater svg {
+	font-size: 1.4rem;
+}
+
+.onboarding--floater .floater--container {
+	gap: .4rem;
+}
+.onboarding--floater .floater--inner {
+	gap: .24rem;
+	background-color: var(--color-brand-400);
+	padding: .24rem .48rem;
+	border-radius: 1rem;
+}
+.onboarding--floater .floater--container,
+.onboarding--floater .floater--inner {
+	display: flex;
+	align-items: center;
+}
 
 
 

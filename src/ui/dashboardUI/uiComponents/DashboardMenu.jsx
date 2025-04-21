@@ -51,7 +51,7 @@ export default function DashboardMenu() {
                                     <p className='text'>{truncateString(store?.name, 22)}</p>
                                     <TooltipUI title="Visit Your Store" placement="bottom">
                                         <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                            {truncateString(store?.storeUrl, 24)}
+                                            {truncateString(store?.storeUrl, 20)}
                                         </a>
                                     </TooltipUI>
                                 </span>
@@ -68,9 +68,9 @@ export default function DashboardMenu() {
                                             <IntialsImage type="store" />
 
                                             <span className="menu--store-detail">
-                                                <p className='text'>{truncateString(store?.name, 22)}</p>
+                                                <p className='text'>{truncateString(store?.name, 18)}</p>
                                                 <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                                    {truncateString(store?.storeUrl, 24)}
+                                                    {truncateString(store?.storeUrl, 20)}
                                                 </a>
                                             </span>
 
