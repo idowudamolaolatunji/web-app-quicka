@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import MenuLink from './MenuLink';
 import Line from '../../../components/elements/Line';
 import Overlay from '../../../components/layout/Overlay';
@@ -23,16 +24,21 @@ import IntialsImage from '../../../components/layout/IntialsImage';
 import { IoIosArrowDown, IoIosArrowUp, IoMdCheckmark } from 'react-icons/io';
 import { useOutsideClick } from '../../../hooks/useOutsideClick';
 import { useNavigate } from 'react-router-dom';
+import SwitchLoader from '../../../components/spinner/switching';
 
+
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export default function DashboardMenu() {
     const navigate = useNavigate();
-    const { isMenuCollapsed, showSidemenu, handleShowSidemenu, animateOut } = useDataContext();
     const { width } = useWindowSize();
-    const { user, store } = useAuthContext();
+    const { user, store, headers, handleStore } = useAuthContext();
+    const { isMenuCollapsed, showSidemenu, animateOut, handleShowSidemenu } = useDataContext();
     const ref = useOutsideClick(handleToggleStoreDropdown);
     
     const [storeDropdown, setStoreDropdown] = useState(false);
+    const [switchingLoader, setSwitchingLoader] = useState(false);
+
 
     function handleToggleStoreDropdown() {
         setStoreDropdown(!storeDropdown);
@@ -42,8 +48,35 @@ export default function DashboardMenu() {
         navigate("/manage-business");
     }
 
+    const handleSwitchStore = async function(slug) {
+        if(slug == store?.slug) {
+            setTimeout(function() {
+                navigate("/dashboard");
+            }, 250);
+        }
+        
+        if(slug != store?.slug) {
+            setSwitchingLoader(true);
+            const res = await fetch(`${BASE_API_URL}/stores/mine/store?slug=${slug}`, {
+                method: "GET", headers
+            });
+            const data = await res.json();
+            setSwitchingLoader(false);
+            if(!data?.status || !res.ok) return
+            handleStore(data?.data?.store);
+            navigate("/dashboard");
+        }
+
+        window.scrollTo(0, 0);
+        handleShowSidemenu();
+        handleToggleStoreDropdown();
+    }
+
     return (
-        <>
+        <React.Fragment>
+            {switchingLoader && (
+                createPortal(<SwitchLoader />, document.body)
+            )}
 
             {width > 900 && (
                 <div className='dashboard--menu'>
@@ -71,7 +104,7 @@ export default function DashboardMenu() {
                                 {storeDropdown && (
                                     <div className='menu--store-dropdown' ref={ref} style={{ top: "110%" }}>
                                         {user?.stores?.map(myStore => (
-                                            <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} key={myStore?._id}>
+                                            <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} key={myStore?._id} onClick={() => handleSwitchStore(myStore?.slug)}>
                                                 <IntialsImage type="store" store={myStore} />
     
                                                 <span className="menu--store-detail">
@@ -109,7 +142,7 @@ export default function DashboardMenu() {
                                 {storeDropdown && (
                                     <div className='menu--store-dropdown' ref={ref} style={{ padding: ".4rem .2rem"}}>
                                         {user?.stores?.map(myStore => (
-                                            <TooltipUI title={store?.name} placement="right" key={myStore?._id}>
+                                            <TooltipUI title={store?.name} placement="right" key={myStore?._id} onClick={() => handleSwitchStore(myStore?.slug)}>
                                                 <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} style={{ padding: ".4rem .2rem"}}>
                                                     <IntialsImage type="store" store={myStore} />
                                                 </div>
@@ -195,7 +228,7 @@ export default function DashboardMenu() {
                                 {storeDropdown && (
                                     <div className='menu--store-dropdown' ref={ref}>
                                         {user?.stores?.map(myStore => (
-                                            <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} key={myStore?._id}>
+                                            <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} key={myStore?._id} onClick={() => handleSwitchStore(myStore?.slug)}>
                                                 <IntialsImage type="store" store={myStore} />
 
                                                 <span className="menu--store-detail">
@@ -253,6 +286,6 @@ export default function DashboardMenu() {
                     </div>
                 </>
             )}
-        </>
+        </React.Fragment>
     )
 }
