@@ -25,6 +25,7 @@ import { IoIosArrowDown, IoIosArrowUp, IoMdCheckmark } from 'react-icons/io';
 import { useOutsideClick } from '../../../hooks/useOutsideClick';
 import { useNavigate } from 'react-router-dom';
 import SwitchLoader from '../../../components/spinner/switching';
+import { useFetchedContext } from '../../../context/FetchedContext';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -32,6 +33,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 export default function DashboardMenu() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { globalConnectionError } = useFetchedContext();
     const { user, store, headers, handleStore, handleUser, setShouldLoad } = useAuthContext();
     const { isMenuCollapsed, showSidemenu, animateOut, handleShowSidemenu } = useDataContext();
     const ref = useOutsideClick(handleToggleStoreDropdown);
@@ -41,6 +43,7 @@ export default function DashboardMenu() {
 
 
     function handleToggleStoreDropdown() {
+        if(globalConnectionError) return
         setStoreDropdown(!storeDropdown);
     }
 
