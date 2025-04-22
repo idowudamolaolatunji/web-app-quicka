@@ -1026,6 +1026,12 @@ button {
 	font-size: 1.05rem;
 	color: #fff;
 	cursor: pointer;
+	display: block;
+	animation: show_float .75s ease-out;
+}
+@keyframes show_float {
+	0% { transform: translateX(10rem); opacity: 0.5; }
+	100% { transform: translateX(0); opacity: 1; }
 }
 .onboarding--floater svg {
 	font-size: 1.4rem;

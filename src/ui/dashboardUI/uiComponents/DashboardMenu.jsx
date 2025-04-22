@@ -115,9 +115,7 @@ export default function DashboardMenu() {
                                                 <span className="menu--store-detail">
                                                     <p className='text'>{truncateString(myStore?.name, 18)}</p>
                                                     {(myStore?._id == store?._id) && (
-                                                        <a href={`https://${myStore?.storeUrl}`} target='_blank' className='link--btn'>
-                                                            {truncateString(myStore?.storeUrl, 20)}
-                                                        </a>
+                                                        <p className='link--btn'>{truncateString(myStore?.storeUrl, 20)}</p>
                                                     )}
                                                 </span>
     
@@ -239,9 +237,7 @@ export default function DashboardMenu() {
                                                 <span className="menu--store-detail">
                                                     <p className='text'>{truncateString(myStore?.name, 22)}</p>
                                                     {myStore?._id == store?._id && (
-                                                        <a href={`https://${myStore?.storeUrl}`} target='_blank' className='link--btn'>
-                                                            {truncateString(myStore?.storeUrl, 24)}
-                                                        </a>
+                                                        <p className='link--btn'>{truncateString(myStore?.storeUrl, 24)}</p>
                                                     )}
                                                 </span>
 

@@ -293,11 +293,11 @@ export default function ManageNew() {
             }
 
             // SET THE ACCESS STORAGE FOR THE CONGRATS PAGE
-            localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
             setResponse({ status: data?.status, message: data?.message });
+            localStorage.setItem(`${import.meta.env.VITE_CONGRATS_KEY}`, "access");
 
             setTimeout(function () {
-                handleUser(data?.data?.user);
+                handleUser(data?.data?.auth);
                 handleStore(data?.data?.store);
 
                 navigate('/congratulations?next=dashboard');

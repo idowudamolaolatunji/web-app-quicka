@@ -46,6 +46,7 @@ export default function index() {
 
         setTimeout(function() {
             setLoading(false)
+            localStorage.setItem(`${import.meta.env.VITE_USERID_KEY}`, user?._id);
             navigate("/manage-business/new");
         }, 1000)
     }
@@ -64,15 +65,13 @@ export default function index() {
         <section className="manage--business-section">
             <div className="manage--business-content">
                 <div className="content--top">
-                    <span className="flex-align-center" style={{ margin: "0 0 1.4rem -.8rem", justifyContent: "center", gap: ".8rem" }}>
-                        <BackButton /><h4>Welcome back, {user?.firstname} {width > 450 && "👋🏿"}</h4>
-                    </span>
+                    <h4>Welcome back, {user?.firstname} {width > 450 && "👋🏿"}</h4>
                     <p className='auth--right-text' style={{ margin: 0 }}>Let help you manage your businesses. Please select the business you want to continue with, Or click the button below to add a new or existing business.</p>
                 </div>
 
                 <div className="content--stores">
                     {user?.stores?.map(mystore => (
-                        <div className="menu--store" onClick={() => handleSwitchStore(mystore?.slug)}>
+                        <div className="menu--store" onClick={() => handleSwitchStore(mystore?.slug)} key={mystore?._id}>
                             <IntialsImage type="store" store={mystore} />
 
                             <span className="menu--store-detail">

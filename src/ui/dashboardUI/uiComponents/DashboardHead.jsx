@@ -16,6 +16,7 @@ import CustomAlert from '../../../components/layout/CustomAlert';
 import Spinner from '../../../components/spinner/mainSpinner'
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { useFetchedContext } from '../../../context/FetchedContext';
+import BackButton from '../../../components/button/BackButton';
 
 
 function DashboardHead({ nonDashboard=false }) {
@@ -59,11 +60,7 @@ function DashboardHead({ nonDashboard=false }) {
                         </DefaultButton>
                     ) : (
                         (width < 901) && (
-                            <DefaultButton>
-                                <span className="hamburger--icon" onClick={handleShowSidemenu}>
-                                    <RiMenu3Fill />
-                                </span>
-                            </DefaultButton>
+                            <BackButton />
                         )
                     )}
                 </div>
