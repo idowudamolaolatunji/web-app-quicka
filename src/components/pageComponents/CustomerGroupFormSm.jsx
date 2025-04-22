@@ -61,29 +61,29 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
         // check if it's creating or editing
         // const parameter = editingItem ? `/${editingItem?._id}` : `?slug=${store?.slug}`;
 
-        try {
-            const res = await fetch(`${BASE_API_URL}/collections${parameter}`, {
-                headers, method: editingItem ? "PATCH" : "POST",
-                body: JSON.stringify({ ...customerGroupData,  })
-            });
-            shouldKick(res);
-            const data = await res.json();
-            if (res?.status !== 201 && data?.status !== 'success') {
-                throw new Error(data?.message);
-            }
+        // try {
+        //     const res = await fetch(`${BASE_API_URL}/collections${parameter}`, {
+        //         headers, method: editingItem ? "PATCH" : "POST",
+        //         body: JSON.stringify({ ...customerGroupData,  })
+        //     });
+        //     shouldKick(res);
+        //     const data = await res.json();
+        //     if (res?.status !== 201 && data?.status !== 'success') {
+        //         throw new Error(data?.message);
+        //     }
 
-            // CLEAR FIELDS AND SET RESPONSE MESSAGE
-            // handleClearFields()
-            setResponse({ status: "success", message: data?.message });
+        //     // CLEAR FIELDS AND SET RESPONSE MESSAGE
+        //     // handleClearFields()
+        //     setResponse({ status: "success", message: data?.message });
 
-            // handleFetchMyStoreCollections()
-            setTimeout(() => close(), 1000);
+        //     // handleFetchMyStoreCollections()
+        //     setTimeout(() => close(), 1000);
 
-        } catch (err) {
-            setResponse({ status: "error", message: err?.message });
-        } finally {
-            setLoading(false);
-        }
+        // } catch (err) {
+        //     setResponse({ status: "error", message: err?.message });
+        // } finally {
+        //     setLoading(false);
+        // }
     }
 
     return (
@@ -108,7 +108,7 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
 
                 <div className="form--item">
                     <label className="form--label">Customer (optional)</label>
-                    <MainDropdownSelect title="Customer" options={customers} field="fullname" value={customerGroupData.groupCustomers} setValue={(value) => setCustomerGroupData({ ...customerGroupData, groupCustomers: value })} noDataLabel='No customer found!' />
+                    <MainDropdownSelect title="Customer" multiple={true} options={customers} field="fullname" value={customerGroupData.groupCustomers} setValue={(value) => setCustomerGroupData({ ...customerGroupData, groupCustomers: value })} noDataLabel='No customer found!' />
                     <Info text="If you don't have customer's details, Leave blank" />
                 </div>
 
