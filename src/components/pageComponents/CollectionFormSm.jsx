@@ -11,7 +11,7 @@ import { validateCollectionForm } from '../../utils/validationHelper';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
-function CollectionFormSm({ close, editingItem }) {
+export default function CollectionFormSm({ close, editingItem }) {
     const { shouldKick, formdataHeader, store } = useAuthContext();
     const { handleFetchMyStoreCollections } = useFetchedContext();
 
@@ -63,7 +63,7 @@ function CollectionFormSm({ close, editingItem }) {
     }, [editingItem])
 
 
-    async function handleSubmitCollection() {
+    async function handleSubmit() {
         const newError = validateCollectionForm(collectionData.name);
         setCollectionFormError(newError);
         if (newError) return;
@@ -136,12 +136,10 @@ function CollectionFormSm({ close, editingItem }) {
                     ) : (
                         <button className='button clear--button' onClick={handleClearFields} disabled={loading}>Clear Fields</button>
                     )}
-                    <button className='button submit--button' onClick={handleSubmitCollection} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
+                    <button className='button submit--button' onClick={handleSubmit} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
             </div>
         </React.Fragment>
 
     )
 }
-
-export default CollectionFormSm

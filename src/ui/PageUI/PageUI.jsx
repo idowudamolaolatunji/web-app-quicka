@@ -16,6 +16,7 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import ConnectionError from '../../components/layout/ConnectionError';
 import Drawer from '../../components/modal/Drawer';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
+import CustomerGroupFormSm from '../../components/pageComponents/CustomerGroupFormSm';
 
 /*
     columns: for the table structure,
@@ -95,10 +96,11 @@ function PageUI({
                 </Drawer>
             )}
 
-            {/* {action && (
-                <Drawer title="Create Collection" setClose={addAction}>
+            {(action && pageName == "group") && (
+                <Drawer title="Create Customer Group" setClose={addAction}>
+                    <CustomerGroupFormSm close={addAction} />
                 </Drawer>
-            )} */}
+            )}
 
             {showExportModal && (
                 <ExportCSV data={data} title={pageName} setClose={setShowExportModal} />
@@ -158,6 +160,7 @@ function PageUI({
                     searchLoader={searchLoader}
                     emptyComponent={
                         <EmptyTableComponent
+                            name={pageName}
                             img={emptyImg}
                             text={emptyText}
                             btns={emptyBtns}

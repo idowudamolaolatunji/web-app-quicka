@@ -138,7 +138,7 @@ function index() {
     const newsletter_columns = [
         {
             name: "Email",
-            selector: row => row?.contact?.email,
+            selector: row => row?.email,
             width: width < 450 && "18rem"
         },
         {
@@ -208,7 +208,7 @@ function index() {
             emptyTitle={tabShown == "customer" ? customer_emptyTitle : tabShown == "group" ? group_emptyTitle : newsletter_emptyTitle}
             hasLink={tabShown == "customer" ? true : false}
 
-            {...(tabShown == "customer" ? { addUrl: "customers/add" } : tabShown == "group" ? { addAction: handleShowCustomerGroupForm, action: showCustomerGroupForm, addUrl: "" } : { addUrl: "" })}
+            {...(tabShown == "customer" ? { addUrl: "customers/add" } : tabShown == "group" ? { addAction: handleShowCustomerGroupForm, action: showCustomerGroupForm, addUrl: null } : { addUrl: "" })}
             
             headTabs={tabShown == "customer" ? (
                 <TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomers} />

@@ -1,9 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function EmptyTableComponent({ img, title, text, className, btns, customStyle, btnForAction }) {
+function EmptyTableComponent({ name, img, title, text, className, btns, customStyle, btnForAction }) {
     const navigate = useNavigate();
-    const isSideLink = title == "Add new collection!";
+    const isSideLink = name == "collection" || name == "group";
 
     return (
         <div className={className} style={customStyle}>
