@@ -62,15 +62,15 @@ export default function DashboardMenu() {
         
         if(slug != store?.slug) {
             setSwitchingLoader(true);
-            const res = await fetch(`${BASE_API_URL}/stores/mine/store?slug=${slug}`, {
+            const res = await fetch(`${BASE_API_URL}/stores/mine/outlet?slug=${slug}`, {
                 method: "GET", headers
             });
             const data = await res.json();
             setSwitchingLoader(false);
             if(!data?.status || !res.ok) return
-            handleStore(data?.data?.store);
-            handleUser(data?.data?.user);
             setShouldLoad(true);
+            handleStore(data?.data?.store);
+            handleUser(data?.data?.auth);
             navigate("/dashboard");
         }
         window.scrollTo(0, 0);

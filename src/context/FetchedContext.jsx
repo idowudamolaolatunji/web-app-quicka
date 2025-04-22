@@ -15,7 +15,7 @@ export default FetchedContext;
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const FetchedProvider = ({ children }) => {
-    const { token, user, store, shouldKick, headers, handleStore, shouldLoad } = useAuthContext();
+    const { token, user, store, shouldKick, headers, handleStore, shouldLoad, /* temp */ setShouldLoad, handleUser } = useAuthContext();
 
     // DOCUMENT STATES
     const [collections, setCollections] = useState([]);
@@ -130,11 +130,13 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STORE AND OWNER DATA
     async function handleFetchStore() {
         setStoreLoader(true);
-        const res = await fetch(`${BASE_API_URL}/stores/mine/store?slug=${store?.slug}`, { method: "GET", headers });
+        const res = await fetch(`${BASE_API_URL}/stores/mine/outlet?slug=${store?.slug}`, { method: "GET", headers });
         const data = await res.json();
         setStoreLoader(false)
-        if(!data?.status || !res.ok) return
+        if(!data?.status || !res.ok) return;
+        setShouldLoad(false);
         handleStore(data?.data?.store);
+        handleUser(data?.data?.auth);
     }
 
     // FETCH UNPROTECTED STORE ITEM BY ID
