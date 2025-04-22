@@ -183,7 +183,9 @@ function index() {
         },
         {
             name: "Date Created",
-            selector: row => ymdDateFormat(row?.createdAt),
+            selector: row =>(
+                <p className='value'>{ymdDateFormat(row?.createdAt)}</p>
+            ),
         },
         {
             selector: row => (

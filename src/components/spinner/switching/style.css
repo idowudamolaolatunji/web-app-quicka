@@ -96,9 +96,9 @@
 
 @media screen and (max-width: 400px) {
 	.spinner_switch {
-		top: -6%;
+		top: -7%;
 	}
 	.spinner_text {
-		margin-top: -3.8rem;
+		margin-top: -4.4rem;
 	}
 }

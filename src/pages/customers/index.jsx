@@ -7,7 +7,7 @@ import Insight from '../../components/layout/Insight';
 import { FiUser, FiUsers } from 'react-icons/fi';
 import { TbUserSquare } from 'react-icons/tb';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { formatDate } from '../../utils/helper';
+import { cap1stLetter, formatDate, ymdDateFormat } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
@@ -56,8 +56,7 @@ function index() {
     const [search, setSearch] = useState("");
     const [showCustomerGroupForm, setShowCustomerGroupForm] = useState(false);
 
-
-    const columns = [
+    const customer_columns = [
         {
             name: "Customer Name",
             selector: row => (
@@ -106,6 +105,67 @@ function index() {
         }
     ];
 
+    const group_columns = [
+        {
+            name: "Group Name",
+            selector: row => row?.name,
+            width: width < 450 && "18rem"
+        },
+        {
+            name: "Customers",
+            selector: row => (
+                <p className='value'>{row?.customers?.length || 0}</p>
+            ),
+            width: "14rem"
+        },
+        {
+            name: "Date Created",
+            selector: row => (
+                <p className='value'>{ymdDateFormat(row?.createdAt)}</p>
+            ),
+        },
+        {
+            selector: row => (
+                <span className='table--actions'>
+                    <button className='table--btn' onClick={() => navigate(`${row?._id}/edit`)}><RiEdit2Line /></button>
+                    <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
+                </span>
+            ),
+            width: (width < 450) ? "20%" : (width < 900) ? "22%" : "15%"
+        }
+    ];
+
+    const newsletter_columns = [
+        {
+            name: "Email",
+            selector: row => row?.contact?.email,
+            width: width < 450 && "18rem"
+        },
+        {
+            name: "Date Added",
+            selector: row => (
+                <p className='value'>{ymdDateFormat(row?.createdAt)}</p>
+            )
+        },
+        {
+            selector: row => (
+                <span className='table--actions'>
+                    <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
+                </span>
+            ),
+            width: width < 450 ? "20%" : "15%"
+        }
+    ];
+
+    const handleShowDeleteModal = function(id) {
+        setShowDeleteModal(true);
+        setSelectedId(id);
+    }
+
+    const handleShowCustomerGroupForm = function() {
+        setShowCustomerGroupForm(!showCustomerGroupForm);
+    }
+
     useEffect(function () {
         document.title = `Quicka | ${tabShown == "customer" ? "Your Customers" : tabShown == "group" ? "Customer Group" : "Newsletter Customers"}`;
     }, [tabShown]);
@@ -119,15 +179,6 @@ function index() {
         }
         setSearch("")
     }, [tabParams]);
-
-    const handleShowDeleteModal = function(id) {
-        setShowDeleteModal(true);
-        setSelectedId(id);
-    }
-
-    const handleShowCustomerGroupForm = function() {
-        setShowCustomerGroupForm(!showCustomerGroupForm);
-    }
 
     async function deleteItem() {
         try {
@@ -148,7 +199,7 @@ function index() {
             pageName={tabShown}
             shouldSelect={true}
             items={tabShown == "customer" ? customers : tabShown == "group" ? customerGroups : newsletterCustomers}
-            columns={tabShown == "customer" ? columns : tabShown == "group" ? "" : ""}
+            columns={tabShown == "customer" ? customer_columns : tabShown == "group" ? group_columns : newsletter_columns}
             data={tabShown == "customer" ? customers : tabShown == "group" ? customerGroups : newsletterCustomers}
             addBtnStr={tabShown == "customer" ? "Add customer" : tabShown == "group" ? "Create Group" : ""}
             emptyText={tabShown == "customer" ? customer_emptyText : tabShown == "group" ? group_emptyText : newsletter_emptyText}
@@ -169,7 +220,7 @@ function index() {
 
             deleteObj={{ 
                 fn: deleteItem,
-                title: "customer",
+                title: `${cap1stLetter(tabShown == "group" ? '"customer group"' : tabShown == "newsletter" ? '"newsletter customer"' : '"customer"')}`,
                 close: setShowDeleteModal,
                 show: showDeleteModal,
                 loader: loading
