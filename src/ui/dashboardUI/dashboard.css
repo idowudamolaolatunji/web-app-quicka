@@ -849,6 +849,9 @@ span.item--user-img {
         padding-left: 1.8rem;
         padding-right: 1.8rem;
     }
+    .dashboard--sidemenu .menu--store-dropdown .menu--store {
+        border-color: transparent;
+    }
 }
 
 
@@ -859,7 +862,6 @@ span.item--user-img {
         padding: 1rem;
     }
 
-    
     .dashboard--sidemenu .menu--store .item--user-img {
         width: 3.68rem;
         height: 3.68rem;
@@ -886,5 +888,4 @@ span.item--user-img {
     .dashboard--sidemenu .menu--store .menu--action p {
         font-size: 1.28rem;
     }
-
 }
