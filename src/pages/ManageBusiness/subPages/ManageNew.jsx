@@ -14,7 +14,7 @@ import { goalOptions } from '../../../utils/data';
 import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
 import isOnline from 'is-online';
-import LogoUploadInput from '../../../components/form/LogoUploadInput';
+import logo_demo from '../../../assets/images/dummy_items/demo_quicka_logo.png'
 import PhoneInput from 'react-phone-input-2';
 
 
@@ -23,7 +23,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 export default function ManageNew() {
     const navigate = useNavigate();
     const { user } = useAuthContext();
-    const { handleChange, handleStore } = useAuthContext();
+    const { handleUser, handleStore, formdataHeader } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
 
     const [loading, setLoading] = useState(false);
@@ -155,6 +155,10 @@ export default function ManageNew() {
 
     useEffect(function () {
         document.title = "Quicka | New Business Onboard";
+        if(!user) navigate(-1);
+            
+        // GET THE STORE CATEGORIES
+        handleFetchStoreCategories()
     }, []);
 
 
@@ -173,10 +177,6 @@ export default function ManageNew() {
         }
     }, [onboardingData.isRegistered])
 
-    // GET THE STORE CATEGORIES
-    useEffect(function () {
-        handleFetchStoreCategories()
-    }, []);
 
     // SANITIZE THE NAME AS THE LINK, REPLACING SPACES WITH -
     useEffect(function () {
@@ -275,16 +275,16 @@ export default function ManageNew() {
             formData.append("regType", onboardingData.regType)
             formData.append("category", JSON.stringify(selectedCategory[0]))
             formData.append("goalsChoosen", JSON.stringify(goalsChoosen))
-            formData.append("image", logo.file);
             formData.append("phone", phoneData.phone)
             formData.append("phoneNumber", phoneData.phoneNumber)
             formData.append("dialCode", phoneData.dialCode)
             formData.append("countryCode", phoneData.countryCode)
             formData.append("country", phoneData.country)
+            if(logo.file) formData.append("image", logo.file);
 
             // MAKE REQUEST
-            const res = await fetch(`${BASE_API_URL}/auth/onboarding-store/${userId}`,
-                { method: 'PATCH', body: formData }
+            const res = await fetch(`${BASE_API_URL}/stores/manage-new`,
+                { method: 'POST', body: formData, headers: formdataHeader }
             );
 
             const data = await res.json();
@@ -297,7 +297,7 @@ export default function ManageNew() {
             setResponse({ status: data?.status, message: data?.message });
 
             setTimeout(function () {
-                handleChange(data?.data?.user, data?.token);
+                handleUser(data?.data?.user);
                 handleStore(data?.data?.store);
 
                 navigate('/congratulations?next=dashboard');
@@ -346,12 +346,35 @@ export default function ManageNew() {
                             <React.Fragment>
                                 <form className="form--item">
                                     <label className="form--label" htmlFor='logo'>Business Logo (Optional)</label>
-                                    <LogoUploadInput
-                                        logoPreview={logo.preview}
-                                        hasFile={logo.file && true}
-                                        handleLogoChange={handleImageChange}
-                                        handleLogoRemove={handleImageRemove}
-                                    />
+
+                                    <div className="form--element">
+                                        <span><img src={logo.preview || logo_demo} alt="brand logo" /></span>
+                                        <div className='form--item'>
+                                            <input type='file' id="logo" name="logo" onChange={handleImageChange} accept="image/*" />
+                                
+                                            <div className="flex" style={{ flexDirection: "row" }}>
+                                                <label htmlFor="logo" className='form--upload-btn'>{logo.preview ? "Change" : "Upload Logo"}</label>
+                                
+                                                {logo.file && (
+                                                    <button 
+                                                        onClick={handleImageRemove} 
+                                                        className='form--upload-btn'
+                                                        style={{
+                                                            padding: ".45rem .68rem",
+                                                            fontSize: "2rem",
+                                                            color: "red",
+                                                            backgroundColor: "#eee"
+                                                        }}
+                                                    >
+                                                        <AiOutlineDelete />
+                                                    </button>
+                                                )}
+                                            </div>
+                                            <p style={{ fontSize: '1.1rem', lineHeight: '1.4' }}>
+                                                Recommended size <i className='value'> 256x256</i> <br />PNG, SVG or JPG up to 2MB.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </form>
 
                                 <div className="form--item">

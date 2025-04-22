@@ -8,31 +8,41 @@ import { useWindowSize } from 'react-use';
 import { BiChevronRight } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/spinner/mainSpinner';
+import SwitchLoader from '../../components/spinner/switching';
 import { RiApps2AddLine } from 'react-icons/ri';
-import IntegrationModal from '../../components/modal/IntegrationModal';
 
+
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export default function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { user, store } = useAuthContext();
+    const { user, store, headers, handleStore } = useAuthContext();
+    ///////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
-    const [confirmModal, setConfirmModal] = useState(false);
+    const [switchingLoader, setSwitchingLoader] = useState(false);
+    const [subscribeModal, setSubscribeModal] = useState(false);
 
-    const handleSwitchStore = function(currStore) {
-        setLoading(true);
-        if(currStore?._id == store?._id) {
+    const handleSwitchStore = async function(slug) {
+        if(slug == store?.slug) {
             setTimeout(function() {
-                setLoading(false)
                 navigate("/dashboard");
-            }, 1000)
+            }, 250);
             return;
+        } else {
+            setSwitchingLoader(true);
+            const res = await fetch(`${BASE_API_URL}/stores/mine/store?slug=${slug}`, { method: "GET", headers });
+            const data = await res.json();
+            if(!data?.status || !res.ok) return
+            handleStore(data?.data?.store);
+            setSwitchingLoader(false);
+            navigate("/dashboard");
         }
     }
     
     const handleManageNew = function() {
         setLoading(true);
-        // if()
+        // check for subscription 
 
         setTimeout(function() {
             setLoading(false)
@@ -41,23 +51,20 @@ export default function index() {
     }
 
     useEffect(function() {
-        setTimeout(() => setLoading(false), 1000)
+        setTimeout(() => setLoading(false), 1000);
+        if(!user) navigate(-1);
     }, []);
 
   return (
     <React.Fragment>
         {loading && <Spinner />}
-        {/* {confirmModal && (
-            <IntegrationModal setClose={() => setConfirmModal(false)}>
-                <h4>Create another store</h4>
-            </IntegrationModal>
-        )} */}
+        {switchingLoader && <SwitchLoader />}
         
         <DashboardHead nonDashboard={true} />
         <section className="manage--business-section">
             <div className="manage--business-content">
                 <div className="content--top">
-                    <span className="flex-align-center" style={{ marginBottom: "1.4rem", justifyContent: "center", gap: "1rem" }}>
+                    <span className="flex-align-center" style={{ margin: "0 0 1.4rem -.8rem", justifyContent: "center", gap: ".8rem" }}>
                         <BackButton /><h4>Welcome back, {user?.firstname} {width > 450 && "👋🏿"}</h4>
                     </span>
                     <p className='auth--right-text' style={{ margin: 0 }}>Let help you manage your businesses. Please select the business you want to continue with, Or click the button below to add a new or existing business.</p>
@@ -65,7 +72,7 @@ export default function index() {
 
                 <div className="content--stores">
                     {user?.stores?.map(mystore => (
-                        <div className="menu--store" onClick={() => handleSwitchStore(mystore)}>
+                        <div className="menu--store" onClick={() => handleSwitchStore(mystore?.slug)}>
                             <IntialsImage type="store" store={mystore} />
 
                             <span className="menu--store-detail">

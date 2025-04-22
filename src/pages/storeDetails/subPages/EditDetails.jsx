@@ -21,8 +21,8 @@ import { validateStoreDeatilsForm } from '../../../utils/validationHelper';
 function EditDetails() {
     const navigate = useNavigate()
     const { width } = useWindowSize()
-    const { store, formdataHeader, shouldKick, handleStore } = useAuthContext();
     const { location, getStates, getCities, setLocation } = useDataContext();
+    const { store, formdataHeader, shouldKick, handleStore, handleUser } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
 
     const { paymentCurrencies, paymentMainCurrency, contact } = store;
@@ -262,6 +262,7 @@ function EditDetails() {
             // SET THE ACCESS STORAGE FOR THE CONGRATS PAGE
             setResponse({ status: data?.status, message: data?.message });
             handleStore(data?.data?.store);
+            handleUser(data?.data?.user);
 
             setTimeout(function () {
                 navigate(-1)

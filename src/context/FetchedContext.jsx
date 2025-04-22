@@ -130,7 +130,7 @@ export const FetchedProvider = ({ children }) => {
     // FETCH PROTECTED STORE AND OWNER DATA
     async function handleFetchStore() {
         setStoreLoader(true);
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/mine/store?slug=${store?.slug}`, { method: "GET", headers });
+        const res = await fetch(`${BASE_API_URL}/stores/mine/store?slug=${store?.slug}`, { method: "GET", headers });
         const data = await res.json();
         setStoreLoader(false)
         if(!data?.status || !res.ok) return
@@ -140,7 +140,7 @@ export const FetchedProvider = ({ children }) => {
     // FETCH UNPROTECTED STORE ITEM BY ID
     async function handleFetchOneItem(title, id) {
         const productIdentifier = title == "product" ? "identifier/" : "";
-        const url = `${import.meta.env.VITE_API_URL}/${title}s/${productIdentifier}${id}`;
+        const url = `${BASE_API_URL}/${title}s/${productIdentifier}${id}`;
         const res = await fetch(url, {
             method: "GET",
             headers
