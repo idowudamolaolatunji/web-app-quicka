@@ -49,6 +49,8 @@ export default function DashboardMenu() {
     }
 
     const handleSwitchStore = async function(slug) {
+        handleToggleStoreDropdown();
+
         if(slug == store?.slug) {
             setTimeout(function() {
                 navigate("/dashboard");
@@ -70,7 +72,6 @@ export default function DashboardMenu() {
         }
         window.scrollTo(0, 0);
         handleShowSidemenu();
-        handleToggleStoreDropdown();
     }
 
     return (
@@ -234,11 +235,11 @@ export default function DashboardMenu() {
 
                                                 <span className="menu--store-detail">
                                                     <p className='text'>{truncateString(myStore?.name, 22)}</p>
-                                                    <TooltipUI title="Visit Your Store" placement="bottom">
+                                                    {myStore?._id == store?._id && (
                                                         <a href={`https://${myStore?.storeUrl}`} target='_blank' className='link--btn'>
                                                             {truncateString(myStore?.storeUrl, 24)}
                                                         </a>
-                                                    </TooltipUI>
+                                                    )}
                                                 </span>
 
                                                 <div className="menu--store-select">
