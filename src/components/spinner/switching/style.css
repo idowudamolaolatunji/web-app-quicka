@@ -92,3 +92,13 @@
     font-size: 1.5rem;
     color: var(--color-brand-700);
 }
+
+
+@media screen and (max-width: 400px) {
+	.spinner_switch {
+		top: -6%;
+	}
+	.spinner_text {
+		margin-top: -3rem;
+	}
+}
