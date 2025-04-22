@@ -258,6 +258,10 @@
 .preview--body-value {
 	color: #333;
 }
+.preview--figure .preview--body-item,
+.preview--figure .preview--body-value {
+    line-height: 1.4;
+}
 
 
 .details .form--element span {

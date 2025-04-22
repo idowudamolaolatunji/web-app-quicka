@@ -15,7 +15,7 @@ export default FetchedContext;
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
 export const FetchedProvider = ({ children }) => {
-    const { token, user, store, shouldKick, headers, handleStore } = useAuthContext();
+    const { token, user, store, shouldKick, headers, handleStore, shouldLoad } = useAuthContext();
 
     // DOCUMENT STATES
     const [collections, setCollections] = useState([]);
@@ -459,7 +459,7 @@ export const FetchedProvider = ({ children }) => {
         setCoupons([]);
         setspecial_sales([]);
 
-        if(token && user) {
+        if(token && user && shouldLoad) {
             // handleFetchStore();
             handleFetchMyStoreOrders();
             handleFetchMyStoreProducts();
@@ -474,7 +474,7 @@ export const FetchedProvider = ({ children }) => {
             // handleFetchMyStoreCampaigns();
             // handleFetchMyStoreRunningSales();
         }
-    }, [token, user])
+    }, [token, user, shouldLoad])
 
 
     // CREATE CONTEXT DATA

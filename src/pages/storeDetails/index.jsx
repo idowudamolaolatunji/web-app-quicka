@@ -111,7 +111,7 @@ function index() {
                         <div className='preview--body-item'>Address <span className='preview--body-value'>{location?.address || "--"}</span></div>
                         <div className='preview--body-item'>Country <span className='preview--body-value'>{location?.country?.name || "--"}</span></div>
                         <div className='preview--body-item'>City & State <span className='preview--body-value'>{(location?.state?.name && location?.city?.name) ? `${location?.city?.name + ", "}${location?.state?.name}` : "--"}</span></div>
-                        <div className='preview--body-item'>Zip Code <span className='preview--body-value'>{location?.zip || "--"}</span></div>
+                        <div className='preview--body-item'>Zip Code <span className='preview--body-value'>{location?.zipCode || "--"}</span></div>
                         <div className='preview--body-item'>Payment Currency <span className='preview--body-value'>{currency?.name}({currency?.symbol})</span></div>
                     </div>
                 </div>

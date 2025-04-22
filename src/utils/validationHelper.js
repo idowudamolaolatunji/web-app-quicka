@@ -268,8 +268,9 @@ export function validateBankForm(data, _) {
 	return errors;
 }
 
-export function validateStoreDeatilsForm(data) {
+export function validateStoreDetailsForm(data) {
 	let errors;
+	console.log(data)
 
 	if (!data.name) {
 		errors.name = "Business name is required";

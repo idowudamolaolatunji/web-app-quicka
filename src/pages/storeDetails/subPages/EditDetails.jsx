@@ -15,15 +15,15 @@ import { useDataContext } from '../../../context/DataContext';
 import PhoneInput from 'react-phone-input-2';
 import isOnline from 'is-online';
 import { cap1stLetter } from '../../../utils/helper';
-import { validateStoreDeatilsForm } from '../../../utils/validationHelper';
+import { validateStoreDetailsForm } from '../../../utils/validationHelper';
 
 
 function EditDetails() {
     const navigate = useNavigate()
     const { width } = useWindowSize()
     const { location, getStates, getCities, setLocation } = useDataContext();
-    const { store, formdataHeader, shouldKick, handleStore, handleUser } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
+    const { store, formdataHeader, shouldKick, handleStore, handleUser, setShouldLoad } = useAuthContext();
 
     const { paymentCurrencies, paymentMainCurrency, contact } = store;
     const { countryCode } = store?.contact;
@@ -45,7 +45,7 @@ function EditDetails() {
         phone: contact?.phone ? contact?.phone : "",
         paymentMainCurrency: paymentMainCurrency ? paymentMainCurrency : 0,
         address: store?.location?.address ? store?.location?.address : "",
-        zip: store?.location?.zip ? store?.location?.zip : "",
+        zipCode: store?.location?.zipCode ? store?.location?.zipCode : "",
     })
 
     const [loading, setLoading] = useState({ mainLoader: false, tiny: false });
@@ -182,7 +182,7 @@ function EditDetails() {
                 const { results } = data?.data;
                 if(results?.name.length > 0 || results?.url.length > 0) newErrors.name = "Business name or store url is already taken!";
                 else newErrors.name = ""
-                setStoreDataErrors({...storeDataErrors, ...newErrors});
+                setStoreDataErrors({ ...storeDataErrors, ...newErrors});
             } catch(err) {
                 if (err?.name !== "AbortError") return err?.message
             } finally {
@@ -195,8 +195,8 @@ function EditDetails() {
 
 
     async function handleSubmit() {
-        // const newErrors = validateStoreDeatilsForm(storeData);
-        // console.log(newErrors)
+        const newErrors = validateStoreDetailsForm(storeData);
+        console.log(newErrors)
         // setStoreDataErrors(newErrors);
         // if (Object.keys(newErrors)?.length >= 1) {
         //     setResponse({ status: "error", message: "Fill required fields to proceed!" });
@@ -218,7 +218,7 @@ function EditDetails() {
         
         const location = {
             address: storeData?.address,
-            zip: storeData?.zip,
+            zipCode: storeData?.zipCode,
             ...(state[0]?.name && { state: state[0] }),
             ...(city[0]?.name && { city: city[0] }),
             country: country[0],
@@ -263,6 +263,7 @@ function EditDetails() {
             setResponse({ status: data?.status, message: data?.message });
             handleStore(data?.data?.store);
             handleUser(data?.data?.user);
+            setShouldLoad(false); // so that the entire app doesnt reload
 
             setTimeout(function () {
                 navigate(-1)
@@ -417,9 +418,9 @@ function EditDetails() {
                             </div>
 
                             <div className="form--item">
-                                <label htmlFor='zip' className="form--label">Zip Code</label>
+                                <label htmlFor='zipCode' className="form--label">Zip Code</label>
 
-                                <input type='number' id='zip' name='zipCode' placeholder='Enter zip code' className='form--input' value={storeData.zipCode} onChange={handleStoreDataChange} />
+                                <input type='number' id='zipCode' name='zipCode' placeholder='Enter zip code' className='form--input' value={storeData.zipCode} onChange={handleStoreDataChange} />
                             </div>
                         </div>
                     </div>

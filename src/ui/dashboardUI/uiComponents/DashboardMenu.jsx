@@ -32,7 +32,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 export default function DashboardMenu() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { user, store, headers, handleStore } = useAuthContext();
+    const { user, store, headers, handleStore, handleUser, setShouldLoad } = useAuthContext();
     const { isMenuCollapsed, showSidemenu, animateOut, handleShowSidemenu } = useDataContext();
     const ref = useOutsideClick(handleToggleStoreDropdown);
     
@@ -64,9 +64,10 @@ export default function DashboardMenu() {
             setSwitchingLoader(false);
             if(!data?.status || !res.ok) return
             handleStore(data?.data?.store);
+            handleUser(data?.data?.user);
+            setShouldLoad(true);
             navigate("/dashboard");
         }
-
         window.scrollTo(0, 0);
         handleShowSidemenu();
         handleToggleStoreDropdown();
@@ -142,8 +143,8 @@ export default function DashboardMenu() {
                                 {storeDropdown && (
                                     <div className='menu--store-dropdown' ref={ref} style={{ padding: ".4rem .2rem"}}>
                                         {user?.stores?.map(myStore => (
-                                            <TooltipUI title={store?.name} placement="right" key={myStore?._id} onClick={() => handleSwitchStore(myStore?.slug)}>
-                                                <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} style={{ padding: ".4rem .2rem"}}>
+                                            <TooltipUI title={store?.name} placement="right" key={myStore?._id}>
+                                                <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} style={{ padding: ".4rem .2rem"}} onClick={() => handleSwitchStore(myStore?.slug)}>
                                                     <IntialsImage type="store" store={myStore} />
                                                 </div>
                                             </TooltipUI>
