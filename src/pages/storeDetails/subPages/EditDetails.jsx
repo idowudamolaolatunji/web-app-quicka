@@ -121,7 +121,7 @@ function EditDetails() {
     }
 
     useEffect(function() {
-        document.title = `Quicka | Edit ${cap1stLetter(store?.name)}'s Store Details`
+        document.title = `Quicka | Edit ${cap1stLetter(store?.name)}'s Details`
         
         setLoading({ ...loading, mainLoader: true });
         handleFetchStoreCategories();

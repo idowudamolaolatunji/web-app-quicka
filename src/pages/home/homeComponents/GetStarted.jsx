@@ -101,7 +101,7 @@ function GetStarted() {
         updateState("hasCustomizedStore", hasCustomizedStore);
 
         setTimeout(() => setLoading(false), 200);
-    }, [showModal]);
+    }, [showModal, store]);
 
 
     async function handleFinalizeOnboarding() {

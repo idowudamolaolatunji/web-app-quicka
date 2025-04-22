@@ -201,7 +201,6 @@ export const FetchedProvider = ({ children }) => {
             const res = await fetch(`${BASE_API_URL}/products/mine/products?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
-
             const data = await res.json();
             if(data.status == "fail") throw new Error();
             if (data?.data) setProducts(data?.data?.products);
