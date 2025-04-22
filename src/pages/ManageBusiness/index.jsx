@@ -9,6 +9,7 @@ import { BiChevronRight } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/spinner/mainSpinner';
 import { RiApps2AddLine } from 'react-icons/ri';
+import IntegrationModal from '../../components/modal/IntegrationModal';
 
 
 export default function index() {
@@ -16,6 +17,7 @@ export default function index() {
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
     const [loading, setLoading] = useState(true);
+    const [confirmModal, setConfirmModal] = useState(false);
 
     const handleSwitchStore = function(currStore) {
         setLoading(true);
@@ -30,35 +32,35 @@ export default function index() {
     
     const handleManageNew = function() {
         setLoading(true);
-        try {
+        // if()
 
-            navigate("/manage-business/new");
-        } catch(err) {
-
-        } finally {
+        setTimeout(function() {
             setLoading(false)
-        }
+            navigate("/manage-business/new");
+        }, 1000)
     }
-
 
     useEffect(function() {
         setTimeout(() => setLoading(false), 1000)
-    }, [])
+    }, []);
 
   return (
     <React.Fragment>
         {loading && <Spinner />}
+        {/* {confirmModal && (
+            <IntegrationModal setClose={() => setConfirmModal(false)}>
+                <h4>Create another store</h4>
+            </IntegrationModal>
+        )} */}
         
         <DashboardHead nonDashboard={true} />
         <section className="manage--business-section">
-            <span className="flex-align-center">
-                <BackButton /> {width > 450 && <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>Back</p>}
-            </span>
-
             <div className="manage--business-content">
                 <div className="content--top">
-                    <h4>Hi, and Welcome back {user?.firstname} 👋🏿</h4>
-                    <p>Let help you manage your businesses. Please select the business you want to continue with, Or click the button below to add a new or existing business</p>
+                    <span className="flex-align-center" style={{ marginBottom: "1.4rem", justifyContent: "center", gap: "1rem" }}>
+                        <BackButton /><h4>Welcome back, {user?.firstname} {width > 450 && "👋🏿"}</h4>
+                    </span>
+                    <p className='auth--right-text' style={{ margin: 0 }}>Let help you manage your businesses. Please select the business you want to continue with, Or click the button below to add a new or existing business.</p>
                 </div>
 
                 <div className="content--stores">
@@ -68,11 +70,11 @@ export default function index() {
 
                             <span className="menu--store-detail">
                                 <p className='text'>
-                                    {truncateString("jdjwhdhsj jhehahshsh", width < 450 ? 14 : 30)}
+                                    {truncateString(mystore?.name, width < 450 ? 14 : 30)}
                                     <span className='sub-text'>{mystore?.location?.country?.name} ({mystore?.location?.country?.iso2})</span>
                                 </p>
                                 <a href={`https://${mystore?.storeUrl}`} target='_blank' className='link--btn'>
-                                    {truncateString(mystore?.storeUrl, width < 450 ? 20 : 35)}
+                                    {truncateString("https://"+mystore?.storeUrl, width < 450 ? 28 : 35)}
                                 </a>
                             </span>
 
