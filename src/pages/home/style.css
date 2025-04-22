@@ -163,6 +163,19 @@ a.upgrade--link:hover {
     color: #fff;
     opacity: 0.9;
 }
+.home--top .menu--store {
+    gap: 1rem;
+    background-color: var(--color-brand-30);
+}
+.home--top .menu--store .item--user-img {
+    width: 3.6rem;
+    height: 3.6rem;
+}    
+
+
+
+
+
 /* ============================================= */
 
 
@@ -1146,6 +1159,9 @@ a.upgrade--link:hover {
 @media screen and (max-width: 25em) {
     .home--section .card {
         padding: 1.8rem 1.2rem;
+    }
+    .top--heading {
+        width: 100%;
     }
     
     .get-started-tabs {

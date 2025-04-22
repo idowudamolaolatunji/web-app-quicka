@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { getExpression, getGreeting, todayDate } from '../../../utils/helper';
-import { useWindowSize } from 'react-use';
+import { useNavigate } from 'react-router-dom';
+import { useWindowSize } from "react-use"
+import { cap1stLetter, getExpression, getGreeting, todayDate } from '../../../utils/helper';
 import { MdOutlineClose, MdOutlineWorkspacePremium } from 'react-icons/md';
 import { useAuthContext } from '../../../context/AuthContext';
-import { RiDiscountPercentFill } from 'react-icons/ri';
 import { LuCheckCircle } from 'react-icons/lu';
-import moment from 'moment';
 import { useDataContext } from '../../../context/DataContext';
+import IntialsImage from '../../../components/layout/IntialsImage';
+import { truncateString } from '../../../utils/helper';
 
 
-/* 
-    Remember a few things here, free trails will not be there every time as the user might have accessed it the year before and the subscription expires.
-*/
-
-function HomeTop() {
+export default function HomeTop() {
     const navigate = useNavigate();
+    const { width } = useWindowSize();
     const { user, store } = useAuthContext();
     const { free_trails  } = useDataContext();
     const { subscription, storeOnboardCompleted } = store;
@@ -57,6 +54,21 @@ function HomeTop() {
                         <p className='heading--name'>Welcome Back, {user.firstname}! 👋🏿</p>
                     )}
                     <p className='heading--date'>Today is {todayDate()}.</p>
+
+                    {(width <= 900) && (
+                        <div className="menu--store" style={{ margin: 0, marginTop: ".48rem" }}>
+                            <IntialsImage type="store" store={store} />
+
+                            <span className="menu--store-detail">
+                                <p className='text'>{truncateString(store?.name, 22)}</p>
+                                {storeOnboardCompleted ? (
+                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>{truncateString(store?.storeUrl, 25)}</a>
+                                ) : (
+                                    <p className='link--btn' style={{ }}>{truncateString(store?.storeUrl, 25)}</p>
+                                )}
+                            </span>
+                        </div>
+                    )}
                 </div>
 
                 {(subscription?.type == "free" && !showSub) && (
@@ -68,15 +80,9 @@ function HomeTop() {
                 {(subscription?.type !== "free" && !showSub) && (
                     <p className='upgrade--link premium' style={{ backgroundPosition: "right", backgroundSize: "80rem", fontWeight: "600", fontSize: "1.3rem" }}>
                         <MdOutlineWorkspacePremium style={{ fontSize: "2rem" }} />Premium Account.
-                        {/* <MdOutlineWorkspacePremium style={{ fontSize: "2rem", color: "#FFD700" }} />Premium Account. */}
                     </p>
                 )}
             </div>
         </React.Fragment>
     );
 }
-
-export default HomeTop;
-
-
-

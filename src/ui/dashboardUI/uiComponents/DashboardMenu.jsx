@@ -93,11 +93,15 @@ export default function DashboardMenu() {
 
                                 <span className="menu--store-detail">
                                     <p className='text'>{truncateString(store?.name, 22)}</p>
-                                    <TooltipUI title="Visit Your Store" placement="bottom">
-                                        <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                            {truncateString(store?.storeUrl, 18)}
-                                        </a>
-                                    </TooltipUI>
+                                    {store?.storeOnboardCompleted ? (
+                                        <TooltipUI title="Visit Your Store" placement="bottom">
+                                            <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                                                {truncateString(store?.storeUrl, 18)}
+                                            </a>
+                                        </TooltipUI>
+                                    ) : (
+                                        <p className='link--btn'>{truncateString(store?.storeUrl, 20)}</p>
+                                    )}
                                 </span>
 
                                 <button className="menu--action" onClick={handleToggleStoreDropdown}>
@@ -217,9 +221,13 @@ export default function DashboardMenu() {
 
                                 <span className="menu--store-detail">
                                     <p className='text'>{truncateString(store?.name, width < 450 ? 25 : 30)}</p>
-                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
-                                        {truncateString(store?.storeUrl, width < 450 ? 28 : 35)}
-                                    </a>
+                                    {store?.storeOnboardCompleted ? (
+                                        <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>
+                                            {truncateString(store?.storeUrl, width < 450 ? 28 : 35)}
+                                        </a>
+                                    ) : (
+                                        <p className='link--btn'>{truncateString(store?.storeUrl, 20)}</p>
+                                    )}
                                 </span>
 
                                 <button className="menu--action" onClick={handleToggleStoreDropdown}>

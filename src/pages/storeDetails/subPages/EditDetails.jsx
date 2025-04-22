@@ -196,13 +196,12 @@ function EditDetails() {
 
     async function handleSubmit() {
         const newErrors = validateStoreDetailsForm(storeData);
-        console.log(newErrors)
-        // setStoreDataErrors(newErrors);
-        // if (Object.keys(newErrors)?.length >= 1) {
-        //     setResponse({ status: "error", message: "Fill required fields to proceed!" });
-        //     setTimeout(() => setResponse({ status: "", message: "" }), 5000);
-        //     return;
-        // };
+        setStoreDataErrors(newErrors);
+        if (Object.keys(newErrors)?.length >= 1) {
+            setResponse({ status: "error", message: "Fill required fields to proceed!" });
+            setTimeout(() => setResponse({ status: "", message: "" }), 5000);
+            return;
+        };
 
         // RESET THE RESPONSE AND LOADING STATE HERE
         setLoading({ ...loading, mainLoader: true });

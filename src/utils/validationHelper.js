@@ -269,8 +269,7 @@ export function validateBankForm(data, _) {
 }
 
 export function validateStoreDetailsForm(data) {
-	let errors;
-	console.log(data)
+	let errors = {};
 
 	if (!data.name) {
 		errors.name = "Business name is required";
@@ -281,6 +280,7 @@ export function validateStoreDetailsForm(data) {
 	) {
 		errors.name = "Quicka is a reserved name and connot be used!";
 	}
+
 	
 	if (data?.category?.length < 1 && !data?.category?.name) {
 		errors.category = "Choosing a store category is required";
