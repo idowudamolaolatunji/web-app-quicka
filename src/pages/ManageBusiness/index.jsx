@@ -73,8 +73,11 @@ export default function index() {
         <section className="manage--business-section">
             <div className="manage--business-content">
                 <div className="content--top">
-                    <h4>Welcome back, {user?.firstname} {width > 450 && "👋🏿"}</h4>
-                    <p className='auth--right-text' style={{ margin: 0 }}>Let help you manage your businesses. Please select the business you want to continue with, Or click the button below to add a new or existing business.</p>
+                    {(width > 900) && <BackButton />}
+                    <h4>Welcome back, {user?.firstname} 👋🏿</h4>
+                    <p className='auth--right-text' style={{ margin: 0, textAlign: "center" }}>
+                        Let help you manage your businesses. Please select the business you want to continue with, Or click the button below to add a new or existing business.
+                    </p>
                 </div>
 
                 <div className="content--stores">

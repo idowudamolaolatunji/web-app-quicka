@@ -1260,7 +1260,7 @@
 
 .manage--business-section {
 	max-width: 70rem;
-	margin: 17rem auto 8rem;
+	margin: 15rem auto 8rem;
 	padding: 1.8rem;
 }
 
@@ -1272,13 +1272,14 @@
 }
 
 .manage--business-content .content--top {
-	text-align: center;
+	/* text-align: center; */
 }
 .manage--business-content .content--top h4 {
 	font-size: 2rem;
 	font-weight: 600;
 	margin-bottom: .8rem;
 	text-transform: capitalize;
+	text-align: center;
 }
 .manage--business-content .content--stores {
 	width: 100%;
@@ -1378,9 +1379,9 @@
 }
 
 @media screen and (max-width: 900px) {
-	/* .page__section--insights.insight--grid {
-		width: 90%;
-	} */
+	.manage--business-section {
+		margin-top: 20rem;
+	}
 }
 
 @media screen and (max-width: 800px) {
@@ -1679,9 +1680,7 @@
 		font-size: 1.8rem;
 	}
 
-	.manage--business-section {
-		margin: 17rem auto 8rem;
-	}
+
 	.manage--business-content .content--stores .menu--store {
 		padding: 1.2rem .6rem;
 	}
