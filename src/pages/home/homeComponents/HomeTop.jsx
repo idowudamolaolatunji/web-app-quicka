@@ -8,6 +8,9 @@ import { LuCheckCircle } from 'react-icons/lu';
 import { useDataContext } from '../../../context/DataContext';
 import IntialsImage from '../../../components/layout/IntialsImage';
 import { truncateString } from '../../../utils/helper';
+import { RiProgress1Line, RiVerifiedBadgeLine } from 'react-icons/ri';
+import { VscVmActive } from "react-icons/vsc";
+import { TiInputChecked } from "react-icons/ti";
 
 
 export default function HomeTop() {
@@ -60,11 +63,16 @@ export default function HomeTop() {
                             <IntialsImage type="store" store={store} />
 
                             <span className="menu--store-detail">
-                                <p className='text'>{truncateString(store?.name, 22)}</p>
+                                <p className='text'>{truncateString(store?.name, 22)} {storeOnboardCompleted && (<span className='status active'>Active <RiVerifiedBadgeLine /></span>)}</p>
                                 {storeOnboardCompleted ? (
-                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'>{truncateString(store?.storeUrl, 25)}</a>
+                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn' style={{ marginTop: ".1rem" }}>
+                                        {truncateString(store?.storeUrl, 25)}
+                                    </a>
                                 ) : (
-                                    <p className='link--btn' style={{ }}>{truncateString(store?.storeUrl, 25)}</p>
+                                    <span className='menu--onboard'>
+                                        <p className='text'>Onboarding</p>
+                                        <p className='status progress'>In progress <RiProgress1Line /></p>
+                                    </span>
                                 )}
                             </span>
                         </div>

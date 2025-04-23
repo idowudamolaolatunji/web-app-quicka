@@ -513,7 +513,19 @@ span.item--user-img {
 .menu--store-dropdown .menu--store-manage-btn svg {
     font-size: 1.4rem;
 }
-
+.menu--store .status {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+.menu--store .status.active {
+    color: #008001;
+}
+.menu--store .status.progress {
+	color: #655dbb;
+}
 
 
 /* ========================================== */

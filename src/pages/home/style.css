@@ -168,10 +168,39 @@ a.upgrade--link:hover {
     background-color: var(--color-brand-30);
 }
 .home--top .menu--store .item--user-img {
-    width: 3.6rem;
-    height: 3.6rem;
-}    
-
+    width: 3.8rem;
+    height: 3.8rem;
+}
+.home--top .menu--store-detail .text {
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+/* ========================= */
+.home--top .menu--onboard {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+.home--top .menu--onboard .text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #888;
+}
+.home--top .menu--store .status {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.home--top .menu--store .status.active {
+    color: #008001;
+}
+.home--top .menu--store .status.progress {
+	color: #655dbb;
+}
 
 
 

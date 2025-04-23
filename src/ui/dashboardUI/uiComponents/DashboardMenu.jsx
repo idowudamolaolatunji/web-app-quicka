@@ -4,7 +4,7 @@ import MenuLink from './MenuLink';
 import Line from '../../../components/elements/Line';
 import Overlay from '../../../components/layout/Overlay';
 import MenuButton from './MenuButton';
-import { openWidget, truncateString } from '../../../utils/helper';
+import { cap1stLetter, openWidget, truncateString } from '../../../utils/helper';
 
 import { AiOutlineBank } from 'react-icons/ai';
 import { LuLayoutPanelLeft, LuTags } from 'react-icons/lu';
@@ -12,7 +12,7 @@ import { FiUsers } from 'react-icons/fi';
 import { MdBusiness, MdChatBubble, MdOutlineAddBusiness, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
 import { BiCustomize, BiMailSend } from 'react-icons/bi';
 import { useDataContext } from '../../../context/DataContext';
-import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiStackLine } from 'react-icons/ri';
+import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiProgress1Line, RiStackLine, RiVerifiedBadgeLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { TbPresentationAnalytics, TbTruckDelivery, TbWorldWww } from 'react-icons/tb';
 import { PiCoinsBold, PiNetwork } from 'react-icons/pi';
@@ -100,7 +100,7 @@ export default function DashboardMenu() {
                                             </a>
                                         </TooltipUI>
                                     ) : (
-                                        <p className='link--btn'>{truncateString(store?.storeUrl, 20)}</p>
+                                        <p className='status progress'>In progress <RiProgress1Line /></p>
                                     )}
                                 </span>
 
@@ -118,8 +118,8 @@ export default function DashboardMenu() {
     
                                                 <span className="menu--store-detail">
                                                     <p className='text'>{truncateString(myStore?.name, 18)}</p>
-                                                    {(myStore?._id == store?._id) && (
-                                                        <p className='link--btn'>{truncateString(myStore?.storeUrl, 20)}</p>
+                                                    {(myStore?._id == store?._id && store?.storeOnboardCompleted) && (
+                                                        <p className='status active'>Active <RiVerifiedBadgeLine /></p>
                                                     )}
                                                 </span>
     
@@ -138,8 +138,12 @@ export default function DashboardMenu() {
                         ) : (
                             <div className="menu--store" style={{ flexDirection: "column", alignItems: "center", gap: ".6rem" }} onMouseLeave={() => setStoreDropdown(false)}>
                                 <IntialsImage type="store" store={store} />
-                                <TooltipUI title="Visit Your Store" placement="right">
-                                    <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'><SlGlobe /></a>
+                                <TooltipUI title={store?.storeOnboardCompleted ? "Visit Your Store" : "Onboarding In Progress"} placement="right">
+                                    {store?.storeOnboardCompleted ? (
+                                        <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'><SlGlobe /></a>
+                                    ) : (
+                                        <p className='status progress'><RiProgress1Line style={{ fontSize: "2rem", cursor: "progress" }} /></p>
+                                    )}
                                 </TooltipUI>
                                 <button className="menu--action" style={{ padding: ".3rem .6rem"}} onClick={handleToggleStoreDropdown}>
                                     <p className='value'>{user?.stores?.length || 1}</p>
@@ -149,7 +153,7 @@ export default function DashboardMenu() {
                                 {storeDropdown && (
                                     <div className='menu--store-dropdown' ref={ref} style={{ padding: ".4rem .2rem"}}>
                                         {user?.stores?.map(myStore => (
-                                            <TooltipUI title={store?.name} placement="right" key={myStore?._id}>
+                                            <TooltipUI title={cap1stLetter(myStore?.name)} placement="right" key={myStore?._id}>
                                                 <div className={`menu--store ${myStore?._id == store?._id ? "is-current" : ""}`} style={{ padding: ".4rem .2rem"}} onClick={() => handleSwitchStore(myStore?.slug)}>
                                                     <IntialsImage type="store" store={myStore} />
                                                 </div>
@@ -226,7 +230,7 @@ export default function DashboardMenu() {
                                             {truncateString(store?.storeUrl, width < 450 ? 28 : 35)}
                                         </a>
                                     ) : (
-                                        <p className='link--btn'>{truncateString(store?.storeUrl, 20)}</p>
+                                        <p className='status progress'>In progress <RiProgress1Line /></p>
                                     )}
                                 </span>
 
@@ -244,8 +248,8 @@ export default function DashboardMenu() {
 
                                                 <span className="menu--store-detail">
                                                     <p className='text'>{truncateString(myStore?.name, 22)}</p>
-                                                    {myStore?._id == store?._id && (
-                                                        <p className='link--btn'>{truncateString(myStore?.storeUrl, 24)}</p>
+                                                    {(myStore?._id == store?._id && store?.storeOnboardCompleted) && (
+                                                        <p className='status active'>Active <RiVerifiedBadgeLine /></p>
                                                     )}
                                                 </span>
 

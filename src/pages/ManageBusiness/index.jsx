@@ -9,7 +9,7 @@ import { BiChevronRight } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/spinner/mainSpinner';
 import SwitchLoader from '../../components/spinner/switching';
-import { RiApps2AddLine } from 'react-icons/ri';
+import { RiApps2AddLine, RiProgress1Line, RiVerifiedBadgeLine } from 'react-icons/ri';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -17,7 +17,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 export default function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { user, store, headers, handleStore } = useAuthContext();
+    const { user, store, headers, handleStore, handleUser, setShouldLoad } = useAuthContext();
     ///////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
     const [switchingLoader, setSwitchingLoader] = useState(false);
@@ -28,17 +28,25 @@ export default function index() {
             setTimeout(function() {
                 navigate("/dashboard");
             }, 250);
-            return;
-        } else {
+        }
+
+        if(slug != store?.slug) {
             setSwitchingLoader(true);
-            const res = await fetch(`${BASE_API_URL}/stores/mine/store?slug=${slug}`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/stores/mine/outlet?slug=${slug}`, {
+                method: "GET", headers
+            });
             const data = await res.json();
-            if(!data?.status || !res.ok) return
-            handleStore(data?.data?.store);
             setSwitchingLoader(false);
+            if(!data?.status || !res.ok) return
+            setShouldLoad(true);
+            handleStore(data?.data?.store);
+            handleUser(data?.data?.auth);
             navigate("/dashboard");
         }
+
+        window.scrollTo(0, 0);
     }
+
     
     const handleManageNew = function() {
         setLoading(true);
@@ -77,14 +85,23 @@ export default function index() {
                             <span className="menu--store-detail">
                                 <p className='text'>
                                     {truncateString(mystore?.name, width < 450 ? 14 : 30)}
-                                    <span className='sub-text'>{mystore?.location?.country?.name} ({mystore?.location?.country?.iso2})</span>
+                                    <span className='sub-text'>
+                                        {mystore?.location?.country?.name} ({mystore?.location?.country?.iso2})
+                                    </span>
+                                    {(mystore?.storeOnboardCompleted && width > 400) && (
+                                        <p className='status active'>Active <RiVerifiedBadgeLine /></p>
+                                    )}
                                 </p>
-                                <a href={`https://${mystore?.storeUrl}`} target='_blank' className='link--btn'>
-                                    {truncateString("https://"+mystore?.storeUrl, width < 450 ? 28 : 35)}
-                                </a>
+                                {mystore?.storeOnboardCompleted ? (
+                                    <a href={`https://${mystore?.storeUrl}`} target='_blank' className='link--btn'>
+                                        {truncateString("https://"+mystore?.storeUrl, width < 450 ? 28 : 35)}
+                                    </a>
+                                ) : (
+                                    <p className='status progress'>Onboarding In Progress <RiProgress1Line /></p>
+                                )}
                             </span>
 
-                            <span style={{ marginLeft: "auto" }}>
+                            <span className='action' style={{ marginLeft: "auto" }}>
                                 <BiChevronRight />
                             </span>
                         </div>
