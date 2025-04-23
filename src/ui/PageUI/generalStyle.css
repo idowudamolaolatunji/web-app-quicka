@@ -1260,13 +1260,12 @@
 
 .manage--business-section {
 	max-width: 70rem;
-	margin: 12rem auto 8rem;
+	margin: 17rem auto 8rem;
 	padding: 1.8rem;
 }
 
 
 .manage--business-content {
-	margin-top: 4.8rem;
 	display: flex;
 	flex-direction: column;
 	gap: 3.6rem;
@@ -1679,8 +1678,8 @@
 		font-size: 1.8rem;
 	}
 
-	.manage--business-content {
-		margin-top: 2.4rem;
+	.manage--business-section {
+		margin: 16rem auto 8rem;
 	}
 	.manage--business-content .content--stores .menu--store {
 		padding: 1.2rem .6rem;
