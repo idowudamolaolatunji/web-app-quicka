@@ -1270,10 +1270,6 @@
 	flex-direction: column;
 	gap: 3.6rem;
 }
-
-.manage--business-content .content--top {
-	/* text-align: center; */
-}
 .manage--business-content .content--top h4 {
 	font-size: 2rem;
 	font-weight: 600;
@@ -1380,7 +1376,7 @@
 
 @media screen and (max-width: 900px) {
 	.manage--business-section {
-		margin-top: 20rem;
+		margin-top: 18rem;
 	}
 }
 

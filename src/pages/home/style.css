@@ -166,6 +166,7 @@ a.upgrade--link:hover {
 .home--top .menu--store {
     gap: 1rem;
     background-color: var(--color-brand-30);
+    overflow: hidden;
 }
 .home--top .menu--store .item--user-img {
     width: 3.8rem;
@@ -201,13 +202,26 @@ a.upgrade--link:hover {
 .home--top .menu--store .status.progress {
 	color: #655dbb;
 }
+/* ========================= */
+.home--top .menu--store .upgrade--link.premium {
+    position: absolute;
+    padding: .2rem;
+    top: 0%;
+    right: 0%;
+    background-position: center;
+    background-size: 80rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border-radius: .2rem;
+    color: #f1bd3a;
+}
 
 
 
 
 /* ============================================= */
-
-
+/* GET STARTED SECTION */
+/* ============================================= */
 .get-started {
     width: 100%;
 

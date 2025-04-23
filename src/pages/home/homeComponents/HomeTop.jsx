@@ -24,7 +24,7 @@ export default function HomeTop() {
     
     return (
         <React.Fragment>
-            {(subscription?.type == "free" && showSub) && (
+            {(subscription?.type != "free" && showSub) && (
                 <div className='home--sub'>
                     <React.Fragment>
                         <div className="sub--mini">
@@ -59,7 +59,7 @@ export default function HomeTop() {
                     <p className='heading--date'>Today is {todayDate()}.</p>
 
                     {(width <= 900) && (
-                        <div className="menu--store" style={{ margin: 0, marginTop: ".48rem" }}>
+                        <div className="menu--store" style={{ margin: 0, marginTop: ".48rem", flexWrap: "wrap" }}>
                             <IntialsImage type="store" store={store} />
 
                             <span className="menu--store-detail">
@@ -75,18 +75,24 @@ export default function HomeTop() {
                                     </span>
                                 )}
                             </span>
+
+                            {(subscription?.type == "free" && width <= 650) && (
+                                <p className='upgrade--link premium'>
+                                    <MdOutlineWorkspacePremium />Premium
+                                </p>
+                            )}
                         </div>
                     )}
                 </div>
 
-                {(subscription?.type == "free" && !showSub) && (
+                {(subscription?.type != "free" && !showSub) && (
                     <p className='upgrade--link' onClick={() => navigate('/dashboard/subscription')}>
                         <LuCheckCircle />Your account is currently on the free plan.
                     </p>
                 )}
 
-                {(subscription?.type !== "free" && !showSub) && (
-                    <p className='upgrade--link premium' style={{ backgroundPosition: "right", backgroundSize: "80rem", fontWeight: "600", fontSize: "1.3rem" }}>
+                {(subscription?.type == "free" && width > 650) && (
+                    <p className='upgrade--link premium' style={{ backgroundPosition: "right", backgroundSize: "80rem", fontWeight: "600", fontSize: "1.3rem", cursor: "auto" }}>
                         <MdOutlineWorkspacePremium style={{ fontSize: "2rem" }} />Premium Account.
                     </p>
                 )}
