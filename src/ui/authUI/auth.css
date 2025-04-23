@@ -410,7 +410,7 @@
     width: 100%;
 }
 .onboarding--actions button {
-    padding: 1rem 1.8rem;
+    padding: 1rem 1.4rem;
     background-color: transparent;
     font-size: 1.4rem;
     font-weight: 600;
@@ -812,6 +812,10 @@ button.onboard--next {
     .form--click span {
         width: 2rem;
         height: 2rem;
+    }
+
+    .onboarding--actions button {
+        padding: .8rem 1.28rem;
     }
 }
 

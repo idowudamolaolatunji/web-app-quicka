@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-import Line from "../../../components/elements/Line";
 import Spinner from '../../../components/spinner/mainSpinner'
 import SpinnerTiny from '../../../components/spinner/tiny'
 import TooltipUI from '../../../components/layout/TooltipUI';
@@ -16,6 +15,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-
 import isOnline from 'is-online';
 import logo_demo from '../../../assets/images/dummy_items/demo_quicka_logo.png'
 import PhoneInput from 'react-phone-input-2';
+import { TiArrowBack } from "react-icons/ti";
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -392,7 +392,6 @@ export default function ManageNew() {
                                         <div className="form--input-box">
                                             <input type="text" id='subdomain' className="form--input" placeholder='Store url' value={onboardingData.subdomain} name='subdomain' onChange={handleOnboardDataChange} />
 
-                                            {/* {(onboardingData.subdomain && !isCopied) ? ( */}
                                             {(onboardingData.subdomain) ? (
                                                 <TooltipUI title="Copy URL" placement="top">
                                                 <span style={{ cursor: "copy" }} className='url--box' onClick={handleCopyLink}>.quicka.store</span>
@@ -494,9 +493,13 @@ export default function ManageNew() {
                             <span className='onboarding--actions'>
                                 {onboardTabNum > 1 ? (
                                     <button className='onboard--prev' onClick={handlePrevTab}>
-                                        <AiOutlineArrowLeft /> Go Back
+                                        <AiOutlineArrowLeft /> Previous
                                     </button>
-                                ) : <p></p>}
+                                ) : (
+                                    <button className='onboard--prev' onClick={() => navigate(-1)}>
+                                        <TiArrowBack/> Go back
+                                    </button>
+                                )}
 
                                 <button className='onboard--next'
                                     onClick={handleNextTab}>{onboardTabNum === 2 ? 'Finish' : 'Next Step'}

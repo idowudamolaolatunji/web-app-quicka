@@ -1277,6 +1277,7 @@
 .manage--business-content .content--top h4 {
 	font-size: 2rem;
 	font-weight: 600;
+	margin-bottom: .8rem;
 	text-transform: capitalize;
 }
 .manage--business-content .content--stores {
@@ -1679,7 +1680,7 @@
 	}
 
 	.manage--business-section {
-		margin: 16rem auto 8rem;
+		margin: 17rem auto 8rem;
 	}
 	.manage--business-content .content--stores .menu--store {
 		padding: 1.2rem .6rem;
