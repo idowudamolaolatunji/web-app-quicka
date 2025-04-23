@@ -160,8 +160,8 @@ export default function RecordOrder() {
             setOrderData({ ...orderData, deliveryFee: null })
         }
     }, [orderProducts, selectedProducts, orderData.deliveryFee]);
-console.log(subTotal)
 
+    
     async function handleRecordOrder() {
         // FORM VALIDATIONS 
         let formData = {

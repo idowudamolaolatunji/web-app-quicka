@@ -15,7 +15,7 @@ import { useDataContext } from '../../context/DataContext';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
-function AddCustomerFormSm({ close }) {
+export default function AddCustomerFormSm({ close }) {
     const { headers, store, shouldKick } = useAuthContext();
     const { handleFetchMyStoreCustomers } = useFetchedContext()
     const { location, setLocation, getContries } = useDataContext();
@@ -196,5 +196,3 @@ function AddCustomerFormSm({ close }) {
         </>
     )
 }
-
-export default AddCustomerFormSm

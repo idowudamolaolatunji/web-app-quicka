@@ -104,7 +104,7 @@ export default function index() {
                                 )}
                             </span>
 
-                            <span className='action' style={{ marginLeft: "auto" }}>
+                            <span className='action' style={{ margin: "0 -.6rem 0 auto" }}>
                                 <BiChevronRight />
                             </span>
                         </div>

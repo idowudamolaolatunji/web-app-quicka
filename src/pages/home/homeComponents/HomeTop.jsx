@@ -24,7 +24,7 @@ export default function HomeTop() {
     
     return (
         <React.Fragment>
-            {(subscription?.type != "free" && showSub) && (
+            {(subscription?.type == "free" && showSub) && (
                 <div className='home--sub'>
                     <React.Fragment>
                         <div className="sub--mini">
@@ -76,7 +76,7 @@ export default function HomeTop() {
                                 )}
                             </span>
 
-                            {(subscription?.type == "free" && width <= 650) && (
+                            {(subscription?.type == "paid" && width <= 650 && storeOnboardCompleted) && (
                                 <p className='upgrade--link premium'>
                                     <MdOutlineWorkspacePremium />Premium
                                 </p>
@@ -85,13 +85,13 @@ export default function HomeTop() {
                     )}
                 </div>
 
-                {(subscription?.type != "free" && !showSub) && (
+                {(subscription?.type == "free" && !showSub) && (
                     <p className='upgrade--link' onClick={() => navigate('/dashboard/subscription')}>
                         <LuCheckCircle />Your account is currently on the free plan.
                     </p>
                 )}
 
-                {(subscription?.type == "free" && width > 650) && (
+                {(subscription?.type == "paid" && width > 650 && storeOnboardCompleted) && (
                     <p className='upgrade--link premium' style={{ backgroundPosition: "right", backgroundSize: "80rem", fontWeight: "600", fontSize: "1.3rem", cursor: "auto" }}>
                         <MdOutlineWorkspacePremium style={{ fontSize: "2rem" }} />Premium Account.
                     </p>

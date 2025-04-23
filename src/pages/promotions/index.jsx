@@ -280,7 +280,7 @@ function index() {
             <div className="page--tabs">
                 <Tab title="Discounts" onClick={() => navigate("?tab=discount")} active={activeTab == "discount"} />
                 <Tab title="Coupons" onClick={() => navigate("?tab=coupon")} active={activeTab == "coupon"} />
-                <Tab title="Special Sales" onClick={() => navigate("?tab=special_sales")} active={activeTab == "special_sales"} />
+                {/* <Tab title="Special Sales" onClick={() => navigate("?tab=special_sales")} active={activeTab == "special_sales"} /> */}
             </div>
       </PageUI>
     )

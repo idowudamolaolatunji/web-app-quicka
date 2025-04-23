@@ -41,6 +41,8 @@ export default function DashboardMenu() {
     const [storeDropdown, setStoreDropdown] = useState(false);
     const [switchingLoader, setSwitchingLoader] = useState(false);
 
+    console.log(user)
+
 
     function handleToggleStoreDropdown() {
         if(globalConnectionError) return

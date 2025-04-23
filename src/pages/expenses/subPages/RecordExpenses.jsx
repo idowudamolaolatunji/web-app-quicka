@@ -16,6 +16,9 @@ import Info from '../../../components/elements/Info';
 import { AiOutlinePlus } from 'react-icons/ai';
 import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
 import { truncateString } from '../../../utils/helper';
+import Drawer from '../../../components/modal/Drawer';
+import { createPortal } from 'react-dom';
+import AddSupplierFormSm from '../../../components/pageComponents/AddSupplierFormSm';
 
 
 export default function RecordExpenses() {
@@ -143,98 +146,113 @@ export default function RecordExpenses() {
 
 
     return (
-        <AddPageUI
-            pageTitle={`${id ? "Edit" : "Record"} Expenses`}
-            pageIcon={<PiCoinsBold />}
-            close={() => navigate(-1)}
-            mainLoader={loading}
-            response={response}
-            handleClear={handleClearFields}
-            handleSubmit={handleRecordExpenses}
-            hasExplainer={id ? false : true}
-            btnBelow={false}
-        >
+        <React.Fragment>
 
-            <form className="product__upload--container" onSubmit={e => e.preventDefault()}
-                style={{ gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "75rem", marginTop: width > 600 ? "4rem" : "0" }}
+            {showModal.supplier && (
+                createPortal(
+                    <Drawer
+                        title="Add New Supplier"
+                        setClose={() => setShowModal({ ...showModal, supplier: false })}
+                    >
+                        <AddSupplierFormSm close={() => setShowModal({ ...showModal, supplier: false })} />
+                    </Drawer>,
+                    document.body
+                )
+            )}
+
+            <AddPageUI
+                pageTitle={`${id ? "Edit" : "Record"} Expenses`}
+                pageIcon={<PiCoinsBold />}
+                close={() => navigate(-1)}
+                mainLoader={loading}
+                response={response}
+                handleClear={handleClearFields}
+                handleSubmit={handleRecordExpenses}
+                hasExplainer={id ? false : true}
+                btnBelow={false}
             >
-                {width < 400 && <Line border={1.4} />}
 
-                <div className="card form">
-                    <div className="section--heading">
-                        <h2>Expenses Details</h2>
-                        {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
-                    </div>
+                <form className="product__upload--container" onSubmit={e => e.preventDefault()}
+                    style={{ gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "75rem", marginTop: width > 600 ? "4rem" : "0" }}
+                >
+                    {width < 400 && <Line border={1.4} />}
 
-                    <div className="form--item">
-                        <label htmlFor="title" className="form--label">Expenses Title <Asterisk /></label>
-                        <input type="text" id="title" name='title' className="form--input" placeholder={"Shop rent for " + moment().format('MMMM')} value={expensesData.title} onChange={handleExpensesDataChange} />
-                        <span className="form--error-message">
-                            {expensesFormErrors.title && expensesFormErrors.title}
-                        </span>
-                    </div>
-
-                    <div className="form--grid">
-                        <div className="form--item">
-                            <label htmlFor="amount" className="form--label">Expenses amount <Asterisk /></label>
-                            <CurrencyInput
-                                id="amount"
-                                name="amount"
-                                className="form--input"
-                                placeholder="Expenses amount"
-                                value={expensesData.amount}
-                                prefix={currency}
-                                decimalsLimit={0}
-                                onValueChange={(value, name, _) => setExpensesData({ ...expensesData, amount: value })}
-                            />
-                            <span className="form--error-message">
-                                {expensesFormErrors.amount && expensesFormErrors.amount}
-                            </span>
+                    <div className="card form">
+                        <div className="section--heading">
+                            <h2>Expenses Details</h2>
+                            {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                         </div>
 
                         <div className="form--item">
-                            <label id='date' className="form--label">Expenses Date <Asterisk /></label>
-                            <input type="datetime-local" className='form--input' placeholder='Select date' max={new Date().toISOString().slice(0, 16)} name="date" id="date" value={expensesData.date} onChange={handleExpensesDataChange} />
+                            <label htmlFor="title" className="form--label">Expenses Title <Asterisk /></label>
+                            <input type="text" id="title" name='title' className="form--input" placeholder={"Shop rent for " + moment().format('MMMM')} value={expensesData.title} onChange={handleExpensesDataChange} />
                             <span className="form--error-message">
-                                {expensesFormErrors.date && expensesFormErrors.date}
+                                {expensesFormErrors.title && expensesFormErrors.title}
                             </span>
                         </div>
-                    </div>
 
-                    <div className="form--item">
-                        <label htmlFor="" className="form--label">Supplier (optional)</label>
-                        <MainDropdownSelect title="Supplier" options={suppliers} field="fullname" value={expenseSupplier} setValue={setExpenseSupplier} noDataLabel='No upplier found!' />
-                        <Info text="If no supplier attached to expense, Leave blank" />
-                        <button className='form--add' onClick={() => setShowModal({ ...showModal, supplier: true })}>
-                            <AiOutlinePlus />
-                            <p>Add Suppier</p>
-                        </button>
-                        <span className="form--error-message" />
-                    </div>
-
-
-                    <div className="form--grid">
-                        <div className="form--item">
-                            <label htmlFor="amount" className="form--label">Attach File or Screenshots (optional)</label>
-                            <span className='add-file'>
-                                <label htmlFor="add-file" className='add-label'>{attachment ? "Change" : "Choose"} file</label>
-                                <span className='flex-align-center' style={{ gap: "1rem" }}>
-                                    <p>{!attachment?.name ? "No Choosen File" : truncateString(attachment?.name, 30)}</p>
-                                    {attachment && <button onClick={() => setAttachment(null)}>remove</button>}
+                        <div className="form--grid">
+                            <div className="form--item">
+                                <label htmlFor="amount" className="form--label">Expenses amount <Asterisk /></label>
+                                <CurrencyInput
+                                    id="amount"
+                                    name="amount"
+                                    className="form--input"
+                                    placeholder="Expenses amount"
+                                    value={expensesData.amount}
+                                    prefix={currency}
+                                    decimalsLimit={0}
+                                    onValueChange={(value, name, _) => setExpensesData({ ...expensesData, amount: value })}
+                                />
+                                <span className="form--error-message">
+                                    {expensesFormErrors.amount && expensesFormErrors.amount}
                                 </span>
-                                <input type="file" name="" id="add-file" accept=".pdf, image/png, image/jpeg" maxLength={5} onChange={handleAddAttachment} />
-                            </span>
-                            <Info text="Supported file type: JPEG, PNG, PDF; Max size: 4MB" />
+                            </div>
+
+                            <div className="form--item">
+                                <label id='date' className="form--label">Expenses Date <Asterisk /></label>
+                                <input type="datetime-local" className='form--input' placeholder='Select date' max={new Date().toISOString().slice(0, 16)} name="date" id="date" value={expensesData.date} onChange={handleExpensesDataChange} />
+                                <span className="form--error-message">
+                                    {expensesFormErrors.date && expensesFormErrors.date}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor="" className="form--label">Supplier (optional)</label>
+                            <MainDropdownSelect title="Supplier" options={suppliers} field="fullname" value={expenseSupplier} setValue={setExpenseSupplier} noDataLabel='No supplier found!' />
+                            <Info text="If no supplier attached to expense, Leave blank" />
+                            <button className='form--add' onClick={() => setShowModal({ ...showModal, supplier: true })}>
+                                <AiOutlinePlus />
+                                <p>Add New Suppier</p>
+                            </button>
                             <span className="form--error-message" />
                         </div>
-                    </div>
 
-                    <div className="form--item">
-                        <label htmlFor="" className="form--label">Additional Description (optional)</label>
-                        <QuillEditor value={description} setValue={setDescription} />
+
+                        <div className="form--grid">
+                            <div className="form--item">
+                                <label htmlFor="amount" className="form--label">Attach File or Screenshots (optional)</label>
+                                <span className='add-file'>
+                                    <label htmlFor="add-file" className='add-label'>{attachment ? "Change" : "Choose"} file</label>
+                                    <span className='flex-align-center' style={{ gap: "1rem" }}>
+                                        <p>{!attachment?.name ? "No Choosen File" : truncateString(attachment?.name, 30)}</p>
+                                        {attachment && <button onClick={() => setAttachment(null)}>remove</button>}
+                                    </span>
+                                    <input type="file" name="" id="add-file" accept=".pdf, image/png, image/jpeg" maxLength={5} onChange={handleAddAttachment} />
+                                </span>
+                                <Info text="Supported file type: JPEG, PNG, PDF; Max size: 4MB" />
+                                <span className="form--error-message" />
+                            </div>
+                        </div>
+
+                        <div className="form--item">
+                            <label htmlFor="" className="form--label">Additional Description (optional)</label>
+                            <QuillEditor value={description} setValue={setDescription} />
+                        </div>
                     </div>
-                </div>
-            </form>
-        </AddPageUI>
+                </form>
+            </AddPageUI>
+        </React.Fragment>
     )
 }

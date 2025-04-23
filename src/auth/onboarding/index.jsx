@@ -22,7 +22,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function index() {
     const navigate = useNavigate();
-    const { handleChange, handleStore } = useAuthContext();
+    const { handleChange, handleStore, setShouldLoad } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
     const authMethod = localStorage.getItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`);
 
@@ -306,6 +306,7 @@ function index() {
             setTimeout(function () {
                 handleChange(data?.data?.user, data?.token);
                 handleStore(data?.data?.store);
+                setShouldLoad(true);
 
                 navigate('/congratulations?next=dashboard');
             }, 2500);

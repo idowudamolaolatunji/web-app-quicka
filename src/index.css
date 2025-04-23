@@ -186,7 +186,7 @@ button {
 
 /* RIGHT SIDE MODAL  */
 .drawer--modal {
-	padding: 4rem 2.4rem 2.4rem;
+	padding: 3.4rem 2.4rem 2.4rem;
 	background-color: #fff;
 	position: fixed;
 	box-shadow: 0 0 2px #00000040, 0 0 10px #0000000d;
@@ -196,7 +196,7 @@ button {
 	bottom: 0;
 	height: 100vh;
 	/* min-width: 40.5rem; */
-	width: 40rem;
+	width: 50rem;
 	transform: translateX(0);
 	animation: drawer-side-in .35s ease-in-out;
 	z-index: 100;
@@ -1084,7 +1084,9 @@ button {
 		font-size: 1.4rem;
 		line-height: 1.4;
 	}
-
+	.drawer--modal {
+		width: 45rem;
+	}
 	.modal.integrated,
 	.modal.bg-simple {
 		min-height: 28rem;
