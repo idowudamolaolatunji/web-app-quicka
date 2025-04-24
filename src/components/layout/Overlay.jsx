@@ -2,7 +2,7 @@ import React from 'react'
 
 function Overlay({ handleClose, custom }) {
   return (
-    <div className='global--overlay' style={custom} onClick={handleClose}>&nbsp;</div>
+    <div className='global--overlay' role="presentation" style={custom} onClick={handleClose}>&nbsp;</div>
   )
 }
 

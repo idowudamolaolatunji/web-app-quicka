@@ -15,7 +15,7 @@ import { useDataContext } from '../../../context/DataContext';
 import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiProgress1Line, RiStackLine, RiVerifiedBadgeLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { TbPresentationAnalytics, TbTruckDelivery, TbWorldWww } from 'react-icons/tb';
-import { PiCoinsBold, PiNetwork } from 'react-icons/pi';
+import { PiCoinsBold, PiGlobeX, PiNetwork } from 'react-icons/pi';
 import { useAuthContext } from '../../../context/AuthContext';
 import { SlGlobe } from 'react-icons/sl';
 import TooltipUI from '../../../components/layout/TooltipUI';
@@ -40,8 +40,6 @@ export default function DashboardMenu() {
     
     const [storeDropdown, setStoreDropdown] = useState(false);
     const [switchingLoader, setSwitchingLoader] = useState(false);
-
-    console.log(user)
 
 
     function handleToggleStoreDropdown() {
@@ -144,7 +142,7 @@ export default function DashboardMenu() {
                                     {store?.storeOnboardCompleted ? (
                                         <a href={`https://${store?.storeUrl}`} target='_blank' className='link--btn'><SlGlobe /></a>
                                     ) : (
-                                        <p className='status progress'><RiProgress1Line style={{ fontSize: "2rem", cursor: "progress" }} /></p>
+                                        <p className='status progress'><PiGlobeX style={{ fontSize: "2rem", cursor: "progress" }} /></p>
                                     )}
                                 </TooltipUI>
                                 <button className="menu--action" style={{ padding: ".3rem .6rem"}} onClick={handleToggleStoreDropdown}>

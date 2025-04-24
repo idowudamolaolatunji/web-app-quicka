@@ -7,7 +7,7 @@ import { useAuthContext } from '../../../context/AuthContext';
 import { useFetchedContext } from '../../../context/FetchedContext';
 
 
-function OverviewChart({ period }) {
+export default function OverviewChart({ period }) {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { orders } = useFetchedContext();
@@ -167,4 +167,20 @@ function OverviewChart({ period }) {
 
 }
 
-export default OverviewChart
+
+
+
+// orderChartData?.forEach(order => {
+//     const orderDate = new Date(order.orderDate);
+//     const month = orderDate.getMonth(); // 0-11
+//     if (month >= 5 && month < 7) { // June (5) to July (6)
+//       const sales = order.profit; // Access profit directly
+//       series[0].data[month - 5] = (series[0].data[month - 5] || 0) + sales; // Total Sales
+//       if (order.channel === 'online store') {
+//         series[1].data[month - 5] = (series[1].data[month - 5] || 0) + sales; // Website Sales
+//       } else {
+//         series[2].data[month - 5] = (series[2].data[month - 5] || 0) + sales; // Offline Sales
+//       }
+//     }
+//   });
+  
