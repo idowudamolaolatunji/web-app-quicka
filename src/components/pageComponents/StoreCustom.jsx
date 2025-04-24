@@ -463,7 +463,7 @@ export default function StoreCustom({ isnew, close }) {
 
 
                             {storeData.aboutPage && (
-                                <QuillEditor value={storeData.aboutDescription} setValue={(value) => handleStoreDescriptions("aboutDescription", value)} />
+                                <QuillEditor value={storeData.aboutDescription} setValue={(value) => handleStoreDescriptions("aboutDescription", value)} placeholder='Your About-us Content Here...' />
                             )}
                         </div>
                     </div>
@@ -486,7 +486,7 @@ export default function StoreCustom({ isnew, close }) {
 
                         <div className='custom--description'>
 
-                            {storeData.returnPolicyPage && <QuillEditor value={storeData.returnPolicyDescription} setValue={(value) => handleStoreDescriptions("returnPolicyDescription", value)} />}
+                            {storeData.returnPolicyPage && <QuillEditor value={storeData.returnPolicyDescription} setValue={(value) => handleStoreDescriptions("returnPolicyDescription", value)} placeholder='Your Policy Content Here...' />}
                         </div>
                     </div>
 

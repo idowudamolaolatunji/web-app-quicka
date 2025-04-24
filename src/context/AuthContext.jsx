@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     async function signoutUser() {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, { headers });
         if (!res.ok) return false;
 
         setTimeout(function() {

@@ -180,7 +180,8 @@ export default function ManageNew() {
 
     // SANITIZE THE NAME AS THE LINK, REPLACING SPACES WITH -
     useEffect(function () {
-        const sanitizedUrl = onboardingData?.name?.replace(/\s+/g, '-').toLowerCase();
+        // const sanitizedUrl = onboardingData?.name?.replace(/\s+/g, '-').toLowerCase();
+        const sanitizedUrl = onboardingData?.name?.replace(/[^a-zA-Z0-9-]/g, '').replace(/^\s+|\s+$/g, '').toLowerCase();
         setOnboardingData({ ...onboardingData, subdomain: sanitizedUrl })
     }, [onboardingData?.name]);
 

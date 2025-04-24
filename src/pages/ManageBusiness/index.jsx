@@ -60,9 +60,14 @@ export default function index() {
     }
 
     useEffect(function() {
+        document.title = "Quicka | Manage Other Businesses"
         setTimeout(() => setLoading(false), 1000);
-        if(!user) navigate(-1);
     }, []);
+
+    
+    useEffect(function() {
+        if(!user) navigate("/login");
+    }, [user]);
 
   return (
     <React.Fragment>
