@@ -107,11 +107,11 @@ function PageUI({
             )}
 
             <div className='page__section--heading' style={(width500andIsItem && (addUrl || addAction)) ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
-                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rates" : pageName == "special_sales" ? "special sales" : pageName == "expenses" ? pageName : pageName + "s"}</h2>
+                <h2 className="page__section--title">{pageName == "delivery" ? "delivery rates" : pageName == "special_sales" ? "special sales" : pageName == "customerGroup" ? "Customer Groups" : pageName == "expenses" ? pageName : pageName + "s"}</h2>
 
                 <span className='page__section--btns' style={(width500andIsItem && insights && (addUrl || addAction)) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
                     {(isItem && (addUrl || addAction)) && (
-                        <button className="page__section-top-btn add" onClick={() => (pageName == "collection" || pageName == "group") ? addAction() : navigate(`/dashboard/${addUrl}`)}>
+                        <button className="page__section-top-btn add" onClick={() => (pageName == "collection" || pageName == "customerGroup") ? addAction() : navigate(`/dashboard/${addUrl}`)}>
                             {addBtnStr}<BiPlus />
                         </button>
                     )}

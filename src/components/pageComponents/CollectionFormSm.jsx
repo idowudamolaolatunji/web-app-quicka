@@ -6,7 +6,7 @@ import CustomAlert from '../layout/CustomAlert';
 import ImageUploadInput from '../form/ImageUploadInput';
 import { useAuthContext } from '../../context/AuthContext';
 import { useFetchedContext } from '../../context/FetchedContext';
-import { validateCollectionForm } from '../../utils/validationHelper';
+import { validateGroupForm } from '../../utils/validationHelper';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -64,7 +64,7 @@ export default function CollectionFormSm({ close, editingItem }) {
 
 
     async function handleSubmit() {
-        const newError = validateCollectionForm(collectionData.name);
+        const newError = validateGroupForm(collectionData.name);
         setCollectionFormError(newError);
         if (newError) return;
         setLoading(true)

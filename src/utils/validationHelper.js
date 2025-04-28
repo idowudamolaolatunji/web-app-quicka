@@ -306,13 +306,21 @@ export function validateExportCsvInput(email) {
 	return error;
 }
 
-export function validateCollectionForm(name) {
+export function validateGroupForm(name, title="collection") {
 	let error;
 
-	if (!name.trim()) {
-		error = "Collection name is required";
-	} else if (name.length < 3) {
-		error = "Collection name must be at least 3 characters long";
+	if(title == "collection") {
+		if (!name.trim()) {
+			error = "Collection name is required";
+		} else if (name.length < 3) {
+			error = "Collection name must be at least 3 characters long";
+		}
+	} else {
+		if (!name.trim()) {
+			error = "Group name is required";
+		} else if (name.length < 3) {
+			error = "Group name must be at least 3 characters long";
+		}
 	}
 
 	return error;

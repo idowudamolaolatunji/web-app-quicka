@@ -46,7 +46,7 @@ function index() {
     const tabParams = queryParams.get("tab")
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
-    const { loader, customers, customerGroups, newsletterCustomers, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
+    const { loader, customers, customerGroups, newsletterCustomers, handleDeleteOneItem, handleFetchMyStoreCustomers, handleFetchMyStoreCustomerGroups } = useFetchedContext();
 
     ////////////////////////////////////////////////////////
     const [tabShown, setTabShown] = useState("customer");
@@ -196,7 +196,7 @@ function index() {
 
     return (
         <PageUI
-            pageName={tabShown}
+            pageName={tabShown == "group" ? "customerGroup" : tabShown}
             shouldSelect={true}
             items={tabShown == "customer" ? customers : tabShown == "group" ? customerGroups : newsletterCustomers}
             columns={tabShown == "customer" ? customer_columns : tabShown == "group" ? group_columns : newsletter_columns}
@@ -213,7 +213,7 @@ function index() {
             headTabs={tabShown == "customer" ? (
                 <TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomers} />
             ) : ( tabShown == "group") ? (
-                <TableHeadTabs pageName="group" searchVal={search} setSearchVal={setSearch} handleFetch={""} />
+                <TableHeadTabs pageName="group" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomerGroups} />
             ) : (
                 <TableHeadTabs pageName="newsletter" handleFetch={""} />
             )}
@@ -229,9 +229,9 @@ function index() {
 
             {showInsights?.customer && (
                 <div className='page__section--insights insight--grid'>
-                    <Insight title='Total Customers' loader={loader[tabShown]} value={customers?.length || 0} icon={<FiUsers />} />
-                    <Insight title='Newsletter Customers' loader={loader[tabShown]} value={0} icon={<TbUserSquare />} />
-                    <Insight title='Total Customer Groups' loader={loader[tabShown]} value={0} icon={<TbUsersGroup />} />
+                    <Insight title='Total Customers' loader={loader[tabShown == "group" ? "customerGroup" : tabShown]} value={customers?.length || 0} icon={<FiUsers />} />
+                    <Insight title='Newsletter Customers' loader={loader[tabShown == "group" ? "customerGroup" : tabShown]} value={0} icon={<TbUserSquare />} />
+                    <Insight title='Total Customer Groups' loader={loader[tabShown == "group" ? "customerGroup" : tabShown]} value={0} icon={<TbUsersGroup />} />
                 </div>
             )}
 

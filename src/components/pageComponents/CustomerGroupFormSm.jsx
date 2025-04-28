@@ -3,12 +3,10 @@ import Spinner from "../spinner/simple";
 import Asterisk from '../elements/Asterisk'
 import { createPortal } from 'react-dom';
 import CustomAlert from '../layout/CustomAlert';
-import ImageUploadInput from '../form/ImageUploadInput';
 import { useAuthContext } from '../../context/AuthContext';
 import { useFetchedContext } from '../../context/FetchedContext';
-import { validateCollectionForm } from '../../utils/validationHelper';
+import { validateGroupForm } from '../../utils/validationHelper';
 import MainDropdownSelect from '../form/MainDropdownSelect';
-import { AiOutlinePlus } from 'react-icons/ai';
 import Info from '../elements/Info';
 
 
@@ -16,12 +14,14 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export default function CustomerGroupFormSm({ close, editingItem }) {
     const { shouldKick, headers, store } = useAuthContext();
-    const { customers,  } = useFetchedContext();
+    const { customers, handleFetchMyStoreCustomerGroups } = useFetchedContext();
 
-    const [customerGroupData, setCustomerGroupData] = useState({ name: "", description: "", groupCustomers: [] });
-    const [customerGroupFormError, setCustomerGroupFormError] = useState("");
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
+    const [customerGroupData, setCustomerGroupData] = useState({
+        name: "", description: "", groupCustomers: []
+    });
+    const [customerGroupFormError, setCustomerGroupFormError] = useState("");
 
 
     const handleChangeGroupData = function (e) {
@@ -50,23 +50,22 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
         }
     }, [editingItem])
 
-    console.log(customerGroupData)
 
     async function handleSubmit() {
-        // const newError = validateCollectionForm(customerGroupData.name);
-        // setCustomerGroupFormError(newError);
-        // if(newError) return;
-        // setLoading(true)
-        // setResponse({ status: "", message: "" });
+        const newError = validateGroupForm(customerGroupData.name, "group");
+        setCustomerGroupFormError(newError);
+        if(newError) return;
+        setLoading(true)
+        setResponse({ status: "", message: "" });
 
-        // check if it's creating or editing
-        // const parameter = editingItem ? `/${editingItem?._id}` : `?slug=${store?.slug}`;
+        const parameter = editingItem ? `/${editingItem?._id}` : `?slug=${store?.slug}`;
 
         try {
-            const res = await fetch(`${BASE_API_URL}/collections${parameter}`, {
+            const res = await fetch(`${BASE_API_URL}/customers/groups/${parameter}`, {
                 headers, method: editingItem ? "PATCH" : "POST",
                 body: JSON.stringify({ ...customerGroupData  })
             });
+
             shouldKick(res);
             const data = await res.json();
             if (res?.status !== 201 && data?.status !== 'success') {
@@ -74,10 +73,10 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
             }
 
             // CLEAR FIELDS AND SET RESPONSE MESSAGE
-            // handleClearFields()
+            handleClearFields()
             setResponse({ status: "success", message: data?.message });
 
-            // handleFetchMyStoreCollections()
+            handleFetchMyStoreCustomerGroups()
             setTimeout(() => close(), 1000);
 
         } catch (err) {

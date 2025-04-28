@@ -21,6 +21,7 @@ export const FetchedProvider = ({ children }) => {
     const [collections, setCollections] = useState([]);
     const [products, setProducts] = useState([]);
     const [customers, setCustomers] = useState([]);
+    const [customerGroups, setCustomerGroups] = useState([]);
     const [orders, setOrders] = useState([]);
     const [deliveryRates, setDeliveryRates] = useState([]);
     const [storeCategories, setStoreCategories] = useState([]);
@@ -40,6 +41,7 @@ export const FetchedProvider = ({ children }) => {
     const [deliveryLoader, setDeliveryLoader] = useState(true);
     const [customerLoader, setCustomerLoader] = useState(true);
     const [collectionLoader, setCollectionLoader] = useState(true);
+    const [customerGroupLoader, setCustomerGroupLoader] = useState(true);
     const [transactionLoader, setTransactionLoader] = useState(true);
     const [couponLoader, setCouponLoader] = useState(true);
     const [discountLoader, setDiscountLoader] = useState(true);
@@ -54,6 +56,7 @@ export const FetchedProvider = ({ children }) => {
     const [deliveryError, setDeliveryError] = useState("");
     const [customerError, setCustomerError] = useState("");
     const [collectionError, setCollectionError] = useState("");
+    const [customerGroupError, setCustomerGroupError] = useState("");
     const [transactionError, setTransactionError] = useState("");
     const [campaignError, setCampaignError] = useState("");
     const [discountError, setDiscountError] = useState("");
@@ -69,6 +72,7 @@ export const FetchedProvider = ({ children }) => {
         product: productLoader,
         delivery: deliveryLoader,
         customer: customerLoader,
+        customerGroup: customerGroupLoader,
         collection: collectionLoader,
         transaction: transactionLoader,
         campaign: campaignLoader,
@@ -83,6 +87,7 @@ export const FetchedProvider = ({ children }) => {
         product: productError,
         delivery: deliveryError,
         customer: customerError,
+        customerGroup: customerGroupError,
         campaign: campaignError,
         collection: collectionError,
         transaction: transactionError,
@@ -259,6 +264,33 @@ export const FetchedProvider = ({ children }) => {
             setCustomerError(errMessage);
         } finally {
             setCustomerLoader(false);
+        }
+    }
+
+    // FETCH PROTECTED STORE CUSTOMERS GROUPS
+    async function handleFetchMyStoreCustomerGroups() {
+        setCustomerGroupError("");
+        setCustomerGroupLoader(true);
+        setCustomerGroups([]);
+
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+
+            const res = await fetch(`${BASE_API_URL}/customers/groups/mine/groups?slug=${store?.slug}`,
+                { method: "GET", headers }
+            );
+            shouldKick(res);
+
+            const data = await res.json();
+            if(data.status == "fail") throw new Error();
+            if (data?.data) setCustomerGroups(data?.data?.groups);
+        } catch (err) {
+            console.log(err, err?.message)
+            const errMessage = handleFetchError(err?.message)
+            setCustomerGroupError(errMessage);
+        } finally {
+            setCustomerGroupLoader(false);
         }
     }
 
@@ -452,6 +484,7 @@ export const FetchedProvider = ({ children }) => {
         setProducts([]);
         setOrders([]);
         setCustomers([]);
+        setCustomerGroups([]);
         setDeliveryRates([]);
         setTransactions([]);
         setSettlements([]);
@@ -466,6 +499,7 @@ export const FetchedProvider = ({ children }) => {
             handleFetchMyStoreProducts();
             handleFetchMyStoreCustomers();
             handleFetchMyStoreCollections();
+            handleFetchMyStoreCustomerGroups();
             handleFetchMyStoreDeliveryRates();
             handleFetchMyStoreTransactions();
             handleFetchMyStoreDiscounts();
@@ -493,6 +527,7 @@ export const FetchedProvider = ({ children }) => {
         collections,
         transactions,
         deliveryRates,
+        customerGroups,
         special_sales,
         storeCategories,
         handleFetchError,
@@ -505,6 +540,7 @@ export const FetchedProvider = ({ children }) => {
         handleFetchMyStoreOrders,
         handleFetchMyStoreProducts,
         handleFetchMyStoreCustomers,
+        handleFetchMyStoreCustomerGroups,
         handleFetchMyStoreCollections,
         handleFetchMyStoreTransactions,
         handleFetchMyStoreDeliveryRates,
