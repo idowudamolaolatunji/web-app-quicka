@@ -490,10 +490,7 @@
 	background-color: var(--color-brand-50);
 	color: var(--color-brand-500);
 }
-.page--tab:hover {
-	color: var(--color-brand-500);
-	/* transform: scale(1.05); */
-}
+
 .filter--tab {
 	display: inline-flex;
 	align-items: center;
@@ -1377,6 +1374,12 @@
 /* MEDIA QUERY */
 /* ======================================== */
 
+@media screen and (min-width: 450px) {
+	.page--tab:hover {
+		color: var(--color-brand-500);
+	}
+}
+
 @media screen and (max-width: 1050px) {
 	.product__grid {
 		grid-template-columns: repeat(4, 1fr);
@@ -1598,9 +1601,6 @@
 	.page--tab {
 		font-size: 1.28rem;
 		font-weight: 600;
-	}
-	.page--tab:hover {
-		color: inherit;
 	}
 
 	.analytics--grid.grid--1x1,

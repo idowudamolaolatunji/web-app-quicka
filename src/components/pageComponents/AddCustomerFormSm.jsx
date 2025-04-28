@@ -140,7 +140,7 @@ export default function AddCustomerFormSm({ close }) {
 
 
     return (
-        <>
+        <React.Fragment>
             {(response.message || response.status) && (
                 createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
             )}
@@ -217,6 +217,6 @@ export default function AddCustomerFormSm({ close }) {
                 </div>
             </div>
 
-        </>
+        </React.Fragment>
     )
 }
