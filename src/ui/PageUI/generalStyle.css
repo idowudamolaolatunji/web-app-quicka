@@ -1600,7 +1600,7 @@
 		font-weight: 600;
 	}
 	.page--tab:hover {
-		color: #444;
+		color: inherit;
 	}
 
 	.analytics--grid.grid--1x1,

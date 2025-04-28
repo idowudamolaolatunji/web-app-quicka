@@ -333,7 +333,8 @@ body:has(.global--overlay) {
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
-	height: 88%;
+	min-height: 88%;
+	overflow-y: auto;
 }
 .modal--form .form--img-box {
 	background-color: var(--color-brand-10);
@@ -1161,10 +1162,10 @@ body:has(.global--overlay) {
 		display: none;
 	}
 
-	body:has(.global--overlay) {
+	/* body:has(.global--overlay) {
 		height: auto;
 		overflow-y: auto !important;
-	}
+	} */
 }
 
 @media screen and (max-width: 400px) {
