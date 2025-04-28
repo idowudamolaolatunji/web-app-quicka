@@ -312,7 +312,7 @@ export default function AddCustomer({ close, isModal }) {
                 handleClear={handleClearFields}
                 handleSubmit={handleSubmit}
                 hasExplainer={id ? false : true}
-                btnBelow={false}
+                btnBelow={width < 1000}
             >
 
                 <div className="product__upload--container">

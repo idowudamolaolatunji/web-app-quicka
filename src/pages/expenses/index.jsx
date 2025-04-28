@@ -17,6 +17,7 @@ import { useDataContext } from '../../context/DataContext';
 import Insight from '../../components/layout/Insight';
 import Tab from '../../components/elements/Tab';
 import { PiCoins } from 'react-icons/pi';
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 
 
 ///////////////////////////////////////////////
@@ -89,18 +90,6 @@ function index() {
         },
     ];
 
-    const HeadTabs = function() {
-        return (
-            <div className='content'>
-                <span className='flex'>
-                    <TooltipUI placement='top' title="Reload Expenses">
-                        <button className='table--btn' onClick={handleFetchMyStoreExpenses}><MdOutlineRefresh /></button>
-                    </TooltipUI>
-                </span>
-            </div>
-        );
-    }
-
     useEffect(function() {
         document.title = "Quicka | Expenses";
     }, []);
@@ -165,7 +154,7 @@ function index() {
                 emptyBtns={emptyBtns}
                 emptyTitle={emptyTitle}
                 addUrl="expenses/record"
-                headTabs={<HeadTabs />}
+                headTabs={<TableHeadTabs searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreExpenses} />}
                 insights={true}
                 hasLink={false}
                 pointOnHover={false}
@@ -188,10 +177,10 @@ function index() {
                 )}
 
                 {/* THE TABS UI */}
-                <div className="page--tabs">
+                {/* <div className="page--tabs">
                     <Tab title="Expenses" onClick={() => navigate("?tab=expense")} active={tabShown == "expense"} />
-                    <Tab title="Expenses Groups" onClick={() => navigate("?tab=group")} active={tabShown == "group"} />
-                </div>
+                    <Tab title="Expense Groups" onClick={() => navigate("?tab=group")} active={tabShown == "group"} />
+                </div> */}
             </PageUI>
         </React.Fragment>
     )

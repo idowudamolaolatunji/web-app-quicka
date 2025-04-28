@@ -21,6 +21,7 @@ import Tab from '../../../components/elements/Tab';
 import { RiMapPinUserLine } from 'react-icons/ri';
 import { GiEnvelope } from 'react-icons/gi';
 import Info from '../../../components/elements/Info';
+import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -205,8 +206,8 @@ export default function AddSuppliers() {
                 response={response}
                 handleClear={handleClearFields}
                 handleSubmit={handleSubmit}
-                hasExplainer={false}
-                btnBelow={false}
+                hasExplainer={width <= 500 && !id}
+                btnBelow={width < 1000}
             >
 
                 <div className="product__upload--container">
@@ -215,7 +216,15 @@ export default function AddSuppliers() {
                     <div className='left--container containers'>
                         <div className="card form">
                             <div className="section--heading">
-                                <h2>Personal Information</h2>
+                                <span className='flex-align-center' style={{ justifyContent: "space-between" }}>
+                                    <h2>Personal Information</h2>
+                                    {(width > 500 && !id) && (
+                                        <button className="form--add" onClick={() => {}}>
+                                            <IoPlayCircleOutline />
+                                            See how to Add Supplier
+                                        </button>
+                                    )}
+                                </span>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
 

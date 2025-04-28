@@ -158,7 +158,7 @@ export default function CreateDiscount() {
             handleSubmit={handleSubmitDiscount}
             confetti={showConfetti}
             hasExplainer={width <= 500 && !id}
-            btnBelow={false}
+            btnBelow={width < 850}
         >
             <form className="product__upload--container" onSubmit={e => e.preventDefault()} 
                 style={{ gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "75rem", marginTop: width > 600 ? "4rem" : "0" }}    

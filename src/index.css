@@ -334,7 +334,6 @@ body:has(.global--overlay) {
 	flex-direction: column;
 	gap: 1.5rem;
 	min-height: 88%;
-	overflow-y: auto;
 }
 .modal--form .form--img-box {
 	background-color: var(--color-brand-10);

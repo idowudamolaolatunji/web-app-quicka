@@ -237,7 +237,7 @@ function index() {
 
 
     return (
-        <>
+        <React.Fragment>
             {/* EDIT MODAL FOR THE COLLECTION EDIT */}
             {(showCollectionEditForm && selectedCollection) && (
                 <Drawer title="Edit Collection" setClose={handleShowCollectionEditForm}>
@@ -312,7 +312,7 @@ function index() {
                     </div>
                 )}
             </PageUI>
-        </>
+        </React.Fragment>
     )
 }
 

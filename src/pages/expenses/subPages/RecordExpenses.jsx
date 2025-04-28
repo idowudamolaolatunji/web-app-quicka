@@ -4,7 +4,7 @@ import Asterisk from '../../../components/elements/Asterisk';
 import QuillEditor from '../../../components/form/QuillEditor';
 import { useWindowSize } from 'react-use';
 import Line from '../../../components/elements/Line';
-import { PiCoinsBold } from 'react-icons/pi';
+import { PiCoins } from 'react-icons/pi';
 import { useAuthContext } from '../../../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
@@ -19,6 +19,7 @@ import { truncateString } from '../../../utils/helper';
 import Drawer from '../../../components/modal/Drawer';
 import { createPortal } from 'react-dom';
 import AddSupplierFormSm from '../../../components/pageComponents/AddSupplierFormSm';
+import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
 export default function RecordExpenses() {
@@ -46,12 +47,11 @@ export default function RecordExpenses() {
         setExpensesData({
             ...expensesData,
             [name]: value,
-        })
+        });;
     }
 
     const handleAddAttachment = function (event) {
         const file = event.target.files[0];
-        // if (file) console.log(file)
         if (file) setAttachment(file);
     }
 
@@ -162,14 +162,14 @@ export default function RecordExpenses() {
 
             <AddPageUI
                 pageTitle={`${id ? "Edit" : "Record"} Expenses`}
-                pageIcon={<PiCoinsBold />}
+                pageIcon={<PiCoins />}
                 close={() => navigate(-1)}
                 mainLoader={loading}
                 response={response}
                 handleClear={handleClearFields}
                 handleSubmit={handleRecordExpenses}
-                hasExplainer={id ? false : true}
-                btnBelow={false}
+                hasExplainer={width <= 500 && !id}
+                btnBelow={width < 850}
             >
 
                 <form className="product__upload--container" onSubmit={e => e.preventDefault()}
@@ -179,7 +179,15 @@ export default function RecordExpenses() {
 
                     <div className="card form">
                         <div className="section--heading">
-                            <h2>Expenses Details</h2>
+                            <span className='flex-align-center' style={{ justifyContent: "space-between" }}>
+                                <h2>Expenses Details</h2>
+                                {(width > 500 && !id) && (
+                                    <button className="form--add" onClick={() => {}}>
+                                        <IoPlayCircleOutline />
+                                        See how to Create Discount
+                                    </button>
+                                )}
+                            </span>
                             {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                         </div>
 
