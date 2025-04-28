@@ -1162,10 +1162,10 @@ body:has(.global--overlay) {
 		display: none;
 	}
 
-	/* body:has(.global--overlay) {
+	body:has(.global--overlay) {
 		height: auto;
 		overflow-y: auto !important;
-	} */
+	}
 }
 
 @media screen and (max-width: 400px) {
