@@ -157,7 +157,7 @@ export default function CreateDelivery({ close, isnew, isModal }) {
             handleClear={handleClearFields}
             handleSubmit={handleCreateDelivery}
             confetti={showConfetti}
-            hasExplainer={id ? false : true}
+            hasExplainer={false}
             btnBelow={false}
         >
 

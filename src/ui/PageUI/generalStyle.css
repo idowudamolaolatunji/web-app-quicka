@@ -471,6 +471,20 @@
 	cursor: pointer;
 	min-width: fit-content;
 }
+.form--item .tabs {
+	display: flex;
+	align-items: center;
+	gap: .8rem;
+	justify-content: space-between;
+	width: 100%;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+.form--item .page--tab {
+	display: flex;
+	align-items: center;
+	gap: .4rem;
+}
 
 .page--tab.active {
 	background-color: var(--color-brand-50);

@@ -168,8 +168,8 @@ function ProductItem() {
                                         ))
                                     }</span></div>
                                     <div className='preview--body-item'>Short Description <span className='preview--body-value'>{item?.shortDescription || "--"}</span></div>
-                                    <div className='preview--body-item'>Main Description <div className='preview--body-value' style={{ color: "#444" }} dangerouslySetInnerHTML={{ __html: truncateString(item?.description, 400) }} /></div>
-                                    <div className='preview--body-item'>Product Price <span className='preview--body-value value'>{currency}{formatNumber(item?.price)}</span></div>
+                                    <div className='preview--body-item'>Description <div className='preview--body-value' style={{ color: "#444" }} dangerouslySetInnerHTML={{ __html: truncateString(item?.description, 400) }} /></div>
+                                    <div className='preview--body-item'>Price <span className='preview--body-value value'>{currency}{formatNumber(item?.price)}</span></div>
                                     <div className='preview--body-item'>Stock 
                                         {item?.trackInventory ? (
                                             <span className='preview--body-value value'>{formatNumber(item?.stockAmount)} Items</span>

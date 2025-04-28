@@ -12,10 +12,10 @@ import { FiUsers } from 'react-icons/fi';
 import { MdBusiness, MdChatBubble, MdOutlineAddBusiness, MdOutlineCampaign, MdOutlineChatBubbleOutline, MdOutlineDashboard, MdOutlineDeliveryDining, MdOutlineHelp, MdOutlineHelpOutline, MdOutlineSettings, MdOutlineShoppingBag, MdOutlineStorefront } from 'react-icons/md';
 import { BiCustomize, BiMailSend } from 'react-icons/bi';
 import { useDataContext } from '../../../context/DataContext';
-import { RiAppsLine, RiCloseFill, RiDiscountPercentLine, RiProgress1Line, RiStackLine, RiVerifiedBadgeLine } from 'react-icons/ri';
+import { RiAppsLine, RiBankLine, RiCloseFill, RiDiscountPercentLine, RiMapPinUserLine, RiProgress1Line, RiStackLine, RiVerifiedBadgeLine } from 'react-icons/ri';
 import { useWindowSize } from 'react-use';
 import { TbPresentationAnalytics, TbTruckDelivery, TbWorldWww } from 'react-icons/tb';
-import { PiCoinsBold, PiGlobeX, PiNetwork } from 'react-icons/pi';
+import { PiCoinsBold, PiGlobeX, PiNetwork, PiShippingContainer } from 'react-icons/pi';
 import { useAuthContext } from '../../../context/AuthContext';
 import { SlGlobe } from 'react-icons/sl';
 import TooltipUI from '../../../components/layout/TooltipUI';
@@ -181,8 +181,8 @@ export default function DashboardMenu() {
                             <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
                             <MenuLink icon={<LuTags />} title='Products' link='/products' />
                             <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
-                            <MenuLink icon={<PiNetwork />} title='Suppliers' link='/suppliers' />
-                            <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
+                            <MenuLink icon={<RiMapPinUserLine />} title='Suppliers' link='/suppliers' />
+                            <MenuLink icon={<RiBankLine />} title='Transactions' link='/transactions' />
                             <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
                             <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                         </ul>
@@ -277,8 +277,8 @@ export default function DashboardMenu() {
                                 <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Products' link='/products' />
                                 <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
-                                <MenuLink icon={<PiNetwork />} title='Suppliers' link='/suppliers' />
-                                <MenuLink icon={<AiOutlineBank />} title='Transactions' link='/transactions' />
+                                <MenuLink icon={<RiMapPinUserLine />} title='Suppliers' link='/suppliers' />
+                                <MenuLink icon={<RiBankLine />} title='Transactions' link='/transactions' />
                                 <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
                                 <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                             </ul>

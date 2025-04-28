@@ -248,7 +248,7 @@ export default function RecordExpenses() {
 
                         <div className="form--item">
                             <label htmlFor="" className="form--label">Additional Description (optional)</label>
-                            <QuillEditor value={description} setValue={setDescription} />
+                            <QuillEditor value={description} setValue={setDescription} placeholder='Additional Description...' />
                         </div>
                     </div>
                 </form>

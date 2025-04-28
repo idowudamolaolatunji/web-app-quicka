@@ -11,6 +11,12 @@ import { validateCustomerForm } from '../../utils/validationHelper';
 import { useFetchedContext } from '../../context/FetchedContext';
 import MainDropdownSelect from '../form/MainDropdownSelect';
 import { useDataContext } from '../../context/DataContext';
+import Tab from '../elements/Tab';
+import { GiEnvelope } from "react-icons/gi";
+import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
+import { FaSnapchatSquare } from "react-icons/fa";
+import Info from '../elements/Info';
+
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -24,47 +30,54 @@ export default function AddSupplierFormSm({ close }) {
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
     const [country, setCountry] = useState([]);
+    const [selectedInfo, setSelectedInfo] = useState({ email: false, instagram: true, tiktok: false, snapchat: false });
 
-    const [customerFormErrors, setCustomerFormErrors] = useState({});
-    const [customerData, setCustomerData] = useState({
+    const [supplierFormErrors, setSupplierFormErrors] = useState({});
+    const [supplierData, setSupplierData] = useState({
         fullname: "",
-        email: "",
+        location: "",
         phone: "",
-        phoneNumber: "",
         dialCode: "",
         countryCode: "",
     });
 
 
     const handleClearFields = function () {
-        setCustomerData({
+        setSupplierData({
             fullname: "",
-            email: "",
+            location: "",
             phone: "",
-            phoneNumber: "",
             dialCode: "",
             countryCode: "",
         });
 
         setCountry([]);
-        setCustomerFormErrors({});
+        setSelectedInfo({ email: false, instagram: true, tiktok: false, snapchat: false });
+        setSupplierFormErrors({});
+    }
+
+    const handleSelectedInfo = function(tab) {
+        const selected = Object.values(selectedInfo).filter(info => info);
+        if (selected.length < 3 && !selectedInfo[tab])
+            setSelectedInfo((prev) => ({ ...prev, [tab]: true }));
+        if (selected.length > 0 && selectedInfo[tab]) 
+            setSelectedInfo((prev) => ({ ...prev, [tab]: false }));
     }
 
 
-    const handleCustomerData = function (e, val, opts) {
+    const handleSupplierData = function (e, val, opts) {
         if (!e && (val || opts)) {
             console.log(opts)
             const { dialCode, countryCode } = opts;
             const phone = val?.startsWith(dialCode + '0') ? val?.replace(dialCode + '0', dialCode) : val;
-            const phoneNumber = phone?.replace(dialCode, "");
 
-            setCustomerData({ ...customerData, phone: phone, phoneNumber, dialCode, countryCode });
+            setSupplierData({ ...supplierData, phone: phone, dialCode, countryCode });
             return;
         }
 
         const { name, value } = e?.target;
-        setCustomerData({
-            ...customerData,
+        setSupplierData({
+            ...supplierData,
             [name]: value,
         });
     };
@@ -75,12 +88,11 @@ export default function AddSupplierFormSm({ close }) {
         getContries()
     }, []);
 
-
     async function handleCreateCustomer() {
-        const formData = { ...customerData, country }
+        const formData = { ...supplierData, country }
         // FORM VALIDATIONS 
         const newErrors = validateCustomerForm(formData);
-        setCustomerFormErrors(newErrors);
+        setSupplierFormErrors(newErrors);
 
         if (Object.keys(newErrors).length >= 1) {
             setResponse({ status: "error", message: "Fill required fields to proceed!" });
@@ -92,8 +104,8 @@ export default function AddSupplierFormSm({ close }) {
         setResponse({ status: "", message: "" });
         setLoading(true)
 
-        const { countryCode, dialCode, phoneNumber, phone, email, firstname, lastname, description } = customerData;
-        const contact = { countryCode, dialCode, phoneNumber, phone, email };
+        const { countryCode, dialCode, phone, email, firstname, lastname, description } = supplierData;
+        const contact = { countryCode, dialCode, phone, email };
         const shippingAddress = { country: country[0] }
 
         // MAKE REQUEST
@@ -135,9 +147,9 @@ export default function AddSupplierFormSm({ close }) {
             <div className='modal--form'>
                 <div className="form--item">
                     <label htmlFor="fullname" className="form--label">Fullname <Asterisk /></label>
-                    <input type="text" id="fullname" name='fullname' className="form--input" placeholder='Taiwo Waxwell' value={customerData.fullname} onChange={handleCustomerData} />
+                    <input type="text" id="fullname" name='fullname' className="form--input" placeholder='Taiwo Waxwell' value={supplierData.fullname} onChange={handleSupplierData} />
                     <span className="form--error-message">
-                        {customerFormErrors?.fullname && customerFormErrors?.fullname}
+                        {supplierFormErrors?.fullname && supplierFormErrors?.fullname}
                     </span>
                 </div>
                 
@@ -147,28 +159,44 @@ export default function AddSupplierFormSm({ close }) {
 
                     <PhoneInput
                         country={countryCode}
-                        value={customerData.phone}
+                        value={supplierData.phone}
                         inputProps={{ name: 'phone', id: 'phone' }}
-                        onChange={(num, countryOpts) => handleCustomerData(null, num, countryOpts)}
+                        onChange={(num, countryOpts) => handleSupplierData(null, num, countryOpts)}
                         inputClass='phone-input'
                         buttonStyle={{ backgroundColor: 'transparent', border: 'none', paddingLeft: '.4rem', height: '4rem', margin: '.2rem 0' }}
                         countryCodeEditable={true}
                         dropdownStyle={{ top: '100%', marginTop: 0, borderRadius: '.4rem', padding: '.2rem' }}
                     />
                     <span className="form--error-message">
-                        {customerFormErrors?.phone && customerFormErrors?.phone}
+                        {supplierFormErrors?.phone && supplierFormErrors?.phone}
                     </span>
                 </div>
 
-
                 <div className="form--item">
-                    <label htmlFor='country' className="form--label">Country <Asterisk /></label>
+                    <label htmlFor='location' className="form--label">Location <Asterisk /></label>
 
-                    {/* <input type='text' id='country' name='country' placeholder='Enter Country' className='form--input' value={customerData.country} onChange={handleCustomerData} /> */}
-                    <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} noDataLabel='Loading...' />
+                    <input type='text' name='location' placeholder='Block 7, Sangotedo Ajah Lagos' className='form--input' value={supplierData.location} onChange={handleSupplierData} />
                     <span className="form--error-message">
-                        {customerFormErrors?.country && customerFormErrors?.country}
+                        {supplierFormErrors?.location && supplierFormErrors?.location}
                     </span>
+                </div>
+
+                <div className="form--item" style={{ gap: "1.4rem" }}>
+                    <label className="form--label">Contact info (optional)</label>
+
+                    <div className="tabs">
+                        <Tab title={<><GiEnvelope /> Email</>} active={selectedInfo.email} onClick={() => handleSelectedInfo("email")} />
+                        <Tab title={<><AiFillInstagram />Instagram</>} active={selectedInfo.instagram} onClick={() => handleSelectedInfo("instagram")} />
+                        <Tab title={<><AiFillTikTok />Tiktok</>} active={selectedInfo.tiktok} onClick={() => handleSelectedInfo("tiktok")} />
+                        <Tab title={<><FaSnapchatSquare />SnapChat</>} active={selectedInfo.snapchat} onClick={() => handleSelectedInfo("snapchat")} />
+                    </div>
+                    <Info text="Select at most three (3) contact info or leave empty" />
+                    
+                    {selectedInfo.email && <input type='text' name='email' placeholder='Enter email' className='form--input' value={supplierData.country} onChange={handleSupplierData} />}
+                    {selectedInfo.instagram && <input type='text' name='instagram' placeholder='@quickabusiness' className='form--input' value={supplierData.country} onChange={handleSupplierData} />}
+                    {selectedInfo.tiktok && <input type='text' name='country' placeholder='@' className='form--input' value={supplierData.country} onChange={handleSupplierData} />}
+                    {selectedInfo.snapchat && <input type='text' name='country' placeholder='Enter Country' className='form--input' value={supplierData.country} onChange={handleSupplierData} />}
+                    
                 </div>
 
                 <div className="page__section--actions">

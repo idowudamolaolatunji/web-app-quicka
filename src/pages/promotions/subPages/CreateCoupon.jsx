@@ -17,6 +17,7 @@ import ProductPreview from '../../../components/layout/ProductPreview.jsx';
 import MainDropdownSelect from '../../../components/form/MainDropdownSelect.jsx';
 import { FaCheck } from 'react-icons/fa';
 import { validateCouponForm } from '../../../utils/validationHelper.js';
+import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
 export default function CreateCoupon() {
@@ -195,7 +196,7 @@ export default function CreateCoupon() {
             handleClear={handleClearFields}
             handleSubmit={handleSubmitCoupon}
             confetti={showConfetti}
-            hasExplainer={id ? false : true}
+            hasExplainer={width <= 500 && !id}
             btnBelow={false}
         >
             <form className="product__upload--container" onSubmit={e => e.preventDefault()} 
@@ -205,7 +206,15 @@ export default function CreateCoupon() {
 
                 <div className="card form">
                     <div className="section--heading">
-                        <h2>Coupon Details</h2>
+                        <span className='flex-align-center' style={{ justifyContent: "space-between" }}>
+                            <h2>Coupon Details</h2>
+                            {(width > 500 && !id) && (
+                                <button className="form--add" onClick={() => {}}>
+                                    <IoPlayCircleOutline />
+                                    See how to Create Coupon
+                                </button>
+                            )}
+                        </span>
                         {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                     </div>
 

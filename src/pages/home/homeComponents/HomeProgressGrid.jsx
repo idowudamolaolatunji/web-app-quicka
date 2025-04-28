@@ -1,7 +1,6 @@
 import React from 'react'
-import { GiPayMoney } from 'react-icons/gi'
+import { GiExpense, GiPayMoney } from 'react-icons/gi'
 import HomeProgressCard from './HomeProgressCard'
-import { LuArchiveRestore } from 'react-icons/lu'
 import { MdAddChart } from 'react-icons/md'
 import { useFetchedContext } from '../../../context/FetchedContext'
 import moment from 'moment'
@@ -76,7 +75,7 @@ function ProgressGrid() {
         <div className='prog--grid' style={isCollapsedBtw900and1000 ? { gridTemplateColumns: "repeat(3, 1fr)" } : {}}>
             <HomeProgressCard title={`Total Sales (${width <= 450 ? "Inflow" : "In"})`} icon={<MdAddChart />} value={allResult.periodSales} percent={allResult.percent} upTrend={!hasSale && allResult.percent > 0} days={1} />
             <HomeProgressCard title='Total Settlements' icon={<GiPayMoney />} value={settlementResult.periodSales} percent={settlementResult.percent} upTrend={!hasSettlement && settlementResult.percent > 0} days={1} />
-            <HomeProgressCard title={`Total Expenses (${width <= 450 ? "Outflow" : "Out"})`} icon={<LuArchiveRestore />} value={expensesResult.periodSales} percent={expensesResult.percent} upTrend={!hasExpense && expensesResult.percent > 0} days={1} />
+            <HomeProgressCard title={`Total Expenses (${width <= 450 ? "Outflow" : "Out"})`} icon={<GiExpense />} value={expensesResult.periodSales} percent={expensesResult.percent} upTrend={!hasExpense && expensesResult.percent > 0} days={1} />
             {/* <HomeProgressCard title='Offline Sales' icon={<LuArchiveRestore />} value={offlineResult.periodSales} percent={offlineResult.percent} upTrend={!hasData && offlineResult.percent > 0} days={1} /> */}
         </div>
     )

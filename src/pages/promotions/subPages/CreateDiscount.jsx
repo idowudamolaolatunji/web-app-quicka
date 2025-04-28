@@ -14,6 +14,7 @@ import { discountSelectionTypeData } from "../../../utils/data.jsx";
 import { FaCheck } from 'react-icons/fa';
 import Info from '../../../components/elements/Info.jsx';
 import { validateDiscountForm } from '../../../utils/validationHelper.js';
+import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
 export default function CreateDiscount() {
@@ -156,7 +157,7 @@ export default function CreateDiscount() {
             handleClear={handleClearFields}
             handleSubmit={handleSubmitDiscount}
             confetti={showConfetti}
-            hasExplainer={id ? false : true}
+            hasExplainer={width <= 500 && !id}
             btnBelow={false}
         >
             <form className="product__upload--container" onSubmit={e => e.preventDefault()} 
@@ -166,7 +167,15 @@ export default function CreateDiscount() {
 
                 <div className="card form">
                     <div className="section--heading">
-                        <h2>Discount Details</h2>
+                        <span className='flex-align-center' style={{ justifyContent: "space-between" }}>
+                            <h2>Discount Details</h2>
+                            {(width > 500 && !id) && (
+                                <button className="form--add" onClick={() => {}}>
+                                    <IoPlayCircleOutline />
+                                    See how to Create Discount
+                                </button>
+                            )}
+                        </span>
                         {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                     </div>
 
@@ -257,7 +266,7 @@ export default function CreateDiscount() {
                         <div className="form--item">
                             <label htmlFor="name" className="form--label">Product(s) <Asterisk /></label>
 
-                            <MainDropdownSelect title="Product" subtitle="Product(s) to add discount" options={products} field="name" value={discountProducts} setValue={setDiscountProducts} noDataLabel="No product found!" multiple={true} />
+                            <MainDropdownSelect title="Product" subtitle={`Product(s) to add ${width > 400 ? "discount" : "" }`} options={products} field="name" value={discountProducts} setValue={setDiscountProducts} noDataLabel="No product found!" multiple={true} />
 
                             <span className="form--error-message">
                                 {discountFormErrors.discountProducts && discountFormErrors.discountProducts}

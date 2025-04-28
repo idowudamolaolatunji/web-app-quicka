@@ -15,6 +15,9 @@ import isOnline from 'is-online';
 import CheckBoxInput from '../../../components/form/CheckBoxInput';
 import ProfileImageUploader from '../../../components/form/ProfileImageUploader';
 import Delete from '../../../components/modal/Delete';
+import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
+import { FaSnapchatSquare } from 'react-icons/fa';
+import Tab from '../../../components/elements/Tab';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -42,6 +45,7 @@ export default function AddCustomer({ close, isModal }) {
     const [checked, setChecked] = useState(false);
     const [customerImage, setCustomerImage] = useState({ preview: "", file: null });
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedInfo, setSelectedInfo] = useState({ instagram: false, tiktok: false, snapchat: false });
 
     const [customerFormErrors, setCustomerFormErrors] = useState({});
     const [customerData, setCustomerData] = useState({
@@ -117,6 +121,14 @@ export default function AddCustomer({ close, isModal }) {
         } finally {
             setLoading(false)
         }
+    }
+
+    const handleSelectedInfo = function(tab) {
+        const selected = Object.values(selectedInfo).filter(info => info);
+        if (selected.length < 2 && !selectedInfo[tab])
+            setSelectedInfo((prev) => ({ ...prev, [tab]: true }));
+        if (selected.length > 0 && selectedInfo[tab]) 
+            setSelectedInfo((prev) => ({ ...prev, [tab]: false }));
     }
 
     const handleClearFields = function() {
@@ -309,7 +321,7 @@ export default function AddCustomer({ close, isModal }) {
                     <div className='left--container containers'>
                         <div className="card form">
                             <div className="section--heading">
-                                <h2>Customer Details</h2>
+                                <h2>Personal Information</h2>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
 
@@ -374,9 +386,17 @@ export default function AddCustomer({ close, isModal }) {
                                 </div>
                             </div>
 
-                            <div className="form--item">
-                                <label htmlFor='description' className="form--label">Addtional Note (optional)</label>
-                                <textarea name="description" id="description" placeholder='Additional...' className='form--input' value={customerData.description} onChange={handleCustomerData} />
+                            <div className="form--item" style={{ gap: "1.4rem" }}>
+                                <label className="form--label">Socials (optional)</label>
+                                <div className="tabs" style={{ justifyContent: "flex-start" }}>
+                                    <Tab title={<><AiFillInstagram />Instagram</>} active={selectedInfo.instagram} onClick={() => handleSelectedInfo("instagram")} />
+                                    <Tab title={<><AiFillTikTok />Tiktok</>} active={selectedInfo.tiktok} onClick={() => handleSelectedInfo("tiktok")} />
+                                    <Tab title={<><FaSnapchatSquare />SnapChat</>} active={selectedInfo.snapchat} onClick={() => handleSelectedInfo("snapchat")} />
+                                </div>
+                                
+                                {selectedInfo.instagram && <input type='text' name='instagram' placeholder='@quickabusiness' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
+                                {selectedInfo.tiktok && <input type='text' name='country' placeholder='@' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
+                                {selectedInfo.snapchat && <input type='text' name='country' placeholder='Enter Country' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
                             </div>
 
                         </div>
@@ -387,13 +407,12 @@ export default function AddCustomer({ close, isModal }) {
                     <div className='right--container containers'>
                         <div className="card form">
                             <div className="section--heading">
-                                <h2>Customer Delivery Details</h2>
+                                <h2>Delivery Details</h2>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
 
                             <div className="form--item">
-                                <label htmlFor='address' className="form--label">Delivery Address (optional)</label>
-                                
+                                <label htmlFor='address' className="form--label">Location (optional)</label>
                                 <textarea id='address' name='address' className="form--input" placeholder='Block 12, Flat 3, Libra Estate, Lagos State Nigeria' value={customerData.address} onChange={handleCustomerData} />
                             </div>
 
@@ -415,14 +434,12 @@ export default function AddCustomer({ close, isModal }) {
 
                                 <div className="form--item">
                                     <label className="form--label">City (optional)</label>
-
                                     <MainDropdownSelect title="a city" options={location?.city} field="name" value={city} setValue={setCity} customClass='select-width' noDataLabel='Choose state, Loading...' />
                                 </div>
 
 
                                 <div className="form--item">
                                     <label htmlFor='zip' className="form--label">Zip Code (optional)</label>
-
                                     <input type='number' id='zip' name='zipCode' placeholder='Zipcode' className='form--input' value={customerData.zipCode} onChange={handleCustomerData} />
                                 </div>
 

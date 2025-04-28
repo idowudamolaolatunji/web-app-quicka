@@ -104,7 +104,7 @@ input::-webkit-inner-spin-button {
 }
 
 textarea {
-	height: 8rem;
+	height: 6rem;
 	resize: none;
     scrollbar-width: none;
 }

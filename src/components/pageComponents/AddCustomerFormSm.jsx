@@ -11,6 +11,9 @@ import { validateCustomerForm } from '../../utils/validationHelper';
 import { useFetchedContext } from '../../context/FetchedContext';
 import MainDropdownSelect from '../form/MainDropdownSelect';
 import { useDataContext } from '../../context/DataContext';
+import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
+import { FaSnapchatSquare } from 'react-icons/fa';
+import Tab from '../elements/Tab';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -19,11 +22,11 @@ export default function AddCustomerFormSm({ close }) {
     const { headers, store, shouldKick } = useAuthContext();
     const { handleFetchMyStoreCustomers } = useFetchedContext()
     const { location, setLocation, getContries } = useDataContext();
-    const { countryCode } = store?.contact;
 
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
-    const [country, setCountry] = useState([]);
+    const [country, setCountry] = useState(store?.location?.country ? [store?.location?.country] : []);
+    const [selectedInfo, setSelectedInfo] = useState({ instagram: false, tiktok: false, snapchat: false });
 
     const [customerFormErrors, setCustomerFormErrors] = useState({});
     const [customerData, setCustomerData] = useState({
@@ -70,6 +73,14 @@ export default function AddCustomerFormSm({ close }) {
             [name]: value,
         });
     };
+
+    const handleSelectedInfo = function(tab) {
+        const selected = Object.values(selectedInfo).filter(info => info);
+        if (selected.length < 2 && !selectedInfo[tab])
+            setSelectedInfo((prev) => ({ ...prev, [tab]: true }));
+        if (selected.length > 0 && selectedInfo[tab]) 
+            setSelectedInfo((prev) => ({ ...prev, [tab]: false }));
+    }
 
     useEffect(function () {
         setLocation({ ...location, state: [], city: [] });
@@ -135,19 +146,21 @@ export default function AddCustomerFormSm({ close }) {
             )}
 
             <div className='modal--form'>
-                <div className="form--item">
-                    <label htmlFor="firstname" className="form--label">Firstname <Asterisk /></label>
-                    <input type="text" id="firstname" name='firstname' className="form--input" placeholder='Taiwo' value={customerData.firstname} onChange={handleCustomerData} />
-                    <span className="form--error-message">
-                        {customerFormErrors?.firstname && customerFormErrors?.firstname}
-                    </span>
-                </div>
-                <div className="form--item">
-                    <label htmlFor="lastname" className="form--label">Lastname <Asterisk /></label>
-                    <input type="text" id="lastname" name='lastname' className="form--input" placeholder='Matthew' value={customerData.lastname} onChange={handleCustomerData} />
-                    <span className="form--error-message">
-                        {customerFormErrors?.lastname && customerFormErrors?.lastname}
-                    </span>
+                <div className="form--grid">
+                    <div className="form--item">
+                        <label htmlFor="firstname" className="form--label">Firstname <Asterisk /></label>
+                        <input type="text" id="firstname" name='firstname' className="form--input" placeholder='Taiwo' value={customerData.firstname} onChange={handleCustomerData} />
+                        <span className="form--error-message">
+                            {customerFormErrors?.firstname && customerFormErrors?.firstname}
+                        </span>
+                    </div>
+                    <div className="form--item">
+                        <label htmlFor="lastname" className="form--label">Lastname <Asterisk /></label>
+                        <input type="text" id="lastname" name='lastname' className="form--input" placeholder='Matthew' value={customerData.lastname} onChange={handleCustomerData} />
+                        <span className="form--error-message">
+                            {customerFormErrors?.lastname && customerFormErrors?.lastname}
+                        </span>
+                    </div>
                 </div>
 
                 <div className="form--item">
@@ -162,7 +175,7 @@ export default function AddCustomerFormSm({ close }) {
                     <label htmlFor="phone" className="form--label">Phone Number <Asterisk /></label>
 
                     <PhoneInput
-                        country={countryCode}
+                        country={String(country[0]?.iso2).toLowerCase()}
                         value={customerData.phone}
                         inputProps={{ name: 'phone', id: 'phone' }}
                         onChange={(num, countryOpts) => handleCustomerData(null, num, countryOpts)}
@@ -176,18 +189,29 @@ export default function AddCustomerFormSm({ close }) {
                     </span>
                 </div>
 
+                <div className="form--item" style={{ gap: "1.4rem" }}>
+                    <label className="form--label">Socials (optional)</label>
+                    <div className="tabs" style={{ justifyContent: "flex-start" }}>
+                        <Tab title={<><AiFillInstagram />Instagram</>} active={selectedInfo.instagram} onClick={() => handleSelectedInfo("instagram")} />
+                        <Tab title={<><AiFillTikTok />Tiktok</>} active={selectedInfo.tiktok} onClick={() => handleSelectedInfo("tiktok")} />
+                        <Tab title={<><FaSnapchatSquare />SnapChat</>} active={selectedInfo.snapchat} onClick={() => handleSelectedInfo("snapchat")} />
+                    </div>
+                    
+                    {selectedInfo.instagram && <input type='text' name='instagram' placeholder='@quickabusiness' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
+                    {selectedInfo.tiktok && <input type='text' name='country' placeholder='@' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
+                    {selectedInfo.snapchat && <input type='text' name='country' placeholder='Enter Country' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
+                </div>
 
                 <div className="form--item">
                     <label htmlFor='country' className="form--label">Country <Asterisk /></label>
 
-                    {/* <input type='text' id='country' name='country' placeholder='Enter Country' className='form--input' value={customerData.country} onChange={handleCustomerData} /> */}
                     <MainDropdownSelect title="a Country" options={location?.country} field="name" value={country} setValue={setCountry} noDataLabel='Loading...' />
                     <span className="form--error-message">
                         {customerFormErrors?.country && customerFormErrors?.country}
                     </span>
                 </div>
 
-                <div className="page__section--actions">
+                <div className="page__section--actions" style={{ marginTop: "1rem" }}>
                     <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
                     <button className='button submit--button' onClick={handleCreateCustomer} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
