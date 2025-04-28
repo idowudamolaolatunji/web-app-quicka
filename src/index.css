@@ -1160,6 +1160,11 @@ body:has(.global--overlay) {
 	.none-450 {
 		display: none;
 	}
+
+	body:has(.global--overlay) {
+		height: auto;
+		overflow-y: auto !important;
+	}
 }
 
 @media screen and (max-width: 400px) {

@@ -1599,6 +1599,9 @@
 		font-size: 1.28rem;
 		font-weight: 600;
 	}
+	.page--tab:hover {
+		color: #444;
+	}
 
 	.analytics--grid.grid--1x1,
 	.analytics--grid.grid--2x1 {
