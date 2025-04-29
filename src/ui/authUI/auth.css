@@ -107,6 +107,12 @@
 .url--box.coupon:hover {
     color: var(--color-brand-500);
 }
+.form--socials .url--box {
+    padding: .92rem 1rem;
+}
+.form--socials .url--box svg {
+    font-size: 2rem;
+}
 .form--input-icon {
     position: absolute;
     top: 50%;

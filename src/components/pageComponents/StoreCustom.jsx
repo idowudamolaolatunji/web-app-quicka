@@ -6,7 +6,7 @@ import Line from '../elements/Line';
 
 import ImageUploadInput from '../form/ImageUploadInput';
 import { useAuthContext } from '../../context/AuthContext';
-import { AiOutlineLink } from 'react-icons/ai';
+import { AiFillFacebook, AiFillInstagram, AiFillTikTok, AiFillTwitterSquare, AiFillX, AiOutlineLink, AiOutlineWhatsApp } from 'react-icons/ai';
 import ColorBox from '../elements/ColorBox';
 
 import LinkInput from '../form/LinkInput';
@@ -500,12 +500,12 @@ export default function StoreCustom({ isnew, close }) {
                             <p className="custom--subtext">Social icons will be diplayed on your store website to give more credibility about your business</p>
                         </span>
 
-                        <div className="form--item">
-                            <LinkInput url='www.facebook.com/' name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your facebook page" />
-                            <LinkInput url='www.instagram.com/' name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your instagram handle" />
-                            <LinkInput url='www.twitter.com/' name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your twitter handle" />
-                            <LinkInput url='www.tiktok.com/' name="tiktok" value={storeData.tiktok} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your tiktok page" />
-                            <LinkInput url='https://wa.me/' name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your whatsapp number" type='number' />
+                        <div className="form--item form--socials">
+                            <LinkInput url={width < 450 ? <AiFillFacebook /> : 'www.facebook.com/'} name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your facebook page" />
+                            <LinkInput url={width < 450 ? <AiFillInstagram /> : "www.instagram.com/"} name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your instagram handle" />
+                            <LinkInput url={width < 450 ? <AiFillTwitterSquare /> :'www.twitter.com/'} name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your twitter handle" />
+                            <LinkInput url={width < 450 ? <AiFillTikTok /> :'www.tiktok.com/'} name="tiktok" value={storeData.tiktok} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your tiktok profile" />
+                            <LinkInput url={width < 450 ? <AiOutlineWhatsApp /> :'https://wa.me/'} name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your whatsapp number" type='number' />
                         </div>
                     </div>
 

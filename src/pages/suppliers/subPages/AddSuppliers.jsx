@@ -22,6 +22,7 @@ import { RiMapPinUserLine } from 'react-icons/ri';
 import { GiEnvelope } from 'react-icons/gi';
 import Info from '../../../components/elements/Info';
 import { IoPlayCircleOutline } from 'react-icons/io5';
+import LinkInput from '../../../components/form/LinkInput';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -46,6 +47,7 @@ export default function AddSuppliers() {
 
     const [customerFormErrors, setSupplierFormErrors] = useState({});
     const [supplierData, setSupplierData] = useState({
+        email: "",
         fullname: "",
         phone: "",
         phoneNumber: "",
@@ -53,7 +55,12 @@ export default function AddSuppliers() {
         countryCode: "",
         description: "",
         address: "",
-        zipCode: ""
+        zipCode: "",
+        socials: {
+            instagram: "",
+            tiktok: "",
+            snapchat: "",
+        }
     });
 
 
@@ -256,8 +263,8 @@ export default function AddSuppliers() {
                                 </div>
                             </div>
 
-                            <div className="form--item" style={{ gap: "1.4rem" }}>
-                                <label className="form--label">Socials (optional)</label>
+                            <div className="form--item form--socials" style={{ gap: "1.4rem" }}>
+                                <label className="form--label">Contacts (optional)</label>
                                 <div className="tabs" style={{ justifyContent: "flex-start" }}>
                                     <Tab title={<><GiEnvelope /> Email</>} active={selectedInfo.email} onClick={() => handleSelectedInfo("email")} />
                                     <Tab title={<><AiFillInstagram />Instagram</>} active={selectedInfo.instagram} onClick={() => handleSelectedInfo("instagram")} />
@@ -267,10 +274,10 @@ export default function AddSuppliers() {
                                 
                                 <Info text="Select at most three (3) contact info or leave empty" />
                     
-                                {selectedInfo.email && <input type='text' name='email' placeholder='Enter email' className='form--input' value={supplierData.country} onChange={handleSupplierData} />}
-                                {selectedInfo.instagram && <input type='text' name='instagram' placeholder='@quickabusiness' className='form--input' value={supplierData.countryCode} onChange={handleSupplierData} />}
-                                {selectedInfo.tiktok && <input type='text' name='country' placeholder='@' className='form--input' value={supplierData.countryCode} onChange={handleSupplierData} />}
-                                {selectedInfo.snapchat && <input type='text' name='country' placeholder='Enter Country' className='form--input' value={supplierData.countryCode} onChange={handleSupplierData} />}
+                                {selectedInfo.email && <LinkInput url={<GiEnvelope />} name="email" value={supplierData.email} handleChange={handleSupplierData} linkPosition='start' placeholder="@ email address" />}
+                                {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={supplierData.socials.instagram} handleChange={handleSupplierData} linkPosition='start' placeholder="@ instagram handle" />}
+                                {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={supplierData.socials.tiktok} handleChange={handleSupplierData} linkPosition='start' placeholder="@ tiktok profile" />}
+                                {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={supplierData.socials.snapchat} handleChange={handleSupplierData} linkPosition='start' placeholder="@ snapchat handle" />}
                             </div>
                         </div>
                     </div>

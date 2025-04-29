@@ -18,6 +18,7 @@ import Delete from '../../../components/modal/Delete';
 import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
 import { FaSnapchatSquare } from 'react-icons/fa';
 import Tab from '../../../components/elements/Tab';
+import LinkInput from '../../../components/form/LinkInput';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -58,7 +59,12 @@ export default function AddCustomer({ close, isModal }) {
         countryCode: "",
         description: "",
         address: "",
-        zipCode: ""
+        zipCode: "",
+        socials: {
+            instagram: "",
+            tiktok: "",
+            snapchat: ""
+        }
     });
 
 
@@ -73,6 +79,11 @@ export default function AddCustomer({ close, isModal }) {
         }
 
         const { name, value } = e?.target;
+        if(name == "instagram" || name == "tiktok" || name == "snapchat") {
+            setCustomerData({ ...customerData, socials: {...customerData.socials, [name]: value} });
+            return;
+        }
+
         setCustomerData({
             ...customerData,
             [name]: value,
@@ -178,7 +189,8 @@ export default function AddCustomer({ close, isModal }) {
                         countryCode: fetchedItem?.contact?.countryCode || "",
                         description: fetchedItem?.description || "",
                         address: fetchedItem?.shippingAddress?.address || "",
-                        zipCode: fetchedItem?.shippingAddress?.zipCode || ""
+                        zipCode: fetchedItem?.shippingAddress?.zipCode || "",
+                        socials: fetchedItem?.socials || ""
                     });
 
                     setChecked(fetchedItem?.image?.url ? true : false);
@@ -386,17 +398,17 @@ export default function AddCustomer({ close, isModal }) {
                                 </div>
                             </div>
 
-                            <div className="form--item" style={{ gap: "1.4rem" }}>
+                            <div className="form--item form--socials" style={{ gap: "1.4rem" }}>
                                 <label className="form--label">Socials (optional)</label>
                                 <div className="tabs" style={{ justifyContent: "flex-start" }}>
                                     <Tab title={<><AiFillInstagram />Instagram</>} active={selectedInfo.instagram} onClick={() => handleSelectedInfo("instagram")} />
                                     <Tab title={<><AiFillTikTok />Tiktok</>} active={selectedInfo.tiktok} onClick={() => handleSelectedInfo("tiktok")} />
                                     <Tab title={<><FaSnapchatSquare />SnapChat</>} active={selectedInfo.snapchat} onClick={() => handleSelectedInfo("snapchat")} />
                                 </div>
-                                
-                                {selectedInfo.instagram && <input type='text' name='instagram' placeholder='@quickabusiness' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
-                                {selectedInfo.tiktok && <input type='text' name='country' placeholder='@' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
-                                {selectedInfo.snapchat && <input type='text' name='country' placeholder='Enter Country' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
+
+                                {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={customerData.socials.instagram} handleChange={handleCustomerData} linkPosition='start' placeholder="@ instagram handle" />}
+                                {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={customerData.socials.tiktok} handleChange={handleCustomerData} linkPosition='start' placeholder="@ tiktok profile" />}
+                                {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={customerData.socials.snapchat} handleChange={handleCustomerData} linkPosition='start' placeholder="@ snapchat handle" />}
                             </div>
 
                         </div>

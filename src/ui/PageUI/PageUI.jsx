@@ -54,7 +54,7 @@ function PageUI({
     // CHECK THIS AGAIN LATER....
     const isItem = items && items.length > 0;
     const width500andIsItem = (isItem && width < 510);
-    const insightPageOrTabName = pageName == "collection" ? "product" : pageName == "settlement" ? "transaction" : (pageName == "special_sales" || pageName == "coupon") ? "discount" : (pageName == "group" || pageName == "newsletter") ? "customer" : pageName;
+    const insightPageOrTabName = pageName == "collection" ? "product" : pageName == "settlement" ? "transaction" : pageName == "coupon" ? "discount" : (pageName == "group" || pageName == "newsletter") ? "customer" : pageName;
 
     const [showMoreActions, setShowMoreActions] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
@@ -111,7 +111,7 @@ function PageUI({
 
                 <span className='page__section--btns' style={(width500andIsItem && insights && (addUrl || addAction)) ? { display: "grid", gridTemplateColumns: "1fr 1fr" } : {}}>
                     {(isItem && (addUrl || addAction)) && (
-                        <button className="page__section-top-btn add" onClick={() => (pageName == "collection" || pageName == "customerGroup") ? addAction() : navigate(`/dashboard/${addUrl}`)}>
+                        <button className="page__section-top-btn add" onClick={() => (pageName == "collection" || pageName == "group") ? addAction() : navigate(`/dashboard/${addUrl}`)}>
                             {addBtnStr}<BiPlus />
                         </button>
                     )}

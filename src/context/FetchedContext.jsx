@@ -22,6 +22,7 @@ export const FetchedProvider = ({ children }) => {
     const [products, setProducts] = useState([]);
     const [customers, setCustomers] = useState([]);
     const [customerGroups, setCustomerGroups] = useState([]);
+    const [newsletterCustomers, setNewsletterCustomers] = useState([]);
     const [orders, setOrders] = useState([]);
     const [deliveryRates, setDeliveryRates] = useState([]);
     const [storeCategories, setStoreCategories] = useState([]);
@@ -31,8 +32,8 @@ export const FetchedProvider = ({ children }) => {
     const [coupons, setCoupons] = useState([]);
     const [expenses, setExpenses] = useState([]);
     const [settlements, setSettlements] = useState([]);
-    const [special_sales, setspecial_sales] = useState([]);
 
+    
     // LOADER STATES
     // const [storeLoader, setStoreLoader] = useState(true);
     const [storeLoader, setStoreLoader] = useState(false);
@@ -42,12 +43,12 @@ export const FetchedProvider = ({ children }) => {
     const [customerLoader, setCustomerLoader] = useState(true);
     const [collectionLoader, setCollectionLoader] = useState(true);
     const [customerGroupLoader, setCustomerGroupLoader] = useState(true);
+    const [newsletterLoader, setNewsletterLoader] = useState(true);
     const [transactionLoader, setTransactionLoader] = useState(true);
     const [couponLoader, setCouponLoader] = useState(true);
     const [discountLoader, setDiscountLoader] = useState(true);
     const [expensesLoader, setExpensesLoader] = useState(true);
     const [campaignLoader, setCampaignLoader] = useState(false);
-    const [storeSaleLoader, setStoreSaleLoader] = useState(false);
     const [settlementLoader, setSettlementLoader] = useState(false);
 
     // ERROR STATES
@@ -57,12 +58,12 @@ export const FetchedProvider = ({ children }) => {
     const [customerError, setCustomerError] = useState("");
     const [collectionError, setCollectionError] = useState("");
     const [customerGroupError, setCustomerGroupError] = useState("");
+    const [newsletterError, setNewsletterError] = useState("");
     const [transactionError, setTransactionError] = useState("");
     const [campaignError, setCampaignError] = useState("");
     const [discountError, setDiscountError] = useState("");
     const [couponError, setCouponError] = useState("");
     const [expensesError, setExpensesError] = useState("");
-    const [storeSaleError, setStoreSaleError] = useState("");
     const [settlementError, setSettlementError] = useState("");
 
     // SETTING LOADER THIS WAY IS BETTER THAN THE PREVIOUS
@@ -72,14 +73,14 @@ export const FetchedProvider = ({ children }) => {
         product: productLoader,
         delivery: deliveryLoader,
         customer: customerLoader,
-        customerGroup: customerGroupLoader,
+        group: customerGroupLoader,
+        newsletter: newsletterLoader,
         collection: collectionLoader,
         transaction: transactionLoader,
         campaign: campaignLoader,
         discount: discountLoader,
         coupon: couponLoader,
         expenses: expensesLoader,
-        special_sales: storeSaleLoader,
         settlement: settlementLoader,
     }
     const error = {
@@ -87,25 +88,27 @@ export const FetchedProvider = ({ children }) => {
         product: productError,
         delivery: deliveryError,
         customer: customerError,
-        customerGroup: customerGroupError,
+        group: customerGroupError,
+        newsletter: newsletterError,
         campaign: campaignError,
         collection: collectionError,
         transaction: transactionError,
         discount: discountError,
         coupon: couponError,
         expenses: expensesError,
-        special_sales: storeSaleError,
         settlement: settlementError,
     }
     
     // GLOBAL ERROR & GLOBAL REFETCH
-    const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || deliveryError || campaignError || discountError || couponError || expensesError || storeSaleError );
+    const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || customerGroupError || newsletterError || deliveryError || campaignError || discountError || couponError || expensesError );
 
     const handleGlobalRefetch = function() {
         handleFetchStore();
         handleFetchMyStoreOrders();
         handleFetchMyStoreProducts();
-        handleFetchMyStoreCustomers()
+        handleFetchMyStoreCustomers();
+        handleFetchMyStoreCustomerGroups();
+        handleFetchStoreNewsletterCustomers();
         handleFetchMyStoreTransactions();
         handleFetchMyStoreCollections();
         handleFetchMyStoreDeliveryRates();
@@ -115,7 +118,6 @@ export const FetchedProvider = ({ children }) => {
         /////////////////////////////////////
         // handleFetchMyStoreSettlements();
         // handleFetchMyStoreCampaigns();
-        // handleFetchMyStoreRunningSales();
         
     }
 
@@ -294,6 +296,33 @@ export const FetchedProvider = ({ children }) => {
         }
     }
 
+    // FETCH PROTECTED STORE NEWSLETTER CUSTOMERS
+    async function handleFetchStoreNewsletterCustomers () {
+        setNewsletterError("");
+        setNewsletterLoader(true);
+        setNewsletterCustomers([]);
+
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+
+            const res = await fetch(`${BASE_API_URL}/customers/newsletters/mine/customers?slug=${store?.slug}`,
+                { method: "GET", headers }
+            );
+            shouldKick(res);
+
+            const data = await res.json();
+            if(data.status == "fail") throw new Error();
+            if (data?.data) setNewsletterCustomers(data?.data?.customers);
+        } catch (err) {
+            console.log(err, err?.message)
+            const errMessage = handleFetchError(err?.message)
+            setNewsletterError(errMessage)
+        } finally {
+            setNewsletterLoader(false);
+        }
+    }
+
     // FETCH PROTECTED STIRE DELIVERY RATES
     async function handleFetchMyStoreDeliveryRates () {
         setDeliveryError("");
@@ -443,22 +472,6 @@ export const FetchedProvider = ({ children }) => {
         }
     }
 
-    // FETCH PROTECTED STORE RUNNING SALES
-    async function handleFetchMyStoreRunningSales () {
-        setStoreSaleError("");
-        setStoreSaleLoader(true);
-        setStoreSales([]);
-        try {
-            const connected = await isOnline();
-            if(!connected) throw new Error("Internet Error");
-            // code goes here...
-        } catch (err) {
-            const errMessage = handleFetchError(err?.message)
-            setStoreSaleError(errMessage)
-        } finally {
-            setStoreSaleLoader(false);
-        }
-    }
 
     // UPLOAD AND UPDATE SIMGLE IMAGE
     async function handleImageUpload(Imgfile, url, tk=null) {
@@ -485,13 +498,13 @@ export const FetchedProvider = ({ children }) => {
         setOrders([]);
         setCustomers([]);
         setCustomerGroups([]);
+        setNewsletterCustomers([]);
         setDeliveryRates([]);
         setTransactions([]);
         setSettlements([]);
         setCampaigns([]);
         setDiscounts([]);
         setCoupons([]);
-        setspecial_sales([]);
 
         if(token && user && shouldLoad) {
             // handleFetchStore();
@@ -500,6 +513,7 @@ export const FetchedProvider = ({ children }) => {
             handleFetchMyStoreCustomers();
             handleFetchMyStoreCollections();
             handleFetchMyStoreCustomerGroups();
+            handleFetchStoreNewsletterCustomers();
             handleFetchMyStoreDeliveryRates();
             handleFetchMyStoreTransactions();
             handleFetchMyStoreDiscounts();
@@ -507,7 +521,6 @@ export const FetchedProvider = ({ children }) => {
             handleFetchMyStoreExpenses();
             // handleFetchMyStoreSettlements();
             // handleFetchMyStoreCampaigns();
-            // handleFetchMyStoreRunningSales();
         }
     }, [token, user, shouldLoad])
 
@@ -528,7 +541,7 @@ export const FetchedProvider = ({ children }) => {
         transactions,
         deliveryRates,
         customerGroups,
-        special_sales,
+        newsletterCustomers,
         storeCategories,
         handleFetchError,
         handleImageUpload,
@@ -541,6 +554,7 @@ export const FetchedProvider = ({ children }) => {
         handleFetchMyStoreProducts,
         handleFetchMyStoreCustomers,
         handleFetchMyStoreCustomerGroups,
+        handleFetchStoreNewsletterCustomers,
         handleFetchMyStoreCollections,
         handleFetchMyStoreTransactions,
         handleFetchMyStoreDeliveryRates,
