@@ -1,10 +1,9 @@
 import React from 'react'
-
 import { ring } from 'ldrs'
-
 ring.register()
 
-function index() {
+
+export default function index() {
   return (
     <l-ring
         size="13.5"
@@ -15,5 +14,3 @@ function index() {
     ></l-ring>
   )
 }
-
-export default index

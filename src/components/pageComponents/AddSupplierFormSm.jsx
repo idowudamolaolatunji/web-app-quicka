@@ -4,7 +4,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import Asterisk from '../../components/elements/Asterisk';
 import PhoneInput from 'react-phone-input-2';
 
-import Spinner from "../../components/spinner/simple";
+import Spinner from "../../components/spinner/tallspin";
 import CustomAlert from '../../components/layout/CustomAlert';
 import { createPortal } from 'react-dom';
 import { validateCustomerForm } from '../../utils/validationHelper';
@@ -16,6 +16,7 @@ import { GiEnvelope } from "react-icons/gi";
 import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
 import { FaSnapchatSquare } from "react-icons/fa";
 import Info from '../elements/Info';
+import LinkInput from '../form/LinkInput';
 
 
 
@@ -39,6 +40,12 @@ export default function AddSupplierFormSm({ close }) {
         phone: "",
         dialCode: "",
         countryCode: "",
+        email: "",
+        socials: {
+            instagram: "",
+            tiktok: "",
+            snapchat: "",
+        }
     });
 
 
@@ -49,6 +56,12 @@ export default function AddSupplierFormSm({ close }) {
             phone: "",
             dialCode: "",
             countryCode: "",
+            email: "",
+            socials: {
+                instagram: "",
+                tiktok: "",
+                snapchat: "",
+            }
         });
 
         setCountry([]);
@@ -127,7 +140,7 @@ export default function AddSupplierFormSm({ close }) {
             // CLEAR FIELDS AND SET RESPONSE MESSAGE
             handleClearFields();
             setResponse({ status, message });
-            setTimeout(() => close(), 1000);
+            setTimeout(() => close(), 500);
             handleFetchMyStoreCustomers()
 
         } catch (err) {
@@ -190,18 +203,18 @@ export default function AddSupplierFormSm({ close }) {
                         <Tab title={<><AiFillTikTok />Tiktok</>} active={selectedInfo.tiktok} onClick={() => handleSelectedInfo("tiktok")} />
                         <Tab title={<><FaSnapchatSquare />SnapChat</>} active={selectedInfo.snapchat} onClick={() => handleSelectedInfo("snapchat")} />
                     </div>
-                    <Info text="Select at most three (3) contact info or leave empty" />
+                    <Info text="Select up to 3 social media platforms (optional, leave empty if none)" />
                     
-                    {selectedInfo.email && <input type='text' name='email' placeholder='Enter email' className='form--input' value={supplierData.country} onChange={handleSupplierData} />}
-                    {selectedInfo.instagram && <input type='text' name='instagram' placeholder='@quickabusiness' className='form--input' value={supplierData.country} onChange={handleSupplierData} />}
-                    {selectedInfo.tiktok && <input type='text' name='country' placeholder='@' className='form--input' value={supplierData.country} onChange={handleSupplierData} />}
-                    {selectedInfo.snapchat && <input type='text' name='country' placeholder='Enter Country' className='form--input' value={supplierData.country} onChange={handleSupplierData} />}
+                    {selectedInfo.email && <LinkInput url={<GiEnvelope />} name="email" value={supplierData.email} handleChange={handleSupplierData} linkPosition='start' placeholder="@ email address" />}
+                    {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={supplierData.socials.instagram} handleChange={handleSupplierData} linkPosition='start' placeholder="@ instagram handle" />}
+                    {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={supplierData.socials.tiktok} handleChange={handleSupplierData} linkPosition='start' placeholder="@ tiktok profile" />}
+                    {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={supplierData.socials.snapchat} handleChange={handleSupplierData} linkPosition='start' placeholder="@ snapchat handle" />}
                     
                 </div>
 
                 <div className="page__section--actions">
-                    <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
-                    <button className='button submit--button' onClick={handleCreateCustomer} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
+                    <button className='button clear--button' onClick={handleClearFields} disabled={loading}>Clear Fields</button>
+                    <button className={`button ${loading ? "spinner--button" : "submit--button"}`} onClick={handleCreateCustomer} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
             </div>
 

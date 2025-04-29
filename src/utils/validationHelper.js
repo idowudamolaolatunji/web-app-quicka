@@ -246,6 +246,31 @@ export function validateCustomerForm(data, _) {
 	return errors;
 }
 
+
+export function validateSuppllierForm(data, _) {
+	const errors = {};
+
+	if (!data.fullname.trim()) {
+		errors.fullname = "Fullname is required";
+	} else if (data.fullname.length < 3) {
+		errors.fullname = "Fullname must be at least 3 characters long";
+	}
+
+	if (!data?.email?.trim()) {
+		errors.email = "Email is required";
+	} else if (!/\S+@\S+\.\S+/.test(data.email)) {
+		errors.email = "Email is invalid";
+	}
+
+	if (!data?.phone.trim()) {
+		errors.phone = "Phone number is required";
+	} else if (data?.phone?.length < 12) {
+		errors.phone = `Phone number must have 9 - 10 numbers after +${data.dialCode}`;
+	}
+
+	return errors;
+}
+
 export function validateBankForm(data, _) {
 	const errors = {};
 

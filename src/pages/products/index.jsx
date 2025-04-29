@@ -80,17 +80,10 @@ function index() {
         setShowCollectionForm(!showCollectionForm);
     }
 
-    // HELP FIND COLLECTION BY ID
-    const findCollection = function(id) {
-        const collection = collections?.find(el => el?._id == id);
-        return collection;
-    }
-
     // HANDLE SHOW COLLECTION EDIT, PASSING IN AN ID AND CHANGE THE ROUTE
-    const handleShowCollectionEditForm = function(id) {
-        if(id) {
-            const collection = findCollection(id)
-            setSelectedCollection(collection);
+    const handleShowCollectionEditForm = function(item) {
+        if(item) {
+            setSelectedCollection(item);
             setShowCollectionEditForm(true);
         } else {
             setSelectedCollection(null);
@@ -190,7 +183,7 @@ function index() {
         {
             selector: row => (
                 <span className='table--actions'>
-                    <button className='table--btn' onClick={() => handleShowCollectionEditForm(row?._id)}><RiEdit2Line /></button>
+                    <button className='table--btn' onClick={() => handleShowCollectionEditForm(row)}><RiEdit2Line /></button>
                     <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),

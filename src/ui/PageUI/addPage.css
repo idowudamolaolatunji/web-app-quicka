@@ -35,7 +35,11 @@
 .page__section--actions .submit--button {
     background-color: var(--color-brand-500);
 }
-
+.page__section--actions .spinner--button {
+    background-color: var(--color-brand-500);
+    padding: .55rem 1rem;
+    transition: none;
+}
 
 
 

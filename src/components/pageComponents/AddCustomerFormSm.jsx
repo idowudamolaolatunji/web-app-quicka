@@ -4,7 +4,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import Asterisk from '../../components/elements/Asterisk';
 import PhoneInput from 'react-phone-input-2';
 
-import Spinner from "../../components/spinner/simple";
+import Spinner from "../../components/spinner/tallspin";
 import CustomAlert from '../../components/layout/CustomAlert';
 import { createPortal } from 'react-dom';
 import { validateCustomerForm } from '../../utils/validationHelper';
@@ -14,12 +14,14 @@ import { useDataContext } from '../../context/DataContext';
 import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
 import { FaSnapchatSquare } from 'react-icons/fa';
 import Tab from '../elements/Tab';
+import LinkInput from '../form/LinkInput';
+import Info from '../elements/Info';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export default function AddCustomerFormSm({ close }) {
-    const { headers, store, shouldKick } = useAuthContext();
+    const { formdataHeader, store, shouldKick } = useAuthContext();
     const { handleFetchMyStoreCustomers } = useFetchedContext()
     const { location, setLocation, getContries } = useDataContext();
 
@@ -37,6 +39,9 @@ export default function AddCustomerFormSm({ close }) {
         phoneNumber: "",
         dialCode: "",
         countryCode: "",
+        instagram: "",
+        tiktok: "",
+        snapchat: ""
     });
 
 
@@ -49,6 +54,9 @@ export default function AddCustomerFormSm({ close }) {
             phoneNumber: "",
             dialCode: "",
             countryCode: "",
+            instagram: "",
+            tiktok: "",
+            snapchat: ""
         });
 
         setCountry([]);
@@ -90,9 +98,8 @@ export default function AddCustomerFormSm({ close }) {
 
 
     async function handleCreateCustomer() {
-        const formData = { ...customerData, country }
         // FORM VALIDATIONS 
-        const newErrors = validateCustomerForm(formData);
+        const newErrors = validateCustomerForm({ ...customerData, country });
         setCustomerFormErrors(newErrors);
 
         if (Object.keys(newErrors).length >= 1) {
@@ -103,21 +110,27 @@ export default function AddCustomerFormSm({ close }) {
 
         // SET LOADER
         setResponse({ status: "", message: "" });
-        setLoading(true)
+        setLoading(true);
 
-        const { countryCode, dialCode, phoneNumber, phone, email, firstname, lastname, description } = customerData;
+        const { countryCode, dialCode, phoneNumber, phone, email, firstname, lastname, description, instagram, tiktok, snapchat } = customerData;
         const contact = { countryCode, dialCode, phoneNumber, phone, email };
-        const shippingAddress = { country: country[0] }
+        const shippingAddress = { country: country[0] };
+        const socials = { instagram, tiktok, snapchat };
+
+        const formData = new FormData();
+        formData.append('firstname', firstname);
+        formData.append('lastname', lastname);
+        formData.append('description', description);
+        formData.append('contact', JSON.stringify(contact));
+        formData.append('shippingAddress', JSON.stringify(shippingAddress));
+        formData.append('socials', JSON.stringify(socials));
 
         // MAKE REQUEST
         try {
-            const res = await fetch(`${BASE_API_URL}/customers`, {
-                headers,
+            const res = await fetch(`${BASE_API_URL}/customers?slug=${store?.slug}`, {
+                headers: formdataHeader,
                 method: "POST",
-                body: JSON.stringify({
-                    contact, shippingAddress,
-                    firstname, lastname, description
-                })
+                body: formData
             });
 
             shouldKick(res);
@@ -128,7 +141,7 @@ export default function AddCustomerFormSm({ close }) {
             // CLEAR FIELDS AND SET RESPONSE MESSAGE
             handleClearFields();
             setResponse({ status, message });
-            setTimeout(() => close(), 1000);
+            setTimeout(() => close(), 500);
             handleFetchMyStoreCustomers()
 
         } catch (err) {
@@ -196,10 +209,11 @@ export default function AddCustomerFormSm({ close }) {
                         <Tab title={<><AiFillTikTok />Tiktok</>} active={selectedInfo.tiktok} onClick={() => handleSelectedInfo("tiktok")} />
                         <Tab title={<><FaSnapchatSquare />SnapChat</>} active={selectedInfo.snapchat} onClick={() => handleSelectedInfo("snapchat")} />
                     </div>
+                    <Info text="Select up to 2 social media platforms (optional, leave empty if none)" />
                     
-                    {selectedInfo.instagram && <input type='text' name='instagram' placeholder='@quickabusiness' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
-                    {selectedInfo.tiktok && <input type='text' name='country' placeholder='@' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
-                    {selectedInfo.snapchat && <input type='text' name='country' placeholder='Enter Country' className='form--input' value={customerData.countryCode} onChange={handleCustomerData} />}
+                    {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={customerData.instagram} handleChange={handleCustomerData} linkPosition='start' placeholder="@ instagram handle" />}
+                    {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={customerData.tiktok} handleChange={handleCustomerData} linkPosition='start' placeholder="@ tiktok profile" />}
+                    {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={customerData.snapchat} handleChange={handleCustomerData} linkPosition='start' placeholder="@ snapchat handle" />}
                 </div>
 
                 <div className="form--item">
@@ -212,8 +226,8 @@ export default function AddCustomerFormSm({ close }) {
                 </div>
 
                 <div className="page__section--actions" style={{ marginTop: "1rem" }}>
-                    <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
-                    <button className='button submit--button' onClick={handleCreateCustomer} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
+                    <button className='button clear--button' onClick={handleClearFields} disabled={loading}>Clear Fields</button>
+                    <button className={`button ${loading ? "spinner--button" : "submit--button"}`} onClick={handleCreateCustomer} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
             </div>
 

@@ -29,9 +29,9 @@ const emptyBtns = [
 
 function index() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const tabParams = queryParams.get("tab")
+    // const location = useLocation();
+    // const queryParams = new URLSearchParams(location.search);
+    // const tabParams = queryParams.get("tab")
     
     const { width } = useWindowSize();
     const { store } = useAuthContext();
@@ -41,7 +41,7 @@ function index() {
     const totalSpent = expenses?.reduce((acc, expense) => acc + expense?.amount, 0);
     
     ////////////////////////////////////////////////////////
-    const [tabShown, setTabShown] = useState("expense");
+    // const [tabShown, setTabShown] = useState("expense");
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
     const [selectedId, setSelectedId] = useState(null);
@@ -95,14 +95,14 @@ function index() {
     }, []);
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE
-    useEffect(function () {
-        if (tabParams) {
-            setTabShown(tabParams)
-        } else {
-            navigate("?tab=expense")
-        }
-        setSearch("")
-    }, [tabParams]);
+    // useEffect(function () {
+    //     if (tabParams) {
+    //         setTabShown(tabParams)
+    //     } else {
+    //         navigate("?tab=expense")
+    //     }
+    //     setSearch("")
+    // }, [tabParams]);
     
     const handleShowDeleteModal = function(id) {
         setShowDeleteModal(true);

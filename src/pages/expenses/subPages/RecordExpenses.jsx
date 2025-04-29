@@ -26,7 +26,7 @@ export default function RecordExpenses() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { headers, store, shouldKick } = useAuthContext();
+    const { formdataHeader, store, shouldKick } = useAuthContext();
     const { suppliers, handleFetchMyStoreExpenses, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
     const currency = store?.currency?.symbol;
@@ -62,6 +62,8 @@ export default function RecordExpenses() {
             date: ""
         });
 
+        setAttachment(null);
+        setExpenseSupplier([]);
         setDescription("");
         window?.scrollTo({ top: 0, behavior: "smooth" });
         setExpensesFormErrors({})
@@ -86,10 +88,11 @@ export default function RecordExpenses() {
                         date: new Date(fetchedItem?.date).toISOString().slice(0, 16) || ""
                     });
                     setDescription(fetchedItem?.description || "");
+                    setAttachment(fetchedItem?.attachment?.url || null);
+                    setExpenseSupplier([fetchedItem?.supplier] || []);
                 }
             }
         })();
-
     }, [id]);
 
 
@@ -106,6 +109,15 @@ export default function RecordExpenses() {
         setResponse({ status: "", message: "" });
         setLoading(true);
 
+        const supplierId = expenseSupplier[0]?._id;
+        const formData = new FormData();
+        formData.append('title', expensesData.title);
+        formData.append('amount', expensesData.amount);
+        formData.append('date', expensesData.date);
+        formData.append('description', description);
+        formData.append('supplier', supplierId);
+        if(attachment) formData.append('attachment', attachment);
+
         const parameter = id ? `/${id}` : `?slug=${store?.slug}`
 
         try {
@@ -115,9 +127,10 @@ export default function RecordExpenses() {
             
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/expenses${parameter}`, {
-                headers,
+                headers: formdataHeader,
                 method: id ? "PATCH" : "POST",
-                body: JSON.stringify({ ...expensesData, description })
+                body: formData
+                // body: JSON.stringify({ ...expensesData, description })
             });
 
             shouldKick(res);
@@ -238,20 +251,18 @@ export default function RecordExpenses() {
                         </div>
 
 
-                        <div className="form--grid">
-                            <div className="form--item">
-                                <label htmlFor="amount" className="form--label">Attach File or Screenshots (optional)</label>
-                                <span className='add-file'>
-                                    <label htmlFor="add-file" className='add-label'>{attachment ? "Change" : "Choose"} file</label>
-                                    <span className='flex-align-center' style={{ gap: "1rem" }}>
-                                        <p>{!attachment?.name ? "No Choosen File" : truncateString(attachment?.name, 30)}</p>
-                                        {attachment && <button onClick={() => setAttachment(null)}>remove</button>}
-                                    </span>
-                                    <input type="file" name="" id="add-file" accept=".pdf, image/png, image/jpeg" maxLength={5} onChange={handleAddAttachment} />
+                        <div className="form--item">
+                            <label htmlFor="amount" className="form--label">Attach File or Screenshots (optional)</label>
+                            <span className='add-file'>
+                                <label htmlFor="add-file" className='add-label'>{attachment ? "Change" : "Choose"} file</label>
+                                <span className='flex-align-center' style={{ gap: "1rem" }}>
+                                    <p>{!attachment?.name ? "No Choosen File" : truncateString(attachment?.name, 30)}</p>
+                                    {attachment && <button onClick={() => setAttachment(null)}>remove</button>}
                                 </span>
-                                <Info text="Supported file type: JPEG, PNG, PDF; Max size: 4MB" />
-                                <span className="form--error-message" />
-                            </div>
+                                <input type="file" name="" id="add-file" accept=".pdf, image/png, image/jpeg" maxLength={5} onChange={handleAddAttachment} />
+                            </span>
+                            <Info text="Supported file type: JPEG, PNG, PDF; Max size: 4MB" />
+                            <span className="form--error-message" />
                         </div>
 
                         <div className="form--item">

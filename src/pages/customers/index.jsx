@@ -19,6 +19,7 @@ import { TbUsersGroup } from "react-icons/tb";
 import customer_emptyImg from '../../assets/images/illustrations/customer.png'
 import group_emptyImg from '../../assets/images/illustrations/group.png'
 import newsletter_emptyImg from '../../assets/images/illustrations/newletter.png'
+import CustomerGroupFormSm from '../../components/pageComponents/CustomerGroupFormSm';
 
 
 
@@ -54,7 +55,27 @@ function index() {
     const [selectedId, setSelectedId] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [search, setSearch] = useState("");
-    const [showCustomerGroupForm, setShowCustomerGroupForm] = useState(false);
+    const [showCustomerGroupForm, setShowCustomerGroupForm] = useState({ add: false, edit: false });
+    const [selectedGroup, setSelectedGroup] = useState(null);
+
+    const handleShowDeleteModal = function(id) {
+        setShowDeleteModal(true);
+        setSelectedId(id);
+    }
+
+    const handleShowCustomerGroupForm = function() {
+        setShowCustomerGroupForm({ ...showCustomerGroupForm, add: !showCustomerGroupForm.add });
+    }
+    const handleShowCustomerGroupEditForm = function(item) {
+        console.log(item, "me....")
+        if(item) {
+            setSelectedGroup(item);
+            setShowCustomerGroupForm({ ...showCustomerGroupForm, edit: true });
+        } else {
+            setShowCustomerGroupForm({ ...showCustomerGroupForm, edit: false });
+            setSelectedGroup(null);
+        }
+    }
 
     const customer_columns = [
         {
@@ -127,7 +148,7 @@ function index() {
         {
             selector: row => (
                 <span className='table--actions'>
-                    <button className='table--btn' onClick={() => navigate(`${row?._id}/edit`)}><RiEdit2Line /></button>
+                    <button className='table--btn' onClick={() => handleShowCustomerGroupEditForm(row)}><RiEdit2Line /></button>
                     <button className='table--btn' onClick={() => handleShowDeleteModal(row?._id)}><RiDeleteBin5Line /></button>
                 </span>
             ),
@@ -157,14 +178,6 @@ function index() {
         }
     ];
 
-    const handleShowDeleteModal = function(id) {
-        setShowDeleteModal(true);
-        setSelectedId(id);
-    }
-
-    const handleShowCustomerGroupForm = function() {
-        setShowCustomerGroupForm(!showCustomerGroupForm);
-    }
 
     useEffect(function () {
         document.title = `Quicka | ${tabShown == "customer" ? "Your Customers" : tabShown == "group" ? "Customer Group" : "Newsletter Customers"}`;
@@ -195,53 +208,61 @@ function index() {
 
 
     return (
-        <PageUI
-            pageName={tabShown}
-            shouldSelect={true}
-            items={tabShown == "customer" ? customers : tabShown == "group" ? customerGroups : newsletterCustomers}
-            columns={tabShown == "customer" ? customer_columns : tabShown == "group" ? group_columns : newsletter_columns}
-            data={tabShown == "customer" ? customers : tabShown == "group" ? customerGroups : newsletterCustomers}
-            addBtnStr={tabShown == "customer" ? "Add customer" : tabShown == "group" ? "Create Group" : ""}
-            emptyText={tabShown == "customer" ? customer_emptyText : tabShown == "group" ? group_emptyText : newsletter_emptyText}
-            emptyBtns={tabShown == "customer" ? customer_emptyBtns : tabShown == "group" ? group_emptyBtns : null}
-            emptyImg={tabShown == "customer" ? customer_emptyImg : tabShown == "group" ? group_emptyImg : newsletter_emptyImg}
-            emptyTitle={tabShown == "customer" ? customer_emptyTitle : tabShown == "group" ? group_emptyTitle : newsletter_emptyTitle}
-            hasLink={tabShown == "customer" ? true : false}
-
-            {...(tabShown == "customer" ? { addUrl: "customers/add" } : tabShown == "group" ? { addAction: handleShowCustomerGroupForm, action: showCustomerGroupForm, addUrl: null } : { addUrl: "" })}
-            
-            headTabs={tabShown == "customer" ? (
-                <TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomers} />
-            ) : ( tabShown == "group") ? (
-                <TableHeadTabs pageName="group" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomerGroups} />
-            ) : (
-                <TableHeadTabs pageName="newsletter" handleFetch={""} />
+        <React.Fragment>
+            {(selectedGroup && showCustomerGroupForm.edit) && (
+                <Drawer title="Edit Customer Group" setClose={handleShowCustomerGroupEditForm}>
+                    <CustomerGroupFormSm close={handleShowCustomerGroupEditForm} editingItem={selectedGroup} />
+                </Drawer>
             )}
 
-            deleteObj={{ 
-                fn: deleteItem,
-                title: `${cap1stLetter(tabShown == "group" ? '"customer group"' : tabShown == "newsletter" ? '"newsletter customer"' : '"customer"')}`,
-                close: setShowDeleteModal,
-                show: showDeleteModal,
-                loader: loading
-            }}
-        >
+            <PageUI
+                pageName={tabShown}
+                shouldSelect={true}
+                items={tabShown == "customer" ? customers : tabShown == "group" ? customerGroups : newsletterCustomers}
+                columns={tabShown == "customer" ? customer_columns : tabShown == "group" ? group_columns : newsletter_columns}
+                data={tabShown == "customer" ? customers : tabShown == "group" ? customerGroups : newsletterCustomers}
+                addBtnStr={tabShown == "customer" ? "Add customer" : tabShown == "group" ? "Create Group" : ""}
+                emptyText={tabShown == "customer" ? customer_emptyText : tabShown == "group" ? group_emptyText : newsletter_emptyText}
+                emptyBtns={tabShown == "customer" ? customer_emptyBtns : tabShown == "group" ? group_emptyBtns : null}
+                emptyImg={tabShown == "customer" ? customer_emptyImg : tabShown == "group" ? group_emptyImg : newsletter_emptyImg}
+                emptyTitle={tabShown == "customer" ? customer_emptyTitle : tabShown == "group" ? group_emptyTitle : newsletter_emptyTitle}
+                hasLink={tabShown == "customer" ? true : false}
 
-            {showInsights?.customer && (
-                <div className='page__section--insights insight--grid'>
-                    <Insight title='Total Customers' loader={loader[tabShown]} value={customers?.length || 0} icon={<FiUsers />} />
-                    <Insight title='Newsletter Customers' loader={loader[tabShown]} value={0} icon={<TbUserSquare />} />
-                    <Insight title='Total Customer Groups' loader={loader[tabShown]} value={0} icon={<TbUsersGroup />} />
+                {...(tabShown == "customer" ? { addUrl: "customers/add" } : tabShown == "group" ? { addAction: handleShowCustomerGroupForm, action: showCustomerGroupForm.add, addUrl: null } : { addUrl: "" })}
+                
+                headTabs={tabShown == "customer" ? (
+                    <TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomers} />
+                ) : ( tabShown == "group") ? (
+                    <TableHeadTabs pageName="group" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomerGroups} />
+                ) : (
+                    <TableHeadTabs pageName="newsletter" handleFetch={""} />
+                )}
+
+                deleteObj={{ 
+                    fn: deleteItem,
+                    title: `${cap1stLetter(tabShown == "group" ? '"customer group"' : tabShown == "newsletter" ? '"newsletter customer"' : '"customer"')}`,
+                    close: setShowDeleteModal,
+                    show: showDeleteModal,
+                    loader: loading
+                }}
+            >
+
+                {showInsights?.customer && (
+                    <div className='page__section--insights insight--grid'>
+                        <Insight title='Total Customers' loader={loader[tabShown]} value={customers?.length || 0} icon={<FiUsers />} />
+                        <Insight title='Newsletter Customers' loader={loader[tabShown]} value={0} icon={<TbUserSquare />} />
+                        <Insight title='Total Customer Groups' loader={loader[tabShown]} value={0} icon={<TbUsersGroup />} />
+                    </div>
+                )}
+
+                {/* THE TABS UI */}
+                <div className="page--tabs">
+                    <Tab title="Customers" onClick={() => navigate("?tab=customer")} active={tabShown == "customer"} />
+                    <Tab title="Customer Groups" onClick={() => navigate("?tab=group")} active={tabShown == "group"} />
+                    <Tab title="Newsletters" onClick={() => navigate("?tab=newsletter")} active={tabShown == "newsletter"} />
                 </div>
-            )}
-
-            {/* THE TABS UI */}
-            <div className="page--tabs">
-                <Tab title="Customers" onClick={() => navigate("?tab=customer")} active={tabShown == "customer"} />
-                <Tab title="Customer Groups" onClick={() => navigate("?tab=group")} active={tabShown == "group"} />
-                <Tab title="Newsletters" onClick={() => navigate("?tab=newsletter")} active={tabShown == "newsletter"} />
-            </div>
-        </PageUI>
+            </PageUI>
+        </React.Fragment>
     )
 }
 

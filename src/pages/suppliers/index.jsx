@@ -29,7 +29,7 @@ export default function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
-    const { loader, suppliers, handleDeleteOneItem } = useFetchedContext();
+    const { loader, suppliers, handleDeleteOneItem, handleFetchMyStoreSuppliers } = useFetchedContext();
 
     ////////////////////////////////////////////////////////
     const [loading, setLoading] = useState(false);
@@ -100,7 +100,7 @@ export default function index() {
         try {
             setLoading(true)
             await handleDeleteOneItem(`suppliers/${selectedId}`);
-            // function()
+            handleFetchMyStoreSuppliers()
             setShowDeleteModal(false)
         } catch(err) {
             console.log(err);

@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useDataContext } from '../../../context/DataContext';
-import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
-import { FiUsers } from 'react-icons/fi';
 import { useWindowSize } from 'react-use';
 import Line from '../../../components/elements/Line';
 import Asterisk from '../../../components/elements/Asterisk';
 import PhoneInput from 'react-phone-input-2';
-import { validateCustomerForm } from '../../../utils/validationHelper';
+import { validateSuppllierForm } from '../../../utils/validationHelper';
 import { useAuthContext } from '../../../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import AddPageUI from '../../../ui/PageUI/AddPageUI';
 import isOnline from 'is-online';
-import CheckBoxInput from '../../../components/form/CheckBoxInput';
-import ProfileImageUploader from '../../../components/form/ProfileImageUploader';
 import Delete from '../../../components/modal/Delete';
 import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
 import { FaSnapchatSquare } from 'react-icons/fa';
@@ -32,7 +27,7 @@ export default function AddSuppliers() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { headers, store, shouldKick } = useAuthContext();
-    const { handleFetchMyStoreCustomers, handleFetchError, handleFetchOneItem } = useFetchedContext();
+    const { handleFetchMyStoreSuppliers, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
     const { countryCode } = store?.contact;
 
@@ -43,7 +38,7 @@ export default function AddSuppliers() {
     });
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [selectedInfo, setSelectedInfo] = useState({ email: false, instagram: false, tiktok: false, snapchat: false });
+    const [selectedInfo, setSelectedInfo] = useState({ email: false, instagram: true, tiktok: false, snapchat: false });
 
     const [customerFormErrors, setSupplierFormErrors] = useState({});
     const [supplierData, setSupplierData] = useState({
@@ -54,13 +49,10 @@ export default function AddSuppliers() {
         dialCode: "",
         countryCode: "",
         description: "",
-        address: "",
-        zipCode: "",
-        socials: {
-            instagram: "",
-            tiktok: "",
-            snapchat: "",
-        }
+        location: "",
+        instagram: "",
+        tiktok: "",
+        snapchat: "",
     });
 
 
@@ -91,12 +83,17 @@ export default function AddSuppliers() {
 
     const handleClearFields = function() {
         setSupplierData({
+            email: "",
             fullname: "",
             phone: "",
+            phoneNumber: "",
             dialCode: "",
             countryCode: "",
             description: "",
             location: "",
+            instagram: "",
+            tiktok: "",
+            snapchat: "",
         });
 
         window?.scrollTo({ top: 0, behavior: "smooth" });
@@ -113,21 +110,22 @@ export default function AddSuppliers() {
         (async () => {
             if(id) {
                 setLoading(true);
-                const fetchedItem = await handleFetchOneItem("customer", id);
+                const fetchedItem = await handleFetchOneItem("suppliers", id);
                 setLoading(false);
 
                 if(fetchedItem) {
                     setSupplierData({
-                        firstname: fetchedItem?.firstname || "",
-                        lastname: fetchedItem?.lastname || "",
+                        fullname: fetchedItem?.fullname || "",
                         email: fetchedItem?.contact?.email || "",
                         phone: fetchedItem?.contact?.phone || "",
                         phoneNumber: fetchedItem?.contact?.phoneNumber || "",
                         dialCode: fetchedItem?.contact?.dialCode || "",
                         countryCode: fetchedItem?.contact?.countryCode || "",
                         description: fetchedItem?.description || "",
-                        address: fetchedItem?.shippingAddress?.address || "",
-                        zipCode: fetchedItem?.shippingAddress?.zipCode || ""
+                        location: fetchedItem?.contact?.location || "",
+                        instagram: fetchedItem?.contact?.socials?.instagram || "",
+                        tiktok: fetchedItem?.contact?.socials?.tiktok || "",
+                        snapchat: fetchedItem?.contact?.socials?.snapchat || "",
                     });
                 }
             }
@@ -137,9 +135,8 @@ export default function AddSuppliers() {
 
 
     async function handleSubmit() {
-        const formData = { ...supplierData, country }
         // FORM VALIDATIONS 
-        const newErrors = validateCustomerForm(formData);
+        const newErrors = validateSuppllierForm(supplierData);
         setSupplierFormErrors(newErrors);
 
         if (Object.keys(newErrors).length >= 1) {
@@ -152,9 +149,9 @@ export default function AddSuppliers() {
         setResponse({ status: "", message: "" });
         setLoading(true);
 
-        const { countryCode, dialCode, phoneNumber, phone, email, address, zipCode, firstname, lastname, description } = supplierData;
-        const contact = { countryCode, dialCode, phoneNumber, phone, email };
-        const shippingAddress = { address, zipCode, country: country[0], state: state[0], city: city[0] }
+        const { countryCode, dialCode, phoneNumber, phone, email, location, fullname, description, instagram, tiktok, snapchat } = supplierData;
+        const socials = { instagram, tiktok, snapchat };
+        const contact = { countryCode, dialCode, phoneNumber, phone, email, socials };
         
         const end_point = id ? `/${id}` : `?slug=${store?.slug}`
 
@@ -163,21 +160,11 @@ export default function AddSuppliers() {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
 
-            const formData = new FormData();
-            formData.append('firstname', firstname);
-            formData.append('lastname', lastname);
-            formData.append('description', description);
-            formData.append('contact', JSON.stringify(contact));
-            formData.append('shippingAddress', JSON.stringify(shippingAddress));
-            if(customerImage.file) {
-                formData.append("image", customerImage.file);
-            }
-
             // MAKE REQUEST
-            const res = await fetch(`${BASE_API_URL}/customers${end_point}`, {
+            const res = await fetch(`${BASE_API_URL}/suppliers${end_point}`, {
                 headers,
                 method: id ? "PATCH" : "POST",
-                body: formData
+                body: JSON.stringify({ fullname, location, description, contact })
             });
             shouldKick(res);
 
@@ -190,7 +177,7 @@ export default function AddSuppliers() {
             setResponse({ status, message });
             
             setTimeout(() => navigate(-1), 1000);
-            handleFetchMyStoreCustomers()
+            handleFetchMyStoreSuppliers()
 
         } catch (err) {
             const message = handleFetchError(err?.message)
@@ -264,7 +251,7 @@ export default function AddSuppliers() {
                             </div>
 
                             <div className="form--item form--socials" style={{ gap: "1.4rem" }}>
-                                <label className="form--label">Contacts (optional)</label>
+                                <label className="form--label">Contacts Info (optional)</label>
                                 <div className="tabs" style={{ justifyContent: "flex-start" }}>
                                     <Tab title={<><GiEnvelope /> Email</>} active={selectedInfo.email} onClick={() => handleSelectedInfo("email")} />
                                     <Tab title={<><AiFillInstagram />Instagram</>} active={selectedInfo.instagram} onClick={() => handleSelectedInfo("instagram")} />
@@ -272,7 +259,7 @@ export default function AddSuppliers() {
                                     <Tab title={<><FaSnapchatSquare />SnapChat</>} active={selectedInfo.snapchat} onClick={() => handleSelectedInfo("snapchat")} />
                                 </div>
                                 
-                                <Info text="Select at most three (3) contact info or leave empty" />
+                                <Info text="Select up to 3 social media platforms (optional, leave empty if none)" />
                     
                                 {selectedInfo.email && <LinkInput url={<GiEnvelope />} name="email" value={supplierData.email} handleChange={handleSupplierData} linkPosition='start' placeholder="@ email address" />}
                                 {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={supplierData.socials.instagram} handleChange={handleSupplierData} linkPosition='start' placeholder="@ instagram handle" />}

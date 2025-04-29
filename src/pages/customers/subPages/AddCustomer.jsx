@@ -19,6 +19,7 @@ import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
 import { FaSnapchatSquare } from 'react-icons/fa';
 import Tab from '../../../components/elements/Tab';
 import LinkInput from '../../../components/form/LinkInput';
+import Info from '../../../components/elements/Info';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -60,11 +61,9 @@ export default function AddCustomer({ close, isModal }) {
         description: "",
         address: "",
         zipCode: "",
-        socials: {
-            instagram: "",
-            tiktok: "",
-            snapchat: ""
-        }
+        instagram: "",
+        tiktok: "",
+        snapchat: ""
     });
 
 
@@ -79,11 +78,6 @@ export default function AddCustomer({ close, isModal }) {
         }
 
         const { name, value } = e?.target;
-        if(name == "instagram" || name == "tiktok" || name == "snapchat") {
-            setCustomerData({ ...customerData, socials: {...customerData.socials, [name]: value} });
-            return;
-        }
-
         setCustomerData({
             ...customerData,
             [name]: value,
@@ -190,9 +184,16 @@ export default function AddCustomer({ close, isModal }) {
                         description: fetchedItem?.description || "",
                         address: fetchedItem?.shippingAddress?.address || "",
                         zipCode: fetchedItem?.shippingAddress?.zipCode || "",
-                        socials: fetchedItem?.socials || ""
+                        instagram: fetchedItem?.socials?.instagram || "",
+                        tiktok: fetchedItem?.socials?.tiktok || "",
+                        snapchat: fetchedItem?.socials?.snapchat || "",
                     });
 
+                    setSelectedInfo({
+                        instagram: fetchedItem?.socials?.instagram ? true : false,
+                        tiktok: fetchedItem?.socials?.tiktok ? true : false,
+                        snapchat: fetchedItem?.socials?.snapchat ? true : false
+                    })
                     setChecked(fetchedItem?.image?.url ? true : false);
                     setCustomerImage({ preview: fetchedItem?.image?.url, file: null });
 
@@ -260,9 +261,10 @@ export default function AddCustomer({ close, isModal }) {
         setResponse({ status: "", message: "" });
         setLoading(true);
 
-        const { countryCode, dialCode, phoneNumber, phone, email, address, zipCode, firstname, lastname, description } = customerData;
+        const { countryCode, dialCode, phoneNumber, phone, email, address, zipCode, firstname, lastname, description, instagram, tiktok, snapchat } = customerData;
         const contact = { countryCode, dialCode, phoneNumber, phone, email };
         const shippingAddress = { address, zipCode, country: country[0], state: state[0], city: city[0] }
+        const socials = { instagram, tiktok, snapchat };
         
 
         const end_point = id ? `/${id}` : `?slug=${store?.slug}`
@@ -278,6 +280,7 @@ export default function AddCustomer({ close, isModal }) {
             formData.append('description', description);
             formData.append('contact', JSON.stringify(contact));
             formData.append('shippingAddress', JSON.stringify(shippingAddress));
+            formData.append('socials', JSON.stringify(socials));
             if(customerImage.file) {
                 formData.append("image", customerImage.file);
             }
@@ -405,10 +408,11 @@ export default function AddCustomer({ close, isModal }) {
                                     <Tab title={<><AiFillTikTok />Tiktok</>} active={selectedInfo.tiktok} onClick={() => handleSelectedInfo("tiktok")} />
                                     <Tab title={<><FaSnapchatSquare />SnapChat</>} active={selectedInfo.snapchat} onClick={() => handleSelectedInfo("snapchat")} />
                                 </div>
+                                <Info text="Select up to 2 social media platforms (optional, leave empty if none)" />
 
-                                {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={customerData.socials.instagram} handleChange={handleCustomerData} linkPosition='start' placeholder="@ instagram handle" />}
-                                {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={customerData.socials.tiktok} handleChange={handleCustomerData} linkPosition='start' placeholder="@ tiktok profile" />}
-                                {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={customerData.socials.snapchat} handleChange={handleCustomerData} linkPosition='start' placeholder="@ snapchat handle" />}
+                                {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={customerData.instagram} handleChange={handleCustomerData} linkPosition='start' placeholder="@ instagram handle" />}
+                                {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={customerData.tiktok} handleChange={handleCustomerData} linkPosition='start' placeholder="@ tiktok profile" />}
+                                {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={customerData.snapchat} handleChange={handleCustomerData} linkPosition='start' placeholder="@ snapchat handle" />}
                             </div>
 
                         </div>

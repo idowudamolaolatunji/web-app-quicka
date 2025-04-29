@@ -23,6 +23,7 @@ export const FetchedProvider = ({ children }) => {
     const [customers, setCustomers] = useState([]);
     const [customerGroups, setCustomerGroups] = useState([]);
     const [newsletterCustomers, setNewsletterCustomers] = useState([]);
+    const [suppliers, setSuppliers] = useState([]);
     const [orders, setOrders] = useState([]);
     const [deliveryRates, setDeliveryRates] = useState([]);
     const [storeCategories, setStoreCategories] = useState([]);
@@ -44,6 +45,7 @@ export const FetchedProvider = ({ children }) => {
     const [collectionLoader, setCollectionLoader] = useState(true);
     const [customerGroupLoader, setCustomerGroupLoader] = useState(true);
     const [newsletterLoader, setNewsletterLoader] = useState(true);
+    const [supplierLoader, setSupplierLoader] = useState(true);
     const [transactionLoader, setTransactionLoader] = useState(true);
     const [couponLoader, setCouponLoader] = useState(true);
     const [discountLoader, setDiscountLoader] = useState(true);
@@ -57,6 +59,7 @@ export const FetchedProvider = ({ children }) => {
     const [deliveryError, setDeliveryError] = useState("");
     const [customerError, setCustomerError] = useState("");
     const [collectionError, setCollectionError] = useState("");
+    const [supplierError, setSupplierError] = useState("");
     const [customerGroupError, setCustomerGroupError] = useState("");
     const [newsletterError, setNewsletterError] = useState("");
     const [transactionError, setTransactionError] = useState("");
@@ -75,6 +78,7 @@ export const FetchedProvider = ({ children }) => {
         customer: customerLoader,
         group: customerGroupLoader,
         newsletter: newsletterLoader,
+        supplier: supplierLoader,
         collection: collectionLoader,
         transaction: transactionLoader,
         campaign: campaignLoader,
@@ -90,6 +94,7 @@ export const FetchedProvider = ({ children }) => {
         customer: customerError,
         group: customerGroupError,
         newsletter: newsletterError,
+        suppliers: supplierError,
         campaign: campaignError,
         collection: collectionError,
         transaction: transactionError,
@@ -100,13 +105,14 @@ export const FetchedProvider = ({ children }) => {
     }
     
     // GLOBAL ERROR & GLOBAL REFETCH
-    const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || customerGroupError || newsletterError || deliveryError || campaignError || discountError || couponError || expensesError );
+    const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || customerGroupError || newsletterError || deliveryError || campaignError || discountError || couponError || expensesError || supplierError);
 
     const handleGlobalRefetch = function() {
         handleFetchStore();
         handleFetchMyStoreOrders();
         handleFetchMyStoreProducts();
         handleFetchMyStoreCustomers();
+        handleFetchMyStoreSuppliers();
         handleFetchMyStoreCustomerGroups();
         handleFetchStoreNewsletterCustomers();
         handleFetchMyStoreTransactions();
@@ -323,6 +329,31 @@ export const FetchedProvider = ({ children }) => {
         }
     }
 
+    // FETCH PROTECTED STORE SUPPLIERS
+    async function handleFetchMyStoreSuppliers() {
+        setSupplierError("");
+        setSupplierLoader(true);
+        setSuppliers([]);
+
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+
+            const res = await fetch(`${BASE_API_URL}/suppliers/mine/suppliers?slug=${store?.slug}`, { method: "GET", headers });
+            shouldKick(res);
+
+            const data = await res.json();
+            if(data.status == "fail") throw new Error();
+            if (data?.data) setSuppliers(data?.data?.suppliers);
+        } catch (err) {
+            console.log(err, err?.message)
+            const errMessage = handleFetchError(err?.message)
+            setSupplierError(errMessage);
+        } finally {
+            setSupplierLoader(false);
+        }
+    }
+
     // FETCH PROTECTED STIRE DELIVERY RATES
     async function handleFetchMyStoreDeliveryRates () {
         setDeliveryError("");
@@ -333,7 +364,7 @@ export const FetchedProvider = ({ children }) => {
             const connected = await isOnline();
             if(!connected) throw new Error("Internet Error");
 
-            const res = await fetch(`${BASE_API_URL}/delivery-rates/mine/delivery-rates?slug=${store?.slug}`, { method: "GET", headers });
+            const res = await fetch(`${BASE_API_URL}/delivery-rates/mine/rates?slug=${store?.slug}`, { method: "GET", headers });
             shouldKick(res);
 
             const data = await res.json();
@@ -473,25 +504,6 @@ export const FetchedProvider = ({ children }) => {
     }
 
 
-    // UPLOAD AND UPDATE SIMGLE IMAGE
-    async function handleImageUpload(Imgfile, url, tk=null) {
-        const formData = new FormData();
-        formData.append("image", Imgfile);
-        
-        const res = await fetch(`${BASE_API_URL}/${url}`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${tk || token}`
-            },
-            body: formData,
-        });
-        shouldKick(res);
-
-        const data = await res.json();
-        return data
-    }
-
-
     useEffect(function () {
         setCollections([]);
         setProducts([]);
@@ -499,6 +511,7 @@ export const FetchedProvider = ({ children }) => {
         setCustomers([]);
         setCustomerGroups([]);
         setNewsletterCustomers([]);
+        // setSuppliers([]);
         setDeliveryRates([]);
         setTransactions([]);
         setSettlements([]);
@@ -514,6 +527,7 @@ export const FetchedProvider = ({ children }) => {
             handleFetchMyStoreCollections();
             handleFetchMyStoreCustomerGroups();
             handleFetchStoreNewsletterCustomers();
+            // handleFetchMyStoreSuppliers();
             handleFetchMyStoreDeliveryRates();
             handleFetchMyStoreTransactions();
             handleFetchMyStoreDiscounts();
@@ -532,6 +546,7 @@ export const FetchedProvider = ({ children }) => {
         orders,
         coupons,
         expenses,
+        suppliers,
         products,
         campaigns,
         discounts,
@@ -544,7 +559,6 @@ export const FetchedProvider = ({ children }) => {
         newsletterCustomers,
         storeCategories,
         handleFetchError,
-        handleImageUpload,
         handleFetchOneItem,
         handleGlobalRefetch,
         handleDeleteOneItem,
@@ -555,6 +569,7 @@ export const FetchedProvider = ({ children }) => {
         handleFetchMyStoreCustomers,
         handleFetchMyStoreCustomerGroups,
         handleFetchStoreNewsletterCustomers,
+        handleFetchMyStoreSuppliers,
         handleFetchMyStoreCollections,
         handleFetchMyStoreTransactions,
         handleFetchMyStoreDeliveryRates,

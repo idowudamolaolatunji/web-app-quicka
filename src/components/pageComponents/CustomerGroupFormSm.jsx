@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Spinner from "../spinner/simple";
+import Spinner from "../spinner/tallspin";
 import Asterisk from '../elements/Asterisk'
 import { createPortal } from 'react-dom';
 import CustomAlert from '../layout/CustomAlert';
@@ -18,10 +18,10 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
 
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
+    const [customerGroupFormError, setCustomerGroupFormError] = useState("");
     const [customerGroupData, setCustomerGroupData] = useState({
         name: "", description: "", groupCustomers: []
     });
-    const [customerGroupFormError, setCustomerGroupFormError] = useState("");
 
 
     const handleChangeGroupData = function (e) {
@@ -43,10 +43,10 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
     useEffect(function() {
         if(editingItem) {
             setCustomerGroupData({
-                name: editingItem?.name,
-                description: editingItem?.description,
+                name: editingItem?.name || "",
+                description: editingItem?.description || "",
+                groupCustomers: editingItem?.customers || []
             });
-
         }
     }, [editingItem])
 
@@ -58,12 +58,15 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
         setLoading(true)
         setResponse({ status: "", message: "" });
 
+        const ids = customerGroupData.groupCustomers.length > 0 
+            ? customerGroupData.groupCustomers?.map(customer => customer?._id) : []
+        ;
         const parameter = editingItem ? `/${editingItem?._id}` : `?slug=${store?.slug}`;
 
         try {
-            const res = await fetch(`${BASE_API_URL}/customers/groups/${parameter}`, {
+            const res = await fetch(`${BASE_API_URL}/customers/groups${parameter}`, {
                 headers, method: editingItem ? "PATCH" : "POST",
-                body: JSON.stringify({ ...customerGroupData  })
+                body: JSON.stringify({ ...customerGroupData, customers: ids  })
             });
 
             shouldKick(res);
@@ -77,7 +80,7 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
             setResponse({ status: "success", message: data?.message });
 
             handleFetchMyStoreCustomerGroups()
-            setTimeout(() => close(), 1000);
+            setTimeout(() => close(), 500);
 
         } catch (err) {
             setResponse({ status: "error", message: err?.message });
@@ -114,11 +117,11 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
 
                 <div className="page__section--actions">
                     {editingItem ? (
-                        <button className='button clear--button' onClick={() => {}} disabled={loading}>Close</button>
+                        <button className='button clear--button' onClick={() => close()} disabled={loading}>Close</button>
                     ) : (
                         <button className='button clear--button' onClick={handleClearFields} disabled={loading}>Clear Fields</button>
                     )}
-                    <button className='button submit--button' onClick={handleSubmit} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
+                    <button className={`button ${loading ? "spinner--button" : "submit--button"}`} onClick={handleSubmit} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
             </div>
         </React.Fragment>

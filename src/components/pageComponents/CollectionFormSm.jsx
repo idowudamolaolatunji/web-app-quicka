@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Spinner from "../spinner/simple";
+import Spinner from "../spinner/tallspin";
 import Asterisk from '../elements/Asterisk'
 import { createPortal } from 'react-dom';
 import CustomAlert from '../layout/CustomAlert';
@@ -95,7 +95,7 @@ export default function CollectionFormSm({ close, editingItem }) {
             setResponse({ status: "success", message: data?.message });
 
             handleFetchMyStoreCollections()
-            setTimeout(() => close(), 1000);
+            setTimeout(() => close(), 500);
 
         } catch (err) {
             setResponse({ status: "error", message: err?.message });
@@ -132,11 +132,11 @@ export default function CollectionFormSm({ close, editingItem }) {
 
                 <div className="page__section--actions">
                     {editingItem ? (
-                        <button className='button clear--button' onClick={() => {}} disabled={loading}>Close</button>
+                        <button className='button clear--button' onClick={() => close()} disabled={loading}>Close</button>
                     ) : (
                         <button className='button clear--button' onClick={handleClearFields} disabled={loading}>Clear Fields</button>
                     )}
-                    <button className='button submit--button' onClick={handleSubmit} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
+                    <button className={`button ${loading ? "spinner--button" : "submit--button"}`} onClick={handleSubmit} disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
                 </div>
             </div>
         </React.Fragment>
