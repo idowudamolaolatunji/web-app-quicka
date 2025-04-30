@@ -179,7 +179,7 @@ function index() {
                 {showInsights?.expenses && (
                     <div className='page__section--insights insight--grid'>
                         <Insight title='Total Expenses' loader={loader?.expenses} value={expenses?.length || 0} icon={<PiCoins />} />
-                        <Insight title='Total Amount Spent' loader={loader?.expenses} pre={currency} value={totalSpent} dec={totalSpent ? 2 : 0} icon={<GiPayMoney />} />
+                        <Insight title='Total Amount Spent' loader={loader?.expenses} pre={currency} value={totalSpent} dec={totalSpent < 0 ? 2 : 0} icon={<GiPayMoney />} />
                     </div>
                 )}
 

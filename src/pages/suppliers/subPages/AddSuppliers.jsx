@@ -112,7 +112,7 @@ export default function AddSuppliers() {
         (async () => {
             if(id) {
                 setLoading(true);
-                const fetchedItem = await handleFetchOneItem("suppliers", id);
+                const fetchedItem = await handleFetchOneItem("supplier", id);
                 setLoading(false);
 
                 if(fetchedItem) {
@@ -128,6 +128,13 @@ export default function AddSuppliers() {
                         instagram: fetchedItem?.contact?.socials?.instagram || "",
                         tiktok: fetchedItem?.contact?.socials?.tiktok || "",
                         snapchat: fetchedItem?.contact?.socials?.snapchat || "",
+                    });
+
+                    setSelectedInfo({
+                        email: fetchedItem?.contact?.email ? true : false,
+                        instagram: fetchedItem?.contact?.socials?.instagram ? true : false,
+                        tiktok: fetchedItem?.contact?.socials?.tiktok ? true : false,
+                        snapchat: fetchedItem?.contact?.socials?.snapchat ? true : false
                     });
                 }
             }
@@ -156,7 +163,7 @@ export default function AddSuppliers() {
         const socials = { instagram, tiktok, snapchat };
         const contact = { countryCode, dialCode, phoneNumber, phone, email, socials };
         
-        const end_point = id ? `/${id}` : `?slug=${store?.slug}`
+        const end_point = id ? `/${id}` : `?slug=${store?.slug}`;
 
         try {
             // CHECK CONNECTION
@@ -181,7 +188,6 @@ export default function AddSuppliers() {
             
             setTimeout(() => navigate(-1), 1000);
             handleFetchMyStoreSuppliers()
-
         } catch (err) {
             const message = handleFetchError(err?.message)
             setResponse({ status: "error", message });
@@ -283,7 +289,7 @@ export default function AddSuppliers() {
 
                             <div className="form--item">
                                 <label htmlFor='location' className="form--label">Location (optional)</label>
-                                <textarea id='location' name='location' className="form--input" placeholder='Block 12, Flat 3, Libra Estate, Lagos State Nigeria' value={supplierData.address} onChange={handleSupplierData} />
+                                <textarea id='location' name='location' className="form--input" placeholder='Block 12, Flat 3, Libra Estate, Lagos State Nigeria' value={supplierData.location} onChange={handleSupplierData} />
                             </div>
 
                             <div className="form--item">

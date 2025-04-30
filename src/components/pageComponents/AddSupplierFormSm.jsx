@@ -102,7 +102,7 @@ export default function AddSupplierFormSm({ close }) {
         setResponse({ status: "", message: "" });
         setLoading(true)
 
-        const { countryCode, dialCode, phone, email, fullname, instagram, tiktok, snapchat } = supplierData;
+        const { countryCode, dialCode, phone, email, fullname, instagram, tiktok, snapchat, location } = supplierData;
         const socials = { instagram, tiktok, snapchat };
         const contact = { countryCode, dialCode, phone, email, socials };
 
@@ -111,7 +111,7 @@ export default function AddSupplierFormSm({ close }) {
             const res = await fetch(`${BASE_API_URL}/suppliers?slug=${store?.slug}`, {
                 headers,
                 method: "POST",
-                body: JSON.stringify({ contact, fullname })
+                body: JSON.stringify({ contact, fullname, location })
             });
 
             shouldKick(res);

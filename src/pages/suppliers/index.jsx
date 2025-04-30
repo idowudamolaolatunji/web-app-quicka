@@ -4,7 +4,6 @@ import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/layout/Insight';
-import { FiUser } from 'react-icons/fi';
 import emptyImg from '../../assets/images/illustrations/customer.png'
 import { AiFillInstagram, AiFillTikTok, AiOutlinePlus } from 'react-icons/ai';
 import { cap1stLetter, formatDate } from '../../utils/helper';
@@ -15,6 +14,7 @@ import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import { GiEnvelope, GiPayMoney } from 'react-icons/gi';
 import { PiNetwork } from 'react-icons/pi';
 import { FaSnapchatSquare } from 'react-icons/fa';
+import { useAuthContext } from '../../context/AuthContext';
 
 
 const emptyTitle = "Add new supplier!";
@@ -27,19 +27,20 @@ const emptyBtns = [
 export default function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const { currency } = useAuthContext();
     const { showInsights } = useDataContext();
-    const { loader, suppliers, handleDeleteOneItem, handleFetchMyStoreSuppliers } = useFetchedContext();
+    const { loader, suppliers, expenses, handleDeleteOneItem, handleFetchMyStoreSuppliers } = useFetchedContext();
 
     ////////////////////////////////////////////////////////
     const [loading, setLoading] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [search, setSearch] = useState("");
-
+    const amount_spent = expenses?.filter(expense => expense?.supplier)?.reduce((acc, expense) => acc + expense?.amount, 0);
 
     const columns = [
         {
-            name: "Supplier",
+            name: "Supplier Name",
             selector: row => (
                 <p style={{ textTransform: "capitalize" }}>{row?.fullname}</p>
             ),
@@ -52,17 +53,17 @@ export default function index() {
             ),
         },
         {
-            name: "Email",
+            name: "Contact Info",
             selector: row => (
                 <span className='table--socials'>{
-                    row?.contact?.email ? (
-                        <a href={`mailto:${row?.contact?.email}`} target='_blank'><GiEnvelope /> Email</a>
-                    ) : 
                     row?.contact?.socials?.instagram ? (
                         <a href={`https://www.instagram/${row?.contact?.socials?.instagram}`} target='_blank'><AiFillInstagram />Instagram</a>
                     ) : 
                     row?.contact?.socials?.tiktok ? (
                         <a href={`https://www.tiktok/${row?.contact?.socials?.tiktok}`} target='_blank'><AiFillTikTok />Tiktok</a>
+                    ) : 
+                    row?.contact?.email ? (
+                        <a href={`mailto:${row?.contact?.email}`} target='_blank'><GiEnvelope /> Email</a>
                     ) : 
                     row?.contact?.socials?.snapchat ? (
                         <a href={`https://www.snapchat/${row?.contact?.socials?.snapchat}`} target='_blank'><FaSnapchatSquare />SnapChat</a>
@@ -127,7 +128,7 @@ export default function index() {
             emptyBtns={emptyBtns}
             emptyImg={emptyImg}
             emptyTitle={emptyTitle}
-            headTabs={<TableHeadTabs pageName="supplier" searchVal={search} setSearchVal={setSearch} handleFetch={""}  />}
+            headTabs={<TableHeadTabs pageName="supplier" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreSuppliers}  />}
 
             deleteObj={{
                 fn: deleteItem,
@@ -140,8 +141,8 @@ export default function index() {
 
             {showInsights?.supplier && (
                 <div className='page__section--insights insight--grid'>
-                    <Insight title='Total Supplier' loader={loader?.supplier} value={0} icon={<PiNetwork />} />
-                    <Insight title='Total Amount Spent' loader={loader?.supplier} value={0} icon={<GiPayMoney />} />
+                    <Insight title='Total Supplier' loader={loader?.supplier} value={suppliers?.length || 0} icon={<PiNetwork />} />
+                    <Insight title='Amount Spent on Supplies' loader={loader?.supplier} pre={currency} value={amount_spent} dec={amount_spent > 0 ? 0 : 2} icon={<GiPayMoney />} />
                 </div>
             )}
         </PageUI>

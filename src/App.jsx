@@ -111,6 +111,7 @@ function App() {
                     <Route path='/dashboard/products/:id/edit' element={<UploadProduct />}></Route>
                     <Route path='/dashboard/customers/:id/edit' element={<AddCustomer />}></Route>
                     <Route path='/dashboard/delivery-rates/:id/edit' element={<CreateDelivery />}></Route>
+                    <Route path='/dashboard/suppliers/:id/edit' element={<AddSuppliers />}></Route>
 
                     <Route path='/dashboard/products/:id' element={<ProductItem />}></Route>
                     <Route path='/dashboard/orders/:id' element={<OrderItem />}></Route>

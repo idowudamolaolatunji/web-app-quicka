@@ -99,7 +99,6 @@ export default function RecordExpenses() {
     }, [id]);
 
 
-    console.log(expenseSupplier, id)
     async function handleRecordExpenses() {
         const newErrors = validateExpensesForm(expensesData, currency);
         setExpensesFormErrors(newErrors);
