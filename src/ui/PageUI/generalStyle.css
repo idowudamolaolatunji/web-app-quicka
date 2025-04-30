@@ -334,6 +334,19 @@
 	transition: all .3s;
 }
 
+.table--socials a {
+	display: flex;
+	align-items: center;
+	gap: .48rem;
+	padding: .2rem;
+	color: var(--color-brand-500);
+}
+.table--socials a:hover {
+	color: var(--color-brand-500);
+}
+.table--socials svg {
+	font-size: 1.8rem;
+}
 
 
 .product__grid {

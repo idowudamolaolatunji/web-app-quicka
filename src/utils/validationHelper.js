@@ -256,12 +256,6 @@ export function validateSuppllierForm(data, _) {
 		errors.fullname = "Fullname must be at least 3 characters long";
 	}
 
-	if (!data?.email?.trim()) {
-		errors.email = "Email is required";
-	} else if (!/\S+@\S+\.\S+/.test(data.email)) {
-		errors.email = "Email is invalid";
-	}
-
 	if (!data?.phone.trim()) {
 		errors.phone = "Phone number is required";
 	} else if (data?.phone?.length < 12) {

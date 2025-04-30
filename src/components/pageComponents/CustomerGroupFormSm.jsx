@@ -64,7 +64,7 @@ export default function CustomerGroupFormSm({ close, editingItem }) {
         const parameter = editingItem ? `/${editingItem?._id}` : `?slug=${store?.slug}`;
 
         try {
-            const res = await fetch(`${BASE_API_URL}/customers/groups${parameter}`, {
+            const res = await fetch(`${BASE_API_URL}/groups${parameter}`, {
                 headers, method: editingItem ? "PATCH" : "POST",
                 body: JSON.stringify({ ...customerGroupData, customers: ids  })
             });

@@ -38,7 +38,9 @@ export default function AddSuppliers() {
     });
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [selectedInfo, setSelectedInfo] = useState({ email: false, instagram: true, tiktok: false, snapchat: false });
+    const [selectedInfo, setSelectedInfo] = useState({
+        email: false, instagram: true, tiktok: false, snapchat: false
+    });
 
     const [customerFormErrors, setSupplierFormErrors] = useState({});
     const [supplierData, setSupplierData] = useState({
@@ -137,6 +139,7 @@ export default function AddSuppliers() {
     async function handleSubmit() {
         // FORM VALIDATIONS 
         const newErrors = validateSuppllierForm(supplierData);
+        console.log(newErrors)
         setSupplierFormErrors(newErrors);
 
         if (Object.keys(newErrors).length >= 1) {
@@ -262,9 +265,9 @@ export default function AddSuppliers() {
                                 <Info text="Select up to 3 social media platforms (optional, leave empty if none)" />
                     
                                 {selectedInfo.email && <LinkInput url={<GiEnvelope />} name="email" value={supplierData.email} handleChange={handleSupplierData} linkPosition='start' placeholder="@ email address" />}
-                                {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={supplierData.socials.instagram} handleChange={handleSupplierData} linkPosition='start' placeholder="@ instagram handle" />}
-                                {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={supplierData.socials.tiktok} handleChange={handleSupplierData} linkPosition='start' placeholder="@ tiktok profile" />}
-                                {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={supplierData.socials.snapchat} handleChange={handleSupplierData} linkPosition='start' placeholder="@ snapchat handle" />}
+                                {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={supplierData.instagram} handleChange={handleSupplierData} linkPosition='start' placeholder="@ instagram handle" />}
+                                {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={supplierData.tiktok} handleChange={handleSupplierData} linkPosition='start' placeholder="@ tiktok profile" />}
+                                {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={supplierData.snapchat} handleChange={handleSupplierData} linkPosition='start' placeholder="@ snapchat handle" />}
                             </div>
                         </div>
                     </div>
@@ -279,13 +282,13 @@ export default function AddSuppliers() {
                             </div>
 
                             <div className="form--item">
-                                <label htmlFor='address' className="form--label">Location (optional)</label>
-                                <textarea id='address' name='address' className="form--input" placeholder='Block 12, Flat 3, Libra Estate, Lagos State Nigeria' value={supplierData.address} onChange={handleSupplierData} />
+                                <label htmlFor='location' className="form--label">Location (optional)</label>
+                                <textarea id='location' name='location' className="form--input" placeholder='Block 12, Flat 3, Libra Estate, Lagos State Nigeria' value={supplierData.address} onChange={handleSupplierData} />
                             </div>
 
                             <div className="form--item">
-                                <label htmlFor='address' className="form--label">Additional Description (optional)</label>
-                                <textarea id='address' name='address' className="form--input" placeholder='description' value={supplierData.address} onChange={handleSupplierData} />
+                                <label htmlFor='description' className="form--label">Additional Description (optional)</label>
+                                <textarea id='description' name='description' className="form--input" placeholder='description' value={supplierData.description} onChange={handleSupplierData} />
                             </div>
                        </div>
                     </div>

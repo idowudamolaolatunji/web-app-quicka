@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import PageUI from '../../ui/PageUI/PageUI'
 import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
-import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
+import { RiDeleteBin5Line, RiEdit2Line, RiMapPinUserFill } from 'react-icons/ri';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { MdOutlineRefresh } from 'react-icons/md';
 import { dateTimeFormat, formatNumber } from '../../utils/helper';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
 import emptyImg from '../../assets/images/illustrations/expenses.png'
 import SimpleModal from '../../components/modal/SimpleModal';
@@ -65,7 +65,14 @@ function index() {
         },
         {
             name: 'Supplier',
-            selector: row => row?.supplier?.fullname || "-- None Selected --",
+            selector: row => row?.supplier?._id ? (
+                <Link className="grid grid-2-4rem-1fr" to={`/dashboard/suppliers/${row?.supplier?._id}/edit`}>
+                    <span className='table-customer'>
+                        <RiMapPinUserFill />
+                    </span>
+                    <p>{row?.supplier?.fullname}</p>
+                </Link>
+            ) : "-- None Selected --",
             width: "18%"
         },
         {
@@ -103,7 +110,7 @@ function index() {
     //     }
     //     setSearch("")
     // }, [tabParams]);
-    
+
     const handleShowDeleteModal = function(id) {
         setShowDeleteModal(true);
         setSelectedId(id);

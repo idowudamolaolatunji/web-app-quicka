@@ -67,7 +67,6 @@ function index() {
         setShowCustomerGroupForm({ ...showCustomerGroupForm, add: !showCustomerGroupForm.add });
     }
     const handleShowCustomerGroupEditForm = function(item) {
-        console.log(item, "me....")
         if(item) {
             setSelectedGroup(item);
             setShowCustomerGroupForm({ ...showCustomerGroupForm, edit: true });

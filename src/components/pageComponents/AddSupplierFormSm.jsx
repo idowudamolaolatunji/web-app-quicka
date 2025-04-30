@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useAuthContext } from '../../context/AuthContext';
 import Asterisk from '../../components/elements/Asterisk';
 import PhoneInput from 'react-phone-input-2';
@@ -7,10 +7,8 @@ import PhoneInput from 'react-phone-input-2';
 import Spinner from "../../components/spinner/tallspin";
 import CustomAlert from '../../components/layout/CustomAlert';
 import { createPortal } from 'react-dom';
-import { validateCustomerForm } from '../../utils/validationHelper';
+import { validateSuppllierForm } from '../../utils/validationHelper';
 import { useFetchedContext } from '../../context/FetchedContext';
-import MainDropdownSelect from '../form/MainDropdownSelect';
-import { useDataContext } from '../../context/DataContext';
 import Tab from '../elements/Tab';
 import { GiEnvelope } from "react-icons/gi";
 import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
@@ -24,13 +22,11 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export default function AddSupplierFormSm({ close }) {
     const { headers, store, shouldKick } = useAuthContext();
-    const { handleFetchMyStoreCustomers } = useFetchedContext()
-    const { location, setLocation, getContries } = useDataContext();
+    const { handleFetchMyStoreSuppliers } = useFetchedContext()
     const { countryCode } = store?.contact;
 
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
-    const [country, setCountry] = useState([]);
     const [selectedInfo, setSelectedInfo] = useState({ email: false, instagram: true, tiktok: false, snapchat: false });
 
     const [supplierFormErrors, setSupplierFormErrors] = useState({});
@@ -41,11 +37,9 @@ export default function AddSupplierFormSm({ close }) {
         dialCode: "",
         countryCode: "",
         email: "",
-        socials: {
-            instagram: "",
-            tiktok: "",
-            snapchat: "",
-        }
+        instagram: "",
+        tiktok: "",
+        snapchat: "",
     });
 
 
@@ -57,14 +51,11 @@ export default function AddSupplierFormSm({ close }) {
             dialCode: "",
             countryCode: "",
             email: "",
-            socials: {
-                instagram: "",
-                tiktok: "",
-                snapchat: "",
-            }
+            instagram: "",
+            tiktok: "",
+            snapchat: "",
         });
 
-        setCountry([]);
         setSelectedInfo({ email: false, instagram: true, tiktok: false, snapchat: false });
         setSupplierFormErrors({});
     }
@@ -95,16 +86,10 @@ export default function AddSupplierFormSm({ close }) {
         });
     };
 
-    useEffect(function () {
-        setLocation({ ...location, state: [], city: [] });
-
-        getContries()
-    }, []);
 
     async function handleCreateCustomer() {
-        const formData = { ...supplierData, country }
         // FORM VALIDATIONS 
-        const newErrors = validateCustomerForm(formData);
+        const newErrors = validateSuppllierForm(supplierData);
         setSupplierFormErrors(newErrors);
 
         if (Object.keys(newErrors).length >= 1) {
@@ -117,19 +102,16 @@ export default function AddSupplierFormSm({ close }) {
         setResponse({ status: "", message: "" });
         setLoading(true)
 
-        const { countryCode, dialCode, phone, email, firstname, lastname, description } = supplierData;
-        const contact = { countryCode, dialCode, phone, email };
-        const shippingAddress = { country: country[0] }
+        const { countryCode, dialCode, phone, email, fullname, instagram, tiktok, snapchat } = supplierData;
+        const socials = { instagram, tiktok, snapchat };
+        const contact = { countryCode, dialCode, phone, email, socials };
 
         // MAKE REQUEST
         try {
-            const res = await fetch(`${BASE_API_URL}/customers`, {
+            const res = await fetch(`${BASE_API_URL}/suppliers?slug=${store?.slug}`, {
                 headers,
                 method: "POST",
-                body: JSON.stringify({
-                    contact, shippingAddress,
-                    firstname, lastname, description
-                })
+                body: JSON.stringify({ contact, fullname })
             });
 
             shouldKick(res);
@@ -141,7 +123,7 @@ export default function AddSupplierFormSm({ close }) {
             handleClearFields();
             setResponse({ status, message });
             setTimeout(() => close(), 500);
-            handleFetchMyStoreCustomers()
+            handleFetchMyStoreSuppliers()
 
         } catch (err) {
             setResponse({ status: "error", message: err.message });
@@ -186,12 +168,8 @@ export default function AddSupplierFormSm({ close }) {
                 </div>
 
                 <div className="form--item">
-                    <label htmlFor='location' className="form--label">Location <Asterisk /></label>
-
+                    <label htmlFor='location' className="form--label">Location (optional)</label>
                     <input type='text' name='location' placeholder='Block 7, Sangotedo Ajah Lagos' className='form--input' value={supplierData.location} onChange={handleSupplierData} />
-                    <span className="form--error-message">
-                        {supplierFormErrors?.location && supplierFormErrors?.location}
-                    </span>
                 </div>
 
                 <div className="form--item" style={{ gap: "1.4rem" }}>
@@ -206,9 +184,9 @@ export default function AddSupplierFormSm({ close }) {
                     <Info text="Select up to 3 social media platforms (optional, leave empty if none)" />
                     
                     {selectedInfo.email && <LinkInput url={<GiEnvelope />} name="email" value={supplierData.email} handleChange={handleSupplierData} linkPosition='start' placeholder="@ email address" />}
-                    {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={supplierData.socials.instagram} handleChange={handleSupplierData} linkPosition='start' placeholder="@ instagram handle" />}
-                    {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={supplierData.socials.tiktok} handleChange={handleSupplierData} linkPosition='start' placeholder="@ tiktok profile" />}
-                    {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={supplierData.socials.snapchat} handleChange={handleSupplierData} linkPosition='start' placeholder="@ snapchat handle" />}
+                    {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={supplierData.instagram} handleChange={handleSupplierData} linkPosition='start' placeholder="@ instagram handle" />}
+                    {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={supplierData.tiktok} handleChange={handleSupplierData} linkPosition='start' placeholder="@ tiktok profile" />}
+                    {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={supplierData.snapchat} handleChange={handleSupplierData} linkPosition='start' placeholder="@ snapchat handle" />}
                     
                 </div>
 

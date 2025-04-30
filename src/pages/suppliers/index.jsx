@@ -4,18 +4,17 @@ import { useWindowSize } from 'react-use';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/layout/Insight';
-import { FiUser, FiUsers } from 'react-icons/fi';
+import { FiUser } from 'react-icons/fi';
 import emptyImg from '../../assets/images/illustrations/customer.png'
-import { TbUserSquare } from 'react-icons/tb';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { formatDate } from '../../utils/helper';
+import { AiFillInstagram, AiFillTikTok, AiOutlinePlus } from 'react-icons/ai';
+import { cap1stLetter, formatDate } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/layout/TooltipUI';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
-import { BiNetworkChart } from 'react-icons/bi';
-import { GiPayMoney } from 'react-icons/gi';
+import { GiEnvelope, GiPayMoney } from 'react-icons/gi';
 import { PiNetwork } from 'react-icons/pi';
+import { FaSnapchatSquare } from 'react-icons/fa';
 
 
 const emptyTitle = "Add new supplier!";
@@ -40,24 +39,11 @@ export default function index() {
 
     const columns = [
         {
-            name: "Customer Name",
+            name: "Supplier",
             selector: row => (
-                <Link className="grid grid-2-4rem-1fr" to={`${row?._id}`}>
-                    <span className='table-customer'>
-                        {row?.image?.url ? (
-                            <img src={row?.image?.url} />
-                        ) : (
-                            <FiUser />
-                        )}
-                    </span>
-                    <p>{row?.fullname}</p>
-                </Link>
+                <p style={{ textTransform: "capitalize" }}>{row?.fullname}</p>
             ),
             width: width < 450 ? "180px" : ""
-        },
-        {
-            name: "Email",
-            selector: row => row?.contact?.email,
         },
         {
             name: "Phone Number",
@@ -66,8 +52,27 @@ export default function index() {
             ),
         },
         {
+            name: "Email",
+            selector: row => (
+                <span className='table--socials'>{
+                    row?.contact?.email ? (
+                        <a href={`mailto:${row?.contact?.email}`} target='_blank'><GiEnvelope /> Email</a>
+                    ) : 
+                    row?.contact?.socials?.instagram ? (
+                        <a href={`https://www.instagram/${row?.contact?.socials?.instagram}`} target='_blank'><AiFillInstagram />Instagram</a>
+                    ) : 
+                    row?.contact?.socials?.tiktok ? (
+                        <a href={`https://www.tiktok/${row?.contact?.socials?.tiktok}`} target='_blank'><AiFillTikTok />Tiktok</a>
+                    ) : 
+                    row?.contact?.socials?.snapchat ? (
+                        <a href={`https://www.snapchat/${row?.contact?.socials?.snapchat}`} target='_blank'><FaSnapchatSquare />SnapChat</a>
+                    ) : "--"
+                }</span>
+            ),
+        },
+        {
             name: "Location",
-            selector: row => `${row?.shippingAddress?.state?.name ? row?.shippingAddress?.state?.name + ", " : ""} ${row?.shippingAddress?.country?.name}`
+            selector: row => row?.location || cap1stLetter(row?.contact?.countryCode)
         },
         {
             name: "Date Added",

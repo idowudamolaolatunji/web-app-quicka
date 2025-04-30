@@ -27,7 +27,7 @@ export default function RecordExpenses() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { formdataHeader, store, shouldKick } = useAuthContext();
-    const { suppliers, handleFetchMyStoreExpenses, handleFetchError, handleFetchOneItem } = useFetchedContext();
+    const { suppliers, handleFetchMyStoreExpenses, handleFetchMyStoreSuppliers, handleFetchError, error, handleFetchOneItem } = useFetchedContext();
 
     const currency = store?.currency?.symbol;
     const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -71,6 +71,9 @@ export default function RecordExpenses() {
 
     useEffect(function () {
         document.title = `Quicka | ${id ? `Editing ${expensesData.title} expenses` : "Recording Expenses"}`
+        if(suppliers?.length < 1 && error?.supplier) {
+            handleFetchMyStoreSuppliers();
+        }
     }, []);
 
 
@@ -89,13 +92,14 @@ export default function RecordExpenses() {
                     });
                     setDescription(fetchedItem?.description || "");
                     setAttachment(fetchedItem?.attachment?.url || null);
-                    setExpenseSupplier([fetchedItem?.supplier] || []);
+                    setExpenseSupplier(fetchedItem?.supplier?.fullname ? [fetchedItem?.supplier] : []);
                 }
             }
         })();
     }, [id]);
 
 
+    console.log(expenseSupplier, id)
     async function handleRecordExpenses() {
         const newErrors = validateExpensesForm(expensesData, currency);
         setExpensesFormErrors(newErrors);
@@ -130,7 +134,6 @@ export default function RecordExpenses() {
                 headers: formdataHeader,
                 method: id ? "PATCH" : "POST",
                 body: formData
-                // body: JSON.stringify({ ...expensesData, description })
             });
 
             shouldKick(res);
@@ -245,7 +248,7 @@ export default function RecordExpenses() {
                             <Info text="If no supplier attached to expense, Leave blank" />
                             <button className='form--add' onClick={() => setShowModal({ ...showModal, supplier: true })}>
                                 <AiOutlinePlus />
-                                <p>Add New Suppier</p>
+                                <p>Add New Supplier</p>
                             </button>
                             <span className="form--error-message" />
                         </div>
