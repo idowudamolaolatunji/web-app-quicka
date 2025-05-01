@@ -91,7 +91,7 @@ export default function RecordExpenses() {
                         date: new Date(fetchedItem?.date).toISOString().slice(0, 16) || ""
                     });
                     setDescription(fetchedItem?.description || "");
-                    setAttachment(fetchedItem?.attachment?.url || null);
+                    setAttachment(fetchedItem?.attachment?.url ? fetchedItem?.attachment : null);
                     setExpenseSupplier(fetchedItem?.supplier?.fullname ? [fetchedItem?.supplier] : []);
                 }
             }
@@ -258,7 +258,8 @@ export default function RecordExpenses() {
                             <span className='add-file'>
                                 <label htmlFor="add-file" className='add-label'>{attachment ? "Change" : "Choose"} file</label>
                                 <span className='flex-align-center' style={{ gap: "1rem" }}>
-                                    <p>{!attachment?.name ? "No Choosen File" : truncateString(attachment?.name, 30)}</p>
+                                    {console.log(attachment)}
+                                    <p>{(!attachment?.name && !attachment?.public_id) ? "No Choosen File" : truncateString(attachment?.name || attachment?.public_id, 30)}</p>
                                     {attachment && <button onClick={() => setAttachment(null)}>remove</button>}
                                 </span>
                                 <input type="file" name="" id="add-file" accept=".pdf, image/png, image/jpeg" maxLength={5} onChange={handleAddAttachment} />
