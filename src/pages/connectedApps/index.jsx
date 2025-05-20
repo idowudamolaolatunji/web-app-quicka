@@ -9,7 +9,6 @@ import fb_pixel from "../../assets/images/png_elements/facebook-pixel-icon.webp"
 import google_analytics from "../../assets/images/png_elements/google-analytics.png"
 import Tab from '../../components/elements/Tab';
 import { useFetchedContext } from '../../context/FetchedContext';
-import ConnectionError from '../../components/layout/ConnectionError';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import ErrorComponent from '../../components/layout/ErrorComponent';
@@ -85,9 +84,7 @@ function index() {
     }, [tabParams])
 
     return (
-        <>
-            {globalConnectionError && <ConnectionError />}
-
+        <React.Fragment>
             <div className='page__section--heading'>
                 <h2 className="page__section--title">Integrated App</h2>
             </div>
@@ -108,14 +105,14 @@ function index() {
                 <div className="page__section--main connected__grid">
                     {apps.map(app => (
                         loading ? (
-                            <AppSkeleton />
+                            <AppSkeleton key={app.name} />
                         ) : (
                             <AppFigure app={app} key={app?.name} />
                         )
                     ))}
                 </div>
             )}
-        </>
+        </React.Fragment>
     )
 }
 

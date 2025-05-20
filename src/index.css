@@ -709,16 +709,27 @@ body:has(.global--overlay) {
 .error.empty--box span {
 	width: 6rem;
 	height: 6rem;
-	background-color: #ff999973;
 	border-radius: 50%;
 
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
+.error.empty--box.danger span {
+	background-color: #ff999973;
+}
+.error.empty--box.danger span svg {
+	color: #ff0000;
+}
+.error.empty--box.warning span {
+	background-color: rgb(255, 239, 187);
+}
+.error.empty--box.warning span svg {
+	color: rgb(219, 186, 0);
+}
+
 .error.empty--box span svg {
 	font-size: 4rem;
-	color: #ff0000;
 }
 
 

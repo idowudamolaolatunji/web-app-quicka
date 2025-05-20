@@ -9,7 +9,6 @@ import Asterisk from '../../components/elements/Asterisk';
 import { RiEditLine } from 'react-icons/ri';
 import { useDataContext } from '../../context/DataContext';
 import { cap1stLetter, hideEmail } from '../../utils/helper';
-import ConnectionError from '../../components/layout/ConnectionError';
 import { useFetchedContext } from '../../context/FetchedContext';
 import SimpleModal from "../../components/modal/SimpleModal"
 import ExtraSmall from '../../components/modal/ExtraSmall';
@@ -23,7 +22,6 @@ export default function index() {
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
     const { isMenuCollapsed } = useDataContext();
-    const { globalConnectionError } = useFetchedContext();
     const { location, getStates, getCities, setLocation } = useDataContext();
     
     const { contact } = store;
@@ -94,7 +92,6 @@ export default function index() {
 
     return (
         <React.Fragment>
-            {globalConnectionError && <ConnectionError />}
 
             <section className='page__section--heading'>
                 <h2 className="page__section--title">My Profile</h2>

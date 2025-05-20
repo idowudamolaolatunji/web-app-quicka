@@ -9,7 +9,7 @@ import { useWindowSize } from 'react-use';
 function TopSalesChannels() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { orders, error } = useFetchedContext();
+    const { orders, error, globalConnectionError } = useFetchedContext();
 
     const isOrders = orders && orders?.length > 0;
     const isError = error?.order;
@@ -23,7 +23,7 @@ function TopSalesChannels() {
                 </div>
             </div>
 
-            {(!isOrders && isError) && <ErrorComponent text={error?.order} />}
+            {(!isOrders && isError) && <ErrorComponent text={error?.order} type={globalConnectionError ? "connection" : "limit"} />}
 
             {(orders && !isError) && (
                 <>

@@ -9,13 +9,15 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { SlReload } from 'react-icons/sl';
 import { MdOutlinePlayLesson } from "react-icons/md";
 import { googleLogout } from '@react-oauth/google';
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 
 function Dropdown({ handleToggle, setLoading, setResponse }) {
     const { width } = useWindowSize();
     const { pathname } = useLocation();
     const { user, signoutUser, store } = useAuthContext();
-    const { handleGlobalRefetch, globalConnectionError } = useFetchedContext();
+    const { handleGlobalRefetch } = useFetchedContext();
+    const checkConnection = useCheckInternetConnection();
     const ref = useOutsideClick(handleToggle);
 
     const handleResetResponse = function () {
@@ -69,7 +71,7 @@ function Dropdown({ handleToggle, setLoading, setResponse }) {
             <Link className={`dropdown--item ${pathname.includes("/settings") ? "is-active" : ""}`} to="/dashboard/settings"><IoSettingsOutline /> Settings</Link>
             <Link className={`dropdown--item ${pathname.includes("/referrals") ? "is-active" : ""}`} to="/dashboard/referrals"><IoMegaphoneOutline /> Referrals</Link>
 
-            {(width < 600 && store?.storeOnboardCompleted && !globalConnectionError) && (
+            {(width < 600 && store?.storeOnboardCompleted && checkConnection == "online") && (
                 <div className="dropdown--item" onClick={handleReloadApp}><SlReload />Reload app</div>
             )}
             <div className="dropdown--item" onClick={handleLogout}><IoLogOutOutline /> Logout</div>

@@ -8,7 +8,6 @@ import emptyImg from "../../assets/images/illustrations/domain.png"
 import { useFetchedContext } from '../../context/FetchedContext';
 import { AiOutlinePlus } from 'react-icons/ai';
 import TableUI from '../../ui/PageUI/TableUI';
-import ConnectionError from '../../components/layout/ConnectionError';
 import { useNavigate } from 'react-router-dom';
 import "./style.css";
 
@@ -25,7 +24,7 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { domains, error, loader, globalConnectionError } = useFetchedContext();
+    const { domains, error, loader } = useFetchedContext();
 
     const columns = [];
 
@@ -35,9 +34,7 @@ function index() {
     }, []);
 
     return (
-        <>
-            {globalConnectionError && <ConnectionError /> }
-
+        <React.Fragment>
             <div className='page__section--heading' style={width < 550 ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
                 <h2 className="page__section--title">Custom Domain</h2>
 
@@ -80,7 +77,7 @@ function index() {
                     }
                 />
             </div>
-        </>
+        </React.Fragment>
     )
 }
 

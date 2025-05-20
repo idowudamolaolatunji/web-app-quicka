@@ -12,8 +12,9 @@ import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import Asterisk from '../../components/elements/Asterisk';
 import AuthsUI from '../../ui/authUI';
 import AuthUserRating from '../../components/layout/AuthUserRating';
-import isOnline from 'is-online';
 import { GoogleLogin } from '@react-oauth/google';
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
+
 
 const PREV_PATH = import.meta.env.VITE_PREV_URL_KEY
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -25,6 +26,7 @@ function index() {
     const [value, _, remove] = useLocalStorage(PREV_PATH);
     const { handleFetchError } = useFetchedContext();
     const { user, store, handleChange, handleStore } = useAuthContext();
+    const internetStatus = useCheckInternetConnection();
 
     const [showPassword, setShowPassword] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
@@ -61,8 +63,7 @@ function index() {
         setLoading({ ...loading, mainLoading: true })
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const { credential } = response;
             const res = await fetch(`${BASE_API_URL}/auth/google/login`, {
@@ -122,8 +123,7 @@ function index() {
         setShowPassword(false);
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_API_URL}/auth/login`, {
                 method: 'POST',

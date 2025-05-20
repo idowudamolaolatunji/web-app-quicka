@@ -11,7 +11,7 @@
 .top--bar,
 .home--sub {
     width: 100%;
-    padding: 2.4rem 2rem;
+    padding: 2rem;
     border-radius: .48rem;
     color: #fff;
     display: flex;
@@ -30,10 +30,6 @@
     background-position: top;
 }
 
-/* THE TOP BAR MESSAGE IN THE HOME PAGE */
-.top--bar + .home--section .home--sub {
-    margin-top: -1rem;
-}
 /* //////////////////////////////////// */
 
 .top--bar.info,
@@ -43,7 +39,7 @@
     background-image: unset;
     background-position: unset;
     background-repeat: unset;
-    margin-bottom: 2.4rem;
+    margin-bottom: 1.4rem;
 }
 .top--bar.success {
     color: #008001;
@@ -54,9 +50,11 @@
     color: red;
 }
 .top--bar.warning {
-    background-color: #FFFFE0;
-    color: #ffcc00;
+    background-color: rgb(255, 239, 187);
+    /* color: #ffcc00; */
+    color: rgb(219, 186, 0);
 }
+
 
 .top--bar.info {
     padding: 1.4rem;

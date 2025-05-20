@@ -14,8 +14,8 @@ const STORE_KEY = import.meta.env.VITE_STORE_KEY;
 //////////////////////////////////////////////
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
-export const AuthProvider = ({ children }) => {
-    const [shouldLoad, setShouldLoad] = useState(true); // helps tell when not to load all
+export const AuthProvider = function({ children }) {
+    const [shouldLoadAll, setShouldLoadAll] = useState(true); // helps tell when not to load all
     const [user, setUser] = useState(Cookies.get(AUTH_KEY) ? JSON.parse(Cookies.get(AUTH_KEY)) : null);
     const [token, setToken] = useState(Cookies.get(TOKEN_KEY) ? Cookies.get(TOKEN_KEY) : null);
     const [store, setStore] = useState(Cookies.get(STORE_KEY) ? JSON.parse(Cookies.get(STORE_KEY)) : null);
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     const currency = store?.currency?.symbol;
 
     function handleChange(user, token) {
-        setShouldLoad(true);
+        setShouldLoadAll(true);
         setUser(user);
         setToken(token);
     };
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
     function handleStore(store) {
         setStore(store);
-    }
+    };
 
     async function signoutUser() {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, { headers });
@@ -79,8 +79,8 @@ export const AuthProvider = ({ children }) => {
         store,
         currency,
         handleStore,
-        shouldLoad,
-        setShouldLoad
+        shouldLoadAll,
+        setShouldLoadAll
     }
 
     return <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>

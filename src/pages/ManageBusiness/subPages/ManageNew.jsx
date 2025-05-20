@@ -12,10 +12,10 @@ import { useFetchedContext } from '../../../context/FetchedContext';
 import { goalOptions } from '../../../utils/data';
 import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
-import isOnline from 'is-online';
 import logo_demo from '../../../assets/images/dummy_items/demo_quicka_logo.png'
 import PhoneInput from 'react-phone-input-2';
 import { TiArrowBack } from "react-icons/ti";
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -23,6 +23,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 export default function ManageNew() {
     const navigate = useNavigate();
     const { user } = useAuthContext();
+    const internetStatus = useCheckInternetConnection();
     const { handleUser, handleStore, formdataHeader } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
 
@@ -266,8 +267,7 @@ export default function ManageNew() {
         
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const formData = new FormData();
             formData.append("name", onboardingData.name)

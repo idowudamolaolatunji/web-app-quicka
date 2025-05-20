@@ -56,7 +56,7 @@ function ProductFigure({ product }) {
 
 function TopProducts() {
     const { width } = useWindowSize();
-    const { orders, products, error } = useFetchedContext();
+    const { orders, products, error, globalConnectionError } = useFetchedContext();
     /////////////////////////////////////////////////
     const [period, setPeriod] = useState("month");
 
@@ -68,9 +68,9 @@ function TopProducts() {
     const lookupTopProductByDuration = function(period) {
         // I DON'T REALLY UNDERSTAND HOW THIS WORKS, BUT THANKS TO META AI, IT DOES
         const startDate = moment().startOf(period)
-        const ordersInPeriod = orders.filter(order => moment(order.orderDate).isSameOrAfter(startDate));
-        const productSales = ordersInPeriod.reduce((acc, order) => {
-            order.products.forEach(product => {
+        const ordersInPeriod = orders?.filter(order => moment(order?.orderDate).isSameOrAfter(startDate));
+        const productSales = ordersInPeriod?.reduce((acc, order) => {
+            order?.products?.forEach(product => {
                 const productData = products.find(p => p.name === product.name);
                 if (productData?.trackInventory && productData.soldAmount >= threshold) {
                     acc[product.name] = (acc[product.name] || 0) + product.quantity;
@@ -78,9 +78,9 @@ function TopProducts() {
             });
 
             return acc;
-        }, {});
+        }, {}) || {};
 
-        return Object.keys(productSales).sort((a, b) => productSales[b] - productSales[a]).slice(0, amountToShow).map(productName => products.find(product => product.name === productName));
+        return Object?.keys(productSales)?.sort((a, b) => productSales[b] - productSales[a])?.slice(0, amountToShow)?.map(productName => products?.find(product => product?.name === productName));
     }
 
     const topThreeItems = lookupTopProductByDuration(period);
@@ -107,7 +107,7 @@ function TopProducts() {
 
             <div className='top-product--container'>
                 {(!hasNoError && products?.length < 1) && (
-                    <ErrorComponent text={error?.product} />
+                    <ErrorComponent text={error?.product} type={globalConnectionError ? "connection" : "limit"} />
                 )}
 
                 {((!topThreeItems || itemLength < 1) && hasNoError) && (

@@ -6,7 +6,6 @@ import { useAuthContext } from '../../context/AuthContext';
 import { MdOutlinePersonPinCircle, MdOutlineStorefront } from 'react-icons/md';
 import { AiOutlineLink } from 'react-icons/ai';
 import { useFetchedContext } from '../../context/FetchedContext';
-import ConnectionError from '../../components/layout/ConnectionError';
 import { useNavigate } from 'react-router-dom';
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
@@ -15,12 +14,12 @@ import Spinner from '../../components/spinner/mainSpinner';
 import noLogo from "../../assets/images/logo/favicon_small.png"
 
 
-function index() {
+export default function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { store } = useAuthContext();
+    const { loader } = useFetchedContext();
     const { isMenuCollapsed } = useDataContext();
-    const { globalConnectionError, loader } = useFetchedContext();
 
     const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000);
     const { paymentCurrencies, paymentMainCurrency, description, category, contact, location, storeLogo } = store;
@@ -56,9 +55,7 @@ function index() {
     }
 
     return (
-        <>
-            {globalConnectionError && <ConnectionError />}
-
+        <React.Fragment>
             {loader?.store && <Spinner />}
 
             <div className='page__section--heading' style={width <= 450 ? { flexDirection: "column", alignItems: "flex-start", gap: "2rem" } : {}}>
@@ -116,8 +113,6 @@ function index() {
                     </div>
                 </div>
             </div>
-        </>
+        </React.Fragment>
     )
 }
-
-export default index

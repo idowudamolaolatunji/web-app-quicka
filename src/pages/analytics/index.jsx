@@ -8,7 +8,6 @@ import Spinner from '../../components/spinner/mainSpinner';
 import { BsCalendar3 } from 'react-icons/bs';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ConnectionError from '../../components/layout/ConnectionError';
 import ErrorComponent from '../../components/layout/ErrorComponent';
 
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear, subDays, subMonths, subWeeks, subYears, subQuarters, startOfQuarter, endOfQuarter } from 'date-fns';
@@ -32,7 +31,7 @@ function index() {
     ////////////////////////////////////////////////////
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { globalConnectionError } = useFetchedContext();
+    const { globalConnectionError } = useFetchedContext()
 
     const { after } = DateRangePicker;
     const true580px = width >= 580 ? false : true;
@@ -163,8 +162,6 @@ function index() {
     return (
         <>
             {loading && <Spinner />}
-
-            {globalConnectionError && <ConnectionError />}
 
             <div className='page__section--heading analytics--heading'>
                 <h2 className="page__section--title">Analytics</h2>

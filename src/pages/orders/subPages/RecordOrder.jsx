@@ -22,13 +22,13 @@ import UploadProduct from '../../products/subPages/UploadProduct.jsx';
 import FullScreen from '../../../components/modal/FullScreen.jsx';
 import ProductQuantityCard from '../../../components/layout/ProductQuantityCard.jsx';
 import AddPageUI from '../../../ui/PageUI/AddPageUI.jsx';
-import isOnline from 'is-online';
 import CurrencyInputField from '../../../components/form/CurrencyInputField.jsx';
 import { formatNumber } from '../../../utils/helper.js';
 import { paymentMethodData, deliveryStatusData } from '../../../utils/data.jsx'
 import { channelData } from '../../../utils/data.js'
 import moment from 'moment';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection.jsx';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -36,6 +36,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL
 export default function RecordOrder() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const internetStatus = useCheckInternetConnection();
     const { headers, shouldKick, currency, store } = useAuthContext();
     const { error, products, customers, handleFetchError, handleFetchMyStoreOrders, handleFetchMyStoreProducts, handleFetchMyStoreCustomers, handleFetchMyStoreTransactions } = useFetchedContext();
     // const today = moment().format();
@@ -189,8 +190,7 @@ export default function RecordOrder() {
 
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if(!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
             
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/orders/record?slug=${store?.slug}`, {

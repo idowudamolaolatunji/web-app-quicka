@@ -11,7 +11,7 @@ import { ImEye, ImEyeBlocked } from 'react-icons/im';
 import { HiFingerPrint } from 'react-icons/hi2';
 import Modal from "../../components/modal/ExtraSmall";
 import { FcCancel } from 'react-icons/fc';
-import isOnline from 'is-online';
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 
 function index() {
@@ -19,6 +19,7 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { handleFetchError } = useFetchedContext();
+    const internetStatus = useCheckInternetConnection();
 
     const BASE_URL = import.meta.env.VITE_API_URL;
     const headingText = "Reset Your Password and Regain Control with Confidence";
@@ -63,8 +64,7 @@ function index() {
             
             try {
                 // CHECK CONNECTION
-                const connected = await isOnline();
-                if (!connected) throw new Error("Internet Error");
+                if(internetStatus == "offline") throw new Error("Internet Error");
 
                 const res = await fetch(`${BASE_URL}/auth/validate-reset-token/${resettoken}`,
                     { method: 'GET', headers }
@@ -114,8 +114,7 @@ function index() {
         handleResetResponse()
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_URL}/auth/reset-password/${resettoken}`, {
                 method: 'PATCH', headers,

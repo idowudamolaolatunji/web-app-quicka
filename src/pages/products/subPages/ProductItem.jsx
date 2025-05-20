@@ -28,7 +28,7 @@ function ProductItem() {
     ////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
     const [response, setResponse] = useState({ status: null, message: null });
-    const [error, setError] = useState(false);
+    const [error, setError] = useState("");
     const [item, setItem] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     ////////////////////////////////////////////////////
@@ -39,9 +39,9 @@ function ProductItem() {
 
     const getItem = async function () {
         try {
-            const data = await handleFetchOneItem(title, id);
-            if (!data) throw new Error("Connection Error");
-            setItem(data)
+            const result = await handleFetchOneItem(title, id);
+            if (result?.message) throw new Error();
+            setItem(result);
         } catch (err) {
             setError(true)
         } finally {

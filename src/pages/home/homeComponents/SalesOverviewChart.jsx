@@ -29,7 +29,7 @@ export default function OverviewChart({ period }) {
             endDate = now.clone().subtract(1, 'year').endOf('year');
         }
 
-        return completedOrders.filter((order) => {
+        return completedOrders?.filter((order) => {
             const orderDate = moment(order.orderDate, 'YYYY-MM-DD');
             return orderDate.isValid() && orderDate.isBetween(startDate, endDate, null, '[)');
         });

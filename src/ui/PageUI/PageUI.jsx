@@ -13,7 +13,6 @@ import './generalStyle.css';
 import Delete from '../../components/modal/Delete';
 import Spinner from '../../components/spinner/mainSpinner';
 import { useFetchedContext } from '../../context/FetchedContext';
-import ConnectionError from '../../components/layout/ConnectionError';
 import Drawer from '../../components/modal/Drawer';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 import CustomerGroupFormSm from '../../components/pageComponents/CustomerGroupFormSm';
@@ -48,7 +47,7 @@ function PageUI({
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { handleToggleInsights, showInsights } = useDataContext();
-    const { loader, error, globalConnectionError } = useFetchedContext();
+    const { loader, error } = useFetchedContext();
     
 
     // CHECK THIS AGAIN LATER....
@@ -85,9 +84,6 @@ function PageUI({
             {(response.message || response.status) && (
                 <CustomAlert type={response.status} message={response.message} />
             )}
-
-            {error[pageName] && <ConnectionError /> }
-            {/* {globalConnectionError && <ConnectionError />} */}
 
             {/* THIS IS FOR THE COLLECTION MODAL */}
             {(action && pageName == "collection") && (

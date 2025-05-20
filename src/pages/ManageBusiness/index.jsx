@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/spinner/mainSpinner';
 import SwitchLoader from '../../components/spinner/switching';
 import { RiApps2AddLine, RiProgress1Line, RiVerifiedBadgeLine } from 'react-icons/ri';
+import CustomAlert from '../../components/layout/CustomAlert';
+import { createPortal } from 'react-dom';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -17,34 +19,39 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 export default function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { user, store, headers, handleStore, handleUser, setShouldLoad } = useAuthContext();
+    const { user, store, headers, handleStore, handleUser, setShouldLoadAll } = useAuthContext();
     ///////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
     const [switchingLoader, setSwitchingLoader] = useState(false);
     const [subscribeModal, setSubscribeModal] = useState(false);
+    const [response, setResponse] = useState({ status: "", message: "" });
 
     const handleSwitchStore = async function(slug) {
         if(slug == store?.slug) {
             setTimeout(function() {
                 navigate("/dashboard");
             }, 250);
+            return window.scrollTo(0, 0);
         }
 
-        if(slug != store?.slug) {
+        try {
             setSwitchingLoader(true);
-            const res = await fetch(`${BASE_API_URL}/stores/mine/outlet?slug=${slug}`, {
-                method: "GET", headers
-            });
+            const res = await fetch(`${BASE_API_URL}/stores?slug=${slug}`, { method: "GET", headers });
             const data = await res.json();
+
             setSwitchingLoader(false);
-            if(!data?.status || !res.ok) return
-            setShouldLoad(true);
+            if(data?.status == "fail" || !res.ok) throw new Error(data?.message || "Something went wrong!")
+
+            setShouldLoadAll(true);
             handleStore(data?.data?.store);
             handleUser(data?.data?.auth);
-            navigate("/dashboard");
-        }
 
-        window.scrollTo(0, 0);
+            navigate("/dashboard");
+            window.scrollTo(0, 0);
+            setResponse({ message: "successful", status: "success" });
+        } catch(err) {
+            setResponse({ message: err?.message, status: "error" });
+        }
     }
 
     
@@ -73,6 +80,9 @@ export default function index() {
     <React.Fragment>
         {loading && <Spinner />}
         {switchingLoader && <SwitchLoader />}
+        {(response.message && response.status) && (
+            createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
+        )}
         
         <DashboardHead nonDashboard={true} />
         <section className="manage--business-section">

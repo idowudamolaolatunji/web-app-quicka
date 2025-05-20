@@ -142,7 +142,7 @@ function TopSalesChannelsChart() {
     // ];
 
     return (
-        <>
+        <React.Fragment>
             {width > 850 ? (
                 <div id="chart">
                     <PieChart
@@ -189,7 +189,7 @@ function TopSalesChannelsChart() {
                     <div id="html-dist"></div>
                 </React.Fragment>
             )}
-        </>
+        </React.Fragment>
     )
 
 }

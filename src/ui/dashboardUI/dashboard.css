@@ -713,10 +713,8 @@ span.item--user-img {
 .dashboard--sidemenu .menu--store .menu--action p {
     font-size: 1.28rem;
 }
-
-
-
 /* ========================================== */
+
 
 
 
@@ -724,7 +722,7 @@ span.item--user-img {
 /*  */
 /* ========================================== */
 .content--block {
-    padding: 3rem 2.4rem 2.4rem;
+    padding: 2.4rem;
     overflow-x: hidden;
     width: calc(100% - 24rem);
     margin-left: auto;

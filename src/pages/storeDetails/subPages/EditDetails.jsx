@@ -13,17 +13,18 @@ import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { useDataContext } from '../../../context/DataContext';
 import PhoneInput from 'react-phone-input-2';
-import isOnline from 'is-online';
 import { cap1stLetter } from '../../../utils/helper';
 import { validateStoreDetailsForm } from '../../../utils/validationHelper';
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 
 
 function EditDetails() {
     const navigate = useNavigate()
     const { width } = useWindowSize()
+    const internetStatus = useCheckInternetConnection();
     const { location, getStates, getCities, setLocation } = useDataContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
-    const { store, formdataHeader, shouldKick, handleStore, handleUser, setShouldLoad } = useAuthContext();
+    const { store, formdataHeader, shouldKick, handleStore, handleUser, setShouldLoadAll } = useAuthContext();
 
     const { paymentCurrencies, paymentMainCurrency, contact } = store;
     const { countryCode } = store?.contact;
@@ -230,8 +231,7 @@ function EditDetails() {
             
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const formData = new FormData();
             formData.append("name", storeData.name)
@@ -262,7 +262,7 @@ function EditDetails() {
             setResponse({ status: data?.status, message: data?.message });
             handleStore(data?.data?.store);
             handleUser(data?.data?.user);
-            setShouldLoad(false); // so that the entire app doesnt reload
+            setShouldLoadAll(false); // so that the entire app doesnt reload
 
             setTimeout(function () {
                 navigate(-1)

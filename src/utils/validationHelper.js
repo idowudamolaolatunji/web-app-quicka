@@ -60,9 +60,7 @@ export function validateAuthForm(data, type) {
 
 		if (!data.email.trim()) {
 			errors.email = "Email is required";
-		} else if (!/\S+@\S+\.\S+/.test(data.email)) {
-			errors.email = "Email is invalid";
-		}
+		} 
 
 		if (!data?.phone.trim()) {
 			errors.phone = "Phone number is required";

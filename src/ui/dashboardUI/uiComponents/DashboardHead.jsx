@@ -17,27 +17,27 @@ import Spinner from '../../../components/spinner/mainSpinner'
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import BackButton from '../../../components/button/BackButton';
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 
 
 function DashboardHead({ nonDashboard=false }) {
+    // nonDashboard=true is a when the header is used outside of the dashboard
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
-    const { globalConnectionError, handleGlobalRefetch } = useFetchedContext();
+    const { handleGlobalRefetch } = useFetchedContext();
+    const checkConnection = useCheckInternetConnection();
     const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
-    // const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu, displayMode, handleToggleDisplayMode } = useDataContext();
 
     const [isShownDropdown, setIsShownDropdown] = useState(false);
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
 
-
     const handleToggleDropdown = function () {
         setIsShownDropdown(!isShownDropdown);
     }
 
-
     return (
-        <>
+        <React.Fragment>
             {loading && <Spinner />}
             
             {(response.status || response.message) && <CustomAlert type={response.status} message={response.message} />}
@@ -69,21 +69,7 @@ function DashboardHead({ nonDashboard=false }) {
                     <div className=""></div>
 
                     <div className="nav--others">
-                        {/* {width > 600 && (
-                            <DefaultButton>
-                                <TooltipUI placement='top' title={`Switch to ${displayMode == "dark" ? "light" : "dark"} mode`}>
-                                    <div className="nav--icon" onClick={handleToggleDisplayMode}>
-                                        {displayMode == "light" ? (
-                                            <IoSunny style={{ color: "orange" }} />
-                                        ) : (
-                                            <IoMoon style={{ color: "#aaa" }} />
-                                        )}
-                                    </div>
-                                </TooltipUI>
-                            </DefaultButton>
-                        )} */}
-
-                        {(width > 600 && !globalConnectionError && store?.storeOnboardCompleted ) && (
+                        {(width > 600 && store?.storeOnboardCompleted && checkConnection == "online") && (
                             <DefaultButton>
                                 <TooltipUI placement='top' title="Reload app">
                                     <div className="nav--icon" onClick={handleGlobalRefetch}>
@@ -127,7 +113,7 @@ function DashboardHead({ nonDashboard=false }) {
                 </div>
             </header>
 
-        </>
+        </React.Fragment>
     )
 }
 

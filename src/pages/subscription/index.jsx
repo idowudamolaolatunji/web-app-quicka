@@ -7,16 +7,15 @@ import Empty from '../../components/layout/Empty';
 import emptyImg from "../../assets/images/illustrations/upgrade.png";
 import { HiOutlineSquare3Stack3D } from 'react-icons/hi2';
 import { useWindowSize } from 'react-use';
-import ConnectionError from '../../components/layout/ConnectionError';
 import { useNavigate } from 'react-router-dom';
 import "./style.css";
 
 
-function index() {
+export default function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { plansHistory, error, loader, globalConnectionError } = useFetchedContext();
+    const { plansHistory, error, loader } = useFetchedContext();
     const { subscription } = store;
     
     const columns = [];
@@ -27,9 +26,7 @@ function index() {
     }, []);
     
     return (
-        <>
-            {globalConnectionError && <ConnectionError /> }
-
+        <React.Fragment>
             <div className='page__section--heading' style={width < 550 ? { flexDirection: 'column', gap: '1.2rem', alignItems: 'flex-start' } : {}}>
                 <h2 className="page__section--title">Subscription</h2>
                 <button className="page__section-top-btn more" onClick={() => navigate("choose-plan")}>Upgrade plans <HiOutlineSquare3Stack3D /></button>
@@ -77,8 +74,6 @@ function index() {
 
                 <div className="right--side"></div>
             </div>
-        </>
+        </React.Fragment>
     )
 }
-
-export default index

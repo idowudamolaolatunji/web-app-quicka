@@ -8,7 +8,6 @@ import { useAuthContext } from '../../../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import AddPageUI from '../../../ui/PageUI/AddPageUI';
-import isOnline from 'is-online';
 import Delete from '../../../components/modal/Delete';
 import { AiFillInstagram, AiFillTikTok } from 'react-icons/ai';
 import { FaSnapchatSquare } from 'react-icons/fa';
@@ -18,6 +17,7 @@ import { GiEnvelope } from 'react-icons/gi';
 import Info from '../../../components/elements/Info';
 import { IoPlayCircleOutline } from 'react-icons/io5';
 import LinkInput from '../../../components/form/LinkInput';
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -25,6 +25,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 export default function AddSuppliers() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const internetStatus = useCheckInternetConnection();
     const { width } = useWindowSize();
     const { headers, store, shouldKick } = useAuthContext();
     const { handleFetchMyStoreSuppliers, handleFetchError, handleFetchOneItem } = useFetchedContext();
@@ -167,8 +168,7 @@ export default function AddSuppliers() {
 
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if(!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/suppliers${end_point}`, {

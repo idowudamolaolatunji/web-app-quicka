@@ -12,13 +12,12 @@ export default DataContext;
 const PRODUCT_TAB_KEY = import.meta.env.VITE_PRODUCT_DISPLAY_STYLE_KEY;
 const MENU_COLLAPSED_KEY = import.meta.env.VITE_MENU_COLLAPSED_KEY;
 const SHOW_INSIGHTS_KEY = import.meta.env.VITE_SHOW_INSIGHTS_KEY;
-// const DISPLAY_MODE_KEY = import.meta.env.VITE_DISPLAY_MODE_KEY;
 
 
 //////////////////////////////////////////////
 //// CREATING PROVIDER ////
 //////////////////////////////////////////////
-export const DataProvider = ({ children }) => {
+export const DataProvider = function({ children }) {
     const { pathname } = useLocation();
     const { width } = useWindowSize();
 
@@ -34,7 +33,6 @@ export const DataProvider = ({ children }) => {
     const [showFilterModal, setShowFilterModal] = useState({ name: "", isShown: false });
     ////////////////////////////////////////////////////////////////////////////////////////
     const [homeInsightPeriod, setHomeInsightPeriod] = useState("all-time");
-    // const [displayMode, setDisplayMode] = useState(localStorage.getItem(DISPLAY_MODE_KEY) ? localStorage.getItem(DISPLAY_MODE_KEY) : "light");
     const [isMenuCollapsed, setIsMenuCollapsed] = useState(localStorage.getItem(MENU_COLLAPSED_KEY) ? JSON.parse(localStorage.getItem(MENU_COLLAPSED_KEY)) : false);
     const [activeDisplayTab, setActiveDisplayTab] = useState(localStorage.getItem(PRODUCT_TAB_KEY) ? localStorage.getItem(PRODUCT_TAB_KEY) : "table");
     const [showInsights, setShowInsights] = useState(
@@ -48,14 +46,6 @@ export const DataProvider = ({ children }) => {
         supplier: onlyDesktop,
         expenses: onlyDesktop,
     });
-
-    // const handleToggleDisplayMode = function() {
-    //     if(displayMode == "dark") {
-    //         setDisplayMode("light");
-    //     } else {
-    //         setDisplayMode("dark");
-    //     }
-    // }
 
     const handleToggleFilter = function(pageName) {
         setShowFilterModal({ name: pageName, isShown: !showFilterModal.isShown });
@@ -116,16 +106,6 @@ export const DataProvider = ({ children }) => {
     }, [pathname]);
 
     
-    // useEffect(function() {
-    //     localStorage.setItem(DISPLAY_MODE_KEY, displayMode);
-
-    //     if(displayMode == "dark") {
-    //         document.body.classList.add('dark-mode');
-    //     } else {
-    //         document.body.classList.remove('dark-mode');
-    //     }
-    // }, [displayMode]);
-
     useEffect(function() {
         localStorage.setItem(MENU_COLLAPSED_KEY, JSON.stringify(isMenuCollapsed));
     }, [isMenuCollapsed]);

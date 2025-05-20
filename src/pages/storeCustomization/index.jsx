@@ -6,7 +6,6 @@ import Template2 from "../../ui/templateUI/Template2"
 import demo_logo from '../../assets/images/dummy_items/dummy_logo.png'
 import more_themes from '../../assets/images/illustrations/more_theme.png'
 import './style.css'
-import ConnectionError from '../../components/layout/ConnectionError';
 import Spinner from '../../components/spinner/mainSpinner';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +18,6 @@ function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { globalConnectionError } = useFetchedContext();
     const [loading, setLoading] = useState(false);
     const { subscription } = store;
     const { template } = store.customDetail;
@@ -33,8 +31,7 @@ function index() {
     }, []);
 
     return (
-        <>
-            {globalConnectionError && <ConnectionError /> }
+        <React.Fragment>
             {loading && <Spinner />}
 
             <div className='page__section--heading'>
@@ -156,7 +153,7 @@ function index() {
                     <p>Stay tuned for exciting new themes!</p>
                 </div>
             </section>
-        </>
+        </React.Fragment>
     )
 }
 

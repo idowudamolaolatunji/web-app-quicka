@@ -22,10 +22,10 @@ import CustomAlert from '../layout/CustomAlert';
 import Spinner from '../spinner/mainSpinner';
 import { createPortal } from 'react-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
-import isOnline from 'is-online';
 import LogoUploadInput from '../form/LogoUploadInput';
 import FaviconInput from '../form/FaviconInput';
 import demo_logo from '../../assets/images/dummy_items/dummy_logo.png'
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -34,6 +34,7 @@ export default function StoreCustom({ isnew, close }) {
     const { width } = useWindowSize();
     const { store, shouldKick, handleStore, formdataHeader } = useAuthContext();
     const { handleFetchError } = useFetchedContext();
+    const internetStatus = useCheckInternetConnection();
 
     const { contact, customDetail, otherPages, socialProfiles } = store;
     const width450False = width < 450 ? false : true;
@@ -246,8 +247,7 @@ export default function StoreCustom({ isnew, close }) {
 
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const parameter = isnew ? "onboard/customize" : "customize/template"
             // MAKE REQUEST

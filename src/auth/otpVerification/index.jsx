@@ -5,17 +5,17 @@ import { useNavigate } from 'react-router-dom';
 import { countdownTimer } from '../../utils/helper';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { validateAuthForm } from '../../utils/validationHelper';
-
 import { HiFingerPrint } from 'react-icons/hi';
 import data_img from '../../assets/images/resources/man_celebrating.jpg'
 import AuthsUI from '../../ui/authUI';
-import isOnline from 'is-online';
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 
 function index() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { handleFetchError } = useFetchedContext();
+    const internetStatus = useCheckInternetConnection();
     const BASE_URL = import.meta.env.VITE_API_URL;
     const headingText = "Take Control of Your Business, Anywhere, Anytime";
 
@@ -70,8 +70,7 @@ function index() {
         handleResetResponse();
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_URL}/auth/verify-otp`, {
                 method: 'PATCH', headers,
@@ -114,8 +113,7 @@ function index() {
         
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_URL}/auth/request-otp`, {
                 method: 'PATCH',

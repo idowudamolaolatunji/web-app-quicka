@@ -11,7 +11,6 @@ import { useAuthContext } from '../../../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import AddPageUI from '../../../ui/PageUI/AddPageUI';
-import isOnline from 'is-online';
 import CheckBoxInput from '../../../components/form/CheckBoxInput';
 import ProfileImageUploader from '../../../components/form/ProfileImageUploader';
 import Delete from '../../../components/modal/Delete';
@@ -20,6 +19,7 @@ import { FaSnapchatSquare } from 'react-icons/fa';
 import Tab from '../../../components/elements/Tab';
 import LinkInput from '../../../components/form/LinkInput';
 import Info from '../../../components/elements/Info';
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -28,6 +28,7 @@ export default function AddCustomer({ close, isModal }) {
     const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const internetStatus = useCheckInternetConnection();
     const { headers, formdataHeader, store, shouldKick } = useAuthContext();
     const { location, getContries, getStates, getCities, setLocation } = useDataContext();
     const { handleFetchMyStoreCustomers, handleFetchError, handleFetchOneItem } = useFetchedContext();
@@ -105,8 +106,7 @@ export default function AddCustomer({ close, isModal }) {
         setLoading(true)
         setResponse({ status: "", message: "" });
                 
-        const connected = await isOnline();
-        if(!connected) throw new Error("Internet Error");
+        if(internetStatus == "offline") throw new Error("Internet Error");
         
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/customers/image/${id}`, {
@@ -271,8 +271,7 @@ export default function AddCustomer({ close, isModal }) {
 
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if(!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const formData = new FormData();
             formData.append('firstname', firstname);

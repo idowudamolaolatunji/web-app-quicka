@@ -26,6 +26,7 @@ import { useOutsideClick } from '../../../hooks/useOutsideClick';
 import { useNavigate } from 'react-router-dom';
 import SwitchLoader from '../../../components/spinner/switching';
 import { useFetchedContext } from '../../../context/FetchedContext';
+import CustomAlert from '../../../components/layout/CustomAlert';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -34,12 +35,13 @@ export default function DashboardMenu() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
     const { globalConnectionError } = useFetchedContext();
-    const { user, store, headers, handleStore, handleUser, setShouldLoad } = useAuthContext();
+    const { user, store, headers, handleStore, handleUser, setShouldLoadAll } = useAuthContext();
     const { isMenuCollapsed, showSidemenu, animateOut, handleShowSidemenu } = useDataContext();
     const ref = useOutsideClick(handleToggleStoreDropdown);
     
     const [storeDropdown, setStoreDropdown] = useState(false);
     const [switchingLoader, setSwitchingLoader] = useState(false);
+    const [response, setResponse] = useState({ status: "", message: "" });
 
 
     function handleToggleStoreDropdown() {
@@ -58,29 +60,39 @@ export default function DashboardMenu() {
             setTimeout(function() {
                 navigate("/dashboard");
             }, 250);
+            window.scrollTo(0, 0);
+            handleShowSidemenu();
+            return;
         }
         
-        if(slug != store?.slug) {
+        try {
             setSwitchingLoader(true);
-            const res = await fetch(`${BASE_API_URL}/stores/mine/outlet?slug=${slug}`, {
-                method: "GET", headers
-            });
+            const res = await fetch(`${BASE_API_URL}/stores?slug=${slug}`, { method: "GET", headers });
             const data = await res.json();
+
             setSwitchingLoader(false);
-            if(!data?.status || !res.ok) return
-            setShouldLoad(true);
+            if(data?.status == "fail" || !res.ok) throw new Error(data?.message || "Something went wrong!")
+
+            setShouldLoadAll(true);
             handleStore(data?.data?.store);
             handleUser(data?.data?.auth);
+
             navigate("/dashboard");
+            window.scrollTo(0, 0);
+            handleShowSidemenu();
+            setResponse({ message: "successful", status: "success" });
+        } catch(err) {
+            setResponse({ message: err?.message, status: "error" });
         }
-        window.scrollTo(0, 0);
-        handleShowSidemenu();
     }
 
     return (
         <React.Fragment>
             {switchingLoader && (
                 createPortal(<SwitchLoader />, document.body)
+            )}
+            {(response.message && response.status) && (
+                createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
             )}
 
             {width > 900 && (

@@ -9,7 +9,6 @@ import { useAuthContext } from '../../../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import AddPageUI from '../../../ui/PageUI/AddPageUI';
-import isOnline from 'is-online';
 import moment from 'moment';
 import { validateExpensesForm } from '../../../utils/validationHelper';
 import Info from '../../../components/elements/Info';
@@ -20,12 +19,14 @@ import Drawer from '../../../components/modal/Drawer';
 import { createPortal } from 'react-dom';
 import AddSupplierFormSm from '../../../components/pageComponents/AddSupplierFormSm';
 import { IoPlayCircleOutline } from 'react-icons/io5';
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 
 
 export default function RecordExpenses() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const internetStatus = useCheckInternetConnection();
     const { formdataHeader, store, shouldKick } = useAuthContext();
     const { suppliers, handleFetchMyStoreExpenses, handleFetchMyStoreSuppliers, handleFetchError, error, handleFetchOneItem } = useFetchedContext();
 
@@ -125,8 +126,7 @@ export default function RecordExpenses() {
 
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if(!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
             
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/expenses${parameter}`, {

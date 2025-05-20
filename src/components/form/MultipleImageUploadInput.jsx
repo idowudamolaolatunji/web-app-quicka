@@ -9,8 +9,8 @@ import { PiFrameCorners } from 'react-icons/pi';
 import { useWindowSize } from 'react-use';
 import { useAuthContext } from '../../context/AuthContext';
 import Delete from '../modal/Delete';
-import isOnline from 'is-online';
 import { useFetchedContext } from '../../context/FetchedContext';
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 
 function MultipleImageUploadInput({ images, productId, handleChange, setResponse, setLoading }) {
@@ -20,6 +20,7 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
     const { width } = useWindowSize();
     const { headers, shouldKick } = useAuthContext();
     const { handleFetchMyStoreProducts } = useFetchedContext();
+    const internetStatus = useCheckInternetConnection();
     /////////////////////////////////////////////////
     const [removeImageFn, setRemoveImageFn] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -45,8 +46,7 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
         setLoading(true)
         handleResetResponse()
         
-        const connected = await isOnline();
-        if(!connected) throw new Error("Internet Error");
+        if(internetStatus == "offline") throw new Error("Internet Error");
         
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/products/image/${productId}/${selectedIndex}`, {

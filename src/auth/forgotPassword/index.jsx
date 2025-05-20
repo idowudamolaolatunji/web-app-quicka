@@ -9,13 +9,14 @@ import { validateAuthForm } from '../../utils/validationHelper';
 import { Link } from 'react-router-dom';
 import Modal from "../../components/modal/ExtraSmall";
 import { HiOutlineMailOpen } from 'react-icons/hi';
-import isOnline from 'is-online';
 import { useFetchedContext } from '../../context/FetchedContext';
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 
 function index() {
     const { width } = useWindowSize();
     const { handleFetchError } = useFetchedContext();
+    const internetStatus = useCheckInternetConnection();
     const BASE_URL = import.meta.env.VITE_API_URL;
     const headingText = "Manage Your Business and Safeguard Security with Confidence."
 
@@ -59,8 +60,7 @@ function index() {
         handleResetResponse();
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const res = await fetch(`${BASE_URL}/auth/forgot-password`, {
                 method: 'PATCH', headers,

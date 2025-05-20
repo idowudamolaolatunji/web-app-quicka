@@ -8,14 +8,14 @@ import GetStarted from './homeComponents/GetStarted';
 import Spinner from "../../components/spinner/mainSpinner"
 import HomeLayoutGrid from './homeComponents/HomeLayoutGrid';
 import HomeProgressGrid from './homeComponents/HomeProgressGrid';
-import ConnectionError from '../../components/layout/ConnectionError';
+import ConnectionError from '../../components/layout/ServerConnectionError';
 import './style.css';
 
 
 function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { loader, globalConnectionError } = useFetchedContext();
+    const { loader } = useFetchedContext();
     const { name, storeOnboardCompleted } = store;
     const STEPS_PROGRESS = import.meta.env.VITE_ONBOARD_STEPS_PROGRESS_KEY;
     const progressStored = localStorage.getItem(STEPS_PROGRESS);
@@ -32,24 +32,20 @@ function index() {
 
 
     return (
-        <React.Fragment>
-            {globalConnectionError && <ConnectionError />}
+        <section className='home--section'>
+            <HomeTop />
+            <Line border={1.4} />
 
-            <section className='home--section'>
-                <HomeTop />
-                <Line border={1.4} />
-
-                {storeOnboardCompleted ? (
-                    <React.Fragment>
-                        {(loader?.order) && <Spinner />}
-                        {(width > 500) && <HomeProgressGrid />}
-                        <HomeLayoutGrid />
-                    </React.Fragment>
-                ) : (
-                    <GetStarted />
-                )}
-            </section>
-        </React.Fragment>
+            {storeOnboardCompleted ? (
+                <React.Fragment>
+                    {(loader?.order) && <Spinner />}
+                    {(width > 500) && <HomeProgressGrid />}
+                    <HomeLayoutGrid />
+                </React.Fragment>
+            ) : (
+                <GetStarted />
+            )}
+        </section>
     )
 }
 

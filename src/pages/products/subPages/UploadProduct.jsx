@@ -23,8 +23,8 @@ import { RiDeleteBin5Line } from 'react-icons/ri';
 import { Switch } from '@mui/material';
 import AddPageUI from '../../../ui/PageUI/AddPageUI';
 import MultipleImageUploadInput from '../../../components/form/MultipleImageUploadInput';
-import isOnline from 'is-online';
 import { formatNumber } from '../../../utils/helper';
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 
 
 export default function UploadProduct({ isnew=false, close, ismodal=false }) {
@@ -32,6 +32,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     const { id } = useParams();
     
     const { width } = useWindowSize();
+    const internetStatus = useCheckInternetConnection();
     const { shouldKick, handleStore, store, formdataHeader } = useAuthContext();
     const { error, collections, handleFetchOneItem, handleFetchError, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleFetchMyStoreDiscounts } = useFetchedContext();
     const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -243,8 +244,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if(!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const formData = new FormData();
             formData.append('name', productData.name);

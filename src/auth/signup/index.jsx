@@ -11,14 +11,15 @@ import data_img from '../../assets/images/resources/micheal-ogungbe-pBR_6uEh6F0-
 import Asterisk from '../../components/elements/Asterisk';
 import AuthUserRating from '../../components/layout/AuthUserRating';
 import AuthsUI from '../../ui/authUI';
-import isOnline from 'is-online';
 import { GoogleLogin } from '@react-oauth/google';
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 const authMethod = localStorage.getItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`)
 
 function index() {
+    const internetStatus = useCheckInternetConnection();
     const { handleFetchError } = useFetchedContext();
     const headingText = "The Power to Manage Your Business, at Your Fingertips."
 
@@ -91,8 +92,7 @@ function index() {
         handleLoading('mainLoading', true);
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const { credential } = response;
             const res = await fetch(`${BASE_API_URL}/auth/google/signup`, {
@@ -154,8 +154,7 @@ function index() {
         setShowPassword({ main: false, confirm: false });
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
             
             const res = await fetch(`${BASE_API_URL}/auth/signup`, {
                 method: 'POST',

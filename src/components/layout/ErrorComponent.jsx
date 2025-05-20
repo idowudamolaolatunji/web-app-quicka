@@ -1,16 +1,13 @@
 import React from 'react';
 import { BsPatchExclamation } from 'react-icons/bs';
+import { MdWifiTetheringErrorRounded } from 'react-icons/md';
 
-// import error_img from '../../assets/images/resources/orange-error.png'
-// import server_img from '../../assets/images/resources/orange-server-error-100.png'
 
-function ErrorComponent({ customStyle }) {
+export default function ErrorComponent({ text="Oops, Error!", customStyle, type="connection" }) {
     return (
-        <div className="error empty--box" style={customStyle}>
-            <span><BsPatchExclamation /></span>
-            <p>Oops! Connection Error!!</p>
+        <div className={`error empty--box ${type == "connection" ? "danger" : "warning"}`} style={customStyle}>
+            <span>{(type == "connection") ? <BsPatchExclamation /> : <MdWifiTetheringErrorRounded />}</span>
+            <p>{text}</p>
         </div>
     )
 }
-
-export default ErrorComponent

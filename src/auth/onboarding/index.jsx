@@ -13,16 +13,17 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { goalOptions } from '../../utils/data';
 import MainDropdownSelect from '../../components/form/MainDropdownSelect';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
-import isOnline from 'is-online';
 import LogoUploadInput from '../../components/form/LogoUploadInput';
 import PhoneInput from 'react-phone-input-2';
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 function index() {
     const navigate = useNavigate();
-    const { handleChange, handleStore, setShouldLoad } = useAuthContext();
+    const internetStatus = useCheckInternetConnection();    
+    const { handleChange, handleStore, setShouldLoadAll } = useAuthContext();
     const { storeCategories, handleFetchStoreCategories, handleFetchError } = useFetchedContext();
     const authMethod = localStorage.getItem(`${import.meta.env.VITE_AUTHMETHOD_KEY}`);
 
@@ -270,8 +271,7 @@ function index() {
         
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if (!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             const formData = new FormData();
             formData.append("name", onboardingData.name)
@@ -307,7 +307,7 @@ function index() {
             setTimeout(function () {
                 handleChange(data?.data?.user, data?.token);
                 handleStore(data?.data?.store);
-                setShouldLoad(true);
+                setShouldLoadAll(true);
 
                 navigate('/congratulations?next=dashboard');
             }, 2500);

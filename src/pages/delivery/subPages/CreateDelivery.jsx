@@ -11,8 +11,7 @@ import { validateDeliveryForm } from '../../../utils/validationHelper';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import AddPageUI from '../../../ui/PageUI/AddPageUI';
-import isOnline from 'is-online';
-
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -21,6 +20,7 @@ export default function CreateDelivery({ close, isnew, isModal }) {
     const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const internetStatus = useCheckInternetConnection();
     const { headers, store, handleStore, shouldKick } = useAuthContext();
     const { handleFetchMyStoreDeliveryRates, handleFetchError, handleFetchOneItem } = useFetchedContext();
 
@@ -105,8 +105,7 @@ export default function CreateDelivery({ close, isnew, isModal }) {
         
         try {
             // CHECK CONNECTION
-            const connected = await isOnline();
-            if(!connected) throw new Error("Internet Error");
+            if(internetStatus == "offline") throw new Error("Internet Error");
 
             // MAKE REQUEST
             const res = await fetch(`${BASE_API_URL}/delivery-rates${end_point}`, {
