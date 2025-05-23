@@ -707,8 +707,8 @@ body:has(.global--overlay) {
 	width: 10rem;
 }
 .error.empty--box span {
-	width: 6rem;
-	height: 6rem;
+	width: 5rem;
+	height: 5rem;
 	border-radius: 50%;
 
 	display: flex;
@@ -729,7 +729,7 @@ body:has(.global--overlay) {
 }
 
 .error.empty--box span svg {
-	font-size: 4rem;
+	font-size: 3.6rem;
 }
 
 

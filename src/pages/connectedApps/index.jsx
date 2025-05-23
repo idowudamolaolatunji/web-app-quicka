@@ -22,7 +22,7 @@ function index() {
     const tabParams = queryParams.get("tab")
     ///////////////////////////////////////////////////////
     const { store } = useAuthContext();
-    const { globalConnectionError } = useFetchedContext();
+    const { errorType } = useFetchedContext();
     const [activeTab, setActiveTab] = useState("");
     const [loading, setLoading] = useState(true)
 
@@ -99,9 +99,9 @@ function index() {
 
             <Line border={1.4} where="Top" value="2rem" />
 
-            {globalConnectionError && <ErrorComponent customStyle={{ padding: "10rem 2rem 6rem" }} />}
+            {errorType && <ErrorComponent customStyle={{ padding: "10rem 2rem 6rem" }} />}
 
-            {!globalConnectionError && (
+            {!errorType && (
                 <div className="page__section--main connected__grid">
                     {apps.map(app => (
                         loading ? (

@@ -12,6 +12,8 @@ import SwitchLoader from '../../components/spinner/switching';
 import { RiApps2AddLine, RiProgress1Line, RiVerifiedBadgeLine } from 'react-icons/ri';
 import CustomAlert from '../../components/layout/CustomAlert';
 import { createPortal } from 'react-dom';
+import InternetConnectionError from '../../components/layout/InternetConnectionError';
+import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -26,6 +28,8 @@ export default function index() {
     const [subscribeModal, setSubscribeModal] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
 
+    const internetStatus = useCheckInternetConnection();
+    
     const handleSwitchStore = async function(slug) {
         if(slug == store?.slug) {
             setTimeout(function() {
@@ -87,6 +91,9 @@ export default function index() {
         <DashboardHead nonDashboard={true} />
         <section className="manage--business-section">
             <div className="manage--business-content">
+
+                {internetStatus == "offline" && <InternetConnectionError />}
+
                 <div className="content--top">
                     {(width > 900) && <BackButton />}
                     <h4>Welcome back, {user?.firstname} 👋🏿</h4>
@@ -126,7 +133,7 @@ export default function index() {
                     ))}
                 </div>
 
-                <button className="content--btn" onClick={handleManageNew}>
+                <button className="content--btn" onClick={handleManageNew} disabled={internetStatus == "offline"}>
                     <RiApps2AddLine /> Add new or existing business
                 </button>
             </div>

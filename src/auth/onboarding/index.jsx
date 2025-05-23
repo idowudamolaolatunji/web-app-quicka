@@ -16,6 +16,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-
 import LogoUploadInput from '../../components/form/LogoUploadInput';
 import PhoneInput from 'react-phone-input-2';
 import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
+import { InternetConnectionErrorMini } from '../../components/layout/InternetConnectionError';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -331,6 +332,8 @@ function index() {
             <section className='onboarding--section'>
                 <div className="onboarding--container">
 
+                    {internetStatus == "offline" && <InternetConnectionErrorMini removeExcessMargin={false} />}
+                    
                     <div className="onboarding--top">
                         <p className='onboarding--numbering'>{onboardTabNum}/2 👈🏿</p>
                         <p className='onboarding--subtitle'>
@@ -501,7 +504,7 @@ function index() {
                                     </button>
                                 ) : <p></p>}
 
-                                <button className='onboard--next'
+                                <button className='onboard--next' disabled={internetStatus == "offline"}
                                     onClick={handleNextTab}>{onboardTabNum === 2 ? 'Finish' : 'Next Step'}
                                     <AiOutlineArrowRight />
                                 </button>

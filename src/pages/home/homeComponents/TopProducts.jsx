@@ -56,7 +56,7 @@ function ProductFigure({ product }) {
 
 function TopProducts() {
     const { width } = useWindowSize();
-    const { orders, products, error, globalConnectionError } = useFetchedContext();
+    const { orders, products, error, errorType } = useFetchedContext();
     /////////////////////////////////////////////////
     const [period, setPeriod] = useState("month");
 
@@ -86,7 +86,6 @@ function TopProducts() {
     const topThreeItems = lookupTopProductByDuration(period);
     const itemLength = topThreeItems?.length
 
-
     return (
         <div className='card top-product-section'>
             <div className="section--top" style={width < 450 ? { flexDirection: "column", textAlign: "center", width: "100%", alignItems: "center" } : {}}>
@@ -107,7 +106,7 @@ function TopProducts() {
 
             <div className='top-product--container'>
                 {(!hasNoError && products?.length < 1) && (
-                    <ErrorComponent text={error?.product} type={globalConnectionError ? "connection" : "limit"} />
+                    <ErrorComponent text={error?.product} />
                 )}
 
                 {((!topThreeItems || itemLength < 1) && hasNoError) && (

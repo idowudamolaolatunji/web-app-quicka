@@ -24,7 +24,7 @@ const STEPS_PROGRESS = import.meta.env.VITE_ONBOARD_STEPS_PROGRESS_KEY;
 
 function GetStarted() {
     const { width } = useWindowSize();
-    const { globalConnectionError, handleFetchError } = useFetchedContext();
+    const { errorType, handleFetchError } = useFetchedContext();
     const { user, store, token, handleStore, shouldKick } = useAuthContext();
 
     const headers = {
@@ -48,7 +48,7 @@ function GetStarted() {
         product: false,
         payment: false,
         delivery: false,
-        welcome: globalConnectionError ? false : false,
+        welcome: errorType ? false : false,
     });
 
     const completedSteps = stepsToComplete.filter(step => step.completed);

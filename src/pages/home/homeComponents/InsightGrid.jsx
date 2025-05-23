@@ -29,10 +29,10 @@ function InsightGrid() {
         });
     }
 
-    const websiteVisitorInsight = 0;
-    const ordersInsight = handleInsights(orders, "orderDate")?.length;
-    const productSoldInsight = handleInsights(orders, "orderDate")?.flatMap(order => order.products)?.reduce((acc, item) => acc + item?.quantity, 0);
-    const customersInsight = handleInsights(customers, "createdAt")?.length;
+    const websiteVisitorInsight = 0 || 0;
+    const ordersInsight = handleInsights(orders, "orderDate")?.length || 0;
+    const productSoldInsight = handleInsights(orders, "orderDate")?.flatMap(order => order.products)?.reduce((acc, item) => acc + item?.quantity, 0) || 0;
+    const customersInsight = handleInsights(customers, "createdAt")?.length || 0;
 
     return (
         <div className='insight--grid'>

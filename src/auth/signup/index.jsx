@@ -13,6 +13,7 @@ import AuthUserRating from '../../components/layout/AuthUserRating';
 import AuthsUI from '../../ui/authUI';
 import { GoogleLogin } from '@react-oauth/google';
 import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
+import { InternetConnectionErrorMini } from '../../components/layout/InternetConnectionError';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -195,6 +196,7 @@ function index() {
         <AuthsUI backText="Back to home" backLink="https://www.getquicka.com" dataimg={data_img} loading={loading?.mainLoading} response={response} heading={headingText} centered={false} overflowLeft={true}>
 
             <form className="auth--form" onSubmit={handleSubmit} style={{ padding: '8rem 0', width: '90%' }}>
+                {internetStatus == "offline" && <InternetConnectionErrorMini />}
                 <div>
                     <h2 className='form--heading' style={width > 850 ? { color: '#ff7a49' } : { color: 'inherit' }}>Create {width > 362 && "an"} Account 🎉</h2>
                     {width <= 850 && (
@@ -328,7 +330,7 @@ function index() {
                     </p>
                 </div>
 
-                <button type="submit" className='form--submit'>Continue</button>
+                <button type="submit" className='form--submit' disabled={internetStatus == "offline"}>Continue</button>
                 <div className="form--info">
                     <p>Already have an account? <Link to='/login'>Login</Link></p>
                 </div>

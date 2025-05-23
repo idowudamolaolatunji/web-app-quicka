@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import SalesOverviewChart from './SalesOverviewChart'
 import SelectAutoWidthDropdown from '../../../components/form/SelectAutoWidthDropdown'
+import { useFetchedContext } from '../../../context/FetchedContext';
+import ErrorComponent from '../../../components/layout/ErrorComponent';
 
 const datePeriods = [
     { title: 'This Year', value: 'this-year' },
@@ -9,6 +11,10 @@ const datePeriods = [
 
 function SalesOverview() {
     const [period, setPeriod] = useState("this-year");
+    
+    const { orders, error } = useFetchedContext();
+    const isOrders = orders && orders?.length > 0;
+    const isError = error?.order;
     
     return (
         <div className='card sales-section'>
@@ -21,8 +27,12 @@ function SalesOverview() {
                 <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod}  />
             </span>
 
+            {(!isOrders && isError) && (
+                <ErrorComponent text={error?.order} customStyle={{ paddingTop: "6rem" }} />
+            )}
 
-            <SalesOverviewChart period={period} />
+            {(orders && !isError) && <SalesOverviewChart period={period} />}
+            
         </div>
     )
 }

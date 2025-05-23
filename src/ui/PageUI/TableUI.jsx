@@ -10,7 +10,6 @@ import ProductCardSkeleton from '../../components/skeleton/ProductCardSkeleton';
 import { TableCellSkeleton, TableHeadSkeleton, TableSkeleton } from '../../components/skeleton/TableSkeleton';
 import { formatNumber } from '../../utils/helper';
 import { Checkbox } from '@mui/material';
-import { useFetchedContext } from '../../context/FetchedContext';
 
 
 function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyComponent, headTabs,
@@ -21,7 +20,6 @@ function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyCo
     const isData = data?.length > 0;
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { globalConnectionError } = useFetchedContext();
     const [selectedRowsId, setSelectedRowsId] = useState([]);
 
     const customStyles = {
@@ -134,7 +132,7 @@ function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyCo
     return (
         <React.Fragment>
             {(error && !isData && !loader) && (
-                <ErrorComponent text={error} type={globalConnectionError ? "connection" : "limit"} customStyle={{ padding: "4.8rem 2rem" }} />
+                <ErrorComponent text={error} customStyle={{ padding: "4.8rem 2rem" }} />
             )}
 
             {((!isData && !error && !loader) && <>{emptyComponent}</>)}

@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import SwitchLoader from '../../../components/spinner/switching';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import CustomAlert from '../../../components/layout/CustomAlert';
+import isOnline from 'is-online';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -34,7 +35,7 @@ const BASE_API_URL = import.meta.env.VITE_API_URL;
 export default function DashboardMenu() {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { globalConnectionError } = useFetchedContext();
+    const { handleFetchError, errorType } = useFetchedContext();
     const { user, store, headers, handleStore, handleUser, setShouldLoadAll } = useAuthContext();
     const { isMenuCollapsed, showSidemenu, animateOut, handleShowSidemenu } = useDataContext();
     const ref = useOutsideClick(handleToggleStoreDropdown);
@@ -45,7 +46,7 @@ export default function DashboardMenu() {
 
 
     function handleToggleStoreDropdown() {
-        if(globalConnectionError) return
+        if(errorType) return
         setStoreDropdown(!storeDropdown);
     }
 
@@ -65,13 +66,19 @@ export default function DashboardMenu() {
             return;
         }
         
+
         try {
             setSwitchingLoader(true);
+
+            const connected = await isOnline();
+            if(!connected) return;
+
             const res = await fetch(`${BASE_API_URL}/stores?slug=${slug}`, { method: "GET", headers });
             const data = await res.json();
 
-            setSwitchingLoader(false);
-            if(data?.status == "fail" || !res.ok) throw new Error(data?.message || "Something went wrong!")
+            if(data?.status == "fail" || !res.ok) {
+                throw new Error(data?.message || "Something went wrong!")
+            }
 
             setShouldLoadAll(true);
             handleStore(data?.data?.store);
@@ -80,9 +87,13 @@ export default function DashboardMenu() {
             navigate("/dashboard");
             window.scrollTo(0, 0);
             handleShowSidemenu();
-            setResponse({ message: "successful", status: "success" });
+            setResponse({ message: "Successful!", status: "success" });
         } catch(err) {
-            setResponse({ message: err?.message, status: "error" });
+            console.log(err, err?.message)
+            const message = handleFetchError(err?.message)
+            setResponse({ status: "error", message });
+        } finally {
+            setSwitchingLoader(false);
         }
     }
 

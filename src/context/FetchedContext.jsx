@@ -18,8 +18,12 @@ export default FetchedContext;
 export const FetchedProvider = function({ children }) {
     const internetStatus = useCheckInternetConnection();
     const { token, user, store, shouldKick, headers, handleStore, shouldLoadAll, setShouldLoadAll, handleUser } = useAuthContext();
+
     const [rateExceeded, setRateExceeded] = useState(false);
-    const [globalConnectionError, setGlobalConnectionError] = useState(false);
+    const [internetError, setInternetError] = useState(false);
+    const [generalError, setGeneralError] = useState(false);
+    const [errorType, setErrorType] = useState("")
+
 
     // DOCUMENT STATES
     const [collections, setCollections] = useState([]);
@@ -106,40 +110,54 @@ export const FetchedProvider = function({ children }) {
         expenses: expensesError,
         settlement: settlementError,
     }
-    // GLOBAL ERROR & GLOBAL REFETCH
-    // const globalConnectionError = ( orderError || productError || transactionError || collectionError || customerError || customerGroupError || newsletterError || deliveryError || campaignError || discountError || couponError || expensesError || supplierError);
+
+    const handleRemoveRateError = function() {
+        setRateExceeded(false);
+    }
 
     const handleGlobalRefetch = async function() {
-        handleFetchStore();
-        handleFetchMyStoreOrders();
-        handleFetchMyStoreProducts();
-        handleFetchMyStoreCustomers();
-        handleFetchMyStoreSuppliers();
-        handleFetchMyStoreCustomerGroups();
-        handleFetchStoreNewsletterCustomers();
-        handleFetchMyStoreTransactions();
-        handleFetchMyStoreCollections();
-        handleFetchMyStoreDeliveryRates();
-        handleFetchMyStoreDiscounts();
-        handleFetchMyStoreCoupons();
-        handleFetchMyStoreExpenses();
-        /////////////////////////////////////
-        // handleFetchMyStoreSettlements();
-        // handleFetchMyStoreCampaigns();
-        rateExceeded && setRateExceeded(false)
-        globalConnectionError && setGlobalConnectionError(false)
+        await Promise.all([
+            handleFetchStore(),
+            handleFetchMyStoreOrders(),
+            handleFetchMyStoreProducts(),
+            handleFetchMyStoreCustomers(),
+            handleFetchMyStoreSuppliers(),
+            handleFetchMyStoreCustomerGroups(),
+            handleFetchStoreNewsletterCustomers(),
+            handleFetchMyStoreTransactions(),
+            handleFetchMyStoreCollections(),
+            handleFetchMyStoreDeliveryRates(),
+            handleFetchMyStoreDiscounts(),
+            handleFetchMyStoreCoupons(),
+            handleFetchMyStoreExpenses(),
+            // handleFetchMyStoreSettlements(),
+            // handleFetchMyStoreCampaigns(),
+        ]);
+
+        setErrorType("");
+        rateExceeded && setRateExceeded(false);
+        internetError && setInternetError(false);
+        generalError && setGeneralError(false);
     }
 
     // HANDLE FETCHED ERROR MESSAGES
-    const handleFetchError = function(errMessage, setterFunction) {
+    const handleFetchError = function(errMessage) {
         if(errMessage == "Too Many Requests" && !rateExceeded) {
             setRateExceeded(true);
-            return "Whoa!, Request Limit Exeeded!.";
+            setErrorType("rate-exceeded")
+            return "Whoa!, Too Many Requests!.";
         }
 
-        if (errMessage?.includes("Failed to fetch") || errMessage == "Internet Error") {
-            setGlobalConnectionError(true)
-            return "Oops! Connection Error!.";
+        if((errMessage == "Internet Error" && !internetError) || (errMessage == "read ECONNRESET" && internetStatus == "offline")) {
+            setInternetError(true);
+            setErrorType("internet-error");
+            return "Oh no! Check Internet Connection!.";
+        }
+
+        if (errMessage?.includes("Failed to fetch")) {
+            setGeneralError(true);
+            setErrorType("general-error")
+            return "Oops! Error!.";
         } else {
             return errMessage;
         }
@@ -153,9 +171,8 @@ export const FetchedProvider = function({ children }) {
         try {
             const res = await fetch(url, { method: "GET", headers });
             const data = await res.json();
-            if (res?.status === 429 || data?.status !== 'success') {
-                throw new Error(data?.message || "Too Many Requests");
-            }
+            if(res.status === 429) throw new Error("Too Many Requests")
+            if(data.status == "fail") throw new Error(data?.message);
 
             return data?.data[title != "delivery-rate" ? title : "deliveryRate"];
         } catch(err) {
@@ -181,9 +198,10 @@ export const FetchedProvider = function({ children }) {
         try {
             const res = await fetch(`${BASE_API_URL}/stores?slug=${store?.slug}`, { method: "GET", headers });
             const data = await res.json();
-            if (res?.status === 429 || data?.status == 'fail') {
-                throw new Error(data?.message || "Too Many Requests");
-            }
+
+            if(res.status === 429) throw new Error("Too Many Requests")
+            if(data.status == "fail") throw new Error(data?.message);
+            
             handleStore(data?.data?.store);
             handleUser(data?.data?.auth);
         } catch(err) {
@@ -521,6 +539,12 @@ export const FetchedProvider = function({ children }) {
         }
     }
 
+    useEffect(function() {
+        if(internetError && generalError) {
+            setInternetError(false)
+        }
+    }, [internetError, generalError]);
+
     useEffect(function () {
         setCollections([]);
         setProducts([]);
@@ -537,22 +561,30 @@ export const FetchedProvider = function({ children }) {
         setCoupons([]);
 
         if(token && user && shouldLoadAll) {
-            handleFetchMyStoreOrders();
-            handleFetchMyStoreProducts();
-            handleFetchMyStoreCustomers();
-            handleFetchMyStoreCollections();
-            handleFetchMyStoreCustomerGroups();
-            handleFetchStoreNewsletterCustomers();
-            handleFetchMyStoreSuppliers();
-            handleFetchMyStoreDeliveryRates();
-            handleFetchMyStoreTransactions();
-            handleFetchMyStoreDiscounts();
-            handleFetchMyStoreCoupons();
-            handleFetchMyStoreExpenses();
-            // handleFetchMyStoreSettlements();
-            // handleFetchMyStoreCampaigns();
+            setErrorType("");
             setRateExceeded(false);
-            setGlobalConnectionError(false);
+            setInternetError(false);
+            setGeneralError(false);
+            //////////////////////////////////////
+            //////////////////////////////////////
+            (async function(){
+                await Promise.all([
+                    handleFetchMyStoreOrders(),
+                    handleFetchMyStoreProducts(),
+                    handleFetchMyStoreCustomers(),
+                    handleFetchMyStoreCollections(),
+                    handleFetchMyStoreCustomerGroups(),
+                    handleFetchStoreNewsletterCustomers(),
+                    handleFetchMyStoreSuppliers(),
+                    handleFetchMyStoreDeliveryRates(),
+                    handleFetchMyStoreTransactions(),
+                    handleFetchMyStoreDiscounts(),
+                    handleFetchMyStoreCoupons(),
+                    handleFetchMyStoreExpenses(),
+                    // handleFetchMyStoreSettlements(),
+                    // handleFetchMyStoreCampaigns(),
+                ])
+            })();
         }
     }, [token, user, shouldLoadAll])
 
@@ -561,11 +593,13 @@ export const FetchedProvider = function({ children }) {
     let contextData = {
         error,
         loader,
+        errorType,
+        generalError,
         rateExceeded,
-        setRateExceeded,
+        internetError,
         handleFetchError,
         handleGlobalRefetch,
-        globalConnectionError,
+        handleRemoveRateError,
 
         orders,
         coupons,

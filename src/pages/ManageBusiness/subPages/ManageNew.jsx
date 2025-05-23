@@ -16,6 +16,7 @@ import logo_demo from '../../../assets/images/dummy_items/demo_quicka_logo.png'
 import PhoneInput from 'react-phone-input-2';
 import { TiArrowBack } from "react-icons/ti";
 import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
+import { InternetConnectionErrorMini } from '../../../components/layout/InternetConnectionError';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -323,6 +324,8 @@ export default function ManageNew() {
             <section className='onboarding--section'>
                 <div className="onboarding--container">
 
+                    {internetStatus == "offline" && <InternetConnectionErrorMini removeExcessMargin={false} />}
+
                     <div className="onboarding--top">
                         <p className='onboarding--numbering'>{onboardTabNum}/2 👈🏿</p>
                         <p className='onboarding--subtitle'>
@@ -502,7 +505,7 @@ export default function ManageNew() {
                                     </button>
                                 )}
 
-                                <button className='onboard--next'
+                                <button className='onboard--next' disabled={internetStatus == "offline"}
                                     onClick={handleNextTab}>{onboardTabNum === 2 ? 'Finish' : 'Next Step'}
                                     <AiOutlineArrowRight />
                                 </button>

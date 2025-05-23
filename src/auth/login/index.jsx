@@ -14,6 +14,7 @@ import AuthsUI from '../../ui/authUI';
 import AuthUserRating from '../../components/layout/AuthUserRating';
 import { GoogleLogin } from '@react-oauth/google';
 import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
+import { InternetConnectionErrorMini } from '../../components/layout/InternetConnectionError';
 
 
 const PREV_PATH = import.meta.env.VITE_PREV_URL_KEY
@@ -207,6 +208,8 @@ function index() {
     return (
         <AuthsUI backText="Back to home" backLink="https://www.getquicka.com" dataimg={data_img} loading={loading?.mainLoading} response={response} heading={headingText} extras={{ marginBottom: '5.6rem' }}>
             <form className="auth--form" onSubmit={handleSubmit} style={width > 850 ? { marginTop: "-2rem" /* this was because of the google button */ } : {}}>
+                {internetStatus == "offline" && <InternetConnectionErrorMini />}
+
                 <div>
                     <h2 className='form--heading' style={width > 850 ? { marginBottom: "2rem" } : {}}>Welcome Back!👋🏿</h2>
                     {width <= 850 && (
@@ -264,7 +267,8 @@ function index() {
                     <Link to='/forgot-password'>Forgot Password</Link>
                 </div>
 
-                <button type="submit" className='form--submit' disabled={isRequesting}>Login</button>
+                <button type="submit" className='form--submit' disabled={isRequesting || internetStatus == "offline"}>Login</button>
+
                 <div className="form--info">
                     <p>Dont have an account? <Link to='/signup'>Create account</Link></p>
                 </div>

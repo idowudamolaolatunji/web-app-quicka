@@ -31,7 +31,7 @@ function index() {
     ////////////////////////////////////////////////////
     const { width } = useWindowSize();
     const { store } = useAuthContext();
-    const { globalConnectionError } = useFetchedContext()
+    const { errorType } = useFetchedContext()
 
     const { after } = DateRangePicker;
     const true580px = width >= 580 ? false : true;
@@ -204,9 +204,9 @@ function index() {
 
             <Line border={1.4} where="Top" value="2rem" />
 
-            {globalConnectionError && <ErrorComponent customStyle={{ padding: "10rem 2rem 6rem" }} />}
+            {errorType && <ErrorComponent customStyle={{ padding: "10rem 2rem 6rem" }} />}
 
-            {/* {!globalConnectionError && (
+            {/* {!errorType && (
                 <div className="analytics--container">
                     {activeTab == "sales" && <SalesAnalytics dateRange={dateRange} />}
                     {activeTab == "website-traffic" && <WebsiteTrafficAnalytics dateRange={dateRange} />}

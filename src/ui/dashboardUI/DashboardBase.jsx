@@ -9,7 +9,7 @@ import './dashboard.css';
 import OnboardingFloater from '../../components/elements/OnboardingFloater';
 import { useLocation } from 'react-router-dom';
 import TooManyRequestError from '../../components/layout/TooManyRequestError';
-import ServerConnectionError from '../../components/layout/ServerConnectionError';
+import GeneralFetchError from '../../components/layout/GeneralFetchError';
 import InternetConnectionError from '../../components/layout/InternetConnectionError';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
@@ -20,10 +20,9 @@ function DashboardBase({ children }) {
     const { pathname } = useLocation();
     const { user, store } = useAuthContext() ;
     const { isMenuCollapsed } = useDataContext();
-    const { rateExceeded } = useFetchedContext();
+    const { rateExceeded, internetError, generalError } = useFetchedContext();
+    
     const internetStatus = useCheckInternetConnection();
-
-    const { globalConnectionError } = useFetchedContext();
     const showOnboardFloater = (
         !store?.storeOnboardCompleted &&
         pathname != "/" && pathname != "/dashboard"&&
@@ -43,9 +42,9 @@ function DashboardBase({ children }) {
                 <DashboardMenu />
 
                 <section className='content--block' style={width <= 600 ? { paddingBottom: "8rem"} : {}}>
-                    {(internetStatus == "offline") && <InternetConnectionError />}
-                    {globalConnectionError && <ServerConnectionError />}
                     {rateExceeded && <TooManyRequestError />}
+                    {(internetStatus == "offline" || internetError) && <InternetConnectionError />}
+                    {generalError && <GeneralFetchError />}
 
                     {children}
                     {width > 600 && <CopyrightText />}

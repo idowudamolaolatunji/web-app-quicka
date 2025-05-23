@@ -3,7 +3,7 @@ import { useFetchedContext } from '../../context/FetchedContext'
 import { useWindowSize } from 'react-use'
 import { BsPatchExclamation } from 'react-icons/bs';
 
-export default function ServerConnectionError() {
+export default function GeneralFetchError() {
     const { width } = useWindowSize();
     const { handleGlobalRefetch } = useFetchedContext()
 
@@ -16,7 +16,7 @@ export default function ServerConnectionError() {
             <div className="sub--mini">
                 <BsPatchExclamation style={{ fontSize: '2.4rem' }} />
                 <span className='sub--text'>
-                    Oops! Server Connection Error!
+                    Oops! Something Went Wrong!
                     <p className='sub--text-sub'>Please check your connection and try again. If error persisit, contact us at support@getquicka.com</p>
                 </span>
             </div>

@@ -73,9 +73,9 @@ function ProgressGrid() {
 
     return (
         <div className='prog--grid' style={isCollapsedBtw900and1000 ? { gridTemplateColumns: "repeat(3, 1fr)" } : {}}>
-            <HomeProgressCard title={`Total Sales (${width <= 450 ? "Inflow" : "In"})`} icon={<MdAddChart />} value={allResult.periodSales} percent={allResult.percent} upTrend={!hasSale && allResult.percent > 0} days={1} />
-            <HomeProgressCard title='Total Settlements' icon={<GiPayMoney />} value={settlementResult.periodSales} percent={settlementResult.percent} upTrend={!hasSettlement && settlementResult.percent > 0} days={1} />
-            <HomeProgressCard title={`Total Expenses (${width <= 450 ? "Outflow" : "Out"})`} icon={<GiExpense />} value={expensesResult.periodSales} percent={expensesResult.percent} upTrend={!hasExpense && expensesResult.percent > 0} days={1} />
+            <HomeProgressCard title={`Total Sales (${width <= 450 ? "Inflow" : "In"})`} icon={<MdAddChart />} value={allResult.periodSales || 0} percent={allResult.percent} upTrend={!hasSale && allResult.percent > 0} days={1} />
+            <HomeProgressCard title='Total Settlements' icon={<GiPayMoney />} value={settlementResult.periodSales || 0} percent={settlementResult.percent} upTrend={!hasSettlement && settlementResult.percent > 0} days={1} />
+            <HomeProgressCard title={`Total Expenses (${width <= 450 ? "Outflow" : "Out"})`} icon={<GiExpense />} value={expensesResult.periodSales || 0} percent={expensesResult.percent} upTrend={!hasExpense && expensesResult.percent > 0} days={1} />
             {/* <HomeProgressCard title='Offline Sales' icon={<LuArchiveRestore />} value={offlineResult.periodSales} percent={offlineResult.percent} upTrend={!hasData && offlineResult.percent > 0} days={1} /> */}
         </div>
     )

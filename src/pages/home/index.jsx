@@ -8,7 +8,7 @@ import GetStarted from './homeComponents/GetStarted';
 import Spinner from "../../components/spinner/mainSpinner"
 import HomeLayoutGrid from './homeComponents/HomeLayoutGrid';
 import HomeProgressGrid from './homeComponents/HomeProgressGrid';
-import ConnectionError from '../../components/layout/ServerConnectionError';
+import ConnectionError from '../../components/layout/GeneralFetchError';
 import './style.css';
 
 
