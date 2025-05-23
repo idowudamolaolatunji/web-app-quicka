@@ -47,6 +47,7 @@ function DashboardBase({ children }) {
                     {generalError && <GeneralFetchError />}
 
                     {children}
+                    
                     {width > 600 && <CopyrightText />}
                     {showOnboardFloater && <OnboardingFloater /> }
                 </section>

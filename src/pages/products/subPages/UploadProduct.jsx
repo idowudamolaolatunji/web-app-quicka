@@ -533,13 +533,13 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                             {/* MOQ / MAXIMUM AND MINIMUM ORDER QUANTITY */}
                             <div className="form--item">
                                 <label htmlFor="MOQ" className="form--label flex">
-                                    Maximum Order Quantity 
+                                    Minimum Order Quantity 
                                     <Switch color='#ff7a49' size="small" checked={showMOQ} onClick={() => setShowMOQ(!showMOQ)} />
                                 </label>
                                 {showMOQ && (
                                     <input type="number" name="MOQ" id="MOQ" value={productData.MOQ} onChange={handleProductDataChange} className="form--input" placeholder="Set a minimum order quantity" />
                                 )}
-                                <Info text="What is Maximum Order Quantity?" />
+                                <Info text="What is Minimum Order Quantity or MOQ?" />
                             </div>
 
                             <div className="form--item">

@@ -44,6 +44,7 @@ function index() {
     const { loader, transactions, settlements, handleFetchMyStoreTransactions, handleFetchMyStoreSettlements } = useFetchedContext();
     const currency = store?.currency?.symbol;
 
+    const settledTransaction = 0;
     const webTransactions = transactions?.filter(transaction => transaction?.transactionType == "web")?.reduce((sum, transaction) => sum + transaction?.order?.profit, 0);
     const offlineTransactions = transactions?.filter(transaction => transaction?.transactionType == "offline")?.reduce((sum, transaction) => sum + transaction?.order?.profit || 0, 0);
     /////////////////////////////////////////////////////////////////////
@@ -199,9 +200,9 @@ function index() {
 
                 {showInsights?.transaction && (
                     <div className='page__section--insights insight--grid'>
-                        <Insight loader={loader[activeTab]} title='Pending Settlements' pre={currency} value={0} icon={<LuClipboardList />} />
-                        <Insight loader={loader[activeTab]} title='Total Website transactions' pre={currency} value={webTransactions} icon={<GrTag />} />
-                        <Insight loader={loader[activeTab]} title='Total Offline transactions' pre={currency} value={offlineTransactions} icon={<MdOutlineOfflineShare />} />
+                        <Insight loader={loader[activeTab]} title='Pending Settlements' pre={currency} value={settledTransaction} dec={settledTransaction ? 0 : 2} icon={<LuClipboardList />} />
+                        <Insight loader={loader[activeTab]} title='Total Website transactions' pre={currency} value={webTransactions || 0} dec={webTransactions ? 0 : 2} icon={<GrTag />} />
+                        <Insight loader={loader[activeTab]} title='Total Offline transactions' pre={currency} value={offlineTransactions || 0} dec={offlineTransactions ? 0 : 2} icon={<MdOutlineOfflineShare />} />
                     </div>
                 )}
 

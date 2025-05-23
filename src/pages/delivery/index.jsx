@@ -60,7 +60,7 @@ function index() {
         {
             name: 'Delivery Fee',
             selector: row => (
-                <p className='value'>{currency}{formatNumber(row?.fee)}</p>
+                <p className='value'>{`${row?.fee ? currency + formatNumber(row?.fee) : "--"}`}</p>
             ),
         },
         {

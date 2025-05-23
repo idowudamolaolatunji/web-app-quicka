@@ -27,11 +27,11 @@ function SalesOverview() {
                 <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod}  />
             </span>
 
-            {(!isOrders && isError) && (
+            {isError ? (
                 <ErrorComponent text={error?.order} customStyle={{ paddingTop: "6rem" }} />
+            ) : (
+                <SalesOverviewChart period={period} />
             )}
-
-            {(orders && !isError) && <SalesOverviewChart period={period} />}
             
         </div>
     )

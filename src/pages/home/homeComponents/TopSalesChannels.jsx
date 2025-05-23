@@ -23,17 +23,18 @@ function TopSalesChannels() {
                 </div>
             </div>
 
-            {(!isOrders && isError) && <ErrorComponent text={error?.order} />}
-
-            {(orders && !isError) && (
-                <>
-                    {isOrders && <TopSalesChannelsChart />}
-                    {!isOrders && (
+            {isError ? (
+                <ErrorComponent text={error?.order} />
+            ) : (
+                <React.Fragment>
+                    {isOrders ? (
+                        <TopSalesChannelsChart />
+                    ) : (
                         <div className="no--channel">
                             <button onClick={() => navigate('/dashboard/orders/record')}>Record new sales</button>
                         </div>
                     )}
-                </>
+                </React.Fragment>
             )}
         </div>
     )

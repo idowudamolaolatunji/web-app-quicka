@@ -142,7 +142,7 @@ export default function index() {
             {showInsights?.supplier && (
                 <div className='page__section--insights insight--grid'>
                     <Insight title='Total Supplier' loader={loader?.supplier} value={suppliers?.length || 0} icon={<PiNetwork />} />
-                    <Insight title='Amount Spent on Supplies' loader={loader?.supplier} pre={currency} value={amount_spent} dec={amount_spent > 0 ? 0 : 2} icon={<GiPayMoney />} />
+                    <Insight title='Amount Spent on Supplies' loader={loader?.supplier} pre={currency} value={amount_spent || 0} dec={amount_spent > 0 ? 0 : 2} icon={<GiPayMoney />} />
                 </div>
             )}
         </PageUI>

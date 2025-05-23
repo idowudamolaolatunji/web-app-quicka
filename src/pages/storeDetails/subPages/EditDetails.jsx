@@ -44,6 +44,7 @@ function EditDetails() {
         dialCode: contact?.dialCode ? contact?.dialCode : "",
         phoneNumber: contact?.phoneNumber ? contact?.phoneNumber : "",
         phone: contact?.phone ? contact?.phone : "",
+        email:  contact?.email ? contact?.email : "",
         paymentMainCurrency: paymentMainCurrency ? paymentMainCurrency : 0,
         address: store?.location?.address ? store?.location?.address : "",
         zipCode: store?.location?.zipCode ? store?.location?.zipCode : "",
@@ -110,6 +111,7 @@ function EditDetails() {
             dialCode: contact?.dialCode ? contact?.dialCode : "",
             phoneNumber: contact?.phoneNumber ? contact?.phoneNumber : "",
             phone: contact?.phone ? contact?.phone : "",
+            email:  contact?.email ? contact?.email : "",
             paymentMainCurrency: paymentMainCurrency ? paymentMainCurrency : 0,
             address: store?.location?.address ? store?.location?.address : "",
             zip: store?.location?.zip ? store?.location?.zip : "",
@@ -213,7 +215,7 @@ function EditDetails() {
             dialCode: storeData.dialCode,
             phoneNumber: storeData.phoneNumber,
             phone: storeData.phone,
-            email: store?.contact?.email
+            email: storeData?.email
         }
         
         const location = {
@@ -363,7 +365,7 @@ function EditDetails() {
 
                         <div className="form--item">
                             <label htmlFor="email" className="form--label">Email Address</label>
-                            <input type="email" id="email" name='email' className="form--input" value={store?.contact?.email} onChange={() => {}} disabled />
+                            <input type="email" id="email" name='email' className="form--input" value={storeData?.email} onChange={handleStoreDataChange} />
                         </div>
 
                         <div className="form--item">

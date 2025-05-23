@@ -553,6 +553,7 @@ export const FetchedProvider = function({ children }) {
         setCustomerGroups([]);
         setNewsletterCustomers([]);
         setSuppliers([]);
+        setExpenses([]);
         setDeliveryRates([]);
         setTransactions([]);
         setSettlements([]);

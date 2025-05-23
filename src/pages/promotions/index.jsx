@@ -271,7 +271,7 @@ function index() {
 
             {showInsights?.discount && (
                 <div className='page__section--insights insight--grid'>
-                    <Insight loader={loader[activeTab]} title='Total Discounts' value={discounts?.length} icon={<TbBasketDiscount />} />
+                    <Insight loader={loader[activeTab]} title='Total Discounts' value={discounts?.length || 0} icon={<TbBasketDiscount />} />
                     <Insight loader={loader[activeTab]} title='Active Coupons' value={activeCoupons || 0} icon={<RiCouponLine />} />
                     {/* <Insight loader={loader[activeTab]} title='Running Special Sales' value={0} icon={<LuPartyPopper />} /> */}
                 </div>
