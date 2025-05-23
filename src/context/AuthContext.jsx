@@ -42,15 +42,22 @@ export const AuthProvider = function({ children }) {
     };
 
     async function signoutUser() {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, { headers });
-        if (!res.ok) return false;
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, { headers });
+            const data = res.json({})
+            if(res.status === 429) throw new Error("Too Many Requests, Try again later")
+            if(data.status == "fail" || !res.ok) throw new Error(data?.message);
 
-        setTimeout(function() {
-            handleChange(null, null);
-            handleStore(null)
-        }, 1000);
+            setTimeout(function() {
+                handleChange(null, null);
+                handleStore(null)
+            }, 1000);
 
-        return true
+            return "successful";
+
+        } catch(err) {
+            return err?.message
+        }
     }
 
     function shouldKick(res) {

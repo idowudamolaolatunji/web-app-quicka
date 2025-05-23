@@ -46,10 +46,10 @@ function Dropdown({ handleToggle, setLoading, setResponse }) {
             }
 
             const result = await signoutUser();
-            if (!result) throw new Error();
+            if (result != "successful") throw new Error(result);
             setResponse({ status: "success", message: "Logout successful!" });
-        } catch(_) {
-            setResponse({ status: "error", message: "Error logging out!" })
+        } catch(err) {
+            setResponse({ status: "error", message: err?.message || "Error logging out!" })
         } finally {
             setLoading(false);
         }
