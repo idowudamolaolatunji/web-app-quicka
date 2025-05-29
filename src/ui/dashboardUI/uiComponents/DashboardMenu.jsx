@@ -234,7 +234,7 @@ export default function DashboardMenu() {
 
 
             {(width < 900 && showSidemenu) && (
-                <>
+                <React.Fragment>
                     {width >= 600 && <Overlay handleClose={handleShowSidemenu} />}
                     <div className={`dashboard--sidemenu ${animateOut ? 'animate-out' : ''}`}>
 
@@ -320,7 +320,7 @@ export default function DashboardMenu() {
                             <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
                         </ul>
                     </div>
-                </>
+                </React.Fragment>
             )}
         </React.Fragment>
     )

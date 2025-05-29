@@ -7,7 +7,7 @@ import TooltipUI from '../../../components/layout/TooltipUI';
 
 
 
-function MenuLink({ icon, title, link }) {
+export default function MenuLink({ icon, title, link }) {
     const { isMenuCollapsed } = useDataContext();
     const { pathname } = useLocation();
     const { width } = useWindowSize();
@@ -17,9 +17,9 @@ function MenuLink({ icon, title, link }) {
 
 
     return (
-        <>
+        <React.Fragment>
             {(width > 900) ? (
-                <>
+                <React.Fragment>
                     {isMenuCollapsed ? (
                        <TooltipUI title={title}>
                             <Link className={isActiveClass} to={`/dashboard${link}`}>
@@ -32,15 +32,13 @@ function MenuLink({ icon, title, link }) {
                             <p className='menu--text'>{title}</p>
                         </Link>
                     )}
-                </>
+                </React.Fragment>
             ) : (
                 <Link className={isActiveClass} to={`/dashboard${link}`}>
                     <span className='menu--icon'>{icon}</span>
                     <p className='menu--text'>{title}</p>
                 </Link>
             )}
-        </>
+        </React.Fragment>
     )
 }
-
-export default MenuLink

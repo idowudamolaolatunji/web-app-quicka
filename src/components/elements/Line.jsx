@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Line({ where=null, value=0, border=1.24, color='#eeeff1' }) {
+export default function Line({ where=null, value=0, border=1.24, color='#eeeff1' }) {
 
     const customStyle = {
         [where && `margin${where}`]: value,
@@ -11,5 +11,3 @@ function Line({ where=null, value=0, border=1.24, color='#eeeff1' }) {
     <div className='line' style={customStyle} />
   )
 }
-
-export default Line
