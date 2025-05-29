@@ -116,6 +116,11 @@ export const FetchedProvider = function({ children }) {
     }
 
     const handleGlobalRefetch = async function() {
+        setErrorType("");
+        rateExceeded && setRateExceeded(false);
+        internetError && setInternetError(false);
+        generalError && setGeneralError(false);
+        
         await Promise.all([
             handleFetchStore(),
             handleFetchMyStoreOrders(),
@@ -133,11 +138,6 @@ export const FetchedProvider = function({ children }) {
             // handleFetchMyStoreSettlements(),
             // handleFetchMyStoreCampaigns(),
         ]);
-
-        setErrorType("");
-        rateExceeded && setRateExceeded(false);
-        internetError && setInternetError(false);
-        generalError && setGeneralError(false);
     }
 
     // HANDLE FETCHED ERROR MESSAGES
