@@ -19,9 +19,9 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const [loading, setLoading] = useState(false);
-    const { subscription } = store;
-    const { template } = store.customDetail;
+    const { subscription, template } = store;
 
+    
     useEffect(function() {
         setLoading(true);
         document.title = "Quicka | Customize your store"
