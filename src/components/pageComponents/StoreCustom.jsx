@@ -26,6 +26,7 @@ import LogoUploadInput from '../form/LogoUploadInput';
 import FaviconInput from '../form/FaviconInput';
 import demo_logo from '../../assets/images/dummy_items/dummy_logo.png'
 import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
+import ColorPicker from 'rsuite-color-picker';
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -36,7 +37,7 @@ export default function StoreCustom({ isnew, close }) {
     const { handleFetchError } = useFetchedContext();
     const internetStatus = useCheckInternetConnection();
 
-    const { contact, customDetail, otherPages, socialProfiles } = store;
+    const { contact, otherPages, socialProfiles, bannerHeading, bannerSubHeading, headline, brandColor } = store;
     const width450False = width < 450 ? false : true;
 
     const [loading, setLoading] = useState({ mainLoading: false, imageLoading: false });
@@ -52,8 +53,8 @@ export default function StoreCustom({ isnew, close }) {
 
     const [storeData, setStoreData] = useState({
         headline: "",
-        heading: "",
-        subHeading: "",
+        bannerHeading: "",
+        bannerSubHeading: "",
         brandColor: "",
 
         aboutPage: width450False,
@@ -132,6 +133,7 @@ export default function StoreCustom({ isnew, close }) {
     };
 
     function handleCustomColor(e) {
+        console.log(e)
         const color = e.target.value
         setCustomColor({ ...customColor, color });
     }
@@ -175,10 +177,10 @@ export default function StoreCustom({ isnew, close }) {
 
     useEffect(function () {
         setStoreData({
-            headline: customDetail?.headline || "",
-            heading: customDetail?.heading || "",
-            subHeading: customDetail?.subHeading || "",
-            brandColor: customDetail?.brandColor || "",
+            bannerHeading: bannerHeading || "",
+            bannerSubHeading: bannerSubHeading || "",
+            headline: headline || "",
+            brandColor: brandColor || "",
     
             aboutPage: otherPages?.aboutPage || width450False,
             returnPolicyPage: otherPages?.returnPolicyPage || width450False,
@@ -193,8 +195,8 @@ export default function StoreCustom({ isnew, close }) {
         });
 
         setCustomColor({ 
-            color: customDetail?.brandColor || "", 
-            isValid: customDetail?.brandColor ? true : false
+            color: brandColor || "", 
+            isValid: brandColor ? true : false
         });
         setStoreLogo({
             preview: store?.storeLogo?.url ?? "",
@@ -217,11 +219,10 @@ export default function StoreCustom({ isnew, close }) {
 
         const {
             instagram, whatsapp, facebook, twitter,
-            headline, heading, subHeading, brandColor,
+            headline, bannerHeading, bannerSubHeading, brandColor,
             aboutDescription, returnPolicyDescription
         } = storeData;
         const socialProfiles = { instagram, whatsapp, facebook, twitter };
-        const customDetail = { heading, subHeading, brandColor, headline };
         const otherPages = {
             aboutDescription, returnPolicyDescription,
             aboutPage: aboutDescription ? true : false,
@@ -229,8 +230,11 @@ export default function StoreCustom({ isnew, close }) {
         }
 
         const formData = new FormData();
+        formData.append("bannerHeading", bannerHeading);
+        formData.append("bannerSubHeading", bannerSubHeading);
+        formData.append("headline", headline);
+        formData.append("brandColor", brandColor);
         formData.append("socialProfiles", JSON.stringify(socialProfiles));
-        formData.append("customDetail", JSON.stringify(customDetail));
         formData.append("otherPages", JSON.stringify(otherPages));
 
         if(storeLogo.file && isnew) {
@@ -374,12 +378,12 @@ export default function StoreCustom({ isnew, close }) {
 
                             <div className="form--item">
                                 <label className="form--label">Banner Heading</label>
-                                <input type="text" name="heading" className="form--input" placeholder='Welcome to' value={storeData.heading} onChange={handleStoreDataChange} />
+                                <input type="text" name="bannerHeading" className="form--input" placeholder='Welcome to the Luxxy Town' value={storeData.bannerHeading} onChange={handleStoreDataChange} />
                             </div>
 
                             <div className="form--item">
                                 <label className="form--label">Banner Subheading</label>
-                                <input type="text" name="subHeading" className="form--input" placeholder='Luxewares' value={storeData.subHeading} onChange={handleStoreDataChange} />
+                                <input type="text" name="bannerSubHeading" className="form--input" placeholder='A place for beautiful girls to shop' value={storeData.bannerSubHeading} onChange={handleStoreDataChange} />
                             </div>
                         </div>
                     </div>
@@ -403,12 +407,15 @@ export default function StoreCustom({ isnew, close }) {
                                     {colors.map((color, i) => <ColorBox key={i} color={color} handleSelected={handleSelectColor} selected={customColor.color || selectedColor} />)}
                                 </div>
 
-                                <div className='form--flex' style={{ gap: "1rem", justifyContent: "flex-start" }}>
+                                <div className='form--flex' style={{ flexWrap: "wrap", gap: "1rem", justifyContent: "flex-start" }}>
                                     <label className='form--label'>Custom Color:</label>
                                     <input type="text" className='form--input' style={{ padding: ".6rem", maxWidth: "12rem" }} value={customColor.color} onChange={handleCustomColor} placeholder='#3423 or grey' />
-                                    <div>{customColor.isValid && (
+
+                                    {/* <div>{customColor.isValid && (
                                         <ColorBox color={customColor.color} selected={customColor.color} />
-                                    )}</div>
+                                    )}</div> */}
+
+                                    <ColorPicker value={customColor.color} onChange={(value) => setCustomColor({ isValid: true, color: value?.hex })} />
                                 </div>
 
                                 {!isnew && (
@@ -461,7 +468,6 @@ export default function StoreCustom({ isnew, close }) {
 
                         <div className='custom--description'>
 
-
                             {storeData.aboutPage && (
                                 <QuillEditor value={storeData.aboutDescription} setValue={(value) => handleStoreDescriptions("aboutDescription", value)} placeholder='Your About-us Content Here...' />
                             )}
@@ -501,11 +507,11 @@ export default function StoreCustom({ isnew, close }) {
                         </span>
 
                         <div className="form--item form--socials">
-                            <LinkInput url={width < 450 ? <AiFillFacebook /> : 'www.facebook.com/'} name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your facebook page" />
-                            <LinkInput url={width < 450 ? <AiFillInstagram /> : "www.instagram.com/"} name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your instagram handle" />
-                            <LinkInput url={width < 450 ? <AiFillTwitterSquare /> :'www.twitter.com/'} name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your twitter handle" />
-                            <LinkInput url={width < 450 ? <AiFillTikTok /> :'www.tiktok.com/'} name="tiktok" value={storeData.tiktok} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your tiktok profile" />
-                            <LinkInput url={width < 450 ? <AiOutlineWhatsApp /> :'https://wa.me/'} name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your whatsapp number" type='number' />
+                            <LinkInput url={<AiFillFacebook style={{ fontSize: "2.4rem" }} />} name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your facebook page" />
+                            <LinkInput url={<AiFillInstagram style={{ fontSize: "2.4rem" }} />} name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your instagram handle" />
+                            <LinkInput url={<AiFillTwitterSquare style={{ fontSize: "2.4rem" }} />} name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your twitter handle" />
+                            <LinkInput url={<AiFillTikTok style={{ fontSize: "2.4rem" }} />} name="tiktok" value={storeData.tiktok} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your tiktok profile" />
+                            <LinkInput url={<AiOutlineWhatsApp style={{ fontSize: "2.4rem" }} />} name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your whatsapp number" type='number' />
                         </div>
                     </div>
 

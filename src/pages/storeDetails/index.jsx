@@ -22,8 +22,7 @@ export default function index() {
     const { isMenuCollapsed } = useDataContext();
 
     const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1000);
-    const { paymentCurrencies, paymentMainCurrency, description, category, contact, location, storeLogo } = store;
-    const { subHeading, heading, headline, slogan } = store?.customDetail;
+    const { paymentCurrencies, paymentMainCurrency, description, category, contact, location, storeLogo, tagline } = store;
     const currency = paymentCurrencies[paymentMainCurrency];
       
     useEffect(function () {
@@ -87,11 +86,10 @@ export default function index() {
                         )}
 
                         <div className="preview--body">
-                            <div className='preview--body-item'>Business slogan <span className='preview--body-value'>{slogan || "--"}</span></div>
-                            <div className='preview--body-item'>Welcome Heading <span className='preview--body-value'>{subHeading ? `${heading} ${subHeading}` : "--"}</span></div>
-                            <div className='preview--body-item'>Top Headline <span className='preview--body-value'>{headline || "--"}</span></div>
+                            <div className='preview--body-item'>Business Tagline <span className='preview--body-value'>{tagline || "--"}</span></div>
                             <div className='preview--body-item'>Business Description <span className='preview--body-value'>{description || "--"}</span></div>
                             <div className='preview--body-item'>Business Category <span className='preview--body-value'>{category?.name ? category?.name : "--"}</span></div>
+                            <div className='preview--body-item'>Payment Currency <span className='preview--body-value'>{currency?.name}({currency?.symbol})</span></div>
                         </div>
                     </div>
                 </div>
@@ -109,7 +107,6 @@ export default function index() {
                         <div className='preview--body-item'>Country <span className='preview--body-value'>{location?.country?.name || "--"}</span></div>
                         <div className='preview--body-item'>City & State <span className='preview--body-value'>{(location?.state?.name && location?.city?.name) ? `${location?.city?.name + ", "}${location?.state?.name}` : "--"}</span></div>
                         <div className='preview--body-item'>Zip Code <span className='preview--body-value'>{location?.zipCode || "--"}</span></div>
-                        <div className='preview--body-item'>Payment Currency <span className='preview--body-value'>{currency?.name}({currency?.symbol})</span></div>
                     </div>
                 </div>
             </div>

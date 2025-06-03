@@ -36,7 +36,7 @@ function EditDetails() {
 
     const [storeData, setStoreData] = useState({
         name: store?.name ? store?.name : "",
-        slogan: store?.slogan ? store?.slogan : "",
+        tagline: store?.tagline ? store?.tagline : "",
         description: store?.description ? store?.description : "",
         subdomain: store?.subdomain ? store?.subdomain : "",
         category: store?.category?.name ? [store?.category] : [],
@@ -103,7 +103,7 @@ function EditDetails() {
     const handleReset = function() {
         setStoreData({
             name: store?.name ? store?.name : "",
-            slogan: store?.slogan ? store?.slogan : "",
+            tagline: store?.tagline ? store?.tagline : "",
             description: store?.description ? store?.description : "",
             subdomain: store?.subdomain ? store?.subdomain : "",
             category: store?.category?.name ? [store?.category] : [],
@@ -237,8 +237,8 @@ function EditDetails() {
 
             const formData = new FormData();
             formData.append("name", storeData.name)
+            formData.append("tagline", storeData.tagline)
             formData.append("category", JSON.stringify(category))
-            formData.append("slogan", storeData.slogan);
             formData.append("description", storeData.description);
             formData.append("paymentMainCurrency", storeData.paymentMainCurrency);
             formData.append("contact", JSON.stringify(contact));
@@ -334,8 +334,8 @@ function EditDetails() {
                         </div>
 
                         <div className="form--item">
-                            <label htmlFor="slogan" className="form--label">Business Slogan</label>
-                            <input type="text" id="slogan" name='slogan' className="form--input" placeholder='Slogan: Meeting your every needs..' value={storeData.slogan} onChange={handleStoreDataChange} />
+                            <label htmlFor="tagline" className="form--label">Business Tagline</label>
+                            <input type="text" id="tagline" name='tagline' className="form--input" placeholder='Tagline: Meeting your every needs..' value={storeData.tagline} onChange={handleStoreDataChange} />
                         </div>
 
                         <div className="form--item">

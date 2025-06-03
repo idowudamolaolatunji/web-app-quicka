@@ -49,6 +49,7 @@
 		"react-switch": "^7.0.0",
 		"react-use": "^17.5.1",
 		"rsuite": "^5.75.0",
+		"rsuite-color-picker": "^0.2.0",
 		"sort-by": "^1.2.0",
 		"styled-components": "^6.1.13",
 		"threedviewer": "^0.11.0"

@@ -14,7 +14,8 @@ import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnecti
 
 
 function MultipleImageUploadInput({ images, productId, handleChange, setResponse, setLoading }) {
-    const maxImageAmount = 6;
+    // const maxImageAmount = 6; // the intention was to give premuim user max 6 and free max 4
+    const maxImageAmount = 4;
     const maxSize = 4 * 1024 * 1024; //4mb
     
     const { width } = useWindowSize();

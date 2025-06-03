@@ -270,7 +270,7 @@ export default function AddSuppliers() {
                                 
                                 <Info text="Select up to 3 social media platforms (optional, leave empty if none)" />
                     
-                                {selectedInfo.email && <LinkInput url={<GiEnvelope />} name="email" value={supplierData.email} handleChange={handleSupplierData} linkPosition='start' placeholder="@ email address" />}
+                                {selectedInfo.email && <LinkInput url={<GiEnvelope />} name="email" value={supplierData.email} handleChange={handleSupplierData} linkPosition='start' placeholder="email address" />}
                                 {selectedInfo.instagram && <LinkInput url={<AiFillInstagram />} name="instagram" value={supplierData.instagram} handleChange={handleSupplierData} linkPosition='start' placeholder="@ instagram handle" />}
                                 {selectedInfo.tiktok && <LinkInput url={<AiFillTikTok />} name="tiktok" value={supplierData.tiktok} handleChange={handleSupplierData} linkPosition='start' placeholder="@ tiktok profile" />}
                                 {selectedInfo.snapchat && <LinkInput url={<FaSnapchatSquare />} name="snapchat" value={supplierData.snapchat} handleChange={handleSupplierData} linkPosition='start' placeholder="@ snapchat handle" />}

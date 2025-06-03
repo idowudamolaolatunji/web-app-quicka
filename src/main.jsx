@@ -8,6 +8,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import App from './App.jsx';
 import './index.css';
 import 'rsuite/dist/rsuite-no-reset.min.css';
+import 'rsuite-color-picker/lib/styles.css'
 
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT;
 
