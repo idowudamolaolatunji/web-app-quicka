@@ -415,7 +415,7 @@ export default function StoreCustom({ isnew, close }) {
                                         <ColorBox color={customColor.color} selected={customColor.color} />
                                     )}</div> */}
 
-                                    <ColorPicker value={customColor.color} onChange={(value) => setCustomColor({ isValid: true, color: value?.hex })} />
+                                    <ColorPicker value={selectedColor || customColor.color} onChange={(value) => setCustomColor({ isValid: true, color: value?.hex })} />
                                 </div>
 
                                 {!isnew && (
