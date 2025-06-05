@@ -440,8 +440,8 @@ export default function StoreCustom({ isnew, close }) {
                                         color={storeData.brandColor}
                                         headline={storeData.headline}
                                         banner={banner.preview}
-                                        heading={storeData.heading}
-                                        text={storeData.subHeading}
+                                        heading={storeData.bannerHeading}
+                                        text={storeData.bannerSubHeading}
                                         about={storeData.aboutPage}
                                     />
                                 </div>

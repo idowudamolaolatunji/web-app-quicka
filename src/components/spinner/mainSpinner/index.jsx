@@ -2,7 +2,7 @@ import React from 'react';
 import './style.css'
 import { useWindowSize } from 'react-use';
 
-function index() {
+export default function index() {
     const { width } = useWindowSize();
     
     return (
@@ -19,5 +19,3 @@ function index() {
         </div>
     )
 }
-
-export default index
