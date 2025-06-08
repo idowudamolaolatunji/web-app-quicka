@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import Cookies from 'js-cookie';
-import { useLocalStorage } from "react-use";
+import { useCookie, useLocalStorage } from "react-use";
 
 //////////////////////////////////////////////
 //// CREATING CONTEXT ////
@@ -19,8 +19,8 @@ export const AuthProvider = function({ children }) {
     const [shouldLoadAll, setShouldLoadAll] = useState(true); // helps tell when not to load all
     const [user, setUser] = useState(Cookies.get(AUTH_KEY) ? JSON.parse(Cookies.get(AUTH_KEY)) : null);
     const [token, setToken] = useState(Cookies.get(TOKEN_KEY) ? Cookies.get(TOKEN_KEY) : null);
-    // const [store, setStore] = useState(Cookies.get(STORE_KEY) ? JSON.parse(Cookies.get(STORE_KEY)) : null);
-    const [store, setStore] = useLocalStorage(STORE_KEY, null);
+    const [store, setStore] = useState(Cookies.get(STORE_KEY) ? JSON.parse(Cookies.get(STORE_KEY)) : null);
+
 
     const headers = {
         "Content-Type": "application/json",
@@ -72,9 +72,8 @@ export const AuthProvider = function({ children }) {
     useEffect(function () {
         if (user) Cookies.set(AUTH_KEY, JSON.stringify(user), { expires: 365 });
         if (token) Cookies.set(TOKEN_KEY, token, { expires: 365 });
-        // if (store) Cookies.set(STORE_KEY, JSON.stringify(store), { expires: 365 });
-    // }, [user, token, store]);
-    }, [user, token]);
+        if (store) Cookies.set(STORE_KEY, JSON.stringify(store), { expires: 365 });
+    }, [user, token, store]);
 
 
     // CREATE CONTEXT DATA

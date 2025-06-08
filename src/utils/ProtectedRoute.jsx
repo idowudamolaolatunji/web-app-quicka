@@ -8,7 +8,7 @@ const PREV_URL = import.meta.env.VITE_PREV_URL_KEY
 
 
 function ProtectedRoute() {
-    let { user } = useAuthContext();
+    let { user, store } = useAuthContext();
     let { pathname } = useLocation() 
     const [_, setValue] = useLocalStorage(PREV_URL, "");
 
@@ -19,7 +19,7 @@ function ProtectedRoute() {
     }, [pathname, setValue]);
 
 
-    if (!user) {
+    if (!user || !store) {
         return <Navigate to={`/login`} replace />;
     }
 
