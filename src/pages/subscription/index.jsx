@@ -21,7 +21,7 @@ export default function index() {
     const columns = [];
     
     useEffect(function() {
-        document.title = "Quicka | Subscription plans"
+        document.title = "Quicka - Subscription Plans | Business Management Tool for SME's"
         window.scrollTo(0, 0);
     }, []);
     

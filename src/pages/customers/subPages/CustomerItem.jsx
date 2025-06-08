@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { GoDotFill } from 'react-icons/go';
 import { cap1stLetter, formatDate, formatDateSince, formatNumber, truncateString, ymdDateSlashTimeFormat } from '../../../utils/helper';
-import Spinner from '../../../components/spinner/mainSpinner';
+import Spinner from '../../../components/spinner/MainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Delete from '../../../components/modal/Delete';
 import BackButton from '../../../components/button/BackButton';
@@ -204,7 +204,7 @@ export default function CustomerItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Customer Details - ${item?.firstname}`;
+        document.title = `Quicka | Business Management Tool for SME's | Customer Details - ${item?.firstname}`;
 
         const countryName = String(item?.shippingAddress?.country?.name)?.toLowerCase();
         const flagUrl = findFlagUrlByCountryName(countryName);

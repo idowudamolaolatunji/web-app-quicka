@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 export default function index() {
     useEffect(function() {
-        document.title = "Quicka | Buy domain";
+        document.title = "Quicka - Buy Domain | Business Management Tool for SME's";
         window.scrollTo(0, 0);
     }, [])
 

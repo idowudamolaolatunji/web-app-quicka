@@ -9,7 +9,7 @@ import { useAuthContext } from '../../context/AuthContext.jsx';
 import { validateBankForm } from '../../utils/validationHelper.js';
 import AddPageUI from '../../ui/PageUI/AddPageUI.jsx';
 import { useDataContext } from '../../context/DataContext.jsx';
-import SpinnerTiny from '../spinner/tiny'
+import SpinnerTiny from '../spinner/Tiny'
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
 

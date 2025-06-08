@@ -79,7 +79,7 @@ function index() {
 
 
     useEffect(function () {
-        document.title = "Quicka | Create an Account 🎉";
+        document.title = "Quicka - Create an Account 🎉 | Business Management Tool for SME's";
     }, []);
 
     useEffect(function () {

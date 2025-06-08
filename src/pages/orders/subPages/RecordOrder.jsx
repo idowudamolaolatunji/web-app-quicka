@@ -113,7 +113,7 @@ export default function RecordOrder() {
     };
 
     useEffect(function() {
-        document.title = "Quicka | Record orders";
+        document.title = "Quicka - Record Orders | Business Management Tool for SME's";
 
         if((customers?.length < 1 && error?.customer) || (products?.length < 1 && error?.product)) {
             handleFetchMyStoreCustomers();

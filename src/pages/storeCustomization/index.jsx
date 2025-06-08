@@ -6,7 +6,7 @@ import Template2 from "../../ui/templateUI/Template2"
 import demo_logo from '../../assets/images/dummy_items/dummy_logo.png'
 import more_themes from '../../assets/images/illustrations/more_theme.png'
 import './style.css'
-import Spinner from '../../components/spinner/mainSpinner';
+import Spinner from '../../components/spinner/MainSpinner';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineWorkspacePremium } from 'react-icons/md';
@@ -24,7 +24,7 @@ function index() {
     
     useEffect(function() {
         setLoading(true);
-        document.title = "Quicka | Customize your store"
+        document.title = "Quicka - Customize Store | Business Management Tool for SME's"
         window.scrollTo(0, 0);
 
         setTimeout(() => setLoading(false), 250);

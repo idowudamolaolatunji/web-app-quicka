@@ -159,7 +159,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     }
 
     useEffect(function() {
-        document.title = "Quicka | Upload new product";
+        document.title = "Quicka - Upload Product | Business Management Tool for SME's";
 
         if(collections?.length < 1 && error?.collection) {
             handleFetchMyStoreCollections()

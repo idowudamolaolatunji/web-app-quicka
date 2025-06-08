@@ -160,7 +160,7 @@ export default function AddCustomer({ close, isModal }) {
     }
 
     useEffect(function() {
-        document.title = "Quicka | Add Customer"
+        document.title = "Quicka - Add Customer | Business Management Tool for SME's"
     }, [])
 
     

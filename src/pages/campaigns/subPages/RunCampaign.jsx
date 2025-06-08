@@ -5,7 +5,7 @@ function RunCampaign() {
 
     useEffect(function () {
         window.scrollTo(0, 0);
-        document.title = "Quicka | Run Campaign"
+        document.title = "Quicka - Run Campaign  | Business Management Tool for SME's"
     }, [])
 
 

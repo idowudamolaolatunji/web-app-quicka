@@ -5,7 +5,7 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import Line from '../../components/elements/Line';
 import HomeTop from './homeComponents/HomeTop';
 import GetStarted from './homeComponents/GetStarted';
-import Spinner from "../../components/spinner/mainSpinner"
+import Spinner from "../../components/spinner/MainSpinner"
 import HomeLayoutGrid from './homeComponents/HomeLayoutGrid';
 import HomeProgressGrid from './homeComponents/HomeProgressGrid';
 import ConnectionError from '../../components/layout/GeneralFetchError';
@@ -22,7 +22,7 @@ function index() {
 
     
     useEffect(function () {
-        document.title = `Quicka | Welcome back ${name}`
+        document.title = `Quicka | Business Management Tool for SME's | Welcome back ${name}`
         window.scrollTo(0, 0);
 
         if(storeOnboardCompleted && progressStored) {

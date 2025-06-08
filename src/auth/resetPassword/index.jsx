@@ -53,7 +53,7 @@ function index() {
     }
 
     useEffect(function () {
-        document.title = "Quicka | Password Reset";
+        document.title = "Quicka - Password Reset | Business Management Tool for SME's";
     }, []);
 
 

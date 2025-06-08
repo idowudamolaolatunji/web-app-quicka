@@ -55,7 +55,7 @@ function index() {
 
 
     useEffect(function () {
-        document.title = "Quicka | Run Campaign";
+        document.title = "Quicka - Run Campaign | Business Management Tool for SME's";
         window.scrollTo(0, 0);
     }, []);
 

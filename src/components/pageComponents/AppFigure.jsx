@@ -4,7 +4,7 @@ import { HiCheckBadge, HiOutlineCheckCircle } from 'react-icons/hi2';
 import { PiPlugsConnected } from 'react-icons/pi';
 import { VscDebugDisconnect } from 'react-icons/vsc';
 import CustomAlert from '../layout/CustomAlert';
-import Spinner from '../spinner/mainSpinner';
+import Spinner from '../spinner/MainSpinner';
 import { createPortal } from 'react-dom';
 import IntegrationModal from '../modal/IntegrationModal';
 

@@ -208,7 +208,7 @@ function index() {
 
 
     useEffect(function() {
-        document.title = `Quicka | ${activeTab == "special_sales" 
+        document.title = `Quicka | Business Management Tool for SME's | ${activeTab == "special_sales" 
             ? "Run special sales" 
             : cap1stLetter(activeTab)}s`;
     }, [activeTab]);

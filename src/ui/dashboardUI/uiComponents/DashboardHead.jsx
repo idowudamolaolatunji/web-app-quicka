@@ -13,7 +13,7 @@ import DefaultButton from '../../../components/button/DefaultButton';
 import { useAuthContext } from '../../../context/AuthContext';
 import IntialsImage from '../../../components/layout/IntialsImage';
 import CustomAlert from '../../../components/layout/CustomAlert';
-import Spinner from '../../../components/spinner/mainSpinner'
+import Spinner from '../../../components/spinner/MainSpinner'
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import BackButton from '../../../components/button/BackButton';

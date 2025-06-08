@@ -4,7 +4,7 @@ import { useWindowSize } from 'react-use';
 import Tab from '../../components/elements/Tab';
 import Line from '../../components/elements/Line';
 import { DateRangePicker } from 'rsuite';
-import Spinner from '../../components/spinner/mainSpinner';
+import Spinner from '../../components/spinner/MainSpinner';
 import { BsCalendar3 } from 'react-icons/bs';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -121,7 +121,7 @@ function index() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | ${store.name}'s Anayltics`
+        document.title = `Quicka | Business Management Tool for SME's | ${store.name}'s Anayltics`
     })
 
     useEffect(function () {

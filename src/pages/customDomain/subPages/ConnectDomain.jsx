@@ -3,7 +3,7 @@ import BackButton from '../../../components/button/BackButton'
 import { useNavigate } from 'react-router-dom'
 import { LuBadgeInfo } from 'react-icons/lu';
 import Line from '../../../components/elements/Line';
-import SpinnerTiny from "../../../components/spinner/tiny"
+import SpinnerTiny from "../../../components/spinner/Tiny"
 import { GrConnect } from "react-icons/gr";
 import { useWindowSize } from 'react-use';
 
@@ -15,7 +15,7 @@ export default function ConnectDomain() {
     const [domainQuery, setDomainQuery] = useState("");
 
     useEffect(function () {
-        document.title = "Quicka | Connect a domain";
+        document.title = "Quicka - Connect Domain | Business Management Tool for SME's";
         window.scrollTo(0, 0);
     }, [])
 

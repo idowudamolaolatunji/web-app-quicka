@@ -6,7 +6,7 @@ import { RiBankLine } from 'react-icons/ri';
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { IoCheckmarkDone } from 'react-icons/io5';
 import { TbTruckDelivery } from 'react-icons/tb';
-import Spinner from '../../../components/spinner/mainSpinner'
+import Spinner from '../../../components/spinner/MainSpinner'
 import FullScreen from '../../../components/modal/FullScreen';
 import UploadProduct from '../../products/subPages/UploadProduct';
 import CreateDelivery from '../../delivery/subPages/CreateDelivery';

@@ -43,7 +43,7 @@ function index() {
     }
 
     useEffect(function () {
-        document.title = "Quicka | OTP Verification";
+        document.title = "Quicka - OTP Verification | Business Management Tool for SME's";
 
         if (!otpUser) return navigate('/login');
 

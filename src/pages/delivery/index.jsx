@@ -95,7 +95,7 @@ function index() {
 
 
     useEffect(function() {
-        document.title = "Quicka | Delivery Rates";
+        document.title = "Quicka - Delivery Rates | Business Management Tool for SME's";
     }, []);
     
 

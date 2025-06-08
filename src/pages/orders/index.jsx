@@ -127,7 +127,7 @@ function index() {
 
 
     useEffect(function () {
-        document.title = "Quicka | Your orders";
+        document.title = "Quicka - Orders | Business Management Tool for SME's";
     }, []);
 
 

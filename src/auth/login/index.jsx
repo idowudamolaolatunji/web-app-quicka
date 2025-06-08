@@ -56,7 +56,7 @@ function index() {
     }
 
     useEffect(function () {
-        document.title = "Quicka | Welcome back 👋🏿";
+        document.title = "Quicka - Welcome back 👋🏿 | Business Management Tool for SME's";
     }, []);
 
 

@@ -5,7 +5,7 @@ import { useAuthContext } from '../../../context/AuthContext';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import Line from '../../../components/elements/Line';
 import BackButton from '../../../components/button/BackButton';
-import Spinner from '../../../components/spinner/mainSpinner';
+import Spinner from '../../../components/spinner/MainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Delete from '../../../components/modal/Delete';
 import { GoDotFill } from 'react-icons/go';
@@ -55,7 +55,7 @@ export default function CouponItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Coupon Details - ${item?.couponCode}`;
+        document.title = `Quicka | Business Management Tool for SME's | Coupon Details - ${item?.couponCode}`;
     }, [item]);
 
 

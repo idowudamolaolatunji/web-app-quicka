@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Spinner from "../spinner/tallspin";
+import Spinner from "../spinner/TallSpin";
 import Asterisk from '../elements/Asterisk'
 import { createPortal } from 'react-dom';
 import CustomAlert from '../layout/CustomAlert';

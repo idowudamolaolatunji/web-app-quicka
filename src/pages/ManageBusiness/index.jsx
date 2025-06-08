@@ -7,8 +7,8 @@ import { truncateString } from '../../utils/helper';
 import { useWindowSize } from 'react-use';
 import { BiChevronRight } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../../components/spinner/mainSpinner';
-import SwitchLoader from '../../components/spinner/switching';
+import Spinner from '../../components/spinner/MainSpinner';
+import SwitchLoader from '../../components/spinner/Switching';
 import { RiApps2AddLine, RiProgress1Line, RiVerifiedBadgeLine } from 'react-icons/ri';
 import CustomAlert from '../../components/layout/CustomAlert';
 import { createPortal } from 'react-dom';
@@ -71,7 +71,7 @@ export default function index() {
     }
 
     useEffect(function() {
-        document.title = "Quicka | Manage Other Businesses"
+        document.title = "Quicka - Manage Other Businesses | Business Management Tool for SME's"
         setTimeout(() => setLoading(false), 1000);
     }, []);
 

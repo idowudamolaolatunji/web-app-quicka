@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-import Spinner from '../../../components/spinner/mainSpinner'
-import SpinnerTiny from '../../../components/spinner/tiny'
+import Spinner from '../../../components/spinner/MainSpinner'
+import SpinnerTiny from '../../../components/spinner/Tiny'
 import TooltipUI from '../../../components/layout/TooltipUI';
 import Asterisk from '../../../components/elements/Asterisk';
 import CustomAlert from '../../../components/layout/CustomAlert';
@@ -156,7 +156,7 @@ export default function ManageNew() {
     }
 
     useEffect(function () {
-        document.title = "Quicka | New Business Onboard";
+        document.title = "Quicka - Business Onboard | Business Management Tool for SME's";
         if(!user) navigate(-1);
             
         // GET THE STORE CATEGORIES

@@ -4,7 +4,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import Asterisk from '../../components/elements/Asterisk';
 import PhoneInput from 'react-phone-input-2';
 
-import Spinner from "../../components/spinner/tallspin";
+import Spinner from "../../components/spinner/TallSpin";
 import CustomAlert from '../../components/layout/CustomAlert';
 import { createPortal } from 'react-dom';
 import { validateCustomerForm } from '../../utils/validationHelper';

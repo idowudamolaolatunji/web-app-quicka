@@ -3,7 +3,7 @@ import BackButton from '../../../components/button/BackButton'
 import { useNavigate } from 'react-router-dom'
 import { LuBadgeInfo } from 'react-icons/lu';
 import Line from '../../../components/elements/Line';
-import SpinnerTiny from "../../../components/spinner/tiny"
+import SpinnerTiny from "../../../components/spinner/Tiny"
 import { GoSearch } from "react-icons/go";
 import { HiOutlineEnvelope, HiOutlinePhone  } from "react-icons/hi2";
 import { BiPurchaseTagAlt } from 'react-icons/bi';
@@ -17,7 +17,7 @@ export default function BuyDomain() {
     const [nameError, setNameError] = useState("");
 
     useEffect(function() {
-        document.title = "Quicka | Buy domain";
+        document.title = "Quicka - Buy Domain | Business Management Tool for SME's";
         window.scrollTo(0, 0);
     }, [])
 

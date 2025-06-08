@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDataContext } from '../../context/DataContext';
 import { useWindowSize } from 'react-use';
 import { joinedSinceFormat } from '../../utils/helper';
-import Spinner from '../../components/spinner/mainSpinner';
+import Spinner from '../../components/spinner/MainSpinner';
 import noLogo from "../../assets/images/logo/favicon_small.png"
 
 
@@ -26,7 +26,7 @@ export default function index() {
     const currency = paymentCurrencies[paymentMainCurrency];
       
     useEffect(function () {
-        document.title = "Quicka | Store Details"
+        document.title = "Quicka - Store Details | Business Management Tool for SME's"
         window.scrollTo(0, 0);
     }, []);
 

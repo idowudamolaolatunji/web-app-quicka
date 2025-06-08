@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom';
 import Confetti from '../../components/layout/Confetti';
 import CustomAlert from '../../components/layout/CustomAlert';
-import Spinner from '../../components/spinner/mainSpinner';
+import Spinner from '../../components/spinner/MainSpinner';
 import BackButton from '../../components/button/BackButton'
 import "./addPage.css";
 

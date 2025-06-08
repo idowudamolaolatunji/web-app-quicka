@@ -98,7 +98,7 @@ function index() {
     ];
 
     useEffect(function() {
-        document.title = "Quicka | Expenses";
+        document.title = "Quicka - Expenses | Business Management Tool for SME's";
     }, []);
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE

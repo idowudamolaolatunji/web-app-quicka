@@ -9,7 +9,7 @@ import logo_white from '../../assets/images/logo/logo-white.png'
 import CopyrightText from '../../components/elements/CopyrightText';
 import AuthUserRating from '../../components/layout/AuthUserRating';
 import CustomAlert from '../../components/layout/CustomAlert';
-import Spinner from '../../components/spinner/mainSpinner'
+import Spinner from '../../components/spinner/MainSpinner'
 
 import './auth.css'
 import 'react-phone-input-2/lib/style.css'

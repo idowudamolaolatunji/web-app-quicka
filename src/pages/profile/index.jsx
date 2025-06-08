@@ -65,7 +65,7 @@ export default function index() {
     }
 
     useEffect(function() {
-        document.title = "Quicka | My profile";
+        document.title = "Quicka - Profile | Business Management Tool for SME's";
         window.scrollTo(0, 0);
 
         setCountry(store?.location?.country?.name ? [store?.location?.country] : []);

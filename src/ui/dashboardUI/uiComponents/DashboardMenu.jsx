@@ -24,7 +24,7 @@ import IntialsImage from '../../../components/layout/IntialsImage';
 import { IoIosArrowDown, IoIosArrowUp, IoMdCheckmark } from 'react-icons/io';
 import { useOutsideClick } from '../../../hooks/useOutsideClick';
 import { useNavigate } from 'react-router-dom';
-import SwitchLoader from '../../../components/spinner/switching';
+import SwitchLoader from '../../../components/spinner/Switching';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import isOnline from 'is-online';

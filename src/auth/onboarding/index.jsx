@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import Line from '../../components/elements/Line';
-import Spinner from '../../components/spinner/mainSpinner'
-import SpinnerTiny from '../../components/spinner/tiny'
+import Spinner from '../../components/spinner/MainSpinner'
+import SpinnerTiny from '../../components/spinner/Tiny'
 import TooltipUI from '../../components/layout/TooltipUI';
 import Asterisk from '../../components/elements/Asterisk';
 import CustomAlert from '../../components/layout/CustomAlert';
@@ -158,7 +158,7 @@ function index() {
 
     const userId = localStorage.getItem(`${import.meta.env.VITE_USERID_KEY}`);
     useEffect(function () {
-        document.title = "Quicka | Store Onboarding";
+        document.title = "Quicka - Store Onboarding | Business Management Tool for SME's";
 
         if (!userId) navigate(-1);
     }, []);

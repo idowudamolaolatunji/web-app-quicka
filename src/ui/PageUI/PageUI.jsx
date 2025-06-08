@@ -11,7 +11,7 @@ import CustomAlert from '../../components/layout/CustomAlert';
 import TableUI from './TableUI';
 import './generalStyle.css';
 import Delete from '../../components/modal/Delete';
-import Spinner from '../../components/spinner/mainSpinner';
+import Spinner from '../../components/spinner/MainSpinner';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Drawer from '../../components/modal/Drawer';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';

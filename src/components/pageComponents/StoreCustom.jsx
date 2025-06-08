@@ -19,7 +19,7 @@ import Asterisk from '../elements/Asterisk';
 import Confetti from '../layout/Confetti';
 import { useNavigate } from 'react-router-dom';
 import CustomAlert from '../layout/CustomAlert';
-import Spinner from '../spinner/mainSpinner';
+import Spinner from '../spinner/MainSpinner';
 import { createPortal } from 'react-dom';
 import { useFetchedContext } from '../../context/FetchedContext';
 import LogoUploadInput from '../form/LogoUploadInput';

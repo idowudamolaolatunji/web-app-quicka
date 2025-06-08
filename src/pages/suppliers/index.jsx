@@ -94,7 +94,7 @@ export default function index() {
     ];
 
     useEffect(function () {
-        document.title = "Quicka | Your Suppliers";
+        document.title = "Quicka - Suppliers | Business Management Tool for SME's";
     }, []);
 
     const handleShowDeleteModal = function(id) {

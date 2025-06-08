@@ -45,7 +45,7 @@ function index() {
     }
 
     useEffect(function () {
-        document.title = "Quicka | Forgot Password";
+        document.title = "Quicka - Forgot Password | Business Management Tool for SME's";
     }, []);
 
 

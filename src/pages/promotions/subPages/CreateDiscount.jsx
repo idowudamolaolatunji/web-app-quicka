@@ -83,7 +83,7 @@ export default function CreateDiscount() {
 
 
     useEffect(function () {
-        document.title = "Quicka | Create Discounts";
+        document.title = "Quicka - Create Discounts | Business Management Tool for SME's";
         window.scrollTo(0, 0);
     }, []);
 

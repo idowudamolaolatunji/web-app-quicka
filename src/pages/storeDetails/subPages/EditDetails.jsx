@@ -6,7 +6,7 @@ import { MdOutlineStorefront } from 'react-icons/md';
 import Line from '../../../components/elements/Line';
 import Asterisk from '../../../components/elements/Asterisk';
 import { useWindowSize } from 'react-use';
-import SpinnerTiny from "../../../components/spinner/tiny"
+import SpinnerTiny from "../../../components/spinner/Tiny"
 import LogoUploadInput from '../../../components/form/LogoUploadInput';
 import Info from '../../../components/elements/Info';
 import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
@@ -124,7 +124,7 @@ function EditDetails() {
     }
 
     useEffect(function() {
-        document.title = `Quicka | Edit ${cap1stLetter(store?.name)}'s Details`
+        document.title = `Quicka | Business Management Tool for SME's | Edit ${cap1stLetter(store?.name)}'s Details`
         
         setLoading({ ...loading, mainLoader: true });
         handleFetchStoreCategories();

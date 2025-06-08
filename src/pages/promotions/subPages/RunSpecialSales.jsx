@@ -5,7 +5,7 @@ export default function RunSpecialSales() {
 
     useEffect(function () {
         window.scrollTo(0, 0);
-        document.title = "Quicka | Run Special Sales"
+        document.title = "Quicka - Run Special Sales | Business Management Tool for SME's"
     }, [])
 
     return (

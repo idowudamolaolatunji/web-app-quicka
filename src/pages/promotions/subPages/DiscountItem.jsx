@@ -5,7 +5,7 @@ import { useAuthContext } from '../../../context/AuthContext';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import Line from '../../../components/elements/Line';
 import BackButton from '../../../components/button/BackButton';
-import Spinner from '../../../components/spinner/mainSpinner';
+import Spinner from '../../../components/spinner/MainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Delete from '../../../components/modal/Delete';
 import { RiAddFill, RiDeleteBin5Line } from 'react-icons/ri';
@@ -47,7 +47,7 @@ export default function DiscountItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Discount Details`;
+        document.title = `Quicka | Business Management Tool for SME's | Discount Details`;
     }, [item]);
 
 

@@ -106,7 +106,7 @@ export default function CreateCoupon() {
     }
 
     useEffect(function () {
-        document.title = "Quicka | Create Coupon";
+        document.title = "Quicka - Create Coupon | Business Management Tool for SME's";
         window.scrollTo(0, 0);
     }, []);
 

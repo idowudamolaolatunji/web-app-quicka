@@ -9,7 +9,7 @@ import { BiChevronDown, BiMapPin } from 'react-icons/bi';
 import ColorBox from '../../../components/elements/ColorBox';
 import Line from '../../../components/elements/Line';
 import { useWindowSize } from 'react-use';
-import Spinner from '../../../components/spinner/mainSpinner';
+import Spinner from '../../../components/spinner/MainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import Delete from '../../../components/modal/Delete';
 import { TbCashRegister, TbTruckDelivery } from 'react-icons/tb';
@@ -66,7 +66,7 @@ function OrderItem() {
     }, [])
 
     useEffect(function() {
-        document.title = `Quicka | Order Id: ${item?.orderId}`;
+        document.title = `Quicka | Business Management Tool for SME's | Order Id: ${item?.orderId}`;
     }, [item]);
 
     useEffect(function () {

@@ -104,7 +104,7 @@ export default function AddSuppliers() {
     }
 
     useEffect(function() {
-        document.title = "Quicka | Add Suppliers"
+        document.title = "Quicka - Add Suppliers | Business Management Tool for SME's"
     }, [])
 
     

@@ -133,7 +133,7 @@ button {
 }
 
 body:has(.modal),
-body:has(.spinner--container),
+body:has(.spinner_container),
 body:has(.global--overlay) {
 	height: 100vh;
 	overflow-y: hidden !important;
@@ -470,7 +470,7 @@ body:has(.global--overlay) {
 
 
 
-.spinner--container {
+.spinner_container {
 	width: 100%;
 	height: 100vh;
 	overflow: hidden;

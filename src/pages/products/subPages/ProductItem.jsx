@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useFetchedContext } from '../../../context/FetchedContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GoDotFill } from 'react-icons/go';
-import Spinner from '../../../components/spinner/mainSpinner';
+import Spinner from '../../../components/spinner/MainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import BackButton from '../../../components/button/BackButton';
 import { TbCashRegister } from 'react-icons/tb';
@@ -51,7 +51,7 @@ function ProductItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Product Id: ${item?.productId}`;
+        document.title = `Quicka | Business Management Tool for SME's | Product Id: ${item?.productId}`;
     }, [item]);
 
     

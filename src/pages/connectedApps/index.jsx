@@ -50,7 +50,7 @@ function index() {
     };
 
     useEffect(function () {
-        document.title = 'Quicka | Application integrated';
+        document.title = "Quicka - Integrated Apps | Business Management Tool for SME's";
     }, []);
 
     useEffect(function () {

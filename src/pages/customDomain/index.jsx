@@ -29,7 +29,7 @@ function index() {
     const columns = [];
 
     useEffect(function() {
-        document.title = "Quicka | Custom Domain";
+        document.title = "Quicka - Custom Domain | Business Management Tool for SME's";
         window.scrollTo(0, 0)
     }, []);
 
