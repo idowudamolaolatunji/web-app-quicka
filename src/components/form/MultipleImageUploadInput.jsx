@@ -13,19 +13,18 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
 
 
-function MultipleImageUploadInput({ images, productId, handleChange, setResponse, setLoading }) {
-    // const maxImageAmount = 6; // the intention was to give premuim user max 6 and free max 4
-    const maxImageAmount = 4;
-    const maxSize = 4 * 1024 * 1024; //4mb
-    
+function MultipleImageUploadInput({ images, productId, handleChange, setResponse, setLoading }) {    
     const { width } = useWindowSize();
-    const { headers, shouldKick } = useAuthContext();
+    const { headers, shouldKick, store } = useAuthContext();
     const { handleFetchMyStoreProducts } = useFetchedContext();
     const internetStatus = useCheckInternetConnection();
-    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
     const [removeImageFn, setRemoveImageFn] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    ///////////////////////////////////////////////////////////
+    const maxImageAmount = store?.subscription?.type == "free" ? 4 : 10;
+    const maxSize = 4 * 1024 * 1024; // 4mb
     
     
     const handleError = function (errMessage) {

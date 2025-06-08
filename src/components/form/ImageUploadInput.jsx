@@ -3,7 +3,7 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { GoStack } from 'react-icons/go';
 import { IoCloudDownloadOutline } from 'react-icons/io5'
 
-function ImageUploadInput({ text, name="image", preview, handleChange, height, handleRemove }) {
+function ImageUploadInput({ text, extraText, name="image", preview, handleChange, height, handleRemove }) {
     const [dragging, setDragging] = useState(false);
 
     // WHEN DRAGGED OVER THE CONTAINER
@@ -45,11 +45,13 @@ function ImageUploadInput({ text, name="image", preview, handleChange, height, h
                             <IoCloudDownloadOutline style={{ color: '#ff7a49' }} />
                             <h3>Drop or Click to upload image</h3>
                             <p>{text}</p>
+                            {extraText && <span>{extraText}</span>}
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
                             <GoStack style={{ color: '#ff7a49' }} />
                             <h3>Drop image</h3>
+                            {extraText && <span>{extraText}</span>}
                         </React.Fragment>
                     )
                 )}

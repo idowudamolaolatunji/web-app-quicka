@@ -4,11 +4,13 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import { DataProvider } from './context/DataContext.jsx';
 import { FetchedProvider } from './context/FetchedContext.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
 import App from './App.jsx';
-import './index.css';
+
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import 'rsuite-color-picker/lib/styles.css'
+import 'photoswipe/dist/photoswipe.css';
+import './index.css';
+
 
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT;
 

@@ -37,7 +37,7 @@ export default function DashboardMenu() {
     const { width } = useWindowSize();
     const { handleFetchError, errorType } = useFetchedContext();
     const { user, store, headers, handleStore, handleUser, setShouldLoadAll } = useAuthContext();
-    const { isMenuCollapsed, showSidemenu, animateOut, handleShowSidemenu } = useDataContext();
+    const { isMenuCollapsed, isShowSidemenu, animateOut, handleToggleSidemenu } = useDataContext();
     const ref = useOutsideClick(handleToggleStoreDropdown);
     
     const [storeDropdown, setStoreDropdown] = useState(false);
@@ -62,7 +62,7 @@ export default function DashboardMenu() {
                 navigate("/dashboard");
             }, 250);
             window.scrollTo(0, 0);
-            handleShowSidemenu();
+            handleToggleSidemenu();
             return;
         }
         
@@ -86,7 +86,7 @@ export default function DashboardMenu() {
 
             navigate("/dashboard");
             window.scrollTo(0, 0);
-            handleShowSidemenu();
+            handleToggleSidemenu();
             setResponse({ message: "Successful!", status: "success" });
         } catch(err) {
             console.log(err, err?.message)
@@ -233,13 +233,13 @@ export default function DashboardMenu() {
             )}
 
 
-            {(width < 900 && showSidemenu) && (
+            {(width < 900 && isShowSidemenu) && (
                 <React.Fragment>
-                    {width >= 600 && <Overlay handleClose={handleShowSidemenu} />}
+                    {width >= 600 && <Overlay handleClose={handleToggleSidemenu} />}
                     <div className={`dashboard--sidemenu ${animateOut ? 'animate-out' : ''}`}>
 
                         <div className='menu--block'>
-                            <span className='hamburger--icon icon--box' onClick={handleShowSidemenu}>
+                            <span className='hamburger--icon icon--box' onClick={handleToggleSidemenu}>
                                 <RiCloseFill />
                             </span>
 

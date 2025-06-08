@@ -15,6 +15,7 @@ import ColorBox from '../../../components/elements/ColorBox';
 import { useWindowSize } from 'react-use';
 import Delete from '../../../components/modal/Delete';
 import ErrorComponent from '../../../components/layout/ErrorComponent';
+import { Gallery, Item } from 'react-photoswipe-gallery';
 
 
 function ProductItem() {
@@ -32,8 +33,7 @@ function ProductItem() {
     const [item, setItem] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     ////////////////////////////////////////////////////
-    const [currMainImg, setCurrMainImg] = useState("");
-
+    const [curImageIndex, setCurImageIndex] = useState(0)
     const colorsVariants = item?.variations?.filter(variant => variant.type.toLowerCase() === 'color');
     const othersVariants = item?.variations?.filter(variant => variant.type.toLowerCase() !== 'color');
 
@@ -52,7 +52,6 @@ function ProductItem() {
     useEffect(function() {
         window.scrollTo(0, 0);
         document.title = `Quicka | Product Id: ${item?.productId}`;
-        setCurrMainImg(item?.images[0]?.url)
     }, [item]);
 
     
@@ -210,16 +209,29 @@ function ProductItem() {
                                     <h2 style={{ textTransform: "none" }}>Product Image(s)</h2>
                                 </div>
                             
-                                <div className="item__preview--images"> 
-                                    <img src={currMainImg} alt={item?.name + " - 1"} /> 
-                                    <span className="images--img"> 
-                                        {item?.images?.map((img, i) => (
-                                            <span onClick={() => setCurrMainImg(img?.url)}>
-                                                <img src={img?.url} alt={`${item?.name} - ${i + 1}`} className={currMainImg == img?.url ? 'active-img' : ""} />
-                                            </span>
-                                        ))}
-                                    </span>
-                                </div>
+                                <Gallery options={{ zoom: true, counter: true, bgOpacity: 1 }}>
+                                    <div className="item__preview--images">
+                                        <Item
+                                            sourceId={curImageIndex}
+                                            original={item?.images[curImageIndex]?.url?.replace("h_950,q_80,w_950", "h_1150,q_85,w_auto")} 
+                                            height={item?.images[curImageIndex]?.height || "950"}
+                                            width={item?.images[curImageIndex]?.width || "950"}
+                                            alt={item?.name}
+                                        >
+                                            {({ ref, open }) => (
+                                                <img src={item?.images[curImageIndex]?.url?.replace("q_80", "q_50")} ref={ref} onClick={open} alt={`${item?.name} image ${curImageIndex + 1}`} />
+                                            )}
+                                        </Item>
+
+                                        <span className="images--img">
+                                            {item?.images?.map((img, i) => (
+                                                <span onClick={() => setCurImageIndex(i)}>
+                                                    <img src={img?.url} alt={`${item?.name} - ${i + 1}`} className={curImageIndex == i ? 'active-img' : ""} />
+                                                </span>
+                                            ))}
+                                        </span>
+                                    </div>
+                                </Gallery>
                             </div>
                         </div>
                     </div>

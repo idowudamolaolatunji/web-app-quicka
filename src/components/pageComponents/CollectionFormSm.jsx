@@ -119,10 +119,10 @@ export default function CollectionFormSm({ close, editingItem }) {
                     </span>
                 </div>
 
-                <div className="form--item">
+                <div className="form--item collection">
                     <label className="form--label">Collection Image (optional)</label>
 
-                    <ImageUploadInput preview={image.preview} handleChange={handleImageChange} text="Recommend format (png, jpeg, jpg)" height={{ height: "18rem" }} handleRemove={handleRemoveImage} />
+                    <ImageUploadInput preview={image.preview} handleChange={handleImageChange} text="Recommend format (png, jpeg, jpg)" extraText="Resolution (700 x 250) | Banner-like view" height={{ height: "18rem" }} handleRemove={handleRemoveImage} />
                 </div>
 
                 <div className="form--item">

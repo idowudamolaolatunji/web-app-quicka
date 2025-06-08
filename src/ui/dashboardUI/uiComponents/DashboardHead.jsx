@@ -26,7 +26,7 @@ function DashboardHead({ nonDashboard=false }) {
     const { user, store } = useAuthContext();
     const { handleGlobalRefetch } = useFetchedContext();
     const checkConnection = useCheckInternetConnection();
-    const { isMenuCollapsed, handleMenuCollapse, handleShowSidemenu } = useDataContext();
+    const { isMenuCollapsed, handleMenuCollapse, handleToggleSidemenu } = useDataContext();
 
     const [isShownDropdown, setIsShownDropdown] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -50,7 +50,7 @@ function DashboardHead({ nonDashboard=false }) {
 
                     {!nonDashboard ? (
                         <DefaultButton>
-                            <span className="hamburger--icon" onClick={(width > 900) ? handleMenuCollapse : handleShowSidemenu}>
+                            <span className="hamburger--icon" onClick={(width > 900) ? handleMenuCollapse : handleToggleSidemenu}>
                                 {(width > 900) ? (
                                     isMenuCollapsed ? <LuPanelRightClose style={{ fontSize: '2rem' }} /> : <LuPanelLeftClose style={{ fontSize: '2rem' }} />
                                 ) : (

@@ -848,6 +848,7 @@
 	background-color: #eee;
 	padding: .48rem;
 	overflow: hidden;
+	cursor: zoom-in;
 }
 .item__preview--images .images--img {
 	display: grid;

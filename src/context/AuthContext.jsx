@@ -54,7 +54,6 @@ export const AuthProvider = function({ children }) {
             }, 1000);
 
             return "successful";
-
         } catch(err) {
             return err?.message
         }
@@ -67,11 +66,13 @@ export const AuthProvider = function({ children }) {
         }
     };
 
+
     useEffect(function () {
-        Cookies.set(AUTH_KEY, JSON.stringify(user), { expires: 365 });
-        Cookies.set(TOKEN_KEY, token, { expires: 365 });
-        Cookies.set(STORE_KEY, JSON.stringify(store), { expires: 365 });
+        if (user) Cookies.set(AUTH_KEY, JSON.stringify(user), { expires: 365 });
+        if (token) Cookies.set(TOKEN_KEY, token, { expires: 365 });
+        if (store) Cookies.set(STORE_KEY, JSON.stringify(store), { expires: 365 });
     }, [user, token, store]);
+
 
     // CREATE CONTEXT DATA
     let contextData = {

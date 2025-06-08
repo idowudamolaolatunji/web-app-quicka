@@ -25,6 +25,7 @@ import AddPageUI from '../../../ui/PageUI/AddPageUI';
 import MultipleImageUploadInput from '../../../components/form/MultipleImageUploadInput';
 import { formatNumber } from '../../../utils/helper';
 import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
+import { useDataContext } from '../../../context/DataContext';
 
 
 export default function UploadProduct({ isnew=false, close, ismodal=false }) {
@@ -33,10 +34,11 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     
     const { width } = useWindowSize();
     const internetStatus = useCheckInternetConnection();
+    const { isMenuCollapsed, handleMenuCollapse } = useDataContext();
     const { shouldKick, handleStore, store, formdataHeader } = useAuthContext();
     const { error, collections, handleFetchOneItem, handleFetchError, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleFetchMyStoreDiscounts } = useFetchedContext();
     const BASE_API_URL = import.meta.env.VITE_API_URL;
-
+    const maxImageAmount = store?.subscription?.type == "free" ? 4 : 10;
     const currency = store?.currency?.symbol;
 
     //////////////////////////////////////////////////////////
@@ -162,6 +164,11 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         if(collections?.length < 1 && error?.collection) {
             handleFetchMyStoreCollections()
         }
+
+        if(!isMenuCollapsed) {
+            handleMenuCollapse();
+        }
+
     }, []);
 
     // REMOVE THE VALUE WHEN WE SWITCH THE DISCOUNT TYPES
@@ -192,7 +199,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                         itemCost: fetchedItem?.itemCost ||null,
                         discountValue: fetchedItem?.discount?.discountValue || null,
                         stockAmount: fetchedItem?.stockAmount || null,
-                        status: fetchedItem?.status || "published",
+                        // status: fetchedItem?.status || "published",
                         discountType: fetchedItem?.discount?.discountType || "no-discount",
                     });
                     setVariations(fetchedItem?.variations);
@@ -255,7 +262,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             formData.append('itemCost', +productData.itemCost);
             formData.append('stockAmount', +productData.stockAmount);
             formData.append('discountValue', +productData.discountValue);
-            formData.append('status', productData.status);
+            // formData.append('status', productData.status);
             formData.append('discountType', productData.discountType);
             formData.append('MOQ', productData.MOQ);
             formData.append('unit', itemUnit);
@@ -369,7 +376,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                             </div>
 
                             <div className="form--item">
-                                <label className="form--label">Product Images (Min 1 & Max 4) <Asterisk /></label>
+                                <label className="form--label">Product Images (Min 1 & Max {maxImageAmount}) <Asterisk /></label>
 
                                 <MultipleImageUploadInput images={images} productId={fetchedProduct?._id || null} handleChange={handleOnChangeImage} setResponse={setResponse} setLoading={setLoading} />
 
@@ -421,7 +428,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                     <div className='right--container containers'>
                         <div className="card form">
                             <div className="section--heading">
-                                <h2>Pricings & Inventory</h2>
+                                <h2>Product Pricings & Cost</h2>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
 
@@ -497,6 +504,55 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 </div>
                             )}
 
+
+                            {/* MOQ / MAXIMUM AND MINIMUM ORDER QUANTITY */}
+                            <div className="form--item">
+                                <label htmlFor="MOQ" className="form--label flex">
+                                    Minimum Order Quantity 
+                                    <Switch color='#ff7a49' size="small" checked={showMOQ} onClick={() => setShowMOQ(!showMOQ)} />
+                                </label>
+                                {showMOQ && (
+                                    <input type="number" name="MOQ" id="MOQ" value={productData.MOQ} onChange={handleProductDataChange} className="form--input" placeholder="Set a minimum order quantity" />
+                                )}
+                                <Info text="What is Minimum Order Quantity or MOQ?" />
+                            </div>
+
+                            <div className="form--item">
+                                <label className="form--label">Unit (optional) </label>
+                                <MainDropdownSelect title="Unit" options={units} field="name" value={unit} setValue={setUnit} noDataLabel="No Unit data!" />
+                            </div>
+
+
+                            {/* <div className="form--item">
+                                <label htmlFor='status' className='form--label flex' style={{ flexDirection: "row"}}>
+                                    Set Status 
+                                    <span className={`status--dot ${productData.status}`}></span>
+                                </label>
+                                <select name="status" id='status' value={productData.status} className="form--select" onChange={handleProductDataChange}>
+                                    <option value="published">Publish</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                            </div> */}
+
+                            {/* {productData.status == "published" && ()} */}
+
+                            <div className="form--item-flex" onClick={() => setChecks({ ...checks, isVisible: !checks.isVisible })}>
+                                <div id="checkbox" className={checks.isVisible ? 'is-selected' : ''}>
+                                    {checks.isVisible && <FaCheck />}
+                                </div>
+                                <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product <Info /></label>
+                            </div>
+                        </div>
+                        
+
+                        {width < 400 && <Line border={1.4} />}
+
+                        <div className="card form">
+                            <div className="section--heading">
+                                <h2>Product Inventory & Variations</h2>
+                                {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+                            </div>
+
                             <div className="form--grid">
                                 <div className="form--item-flex" onClick={() => setChecks({ ...checks, isPhysical: !checks.isPhysical })}>
                                     <div id="checkbox" className={checks.isPhysical ? 'is-selected' : ''}>
@@ -528,54 +584,6 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 <span className="form--error-message">
                                     {productFormErrors.stockAmount && productFormErrors.stockAmount}
                                 </span>
-                            </div>
-
-                            {/* MOQ / MAXIMUM AND MINIMUM ORDER QUANTITY */}
-                            <div className="form--item">
-                                <label htmlFor="MOQ" className="form--label flex">
-                                    Minimum Order Quantity 
-                                    <Switch color='#ff7a49' size="small" checked={showMOQ} onClick={() => setShowMOQ(!showMOQ)} />
-                                </label>
-                                {showMOQ && (
-                                    <input type="number" name="MOQ" id="MOQ" value={productData.MOQ} onChange={handleProductDataChange} className="form--input" placeholder="Set a minimum order quantity" />
-                                )}
-                                <Info text="What is Minimum Order Quantity or MOQ?" />
-                            </div>
-
-                            <div className="form--item">
-                                <label className="form--label">Unit (optional) </label>
-                                <MainDropdownSelect title="Unit" options={units} field="name" value={unit} setValue={setUnit} noDataLabel="No Unit data!" />
-                            </div>
-
-
-                            <div className="form--item">
-                                <label htmlFor='status' className='form--label flex' style={{ flexDirection: "row"}}>
-                                    Set Status 
-                                    <span className={`status--dot ${productData.status}`}></span>
-                                </label>
-                                <select name="status" id='status' value={productData.status} className="form--select" onChange={handleProductDataChange}>
-                                    <option value="published">Publish</option>
-                                    <option value="draft">Draft</option>
-                                </select>
-                            </div>
-
-                            {productData.status == "published" && (
-                                <div className="form--item-flex" onClick={() => setChecks({ ...checks, isVisible: !checks.isVisible })}>
-                                    <div id="checkbox" className={checks.isVisible ? 'is-selected' : ''}>
-                                        {checks.isVisible && <FaCheck />}
-                                    </div>
-                                    <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product <Info /></label>
-                                </div>
-                            )}
-                        </div>
-                        
-
-                        {width < 400 && <Line border={1.4} />}
-
-                        <div className="card form">
-                            <div className="section--heading">
-                                <h2>Product Variations</h2>
-                                {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
 
                             {variations?.length > 0 && (

@@ -28,7 +28,7 @@ export const DataProvider = function({ children }) {
     /////////////////////////////////////////////////////
     /////////////////////////////////////////////////////
     const [animateOut, setAnimateOut] = useState(false);
-    const [showSidemenu, setShowSidemenu] = useState(false);
+    const [isShowSidemenu, setIsShowSidemenu] = useState(false);
     const [location, setLocation] = useState({ country: [], state: [], city: [] });
     const [showFilterModal, setShowFilterModal] = useState({ name: "", isShown: false });
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -63,13 +63,13 @@ export const DataProvider = function({ children }) {
         setAnimateOut(true);
         setTimeout(() => {
             setAnimateOut(false);
-            setShowSidemenu(false);
+            setIsShowSidemenu(false);
         }, 300);
     }
 
-    const handleShowSidemenu = function() {
-        if(!showSidemenu) {
-            setShowSidemenu(true);
+    const handleToggleSidemenu = function() {
+        if(!isShowSidemenu) {
+            setIsShowSidemenu(true);
         } else {
             closeNanimate();
         }
@@ -182,9 +182,9 @@ export const DataProvider = function({ children }) {
         isMenuCollapsed,
         handleMenuCollapse,
 
-        showSidemenu,
-        setShowSidemenu,
-        handleShowSidemenu,
+        isShowSidemenu,
+        setIsShowSidemenu,
+        handleToggleSidemenu,
         animateOut,
 
         handleToggleInsights,
