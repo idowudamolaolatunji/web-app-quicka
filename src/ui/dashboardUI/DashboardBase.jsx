@@ -30,7 +30,7 @@ function DashboardBase({ children }) {
     );
 
     useEffect(function() {
-        document.title = `Quicka | Business Management Tool for SME's | ${user?.firstname}'s store dashboard ✨`
+        document.title = `Quicka - ${store?.name}'s Dashboard ✨ | Business Management Tool for SME's`
         window.scrollTo(0, 0);
     }, []);
 

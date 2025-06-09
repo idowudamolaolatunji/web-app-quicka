@@ -208,9 +208,8 @@ function index() {
 
 
     useEffect(function() {
-        document.title = `Quicka | Business Management Tool for SME's | ${activeTab == "special_sales" 
-            ? "Run special sales" 
-            : cap1stLetter(activeTab)}s`;
+        document.title = `Quicka - ${activeTab == "special_sales" 
+            ? "Special Sales" : cap1stLetter(activeTab)}s | Business Management Tool for SME's`;
     }, [activeTab]);
 
 

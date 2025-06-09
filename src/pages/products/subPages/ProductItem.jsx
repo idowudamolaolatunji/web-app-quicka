@@ -51,7 +51,7 @@ function ProductItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Business Management Tool for SME's | Product Id: ${item?.productId}`;
+        document.title = `Quicka - Product Details: ${item?.productId || "Loading.."} | Business Management Tool for SME's`;
     }, [item]);
 
     

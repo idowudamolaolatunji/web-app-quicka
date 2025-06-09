@@ -127,7 +127,7 @@ function index() {
 
 
     useEffect(function () {
-        document.title = `Quicka | Business Management Tool for SME's | ${activeTab == "transaction" ? "All Transactions" : "Payment Settlements"}`;
+        document.title = `Quicka - ${activeTab == "transaction" ? "Transactions" : "Settlements"} | Business Management Tool for SME's`;
     }, [activeTab]);
 
 

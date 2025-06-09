@@ -121,7 +121,7 @@ function index() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Business Management Tool for SME's | ${store.name}'s Anayltics`
+        document.title = `Quicka - Anayltics | Business Management Tool for SME's`
     })
 
     useEffect(function () {

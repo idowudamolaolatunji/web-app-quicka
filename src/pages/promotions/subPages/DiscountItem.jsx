@@ -47,7 +47,7 @@ export default function DiscountItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Business Management Tool for SME's | Discount Details`;
+        document.title = `Quicka - Discount Details: ${item?.title || "Loading.."} | Business Management Tool for SME's`;
     }, [item]);
 
 

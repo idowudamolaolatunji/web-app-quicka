@@ -194,8 +194,7 @@ function index() {
 
     // DISPLAY THE DOCUMENT TITLE
     useEffect(function () {
-        document.title = `Quicka | Business Management Tool for SME's | ${tabShown == "product" ?
-            "Your products" : "Product Collections"}`;
+        document.title = `Quicka - ${tabShown == "product" ? "Products" : "Collections"} | Business Management Tool for SME's`;
     }, [tabShown]);
 
 

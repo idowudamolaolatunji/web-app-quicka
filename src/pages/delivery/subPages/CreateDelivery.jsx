@@ -58,7 +58,7 @@ export default function CreateDelivery({ close, isnew, isModal }) {
     }
 
     useEffect(function () {
-        document.title = `Quicka | Business Management Tool for SME's | ${id ? `Editing ${deliveryData.title} rate` : "Creating Rate"}`
+        document.title = `Quicka - ${id ? `Edit ${deliveryData.title}` : "Create"} Delivery Rates | Business Management Tool for SME's`
         !isnew && window.scrollTo(100, 0);
     }, []);
 

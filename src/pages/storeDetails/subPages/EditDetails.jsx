@@ -124,7 +124,7 @@ function EditDetails() {
     }
 
     useEffect(function() {
-        document.title = `Quicka | Business Management Tool for SME's | Edit ${cap1stLetter(store?.name)}'s Details`
+        document.title = `Quicka - Edit ${cap1stLetter(store?.name)}'s Details | Business Management Tool for SME's`
         
         setLoading({ ...loading, mainLoader: true });
         handleFetchStoreCategories();

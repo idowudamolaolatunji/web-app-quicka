@@ -22,7 +22,7 @@ function index() {
 
     
     useEffect(function () {
-        document.title = `Quicka | Business Management Tool for SME's | Welcome back ${name}`
+        document.title = `Quicka - Welcome back ${name} | Business Management Tool for SME's`
         window.scrollTo(0, 0);
 
         if(storeOnboardCompleted && progressStored) {

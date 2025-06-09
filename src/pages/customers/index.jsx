@@ -179,7 +179,7 @@ function index() {
 
 
     useEffect(function () {
-        document.title = `Quicka | Business Management Tool for SME's | ${tabShown == "customer" ? "Your Customers" : tabShown == "group" ? "Customer Group" : "Newsletter Customers"}`;
+        document.title = `Quicka - ${tabShown == "customer" ? "Customers" : tabShown == "group" ? "Customer Groups" : "Newsletter Customers"} | Business Management Tool for SME's`;
     }, [tabShown]);
 
     // SET THE SHOWN TABS DIRECTLY FROM THE PARAMS ROUTE

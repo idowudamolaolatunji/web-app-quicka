@@ -55,7 +55,7 @@ export default function CouponItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Business Management Tool for SME's | Coupon Details - ${item?.couponCode}`;
+        document.title = `Quicka - Coupon Details: ${item?.couponCode || "Loading.."} | Business Management Tool for SME's`;
     }, [item]);
 
 

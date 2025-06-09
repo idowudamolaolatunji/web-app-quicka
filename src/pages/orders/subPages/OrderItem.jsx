@@ -66,7 +66,7 @@ function OrderItem() {
     }, [])
 
     useEffect(function() {
-        document.title = `Quicka | Business Management Tool for SME's | Order Id: ${item?.orderId}`;
+        document.title = `Quicka - Order Details: ${item?.orderId || "Loading.."} | Business Management Tool for SME's`;
     }, [item]);
 
     useEffect(function () {

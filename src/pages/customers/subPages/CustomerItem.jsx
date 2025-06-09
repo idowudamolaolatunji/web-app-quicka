@@ -204,7 +204,7 @@ export default function CustomerItem() {
 
     useEffect(function() {
         window.scrollTo(0, 0);
-        document.title = `Quicka | Business Management Tool for SME's | Customer Details - ${item?.firstname}`;
+        document.title = `Quicka - Customer Details: ${item?.firstname || "Loading.."} | Business Management Tool for SME's`;
 
         const countryName = String(item?.shippingAddress?.country?.name)?.toLowerCase();
         const flagUrl = findFlagUrlByCountryName(countryName);

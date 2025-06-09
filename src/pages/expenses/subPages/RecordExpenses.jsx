@@ -71,7 +71,7 @@ export default function RecordExpenses() {
     }
 
     useEffect(function () {
-        document.title = `Quicka | Business Management Tool for SME's | ${id ? `Editing ${expensesData.title} expenses` : "Recording Expenses"}`
+        document.title = `Quicka - ${id ? `Edit ${expensesData.title}` : "Record"} Expenses | Business Management Tool for SME's`
         if(suppliers?.length < 1 && error?.supplier) {
             handleFetchMyStoreSuppliers();
         }
