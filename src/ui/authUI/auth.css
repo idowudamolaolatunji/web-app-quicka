@@ -515,9 +515,30 @@ button.onboard--next {
 }
 .form--variant {
     display: grid;
-    grid-template-columns: 1.3fr 1.5fr 4.8rem 4rem;
+    grid-template-columns: 6rem 1.2fr 1fr 1fr;
+    /* grid-template-columns: repeat(4, 1fr); */
+    /* display: flex; */
     align-items: flex-end;
     gap: .6rem;
+}
+.form--variation .form--media {
+    width: 6rem;
+    height: 6rem;
+    cursor: pointer;
+    background-color: #eee;
+    border-radius: .4rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form--variation .form--media {
+    width: 6rem;
+    height: 6rem;
+}
+.form--variation .form--media svg {
+    font-size: 3.8rem;
+    color: var(--color-brand-500);
 }
 .form--variant .form--label {
     font-size: 1.2rem !important;
@@ -525,7 +546,7 @@ button.onboard--next {
 .form--variant .form--input {
     padding: 1rem .8rem;
 }
-.form--variant button {
+.form--variation button {
     height: 4.2rem;
     border: none;
     border-radius: .4rem;

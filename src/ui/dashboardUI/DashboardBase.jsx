@@ -25,7 +25,7 @@ function DashboardBase({ children }) {
     const internetStatus = useCheckInternetConnection();
     const showOnboardFloater = (
         !store?.storeOnboardCompleted &&
-        pathname != "/" && pathname != "/dashboard"&&
+        pathname != "/" && pathname != "/dashboard" &&
         pathname != "/dashboard/"
     );
 

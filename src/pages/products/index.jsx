@@ -131,7 +131,7 @@ function index() {
                         <span className="flex table--info" style={{ gap: ".4rem", alignItems: "center" }}>
                             <p className='value'>{row?.stockAmount} <span>Stocks</span></p>
                             <span>/</span>
-                            <p className='value'>{row?.variations.length} <span>Variations</span></p>
+                            <p className='value'>{row?.variations?.length} <span>Variations</span></p>
                         </span>
                     ) : (
                         <span className="flex table--info">

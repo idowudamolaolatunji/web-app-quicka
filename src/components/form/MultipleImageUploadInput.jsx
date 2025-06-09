@@ -131,12 +131,12 @@ function MultipleImageUploadInput({ images, productId, handleChange, setResponse
                                                         onImageRemove(index)
                                                     }}><RiDeleteBin6Line /></button>
                                                 </TooltipUI>
-                                                {!productId && (
+                                                {/* {!productId && (
                                                     <TooltipUI placement='bottom' title="Crop Image">
-                                                        {/* <button onClick={() => handleEdit(image.data_url)}><PiFrameCorners /> </button> */}
+                                                        <button onClick={() => handleEdit(image.data_url)}><PiFrameCorners /> </button>
                                                         <button><PiFrameCorners /> </button>
                                                     </TooltipUI>
-                                                )}
+                                                )} */}
                                             </div>
                                         </div>
                                     ))}

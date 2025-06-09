@@ -123,24 +123,22 @@ export function validateAuthForm(data, type) {
 export function validateProductForm(data, _) {
 	const errors = {};
 
+	console.log(data?.hasVariation, data?.variations)
+
 	if (!data.name.trim()) {
 		errors.name = "Produt title is required";
-	} else if (data.name.length < 3) {
-		errors.name = "Produt title must be more than 3 characters!";
+	} else if (data.name.length < 2) {
+		errors.name = "Produt title must be more than 2 characters!";
 	}
 
-	if (!data.price) {
+	if (!data.hasVariation && !data.price) {
 		errors.price = "Price is required";
-	} else if (+data.price < 500) {
-		errors.price = "Price must not be less than 500";
-	} else if (+data.price <= +data.itemCost) {
+	} else if (data.price && +data.price <= +data.itemCost) {
 		errors.itemCost = "Price cannot be more than or the same as cost price";
 	}
 
-	if (data.inventory && !data.stockAmount) {
-		errors.stockAmount = "Stock Quantity is required";
-	} else if (data.inventory && +data.stockAmount < 1) {
-		errors.stockAmount = "Stock Quantity cannot be less than 1";
+	if (data.hasVariation && data.variations.length === 0) {
+		errors.variations = "Add at least one (1) variation option";
 	}
 
 	if (data.discountType != "no-discount" && !data.discountValue) {
@@ -172,14 +170,14 @@ export function validateOrderForm(data, _) {
 	if (data.orderProducts.length < 1) {
 		errors.orderProducts = "Product(s) ordered is required";
 	} else {
-		data?.orderProducts.forEach((product, i) => {
-			if(product?.trackInventory && product?.stockAmount < 1) {
-				console.log("Hi there", product)
-				errors.orderProducts = `Item ${i+1} is out of stock`;
-			} else if(product?.trackInventory && product?.stockAmount < data?.selectedProducts[i]?.quantity) {
-				errors.orderProducts = `Cannot sell more the stock amount for item ${i+1}`;
-			}
-		})
+		// data?.orderProducts.forEach((product, i) => {
+		// 	if(product?.trackInventory && product?.stockAmount < 1) {
+		// 		console.log("Hi there", product)
+		// 		errors.orderProducts = `Item ${i+1} is out of stock`;
+		// 	} else if(product?.trackInventory && product?.stockAmount < data?.selectedProducts[i]?.quantity) {
+		// 		errors.orderProducts = `Cannot sell more the stock amount for item ${i+1}`;
+		// 	}
+		// })
 	}
 
 	if (data.paymentStatus != "unpaid" && data.paymentMethod.length < 1 && !data.paymentMethod.value) {
@@ -441,5 +439,30 @@ export function validateExpensesForm(data, currency) {
 		errors.date = "Expenses Date is required";
 	}
 	
+	return errors;
+}
+
+
+export function validateVariantForm(data) {
+	const errors = {};
+
+	if (!data.type.trim()) {
+		errors.type = "Option type is required";
+	}
+	
+	if (!data.value.trim()) {
+		errors.value = "Option Value is required";
+	}
+
+	if (!data.price) {
+		errors.price = "Price is required";
+	} else if (+data.price <= +data.itemCost) {
+		errors.itemCost = "Price cannot be more than or the same as cost price";
+	}
+
+	if (data.discountType != "no-discount" && !data.discountValue) {
+		errors.discountValue = "Discount is required";
+	}
+
 	return errors;
 }

@@ -26,6 +26,13 @@ import MultipleImageUploadInput from '../../../components/form/MultipleImageUplo
 import { formatNumber } from '../../../utils/helper';
 import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 import { useDataContext } from '../../../context/DataContext';
+import RadioInput from '../../../components/form/RadioInput';
+import { CiImageOn } from "react-icons/ci";
+import SimpleModal from '../../../components/modal/SimpleModal';
+import ImageUploadInput from '../../../components/form/ImageUploadInput';
+import BgSimple from '../../../components/modal/BgSimple';
+import AddProductVariationFormSm from '../../../components/pageComponents/AddProductVariationFormSm';
+
 
 
 export default function UploadProduct({ isnew=false, close, ismodal=false }) {
@@ -34,7 +41,6 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     
     const { width } = useWindowSize();
     const internetStatus = useCheckInternetConnection();
-    const { isMenuCollapsed, handleMenuCollapse } = useDataContext();
     const { shouldKick, handleStore, store, formdataHeader } = useAuthContext();
     const { error, collections, handleFetchOneItem, handleFetchError, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleFetchMyStoreDiscounts } = useFetchedContext();
     const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -45,13 +51,13 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false)
-    const [showModal, setShowModal] = useState({ collection: false, others: false });
+    const [showModal, setShowModal] = useState({ collection: false, variant: false });
     
     const [variations, setVariations] = useState([]);
+    const [properties, setPropeties] = useState([]);
     const [description, setDescription] = useState('');
     const [productCollection, setProductCollection] = useState([]);
     const [unit, setUnit] = useState([]);
-    const [checks, setChecks] = useState({ trackInventory: false, isPhysical: true, isVisible: false, });
 
     const [productFormErrors, setProductFormErrors] = useState({});
     const [fetchedProduct, setFetchedProduct] = useState(null);
@@ -60,24 +66,26 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         shortDescription: "",
         price: null,
         itemCost: null,
-        stockAmount: null,
         status: "published",
         discountValue: null,
         discountType: "no-discount",
         MOQ: "",
+        hasVariation: false,
+        isPhysical: true,
+        isVisible: true,
     });
     const [showMOQ, setShowMOQ] = useState(false);
 
     const [images, setImages] = useState([]);
     const imageFiles = images.filter(img => img?.file)?.map(img => img?.file);
     const [updatedIndexes, setUpdatedIndexes] = useState([]);
-    // console.log(images, imageFiles, updatedIndexes)
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 
 
     const handleOnChangeImage = function(imageList, addUpdateIndex) {
+        // console.log(imageList)
         setImages(imageList);
         
         /////////////////////////////
@@ -88,6 +96,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             )
         }
     };
+
 
     const handleProductDataChange = function(e) {
         const { name, value } = e?.target;
@@ -111,17 +120,14 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             price: null,
             itemCost: null,
             discountValue: null,
-            stockAmount: null,
-            status: "published"
+            // status: "published",
+            hasVariation: false,
+            isPhysical: true,
+            isVisible: true,
         });
         setVariations([]);
         setDescription("")
         setProductCollection([])
-        setChecks({
-            trackInventory: false,
-            isPhysical: true,
-            isVisible: false,
-        });
         setProductFormErrors({});
         setImages([])
         
@@ -131,26 +137,16 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     }
 
 
-    // HANDLE VARIATION INPUTS
-    const handleChangeVariant = function(e, index) {
-        const { name, value } = e?.target;
-        setVariations(prev => 
-            prev.map((item, i) =>
-                i === index ? { ...item, [name]: value } : item
-            )
-        );        
-    }
-
-    // ADD ITEM NEW VARIATIONS
+    // ADD NEW VARIATIONS
     const handleAddVariant = function() {
         const lastVariant = variations[variations.length - 1];
 
-        if (lastVariant && (lastVariant.type === "" || lastVariant.value === "")) {
-            setResponse({ status: "error", message: `Variant ${lastVariant?.type == "" ? "type" : "value"} left empty` })
+        if (lastVariant && (lastVariant?.type === "" || lastVariant?.value === "" || !lastVariant?.price)) {
+            setResponse({ status: "error", message: `Variant Values cannot be left empty` })
             return setTimeout(() => setResponse({ message: "", status: "" }), 5000);
         }
         
-        setVariations([...variations, { type: "", value: "", quantity: "" }]);
+        setVariations([...variations, { image: "", type: "", value: "", price: "", quantity: "" }]);
     }
 
     // DELETE ITEM VARIATIONS
@@ -158,17 +154,41 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         setVariations(prev => prev.filter((_, index) => index !== selectedIndex))
     }
 
-    useEffect(function() {
-        document.title = "Quicka - Upload Product | Business Management Tool for SME's";
 
+    const handleAddProperty = function() {
+        const lastProperty = properties[properties.length - 1];
+
+        if (lastProperty && (lastProperty?.type === "" || lastProperty?.value === "")) {
+            setResponse({ status: "error", message: `Property Values cannot be left empty` })
+            return setTimeout(() => setResponse({ message: "", status: "" }), 5000);
+        }
+        
+        setPropeties([...properties, { type: "", value: "" }]);
+    }
+
+    const handleChangeProperty = function(e, index) {
+        const { name, value } = e?.target;
+
+        setPropeties(prev => 
+            prev.map((item, i) =>
+                i === index ? { ...item, [name]: value } : item
+            )
+        );
+    }
+
+    const handleDeleteProperty = function(selectedIndex) {
+        setPropeties(prev => prev.filter((_, index) => index !== selectedIndex))
+    }
+
+
+    // EFFECTS AND LIFECYCLE
+    useEffect(function() {
+        document.title = `Quicka - ${id ? `Edit ${productData.name}` : "Upload"} Product | Business Management Tool for SME's`;
+
+        // FETCH PRODUCT COLLECTION
         if(collections?.length < 1 && error?.collection) {
             handleFetchMyStoreCollections()
         }
-
-        if(!isMenuCollapsed) {
-            handleMenuCollapse();
-        }
-
     }, []);
 
     // REMOVE THE VALUE WHEN WE SWITCH THE DISCOUNT TYPES
@@ -181,6 +201,17 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         }
 
     }, [productData.discountType, id]);
+
+
+    useEffect(function () {
+        if(productData.hasVariation) {
+            setProductData({ ...productData, price: null, itemCost: null });
+        }
+
+        if(!productData.isPhysical) {
+            setProductData({ ...productData, hasVariation: false });
+        }
+    }, [productData.hasVariation, productData.isPhysical]);
 
 
     useEffect(function() {
@@ -198,18 +229,14 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                         price: fetchedItem?.price || null,
                         itemCost: fetchedItem?.itemCost ||null,
                         discountValue: fetchedItem?.discount?.discountValue || null,
-                        stockAmount: fetchedItem?.stockAmount || null,
                         // status: fetchedItem?.status || "published",
                         discountType: fetchedItem?.discount?.discountType || "no-discount",
+                        isPhysical: fetchedItem?.isPhysical || true,
+                        isVisible: fetchedItem?.isVisible || true,
                     });
                     setVariations(fetchedItem?.variations);
                     setDescription(fetchedItem?.description || "")
                     setProductCollection(fetchedItem?.product_collection)
-                    setChecks({
-                        trackInventory: fetchedItem?.trackInventory || false,
-                        isPhysical: fetchedItem?.isPhysical || true,
-                        isVisible: fetchedItem?.isVisible || false,
-                    });
                     setImages(fetchedItem?.images?.map((img) => (
                         { data_url: img?.url }
                     )));
@@ -226,7 +253,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             ...productData,
             productCollection,
             images, description,
-            inventory: checks.trackInventory
+            variations
         }
 
         const newErrors = validateProductForm(formData);
@@ -260,7 +287,6 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             formData.append('price', +productData.price);
             formData.append('priceInFigure', `${currency}${formatNumber(productData.price)}`);
             formData.append('itemCost', +productData.itemCost);
-            formData.append('stockAmount', +productData.stockAmount);
             formData.append('discountValue', +productData.discountValue);
             // formData.append('status', productData.status);
             formData.append('discountType', productData.discountType);
@@ -268,9 +294,8 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             formData.append('unit', itemUnit);
             formData.append('product_collection', JSON.stringify(colection_Ids));
             formData.append('variations', JSON.stringify(variations));
-            formData.append('trackInventory', JSON.stringify(checks.trackInventory));
-            formData.append('isPhysical', JSON.stringify(checks.isPhysical));
-            formData.append('isVisible', JSON.stringify(checks.isVisible));
+            formData.append('isPhysical', JSON.stringify(productData.isPhysical));
+            formData.append('isVisible', JSON.stringify(productData.isVisible));
             
             if(!id) {
                 for(const image of imageFiles) {
@@ -343,6 +368,22 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                 )
             )}
 
+            {showModal.variant && (
+                createPortal(
+                    <Drawer
+                        title="Add Variation Option" setClose={() => handleToggleModal("variant")}
+                    >
+                        <AddProductVariationFormSm
+                            images={images}
+                            setImages={setImages}
+                            setVariations={setVariations}
+                            close={() => handleToggleModal("variant")}
+                        />
+                    </Drawer>,
+                    document.body
+                )
+            )}
+
             <AddPageUI
                 pageTitle={`${id ? "Edit" : "Upload"} Product`}
                 pageIcon={<LuTags />}
@@ -387,8 +428,9 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
 
                             <div className="form--item">
                                 <label htmlFor="short-des" className="form--label">Short Description</label>
-                                <input type="text" name="shortDescription" id="short-des" value={productData.shortDescription} onChange={handleProductDataChange} className="form--input" placeholder='Unisex and big fitting.' />
+                                <textarea type="text" name="shortDescription" id="short-des" value={productData.shortDescription} onChange={handleProductDataChange} className="form--input" placeholder='Unisex and big fitting.' />
                             </div>
+
                             <div className="form--item">
                                 <label htmlFor="" className="form--label">Product Description <Asterisk /></label>
                                 <QuillEditor value={description} setValue={setDescription} />
@@ -428,100 +470,201 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                     <div className='right--container containers'>
                         <div className="card form">
                             <div className="section--heading">
-                                <h2>Product Pricings & Cost</h2>
+                                <h2>Pricings, Inventory & Variations</h2>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
 
 
-                            <div className="form--grid">
-                                <div className="form--item">
-                                    <label htmlFor="" className="form--label">Price per item <Asterisk /></label>
-                                    <CurrencyInput
-                                        id="price"
-                                        name="price"
-                                        className="form--input"
-                                        placeholder={`${currency}15,000`}
-                                        prefix={currency}
-                                        decimalsLimit={2}
-                                        value={productData.price}
-                                        onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
-                                    />
-                                    <span className="form--error-message">
-                                        {productFormErrors.price && productFormErrors.price}
-                                    </span>
-                                </div>
+                            <div className="form--item" style={{ gap: "1rem" }}>
+                                <label className="form--label">Is this a Physical Product?</label>
 
-                                <div className="form--item">
-                                    <label htmlFor="cost-price" className="form--label">Cost per item (optional)</label>
-                                    <CurrencyInput
-                                        id="cost-price"
-                                        name="itemCost"
-                                        className="form--input"
-                                        placeholder={`${currency}10,000`}
-                                        prefix={currency}
-                                        decimalsLimit={2}
-                                        value={productData.itemCost}
-                                        onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
-                                    />
-                                    <span className="form--error-message">
-                                        {productFormErrors.itemCost && productFormErrors.itemCost}
-                                    </span>
-                                </div>
-                            </div>
+                                <div className="form--item-flex" style={{ gap: "1.8rem", flexWrap: "wrap" }}>
+                                    <div className="radio--item" onClick={() => setProductData({ ...productData, isPhysical: true })}>
+                                        <RadioInput active={productData?.isPhysical} />
+                                        <span className="radio--text">Yes, It is</span>
+                                    </div>
 
-                            <div className="form--item">
-                                <label htmlFor="discount-price" className="form--label">Discount Type (optional)</label>
-                                <div className="form--clicks" style={width < 500 ? { gridTemplateColumns: "repeat(2, 1fr)" } : {}}>
-                                    <div className={`form--click ${productData.discountType == "no-discount" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "no-discount" })}
-                                    >No Discount<span></span>
-                                    </div>
-                                    <div className={`form--click ${productData.discountType == "percentage" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "percentage" })}
-                                    >Percentage {width < 750 && "%"}<span></span>
-                                    </div>
-                                    <div className={`form--click ${productData.discountType == "fixed-price" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "fixed-price" })}
-                                    >Fixed Value {width < 750 && currency}<span></span>
+                                    <div className="radio--item" onClick={() => setProductData({ ...productData, isPhysical: false })}>
+                                        <RadioInput active={!productData?.isPhysical} />
+                                        <span className="radio--text">No, This is a Digital product.</span>
                                     </div>
                                 </div>
                             </div>
 
+                            {productData?.isPhysical && (
+                                <div className="form--item" style={{ gap: "1rem" }}>
+                                    <label className="form--label">Does this product have variations, e.g: Sizes, Colors, etc?</label>
 
-                            {(productData.discountType !== "no-discount") && (
-                                <div className="form--item">
-                                    <label htmlFor="discount-price" className="form--label">Discount Price <Asterisk /></label>
-                                    <CurrencyInput
-                                        id="discount-price"
-                                        name="discountValue"
-                                        className="form--input"
-                                        placeholder={productData.discountType == "fixed-price" ? `${currency}7,000` : "20%"}
-                                        value={productData.discountValue}
-                                        {...(productData.discountType == "fixed-price") ? { prefix: currency } : { suffix: "%" }}
-                                        decimalsLimit={productData.discountType == "fixed-price" ? 2 : 0}
-                                        onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
-                                    />
-                                    <span className="form--error-message">
-                                        {productFormErrors.discountValue && productFormErrors.discountValue}
-                                    </span>
+                                    <div className="form--item-flex" style={{ gap: "1.8rem" }}>
+                                        <div className="radio--item" onClick={() => setProductData({ ...productData, hasVariation: false })}>
+                                            <RadioInput active={!productData?.hasVariation} />
+                                            <span className="radio--text">No, It doesnt</span>
+                                        </div>
+
+                                        <div className="radio--item" onClick={() => setProductData({ ...productData, hasVariation: true })}>
+                                            <RadioInput active={productData?.hasVariation} />
+                                            <span className="radio--text">Yes, It does.</span>
+                                        </div>
+                                    </div>
+
+                                    {/* VARIATION, PRICE AND QUANTITY INFO */}
+                                    {(productData?.hasVariation) && (
+                                        <Info text="Each product variation will have its own price and quantity!" />
+                                    )}
                                 </div>
                             )}
 
+                            {/* ADD VARIATION BUTTON */}
+                            {(productData?.hasVariation) && (
+                                <React.Fragment>
+                                    {variations?.length > 0 && (
+                                        <div className='form--variation'>
+                                            {variations.map((variant, i) => (
+                                                <React.Fragment>
+                                                    <div className='' key={i}>
+                                                        <div className=''>
+                                                            <label className='form--label'>Image</label>
+                                                            <span className='form--media'>
+                                                                {!variant?.image ? <CiImageOn /> : <img src={variant?.image} alt={"product name"} />}
+                                                            </span>
+                                                        </div>
 
-                            {/* MOQ / MAXIMUM AND MINIMUM ORDER QUANTITY */}
-                            <div className="form--item">
-                                <label htmlFor="MOQ" className="form--label flex">
-                                    Minimum Order Quantity 
-                                    <Switch color='#ff7a49' size="small" checked={showMOQ} onClick={() => setShowMOQ(!showMOQ)} />
-                                </label>
-                                {showMOQ && (
-                                    <input type="number" name="MOQ" id="MOQ" value={productData.MOQ} onChange={handleProductDataChange} className="form--input" placeholder="Set a minimum order quantity" />
-                                )}
-                                <Info text="What is Minimum Order Quantity or MOQ?" />
-                            </div>
+                                                        <div className=''>
+                                                            <label className='form--label'>Option type <Asterisk /></label>
+                                                            <input type='text' name='type' id='variantType' className='form--input' placeholder='Like: color, size, etc' value={variant?.type} onChange={e => handleChangeVariant(e, i)} />
+                                                        </div>
 
-                            <div className="form--item">
-                                <label className="form--label">Unit (optional) </label>
-                                <MainDropdownSelect title="Unit" options={units} field="name" value={unit} setValue={setUnit} noDataLabel="No Unit data!" />
-                            </div>
+                                                        <div className="">
+                                                            <label className='form--label'>Option value <Asterisk /></label>
+                                                            <input type='text' name='value' id='variantVal' className='form--input' placeholder='Like: red, 34, big, etc' value={variant?.value} onChange={e => handleChangeVariant(e, i)} />
+                                                        </div>
 
+                                                        <div className="">
+                                                            <label className='form--label'>Quantity (Optional)</label>
+                                                            <CurrencyInput name='quantity' id='variantQt' className='form--input' placeholder='Qt 1' value={variant?.quantity} onValueChange={(value, name, _) => handleChangeVariant({ target: { name, value } }, i)} />
+                                                        </div>
+
+                                                        <div className="">
+                                                            <label className='form--label'>Price <Asterisk /></label>
+                                                            <CurrencyInput name='price' id='variantPrice' className='form--input' placeholder={currency + "5,000"} value={variant?.price} onValueChange={(value, name, _) => handleChangeVariant({ target: { name, value } }, i)} />
+                                                        </div>
+
+                                                        <button onClick={() => handleDeleteVariant(i)}><RiDeleteBin5Line /></button>
+                                                    </div>
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    <div className="form--item">
+                                        <button className="form--add" onClick={() => handleToggleModal("variant")}>
+                                            <AiOutlinePlus />
+                                            <p>Add {variations.length > 0 ? "more variation options" : "variation options like size or color"}</p>
+                                        </button>
+
+                                        <span className="form--error-message">
+                                            {productFormErrors.variations && productFormErrors.variations}
+                                        </span>
+                                    </div>
+                                </React.Fragment>
+                            )}
+
+                            {/* PRICES GRID, IF NO VARIATION */}
+                            {(!productData?.hasVariation) && (
+                                <React.Fragment>
+                                    <div className="form--grid">
+                                        <div className="form--item">
+                                            <label htmlFor="" className="form--label">Price per item <Asterisk /></label>
+                                            <CurrencyInput
+                                                id="price"
+                                                name="price"
+                                                className="form--input"
+                                                placeholder={`${currency}15,000`}
+                                                prefix={currency}
+                                                decimalsLimit={2}
+                                                value={productData.price}
+                                                onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
+                                            />
+                                            <span className="form--error-message">
+                                                {productFormErrors.price && productFormErrors.price}
+                                            </span>
+                                        </div>
+
+                                        <div className="form--item">
+                                            <label htmlFor="cost-price" className="form--label">Cost per item (optional)</label>
+                                            <CurrencyInput
+                                                id="cost-price"
+                                                name="itemCost"
+                                                className="form--input"
+                                                placeholder={`${currency}10,000`}
+                                                prefix={currency}
+                                                decimalsLimit={2}
+                                                value={productData.itemCost}
+                                                onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
+                                            />
+                                            <span className="form--error-message">
+                                                {productFormErrors.itemCost && productFormErrors.itemCost}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="form--item">
+                                        <label htmlFor="discount-price" className="form--label">Discount Type (optional)</label>
+                                        <div className="form--clicks" style={width < 500 ? { gridTemplateColumns: "repeat(2, 1fr)" } : {}}>
+                                            <div className={`form--click ${productData.discountType == "no-discount" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "no-discount" })}
+                                            >No Discount<span></span>
+                                            </div>
+                                            <div className={`form--click ${productData.discountType == "percentage" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "percentage" })}
+                                            >Percentage {width < 750 && "%"}<span></span>
+                                            </div>
+                                            <div className={`form--click ${productData.discountType == "fixed-price" ? 'is-selected' : ''}`} onClick={() => setProductData({ ...productData, discountType: "fixed-price" })}
+                                            >Fixed Value {width < 750 && currency}<span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {(productData.discountType !== "no-discount") && (
+                                        <div className="form--item">
+                                            <label htmlFor="discount-price" className="form--label">Discount Price <Asterisk /></label>
+                                            <CurrencyInput
+                                                id="discount-price"
+                                                name="discountValue"
+                                                className="form--input"
+                                                placeholder={productData.discountType == "fixed-price" ? `${currency}7,000` : "20%"}
+                                                value={productData.discountValue}
+                                                {...(productData.discountType == "fixed-price") ? { prefix: currency } : { suffix: "%" }}
+                                                decimalsLimit={productData.discountType == "fixed-price" ? 2 : 0}
+                                                onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
+                                            />
+                                            <span className="form--error-message">
+                                                {productFormErrors.discountValue && productFormErrors.discountValue}
+                                            </span>
+                                        </div>
+                                    )}
+                                </React.Fragment>
+                            )}
+
+
+                            {productData?.isPhysical && (
+                                <React.Fragment>
+                                    {/* MOQ / MAXIMUM AND MINIMUM ORDER QUANTITY */}
+                                    <div className="form--item">
+                                        <label htmlFor="MOQ" className="form--label flex">
+                                            Minimum Order Quantity 
+                                            <Switch color='#ff7a49' size="small" checked={showMOQ} onClick={() => setShowMOQ(!showMOQ)} />
+                                        </label>
+                                        {showMOQ && (
+                                            <input type="number" name="MOQ" id="MOQ" value={productData.MOQ} onChange={handleProductDataChange} className="form--input" placeholder="Set a minimum order quantity" />
+                                        )}
+                                        <Info text="What is Minimum Order Quantity or MOQ?" />
+                                    </div>
+
+                                    <div className="form--item">
+                                        <label className="form--label">Unit (optional) </label>
+                                        <MainDropdownSelect title="Unit" options={units} field="name" value={unit} setValue={setUnit} noDataLabel="No Unit data!" />
+                                    </div>
+                                </React.Fragment>
+                            )}
 
                             {/* <div className="form--item">
                                 <label htmlFor='status' className='form--label flex' style={{ flexDirection: "row"}}>
@@ -534,87 +677,49 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 </select>
                             </div> */}
 
-                            {/* {productData.status == "published" && ()} */}
-
-                            <div className="form--item-flex" onClick={() => setChecks({ ...checks, isVisible: !checks.isVisible })}>
-                                <div id="checkbox" className={checks.isVisible ? 'is-selected' : ''}>
-                                    {checks.isVisible && <FaCheck />}
+                            <div className="form--item-flex" onClick={() => setProductData({ ...productData, isVisible: !productData.isVisible })}>
+                                <div id="checkbox" className={!productData.isVisible ? 'is-selected' : ''}>
+                                    {!productData.isVisible && <FaCheck />}
                                 </div>
                                 <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product <Info /></label>
                             </div>
                         </div>
-                        
-
-                        {width < 400 && <Line border={1.4} />}
+                            
 
                         <div className="card form">
                             <div className="section--heading">
-                                <h2>Product Inventory & Variations</h2>
+                                <h2>Product Properties (Optional)</h2>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
+                            
 
-                            <div className="form--grid">
-                                <div className="form--item-flex" onClick={() => setChecks({ ...checks, isPhysical: !checks.isPhysical })}>
-                                    <div id="checkbox" className={checks.isPhysical ? 'is-selected' : ''}>
-                                        {checks.isPhysical && <FaCheck />}
-                                    </div>
-                                    <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>This is a physical product</label>
-                                </div>
-                                <div className="form--item-flex" onClick={() => setChecks({ ...checks, trackInventory: !checks.trackInventory })}>
-                                    <div id="checkbox" className={checks.trackInventory ? 'is-selected' : ''}>
-                                        {checks.trackInventory && <FaCheck />}
-                                    </div>
-                                    <label className='form--text' style={{ fontSize: '1.24rem', fontWeight: '500' }}>Track My Inventory</label>
-                                </div>
-                            </div>
-
-                            {/*  */}
-                            <div className="form--item">
-                                <label htmlFor="quantity" className="form--label">Stock Quantity {checks.trackInventory ? <Asterisk /> : "(optional)"}</label>
-                                <CurrencyInput
-                                    id="quantity"
-                                    name="stockAmount"
-                                    className="form--input"
-                                    placeholder="Quantity"
-                                    prefix="Qty. "
-                                    decimalsLimit={0}
-                                    value={productData.stockAmount}
-                                    onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
-                                />
-                                <span className="form--error-message">
-                                    {productFormErrors.stockAmount && productFormErrors.stockAmount}
-                                </span>
-                            </div>
-
-                            {variations?.length > 0 && (
+                            {properties?.length > 0 && (
                                 <div className='form--variation'>
-                                    {variations.map((variant, i) => (
-                                        <div className='form--variant' key={i}>
+                                    {properties.map((property, i) => (
+                                        <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 4rem", gap: "1rem", alignItems: "flex-end" }}>
                                             <div className='form--item'>
-                                                <label htmlFor="variantType" className='form--label'>Option type</label>
-                                                <input type='text' name='type' id='variantType' className='form--input' placeholder='Like: color, size, etc' value={variant?.type} onChange={e => handleChangeVariant(e, i)} />
+                                                <label className='form--label'>Property type <Asterisk /></label>
+                                                <input type='text' name='type' className='form--input' placeholder='RAM, MAKE, Capacity, etc' value={property?.type} onChange={e => handleChangeProperty(e, i)} />
                                             </div>
+
                                             <div className="form--item">
-                                                <label htmlFor="variantVal" className='form--label'>Option value</label>
-                                                <input type='text' name='value' id='variantVal' className='form--input' placeholder='Like: red, 34, big, etc' value={variant?.value} onChange={e => handleChangeVariant(e, i)} />
+                                                <label className='form--label'>Property value <Asterisk /></label>
+                                                <input type='text' name='value' className='form--input' placeholder='16GB, ITEL, 2,000MAH, etc' value={property?.value} onChange={e => handleChangeProperty(e, i)} />
                                             </div>
-                                            <div className="form--item">
-                                                <label htmlFor="variantQt" className='form--label'>Qt.</label>
-                                                <CurrencyInput prefix='Qt.' name='quantity' id='variantQt' className='form--input' placeholder='Qt 1' value={variant?.quantity} onValueChange={(value, name, _) => handleChangeVariant({ target: { name, value } }, i)} />
-                                            </div>
-                                            <button onClick={() => handleDeleteVariant(i)}><RiDeleteBin5Line /></button>
+
+                                            <button onClick={() => handleDeleteProperty(i)}><RiDeleteBin5Line /></button>
                                         </div>
                                     ))}
                                 </div>
                             )}
 
                             <div className="form--item">
-                                <button className="form--add" onClick={handleAddVariant}>
+                                <button className="form--add" onClick={handleAddProperty}>
                                     <AiOutlinePlus />
-                                    <p>Add {variations.length > 0 ? "more options" : "options like size or color"}</p>
+                                    <p>Add {properties.length > 0 ? "More" : "Product"} Properties</p>
                                 </button>
+                                <Info text="Properties like: Style, Make, RAM, Height, Capacity, Model etc" />
                             </div>
-
                         </div>
                     </div>
                 </form>

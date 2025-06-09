@@ -58,10 +58,6 @@ export default function DashboardMenu() {
         handleToggleStoreDropdown();
 
         if(slug == store?.slug) {
-            setTimeout(function() {
-                navigate("/dashboard");
-            }, 250);
-            window.scrollTo(0, 0);
             handleToggleSidemenu();
             return;
         }

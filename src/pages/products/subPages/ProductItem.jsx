@@ -169,13 +169,13 @@ function ProductItem() {
                                     <div className='preview--body-item'>Short Description <span className='preview--body-value'>{item?.shortDescription || "--"}</span></div>
                                     <div className='preview--body-item'>Description <div className='preview--body-value' style={{ color: "#444" }} dangerouslySetInnerHTML={{ __html: truncateString(item?.description, 400) }} /></div>
                                     <div className='preview--body-item'>Price <span className='preview--body-value value'>{currency}{formatNumber(item?.price)}</span></div>
-                                    <div className='preview--body-item'>Stock 
+                                    {/* <div className='preview--body-item'>Stock 
                                         {item?.trackInventory ? (
                                             <span className='preview--body-value value'>{formatNumber(item?.stockAmount)} Items</span>
                                         ) : (
                                             <span className='preview--body-value'>"Inventory not tracked"</span>
                                         )}
-                                    </div>
+                                    </div> */}
                                     <div className='preview--body-item'>Product Unit <span className='preview--body-value'>{item?.unit || "--"}</span></div>
                                     <div className='preview--body-item'>Discount <span className='preview--body-value value'>{item?.discount?.discountType == "fixed-price" ? currency : "nill"}{item?.discount?.discountValueInFigure || ""}</span></div>
                                     <div className='preview--body-item'>Already Sold <span className='preview--body-value'>{item?.soldAmount + " Items" || "None"}</span></div>
