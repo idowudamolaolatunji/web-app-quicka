@@ -14,7 +14,7 @@ function Delete({ title, close, fn, text=`This action cannot be undone! All data
             <div className='delete modal'>
                 <span className='delete--icon'><GrStatusWarning /> </span>
                 <h3 className='delete--title'>Are you sure?</h3>
-                <p className='delete--text'>{text}</p>
+                {text && <p className='delete--text'>{text}</p>}
 
                 <div className='delete--actions'>
                     <button className='btn delete--btn' onClick={fn}>Delete</button>

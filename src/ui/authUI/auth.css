@@ -513,17 +513,21 @@ button.onboard--next {
     flex-direction: column;
     gap: 1.2rem;
 }
-.form--variant {
-    display: grid;
-    grid-template-columns: 6rem 1.2fr 1fr 1fr;
-    /* grid-template-columns: repeat(4, 1fr); */
-    /* display: flex; */
-    align-items: flex-end;
-    gap: .6rem;
+.form--variation .form--title {
+    font-size: 1.6rem;
+    font-weight: 600;
 }
+.variation-tab {
+    background-color: #eee;
+    padding: .4rem .68rem;
+    border-radius: .4rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
 .form--variation .form--media {
-    width: 6rem;
-    height: 6rem;
+    width: 4rem;
+    height: 4rem;
     cursor: pointer;
     background-color: #eee;
     border-radius: .4rem;
@@ -532,21 +536,11 @@ button.onboard--next {
     align-items: center;
     justify-content: center;
 }
-.form--variation .form--media {
-    width: 6rem;
-    height: 6rem;
-}
 .form--variation .form--media svg {
     font-size: 3.8rem;
     color: var(--color-brand-500);
 }
-.form--variant .form--label {
-    font-size: 1.2rem !important;
-}
-.form--variant .form--input {
-    padding: 1rem .8rem;
-}
-.form--variation button {
+.form--variation .btn {
     height: 4.2rem;
     border: none;
     border-radius: .4rem;
@@ -558,6 +552,10 @@ button.onboard--next {
     justify-content: center;
 }
 
+.table.form--input {
+    padding: .8rem;
+    min-width: 8rem;
+}
 
 
 

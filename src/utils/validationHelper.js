@@ -123,8 +123,6 @@ export function validateAuthForm(data, type) {
 export function validateProductForm(data, _) {
 	const errors = {};
 
-	console.log(data?.hasVariation, data?.variations)
-
 	if (!data.name.trim()) {
 		errors.name = "Produt title is required";
 	} else if (data.name.length < 2) {
@@ -137,8 +135,8 @@ export function validateProductForm(data, _) {
 		errors.itemCost = "Price cannot be more than or the same as cost price";
 	}
 
-	if (data.hasVariation && data.variations.length === 0) {
-		errors.variations = "Add at least one (1) variation option";
+	if (data.hasVariation && data.variationOptions.length < 1) {
+		errors.variationOptions = "Add at least one (1) variation option";
 	}
 
 	if (data.discountType != "no-discount" && !data.discountValue) {
@@ -443,25 +441,15 @@ export function validateExpensesForm(data, currency) {
 }
 
 
-export function validateVariantForm(data) {
+export function validateVariantOptionForm(data) {
 	const errors = {};
 
 	if (!data.type.trim()) {
 		errors.type = "Option type is required";
 	}
 	
-	if (!data.value.trim()) {
-		errors.value = "Option Value is required";
-	}
-
-	if (!data.price) {
-		errors.price = "Price is required";
-	} else if (+data.price <= +data.itemCost) {
-		errors.itemCost = "Price cannot be more than or the same as cost price";
-	}
-
-	if (data.discountType != "no-discount" && !data.discountValue) {
-		errors.discountValue = "Discount is required";
+	if (!data.values.length == 1) {
+		errors.values = "Option Value is required, enter a value and click 'Space' or 'Enter' key";
 	}
 
 	return errors;

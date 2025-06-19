@@ -72,6 +72,14 @@ a:hover {
 	color: inherit;
 }
 
+input::placeholder {
+  color: #aaa;
+}
+
+input::-webkit-input-placeholder {
+  color: #aaa;
+}
+
 /* Parent selector, finally 😃 */
 button:has(svg) {
 	line-height: 0;
@@ -110,6 +118,7 @@ textarea {
 }
 textarea::placeholder {
 	line-height: 1.4;
+	color: #aaa;
 }
 
 button {
@@ -1134,6 +1143,7 @@ body:has(.global--overlay) {
 
 
 
+
 .onboarding--floater {
 	position: fixed;
 	bottom: 5%;
@@ -1177,7 +1187,7 @@ body:has(.global--overlay) {
 @media screen and (max-width: 900px) {
 	.copyright--text {
 		/* margin: 6rem 0 1rem; */
-		padding: 0 0 1rem;
+		padding: 6rem 0 1rem;
 	}
 }
 

@@ -20,6 +20,7 @@ import Tab from '../../../components/elements/Tab';
 import LinkInput from '../../../components/form/LinkInput';
 import Info from '../../../components/elements/Info';
 import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
+import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -325,7 +326,7 @@ export default function AddCustomer({ close, isModal }) {
                 response={response}
                 handleClear={handleClearFields}
                 handleSubmit={handleSubmit}
-                hasExplainer={id ? false : true}
+                hasExplainer={width <= 500 && !id}
                 btnBelow={width < 1000}
             >
 
@@ -335,7 +336,15 @@ export default function AddCustomer({ close, isModal }) {
                     <div className='left--container containers'>
                         <div className="card form">
                             <div className="section--heading">
-                                <h2>Personal Information</h2>
+                                <span className='flex-align-center' style={{ justifyContent: "space-between" }}>
+                                    <h2>Personal Information</h2>
+                                    {(width > 500 && !id) && (
+                                        <button className="form--add" onClick={() => {}}>
+                                            <IoPlayCircleOutline />
+                                            See how to Add Customers
+                                        </button>
+                                    )}
+                                </span>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
 

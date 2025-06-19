@@ -29,6 +29,7 @@ import { channelData } from '../../../utils/data.js'
 import moment from 'moment';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection.jsx';
+import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL
@@ -264,7 +265,7 @@ export default function RecordOrder() {
                 handleClear={handleClearFields}
                 handleSubmit={handleRecordOrder}
                 confetti={showConfetti}
-                hasExplainer={true}
+                hasExplainer={width < 500}
                 btnBelow={true}
             >
                 <div className="product__upload--container">
@@ -273,7 +274,15 @@ export default function RecordOrder() {
                     <div className='left--container containers'>
                         <div className="card form">
                             <div className="section--heading">
-                                <h2>Order Item</h2>
+                                <span className='flex-align-center' style={{ justifyContent: "space-between" }}>
+                                    <h2>Order Item</h2>
+                                    {(width > 500) && (
+                                        <button className="form--add" onClick={() => {}}>
+                                            <IoPlayCircleOutline />
+                                            See how to Record Order
+                                        </button>
+                                    )}
+                                </span>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
 

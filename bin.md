@@ -1236,3 +1236,30 @@ export function hideEmail(email) {
         </div>
     </React.Fragment>
 ) : ( -->
+
+
+
+    // const handleAddProperty = function() {
+    //     const lastProperty = properties[properties.length - 1];
+
+    //     if (lastProperty && (lastProperty?.type === "" || lastProperty?.value === "")) {
+    //         setResponse({ status: "error", message: `Property Values cannot be left empty` })
+    //         return setTimeout(() => setResponse({ message: "", status: "" }), 5000);
+    //     }
+        
+    //     setPropeties([...properties, { type: "", value: "" }]);
+    // }
+
+    // const handleChangeProperty = function(e, index) {
+    //     const { name, value } = e?.target;
+
+    //     setPropeties(prev => 
+    //         prev.map((item, i) =>
+    //             i === index ? { ...item, [name]: value } : item
+    //         )
+    //     );
+    // }
+
+    // const handleDeleteProperty = function(selectedIndex) {
+    //     setPropeties(prev => prev.filter((_, index) => index !== selectedIndex))
+    // }

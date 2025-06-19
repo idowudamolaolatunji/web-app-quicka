@@ -72,7 +72,7 @@ function TopProducts() {
         const productSales = ordersInPeriod?.reduce((acc, order) => {
             order?.products?.forEach(product => {
                 const productData = products.find(p => p.name === product.name);
-                if (productData?.trackInventory && productData.soldAmount >= threshold) {
+                if (productData?.soldAmount && productData.soldAmount >= threshold) {
                     acc[product.name] = (acc[product.name] || 0) + product.quantity;
                 }
             });

@@ -63,16 +63,10 @@ function ProductCard({ product, open, forTemplate }) {
                             <p className='product__figure--price value'>{currency}{formatNumber(product?.price)}</p>
                         </Link>
 
-                        {product?.trackInventory ? (  
-                            <div className="product__figure--details">
-                                <p>Variations<span className='value'>{product?.variations.length}</span></p>
-                                <p>Stock Amount<span className='value'>{product?.stockAmount}</span></p>
-                            </div>
-                        ) : (
-                            <div className="product__figure--details" style={{ color: "red", fontWeight: "500" }}>
-                                Inventory not tracked
-                            </div>
-                        )}
+                        <div className="product__figure--details">
+                            <p>Variations<span className='value'>{product?.variations.length || ""}</span></p>
+                            <p>Stock Amount<span className='value'>{product?.stockAmount || ""}</span></p>
+                        </div>
 
                         <span className='product__figure--actions'>
                             <button className='table--btn' onClick={() => navigate(`${product?.productId}/edit`)}><RiEdit2Line />{width > 500 ? "Edit" : ""}</button>

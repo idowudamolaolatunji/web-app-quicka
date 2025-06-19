@@ -19,26 +19,26 @@ import Drawer from '../../../components/modal/Drawer';
 import CollectionFormSm from '../../../components/pageComponents/CollectionFormSm';
 import { createPortal } from 'react-dom';
 import { units } from '../../../utils/data';
-import { RiDeleteBin5Line } from 'react-icons/ri';
+import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { Switch } from '@mui/material';
 import AddPageUI from '../../../ui/PageUI/AddPageUI';
 import MultipleImageUploadInput from '../../../components/form/MultipleImageUploadInput';
 import { formatNumber } from '../../../utils/helper';
 import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
-import { useDataContext } from '../../../context/DataContext';
 import RadioInput from '../../../components/form/RadioInput';
-import { CiImageOn } from "react-icons/ci";
-import SimpleModal from '../../../components/modal/SimpleModal';
-import ImageUploadInput from '../../../components/form/ImageUploadInput';
 import BgSimple from '../../../components/modal/BgSimple';
-import AddProductVariationFormSm from '../../../components/pageComponents/AddProductVariationFormSm';
+import VariantOptions from '../../../components/pageComponents/VariantOptions';
+import DataTable from 'react-data-table-component';
+import { CiImageOn } from 'react-icons/ci';
+import VariationImage from '../../../components/pageComponents/VariationImage';
+import Delete from '../../../components/modal/Delete';
+import { IoPlayCircleOutline } from 'react-icons/io5';
 
 
 
 export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     const navigate = useNavigate();
     const { id } = useParams();
-    
     const { width } = useWindowSize();
     const internetStatus = useCheckInternetConnection();
     const { shouldKick, handleStore, store, formdataHeader } = useAuthContext();
@@ -48,16 +48,19 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     const currency = store?.currency?.symbol;
 
     //////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false)
-    const [showModal, setShowModal] = useState({ collection: false, variant: false });
+    const [showModal, setShowModal] = useState({ collection: false, variation: false, addImage: false });
     
-    const [variations, setVariations] = useState([]);
-    const [properties, setPropeties] = useState([]);
-    const [description, setDescription] = useState('');
+    const [description, setDescription] = useState("");
     const [productCollection, setProductCollection] = useState([]);
     const [unit, setUnit] = useState([]);
+    
+    const [variations, setVariations] = useState([]);
+    const [variationOptions, setVariationOptions] = useState([]);
+    const [seletedVariationId, setSeletedVariationId] = useState("");
 
     const [productFormErrors, setProductFormErrors] = useState({});
     const [fetchedProduct, setFetchedProduct] = useState(null);
@@ -69,6 +72,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         status: "published",
         discountValue: null,
         discountType: "no-discount",
+        stockAmount: null,
         MOQ: "",
         hasVariation: false,
         isPhysical: true,
@@ -83,7 +87,130 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 
+    const variation_columns_Styles = {
+        table: {
+            style: {
+                overflowX: 'auto',
+            },
+        },    
+        head: {
+            style: {
+                fontSize: "1.44rem",
+                fontWeight: "600",
+                color: "#eee",
+                height: width < 450 ? "4rem" : "4.5rem"
+            },
+        },
+        rows: {
+            style: {
+                minHeight: '6rem',
+                fontSize: "1.3rem",
+                fontWeight: "500",
+            },
+        },
+        headCells: {
+            style: {
+                paddingRight: '5px',
+                backgroundColor: '#343434',
+                height: width < 450 ? "4rem" : "4.5rem"
+            },
+        },
+        
+    };
 
+    const variation_columns = [
+        {
+            name: "Image",
+            selector: row => (
+                <span
+                    className='form--media'
+                    onClick={() => handleVariantionImage(row?.id)}
+                >
+                    {row?.imageIndex == null ? <CiImageOn /> : <img src={images[row?.imageIndex]?.data_url} alt={"product name"} />}
+                </span>
+            ),
+            width: "8rem"
+        },
+        {
+            name: 'Variant',
+            selector: row => row?.name,
+            minWidth: "10rem"
+        },
+        {
+            name: <span className='flex-align-center'>Price <Asterisk /></span>,
+            selector: row => (
+                <CurrencyInput name='price' className='table form--input' value={row?.price} placeholder={currency+"5,000"} prefix={currency} onValueChange={(value, name, _) => handleChangeVariationData(name, value, row?.id)} />
+            ),
+            width: "13rem"
+        },
+        {
+            name: "Cost (Optional)",
+            selector: row => (
+                <CurrencyInput name='cost' className='table form--input' value={row?.cost} placeholder={currency+"2,000"} prefix={currency} onValueChange={(value, name, _) => handleChangeVariationData(name, value, row?.id)} />
+            ),
+            width: "13rem"
+        },
+        {
+            name: <span className='flex-align-center'>Quantity <Asterisk /></span>,
+            selector: row => (
+                <CurrencyInput name='quantity' className='table form--input' value={row?.quantity} placeholder="10" onValueChange={(value, name, _) => handleChangeVariationData(name, value, row?.id)} />
+            ),
+            width: "13rem"
+        },
+        {
+            name: "Discounted (Optional)",
+            selector: row => (
+                <CurrencyInput name='discountValue' className='table form--input' value={row?.discountValue} placeholder={currency+"1,000"} prefix={currency} onValueChange={(value, name, _) => handleChangeVariationData(name, value, row?.id)} />
+            ),
+            width: "18rem"
+        },
+        {
+            selector: row => (
+                <span className='table--actions'>
+                    <button className='table--btn' onClick={() => handleShowVariationDeleteModal(row?.name)}><RiDeleteBin5Line /></button>
+                </span>
+            ),
+            width: "10rem"
+        }
+    ];
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+
+
+    // HANDLE CHANGE VARIATION DATA
+    function handleChangeVariationData(name, value, id) {
+        setVariations(prev => prev.map(variation => variation?.id == id ? {...variation, [name]: value } : variation))
+    }
+
+    // DELETE PRODUCT VARIATION
+    function handleDeleteVariation() {
+        setVariations(prev => prev.filter((item) => seletedVariationId !== item?.name));
+        setShowModal({ ...showModal, deleteVaraition: false });
+        setSeletedVariationId("");
+    }
+
+    // SHOW PRODUCT VARIATION DELETION MODAL
+    function handleShowVariationDeleteModal(name) {
+        setShowModal({ ...showModal, deleteVaraition: true });
+        setSeletedVariationId(name);
+    }
+
+    // SHOW PRODUCT VARIATION IMAGE MODAL
+    function handleVariantionImage(id) {
+        setShowModal({ ...showModal, addImage: true });
+        setSeletedVariationId(id);
+    }
+
+    // DELETE VARIATION OPTION
+    function handleDeleteVariantOption(id) {
+        setVariationOptions(prev => prev.filter((item) => id !== item?.id));
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+
+    // MULTIPLE IMAGES ON CHANGE
     const handleOnChangeImage = function(imageList, addUpdateIndex) {
         // console.log(imageList)
         setImages(imageList);
@@ -107,6 +234,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         });
     }
 
+
     const handleToggleModal = function(name) {
         setShowModal({...showModal, [name]: !showModal[name] })
     }
@@ -120,6 +248,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             price: null,
             itemCost: null,
             discountValue: null,
+            stockAmount: null,
             // status: "published",
             hasVariation: false,
             isPhysical: true,
@@ -136,49 +265,39 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         setResponse({ status: "", message: "" })
     }
 
+    const cartesianProduct = function(...arrays) {
+        return arrays.reduce((a, b) => a.flatMap(x => b.map(y => [...x, y])), [[]]);
+    };
 
-    // ADD NEW VARIATIONS
-    const handleAddVariant = function() {
-        const lastVariant = variations[variations.length - 1];
+    // CREATE VARIATION
+    useEffect(function() {
+        const generateVariations = () => {
+            if (variationOptions?.length === 0) {
+                setVariations([]);
+                return;
+            }
 
-        if (lastVariant && (lastVariant?.type === "" || lastVariant?.value === "" || !lastVariant?.price)) {
-            setResponse({ status: "error", message: `Variant Values cannot be left empty` })
-            return setTimeout(() => setResponse({ message: "", status: "" }), 5000);
-        }
-        
-        setVariations([...variations, { image: "", type: "", value: "", price: "", quantity: "" }]);
-    }
+            const values = variationOptions?.map(option => option.values);
+            const combinations = cartesianProduct(...values);
 
-    // DELETE ITEM VARIATIONS
-    const handleDeleteVariant = function(selectedIndex) {
-        setVariations(prev => prev.filter((_, index) => index !== selectedIndex))
-    }
+            const newVariations = combinations.map(combination => {
+                const name = combination.join('-').toLowerCase();
+                return {
+                    name,
+                    quantity: null,
+                    price: null,
+                    cost: null,
+                    discountPrice: null,
+                    imageIndex: null,
+                    id: `${name}-${Math.floor(Math.random() * 9000) + 1000}`,
+                };
+            });
 
+            setVariations(newVariations);
+        };
 
-    const handleAddProperty = function() {
-        const lastProperty = properties[properties.length - 1];
-
-        if (lastProperty && (lastProperty?.type === "" || lastProperty?.value === "")) {
-            setResponse({ status: "error", message: `Property Values cannot be left empty` })
-            return setTimeout(() => setResponse({ message: "", status: "" }), 5000);
-        }
-        
-        setPropeties([...properties, { type: "", value: "" }]);
-    }
-
-    const handleChangeProperty = function(e, index) {
-        const { name, value } = e?.target;
-
-        setPropeties(prev => 
-            prev.map((item, i) =>
-                i === index ? { ...item, [name]: value } : item
-            )
-        );
-    }
-
-    const handleDeleteProperty = function(selectedIndex) {
-        setPropeties(prev => prev.filter((_, index) => index !== selectedIndex))
-    }
+        generateVariations();
+    }, [variationOptions]);
 
 
     // EFFECTS AND LIFECYCLE
@@ -206,6 +325,13 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     useEffect(function () {
         if(productData.hasVariation) {
             setProductData({ ...productData, price: null, itemCost: null });
+            setVariations([])
+            setVariationOptions([])
+
+            // scroll to bottom if when the display chages
+            width > 750 && window.scrollTo({ top: 1000, behavior: "smooth" });
+        } else {
+            width > 750 && window.scrollTo({ top: 0, behavior: "smooth" });
         }
 
         if(!productData.isPhysical) {
@@ -229,6 +355,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                         price: fetchedItem?.price || null,
                         itemCost: fetchedItem?.itemCost ||null,
                         discountValue: fetchedItem?.discount?.discountValue || null,
+                        stockAmount: fetchedItem?.stockAmount || null,
                         // status: fetchedItem?.status || "published",
                         discountType: fetchedItem?.discount?.discountType || "no-discount",
                         isPhysical: fetchedItem?.isPhysical || true,
@@ -253,7 +380,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             ...productData,
             productCollection,
             images, description,
-            variations
+            variations, variationOptions
         }
 
         const newErrors = validateProductForm(formData);
@@ -264,6 +391,18 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             setTimeout(() => setResponse({ status: "", message: "" }), 5000);
             return;
         };
+
+        const incompletedVariations = variations.filter(variation => {
+            return !variation.price || !variation.quantity;
+        });
+
+        console.log(variations, incompletedVariations)
+        if (incompletedVariations.length > 0) {
+            setResponse({ status: "error", message: "Fill up variation prices and quantity!" });
+            setTimeout(() => setResponse({ status: "", message: "" }), 7000);
+            return;
+        }
+
 
         // SET LOADER
         setResponse({ status: "", message: "" });
@@ -288,14 +427,19 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             formData.append('priceInFigure', `${currency}${formatNumber(productData.price)}`);
             formData.append('itemCost', +productData.itemCost);
             formData.append('discountValue', +productData.discountValue);
-            // formData.append('status', productData.status);
             formData.append('discountType', productData.discountType);
-            formData.append('MOQ', productData.MOQ);
+            formData.append('MOQ', +productData.MOQ);
             formData.append('unit', itemUnit);
+            formData.append('stockAmount', +productData.stockAmount || null);
             formData.append('product_collection', JSON.stringify(colection_Ids));
-            formData.append('variations', JSON.stringify(variations));
             formData.append('isPhysical', JSON.stringify(productData.isPhysical));
             formData.append('isVisible', JSON.stringify(productData.isVisible));
+            formData.append('hasVariation', JSON.stringify(productData.hasVariation));
+            // formData.append('status', productData.status);
+            if(productData.hasVariation && variations?.length > 0) {
+                formData.append('variations', JSON.stringify(variations));
+                formData.append('variationOptions', JSON.stringify(variationOptions));
+            }
             
             if(!id) {
                 for(const image of imageFiles) {
@@ -356,7 +500,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
 
 
     return (
-        <>
+        <React.Fragment>
             {showModal.collection && (
                 createPortal(
                     <Drawer
@@ -368,18 +512,48 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                 )
             )}
 
-            {showModal.variant && (
+            {/* SET VARIATION OPTION */}
+            {showModal.variation && (
                 createPortal(
-                    <Drawer
-                        title="Add Variation Option" setClose={() => handleToggleModal("variant")}
-                    >
-                        <AddProductVariationFormSm
+                    <BgSimple setClose={() => handleToggleModal("variation")}>
+                        <VariantOptions
+                            id={seletedVariationId}
+                            setId={setSeletedVariationId}
+                            options={variationOptions}
+                            setOptions={setVariationOptions}
+                            closeVariantModal={() => handleToggleModal("variation")}
+                        />
+                    </BgSimple>,
+                    document.body
+                )
+            )}
+
+            {/* ADD VARIATION IMAGE */}
+            {showModal.addImage && (
+                createPortal(
+                   <BgSimple setClose={() => handleToggleModal("addImage")}>
+                        <VariationImage
                             images={images}
                             setImages={setImages}
+                            variations={variations}
                             setVariations={setVariations}
-                            close={() => handleToggleModal("variant")}
+                            selectedId={seletedVariationId}
+                            setSelectedId={setSeletedVariationId}
+                            closeModal={() => handleToggleModal("addImage")}
                         />
-                    </Drawer>,
+                    </BgSimple>,
+                    document.body
+                )
+            )}
+
+            {/* DELETE VARIATION */}
+            {showModal.deleteVaraition && (
+                createPortal(
+                    <Delete
+                        text="" title=""
+                        close={() => handleToggleModal("deleteVaraition")} 
+                        fn={handleDeleteVariation}
+                    />,
                     document.body
                 )
             )}
@@ -394,17 +568,27 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                 handleClear={handleClearFields}
                 handleSubmit={handleSubmitProduct}
                 confetti={showConfetti}
-                hasExplainer={id ? false : true}
+                hasExplainer={width <= 500 && !id}
                 btnBelow={width < 750}
             >
-
-                <form className="product__upload--container" onSubmit={e => e.preventDefault()}>
+                <form className="product__upload--container" onSubmit={e => e.preventDefault()}
+                    style={(width > 750 && productData.hasVariation) ? { gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "75rem", marginTop: width > 600 ? "4rem" : "0" } : {}}
+                >
                     {width < 400 && <Line border={1.4} />}
 
                     <div className='left--container containers'>
                         <div className="card form">
                             <div className="section--heading">
-                                <h2>Product Details</h2>
+                                {/* <h2>Product Details</h2> */}
+                                <span className='flex-align-center' style={{ justifyContent: "space-between" }}>
+                                    <h2>Product Details</h2>
+                                    {(width > 500 && !id) && (
+                                        <button className="form--add" onClick={() => {}}>
+                                            <IoPlayCircleOutline />
+                                            See how to Create Products
+                                        </button>
+                                    )}
+                                </span>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
 
@@ -412,7 +596,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 <label htmlFor="name" className="form--label">Title <Asterisk /></label>
                                 <input type="text" name="name" id="name" value={productData.name} onChange={handleProductDataChange} className="form--input" placeholder='White Flat Shoe - Big Size 39, 42' />
                                 <span className="form--error-message">
-                                    {productFormErrors.name && productFormErrors.name}
+                                    {(!productData.name && productFormErrors.name) && productFormErrors.name}
                                 </span>
                             </div>
 
@@ -422,7 +606,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 <MultipleImageUploadInput images={images} productId={fetchedProduct?._id || null} handleChange={handleOnChangeImage} setResponse={setResponse} setLoading={setLoading} />
 
                                 <span className="form--error-message">
-                                    {productFormErrors.images && productFormErrors.images}
+                                    {(images?.length < 1 && productFormErrors.images) && productFormErrors.images}
                                 </span>
                             </div>
 
@@ -435,7 +619,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 <label htmlFor="" className="form--label">Product Description <Asterisk /></label>
                                 <QuillEditor value={description} setValue={setDescription} />
                                 <span className="form--error-message">
-                                    {productFormErrors.description && productFormErrors.description}
+                                    {(!description && productFormErrors.description) && productFormErrors.description}
                                 </span>
                             </div>
 
@@ -443,7 +627,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 <label htmlFor="category" className="form--label">Collection <Asterisk /></label>
                                 <MainDropdownSelect title="Collection" options={collections} field="name" value={productCollection} setValue={setProductCollection} multiple={true} noDataLabel="No collection found!" />
                                 <span className="form--error-message">
-                                    {productFormErrors.productCollection && productFormErrors.productCollection}
+                                    {(productCollection.length < 1 && productFormErrors.productCollection) && productFormErrors.productCollection}
                                 </span>
 
                                 <button className='form--add' onClick={() => handleToggleModal("collection")}>
@@ -453,7 +637,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                             </div>
                         </div>
 
-                        {width > 750 && (
+                        {(width > 750 && !productData?.hasVariation) && (
                             <div className="page__section--actions" style={{ marginTop: "1.4rem" }}>
                                 {id ? (
                                     <button className='button clear--button' onClick={() => navigate(-1)}>Cancel</button>
@@ -514,58 +698,62 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 </div>
                             )}
 
-                            {/* ADD VARIATION BUTTON */}
+                            {/* VARIATION */}
                             {(productData?.hasVariation) && (
                                 <React.Fragment>
-                                    {variations?.length > 0 && (
+                                    {variationOptions?.length > 0 && (
                                         <div className='form--variation'>
-                                            {variations.map((variant, i) => (
-                                                <React.Fragment>
-                                                    <div className='' key={i}>
-                                                        <div className=''>
-                                                            <label className='form--label'>Image</label>
-                                                            <span className='form--media'>
-                                                                {!variant?.image ? <CiImageOn /> : <img src={variant?.image} alt={"product name"} />}
-                                                            </span>
-                                                        </div>
+                                            <Line border={1.4} where="Top" value="1rem" />
+                                            <h3 className='form--title'>Variation Options</h3>
+                                            
+                                            {variationOptions.map((option, i) => (
+                                                <div className="form--item" key={i}>
+                                                    <p className='form--label'>{option?.type?.trim()}:</p>
+                                                    <div className="flex-align-center" style={{ gap: ".8rem", flexWrap: "wrap", width: "100%" }}>
+                                                        {option?.values?.length > 0 && option?.values?.map(val => (
+                                                            <p className='variation-tab'>{val}</p>
+                                                        ))}
 
-                                                        <div className=''>
-                                                            <label className='form--label'>Option type <Asterisk /></label>
-                                                            <input type='text' name='type' id='variantType' className='form--input' placeholder='Like: color, size, etc' value={variant?.type} onChange={e => handleChangeVariant(e, i)} />
-                                                        </div>
-
-                                                        <div className="">
-                                                            <label className='form--label'>Option value <Asterisk /></label>
-                                                            <input type='text' name='value' id='variantVal' className='form--input' placeholder='Like: red, 34, big, etc' value={variant?.value} onChange={e => handleChangeVariant(e, i)} />
-                                                        </div>
-
-                                                        <div className="">
-                                                            <label className='form--label'>Quantity (Optional)</label>
-                                                            <CurrencyInput name='quantity' id='variantQt' className='form--input' placeholder='Qt 1' value={variant?.quantity} onValueChange={(value, name, _) => handleChangeVariant({ target: { name, value } }, i)} />
-                                                        </div>
-
-                                                        <div className="">
-                                                            <label className='form--label'>Price <Asterisk /></label>
-                                                            <CurrencyInput name='price' id='variantPrice' className='form--input' placeholder={currency + "5,000"} value={variant?.price} onValueChange={(value, name, _) => handleChangeVariant({ target: { name, value } }, i)} />
-                                                        </div>
-
-                                                        <button onClick={() => handleDeleteVariant(i)}><RiDeleteBin5Line /></button>
+                                                        <span className='table--actions' style={{ marginLeft: "auto" }}>
+                                                            <button className='table--btn' onClick={() => {
+                                                                setSeletedVariationId(option?.id);
+                                                                handleToggleModal("variation")
+                                                            }}><RiEdit2Line /></button>
+                                                            <button className='table--btn' onClick={() => handleDeleteVariantOption(option?.id)}><RiDeleteBin5Line /></button>
+                                                        </span>
                                                     </div>
-                                                </React.Fragment>
+                                                </div>
                                             ))}
                                         </div>
                                     )}
 
+
+                                    {/* ADD VARIATION BUTTON */}
                                     <div className="form--item">
-                                        <button className="form--add" onClick={() => handleToggleModal("variant")}>
+                                        <button className="form--add" onClick={() => handleToggleModal("variation")}>
                                             <AiOutlinePlus />
-                                            <p>Add {variations.length > 0 ? "more variation options" : "variation options like size or color"}</p>
+                                            <p>Add {variationOptions.length > 0 ? "more options" : "variation options like size or color"}</p>
                                         </button>
 
                                         <span className="form--error-message">
-                                            {productFormErrors.variations && productFormErrors.variations}
+                                            {(variationOptions.length < 1 && productFormErrors.variationOptions) && productFormErrors.variationOptions}
                                         </span>
                                     </div>
+
+
+                                    {variationOptions?.length > 0 && (
+                                        <div className='form--variation' style={{ maxWidth: "30rem", minWidth: "100%" }}>
+                                            <Line border={1.4} where="Top" value="1rem" />
+                                            <h3 className='form--title'>Product Variations</h3>
+
+                                            <DataTable
+                                                data={variations}
+                                                columns={variation_columns}
+                                                customStyles={variation_columns_Styles}
+                                                noDataComponent={<p style={{ padding: "1rem", fontSize: "1.4rem" }}>No variation to show!</p>}
+                                            />
+                                        </div>
+                                    )}
                                 </React.Fragment>
                             )}
 
@@ -586,7 +774,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                                 onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
                                             />
                                             <span className="form--error-message">
-                                                {productFormErrors.price && productFormErrors.price}
+                                                {(!productData.price && productFormErrors.price) && productFormErrors.price}
                                             </span>
                                         </div>
 
@@ -606,7 +794,23 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                                 {productFormErrors.itemCost && productFormErrors.itemCost}
                                             </span>
                                         </div>
+
+
+                                        <div className="form--item">
+                                            <label htmlFor="quantity" className="form--label">Stock Quantity (optional)</label>
+                                            <CurrencyInput
+                                                id="quantity"
+                                                name="stockAmount"
+                                                className="form--input"
+                                                placeholder="Quantity"
+                                                prefix="Qty. "
+                                                decimalsLimit={0}
+                                                value={productData.stockAmount}
+                                                onValueChange={(value, name, _) => setProductData({ ...productData, [name]: value })}
+                                            />
+                                        </div>
                                     </div>
+
 
                                     <div className="form--item">
                                         <label htmlFor="discount-price" className="form--label">Discount Type (optional)</label>
@@ -647,6 +851,12 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
 
                             {productData?.isPhysical && (
                                 <React.Fragment>
+                                    <div className="form--item">
+                                        <label className="form--label">Unit (optional) </label>
+                                        <MainDropdownSelect title="Unit" options={units} field="name" value={unit} setValue={setUnit} noDataLabel="No Unit data!" />
+                                    </div>
+
+
                                     {/* MOQ / MAXIMUM AND MINIMUM ORDER QUANTITY */}
                                     <div className="form--item">
                                         <label htmlFor="MOQ" className="form--label flex">
@@ -656,26 +866,10 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                         {showMOQ && (
                                             <input type="number" name="MOQ" id="MOQ" value={productData.MOQ} onChange={handleProductDataChange} className="form--input" placeholder="Set a minimum order quantity" />
                                         )}
-                                        <Info text="What is Minimum Order Quantity or MOQ?" />
-                                    </div>
-
-                                    <div className="form--item">
-                                        <label className="form--label">Unit (optional) </label>
-                                        <MainDropdownSelect title="Unit" options={units} field="name" value={unit} setValue={setUnit} noDataLabel="No Unit data!" />
+                                        <Info text="Minimum Order Quantity or MOQ is the minimum amount of a product that can be ordered in a single purchase" />
                                     </div>
                                 </React.Fragment>
                             )}
-
-                            {/* <div className="form--item">
-                                <label htmlFor='status' className='form--label flex' style={{ flexDirection: "row"}}>
-                                    Set Status 
-                                    <span className={`status--dot ${productData.status}`}></span>
-                                </label>
-                                <select name="status" id='status' value={productData.status} className="form--select" onChange={handleProductDataChange}>
-                                    <option value="published">Publish</option>
-                                    <option value="draft">Draft</option>
-                                </select>
-                            </div> */}
 
                             <div className="form--item-flex" onClick={() => setProductData({ ...productData, isVisible: !productData.isVisible })}>
                                 <div id="checkbox" className={!productData.isVisible ? 'is-selected' : ''}>
@@ -684,46 +878,39 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product <Info /></label>
                             </div>
                         </div>
-                            
 
-                        <div className="card form">
-                            <div className="section--heading">
-                                <h2>Product Properties (Optional)</h2>
-                                {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
+
+                        {(width > 750 && productData?.hasVariation) && (
+                            <div className="page__section--actions" style={{ marginTop: "1.4rem" }}>
+                                {id ? (
+                                    <button className='button clear--button' onClick={() => navigate(-1)}>Cancel</button>
+                                ) : (
+                                    <button className='button clear--button' onClick={handleClearFields}>Clear Fields</button>
+                                )}
+                                <button className='button submit--button' disabled={loading} onClick={handleSubmitProduct}>Submit</button>
                             </div>
-                            
-
-                            {properties?.length > 0 && (
-                                <div className='form--variation'>
-                                    {properties.map((property, i) => (
-                                        <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 4rem", gap: "1rem", alignItems: "flex-end" }}>
-                                            <div className='form--item'>
-                                                <label className='form--label'>Property type <Asterisk /></label>
-                                                <input type='text' name='type' className='form--input' placeholder='RAM, MAKE, Capacity, etc' value={property?.type} onChange={e => handleChangeProperty(e, i)} />
-                                            </div>
-
-                                            <div className="form--item">
-                                                <label className='form--label'>Property value <Asterisk /></label>
-                                                <input type='text' name='value' className='form--input' placeholder='16GB, ITEL, 2,000MAH, etc' value={property?.value} onChange={e => handleChangeProperty(e, i)} />
-                                            </div>
-
-                                            <button onClick={() => handleDeleteProperty(i)}><RiDeleteBin5Line /></button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            <div className="form--item">
-                                <button className="form--add" onClick={handleAddProperty}>
-                                    <AiOutlinePlus />
-                                    <p>Add {properties.length > 0 ? "More" : "Product"} Properties</p>
-                                </button>
-                                <Info text="Properties like: Style, Make, RAM, Height, Capacity, Model etc" />
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </form>
             </AddPageUI>
-        </>
+        </React.Fragment>
     )
 }
+
+
+
+
+
+
+
+
+{/* <div className="form--item">
+    <label htmlFor='status' className='form--label flex' style={{ flexDirection: "row"}}>
+        Set Status 
+        <span className={`status--dot ${productData.status}`}></span>
+    </label>
+    <select name="status" id='status' value={productData.status} className="form--select" onChange={handleProductDataChange}>
+        <option value="published">Publish</option>
+        <option value="draft">Draft</option>
+    </select>
+</div> */}

@@ -55,7 +55,7 @@ function index() {
 
     const currency = store?.currency?.symbol;
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
-    const outOfStock = products?.filter(product => product?.trackInventory && product?.stockAmount <= 1);
+    const outOfStock = products?.filter(product => product?.soldAmount && product?.stockAmount <= 1);
     const totalInventoryWorth = products?.reduce((acc, product) => acc + product?.price, 0);
 
     ////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ function index() {
             name: 'Inventory',
             selector: row => (
                 <>
-                    {row?.trackInventory ? (
+                    {row?.soldAmount ? (
                         <span className="flex table--info" style={{ gap: ".4rem", alignItems: "center" }}>
                             <p className='value'>{row?.stockAmount} <span>Stocks</span></p>
                             <span>/</span>
