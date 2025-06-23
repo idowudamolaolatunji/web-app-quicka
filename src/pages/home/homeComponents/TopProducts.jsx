@@ -68,8 +68,9 @@ function TopProducts() {
     const lookupTopProductByDuration = function(period) {
         // I DON'T REALLY UNDERSTAND HOW THIS WORKS, BUT THANKS TO META AI, IT DOES
         const startDate = moment().startOf(period)
-        const ordersInPeriod = orders?.filter(order => moment(order?.orderDate).isSameOrAfter(startDate));
-        const productSales = ordersInPeriod?.reduce((acc, order) => {
+        // const ordersInPeriod = orders?.filter(order => moment(order?.orderDate).isSameOrAfter(startDate));
+        // const productSales = ordersInPeriod?.reduce((acc, order) => {
+        const productSales = orders?.reduce((acc, order) => {
             order?.products?.forEach(product => {
                 const productData = products.find(p => p.name === product.name);
                 if (productData?.soldAmount && productData.soldAmount >= threshold) {
@@ -91,14 +92,7 @@ function TopProducts() {
             <div className="section--top" style={width < 450 ? { flexDirection: "column", textAlign: "center", width: "100%", alignItems: "center" } : {}}>
                 <div className="section--heading">
                     <h2>Best Selling Products </h2>
-                    <p>Top <label className='value'>{itemLength || ""}</label> item{itemLength != 1 ? "s" : ""} that {itemLength != 1 ? "are" : "is"} selling the most. 
-
-                        {width > 450 && (
-                            <TooltipUI title="Only items you choose to track inventory is shown">
-                                <span style={{ cursor: "pointer", marginLeft: ".6rem" }}><ImInfo /></span>
-                            </TooltipUI>
-                       )}
-                    </p>
+                    <p>Top <label className='value'>{itemLength || ""}</label> item{itemLength != 1 ? "s" : ""} that {itemLength != 1 ? "are" : "is"} selling the most. </p>
                 </div>
 
                 {/* <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} /> */}
@@ -117,11 +111,11 @@ function TopProducts() {
                     <ProductFigure product={product} key={product._id} />
                 ))}
 
-                {(itemLength > 0 && width <= 450) && (
+                {/* {(itemLength > 0 && width <= 450) && (
                     <span style={{ marginTop: "1.5rem" }}>
                         <Info text="Only items you choose to track inventory is shown" />
                     </span>
-                )}
+                )} */}
             </div>
 
         </div>

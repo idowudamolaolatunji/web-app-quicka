@@ -28,8 +28,8 @@ function index() {
 
 
     const [integrations, setIntegrations] = useState([
-        { name: "Paystack", slug: "paystack", by: "paystack", tag: "payment", text: "Connect to recieve payment with paystack.", icon: paystack, connected: true, },
-        { name: "Flutterwave", slug: "flutterwave", by: "flutterwave", tag: "payment", text: "Connect to recieve payment with flutterwave.", icon: flutterwave, connected: true, },
+        // { name: "Paystack", slug: "paystack", by: "paystack", tag: "payment", text: "Connect to recieve payment with paystack.", icon: paystack, connected: true, },
+        // { name: "Flutterwave", slug: "flutterwave", by: "flutterwave", tag: "payment", text: "Connect to recieve payment with flutterwave.", icon: flutterwave, connected: true, },
         { name: "Whatsapp", slug: "whatsapp", by: "meta", tag: "notification", text: "Connect your whatsapp to recieve realtime notification for payment and order.", icon: whatsapp, connected: false, },
         { name: "Facebook Pixel", slug: "facebook_pixel", by: "meta", tag: "adslytics", text: "Conntect facebook pixel for better ads mesurement and experience.", icon: fb_pixel, connected: false, },
         { name: "Google Analytics", slug: "google_analytics", by: "google", tag: "adslytics", text: "Conntect google analytics for better analytics and track visitors properly.", icon: google_analytics, connected: false, },
@@ -56,19 +56,19 @@ function index() {
     useEffect(function () {
         window.scrollTo(0, 0);
 
-        updateState("paystack", store?.integrations?.paystack);
+        // updateState("paystack", store?.integrations?.paystack);
         updateState("whatsapp", store?.integrations?.whatsapp);
         updateState("facebook_pixel", store?.integrations?.facebook_pixel);
-        updateState("flutterwave", store?.integrations?.flutterwave);
+        // updateState("flutterwave", store?.integrations?.flutterwave);
         updateState("google_analytics", store?.integrations?.google_analytics);
 
         // THERE CAN ONLY EVER BE ONE PAYMENT INTEGRATION
-        if(store?.paymentSettings?.name == "paystack") {
-            setIntegrations(prev => [...prev?.filter(step => step?.slug !== "flutterwave")])
-        }
-        if(store?.paymentSettings?.name == "flutterwave") {
-            setIntegrations(prev => [...prev?.filter(step => step?.slug !== "paystack")])
-        }
+        // if(store?.paymentSettings?.name == "paystack") {
+        //     setIntegrations(prev => [...prev?.filter(step => step?.slug !== "flutterwave")])
+        // }
+        // if(store?.paymentSettings?.name == "flutterwave") {
+        //     setIntegrations(prev => [...prev?.filter(step => step?.slug !== "paystack")])
+        // }
     }, [store]);
 
 

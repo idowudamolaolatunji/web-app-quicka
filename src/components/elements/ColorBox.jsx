@@ -1,6 +1,6 @@
 import React from "react"
 
-function ColorBox({ color, handleSelected, selected }) {
+export function ColorBox({ color, handleSelected, selected }) {
     return (
         <div className={`color-box ${selected === color ? 'selected' : ''}`} onClick={() => handleSelected(color)}>
             <span style={{ backgroundColor: `${color}` }}>&nbsp;</span>
@@ -8,4 +8,10 @@ function ColorBox({ color, handleSelected, selected }) {
     )
 }
 
-export default ColorBox
+export function ColorBoxPreview({ color }) {
+    return (
+        <div className={`color-box preview`}>
+            <span style={{ backgroundColor: `${color}` }}>&nbsp;</span>
+        </div>
+    )
+}

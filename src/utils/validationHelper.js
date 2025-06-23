@@ -441,15 +441,15 @@ export function validateExpensesForm(data, currency) {
 }
 
 
-export function validateVariantOptionForm(data) {
+export function validateVariantOptionForm(data, width) {
 	const errors = {};
 
-	if (!data.type.trim()) {
-		errors.type = "Option type is required";
+	if (!data.label.trim()) {
+		errors.label = "Option type is required";
 	}
 	
 	if (!data.values.length == 1) {
-		errors.values = "Option Value is required, enter a value and click 'Space' or 'Enter' key";
+		errors.values = `Option Value is required, enter a value and click "Space" or ${width < 600 ? '"GO"' : '"Enter"'} key`;
 	}
 
 	return errors;

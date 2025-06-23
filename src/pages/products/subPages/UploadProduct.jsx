@@ -126,6 +126,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                     className='form--media'
                     onClick={() => handleVariantionImage(row?.id)}
                 >
+                        {console.log(row)}
                     {row?.imageIndex == null ? <CiImageOn /> : <img src={images[row?.imageIndex]?.data_url} alt={"product name"} />}
                 </span>
             ),
@@ -158,7 +159,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             width: "13rem"
         },
         {
-            name: "Discounted (Optional)",
+            name: "Discount Price (Optional)",
             selector: row => (
                 <CurrencyInput name='discountValue' className='table form--input' value={row?.discountValue} placeholder={currency+"1,000"} prefix={currency} onValueChange={(value, name, _) => handleChangeVariationData(name, value, row?.id)} />
             ),
@@ -265,6 +266,42 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         setResponse({ status: "", message: "" })
     }
 
+
+    useEffect(function() {
+        (async () => {
+            if(id) {
+                setLoading(true);
+                const fetchedItem = await handleFetchOneItem("product", id);
+                setLoading(false);
+
+                if(fetchedItem) {
+                    setFetchedProduct(fetchedItem);
+                    setProductData({
+                        name: fetchedItem?.name || "",
+                        shortDescription: fetchedItem?.shortDescription || "",
+                        price: fetchedItem?.price || null,
+                        itemCost: fetchedItem?.itemCost ||null,
+                        discountValue: fetchedItem?.discount?.discountValue || null,
+                        stockAmount: fetchedItem?.stockAmount || null,
+                        // status: fetchedItem?.status || "published",
+                        discountType: fetchedItem?.discount?.discountType || "no-discount",
+                        isPhysical: fetchedItem?.isPhysical || true,
+                        isVisible: fetchedItem?.isVisible || true,
+                        hasVariation: fetchedItem?.hasVariation || false,
+                    });
+                    setVariations(fetchedItem?.variations || []);
+                    setVariationOptions(fetchedItem?.variationOptions || []);
+                    setDescription(fetchedItem?.description || "")
+                    setProductCollection(fetchedItem?.product_collection)
+                    setImages(fetchedItem?.images?.map((img) => (
+                        { data_url: img?.url }
+                    )));
+                    setUnit(fetchedItem?.unit ? [{ name: fetchedItem?.unit, id: 0 }] : []);
+                }
+            }
+        })();
+    }, [id]);
+
     const cartesianProduct = function(...arrays) {
         return arrays.reduce((a, b) => a.flatMap(x => b.map(y => [...x, y])), [[]]);
     };
@@ -280,9 +317,23 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             const values = variationOptions?.map(option => option.values);
             const combinations = cartesianProduct(...values);
 
+            // const newVariations = combinations.map(combination => {
+            //     const name = combination.join('-').toLowerCase();
+            //     return {
+            //         name,
+            //         quantity: null,
+            //         price: null,
+            //         cost: null,
+            //         discountPrice: null,
+            //         imageIndex: null,
+            //         id: `${name}-${Math.floor(Math.random() * 9000) + 1000}`,
+            //     };
+            // });
+
             const newVariations = combinations.map(combination => {
                 const name = combination.join('-').toLowerCase();
-                return {
+                const existingVariation = variations?.find(v => v.name === name);
+                return existingVariation || {
                     name,
                     quantity: null,
                     price: null,
@@ -340,39 +391,6 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     }, [productData.hasVariation, productData.isPhysical]);
 
 
-    useEffect(function() {
-        (async () => {
-            if(id) {
-                setLoading(true);
-                const fetchedItem = await handleFetchOneItem("product", id);
-                setLoading(false);
-
-                if(fetchedItem) {
-                    setFetchedProduct(fetchedItem);
-                    setProductData({
-                        name: fetchedItem?.name || "",
-                        shortDescription: fetchedItem?.shortDescription || "",
-                        price: fetchedItem?.price || null,
-                        itemCost: fetchedItem?.itemCost ||null,
-                        discountValue: fetchedItem?.discount?.discountValue || null,
-                        stockAmount: fetchedItem?.stockAmount || null,
-                        // status: fetchedItem?.status || "published",
-                        discountType: fetchedItem?.discount?.discountType || "no-discount",
-                        isPhysical: fetchedItem?.isPhysical || true,
-                        isVisible: fetchedItem?.isVisible || true,
-                    });
-                    setVariations(fetchedItem?.variations);
-                    setDescription(fetchedItem?.description || "")
-                    setProductCollection(fetchedItem?.product_collection)
-                    setImages(fetchedItem?.images?.map((img) => (
-                        { data_url: img?.url }
-                    )));
-                    setUnit(fetchedItem?.unit ? [{ name: fetchedItem?.unit, id: 0 }] : []);
-                }
-            }
-        })();
-
-    }, [id]);
 
     async function handleSubmitProduct(e) {
         // FORM VALIDATIONS 
@@ -423,14 +441,14 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             formData.append('name', productData.name);
             formData.append('description', description);
             formData.append('shortDescription', productData.shortDescription);
-            formData.append('price', +productData.price);
-            formData.append('priceInFigure', `${currency}${formatNumber(productData.price)}`);
-            formData.append('itemCost', +productData.itemCost);
-            formData.append('discountValue', +productData.discountValue);
+            productData.price && formData.append('price', +productData.price);
+            productData.price && formData.append('priceInFigure', `${currency}${formatNumber(productData.price)}`);
+            productData.itemCost && formData.append('itemCost', +productData.itemCost);
+            productData.discountValue && formData.append('discountValue', +productData.discountValue);
+            productData.stockAmount && formData.append('stockAmount', +productData.stockAmount);
             formData.append('discountType', productData.discountType);
             formData.append('MOQ', +productData.MOQ);
             formData.append('unit', itemUnit);
-            formData.append('stockAmount', +productData.stockAmount || null);
             formData.append('product_collection', JSON.stringify(colection_Ids));
             formData.append('isPhysical', JSON.stringify(productData.isPhysical));
             formData.append('isVisible', JSON.stringify(productData.isVisible));
@@ -515,13 +533,19 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             {/* SET VARIATION OPTION */}
             {showModal.variation && (
                 createPortal(
-                    <BgSimple setClose={() => handleToggleModal("variation")}>
+                    <BgSimple setClose={() => {
+                        handleToggleModal("variation");
+                        setSeletedVariationId("")
+                    }}>
                         <VariantOptions
                             id={seletedVariationId}
                             setId={setSeletedVariationId}
                             options={variationOptions}
                             setOptions={setVariationOptions}
-                            closeVariantModal={() => handleToggleModal("variation")}
+                            closeVariantModal={() => {
+                                handleToggleModal("variation");
+                                setSeletedVariationId("")
+                            }}
                         />
                     </BgSimple>,
                     document.body
@@ -708,7 +732,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                             
                                             {variationOptions.map((option, i) => (
                                                 <div className="form--item" key={i}>
-                                                    <p className='form--label'>{option?.type?.trim()}:</p>
+                                                    <p className='form--label'>{option?.label?.trim()}:</p>
                                                     <div className="flex-align-center" style={{ gap: ".8rem", flexWrap: "wrap", width: "100%" }}>
                                                         {option?.values?.length > 0 && option?.values?.map(val => (
                                                             <p className='variation-tab'>{val}</p>

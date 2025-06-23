@@ -55,7 +55,7 @@ function index() {
 
     const currency = store?.currency?.symbol;
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
-    const outOfStock = products?.filter(product => product?.soldAmount && product?.stockAmount <= 1);
+    const outOfStock = products?.filter(product => product?.stockAmount && product?.stockAmount <= 1);
     const totalInventoryWorth = products?.reduce((acc, product) => acc + product?.price, 0);
 
     ////////////////////////////////////////////////////////
@@ -120,25 +120,17 @@ function index() {
         {
             name: 'Price',
             selector: row => (
-                <p className='value'>{currency}{formatNumber(row?.price)}</p>
+                <p className='value'>{row?.priceInFigure}</p>
             ),
         },
         {
             name: 'Inventory',
             selector: row => (
-                <>
-                    {row?.soldAmount ? (
-                        <span className="flex table--info" style={{ gap: ".4rem", alignItems: "center" }}>
-                            <p className='value'>{row?.stockAmount} <span>Stocks</span></p>
-                            <span>/</span>
-                            <p className='value'>{row?.variations?.length} <span>Variations</span></p>
-                        </span>
-                    ) : (
-                        <span className="flex table--info">
-                            Inventory not tracked
-                        </span>
-                    )}
-                </>
+                <span className="flex table--info" style={{ gap: ".4rem", alignItems: "center" }}>
+                    <p className='value'>{row?.stockAmount || 0} <span>Stocks</span></p>
+                    <span>/</span>
+                    <p className='value'>{row?.variations?.length || 0} <span>Variations</span></p>
+                </span>
             ),
         },
         {

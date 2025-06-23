@@ -7,7 +7,7 @@ import Line from '../elements/Line';
 import ImageUploadInput from '../form/ImageUploadInput';
 import { useAuthContext } from '../../context/AuthContext';
 import { AiFillFacebook, AiFillInstagram, AiFillTikTok, AiFillTwitterSquare, AiFillX, AiOutlineLink, AiOutlineWhatsApp } from 'react-icons/ai';
-import ColorBox from '../elements/ColorBox';
+import { ColorBox } from '../elements/ColorBox';
 
 import LinkInput from '../form/LinkInput';
 import { Switch } from '@mui/material';
@@ -415,7 +415,7 @@ export default function StoreCustom({ isnew, close }) {
                                         <ColorBox color={customColor.color} selected={customColor.color} />
                                     )}</div> */}
 
-                                    <ColorPicker value={selectedColor || customColor.color} onChange={(value) => setCustomColor({ isValid: true, color: value?.hex })} />
+                                    <ColorPicker disableAlpha value={selectedColor || customColor.color} onChange={(value) => setCustomColor({ isValid: true, color: value?.hex })} />
                                 </div>
 
                                 {!isnew && (
@@ -507,14 +507,13 @@ export default function StoreCustom({ isnew, close }) {
                         </span>
 
                         <div className="form--item form--socials">
-                            <LinkInput url={<AiFillFacebook style={{ fontSize: "2.4rem" }} />} name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your facebook page" />
-                            <LinkInput url={<AiFillInstagram style={{ fontSize: "2.4rem" }} />} name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your instagram handle" />
-                            <LinkInput url={<AiFillTwitterSquare style={{ fontSize: "2.4rem" }} />} name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your twitter handle" />
-                            <LinkInput url={<AiFillTikTok style={{ fontSize: "2.4rem" }} />} name="tiktok" value={storeData.tiktok} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@ Your tiktok profile" />
-                            <LinkInput url={<AiOutlineWhatsApp style={{ fontSize: "2.4rem" }} />} name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="Your whatsapp number" type='number' />
+                            <LinkInput url={<AiFillFacebook style={{ fontSize: "2.4rem" }} />} name="facebook" value={storeData.facebook} handleChange={handleStoreDataChange} linkPosition='start' placeholder="/(your facebook page)" />
+                            <LinkInput url={<AiFillInstagram style={{ fontSize: "2.4rem" }} />} name="instagram" value={storeData.instagram} handleChange={handleStoreDataChange} linkPosition='start' placeholder="/(your instagram handle)" />
+                            <LinkInput url={<AiFillTwitterSquare style={{ fontSize: "2.4rem" }} />} name="twitter" value={storeData.twitter} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@(your twitter handle)" />
+                            <LinkInput url={<AiFillTikTok style={{ fontSize: "2.4rem" }} />} name="tiktok" value={storeData.tiktok} handleChange={handleStoreDataChange} linkPosition='start' placeholder="@(your tiktok profile)" />
+                            <LinkInput url={<AiOutlineWhatsApp style={{ fontSize: "2.4rem" }} />} name="whatsapp" value={storeData.whatsapp} handleChange={handleStoreDataChange} linkPosition='start' placeholder="+(your whatsapp number)" type='number' />
                         </div>
                     </div>
-
 
                     <Line border={1.4} />
 

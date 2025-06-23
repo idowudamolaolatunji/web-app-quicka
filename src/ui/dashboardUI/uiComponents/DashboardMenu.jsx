@@ -192,43 +192,50 @@ export default function DashboardMenu() {
 
                         {!isMenuCollapsed && (
                             <span className='block--heading'>
-                                <p className='heading--text'>Menu Access</p>
+                                <p className='heading--text'>Main Menu</p>
                             </span>
                         )}
                         <ul className='menu--list'>
                             <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
-                            <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
+                            <MenuLink icon={<HiOutlineShoppingCart />} title='Orders & Sales' link='/orders' />
                             <MenuLink icon={<LuTags />} title='Products' link='/products' />
                             <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                             <MenuLink icon={<RiMapPinUserLine />} title='Suppliers' link='/suppliers' />
                             <MenuLink icon={<RiBankLine />} title='Transactions' link='/transactions' />
-                            <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
-                            <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                         </ul>
                     </div>
 
                     <Line where={'Bottom'} value={'0.34rem'} border={1.4} />
 
                     <ul className={`menu--list`}>
-                        <MenuLink icon={<MdOutlineStorefront />} title='Store Details' link='/store-details' />
-                        <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
+                        <MenuLink icon={<RiDiscountPercentLine />} title='Coupons & Discounts' link='/promotions' />
                         <MenuLink icon={<TbTruckDelivery />} title='Delivery Rates' link='/delivery-rates' />
-                        <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
                         <MenuLink icon={<PiCoinsBold />} title='Expenses' link='/expenses' />
-                        <MenuLink icon={<TbWorldWww />} title='Custom Domain' link='/custom-domain' />
-                        <MenuLink icon={<BiCustomize />} title='Store Customization' link='/store-customization' />
+                        <MenuLink icon={<RiAppsLine />} title='Integrated App' link='/integrated-apps' />
+                        <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                     </ul>
 
-                    <Line where={'Top'} value={'0.34rem'} border={1.4} />
+                    <Line where={'Bottom'} value={'0.34rem'} border={1.4} />
+
+                    <ul className={`menu--list`}>
+                        <MenuLink icon={<MdOutlineStorefront />} title='Store Details' link='/store-details' />
+                        <MenuLink icon={<BiMailSend />} title='Campaigns' link='/campaigns' />
+                        <MenuLink icon={<TbWorldWww />} title='Custom Domain' link='/custom-domain' />
+                        <MenuLink icon={<BiCustomize />} title='Store Customization' link='/store-customization' />
+                        <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
+                    </ul>
+
+                    {/* <Line where={'Top'} value={'0.34rem'} border={1.4} />
 
                     <ul className={"menu--list"}>
                         <MenuLink icon={<RiStackLine />} title='Subscription' link='/subscription' />
                         <MenuButton icon={<MdOutlineHelpOutline />} title='Help Center' action={openWidget} />
-                    </ul>
+                    </ul> */}
                 </div>
             )}
 
 
+            {/* MOBILE MENU */}
             {(width < 900 && isShowSidemenu) && (
                 <React.Fragment>
                     {width >= 600 && <Overlay handleClose={handleToggleSidemenu} />}
@@ -287,18 +294,18 @@ export default function DashboardMenu() {
 
                             <Line where={'Bottom'} value={'1.6rem'} />
                               
-
                             <span className='block--heading'>
                                 <p className='heading--text'>Main Access</p>
                             </span>
+
                             <ul className='menu--list'>
                                 <MenuLink icon={<LuLayoutPanelLeft />} title='Dashboard' link='/' />
-                                <MenuLink icon={<HiOutlineShoppingCart />} title='Orders / Sales' link='/orders' />
+                                <MenuLink icon={<HiOutlineShoppingCart />} title='Orders & Sales' link='/orders' />
                                 <MenuLink icon={<LuTags />} title='Products' link='/products' />
                                 <MenuLink icon={<FiUsers />} title='Customers' link='/customers' />
                                 <MenuLink icon={<RiMapPinUserLine />} title='Suppliers' link='/suppliers' />
                                 <MenuLink icon={<RiBankLine />} title='Transactions' link='/transactions' />
-                                <MenuLink icon={<RiDiscountPercentLine />} title='Coupons / Discounts' link='/promotions' />
+                                <MenuLink icon={<RiDiscountPercentLine />} title='Coupons & Discounts' link='/promotions' />
                                 <MenuLink icon={<TbPresentationAnalytics />} title='Analytics' link='/analytics' />
                             </ul>
                         </div>

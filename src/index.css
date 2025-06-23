@@ -731,6 +731,14 @@ body:has(.global--overlay) {
 	width: 1.6rem;
 }
 
+.variant-tab {
+	padding: .4rem .6rem;
+	border-radius: .2rem;
+	background-color: #eee;
+	color: var(--color-brand-500);
+	font-size: 1.24rem;
+}
+
 
 .grid {
 	display: grid;

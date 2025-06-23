@@ -119,7 +119,7 @@ export const FetchedProvider = function({ children }) {
         setErrorType("");
         rateExceeded && setRateExceeded(false);
         internetError && setInternetError(false);
-        generalError && setGeneralError(false);
+        // generalError && setGeneralError(false);
         
         await Promise.all([
             handleFetchStore(),
@@ -155,7 +155,7 @@ export const FetchedProvider = function({ children }) {
         }
 
         if (errMessage?.includes("Failed to fetch")) {
-            setGeneralError(true);
+            // setGeneralError(true);
             setErrorType("general-error")
             return "Oops! Error!.";
         } else {
@@ -565,7 +565,7 @@ export const FetchedProvider = function({ children }) {
             setErrorType("");
             setRateExceeded(false);
             setInternetError(false);
-            setGeneralError(false);
+            // setGeneralError(false);
             //////////////////////////////////////
             //////////////////////////////////////
             (async function(){

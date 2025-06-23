@@ -6,7 +6,7 @@ import TooltipUI from '../../../components/layout/TooltipUI';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import { formatDateSince, formatNumber } from '../../../utils/helper';
 import { BiChevronDown, BiMapPin } from 'react-icons/bi';
-import ColorBox from '../../../components/elements/ColorBox';
+import { ColorBox } from '../../../components/elements/ColorBox';
 import Line from '../../../components/elements/Line';
 import { useWindowSize } from 'react-use';
 import Spinner from '../../../components/spinner/MainSpinner';

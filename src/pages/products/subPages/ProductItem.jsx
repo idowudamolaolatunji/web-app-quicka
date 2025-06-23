@@ -11,7 +11,7 @@ import { RiDeleteBin5Line, RiEdit2Fill } from 'react-icons/ri';
 import { BiChevronDown } from 'react-icons/bi';
 import Line from '../../../components/elements/Line';
 import { useAuthContext } from '../../../context/AuthContext';
-import ColorBox from '../../../components/elements/ColorBox';
+import { ColorBoxPreview } from '../../../components/elements/ColorBox';
 import { useWindowSize } from 'react-use';
 import Delete from '../../../components/modal/Delete';
 import ErrorComponent from '../../../components/layout/ErrorComponent';
@@ -33,10 +33,10 @@ function ProductItem() {
     const [item, setItem] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     ////////////////////////////////////////////////////
-    const [curImageIndex, setCurImageIndex] = useState(0)
-    const colorsVariants = item?.variations?.filter(variant => variant.type.toLowerCase() === 'color');
-    const othersVariants = item?.variations?.filter(variant => variant.type.toLowerCase() !== 'color');
+    const [curImageIndex, setCurImageIndex] = useState(0);
+    const colorSpelling = ["color", "colour", "colors", "colours"];
 
+    
     const getItem = async function () {
         try {
             const result = await handleFetchOneItem(title, id);
@@ -168,33 +168,26 @@ function ProductItem() {
                                     }</span></div>
                                     <div className='preview--body-item'>Short Description <span className='preview--body-value'>{item?.shortDescription || "--"}</span></div>
                                     <div className='preview--body-item'>Description <div className='preview--body-value' style={{ color: "#444" }} dangerouslySetInnerHTML={{ __html: truncateString(item?.description, 400) }} /></div>
-                                    <div className='preview--body-item'>Price <span className='preview--body-value value'>{currency}{formatNumber(item?.price)}</span></div>
-                                    {/* <div className='preview--body-item'>Stock 
-                                        {item?.trackInventory ? (
-                                            <span className='preview--body-value value'>{formatNumber(item?.stockAmount)} Items</span>
-                                        ) : (
-                                            <span className='preview--body-value'>"Inventory not tracked"</span>
-                                        )}
-                                    </div> */}
+                                    <div className='preview--body-item'>Price <span className='preview--body-value value'>{item?.priceInFigure}</span></div>
+                                    <div className='preview--body-item'>Remaining Stock 
+                                        <span className='preview--body-value value'>{formatNumber(item?.stockAmount) || 0} Items</span>
+                                    </div>
                                     <div className='preview--body-item'>Product Unit <span className='preview--body-value'>{item?.unit || "--"}</span></div>
-                                    <div className='preview--body-item'>Discount <span className='preview--body-value value'>{item?.discount?.discountType == "fixed-price" ? currency : "nill"}{item?.discount?.discountValueInFigure || ""}</span></div>
-                                    <div className='preview--body-item'>Already Sold <span className='preview--body-value'>{item?.soldAmount + " Items" || "None"}</span></div>
+                                    <div className='preview--body-item'>Discount <span className='preview--body-value value'>{item?.discount?.discountType == "fixed-price" ? currency : "--"}{item?.discount?.discountValueInFigure || ""}</span></div>
+                                    <div className='preview--body-item'>Already Sold <span className={`preview--body-value ${item?.soldAmount ? "value" : ""}`}>{item?.soldAmount ? `${item?.soldAmount} Items` : "None"}</span></div>
 
-                                    <div className='preview--body-item'>Variations 
-                                        <span className='preview--body-value'>
-                                            {colorsVariants && colorsVariants.length > 0 && (
-                                                <span style={{ display: "flex", alignItems: "center", gap: ".48rem" }}>
-                                                    Color(s): {colorsVariants.map(color => <ColorBox color={color.value} />)}
-                                                </span>
-                                            )}
-                                            {othersVariants && othersVariants.length > 0 && (
-                                                <span style={{ display: "flex", alignItems: "center", gap: ".48rem" }}>
-                                                    {othersVariants[0].type}(s): {othersVariants.map(size => size.value).join(', ')}
-                                                </span>
-                                            )}
-                                            {(colorsVariants?.length < 1 && othersVariants?.length < 1) && (
-                                                <>nill</>
-                                            )}
+                                    <div className='preview--body-item' style={{ alignItems:"flex-start" }}>Variation Options
+                                        <span className='preview--body-value' style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                                            {item?.variationOptions.length > 0 ? item?.variationOptions?.map(option =>
+                                                <div className="flex-align-center">
+                                                    <span style={{ textTransform: "capitalize" }}>{option?.label?.endsWith("s") ? option?.label : option?.label + "s"}:</span>
+                                                    {colorSpelling.includes(option?.label) ? (
+                                                        <>{option?.values?.map(color => <ColorBoxPreview color={color} />)}</>
+                                                    ) : (
+                                                        <>{option?.values?.map(value => <span className='variant-tab'>{value}</span>)}</>
+                                                    )}
+                                                </div>
+                                            ) : "--"}
                                         </span>
                                     </div>
 

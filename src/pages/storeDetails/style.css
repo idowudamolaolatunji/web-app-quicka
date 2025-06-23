@@ -91,6 +91,17 @@
     border-radius: 50%;
     transition: all .3s;
 }
+.color-box.preview {
+    width: 3rem;
+    height: 2rem;
+    border: none;
+    border-radius: .2rem;
+    cursor: auto;
+}
+.color-box.preview:hover {
+    transform: scale(1);
+}
+
 .color-box:hover {
     transform: scale(1.15);
 }

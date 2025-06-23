@@ -3,10 +3,12 @@ import Info from '../elements/Info'
 import Asterisk from '../elements/Asterisk'
 import { useEffect, useState } from 'react'
 import { validateVariantOptionForm } from '../../utils/validationHelper';
+import { useWindowSize } from 'react-use';
 
 
 export default function VariantOptions({ closeVariantModal, id, setId, options, setOptions }) {
-    const [type, setType] = useState("");
+    const { width } = useWindowSize();
+    const [label, setLabel] = useState("");
     const [tags, setTags] = useState([]);
     const [variantOptionFormErrors, setVariantOptionFormErrors] = useState({});
 
@@ -19,25 +21,25 @@ export default function VariantOptions({ closeVariantModal, id, setId, options, 
 
     // EDIT OR SAVE VARIANT OPTION
     const handleSaveVariant = function() {
-        const newErrors = validateVariantOptionForm({type, values: tags});
+        const newErrors = validateVariantOptionForm({label, values: tags}, width);
         setVariantOptionFormErrors(newErrors);
         if (Object.keys(newErrors).length >= 1) return;
 
         //////////////////////////////////////////
         if (id) {
             // Editing an existing option
-            setOptions(prev => prev.map(option => option.id == id ? { ...option, type, values: tags } : option));
+            setOptions(prev => prev.map(option => option.id == id ? { ...option, label, values: tags } : option));
         } else {
-            const existingOption = options.find(option => option.type == type);
+            const existingOption = options.find(option => option.label == label);
 
             if (existingOption) {
                 // Merging values with an existing option
-                setOptions(prev => prev.map(option => option.type === type ? { ...option, values: [...new Set([...option.values, ...tags])] } : option));
+                setOptions(prev => prev.map(option => option.label === label ? { ...option, values: [...new Set([...option.values, ...tags])] } : option));
             } else {
                 // Creating a new option
                 const newOption = {
-                    id: Math.floor(Math.random() * 9000) + 1000,
-                    type, values: tags
+                    id: `${Math.floor(Math.random() * 9000) + 1000}`,
+                    label, values: tags
                 };
 
                 setOptions(prev => [...prev, newOption]);
@@ -52,7 +54,7 @@ export default function VariantOptions({ closeVariantModal, id, setId, options, 
     useEffect(function() {
         if(id) {
             const editingOption = options.find(option => option.id == id);
-            setType(editingOption?.type || "")
+            setLabel(editingOption?.label || "")
             setTags(editingOption?.values || [])
         }
     }, [id])
@@ -65,9 +67,9 @@ export default function VariantOptions({ closeVariantModal, id, setId, options, 
 
             <div className="form--item">
                 <label className="form--label">Variation Type <Asterisk /></label>
-                <input type="text" className="form--input" placeholder='Variation Type, Like: color, size, etc' value={type} onChange={(e) => setType(e.target.value)} />
+                <input type="text" className="form--input" placeholder='Variation Type, Like: color, size, etc' value={label} onChange={(e) => setLabel(e.target.value)} />
                 <span className="form--error-message">
-                    {(!type && variantOptionFormErrors.type) && variantOptionFormErrors.type}
+                    {(!label && variantOptionFormErrors.label) && variantOptionFormErrors.label}
                 </span>
             </div>
 
@@ -83,18 +85,15 @@ export default function VariantOptions({ closeVariantModal, id, setId, options, 
                     onChange={(tag) => setTags(tag)}
                     onTagRemove={handleOnTagRemove}
                 />
-                <span className="form--error-message">
+                <span className="form--error-message" style={width < 600 ? { marginBottom: ".3rem" } : {}}>
                     {tags.length < 1 && variantOptionFormErrors.values && variantOptionFormErrors.values}
                 </span>
 
-                <Info text='Enter multiple values of the same "Variation" type, (press "SPACE" key after typing a value)' />
+                <Info text={`Enter multiple values of the same "Variation" Type, (press "SPACE" ${width < 600 ? 'or "GO"' : ""} key after typing a value)`} />
             </div>
 
             <div className="page__section--actions" style={{ margin: "1.4rem 0 0 auto" }}>
-                <button className='button clear--button' onClick={() => {
-                    setId("");
-                    closeVariantModal();
-                }}>Cancel</button>
+                <button className='button clear--button' onClick={closeVariantModal}>Cancel</button>
                 <button className="button submit--button" onClick={handleSaveVariant}>Save</button>
             </div>
         </div>
