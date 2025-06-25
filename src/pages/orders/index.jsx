@@ -36,10 +36,6 @@ function index() {
     const { showInsights, showFilterModal, handleToggleFilter } = useDataContext();
     const currency = store?.currency?.symbol;
     
-    const [search, setSearch] = useState('');
-    const [searchLoader, setSearchLoader] = useState(false);
-    const [searchResults, setSearchResult] = useState([]);
-
     const completedOrders = orders?.filter(order => order.orderStatus == "completed");
     const unCompletedOrders = orders?.filter(order => order.orderStatus != "completed");
     const newOrders = orders?.filter(order => order.channel == "online store" && order.orderStatus != "completed" && isWithinLast7Days(order.orderDate));
@@ -131,33 +127,6 @@ function index() {
     }, []);
 
 
-    useEffect(function() {
-        function handleSearch() {
-            if(!search) return;
-            setSearchLoader(true)
-
-            const searchValue = search?.toLowerCase()
-            const searchResult = orders?.filter(data => {
-                return (
-                    data.products?.some(({ name }) => name?.toLowerCase()?.includes(searchValue)) ||
-                    data.status?.includes(searchValue) ||
-                    data.channel?.includes(searchValue) ||
-                    data.customer?.name?.includes(searchValue)
-                );              
-            });
-
-            setSearchResult(searchResult)
-            setTimeout(() => {
-                setSearchLoader(false)
-            }, 750);
-        }
-        
-        if(search) {
-            handleSearch()
-        }
-    }, [search])
-
-
     return (
         <React.Fragment>
             {(showFilterModal?.name == "order" && showFilterModal.isShown) && (
@@ -169,7 +138,7 @@ function index() {
             <PageUI
                 pageName="order"
                 items={orders}
-                data={search ? searchResults : orders}
+                data={orders}
                 columns={columns}
                 shouldSelect={false}
                 addUrl="orders/record"
@@ -179,8 +148,7 @@ function index() {
                 emptyImg={emptyImg}
                 emptyTitle={emptyTitle}
                 emptyClassName="empty--order"
-                headTabs={<TableHeadTabs pageName="order" handleFetch={handleFetchMyStoreOrders} searchVal={search} setSearchVal={setSearch} />}
-                searchLoader={searchLoader}
+                headTabs={<TableHeadTabs pageName="order" handleFetch={handleFetchMyStoreOrders}  />}
             >
 
                 {showInsights?.order && (

@@ -12,7 +12,7 @@ function ProductPreview({ product, removeItem }) {
   return (
     <figure className='product--quantity-figure'>
             <div className="img-box" style={{ height: "70%", overflow: "hidden" }}>
-                <img src={product?.images[0]?.url} alt={product?.name} />
+                <img src={product?.mainImageUrl} alt={product?.name} />
                 {removeItem && (
                     <span onClick={() => removeItem(product._id)}><AiOutlineClose /></span>
                 )}

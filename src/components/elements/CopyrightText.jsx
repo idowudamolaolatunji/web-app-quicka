@@ -3,7 +3,7 @@ import React from 'react'
 // import lightFav from "../../assets/images/logo/favicon_small_white.png"
 import moment from "moment"
 
-function CopyrightText({ customStyle, darkLogo=true }) {
+export default function CopyrightText({ customStyle, darkLogo=true }) {
   return (
     <p className='copyright--text' style={customStyle}>
       &copy; Scale-up Solutions Ltd. {moment().year()}, All right reserved.
@@ -11,5 +11,3 @@ function CopyrightText({ customStyle, darkLogo=true }) {
     </p>
   )
 }
-
-export default CopyrightText

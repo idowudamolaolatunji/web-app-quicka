@@ -6,8 +6,7 @@ import SearchInput from '../form/SearchInput'
 import { useWindowSize } from 'react-use'
 import { useDataContext } from '../../context/DataContext'
 
-function TableHeadTabs
-    ({ pageName, searchVal, setSearchVal, handleFetch }) {
+function TableHeadTabs ({ pageName, searchVal, setSearchVal, handleFetch }) {
     const { width } = useWindowSize()
     const { activeDisplayTab, handleDisplayTab, handleToggleFilter } = useDataContext();
 

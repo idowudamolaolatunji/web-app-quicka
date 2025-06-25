@@ -17,6 +17,7 @@ import PhoneInput from 'react-phone-input-2';
 import { TiArrowBack } from "react-icons/ti";
 import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 import { InternetConnectionErrorMini } from '../../../components/layout/InternetConnectionError';
+import CopyrightText from '../../../components/elements/CopyrightText';
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -514,6 +515,8 @@ export default function ManageNew() {
                     </div>
                 </div>
             </section>
+
+            <CopyrightText customStyle={{ margin: "auto 0 .4rem"}} />
         </React.Fragment>
     )
 }

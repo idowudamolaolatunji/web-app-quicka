@@ -41,6 +41,7 @@ export const FetchedProvider = function({ children }) {
     const [coupons, setCoupons] = useState([]);
     const [expenses, setExpenses] = useState([]);
     const [settlements, setSettlements] = useState([]);
+    const [inventoryWorth, setInventoryWorth] = useState(null);
 
     
     // LOADER STATES
@@ -192,6 +193,12 @@ export const FetchedProvider = function({ children }) {
         await fetch(`${BASE_API_URL}/${route}`, { method: "DELETE", headers });
     }
 
+    async function handleFetchInventoryWorth() {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/products/inventory/worth?slug=${store?.slug}`, { method: "GET", headers });
+        const data = await res.json();
+        setInventoryWorth(data?.data?.worth);
+    }
+
     // FETCH PROTECTED STORE AND OWNER DATA
     async function handleFetchStore() {
         setStoreLoader(true);
@@ -248,6 +255,7 @@ export const FetchedProvider = function({ children }) {
             shouldKick(res);
 
             const data = await res.json();
+            handleFetchInventoryWorth();
             if(res.status === 429) throw new Error("Too Many Requests")
             if(data.status == "fail") throw new Error();
             setProducts(data?.data?.products);
@@ -617,6 +625,7 @@ export const FetchedProvider = function({ children }) {
         customerGroups,
         storeCategories,
         newsletterCustomers,
+        inventoryWorth,
         
         handleFetchOneItem,
         handleDeleteOneItem,

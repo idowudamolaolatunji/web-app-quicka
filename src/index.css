@@ -141,6 +141,11 @@ button {
 	background: #aaa;
 }
 
+input[type="checkbox"]:checked,
+input[name="select-all-rows"] {
+  accent-color: var(--color-brand-500); /* Change the checkbox color */
+}
+
 body:has(.modal),
 body:has(.spinner_container),
 body:has(.global--overlay) {

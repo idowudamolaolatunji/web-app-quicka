@@ -39,7 +39,7 @@ export default function RecordOrder() {
     const { width } = useWindowSize();
     const internetStatus = useCheckInternetConnection();
     const { headers, shouldKick, currency, store } = useAuthContext();
-    const { error, products, customers, handleFetchError, handleFetchMyStoreOrders, handleFetchMyStoreProducts, handleFetchMyStoreCustomers, handleFetchMyStoreTransactions } = useFetchedContext();
+    const { error, loader, products, customers, handleFetchError, handleFetchMyStoreOrders, handleFetchMyStoreProducts, handleFetchMyStoreCustomers, handleFetchMyStoreTransactions } = useFetchedContext();
     // const today = moment().format();
     const today = moment.utc().format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
@@ -67,6 +67,14 @@ export default function RecordOrder() {
     // subtotal total is everything including the delivery fee, while profit is minus delivery fee
     ////////////////////////////////////////////////////////////////////////////////
 
+    // WE HELP SET VARIATION IF PRODUCT HAS VARIATION
+    const handleSaveVariationOption = function(productId, options) {
+        setSelectedProducts(prev => 
+            prev.map((item) => (
+                item.id === productId ? { ...item, variations: options, quantity: 1 } : item)
+            )
+        );
+    }
 
     // HANDLE CHANGE QUANTITY FOR PARTICULAR SELECTED PRODUCT
     const handleQuantityChange = function(productId, newQuantity) {
@@ -133,11 +141,12 @@ export default function RecordOrder() {
         const initValue = orderProducts.map((product) => ({
             id: product?._id,
             name: product?.name,
-            price: product?.price,
-            quantity: 1,
+            price: product?.price || 0,
+            quantity: product?.hasVariation ? 0 : 1,
             discount: 0,
+            variations: {},
             productId: product?.productId,
-            image: product?.images[0]?.url,
+            image: product?.mainImageUrl,
             unit: product?.unit || "pair",
             product_collection: product?.product_collection?.map(collection => collection?.name),
         }));
@@ -164,7 +173,7 @@ export default function RecordOrder() {
     }, [orderProducts, selectedProducts, orderData.deliveryFee]);
 
     
-    async function handleRecordOrder() {
+    async function handleSubmitRecordOrder() {
         // FORM VALIDATIONS 
         let formData = {
             channel,
@@ -263,7 +272,7 @@ export default function RecordOrder() {
                 mainLoader={loading.mainLoading}
                 response={response}
                 handleClear={handleClearFields}
-                handleSubmit={handleRecordOrder}
+                handleSubmit={handleSubmitRecordOrder}
                 confetti={showConfetti}
                 hasExplainer={width < 500}
                 btnBelow={true}
@@ -290,7 +299,7 @@ export default function RecordOrder() {
                             <div className="form--item">
                                 <label className="form--label">Product(s) <Asterisk /></label>
 
-                                <MainDropdownSelect title="Product" options={products} field="name" value={orderProducts} setValue={setOrderProducts} noDataLabel="No product found!" multiple={true} />
+                                <MainDropdownSelect title="Product" options={products} field="name" value={orderProducts} setValue={setOrderProducts} noDataLabel="No product found!" multiple={true} loading={loader && loader?.product} />
                                 <span className="form--error-message">
                                     {salesFormErrors.orderProducts && salesFormErrors.orderProducts}
                                 </span>
@@ -303,6 +312,8 @@ export default function RecordOrder() {
                                                 product={product}
                                                 quantity={selectedProducts?.find(item => item.id == product?._id)?.quantity}
                                                 removeItem={handleRemoveItem}
+                                                variations={selectedProducts?.find(item => item.id == product?._id)?.variations}
+                                                onSaveVariations={(options) => handleSaveVariationOption(product?._id, options)}
                                                 onQuantityChange={(newQuantity) => handleQuantityChange(product?._id, newQuantity)}
                                                 discount={selectedProducts?.find(item => item.id == product?._id)?.discount}
                                                 setDiscount={(value) => setSelectedProducts((prev) =>

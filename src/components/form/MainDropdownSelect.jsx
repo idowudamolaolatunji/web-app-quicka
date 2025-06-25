@@ -4,7 +4,7 @@ import { useWindowSize } from 'react-use'
 import { truncateString } from '../../utils/helper';
 
 
-function MainDropdownSelect({ options, multiple=false, field, title, value, searchable = true, setValue, noDataLabel="No Data", customClass="", clearable=true, subtitle="" }) {
+function MainDropdownSelect({ options, multiple=false, field, title, value, searchable = true, setValue, noDataLabel="No Data", customClass="", clearable=true, subtitle="", loading=false }) {
     const { width } = useWindowSize();
 
     return (
@@ -25,7 +25,7 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                 onChange={(values) => setValue(values)}
                 placeholder={`Select ${subtitle || title}`}
                 clearOnSelect={true}
-                noDataLabel={noDataLabel}
+                noDataLabel={loading ? "Loading..." : noDataLabel}
                 addPlaceholder={multiple ? " + add." : ""}
 
                 ////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ function MainDropdownSelect({ options, multiple=false, field, title, value, sear
                             product--dropdown-view ${value?.some(val => val.name === item.name) ? "selected" : ""}`
                         }
                     >
-                        <img src={item.images[0].url} alt={item.name} />
+                        <img src={item.mainImageUrl} alt={item.name} />
                         <span className='table--info'>
                             <h3>{truncateString(item?.name, width < 450 ? 27 : 500)}</h3>
                             <div>

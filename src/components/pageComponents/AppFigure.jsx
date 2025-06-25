@@ -7,6 +7,7 @@ import CustomAlert from '../layout/CustomAlert';
 import Spinner from '../spinner/MainSpinner';
 import { createPortal } from 'react-dom';
 import IntegrationModal from '../modal/IntegrationModal';
+import ComingSoon from '../layout/ComingSoon';
 
 function AppFigure({ app }) {
     const [isHovered, setIsHovered] = useState(false);
@@ -53,7 +54,7 @@ function AppFigure({ app }) {
                 createPortal(
                     <IntegrationModal setClose={handleCloseModal} customClass={showModal?.connect ? "connect" : "disconnect"}>
                         <h3 className="modal--title">{showModal?.connect ? "Connect" : "Disconnect"} {selectedApp?.name}</h3>
-
+                        <ComingSoon feature={`${selectedApp?.name} Integrations`} action={false} />
                     </IntegrationModal>,
                     document.body
                 )

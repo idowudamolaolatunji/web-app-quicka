@@ -51,12 +51,11 @@ function index() {
     const { width } = useWindowSize();
     const { store } = useAuthContext();
     const { showInsights, activeDisplayTab, showFilterModal, handleToggleFilter } = useDataContext();
-    const { loader, products, collections, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleDeleteOneItem } = useFetchedContext();
+    const { loader, products, collections, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleDeleteOneItem, inventoryWorth } = useFetchedContext();
 
     const currency = store?.currency?.symbol;
     const productsSold = products?.reduce((acc, product) => acc + product?.soldAmount, 0);
     const outOfStock = products?.filter(product => product?.stockAmount && product?.stockAmount <= 1);
-    const totalInventoryWorth = products?.reduce((acc, product) => acc + product?.price, 0);
 
     ////////////////////////////////////////////////////////
     const [loading, setLoading] = useState(false);
@@ -93,8 +92,8 @@ function index() {
 
     // HELP FIND THE PRODUCTS LENGTH IN COLLECTION BY COLLECTION NAME
     const findProductsInCollection = function(id) {
-        return products.filter(product =>
-            product.product_collection.some(col => col._id === id)
+        return products?.filter(product =>
+            product?.product_collection?.some(col => col._id === id)
         ).length || 0;
     }
 
@@ -103,7 +102,7 @@ function index() {
             name: 'Prduct',
             selector: row => (
                 <Link className="table--flex table--link" to={`/dashboard/products/${row?.productId}`}>
-                    <img alt={row?.name} src={row?.images?.length > 0 ? row?.images?.at(0)?.url : empty_product} />
+                    <img alt={row?.name} src={row?.mainImageUrl ? row?.mainImageUrl : empty_product} />
                     <span className='table--info'>
                         <h3>{row?.name}</h3>
                         <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
@@ -127,7 +126,7 @@ function index() {
             name: 'Inventory',
             selector: row => (
                 <span className="flex table--info" style={{ gap: ".4rem", alignItems: "center" }}>
-                    <p className='value'>{row?.stockAmount || 0} <span>Stocks</span></p>
+                    <p className='value' style={!row?.stockAmount || row?.stockAmount <= 2 ? { color: "red" } : {}}>{row?.stockAmount || 0} <span>Stocks</span></p>
                     <span>/</span>
                     <p className='value'>{row?.variations?.length || 0} <span>Variations</span></p>
                 </span>
@@ -249,11 +248,8 @@ function index() {
                 emptyBtns={tabShown == "product" ? product_emptyBtns : collection_emptyBtns}
                 emptyImg={tabShown == "product" ? product_emptyImg : collection_emptyImg}
                 emptyTitle={tabShown == "product" ? product_emptyTitle : collection_emptyTitle}
-                headTabs={tabShown == "product" ? (
-                    <TableHeadTabs pageName="product" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreProducts} />
-                ) : (
-                    <TableHeadTabs pageName="collection" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCollections} />
-                )}
+                searchKey={"name"} // 
+                refetchItems={tabShown == "product" ? handleFetchMyStoreProducts : handleFetchMyStoreCollections}
                 addBtnStr={tabShown == "product" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
                 {...(tabShown == "product" && { activeDisplayTab })}
 
@@ -276,8 +272,8 @@ function index() {
                 {/* THE INSIGHTS UI */}
                 {showInsights?.product && (
                     <div className='page__section--insights insight--grid' style={ width > 900 ? { width: '90%' } : {}}>
-                        <Insight loader={loader[tabShown]} title='Total Inventory worth' pre={currency} value={totalInventoryWorth  || 0} dec={totalInventoryWorth ? 0 : 2} icon={<LuClipboardList />} />
-                        <Insight loader={loader[tabShown]} title='Total Products Sold' value={productsSold  || 0} icon={<GrTag />} />
+                        <Insight loader={loader[tabShown]} title='Total Inventory worth' pre={currency} value={inventoryWorth || 0} contentLoading={inventoryWorth == null} dec={inventoryWorth ? 0 : 2} icon={<LuClipboardList />} />
+                        <Insight loader={loader[tabShown]} title='Total Item Sold' value={productsSold  || 0} icon={<GrTag />} />
                         <Insight loader={loader[tabShown]} title='Total Collection' value={collections?.length  || 0} icon={<HiOutlineCollection />} />
                         <Insight loader={loader[tabShown]} title='Out of stock' value={outOfStock?.length  || 0} icon={<MdOutlineHistoryToggleOff />} />
                     </div>

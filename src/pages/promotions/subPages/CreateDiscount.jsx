@@ -22,7 +22,7 @@ export default function CreateDiscount() {
     const { id } = useParams();
     const { width } = useWindowSize();
     const { currency, headers, shouldKick } = useAuthContext();
-    const { products, handleFetchError, handleFetchMyStoreDiscounts } = useFetchedContext()
+    const { loader, products, handleFetchError, handleFetchMyStoreDiscounts } = useFetchedContext()
     const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     //////////////////////////////////////////////////////////
@@ -266,7 +266,7 @@ export default function CreateDiscount() {
                         <div className="form--item">
                             <label htmlFor="name" className="form--label">Product(s) <Asterisk /></label>
 
-                            <MainDropdownSelect title="Product" subtitle={`Product(s) to add ${width > 400 ? "discount" : "" }`} options={products} field="name" value={discountProducts} setValue={setDiscountProducts} noDataLabel="No product found!" multiple={true} />
+                            <MainDropdownSelect title="Product" subtitle={`Product(s) to add ${width > 400 ? "discount" : "" }`} options={products} field="name" value={discountProducts} setValue={setDiscountProducts} noDataLabel="No product found!" multiple={true} loading={loader && loader?.product} />
 
                             <span className="form--error-message">
                                 {discountFormErrors.discountProducts && discountFormErrors.discountProducts}

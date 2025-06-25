@@ -387,10 +387,11 @@
     position: absolute;
     top: 2%;
     right: 2%;
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 1.8rem;
+    height: 1.8rem;
     border-radius: 50%;
-    background-color: #fff;
+    background-color: var(--color-brand-500);
+    color: #fff;
     cursor: pointer;
     z-index: 5;
 
@@ -399,7 +400,7 @@
     justify-content: center;
 }
 .product--quantity-figure .img-box span svg {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
 }
 .product--quantity-figure .out-of-stock::after {
     content: "Out of Stock!!";
@@ -464,13 +465,16 @@
 .product--quantity-figure .actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 1rem;
 }
 .product--quantity-figure button {
     padding: .6rem;
     border-radius: .4rem;
     font-size: 1.6rem;
     transition: all .3s;
+}
+.product--quantity-figure button:disabled {
+    opacity: 0.5;
 }
 .product--quantity-figure button:hover,
 .product--quantity-figure button.active {

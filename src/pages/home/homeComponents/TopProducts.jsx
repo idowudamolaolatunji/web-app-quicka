@@ -22,14 +22,14 @@ const datePeriods = [
 function ProductFigure({ product }) {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { soldAmount, stockAmount, images, name } = product;
+    const { soldAmount, stockAmount, mainImageUrl, name } = product;
     const totalStock = (soldAmount + stockAmount);
 
     const percentageSold = ((soldAmount / totalStock) * 100).toFixed(0)
 
     return (
         <figure className='top-product--figure' onClick={() => navigate(`/dashboard/products/${product.productId}`)}>
-            <img className='top-product--img' src={images[0]?.url} alt="" />
+            <img className='top-product--img' src={mainImageUrl} alt="" />
             <figcaption className='top-product--details'>
                 <div className='top-product--info'>
                     <TooltipUI placement='top' title={name}>

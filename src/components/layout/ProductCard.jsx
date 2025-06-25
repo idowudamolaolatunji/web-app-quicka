@@ -46,7 +46,7 @@ function ProductCard({ product, open, forTemplate }) {
                                 {product?.status}
                             </p>
                         </span>
-                        <img src={(!forTemplate && product?.images?.length > 0) ? product?.images?.at(0)?.url : empty_product} />
+                        <img src={(!forTemplate && product?.mainImageUrl) ? product?.mainImageUrl : empty_product} />
                     </Link>
 
                     <figcaption className="product__details">

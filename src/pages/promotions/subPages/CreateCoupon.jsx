@@ -25,7 +25,7 @@ export default function CreateCoupon() {
     const { id } = useParams();
     const { width } = useWindowSize();
     const { currency, shouldKick, headers } = useAuthContext();
-    const { products, collections, handleFetchMyStoreCoupons, handleFetchError } = useFetchedContext()
+    const { loader, products, collections, handleFetchMyStoreCoupons, handleFetchError } = useFetchedContext()
     const BASE_API_URL = import.meta.env.VITE_API_URL;
 
     //////////////////////////////////////////////////////////
@@ -367,7 +367,7 @@ export default function CreateCoupon() {
                         <div className="form--item">
                             <label htmlFor="name" className="form--label">Coupon Product{couponData.couponGroup == "bundle" ? "s" : ""} <Asterisk /></label>
 
-                            <MainDropdownSelect subtitle={`Product${couponData.couponGroup == "bundle" ? "s" : ""} to add coupon`} title="Product" options={products} field="name" value={couponProducts} setValue={setCouponProducts} noDataLabel="No product found!" multiple={couponData.couponGroup == "bundle" ? true : false} />
+                            <MainDropdownSelect subtitle={`Product${couponData.couponGroup == "bundle" ? "s" : ""} to add coupon`} title="Product" options={products} field="name" value={couponProducts} setValue={setCouponProducts} noDataLabel="No product found!" multiple={couponData.couponGroup == "bundle" ? true : false} loading={loader && loader?.product} />
 
                             <span className="form--error-message">
                                 {couponFormErrors.couponProducts && couponFormErrors.couponProducts}
@@ -390,7 +390,7 @@ export default function CreateCoupon() {
                     {couponData.couponGroup == "collections" && (
                         <div className="form--item">
                             <label htmlFor="category" className="form--label">Collection <Asterisk /></label>
-                            <MainDropdownSelect title="Collection" options={collections} field="name" value={couponCollection} setValue={setCouponCollection} multiple={true} noDataLabel="No collection found!" />
+                            <MainDropdownSelect title="Collection" options={collections} field="name" value={couponCollection} setValue={setCouponCollection} multiple={true} noDataLabel="No collection found!" loading={loader && loader?.collection} />
                             <span className="form--error-message">
                                 {couponFormErrors.couponCollection && couponFormErrors.couponCollection}
                             </span>

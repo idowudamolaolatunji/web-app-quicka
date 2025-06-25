@@ -9,13 +9,14 @@ import EmptyTableComponent from '../../components/layout/EmptyTableComponent';
 import ExportCSV from '../../components/modal/ExportCSV';
 import CustomAlert from '../../components/layout/CustomAlert';
 import TableUI from './TableUI';
-import './generalStyle.css';
 import Delete from '../../components/modal/Delete';
 import Spinner from '../../components/spinner/MainSpinner';
 import { useFetchedContext } from '../../context/FetchedContext';
 import Drawer from '../../components/modal/Drawer';
 import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 import CustomerGroupFormSm from '../../components/pageComponents/CustomerGroupFormSm';
+import './generalStyle.css';
+
 
 /*
     columns: for the table structure,
@@ -34,14 +35,14 @@ import CustomerGroupFormSm from '../../components/pageComponents/CustomerGroupFo
     addAction: this toggles / removes the action modal,
     ...action, and addAction are mostly for product's collections,
     deleteObj: this helps us delete by showing a modal,
-
+    searchKey: what to search
 */
 
-function PageUI({
+export default function PageUI({
     items, pageName, columns, data, addUrl, addBtnStr, hasLink = true, emptyTitle,
-    emptyText, emptyImg, emptyBtns, headTabs, action, addAction, searchLoader,
+    emptyText, emptyImg, emptyBtns, action, addAction,
     activeDisplayTab = null, insights = true, children, deleteObj, shouldSelect, pointOnHover = true,
-    toLink="", setDetailModal, hasDetailModal=false
+    toLink="", setDetailModal, hasDetailModal=false, refetchItems, searchKey
 }) {
 
     const navigate = useNavigate();
@@ -152,8 +153,8 @@ function PageUI({
                     setDetailModal={setDetailModal}
                     loader={loader?.[pageName]}
                     error={error?.[pageName]}
-                    headTabs={headTabs}
-                    searchLoader={searchLoader}
+                    searchKey={searchKey}
+                    refetchItems={refetchItems}
                     emptyComponent={
                         <EmptyTableComponent
                             name={pageName}
@@ -174,5 +175,3 @@ function PageUI({
         </>
     )
 }
-
-export default PageUI

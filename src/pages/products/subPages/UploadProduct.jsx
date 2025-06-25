@@ -42,7 +42,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     const { width } = useWindowSize();
     const internetStatus = useCheckInternetConnection();
     const { shouldKick, handleStore, store, formdataHeader } = useAuthContext();
-    const { error, collections, handleFetchOneItem, handleFetchError, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleFetchMyStoreDiscounts } = useFetchedContext();
+    const { error, loader, collections, handleFetchOneItem, handleFetchError, handleFetchMyStoreProducts, handleFetchMyStoreCollections, handleFetchMyStoreDiscounts } = useFetchedContext();
     const BASE_API_URL = import.meta.env.VITE_API_URL;
     const maxImageAmount = store?.subscription?.type == "free" ? 4 : 10;
     const currency = store?.currency?.symbol;
@@ -52,11 +52,18 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: null, message: null });
     const [showConfetti, setShowConfetti] = useState(false)
-    const [showModal, setShowModal] = useState({ collection: false, variation: false, addImage: false });
+    const [showModal, setShowModal] = useState({
+        collection: false,
+        deleteVaraition: false,
+        deleteMultipleVariation: false,
+        addImage: false, variation: false,
+        inputPrice: false, inputQuantity: false,
+    });
     
     const [description, setDescription] = useState("");
     const [productCollection, setProductCollection] = useState([]);
     const [unit, setUnit] = useState([]);
+    const [showMOQ, setShowMOQ] = useState(false);
     
     const [variations, setVariations] = useState([]);
     const [variationOptions, setVariationOptions] = useState([]);
@@ -76,13 +83,13 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         MOQ: "",
         hasVariation: false,
         isPhysical: true,
-        isVisible: true,
+        isHidden: false,
     });
-    const [showMOQ, setShowMOQ] = useState(false);
 
     const [images, setImages] = useState([]);
     const imageFiles = images.filter(img => img?.file)?.map(img => img?.file);
     const [updatedIndexes, setUpdatedIndexes] = useState([]);
+    const [selectedRowsId, setSelectedRowsId] = useState([]);
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -191,6 +198,13 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
         setSeletedVariationId("");
     }
 
+    // DELETE MULTIPLE PRODUCT VARIATION
+    function handleDeleteMultipleVariation() {
+        setVariations(prev => prev.filter((item) => !selectedRowsId.includes(item?.id)));
+        setShowModal({ ...showModal, deleteMultipleVariation: false });
+        setSelectedRowsId([]);
+    }
+
     // SHOW PRODUCT VARIATION DELETION MODAL
     function handleShowVariationDeleteModal(name) {
         setShowModal({ ...showModal, deleteVaraition: true });
@@ -253,7 +267,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             // status: "published",
             hasVariation: false,
             isPhysical: true,
-            isVisible: true,
+            isHidden: false,
         });
         setVariations([]);
         setDescription("")
@@ -286,7 +300,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                         // status: fetchedItem?.status || "published",
                         discountType: fetchedItem?.discount?.discountType || "no-discount",
                         isPhysical: fetchedItem?.isPhysical || true,
-                        isVisible: fetchedItem?.isVisible || true,
+                        isHidden: fetchedItem?.isHidden || false,
                         hasVariation: fetchedItem?.hasVariation || false,
                     });
                     setVariations(fetchedItem?.variations || []);
@@ -360,6 +374,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             handleFetchMyStoreCollections()
         }
     }, []);
+
 
     // REMOVE THE VALUE WHEN WE SWITCH THE DISCOUNT TYPES
     useEffect(function () {
@@ -451,7 +466,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
             formData.append('unit', itemUnit);
             formData.append('product_collection', JSON.stringify(colection_Ids));
             formData.append('isPhysical', JSON.stringify(productData.isPhysical));
-            formData.append('isVisible', JSON.stringify(productData.isVisible));
+            formData.append('isHidden', JSON.stringify(productData.isHidden));
             formData.append('hasVariation', JSON.stringify(productData.hasVariation));
             // formData.append('status', productData.status);
             if(productData.hasVariation && variations?.length > 0) {
@@ -519,6 +534,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
 
     return (
         <React.Fragment>
+            {/* SET COLLECTION */}
             {showModal.collection && (
                 createPortal(
                     <Drawer
@@ -570,13 +586,25 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                 )
             )}
 
-            {/* DELETE VARIATION */}
+            {/* DELETE PRODUCT VARIATION */}
             {showModal.deleteVaraition && (
                 createPortal(
                     <Delete
                         text="" title=""
                         close={() => handleToggleModal("deleteVaraition")} 
                         fn={handleDeleteVariation}
+                    />,
+                    document.body
+                )
+            )}
+
+            {/* DELETE MULTIPLE PRODUCT VARIATION */}
+            {showModal.deleteMultipleVariation && (
+                createPortal(
+                    <Delete
+                        text={`Delete ${selectedRowsId?.length || 1} selected Variations`} title=""
+                        close={() => handleToggleModal("deleteMultipleVariation")} 
+                        fn={handleDeleteMultipleVariation}
                     />,
                     document.body
                 )
@@ -595,7 +623,8 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                 hasExplainer={width <= 500 && !id}
                 btnBelow={width < 750}
             >
-                <form className="product__upload--container" onSubmit={e => e.preventDefault()}
+                <form
+                    className="product__upload--container" onSubmit={e => e.preventDefault()}
                     style={(width > 750 && productData.hasVariation) ? { gridTemplateColumns: "1fr", margin: "0 auto", maxWidth: "75rem", marginTop: width > 600 ? "4rem" : "0" } : {}}
                 >
                     {width < 400 && <Line border={1.4} />}
@@ -649,7 +678,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
 
                             <div className="form--item">
                                 <label htmlFor="category" className="form--label">Collection <Asterisk /></label>
-                                <MainDropdownSelect title="Collection" options={collections} field="name" value={productCollection} setValue={setProductCollection} multiple={true} noDataLabel="No collection found!" />
+                                <MainDropdownSelect title="Collection" options={collections} field="name" value={productCollection} setValue={setProductCollection} multiple={true} noDataLabel="No collection found!" loading={loader && loader?.collection} />
                                 <span className="form--error-message">
                                     {(productCollection.length < 1 && productFormErrors.productCollection) && productFormErrors.productCollection}
                                 </span>
@@ -681,7 +710,6 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 <h2>Pricings, Inventory & Variations</h2>
                                 {width > 400 && <Line border={1.4} where="Top" value="1rem" />}
                             </div>
-
 
                             <div className="form--item" style={{ gap: "1rem" }}>
                                 <label className="form--label">Is this a Physical Product?</label>
@@ -770,9 +798,26 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                             <Line border={1.4} where="Top" value="1rem" />
                                             <h3 className='form--title'>Product Variations</h3>
 
+                                            {selectedRowsId.length > 0 && (
+                                                <span className='flex-align-center' style={{ flexWrap: "wrap" }}>
+                                                    <p style={{ fontSize: "1.4rem" }}>Selected Items: <span className='value'>{formatNumber(selectedRowsId?.length)}</span></p>
+                                                    <div className='flex-align-center' style={{ flexWrap: "wrap" }}>
+                                                        <button className='table--btn delete' onClick={() => handleToggleModal("deleteMultipleVariation")}>Delete Selected</button>
+                                                        <button className='table--btn' onClick={() => handleToggleModal("inputPrice")}>Input Bulk Price</button>
+                                                        <button className='table--btn' onClick={() => handleToggleModal("inputQuantity")}>Input Bulk Quantity</button>
+                                                    </div>
+                                                </span>
+                                            )}
+
                                             <DataTable
+                                                selectableRows
                                                 data={variations}
                                                 columns={variation_columns}
+                                                onSelectedRowsChange={({ _, __, selectedRows }) => {
+                                                    const ids = [];
+                                                    selectedRows?.map(row => ids.push(row?.id));
+                                                    setSelectedRowsId(ids);
+                                                }}
                                                 customStyles={variation_columns_Styles}
                                                 noDataComponent={<p style={{ padding: "1rem", fontSize: "1.4rem" }}>No variation to show!</p>}
                                             />
@@ -872,7 +917,7 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 </React.Fragment>
                             )}
 
-
+                            {/* IF PHYSICAL, UNITS AND MOQ */}
                             {productData?.isPhysical && (
                                 <React.Fragment>
                                     <div className="form--item">
@@ -895,14 +940,13 @@ export default function UploadProduct({ isnew=false, close, ismodal=false }) {
                                 </React.Fragment>
                             )}
 
-                            <div className="form--item-flex" onClick={() => setProductData({ ...productData, isVisible: !productData.isVisible })}>
-                                <div id="checkbox" className={!productData.isVisible ? 'is-selected' : ''}>
-                                    {!productData.isVisible && <FaCheck />}
+                            <div className="form--item-flex" onClick={() => setProductData({ ...productData, isHidden: !productData.isHidden })}>
+                                <div id="checkbox" className={productData.isHidden ? 'is-selected' : ''}>
+                                    {productData.isHidden && <FaCheck />}
                                 </div>
-                                <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product <Info /></label>
+                                <label className='form--text flex' style={{ fontSize: '1.24rem', fontWeight: '500', gap: '.4rem', width: "auto" }}>Hide this Product</label>
                             </div>
                         </div>
-
 
                         {(width > 750 && productData?.hasVariation) && (
                             <div className="page__section--actions" style={{ marginTop: "1.4rem" }}>

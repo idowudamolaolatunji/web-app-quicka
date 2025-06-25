@@ -2,25 +2,37 @@ import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
-import CheckBoxInput from '../../components/form/CheckBoxInput';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import ProductCard from '../../components/layout/ProductCard';
 import ErrorComponent from '../../components/layout/ErrorComponent';
 import ProductCardSkeleton from '../../components/skeleton/ProductCardSkeleton';
 import { TableCellSkeleton, TableHeadSkeleton, TableSkeleton } from '../../components/skeleton/TableSkeleton';
 import { formatNumber } from '../../utils/helper';
-import { Checkbox } from '@mui/material';
+import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 
 
-function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyComponent, headTabs,
-    selectableRows, displayType = "table", open, loader, error, searchLoader, pointOnHover,
-    setDetailModal
+export default function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyComponent,
+    selectableRows, displayType = "table", open, loader, error, pointOnHover,
+    setDetailModal, refetchItems, searchKey
 }) {
     
     const isData = data?.length > 0;
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchLoader, setSearchLoader] = useState(false);
+    
+    const searchedItems = data?.filter(item => {
+        // console.log(item[searchKey]?.includes(searchQuery), item, searchQuery)
+        return item[searchKey] && item[searchKey]?.toLowerCase() == searchQuery.toLowerCase();
+    });
+
+    console.log(searchedItems)
+
+    ///////////////////////////////////////////////////////////////
     const [selectedRowsId, setSelectedRowsId] = useState([]);
+    const [isRowSelected, setIsRowSelected] = useState(true);
+    ///////////////////////////////////////////////////////////////
 
     const customStyles = {
         table: {
@@ -168,11 +180,17 @@ function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyCo
                                         {formatNumber(selectedRowsId.length)}
                                     </span>
                                 </p>
-                                <button className='table--btn'>delete <RiDeleteBin5Line /></button>
+                                <span className="flex-align-center">
+                                    <button className='table--btn delete'>Delete <RiDeleteBin5Line /></button>
+                                    <button className='table--btn' onClick={() => {
+                                        setSelectedRowsId([]);
+                                        setIsRowSelected(!isRowSelected)
+                                    }}>Cancel</button>
+                                </span>
                             </span>
                         ) : (
                             <React.Fragment>
-                                {headTabs}
+                                <TableHeadTabs pageName={name} searchVal={searchQuery} setSearchVal={setSearchQuery} handleFetch={refetchItems} />
                             </React.Fragment>
                         )}
                     </div>
@@ -186,18 +204,18 @@ function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyCo
                     ) : (
                         <DataTable
                             // actions={actionsMemo}
-                            // selectableRowsComponent={Checkbox}
                             paginationRowsPerPageOptions={[10, 25, 50]}
-                            data={data}
+                            data={searchQuery ? searchedItems : data}
                             columns={columns}
                             pagination
                             pointerOnHover={pointOnHover}
                             persistTableHead
-                            noDataComponent={false}
+                            noDataComponent={(isData && searchQuery && searchedItems?.length < 1) ? <p>No Data</p> : false}
                             customStyles={customStyles}
                             selectableRows={selectableRows}
                             onSelectedRowsChange={handleSelectedRow}
                             progressPending={searchLoader}
+                            clearSelectedRows={isRowSelected}
                             progressComponent={<TableCellSkeleton title={name} />}
                             {...( hasLink && { highlightOnHover: width > 600 ? true : false })}
                             {...(hasLink && { onRowClicked: (row) => handleNavigate(row) })}
@@ -209,5 +227,3 @@ function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyCo
         </React.Fragment>
     )
 }
-
-export default TableUI

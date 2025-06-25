@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DashboardHead from '../../ui/dashboardUI/uiComponents/DashboardHead'
 import BackButton from '../../components/button/BackButton'
+import CopyrightText from '../../components/elements/CopyrightText'
 import { useAuthContext } from '../../context/AuthContext'
 import IntialsImage from '../../components/layout/IntialsImage';
 import { truncateString } from '../../utils/helper';
@@ -138,6 +139,8 @@ export default function index() {
                 </button>
             </div>
         </section>
+
+        <CopyrightText customStyle={{ margin: "auto 0 .4rem"}} />
     </React.Fragment>
   )
 }
