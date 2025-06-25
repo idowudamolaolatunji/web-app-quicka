@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { cap1stLetter, formatDate, formatNumber, isWithinLast7Days, truncateString } from '../../utils/helper';
 import { useWindowSize } from 'react-use';
 import Insight from '../../components/layout/Insight';
 import { TbNotes, TbNotesOff } from 'react-icons/tb';
-import { MdOutlineFilterList, MdOutlineNoteAlt, MdOutlineRefresh, MdOutlineShoppingBag } from 'react-icons/md';
+import { MdOutlineNoteAlt, MdOutlineShoppingBag } from 'react-icons/md';
 import { useDataContext } from '../../context/DataContext';
 import { useFetchedContext } from '../../context/FetchedContext';
 import PageUI from '../../ui/PageUI/PageUI';
@@ -13,7 +13,6 @@ import { imgString } from '../../assets/images/png_elements';
 import { GoDotFill } from 'react-icons/go';
 import emptyImg from '../../assets/images/illustrations/sales.png';
 import { useAuthContext } from '../../context/AuthContext';
-import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 import { IoArrowRedo, IoArrowRedoOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
@@ -148,7 +147,7 @@ function index() {
                 emptyImg={emptyImg}
                 emptyTitle={emptyTitle}
                 emptyClassName="empty--order"
-                headTabs={<TableHeadTabs pageName="order" handleFetch={handleFetchMyStoreOrders}  />}
+                refetchItems={handleFetchMyStoreOrders}
             >
 
                 {showInsights?.order && (

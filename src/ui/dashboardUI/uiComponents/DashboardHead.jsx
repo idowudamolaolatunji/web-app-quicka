@@ -18,6 +18,8 @@ import TooltipUI from '../../../components/layout/TooltipUI';
 import { useFetchedContext } from '../../../context/FetchedContext';
 import BackButton from '../../../components/button/BackButton';
 import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
+import Drawer from '../../../components/modal/Drawer';
+import Notification from '../../../components/pageComponents/NotificationDropdown';
 
 
 function DashboardHead({ nonDashboard=false }) {
@@ -29,11 +31,16 @@ function DashboardHead({ nonDashboard=false }) {
     const { isMenuCollapsed, handleMenuCollapse, handleToggleSidemenu } = useDataContext();
 
     const [isShownDropdown, setIsShownDropdown] = useState(false);
+    const [showNotification, setShowNotification] = useState(false);
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
 
     const handleToggleDropdown = function () {
         setIsShownDropdown(!isShownDropdown);
+    }
+    
+    const handleToggleNotification = function () {
+        setShowNotification(!showNotification);
     }
 
     return (
@@ -82,12 +89,12 @@ function DashboardHead({ nonDashboard=false }) {
 
                         {width > 600 ? (
                             <DefaultButton>
-                                <div className="nav--icon">
+                                <div className="nav--icon" onClick={handleToggleNotification}>
                                     <LuBell />
                                 </div>
                             </DefaultButton>
                         ) : (
-                            <div className="nav--icon">
+                            <div className="nav--icon" onClick={handleToggleNotification}>
                                 <LuBell />
                             </div>
                         )}
@@ -107,6 +114,13 @@ function DashboardHead({ nonDashboard=false }) {
                         {/* DROPDOWN MENU */}
                         {isShownDropdown && (
                             <Dropdown handleToggle={handleToggleDropdown} setLoading={setLoading} setResponse={setResponse} />
+                        )}
+
+                        {/* NOTIFICATION SIDEBAR */}
+                        {showNotification && (
+                            <Drawer title="Notifications" setClose={handleToggleNotification}>
+                                <Notification />
+                            </Drawer>
                         )}
                     </div>
 

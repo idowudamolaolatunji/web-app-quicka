@@ -10,7 +10,6 @@ import { cap1stLetter, formatDate } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { Link, useNavigate } from 'react-router-dom';
-import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import { GiEnvelope, GiPayMoney } from 'react-icons/gi';
 import { PiNetwork } from 'react-icons/pi';
 import { FaSnapchatSquare } from 'react-icons/fa';
@@ -128,7 +127,7 @@ export default function index() {
             emptyBtns={emptyBtns}
             emptyImg={emptyImg}
             emptyTitle={emptyTitle}
-            headTabs={<TableHeadTabs pageName="supplier" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreSuppliers}  />}
+            refetchItems={handleFetchMyStoreSuppliers} 
 
             deleteObj={{
                 fn: deleteItem,

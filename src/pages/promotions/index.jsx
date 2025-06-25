@@ -55,7 +55,7 @@ function index() {
     const [selectedId, setSelectedId] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     ///////////////////////////////////////////////////////
-    const data = activeTab == "discount" ? discounts : activeTab == "coupon" ? coupons : []; 
+    const data = activeTab == "discount" ? discounts : coupons; 
     const activeCoupons = coupons?.filter(coupon => coupon?.status === "active")?.length 
 
     const discount_columns = [
@@ -177,22 +177,8 @@ function index() {
         }
     ];
 
-    const special_sales_columns = [];
     
-    const columns = activeTab == "discount" ? discount_columns : activeTab == "coupon" ? coupon_columns : special_sales_columns; 
-
-
-    const HeadTabs = function() {
-        return (
-            <div className='content'>
-                <span className='flex'>
-                    <TooltipUI placement='top' title="Refresh table">
-                        <button className='table--btn' onClick={() => activeTab == "discount" ? handleFetchMyStoreDiscounts() : handleFetchMyStoreCoupons()}><MdOutlineRefresh /></button>
-                    </TooltipUI>
-                </span>
-            </div>
-        );
-    }
+    const columns = activeTab == "discount" ? discount_columns : coupon_columns; 
 
     useEffect(function() {
         window.scrollTo(0, 0);
@@ -208,8 +194,7 @@ function index() {
 
 
     useEffect(function() {
-        document.title = `Quicka - ${activeTab == "special_sales" 
-            ? "Special Sales" : cap1stLetter(activeTab)}s | Business Management Tool for SME's`;
+        document.title = `Quicka - ${cap1stLetter(activeTab)}s | Business Management Tool for SME's`;
     }, [activeTab]);
 
 
@@ -248,15 +233,15 @@ function index() {
             data={data}
             items={data}
             pageName={activeTab}
-            addBtnStr={activeTab !== "special_sales" ? "Create " + activeTab : "run special sales"}
-            emptyText={activeTab == "discount" ? discount_emptyText : activeTab == "coupon" ? coupon_emptyText : special_sales_emptyText}
-            emptyImg={activeTab == "discount" ? discount_emptyImg : activeTab == "coupon" ? coupon_emptyImg : special_sales_emptyImg}
-            emptyBtns={activeTab == "discount" ? discount_emptyBtns : activeTab == "coupon" ? coupon_emptyBtns : special_sales_emptyBtns}
-            emptyTitle={activeTab == "discount" ? discount_emptyTitle : activeTab == "coupon" ? coupon_emptyTitle : special_sales_emptyTitle}
-            addUrl={activeTab == "discount" ? "promotions/discounts/create" : activeTab == "coupon" ? "promotions/coupon/create" : "promotions/special-sales/run"}
+            addBtnStr={`Create ${activeTab}`}
+            emptyText={activeTab == "discount" ? discount_emptyText : coupon_emptyText}
+            emptyImg={activeTab == "discount" ? discount_emptyImg : coupon_emptyImg}
+            emptyBtns={activeTab == "discount" ? discount_emptyBtns : coupon_emptyBtns}
+            emptyTitle={activeTab == "discount" ? discount_emptyTitle : coupon_emptyTitle}
+            addUrl={activeTab == "discount" ? "promotions/discounts/create" : "promotions/coupon/create"}
             hasLink={true}
             toLink={`/dashboard/promotions/${activeTab}s`}
-            headTabs={<HeadTabs />}
+            refetchItems={activeTab == "discount" ? handleFetchMyStoreDiscounts : handleFetchMyStoreCoupons}
             shouldSelect={true}
 
             deleteObj={{ 

@@ -5,7 +5,7 @@ import { useFetchedContext } from '../../context/FetchedContext';
 import Insight from '../../components/layout/Insight';
 import { GrTag } from 'react-icons/gr';
 import { LuClipboardList } from 'react-icons/lu';
-import { MdOutlineFilterList, MdOutlineOfflineShare, MdOutlineRefresh } from 'react-icons/md';
+import { MdOutlineOfflineShare } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { cap1stLetter, formatNumber, dateTimeFormat, formatDate } from '../../utils/helper';
 import { imgString } from '../../assets/images/png_elements';
@@ -15,7 +15,6 @@ import Tab from '../../components/elements/Tab';
 
 import transaction_emptyImg from '../../assets/images/illustrations/transactions.png'
 import settlement_emptyImg from '../../assets/images/illustrations/settlement.png'
-import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import SimpleModal from '../../components/modal/SimpleModal';
 import Drawer from '../../components/modal/Drawer';
 import { GoDotFill } from 'react-icons/go';
@@ -191,11 +190,7 @@ function index() {
                 shouldSelect={false}
                 setDetailModal={setShowDetailModal}
                 pointOnHover={activeTab == "transaction" ? false : true}
-                headTabs={ activeTab == "transaction" ? (
-                    <TableHeadTabs pageName="transaction" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreTransactions} />
-                ) : (
-                    <TableHeadTabs pageName="settlement" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreSettlements} /> 
-                )}
+                refetchItems={activeTab == "transaction" ? handleFetchMyStoreTransactions : handleFetchMyStoreSettlements}
             >
 
                 {showInsights?.transaction && (

@@ -9,10 +9,8 @@ import { TbUserSquare } from 'react-icons/tb';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { cap1stLetter, formatDate, ymdDateFormat } from '../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
-import { MdOutlineFilterList, MdOutlineRefresh } from 'react-icons/md';
 import TooltipUI from '../../components/layout/TooltipUI';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import Drawer from '../../components/modal/Drawer';
 import Tab from '../../components/elements/Tab';
 import { TbUsersGroup } from "react-icons/tb";
@@ -47,7 +45,7 @@ function index() {
     const tabParams = queryParams.get("tab")
     const { width } = useWindowSize();
     const { showInsights } = useDataContext();
-    const { loader, customers, customerGroups, newsletterCustomers, handleDeleteOneItem, handleFetchMyStoreCustomers, handleFetchMyStoreCustomerGroups } = useFetchedContext();
+    const { loader, customers, customerGroups, newsletterCustomers, handleDeleteOneItem, handleFetchMyStoreCustomers, handleFetchMyStoreCustomerGroups, handleFetchStoreNewsletterCustomers } = useFetchedContext();
 
     ////////////////////////////////////////////////////////
     const [tabShown, setTabShown] = useState("customer");
@@ -229,13 +227,7 @@ function index() {
 
                 {...(tabShown == "customer" ? { addUrl: "customers/add" } : tabShown == "group" ? { addAction: handleShowCustomerGroupForm, action: showCustomerGroupForm.add, addUrl: null } : { addUrl: "" })}
                 
-                headTabs={tabShown == "customer" ? (
-                    <TableHeadTabs pageName="customer" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomers} />
-                ) : ( tabShown == "group") ? (
-                    <TableHeadTabs pageName="group" searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreCustomerGroups} />
-                ) : (
-                    <TableHeadTabs pageName="newsletter" handleFetch={""} />
-                )}
+                refetchItems={tabShown == "customer" ? handleFetchMyStoreCustomers : ( tabShown == "group") ? handleFetchMyStoreCustomerGroups : handleFetchStoreNewsletterCustomers}
 
                 deleteObj={{ 
                     fn: deleteItem,

@@ -150,6 +150,7 @@ export default function RecordOrder() {
             unit: product?.unit || "pair",
             product_collection: product?.product_collection?.map(collection => collection?.name),
         }));
+        
         setSelectedProducts(initValue);
     }, [orderProducts]);
 

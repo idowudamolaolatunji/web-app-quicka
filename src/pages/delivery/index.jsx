@@ -81,18 +81,6 @@ function index() {
         },
     ];
 
-    const HeadTabs = function() {
-        return (
-            <div className='content'>
-                <span className='flex'>
-                    <TooltipUI placement='top' title="Reload delivery rates">
-                        <button className='table--btn' onClick={handleFetchMyStoreDeliveryRates}><MdOutlineRefresh /></button>
-                    </TooltipUI>
-                </span>
-            </div>
-        );
-    }
-
 
     useEffect(function() {
         document.title = "Quicka - Delivery Rates | Business Management Tool for SME's";
@@ -152,7 +140,7 @@ function index() {
                 setDetailModal={setShowDetailModal}
                 insights={false}
                 pointOnHover={false}
-                headTabs={<HeadTabs />}
+                refetchItems={handleFetchMyStoreDeliveryRates}
 
                 deleteObj={{ 
                     fn: deleteItem,

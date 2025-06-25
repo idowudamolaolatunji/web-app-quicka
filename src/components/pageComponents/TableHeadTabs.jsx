@@ -6,22 +6,22 @@ import SearchInput from '../form/SearchInput'
 import { useWindowSize } from 'react-use'
 import { useDataContext } from '../../context/DataContext'
 
-function TableHeadTabs ({ pageName, searchVal, setSearchVal, handleFetch }) {
+export default function TableHeadTabs({ pageName, searchVal, setSearchVal, handleFetch }) {
     const { width } = useWindowSize()
     const { activeDisplayTab, handleDisplayTab, handleToggleFilter } = useDataContext();
+
 
     return (
         <div className='content'>
             <span className='flex'>
-                <TooltipUI placement='top' title={`Reload ${pageName}s`}>
+                <TooltipUI placement='top' title={`Reload ${pageName == "expenses" ? "expenses" : pageName == "delivery" ? "delivery rates" : `${pageName}s`}`}>
                     <button className='table--btn' onClick={handleFetch}><MdOutlineRefresh /></button>
                 </TooltipUI>
 
                 <SearchInput value={searchVal} setValue={setSearchVal} />
             </span>
 
-
-            {(pageName != "collection" && pageName != "group" && pageName != "newsletter") && (
+            {(pageName != "collection" && pageName != "group" && pageName != "newsletter" && pageName != "discount" && pageName != "coupon" && pageName != "delivery") && (
                 <span className="flex">
                     <button className='table--btn'>Reset filter</button>
 
@@ -35,7 +35,6 @@ function TableHeadTabs ({ pageName, searchVal, setSearchVal, handleFetch }) {
                                 <span className={activeDisplayTab == "table" ? "active" : ""} onClick={() => handleDisplayTab("table")}><BsTable /> </span>
                             </TooltipUI>
 
-
                             <TooltipUI placement='top' title="Grid View">
                                 <span className={activeDisplayTab == "grid" ? "active" : ""} onClick={() => handleDisplayTab("grid")}>{width < 365 ? <MdTableRows /> : width <= 620 ? <BsFillGridFill /> : <BsFillGrid3X3GapFill />} </span>
                             </TooltipUI>
@@ -46,5 +45,3 @@ function TableHeadTabs ({ pageName, searchVal, setSearchVal, handleFetch }) {
         </div>
     )
 }
-
-export default TableHeadTabs

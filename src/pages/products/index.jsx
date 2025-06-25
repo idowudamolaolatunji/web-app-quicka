@@ -4,7 +4,6 @@ import { useWindowSize } from 'react-use';
 import Insight from '../../components/layout/Insight';
 import { LuClipboardList } from 'react-icons/lu';
 import { GrTag } from 'react-icons/gr';
-import { TbArrowWaveRightDown, TbListSearch } from 'react-icons/tb';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { useDataContext } from '../../context/DataContext';
 import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
@@ -18,7 +17,6 @@ import CollectionFormSm from '../../components/pageComponents/CollectionFormSm';
 import Drawer from '../../components/modal/Drawer';
 import { useAuthContext } from '../../context/AuthContext';
 import empty_product from "../../assets/images/dummy_items/empty_product.png"
-import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 import ProductFilterForm from '../../components/pageComponents/ProductFilterForm';
 import FilterElement from '../../components/elements/FilterElement';
 import { HiOutlineCollection } from 'react-icons/hi';

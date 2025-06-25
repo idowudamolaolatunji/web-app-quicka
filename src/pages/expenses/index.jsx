@@ -4,20 +4,16 @@ import { useWindowSize } from 'react-use';
 import { useFetchedContext } from '../../context/FetchedContext';
 import { RiDeleteBin5Line, RiEdit2Line, RiMapPinUserFill } from 'react-icons/ri';
 import TooltipUI from '../../components/layout/TooltipUI';
-import { MdOutlineRefresh } from 'react-icons/md';
 import { dateTimeFormat, formatNumber } from '../../utils/helper';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
 import emptyImg from '../../assets/images/illustrations/expenses.png'
 import SimpleModal from '../../components/modal/SimpleModal';
-import { BiNetworkChart } from 'react-icons/bi';
 import { GiPayMoney } from 'react-icons/gi';
 import { useDataContext } from '../../context/DataContext';
 import Insight from '../../components/layout/Insight';
-import Tab from '../../components/elements/Tab';
 import { PiCoins } from 'react-icons/pi';
-import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 
 
 ///////////////////////////////////////////////
@@ -161,7 +157,7 @@ function index() {
                 emptyBtns={emptyBtns}
                 emptyTitle={emptyTitle}
                 addUrl="expenses/record"
-                headTabs={<TableHeadTabs searchVal={search} setSearchVal={setSearch} handleFetch={handleFetchMyStoreExpenses} />}
+                refetchItems={handleFetchMyStoreExpenses}
                 insights={true}
                 hasLink={false}
                 pointOnHover={false}
