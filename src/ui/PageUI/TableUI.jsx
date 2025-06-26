@@ -9,6 +9,7 @@ import ProductCardSkeleton from '../../components/skeleton/ProductCardSkeleton';
 import { TableCellSkeleton, TableHeadSkeleton, TableSkeleton } from '../../components/skeleton/TableSkeleton';
 import { formatNumber } from '../../utils/helper';
 import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
+import Empty from '../../components/layout/Empty';
 
 
 export default function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyComponent,
@@ -240,7 +241,9 @@ export default function TableUI({ name, columns, data, toLink, hasLink, hasDetai
                                     pagination
                                     pointerOnHover={pointOnHover}
                                     persistTableHead
-                                    noDataComponent={(isData && searchQuery && searchedItems?.length < 1) ? <p>No Data</p> : false}
+                                    noDataComponent={(isData && searchQuery && searchedItems?.length < 1) ? (
+                                        <Empty text={`data found with the searched query "${searchQuery}"`} customStyle={{ padding: "2rem 0 1rem" }} />
+                                    ) : false}
                                     customStyles={customStyles}
                                     selectableRows={selectableRows}
                                     onSelectedRowsChange={handleSelectedRow}

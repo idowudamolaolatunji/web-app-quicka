@@ -127,7 +127,9 @@ export default function index() {
             emptyBtns={emptyBtns}
             emptyImg={emptyImg}
             emptyTitle={emptyTitle}
-            refetchItems={handleFetchMyStoreSuppliers} 
+            refetchItems={handleFetchMyStoreSuppliers}
+            searchKey={["fullname", "location"]}
+            searchInputPlaceholder="Search by supplier name or location"
 
             deleteObj={{
                 fn: deleteItem,
