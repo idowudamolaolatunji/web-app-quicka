@@ -191,6 +191,9 @@ function index() {
                 setDetailModal={setShowDetailModal}
                 pointOnHover={activeTab == "transaction" ? false : true}
                 refetchItems={activeTab == "transaction" ? handleFetchMyStoreTransactions : handleFetchMyStoreSettlements}
+                searchKey={"transactionId"}
+                searchInputPlaceholder="Search by transaction ID ('#')"
+
             >
 
                 {showInsights?.transaction && (

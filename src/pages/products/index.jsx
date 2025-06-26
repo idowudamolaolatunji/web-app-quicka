@@ -246,7 +246,8 @@ function index() {
                 emptyBtns={tabShown == "product" ? product_emptyBtns : collection_emptyBtns}
                 emptyImg={tabShown == "product" ? product_emptyImg : collection_emptyImg}
                 emptyTitle={tabShown == "product" ? product_emptyTitle : collection_emptyTitle}
-                searchKey={"name"} // 
+                searchKey={tabShown == "product" ? ["name", "productId"] : "name"}
+                searchInputPlaceholder={`Search by ${tabShown == "product" ? "name or product ID" : "collection name"}`}
                 refetchItems={tabShown == "product" ? handleFetchMyStoreProducts : handleFetchMyStoreCollections}
                 addBtnStr={tabShown == "product" ? (width < 377 && width > 364) ? "Add product" : "Upload product" : "Add collection"}
                 {...(tabShown == "product" && { activeDisplayTab })}

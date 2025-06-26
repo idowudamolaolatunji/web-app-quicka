@@ -243,6 +243,8 @@ function index() {
             toLink={`/dashboard/promotions/${activeTab}s`}
             refetchItems={activeTab == "discount" ? handleFetchMyStoreDiscounts : handleFetchMyStoreCoupons}
             shouldSelect={true}
+            searchKey={"title"}
+            searchInputPlaceholder={`Search by ${activeTab} title`}
 
             deleteObj={{ 
                 fn: deleteItem,

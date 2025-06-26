@@ -42,7 +42,7 @@ export default function PageUI({
     items, pageName, columns, data, addUrl, addBtnStr, hasLink = true, emptyTitle,
     emptyText, emptyImg, emptyBtns, action, addAction,
     activeDisplayTab = null, insights = true, children, deleteObj, shouldSelect, pointOnHover = true,
-    toLink="", setDetailModal, hasDetailModal=false, refetchItems, searchKey
+    toLink="", setDetailModal, hasDetailModal=false, refetchItems, searchKey, searchInputPlaceholder
 }) {
 
     const navigate = useNavigate();
@@ -63,7 +63,7 @@ export default function PageUI({
 
     function handleShowExportModal() {
         if (!isItem) {
-            setResponse({ status: "error", message: `No ${pageName == "special_sales" ? "running special sales" : pageName} data to export! ` });
+            setResponse({ status: "error", message: `No ${pageName} data to export! ` });
             setTimeout(() => setResponse({ status: null, message: null }), 2500)
         } else {
             setShowExportModal(true)
@@ -72,11 +72,11 @@ export default function PageUI({
 
     useEffect(function () {
         window.scrollTo(0, 0);
-    }, [])
+    }, []);
 
 
     return (
-        <>
+        <React.Fragment>
             {deleteObj?.loader && <Spinner />}
 
             {deleteObj?.show && <Delete {...deleteObj} />}
@@ -154,6 +154,7 @@ export default function PageUI({
                     loader={loader?.[pageName]}
                     error={error?.[pageName]}
                     searchKey={searchKey}
+                    inputPlaceholder={searchInputPlaceholder}
                     refetchItems={refetchItems}
                     emptyComponent={
                         <EmptyTableComponent
@@ -172,6 +173,6 @@ export default function PageUI({
                     {...(activeDisplayTab && { displayType: activeDisplayTab, open: deleteObj?.open })}
                 />
             </div>
-        </>
+        </React.Fragment>
     )
 }

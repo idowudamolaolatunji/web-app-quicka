@@ -148,6 +148,8 @@ function index() {
                 emptyTitle={emptyTitle}
                 emptyClassName="empty--order"
                 refetchItems={handleFetchMyStoreOrders}
+                searchKey={"orderId"}
+                searchInputPlaceholder="Search by order ID"
             >
 
                 {showInsights?.order && (

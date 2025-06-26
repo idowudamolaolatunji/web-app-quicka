@@ -224,6 +224,9 @@ function index() {
                 emptyImg={tabShown == "customer" ? customer_emptyImg : tabShown == "group" ? group_emptyImg : newsletter_emptyImg}
                 emptyTitle={tabShown == "customer" ? customer_emptyTitle : tabShown == "group" ? group_emptyTitle : newsletter_emptyTitle}
                 hasLink={tabShown == "customer" ? true : false}
+                searchKey={tabShown == "customer" ? ["firstname", "lastname"] : tabShown == "group" ? "name" : "email"}
+                searchInputPlaceholder={`Search by ${tabShown == "customer" ? "customer name" : tabShown == "group" ? "group name" : "customer email"}`}
+
 
                 {...(tabShown == "customer" ? { addUrl: "customers/add" } : tabShown == "group" ? { addAction: handleShowCustomerGroupForm, action: showCustomerGroupForm.add, addUrl: null } : { addUrl: "" })}
                 

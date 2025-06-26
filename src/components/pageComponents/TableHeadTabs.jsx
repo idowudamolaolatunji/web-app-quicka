@@ -2,11 +2,10 @@ import React from 'react'
 import { MdOutlineFilterList, MdOutlineRefresh, MdTableRows } from 'react-icons/md'
 import TooltipUI from '../layout/TooltipUI'
 import { BsFillGrid3X3GapFill, BsFillGridFill, BsTable } from 'react-icons/bs'
-import SearchInput from '../form/SearchInput'
 import { useWindowSize } from 'react-use'
 import { useDataContext } from '../../context/DataContext'
 
-export default function TableHeadTabs({ pageName, searchVal, setSearchVal, handleFetch }) {
+export default function TableHeadTabs({ pageName, inputPlaceholder, searchVal, setSearchVal, handleFetch }) {
     const { width } = useWindowSize()
     const { activeDisplayTab, handleDisplayTab, handleToggleFilter } = useDataContext();
 
@@ -18,16 +17,16 @@ export default function TableHeadTabs({ pageName, searchVal, setSearchVal, handl
                     <button className='table--btn' onClick={handleFetch}><MdOutlineRefresh /></button>
                 </TooltipUI>
 
-                <SearchInput value={searchVal} setValue={setSearchVal} />
+                <input type="search" value={searchVal} onChange={e => setSearchVal(e.target.value)} className="table--input form--input" placeholder={inputPlaceholder || 'Search..'} />
             </span>
 
             {(pageName != "collection" && pageName != "group" && pageName != "newsletter" && pageName != "discount" && pageName != "coupon" && pageName != "delivery") && (
                 <span className="flex">
-                    <button className='table--btn'>Reset filter</button>
+                    {/* <button className='table--btn'>Reset filter</button>
 
                     <TooltipUI placement='top' title="Filters">
                         <button className='table--btn' onClick={() => handleToggleFilter(pageName)}><MdOutlineFilterList /></button>
-                    </TooltipUI>
+                    </TooltipUI> */}
 
                     {pageName == "product" && (
                         <span className='table--tabs'>

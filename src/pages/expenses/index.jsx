@@ -163,6 +163,8 @@ function index() {
                 pointOnHover={false}
                 hasDetailModal={true}
                 setDetailModal={setShowDetailModal}
+                searchKey={"title"}
+                searchInputPlaceholder="Search by title"
 
                 deleteObj={{
                     fn: deleteItem,

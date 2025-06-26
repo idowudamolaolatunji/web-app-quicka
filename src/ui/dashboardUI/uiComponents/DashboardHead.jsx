@@ -73,7 +73,7 @@ function DashboardHead({ nonDashboard=false }) {
                 </div>
 
                 <div className='nav--container'>
-                    <div className=""></div>
+                    <div className="" />
 
                     <div className="nav--others">
                         {(width > 600 && store?.storeOnboardCompleted && checkConnection == "online") && (
@@ -123,7 +123,6 @@ function DashboardHead({ nonDashboard=false }) {
                             </Drawer>
                         )}
                     </div>
-
                 </div>
             </header>
 

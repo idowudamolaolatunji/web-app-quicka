@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
@@ -13,7 +13,7 @@ import TableHeadTabs from '../../components/pageComponents/TableHeadTabs';
 
 export default function TableUI({ name, columns, data, toLink, hasLink, hasDetailModal, emptyComponent,
     selectableRows, displayType = "table", open, loader, error, pointOnHover,
-    setDetailModal, refetchItems, searchKey
+    setDetailModal, refetchItems, searchKey, inputPlaceholder
 }) {
     
     const isData = data?.length > 0;
@@ -21,14 +21,8 @@ export default function TableUI({ name, columns, data, toLink, hasLink, hasDetai
     const { width } = useWindowSize();
     const [searchQuery, setSearchQuery] = useState("");
     const [searchLoader, setSearchLoader] = useState(false);
+    const [searchedItems, setSearchedItems] = useState(null);
     
-    const searchedItems = data?.filter(item => {
-        // console.log(item[searchKey]?.includes(searchQuery), item, searchQuery)
-        return item[searchKey] && item[searchKey]?.toLowerCase() == searchQuery.toLowerCase();
-    });
-
-    console.log(searchedItems)
-
     ///////////////////////////////////////////////////////////////
     const [selectedRowsId, setSelectedRowsId] = useState([]);
     const [isRowSelected, setIsRowSelected] = useState(true);
@@ -89,6 +83,25 @@ export default function TableUI({ name, columns, data, toLink, hasLink, hasDetai
     const handleShowModal = function(row) {
         setDetailModal({ show: true, selectedData: row })
     }
+
+    useEffect(function() {
+        if(searchQuery && searchQuery?.length > 0) {
+            setSearchLoader(true);
+            setSearchedItems(data?.filter(item => {
+                if (Array.isArray(searchKey)) {
+                    return searchKey.some(key => item[key]?.toLowerCase()?.includes(searchQuery.toLowerCase()));
+                } else {
+                    return item[searchKey] && item[searchKey]?.toLowerCase()?.includes(searchQuery.toLowerCase());
+                }
+
+            }));
+
+            setTimeout(() => setSearchLoader(false), 1000);
+        } else {
+            setSearchedItems(null);
+        }
+        
+    }, [searchKey, searchQuery])
 
     ///////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////
@@ -190,38 +203,58 @@ export default function TableUI({ name, columns, data, toLink, hasLink, hasDetai
                             </span>
                         ) : (
                             <React.Fragment>
-                                <TableHeadTabs pageName={name} searchVal={searchQuery} setSearchVal={setSearchQuery} handleFetch={refetchItems} />
+                                <TableHeadTabs pageName={name} searchVal={searchQuery} setSearchVal={setSearchQuery} inputPlaceholder={inputPlaceholder} handleFetch={refetchItems} />
                             </React.Fragment>
                         )}
                     </div>
 
-                    {displayType == "grid" ? (
-                        <div className='product__grid'>
-                            {data.map(data => (
-                                <ProductCard key={data._id} product={data} open={open} />
-                            ))}
-                        </div>
+                    {searchLoader ? (
+                        <React.Fragment>
+                            {displayType == "grid" ? (
+                                <div className="product__grid">
+                                    <ProductCardSkeleton />
+                                    <ProductCardSkeleton />
+                                    <ProductCardSkeleton />
+                                    {width > 600 && <ProductCardSkeleton />}
+                                </div>
+                            ) : (
+                                <div style={{ overflow: "hidden" }}>
+                                    <TableSkeleton title={name} />
+                                </div>
+                            )}
+                        </React.Fragment>
                     ) : (
-                        <DataTable
-                            // actions={actionsMemo}
-                            paginationRowsPerPageOptions={[10, 25, 50]}
-                            data={searchQuery ? searchedItems : data}
-                            columns={columns}
-                            pagination
-                            pointerOnHover={pointOnHover}
-                            persistTableHead
-                            noDataComponent={(isData && searchQuery && searchedItems?.length < 1) ? <p>No Data</p> : false}
-                            customStyles={customStyles}
-                            selectableRows={selectableRows}
-                            onSelectedRowsChange={handleSelectedRow}
-                            progressPending={searchLoader}
-                            clearSelectedRows={isRowSelected}
-                            progressComponent={<TableCellSkeleton title={name} />}
-                            {...( hasLink && { highlightOnHover: width > 600 ? true : false })}
-                            {...(hasLink && { onRowClicked: (row) => handleNavigate(row) })}
-                            {...(hasDetailModal && { onRowClicked: (row) => handleShowModal(row) })}
-                        />
+                        <React.Fragment>
+                            {displayType == "grid" ? (
+                                <div className='product__grid'>
+                                    {data.map(data => (
+                                        <ProductCard key={data._id} product={data} open={open} />
+                                    ))}
+                                </div>
+                            ) : (
+                                <DataTable
+                                    // actions={actionsMemo}
+                                    paginationRowsPerPageOptions={[10, 25, 50]}
+                                    data={searchedItems ? searchedItems : data}
+                                    columns={columns}
+                                    pagination
+                                    pointerOnHover={pointOnHover}
+                                    persistTableHead
+                                    noDataComponent={(isData && searchQuery && searchedItems?.length < 1) ? <p>No Data</p> : false}
+                                    customStyles={customStyles}
+                                    selectableRows={selectableRows}
+                                    onSelectedRowsChange={handleSelectedRow}
+                                    progressPending={searchLoader}
+                                    clearSelectedRows={isRowSelected}
+                                    progressComponent={<TableCellSkeleton title={name} />}
+                                    {...( hasLink && { highlightOnHover: width > 600 ? true : false })}
+                                    {...(hasLink && { onRowClicked: (row) => handleNavigate(row) })}
+                                    {...(hasDetailModal && { onRowClicked: (row) => handleShowModal(row) })}
+                                />
+                            )}
+                        </React.Fragment>
                     )}
+
                 </React.Fragment>
             )}
         </React.Fragment>

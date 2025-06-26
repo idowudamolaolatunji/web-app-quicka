@@ -269,7 +269,7 @@
 .table--input {
 	padding: .9rem !important;
 	background-color: #fff !important;
-	max-width: 20rem;
+	width: 25rem;
 }
 .table--grid {
 	display: grid;
@@ -1582,10 +1582,12 @@
 	}
 
 	.table--head .content .table--tabs {
-		margin-left: auto;
+		/* margin-left: auto; */ 
+		/* come back here, uncomment this back because it useful for the table display tabs if you have the filter btn */
 	}
 	
 	.table--head .content .table--input.form--input {
+		width: 100%;
 		max-width: 100%;
 	}
 

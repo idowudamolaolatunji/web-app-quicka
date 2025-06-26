@@ -141,6 +141,8 @@ function index() {
                 insights={false}
                 pointOnHover={false}
                 refetchItems={handleFetchMyStoreDeliveryRates}
+                searchKey={"title"}
+                searchInputPlaceholder="Search by title"
 
                 deleteObj={{ 
                     fn: deleteItem,

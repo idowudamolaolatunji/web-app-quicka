@@ -136,7 +136,7 @@ function OrderItem() {
 
                                 <div className="heading--row">
                                     <h2 className="page__section--title">
-                                        Order Id:
+                                        Order ID: #
                                         <span className="value" style={{ fontSize: "2rem" }}>{item?.orderId}</span>
                                     </h2>
                                 </div>
