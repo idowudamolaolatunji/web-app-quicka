@@ -39,7 +39,7 @@ export default function RecordOrder() {
     const { width } = useWindowSize();
     const internetStatus = useCheckInternetConnection();
     const { headers, shouldKick, currency, store } = useAuthContext();
-    const { error, loader, products, customers, handleFetchError, handleFetchMyStoreOrders, handleFetchMyStoreProducts, handleFetchMyStoreCustomers, handleFetchMyStoreTransactions } = useFetchedContext();
+    const { error, loader, products, customers, handleFetchError, handleFetchMyStoreOrders, handleFetchMyStoreNotifications, handleFetchMyStoreProducts, handleFetchMyStoreCustomers, handleFetchMyStoreTransactions } = useFetchedContext();
     // const today = moment().format();
     const today = moment.utc().format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
@@ -236,6 +236,7 @@ export default function RecordOrder() {
             handleFetchMyStoreOrders();
             handleFetchMyStoreProducts();
             handleFetchMyStoreTransactions();
+            handleFetchMyStoreNotifications();
 
         } catch (err) {
             const message = handleFetchError(err?.message)

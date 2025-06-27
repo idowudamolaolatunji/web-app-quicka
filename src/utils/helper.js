@@ -30,6 +30,31 @@ export function ymdDateFormat(givenDate) {
 	return date.format("YYYY-MM-DD");
 }
 
+export function formatDateNotify(givenDate) {
+	const date = moment(givenDate);
+	const now = moment();
+	const diff = now.diff(date);
+
+	if (diff < 60000) {
+		// less than 1 minute
+		const seconds = Math.floor(diff / 1000);
+		return `Today, ${seconds} secs ago`;
+	} else if (diff < 3600000) {
+		// less than 1 hour
+		const minutes = Math.floor(diff / 60000);
+		return `Today, ${minutes} mins ago`;
+	} else if (diff < 86400000) {
+		// less than 1 day
+		const hours = Math.floor(diff / 3600000);
+		return `Today, ${hours} hours ago`;
+	} else if (diff < 172800000) {
+		// yesterday
+		return `Yesterday, ${date.format("h:mm a")}`;
+	} else {
+		return date.format("D MMM YYYY | h:mm a");
+	}
+}
+
 export function formatDateSince(givenDate) {
 	const date = moment(givenDate);
 	const now = moment();
@@ -251,6 +276,4 @@ export function countdownTimer(dateTimeStr, callback) {
 export function hideEmail(email) {
 	const [local, domain] = email.split('@');
 	return local.slice(0, 3) + '******' + local.slice(-2) + '@' + domain;
-	
 }
-  

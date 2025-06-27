@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import logo_img from '../../../assets/images/logo/logo-black.png'
 import { useDataContext } from '../../../context/DataContext';
@@ -19,14 +19,17 @@ import { useFetchedContext } from '../../../context/FetchedContext';
 import BackButton from '../../../components/button/BackButton';
 import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
 import Drawer from '../../../components/modal/Drawer';
-import Notification from '../../../components/pageComponents/NotificationDropdown';
+import Notification from '../../../components/pageComponents/Notification';
+import { MdOutlineRefresh } from 'react-icons/md';
 
 
 function DashboardHead({ nonDashboard=false }) {
     // nonDashboard=true is a when the header is used outside of the dashboard
     const { width } = useWindowSize();
     const { user, store } = useAuthContext();
-    const { handleGlobalRefetch } = useFetchedContext();
+    const { handleGlobalRefetch, notifications, handleFetchMyStoreNotifications } = useFetchedContext();
+    const unreadNotifications = notifications?.filter(notification => notification?.status == "unread");
+
     const checkConnection = useCheckInternetConnection();
     const { isMenuCollapsed, handleMenuCollapse, handleToggleSidemenu } = useDataContext();
 
@@ -34,6 +37,7 @@ function DashboardHead({ nonDashboard=false }) {
     const [showNotification, setShowNotification] = useState(false);
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
+    const [showIndicator, setShowIndicator] = useState(false);
 
     const handleToggleDropdown = function () {
         setIsShownDropdown(!isShownDropdown);
@@ -42,6 +46,10 @@ function DashboardHead({ nonDashboard=false }) {
     const handleToggleNotification = function () {
         setShowNotification(!showNotification);
     }
+
+    useEffect(function() {
+        setShowIndicator(unreadNotifications?.length > 0);
+    }, [notifications]);
 
     return (
         <React.Fragment>
@@ -73,7 +81,7 @@ function DashboardHead({ nonDashboard=false }) {
                 </div>
 
                 <div className='nav--container'>
-                    <div className="" />
+                    <div />
 
                     <div className="nav--others">
                         {(width > 600 && store?.storeOnboardCompleted && checkConnection == "online") && (
@@ -89,12 +97,14 @@ function DashboardHead({ nonDashboard=false }) {
 
                         {width > 600 ? (
                             <DefaultButton>
-                                <div className="nav--icon" onClick={handleToggleNotification}>
-                                    <LuBell />
-                                </div>
+                                <TooltipUI placement='top' title="Notifications">
+                                    <div className={`nav--icon ${showIndicator ? "notification" : ""}`} onClick={handleToggleNotification}>
+                                        <LuBell />
+                                    </div>
+                                </TooltipUI>
                             </DefaultButton>
                         ) : (
-                            <div className="nav--icon" onClick={handleToggleNotification}>
+                            <div className={`nav--icon ${showIndicator ? "notification" : ""}`} onClick={handleToggleNotification}>
                                 <LuBell />
                             </div>
                         )}
@@ -118,8 +128,22 @@ function DashboardHead({ nonDashboard=false }) {
 
                         {/* NOTIFICATION SIDEBAR */}
                         {showNotification && (
-                            <Drawer title="Notifications" setClose={handleToggleNotification}>
-                                <Notification />
+                            <Drawer
+                                title={
+                                    <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
+                                        Notifications
+                                        <span style={{ opacity: "0.6", fontSize: "1.8rem", marginRight: "auto" }}>
+                                            (<span className='value'>{unreadNotifications?.length < 10 ? (unreadNotifications?.length || 0) : "10+"}</span>)
+                                        </span>
+
+                                        <TooltipUI placement='top' title="Reload">
+                                            <button className='table--btn' onClick={handleFetchMyStoreNotifications}><MdOutlineRefresh style={{ margin: "0" }} /></button>
+                                        </TooltipUI>
+                                    </div>
+                                }
+                                setClose={handleToggleNotification} iconType="close"
+                            >
+                                <Notification setIndicator={setShowIndicator} close={handleToggleNotification} />
                             </Drawer>
                         )}
                     </div>

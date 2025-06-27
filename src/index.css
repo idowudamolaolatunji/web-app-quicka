@@ -1197,6 +1197,78 @@ body:has(.global--overlay) {
 
 
 
+.notifications {
+	display: flex;
+	flex-direction: column;
+	gap: 1.8rem;
+	margin-top: 2rem;
+}
+
+.notification--figure {
+	padding: 1rem;
+	background-color: #f9f9f9;
+	display: flex;
+	flex-direction: column;
+	gap: .68rem;
+	cursor: pointer;
+	transition: all .3s;
+	border-radius: .4rem;
+}
+.notification--figure:hover {
+	background-color: var(--color-brand-30);
+}
+
+.notification--figure:hover .figure--icon {
+	background-color: var(--color-brand-500);
+	color: #fff;
+}
+
+.notification--figure .figure--icon {
+	background-color: var(--color-brand-50);
+	color: var(--color-brand-500);
+	width: 3.2rem;
+	height: 3rem;
+	border-radius: .4rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all .3s;
+}
+.notification--figure .figure--icon svg {
+	font-size: 2rem;
+}
+
+.notification--figure .figure--date {
+	font-size: 1.24rem;
+	font-weight: 500;
+	color: #777;
+}
+.notification--figure .figure--status {
+	width: .8rem;
+	height: .8rem;
+	border-radius: 50%;
+	background-color: red;
+}
+
+.notification--figure .figure--title {
+	font-size: 1.6rem;
+	font-weight: 600;
+}
+.notification--figure .figure--text {
+	font-size: 1.4rem;
+	line-height: 1.4;
+	color: #555;
+	font-weight: 500;
+}
+
+
+
+
+
+
+
+
 @media screen and (max-width: 900px) {
 	.copyright--text {
 		/* margin: 6rem 0 1rem; */

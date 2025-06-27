@@ -142,6 +142,22 @@ body:has(.dashboard--base) {
 .nav--icon svg {
     font-size: 2.1rem;
 }
+.nav--icon.notification {
+    position: relative;
+}
+.nav--icon.notification::after {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: red;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .user--box {
     border-radius: 50%;
     width: 3.8rem;

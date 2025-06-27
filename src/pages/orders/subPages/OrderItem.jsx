@@ -29,7 +29,6 @@ import { selectCustomer } from '../../../utils/fetch';
 
 function OrderItem() {
     const { id } = useParams();
-    const { width } = useWindowSize();
     const navigate = useNavigate();
     const { currency, headers } = useAuthContext();
     const { customers, handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreOrders, handleFetchMyStoreTransactions } = useFetchedContext();
@@ -49,7 +48,9 @@ function OrderItem() {
     }, [orderCustomer])
 
     const getItem = async function () {
+        setItem(null);
         setError(false);
+
         try {
             const data = await handleFetchOneItem("order", id);
             if (!data) throw new Error("Connection Error");
@@ -70,6 +71,7 @@ function OrderItem() {
     }, [item]);
 
     useEffect(function () {
+        setLoading(true);
         getItem();
     }, [id]);
 

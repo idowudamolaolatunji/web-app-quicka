@@ -41,6 +41,7 @@ export const FetchedProvider = function({ children }) {
     const [coupons, setCoupons] = useState([]);
     const [expenses, setExpenses] = useState([]);
     const [settlements, setSettlements] = useState([]);
+    const [notifications, setNotifications] = useState([]);
     const [inventoryWorth, setInventoryWorth] = useState(null);
 
     
@@ -60,6 +61,7 @@ export const FetchedProvider = function({ children }) {
     const [expensesLoader, setExpensesLoader] = useState(true);
     const [campaignLoader, setCampaignLoader] = useState(false);
     const [settlementLoader, setSettlementLoader] = useState(false);
+    const [notificationLoader, setNotificationLoader] = useState(true);
 
     // ERROR STATES
     const [orderError, setOrderError] = useState("");
@@ -76,6 +78,8 @@ export const FetchedProvider = function({ children }) {
     const [expensesError, setExpensesError] = useState("");
     const [campaignError, setCampaignError] = useState("");
     const [settlementError, setSettlementError] = useState("");
+    const [notificationError, setNotificationError] = useState("");
+
 
     // SETTING LOADER THIS WAY IS BETTER THAN THE PREVIOUS
     const loader = {
@@ -94,6 +98,7 @@ export const FetchedProvider = function({ children }) {
         coupon: couponLoader,
         expenses: expensesLoader,
         settlement: settlementLoader,
+        notification: notificationLoader,
     }
     const error = {
         order: orderError,
@@ -110,6 +115,7 @@ export const FetchedProvider = function({ children }) {
         coupon: couponError,
         expenses: expensesError,
         settlement: settlementError,
+        notification: notificationError,
     }
 
     const handleRemoveRateError = function() {
@@ -289,6 +295,30 @@ export const FetchedProvider = function({ children }) {
             setOrderError(errMessage);
         } finally {
             setOrderLoader(false);
+        }
+    }
+
+        // FETCH PROTECTED STORE NOTIFICATIONS
+    async function handleFetchMyStoreNotifications() {
+        setNotificationError("");
+        setNotificationLoader(true);
+
+        try {
+            const connected = await isOnline();
+            if(!connected) throw new Error("Internet Error");
+            const res = await fetch(`${BASE_API_URL}/notifications?slug=${store?.slug}`, { method: "GET", headers });
+            shouldKick(res);
+
+            const data = await res.json();
+            if(res.status === 429) throw new Error("Too Many Requests")
+            if(data.status == "fail") throw new Error();
+            setNotifications(data?.data?.notifications);
+        } catch (err) {
+            const errMessage = handleFetchError(err?.message)
+            setNotifications([]);
+            setNotificationError(errMessage);
+        } finally {
+            setNotificationLoader(false);
         }
     }
 
@@ -590,6 +620,7 @@ export const FetchedProvider = function({ children }) {
                     handleFetchMyStoreDiscounts(),
                     handleFetchMyStoreCoupons(),
                     handleFetchMyStoreExpenses(),
+                    handleFetchMyStoreNotifications(),
                     // handleFetchMyStoreSettlements(),
                     // handleFetchMyStoreCampaigns(),
                 ])
@@ -625,6 +656,7 @@ export const FetchedProvider = function({ children }) {
         customerGroups,
         storeCategories,
         newsletterCustomers,
+        notifications,
         inventoryWorth,
         
         handleFetchOneItem,
@@ -642,6 +674,7 @@ export const FetchedProvider = function({ children }) {
         handleFetchMyStoreDiscounts,
         handleFetchMyStoreCoupons,
         handleFetchMyStoreExpenses,
+        handleFetchMyStoreNotifications,
         // handleFetchMyStoreSettlements,
         // handleFetchMyStoreCampaigns,
     }
