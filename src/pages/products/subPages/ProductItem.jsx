@@ -56,6 +56,7 @@ function ProductItem() {
 
     
     useEffect(function () {
+        setLoading(true);
         getItem();
     }, [id]);
 

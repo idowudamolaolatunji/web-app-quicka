@@ -6,7 +6,7 @@ import { IoChevronDownSharp, IoMoon, IoSunny } from 'react-icons/io5';
 import { RiMenu3Fill } from 'react-icons/ri';
 import { LuBell, LuPanelLeftClose, LuPanelRightClose, LuRefreshCcw } from 'react-icons/lu';
 
-import { useWindowSize } from 'react-use';
+import { useLocalStorage, useWindowSize } from 'react-use';
 import Dropdown from '../../../components/layout/Dropdown';
 import { Link } from 'react-router-dom';
 import DefaultButton from '../../../components/button/DefaultButton';
@@ -38,6 +38,8 @@ function DashboardHead({ nonDashboard=false }) {
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
     const [showIndicator, setShowIndicator] = useState(false);
+    const [indicatorAmount] = useLocalStorage("indicator", 0);
+
 
     const handleToggleDropdown = function () {
         setIsShownDropdown(!isShownDropdown);
@@ -48,8 +50,8 @@ function DashboardHead({ nonDashboard=false }) {
     }
 
     useEffect(function() {
-        setShowIndicator(unreadNotifications?.length > 0);
-    }, [notifications]);
+        setShowIndicator(unreadNotifications?.length > indicatorAmount);
+    }, [notifications, indicatorAmount]);
 
     return (
         <React.Fragment>
@@ -133,7 +135,7 @@ function DashboardHead({ nonDashboard=false }) {
                                     <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
                                         Notifications
                                         <span style={{ opacity: "0.6", fontSize: "1.8rem", marginRight: "auto" }}>
-                                            (<span className='value'>{unreadNotifications?.length < 10 ? (unreadNotifications?.length || 0) : "10+"}</span>)
+                                            (<span className='value'>{!notifications ? "0" : unreadNotifications?.length < 10 ? (unreadNotifications?.length || 0) : "10+"}</span>)
                                         </span>
 
                                         <TooltipUI placement='top' title="Reload">

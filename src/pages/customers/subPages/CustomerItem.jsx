@@ -213,6 +213,7 @@ export default function CustomerItem() {
 
 
     useEffect(function () {
+        setLoading(true);
         getItem();
     }, [id]);
 

@@ -8,14 +8,15 @@ import { truncateString } from '../../../utils/helper';
 import TooltipUI from '../../../components/layout/TooltipUI';
 import { useNavigate } from 'react-router-dom';
 import ErrorComponent from '../../../components/layout/ErrorComponent';
-import Info from '../../../components/elements/Info';
-import { ImInfo } from 'react-icons/im';
 import moment from 'moment';
+import Info from '../../../components/elements/Info';
 
 
 const datePeriods = [
-    { value: 'week', title: 'This Week' },
-    { value: 'month', title: 'This Month' },
+    { value: 'this-week', title: 'This Week' },
+    { value: 'this-month', title: 'This Month' },
+    { value: 'this-year', title: 'This Year' },
+    { value: 'all-time', title: 'All Time' },
 ];
 
 
@@ -58,44 +59,59 @@ function TopProducts() {
     const { width } = useWindowSize();
     const { orders, products, error, errorType } = useFetchedContext();
     /////////////////////////////////////////////////
-    const [period, setPeriod] = useState("month");
+    const [period, setPeriod] = useState("this-month");
 
-    const threshold = 1;
-    const amountToShow = 3;
+    const threshold = 3;
+    const amountToShow = 5;
     const hasNoError = (!error.order || !error.product)
 
 
     const lookupTopProductByDuration = function(period) {
-        // I DON'T REALLY UNDERSTAND HOW THIS WORKS, BUT THANKS TO META AI, IT DOES
-        const startDate = moment().startOf(period)
-        // const ordersInPeriod = orders?.filter(order => moment(order?.orderDate).isSameOrAfter(startDate));
-        // const productSales = ordersInPeriod?.reduce((acc, order) => {
-        const productSales = orders?.reduce((acc, order) => {
-            order?.products?.forEach(product => {
-                const productData = products.find(p => p.name === product.name);
-                if (productData?.soldAmount && productData.soldAmount >= threshold) {
-                    acc[product.name] = (acc[product.name] || 0) + product.quantity;
-                }
-            });
+        const currentDate = moment();
+        let startDate;
 
-            return acc;
-        }, {}) || {};
+        if (period === 'this-week') {
+            startDate = currentDate.startOf('week');
+        } else if (period === 'this-month') {
+            startDate = currentDate.startOf('month');
+        } else if (period === 'this-year') {
+            startDate = currentDate.startOf('year');
+        } else {
+            startDate = null; 
+        }
 
-        return Object?.keys(productSales)?.sort((a, b) => productSales[b] - productSales[a])?.slice(0, amountToShow)?.map(productName => products?.find(product => product?.name === productName));
+        const filteredProducts = products?.filter(product => product.soldAmount >= threshold)?.sort((a, b) => b.soldAmount - a.soldAmount);
+
+        if (startDate) {
+            const filteredOrders = orders?.filter(order => moment(order?.orderDate)?.isSameOrAfter(startDate));
+            const productIds = filteredOrders?.flatMap(order => order?.products.map(product => product?.name));
+            return filteredProducts?.filter(product => productIds?.includes(product?.name))?.slice(0, amountToShow);
+        } else {
+            return filteredProducts?.slice(0, amountToShow);
+        }
     }
 
-    const topThreeItems = lookupTopProductByDuration(period);
-    const itemLength = topThreeItems?.length
+    // const getTopSellingProducts = function() {
+    //     return products
+    //         ?.filter(product => product.soldAmount >= threshold)
+    //         ?.sort((a, b) => b.soldAmount - a.soldAmount)
+    //         ?.slice(0, amountToShow)
+    //     ;
+    // }
+
+    const topItems = lookupTopProductByDuration(period);
+    // const topItems = getTopSellingProducts();
+    const itemLength = topItems?.length
 
     return (
         <div className='card top-product-section'>
             <div className="section--top" style={width < 450 ? { flexDirection: "column", textAlign: "center", width: "100%", alignItems: "center" } : {}}>
                 <div className="section--heading">
                     <h2>Best Selling Products </h2>
-                    <p>Top <label className='value'>{itemLength || ""}</label> item{itemLength != 1 ? "s" : ""} that {itemLength != 1 ? "are" : "is"} selling the most. </p>
+                    <p>Top <label className='value'>{itemLength || ""}</label> item{itemLength != 1 ? "s" : ""} that {itemLength != 1 ? "are" : "is"} selling the most, {period !== "all-time" ? period?.split("-").join(" ") : "of All time"} </p>
                 </div>
 
-                {/* <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} /> */}
+                <SelectAutoWidthDropdown menus={datePeriods} period={period} setPeriod={setPeriod} />
             </div>
 
             <div className='top-product--container'>
@@ -103,19 +119,17 @@ function TopProducts() {
                     <ErrorComponent text={error?.product} />
                 )}
 
-                {((!topThreeItems || itemLength < 1) && hasNoError) && (
+                {((!topItems || itemLength < 1) && hasNoError) && (
                     <Empty text={`best selling product yet, this ${period}!`} />
                 )}
 
-                {itemLength > 0 && topThreeItems?.map(product => (
+                {itemLength > 0 && topItems?.map(product => (
                     <ProductFigure product={product} key={product._id} />
                 ))}
 
-                {/* {(itemLength > 0 && width <= 450) && (
-                    <span style={{ marginTop: "1.5rem" }}>
-                        <Info text="Only items you choose to track inventory is shown" />
-                    </span>
-                )} */}
+                <span style={{ marginTop: "1.5rem" }}>
+                    <Info text="Only (5) products that has sold more than 3 items will be shown" />
+                </span>
             </div>
 
         </div>

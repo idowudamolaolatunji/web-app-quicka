@@ -1,9 +1,8 @@
 import React from 'react'
+import ComingSoon from '../../../components/layout/ComingSoon'
 
 export default function CancelPlan() {
   return (
-    <div>
-      
-    </div>
+    <ComingSoon feature="Subscription" navigateBack={false} />
   )
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import BackButton from "../../../components/button/BackButton"
+import ComingSoon from '../../../components/layout/ComingSoon';
 
 export default function ChoosePlan() {
     const navigate = useNavigate();
@@ -18,52 +19,54 @@ export default function ChoosePlan() {
 
 
     return (
-        <React.Fragment>
-            <section className="subscription__container">
-                <div className="subscription--grid">
+        // <React.Fragment>
+        //     <section className="subscription__container">
+        //         <div className="subscription--grid">
 
-                    <div className="subscription--details">
-                        {/* <h3>Choose a plan that best fit your business.</h3> */}
-                        <h3 className='details--title'><BackButton />Choose a prefered plan.</h3>
+        //             <div className="subscription--details">
+        //                 {/* <h3>Choose a plan that best fit your business.</h3> */}
+        //                 <h3 className='details--title'><BackButton />Choose a prefered plan.</h3>
 
-                        {(subsOption == "trail") && (
-                            <React.Fragment>
-                                <p className="details--subtitle">Free trails for 14 days</p>
-                                <p className="details--text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. At, obcaecati magni? Assumenda aliquam earum pariatur!</p>
-                            </React.Fragment>
-                        )}
+        //                 {(subsOption == "trail") && (
+        //                     <React.Fragment>
+        //                         <p className="details--subtitle">Free trails for 14 days</p>
+        //                         <p className="details--text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. At, obcaecati magni? Assumenda aliquam earum pariatur!</p>
+        //                     </React.Fragment>
+        //                 )}
 
-                        {!subsOption && (
-                            <p>Hello World</p>
-                        )}
+        //                 {!subsOption && (
+        //                     <p>Hello World</p>
+        //                 )}
 
-                    </div>
+        //             </div>
 
-                    <div className="subcription--plans">
+        //             <div className="subcription--plans">
 
-                        <div className={`plan--container ${selectedPlan == "basic" ? "is-selected" : ""}`} onClick={() => setSelectedPlan("basic")}>
+        //                 <div className={`plan--container ${selectedPlan == "basic" ? "is-selected" : ""}`} onClick={() => setSelectedPlan("basic")}>
                             
-                            <span />
+        //                     <span />
 
-                            <div className="">
-                                <p>Lorem, ipsum dolor.</p>
-                            </div>
+        //                     <div className="">
+        //                         <p>Lorem, ipsum dolor.</p>
+        //                     </div>
 
-                        </div>
-                        <div className={`plan--container ${selectedPlan == "lite" ? "is-selected" : ""}`} onClick={() => setSelectedPlan("lite")}>
+        //                 </div>
+        //                 <div className={`plan--container ${selectedPlan == "lite" ? "is-selected" : ""}`} onClick={() => setSelectedPlan("lite")}>
 
-                            <span />
+        //                     <span />
 
-                        </div>
-                        <div className={`plan--container ${selectedPlan == "pro" ? "is-selected" : ""}`} onClick={() => setSelectedPlan("pro")}>
+        //                 </div>
+        //                 <div className={`plan--container ${selectedPlan == "pro" ? "is-selected" : ""}`} onClick={() => setSelectedPlan("pro")}>
 
-                            <span />
+        //                     <span />
 
-                        </div>
-                    </div>
+        //                 </div>
+        //             </div>
 
-                </div>
-            </section>
-        </React.Fragment>
+        //         </div>
+        //     </section>
+        // </React.Fragment>
+
+        <ComingSoon feature="Subscription Upgrade" />
     )
 }
