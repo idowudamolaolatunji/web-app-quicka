@@ -33,6 +33,27 @@ export default function Notification({ setIndicator, close }) {
         handleUnshowIndicator();
     }, []);
 
+
+    if(loader?.notification) {
+        return (
+            <div className='notification--container'>
+                <div className="notifications"  style={{ gap: "2rem" }}>
+                    {Array(3).fill().map((_, i) => (
+                        <div className="notification--figure" key={i}>
+                            <Skeleton width={150} height={10} />
+                            <div className="flex-align-center">
+                                <Skeleton width={30} height={25} />
+                                <Skeleton width={300} height={10} />
+                            </div>
+                            <Skeleton width="100%" height={10} />
+                            <Skeleton width="100%" height={10} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )
+    }
+
     
     return (
         <div className='notification--container'>
@@ -41,22 +62,6 @@ export default function Notification({ setIndicator, close }) {
             </div>
 
             <div className="">
-                {(loader?.notification && !error?.notification && !notifications) && (
-                    <div className="notifications">
-                        <div className="notification--figure" style={{ gap: "2rem" }}>
-                            {Array(3).fill().map((_, i) => (
-                                <div className="flex-column" style={{ gap: ".24rem" }}>
-                                    <Skeleton width={150} height={10} />
-                                    <div className="flex-align-center">
-                                        <Skeleton width={30} height={25} />
-                                        <Skeleton width={300} height={10} />
-                                    </div>
-                                    <Skeleton width="100%" height={10} />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
 
                 {(error?.notification && !loader?.notification && notifications?.length < 1) && (
                     <div className="notifications">
