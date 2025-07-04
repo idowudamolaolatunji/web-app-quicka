@@ -269,6 +269,10 @@
     cursor: pointer;
     color: var(--color-brand-700) !important;
 }
+.form--add.colored {
+    color: #fff !important;
+    background-color: var(--color-brand-500);
+}
 .form--add svg {
     font-size: 1.8rem;
 }

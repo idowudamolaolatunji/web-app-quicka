@@ -217,6 +217,10 @@ export function cap1stLetter(string) {
 	return string?.slice(0, 1)?.toUpperCase() + string?.slice(1);
 }
 
+export function capAllFirstLetters(string) {
+  return string?.split(' ')?.map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)?.toLowerCase())?.join(' ');
+}
+
 export function isWithinLast7Days(date) {
 	return moment(date).isAfter(moment().subtract(7, "days"));
 }

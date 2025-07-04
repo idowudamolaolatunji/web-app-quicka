@@ -10,7 +10,7 @@ import { useDataContext } from '../../../context/DataContext'
 
 function ProgressGrid() {
     const { width } = useWindowSize();
-    const { orders, settlements, expenses } = useFetchedContext();
+    const { loader, orders, settlements, expenses } = useFetchedContext();
     const { isMenuCollapsed, homeInsightPeriod } = useDataContext();
 
     // const hasData = orders && orders?.length > 1;
@@ -19,7 +19,6 @@ function ProgressGrid() {
     const hasSettlement = settlements && settlements?.length >= 1;
     const isCollapsedBtw900and1000 = !isMenuCollapsed && (width > 900 && width < 1050);
     const period = homeInsightPeriod == "today" ? "day" : homeInsightPeriod?.replace("this-", "");
-    
    
 
     // FILTERED HERE TO GET ALL COMPLETED SALES AND ALL COMPLETED OFFLINE SALES OR PAID SALES (COME BACK)
@@ -73,9 +72,9 @@ function ProgressGrid() {
 
     return (
         <div className='prog--grid' style={isCollapsedBtw900and1000 ? { gridTemplateColumns: "repeat(3, 1fr)" } : {}}>
-            <HomeProgressCard title={`Total Sales (${width <= 450 ? "Inflow" : "In"})`} icon={<MdAddChart />} value={allResult.periodSales || 0} percent={allResult.percent} upTrend={!hasSale && allResult.percent > 0} days={1} />
-            <HomeProgressCard title='Total Settlements' icon={<GiPayMoney />} value={settlementResult.periodSales || 0} percent={settlementResult.percent} upTrend={!hasSettlement && settlementResult.percent > 0} days={1} />
-            <HomeProgressCard title={`Total Expenses (${width <= 450 ? "Outflow" : "Out"})`} icon={<GiExpense />} value={expensesResult.periodSales || 0} percent={expensesResult.percent} upTrend={!hasExpense && expensesResult.percent > 0} days={1} />
+            <HomeProgressCard title={`Total Sales (${width <= 450 ? "Inflow" : "In"})`} icon={<MdAddChart />} value={allResult.periodSales || 0} percent={allResult.percent} upTrend={!hasSale && allResult.percent > 0} days={1} loader={loader?.order} />
+            <HomeProgressCard title='Total Settlements' icon={<GiPayMoney />} value={settlementResult.periodSales || 0} percent={settlementResult.percent} upTrend={!hasSettlement && settlementResult.percent > 0} days={1} loader={loader?.settlement} />
+            <HomeProgressCard title={`Total Expenses (${width <= 450 ? "Outflow" : "Out"})`} icon={<GiExpense />} value={expensesResult.periodSales || 0} percent={expensesResult.percent} upTrend={!hasExpense && expensesResult.percent > 0} days={1} loader={loader?.expenses} />
             {/* <HomeProgressCard title='Offline Sales' icon={<LuArchiveRestore />} value={offlineResult.periodSales} percent={offlineResult.percent} upTrend={!hasData && offlineResult.percent > 0} days={1} /> */}
         </div>
     )

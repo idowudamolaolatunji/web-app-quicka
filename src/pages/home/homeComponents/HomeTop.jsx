@@ -4,13 +4,13 @@ import { useWindowSize } from "react-use"
 import { cap1stLetter, getExpression, getGreeting, todayDate } from '../../../utils/helper';
 import { MdOutlineClose, MdOutlineWorkspacePremium } from 'react-icons/md';
 import { useAuthContext } from '../../../context/AuthContext';
-import { LuCheckCircle } from 'react-icons/lu';
+import { FiCheckCircle } from 'react-icons/fi';
 import { useDataContext } from '../../../context/DataContext';
 import IntialsImage from '../../../components/layout/IntialsImage';
 import { truncateString } from '../../../utils/helper';
 import { RiProgress1Line, RiVerifiedBadgeLine } from 'react-icons/ri';
-import { VscVmActive } from "react-icons/vsc";
-import { TiInputChecked } from "react-icons/ti";
+// import { VscVmActive } from "react-icons/vsc";
+// import { TiInputChecked } from "react-icons/ti";
 
 
 export default function HomeTop() {
@@ -87,7 +87,7 @@ export default function HomeTop() {
 
                 {(subscription?.type == "free" && !showSub) && (
                     <p className='upgrade--link' onClick={() => navigate('/dashboard/subscription')}>
-                        <LuCheckCircle />Your account is currently on the free plan.
+                        <FiCheckCircle />Your account is currently on the free plan.
                     </p>
                 )}
 

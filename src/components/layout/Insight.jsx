@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { formatNumber } from '../../utils/helper';
 import Skeleton from 'react-loading-skeleton';
 
-function Insight({ title, value, icon, link, pre = "", dec = 0, loader, contentLoading=false }) {
+function Insight({ title, value, icon, link, pre="", dec=0, loader, contentLoading=false }) {
     const navigate = useNavigate();
 
     return (
-        <>
+        <React.Fragment>
             {loader ? (
-                // <Skeleton count={5} height={10} />
                 <Skeleton height={80} />
             ) : (
                 <figure className='insight--figure'
@@ -27,9 +26,8 @@ function Insight({ title, value, icon, link, pre = "", dec = 0, loader, contentL
                     <span className='insight--icon'>{icon}</span>
                 </figure>
             )}
-
-        </>
-    )
+        </React.Fragment>
+    );
 }
 
 export default Insight

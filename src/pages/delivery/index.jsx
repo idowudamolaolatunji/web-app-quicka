@@ -106,23 +106,6 @@ function index() {
 
     return (
         <React.Fragment>
-            {showDetailModal.show && (
-                <SimpleModal
-                    setClose={handleCloseDetailModal}
-                    icon={<AiOutlineClose />}
-                    title={`Delivery Detail`}
-                >
-                    <div className="item__preview--summary" style={{ marginTop: "2rem" }}>
-                        <div className='preview--body-item'>Delivery Title <span className='preview--body-value value'>{selectedData?.title}</span></div>
-                    </div>
-
-                    <span className='table--actions'>
-                        <button className='table--btn' onClick={() => navigate(`${selectedData?._id}/edit`)}><RiEdit2Line /></button>
-                        <button className='table--btn' onClick={() => handleShowDeleteModal(selectedData?._id)}><RiDeleteBin5Line /></button>
-                    </span>
-                </SimpleModal>
-            )}
-
             <PageUI
                 columns={columns}
                 data={deliveryRates}
@@ -136,8 +119,6 @@ function index() {
                 emptyTitle={emptyTitle}
                 addUrl="delivery-rates/add"
                 hasLink={false}
-                hasDetailModal={true}
-                setDetailModal={setShowDetailModal}
                 insights={false}
                 pointOnHover={false}
                 refetchItems={handleFetchMyStoreDeliveryRates}

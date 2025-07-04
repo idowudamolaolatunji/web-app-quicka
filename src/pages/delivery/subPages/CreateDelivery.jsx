@@ -82,7 +82,6 @@ export default function CreateDelivery({ close, isnew, isModal }) {
                 }
             }
         })();
-
     }, [id]);
 
 

@@ -141,6 +141,10 @@ button {
 	background: #aaa;
 }
 
+::selection {
+	background-color: var(--color-brand-100);
+}
+
 input[type="checkbox"]:checked,
 input[name="select-all-rows"] {
   accent-color: var(--color-brand-500); /* Change the checkbox color */
@@ -637,6 +641,7 @@ body:has(.global--overlay) {
 }
 
 .status--unpaid p,
+.status--returned p,
 .status--inactive p,
 .status--failed p {
 	/* background-color: #ff9797b7; */
@@ -694,11 +699,13 @@ body:has(.global--overlay) {
 }
 
 .heading--row .status--unpaid p,
-.heading--row .status--failed p {
+.heading--row .status--failed p,
+.heading--row .status--returned p {
 	background-color: #ff9797b7;
 }
 
 
+.heading--row .status--partially p,
 .heading--row .status--processing p,
 .heading--row .status--pending p {
 	background-color: #eef1ff;
@@ -707,9 +714,9 @@ body:has(.global--overlay) {
 .heading--row .status--in-transit p {
 	background-color: #f1f1f1;
 }
-.heading--row .status--partially p {
+/* .heading--row .status--partially p {
 	background-color: #fff2e8;
-}
+} */
 
 .heading--row .status--paid p,
 .heading--row .status--completed p,
@@ -1279,6 +1286,16 @@ body:has(.global--overlay) {
 	font-weight: 500;
 }
 
+
+
+/* REACT SHARE MODAL */
+[class*="makeStyles-copyUrl"] {
+	color: #444 !important;
+}
+[class*="makeStyles-copyIcon"] {
+	color: var(--color-brand-500) !important;
+	font-family: "Montserrat", "Raleway", sans-serif;
+}
 
 
 

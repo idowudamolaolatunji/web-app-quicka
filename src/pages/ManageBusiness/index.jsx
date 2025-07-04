@@ -15,6 +15,8 @@ import CustomAlert from '../../components/layout/CustomAlert';
 import { createPortal } from 'react-dom';
 import InternetConnectionError from '../../components/layout/InternetConnectionError';
 import { useCheckInternetConnection } from '../../hooks/useCheckInternetConnection';
+import BgSimple from '../../components/modal/BgSimple'
+import ComingSoon from '../../components/layout/ComingSoon'
 
 
 const BASE_API_URL = import.meta.env.VITE_API_URL;
@@ -26,7 +28,7 @@ export default function index() {
     ///////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
     const [switchingLoader, setSwitchingLoader] = useState(false);
-    const [subscribeModal, setSubscribeModal] = useState(false);
+    const [showSubscribeModal, setShowSubscribeModal] = useState(false);
     const [response, setResponse] = useState({ status: "", message: "" });
 
     const internetStatus = useCheckInternetConnection();
@@ -88,6 +90,12 @@ export default function index() {
         {(response.message && response.status) && (
             createPortal(<CustomAlert type={response.status} message={response.message} />, document.body)
         )}
+
+        {showSubscribeModal && (
+            <BgSimple setClose={setShowSubscribeModal}>
+                <ComingSoon feature="Multiple Business" action={false} />
+            </BgSimple>
+        )}
         
         <DashboardHead nonDashboard={true} />
         <section className="manage--business-section">
@@ -134,7 +142,8 @@ export default function index() {
                     ))}
                 </div>
 
-                <button className="content--btn" onClick={handleManageNew} disabled={internetStatus == "offline"}>
+                {/* <button className="content--btn" onClick={handleManageNew} disabled={internetStatus == "offline"}> */}
+                <button className="content--btn" onClick={() => setShowSubscribeModal(true)} disabled={internetStatus == "offline"}>
                     <RiApps2AddLine /> Add new or existing business
                 </button>
             </div>

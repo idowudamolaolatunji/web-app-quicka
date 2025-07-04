@@ -21,7 +21,6 @@ export const FetchedProvider = function({ children }) {
 
     const [rateExceeded, setRateExceeded] = useState(false);
     const [internetError, setInternetError] = useState(false);
-    const [generalError, setGeneralError] = useState(false);
     const [errorType, setErrorType] = useState("")
 
 
@@ -126,7 +125,6 @@ export const FetchedProvider = function({ children }) {
         setErrorType("");
         rateExceeded && setRateExceeded(false);
         internetError && setInternetError(false);
-        // generalError && setGeneralError(false);
         
         await Promise.all([
             handleFetchStore(),
@@ -143,7 +141,6 @@ export const FetchedProvider = function({ children }) {
             handleFetchMyStoreCoupons(),
             handleFetchMyStoreExpenses(),
             // handleFetchMyStoreSettlements(),
-            // handleFetchMyStoreCampaigns(),
         ]);
     }
 
@@ -162,7 +159,6 @@ export const FetchedProvider = function({ children }) {
         }
 
         if (errMessage?.includes("Failed to fetch")) {
-            // setGeneralError(true);
             setErrorType("general-error")
             return "Oops! Error!.";
         } else {
@@ -251,6 +247,7 @@ export const FetchedProvider = function({ children }) {
 
     // FETCH PROTECTED STORE PRODUCTS
     async function handleFetchMyStoreProducts() {
+        setProducts([]);
         setProductError("");
         setProductLoader(true);
 
@@ -276,6 +273,7 @@ export const FetchedProvider = function({ children }) {
 
     // FETCH PROTECTED STORE SALES AND ORDERS
     async function handleFetchMyStoreOrders() {
+        setOrders([]);
         setOrderError("");
         setOrderLoader(true);
 
@@ -324,6 +322,7 @@ export const FetchedProvider = function({ children }) {
 
     // FETCH PROTECTED STORE CUSTOMERS
     async function handleFetchMyStoreCustomers() {
+        setCustomers([]);
         setCustomerError("");
         setCustomerLoader(true);
 
@@ -489,21 +488,6 @@ export const FetchedProvider = function({ children }) {
     //     }
     // }
 
-    // FETCH PROTECTED STORE CAMPAIGNS
-    // async function handleFetchMyStoreCampaigns () {
-    //     setCampaignError("");
-    //     setCampaignLoader(true);
-    //     setCampaigns([]);
-    //     try {
-    //         const connected = await isOnline();
-            // if(!connected) throw new Error("Internet Error");
-    //     } catch (err) {
-    //         const errMessage = handleFetchError(err?.message)
-    //         setCampaignError(errMessage)
-    //     } finally {
-    //         setCampaignLoader(false);
-    //     }
-    // }
 
     // FETCH PROTECTED STORE DISCOUNTS
     async function handleFetchMyStoreDiscounts () {
@@ -555,6 +539,7 @@ export const FetchedProvider = function({ children }) {
 
     // FETCH PROTECTED STORE EXPENSES
     async function handleFetchMyStoreExpenses () {
+        setExpenses([]);
         setExpensesError("");
         setExpensesLoader(true);
 
@@ -577,33 +562,11 @@ export const FetchedProvider = function({ children }) {
         }
     }
 
-    useEffect(function() {
-        if(internetError && generalError) {
-            setInternetError(false)
-        }
-    }, [internetError, generalError]);
-
     useEffect(function () {
-        setCollections([]);
-        setProducts([]);
-        setOrders([]);
-        setCustomers([]);
-        setCustomerGroups([]);
-        setNewsletterCustomers([]);
-        setSuppliers([]);
-        setExpenses([]);
-        setDeliveryRates([]);
-        setTransactions([]);
-        setSettlements([]);
-        setCampaigns([]);
-        setDiscounts([]);
-        setCoupons([]);
-
         if(token && user && shouldLoadAll) {
             setErrorType("");
             setRateExceeded(false);
             setInternetError(false);
-            // setGeneralError(false);
             //////////////////////////////////////
             //////////////////////////////////////
             (async function(){
@@ -622,7 +585,6 @@ export const FetchedProvider = function({ children }) {
                     handleFetchMyStoreExpenses(),
                     handleFetchMyStoreNotifications(),
                     // handleFetchMyStoreSettlements(),
-                    // handleFetchMyStoreCampaigns(),
                 ])
             })();
         }
@@ -634,7 +596,6 @@ export const FetchedProvider = function({ children }) {
         error,
         loader,
         errorType,
-        generalError,
         rateExceeded,
         internetError,
         handleFetchError,
@@ -676,7 +637,6 @@ export const FetchedProvider = function({ children }) {
         handleFetchMyStoreExpenses,
         handleFetchMyStoreNotifications,
         // handleFetchMyStoreSettlements,
-        // handleFetchMyStoreCampaigns,
     }
 
 

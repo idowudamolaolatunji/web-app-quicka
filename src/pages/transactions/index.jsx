@@ -148,11 +148,11 @@ function index() {
 
     return (
         <React.Fragment>
-            {(showFilterModal?.name == activeTab && showFilterModal.isShown) && (
+            {/* {(showFilterModal?.name == activeTab && showFilterModal.isShown) && (
                 <Drawer title={`${cap1stLetter(activeTab)} Filters`} setClose={() => handleToggleFilter("")}>
                     
                 </Drawer>
-            )}
+            )} */}
 
             {showDetailModal.show && (
                 <SimpleModal

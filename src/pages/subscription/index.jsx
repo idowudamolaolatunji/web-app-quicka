@@ -32,47 +32,41 @@ export default function index() {
                 <button className="page__section-top-btn more" onClick={() => navigate("choose-plan")}>Upgrade plans <HiOutlineSquare3Stack3D /></button>
             </div>
             
-            <div className="item__preview--grid grid--2x1">
-                <div className="left--side">
-                    <div className="page__section--main card sub--details">
-                        <span className='sub--detail'>
-                            <p className='subtitle'>Plan</p>
-                            <h4 className='heading'>Quicka Lite</h4>
-                        </span>
+            <div className="page__section--main card sub--details">
+                <span className='sub--detail'>
+                    <p className='subtitle'>Plan</p>
+                    <h4 className='heading'>Quicka Lite</h4>
+                </span>
 
-                        <span className='sub--detail'>
-                            <p className='subtitle'>Pricing</p>
-                            <h4 className='heading'>free forever</h4>
-                        </span>
+                <span className='sub--detail'>
+                    <p className='subtitle'>Pricing</p>
+                    <h4 className='heading'>free forever</h4>
+                </span>
 
-                        <div className='sub--btns'>
-                            {(subscription?.type !== "free") && (
-                                <button>Cancel Plan</button>
-                            )}
-                            <button onClick={() => navigate("choose-plan")}>Upgrade Subscription</button>
-                        </div>
-                    </div>
-
-
-                    <div className="page__section--main" style={{  marginTop: "7rem" }}>
-                        <TableUI
-                            data={plansHistory}
-                            columns={columns}
-                            selectableRows={false}
-                            hasLink={false}
-                            error={error?.domain}
-                            loader={loader?.domain}
-                            emptyComponent={
-                                <Empty
-                                    img={emptyImg}
-                                    text={"subscription history"}
-                                />
-                            }
-                        />
-                    </div>
+                <div className='sub--btns'>
+                    {(subscription?.type !== "free") && (
+                        <button>Cancel Plan</button>
+                    )}
+                    <button onClick={() => navigate("choose-plan")}>Upgrade Subscription</button>
                 </div>
+            </div>
 
-                <div className="right--side"></div>
+
+            <div className="page__section--main" style={{  marginTop: "7rem" }}>
+                <TableUI
+                    data={plansHistory}
+                    columns={columns}
+                    selectableRows={false}
+                    hasLink={false}
+                    error={error?.domain}
+                    loader={loader?.domain}
+                    emptyComponent={
+                        <Empty
+                            img={emptyImg}
+                            text={"subscription history"}
+                        />
+                    }
+                />
             </div>
         </React.Fragment>
     )

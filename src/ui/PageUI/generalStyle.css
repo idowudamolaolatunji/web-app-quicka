@@ -863,6 +863,9 @@
 	overflow: hidden;
 	cursor: zoom-in;
 }
+.item__preview--images .main--img {
+	min-height: 20rem;
+}
 .item__preview--images .images--img {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);

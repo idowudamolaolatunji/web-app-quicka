@@ -3,7 +3,7 @@ import { useFetchedContext } from '../../../context/FetchedContext';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../../components/button/BackButton';
 import TooltipUI from '../../../components/layout/TooltipUI';
-import { RiDeleteBin5Line, RiEdit2Line } from 'react-icons/ri';
+import { RiDeleteBin5Line, RiDownload2Line, RiEdit2Line, RiShareFill } from 'react-icons/ri';
 import { formatDateSince, formatNumber } from '../../../utils/helper';
 import { BiChevronDown, BiMapPin } from 'react-icons/bi';
 import { ColorBox } from '../../../components/elements/ColorBox';
@@ -21,17 +21,47 @@ import { PiMapPinArea } from "react-icons/pi";
 import { GoDotFill } from 'react-icons/go';
 import { imgString } from '../../../assets/images/png_elements';
 import ErrorComponent from '../../../components/layout/ErrorComponent';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import MainDropdownSelect from '../../../components/form/MainDropdownSelect';
 import Info from '../../../components/elements/Info';
-import { selectCustomer } from '../../../utils/fetch';
+import AddCustomerFormSm from '../../../components/pageComponents/AddCustomerFormSm';
+import Drawer from '../../../components/modal/Drawer';
+import empty_product from "../../../assets/images/dummy_items/empty_product.png";
+import {ShareSocial} from 'react-share-social' 
+import SimpleModal from "../../../components/modal/SimpleModal";
+// import { Margin, usePDF } from 'react-to-pdf';
+
+import ReactDOMServer from 'react-dom/server';
+import html2pdf from 'html2pdf.js/dist/html2pdf.min';
+import PaymentReciept from '../../../components/pageComponents/PaymentReciept';
+import { useCheckInternetConnection } from '../../../hooks/useCheckInternetConnection';
+
+
+const shareModalstyle = {
+    root: {
+        marginTop: "1.5rem",
+        background: "transparent",
+        padding: "0",
+        fontFamily: "inherit",
+        color: "#333"
+    },
+    copyContainer: {
+        border: "none",
+        background: "#eee",
+        color: "#444"
+    },
+}
+
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 
 function OrderItem() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { currency, headers } = useAuthContext();
+    const { width } = useWindowSize();
+    const { currency, headers, store } = useAuthContext();
     const { customers, handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreOrders, handleFetchMyStoreTransactions } = useFetchedContext();
+    const internetStatus = useCheckInternetConnection();
 
     ////////////////////////////////////////////////////
     const [loading, setLoading] = useState(true);
@@ -40,13 +70,28 @@ function OrderItem() {
     const [item, setItem] = useState(null);
     ////////////////////////////////////////////////////
     const [orderCustomer, setOrderCustomer] = useState([]);
-    const [showModal, setShowModal] = useState({ delete: false, customer: false });
+    const [showModal, setShowModal] = useState({ delete: false, customer: false, share: false, address: false });
     const [addCustomer, setAddCustomer] = useState(false);
 
-    useEffect(function() {
-        console.log(orderCustomer)
-    }, [orderCustomer])
+    // const { toPDF, targetRef } = usePDF({
+    //     filename: `Order Reciept ${item ? "#"+item?.orderId : ""}`,
+    //     page: { margin: Margin.MEDIUM, orientation: 'landscape' },
+    // });
 
+    var opt = {
+        margin:       0.25,
+        filename:     `order_details_${item?.orderId}.pdf`,
+        image:        { type: 'jpeg', quality: 0.4 },
+        html2canvas:  { scale: 10 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    const printHandler = () => {
+        const printElement = ReactDOMServer.renderToString(PaymentReciept({ item: { ...item, ...store } }));
+        html2pdf().from(printElement).set(opt).save();
+    }
+
+    
     const getItem = async function () {
         setItem(null);
         setError(false);
@@ -76,14 +121,6 @@ function OrderItem() {
     }, [id]);
 
 
-    const handleAddCustomer = async function() {
-        const result = await selectCustomer(item?._id, headers, orderCustomer[0]?._id);
-        if(result == "success") {
-            setItem({ ...item, customer: orderCustomer[0] });
-            handleFetchMyStoreOrders();
-        }
-    }
-
     // DELETE FUNCTION
     async function deleteItem() {
         try {
@@ -104,6 +141,74 @@ function OrderItem() {
         }
     }
 
+    async function handleAddCustomerToOrder() {
+        try {
+            const res = await fetch(`${BASE_API_URL}/orders/add-customer/${item?._id}/${orderCustomer[0]?._id}`, {
+                method: "PATCH", headers
+            });
+            
+            const data = await res.json();
+            if(res.status === 429) throw new Error("Too Many Requests")
+            if(data.status == "fail") throw new Error(data?.message);
+            
+            setResponse({ message: "Success", response: "success" });
+            setItem({ ...item, customer: orderCustomer[0] });
+            handleFetchMyStoreOrders();
+        } catch(err) {
+            setResponse({ message: err?.message, response: "error" })
+        }
+    }
+
+    async function handleToggleDeliveryStatus(status) {
+        if(internetStatus == "offline") throw new Error("Internet Error");
+
+        try {
+            setLoading(true);
+            setItem(null);
+
+            const res = await fetch(`${BASE_API_URL}/orders/toggle-delivery-status/${item?._id}`,{
+                method: "PATCH", headers, body: JSON.stringify({ status })
+            });
+            
+            const data = await res.json();
+            if(res.status === 429) throw new Error("Too Many Requests")
+            if(data.status == "fail") throw new Error(data?.message);
+            
+            setResponse({ message: "Success", response: "success" });
+            setItem(data?.data?.order);
+            handleFetchMyStoreOrders();
+        } catch(err) {
+            setResponse({ message: err?.message, response: "error" })
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleTogglePaymentStatus(status) {
+        if(internetStatus == "offline") throw new Error("Internet Error");
+
+        try {
+            setLoading(true);
+            setItem(null);
+
+            const res = await fetch(`${BASE_API_URL}/orders/toggle-payment-status/${item?._id}`,{
+                method: "PATCH", headers, body: JSON.stringify({ status })
+            });
+            
+            const data = await res.json();
+            if(res.status === 429) throw new Error("Too Many Requests")
+            if(data.status == "fail") throw new Error(data?.message);
+            
+            setResponse({ message: "Success", response: "success" });
+            setItem(data?.data?.order);
+            handleFetchMyStoreOrders();
+        } catch(err) {
+            setResponse({ message: err?.message, response: "error" })
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     if(!item && error) {
         return (
@@ -115,12 +220,47 @@ function OrderItem() {
 
     return (
         <React.Fragment>
+            {/* <PaymentReciept item={{...item, ...store}} /> */}
+
             {showModal.delete && (
                 <Delete 
                     title={`"Order"`}
                     close={() => setShowModal({ ...showModal, delete: false })} 
                     fn={deleteItem}
                 />
+            )}
+
+            {showModal.share && (
+                <SimpleModal
+                    title="Share Order Link" icon={<AiOutlineClose />}
+                    customstyle={{ minHeight: "20rem", height: "25rem" }}
+                    setClose={() => setShowModal({ ...showModal, share: false })}
+                >
+                    <ShareSocial
+                        url={`https://${store?.storeUrl}/info/${item?.orderId}`}
+                        socialTypes={['facebook','twitter','whatsapp','linkedin', "telegram", "email"]}
+                        style={shareModalstyle}
+                    />
+                </SimpleModal>
+            )}
+
+            {showModal.customer && (
+                <Drawer
+                    title="Add Customer"
+                    setClose={() => setShowModal({ ...showModal, customer: false })}
+                >
+                    <AddCustomerFormSm close={() => setShowModal({ ...showModal, customer: false })} />
+                </Drawer>
+            )}
+
+            {showModal.address && (
+                <SimpleModal
+                    title="Add Delivery Address" icon={<AiOutlineClose />}
+                    setClose={() => setShowModal({ ...showModal, address: false })}
+                >
+                    <div className="">
+                    </div>
+                </SimpleModal>
             )}
 
             {(response.message || response.status) && (
@@ -164,12 +304,15 @@ function OrderItem() {
                             </p>
                         </div>
 
-                        <span className='page__section--btns'>
-                            <button className="page__section-top-btn" onClick={() => setShowModal({ ...showModal, delete: true })} style={{ fontWeight: "600", color: "#444" }}>
-                                Delete <RiDeleteBin5Line size={20} />
+                        <span className='page__section--btns' style={{ flexWrap: width > 450 ? "wrap" : "nowrap" }}>
+                            <button className="page__section-top-btn" onClick={() => setShowModal({ ...showModal, share: true })} style={{ fontWeight: "600", color: "#444" }}>
+                                Share <RiShareFill size={20} />
                             </button>
-                            <span className="page__section--action" onMouseLeave={() => {}}>
-                                <button onClick={() => {}} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
+                            <button className="page__section-top-btn add" onClick={() => setShowModal({ ...showModal, delete: true })} style={{ fontWeight: "600", color: "#444" }}>
+                                <RiDeleteBin5Line size={20} />
+                            </button>
+                            <span className="page__section--action">
+                                <button onClick={printHandler} disabled={item?.paymentStatus !== "paid"} className="page__section-top-btn more">{width < 700 ? "" : "Download"} Reciept <RiDownload2Line /></button>
                             </span>
                         </span>
                     </div>
@@ -186,7 +329,7 @@ function OrderItem() {
                                     {item?.products?.map((product, i) => (
                                         <React.Fragment>
                                             <Link className="item__preview--item" to={`/dashboard/products/${product?.productId}`}>
-                                                <img className="item--image" src={product?.image} alt={product?.name} />
+                                                <img className="item--image" src={product?.image || empty_product} alt={product?.name} />
                                                 <div className="item--details">
                                                     {product?.product_collection?.map((collection, i) => (
                                                         <p className='product__figure--collection' key={i}>{collection}</p>
@@ -219,18 +362,27 @@ function OrderItem() {
                                             {item?.channel} <img style={{ width: "2.4rem" }} alt={item?.channel} src={imgString(item?.channel)} />
                                         </span>
                                     </div>
-                                    <div className='preview--body-item'><span>Product{item?.products?.length > 1 ? "s" : ""} Price <span className='value'>* {item?.orderTotalQuantity}</span></span><span className='preview--body-value value'>{currency}{formatNumber(item?.profit + item?.orderDiscountAmount)}</span></div>
+                                    <div className='preview--body-item'><span>Product{item?.products?.length > 1 ? "s" : ""} Price <span className='value'>* {item?.orderTotalQuantity}</span></span><span className='preview--body-value value'>{currency}{formatNumber(item?.profit + (item?.orderDiscountAmount || 0))}</span></div>
                                     <div className='preview--body-item'>Order Discount <span className='preview--body-value value'>{item?.orderDiscountAmount ? `-${currency}${formatNumber(item?.orderDiscountAmount)}` : "--"}</span></div>
                                     <div className='preview--body-item'>Delivery Fee <span className='preview--body-value value'>{item?.orderDeliveryFee ? `${currency}${formatNumber(item?.orderDeliveryFee)}` : "--"}</span></div>
                                     <div className='preview--body-item'>Total Paid <span className='preview--body-value value'>{currency}{formatNumber(item?.orderSubTotal)}</span></div>
                                     <div className='preview--body-item'>Sales Profit <span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div>
+                                    <div className='preview--body-item'>
+                                        Select delivery status: 
+                                        <span className='preview--body-value actions'>
+                                            <button className={item?.deliveryStatus == "delivered" ? "delivered" : ""} onClick={() => handleToggleDeliveryStatus("delivered")}>Delivered</button>
+                                            <button className={item?.deliveryStatus == "in-transit" ? "in-transit" : ""} onClick={() => handleToggleDeliveryStatus("in-transit")}>In transit</button>
+                                            <button className={item?.deliveryStatus == "returned" ? "returned" : ""} onClick={() => handleToggleDeliveryStatus("returned")}>Returned</button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
 
 
                         <div className="right--side">
-                            <div className="card form">
+                            {/* <div className="card form">
                                 <div className="section--heading">
                                     <h2>Addition Note</h2>
                                     <Line border={1.4} where="Top" value="1rem" />
@@ -241,7 +393,7 @@ function OrderItem() {
                                 ) : (
                                     <p className='preview--body-item' style={{ padding: 0 }}>None Added</p>
                                 )}
-                            </div>
+                            </div> */}
                                 
 
                             <div className="card form">
@@ -274,12 +426,19 @@ function OrderItem() {
                                             </span>
                                             <span className="item--box">
                                                 <span className="box--icon" style={{ width: "2.8rem" }}><PiMapPinArea /></span>
-                                                <p className="box--text">{item?.customer?.shippingAddress?.address || "Address not selected"}</p>
+                                                <p className="box--text">{item?.customer?.addressDetails?.address || "Address not selected"}</p>
                                             </span>
                                             <span className="item--box">
                                                 <span className="box--icon"><MdWhatsapp /></span>
                                                 <a className="box--text link" target='_blank' href={`https://wa.me/${item?.customer?.contact?.phone}`}>Message via whatsapp</a>
                                             </span>
+                                            
+                                            {!item?.customer?.addressDetails?.address && (
+                                                <button className='form--add colored' style={{ alignSelf: "flex-start" }} onClick={() => setShowModal({ ...showModal, address: true })}>
+                                                    <AiOutlinePlus />
+                                                    <p>Add Delivery Address</p>
+                                                </button>
+                                            )}
                                         </React.Fragment>
                                     ) : (
                                         <React.Fragment>
@@ -298,8 +457,7 @@ function OrderItem() {
                                                             <p>New Customer</p>
                                                         </button>
                                                         <button className='general--btn' onClick={() => orderCustomer.length > 0 ? 
-                                                            handleAddCustomer()
-                                                            : setAddCustomer(false)}>
+                                                            handleAddCustomerToOrder() : setAddCustomer(false) }>
                                                             {orderCustomer.length > 0 ? "Save" : 'Cancel'}
                                                         </button>
                                                     </div>
@@ -316,7 +474,7 @@ function OrderItem() {
                                     <Line border={1.4} where="Top" value="1rem" />
                                 </div>
 
-                                <div className="item__preview--summary">
+                                <div className="item__preview--summary" style={{ flexWrap: "wrap" }}>
                                     <div className='preview--body-item'>Amount Paid <span className='preview--body-value value'>{currency}{formatNumber(item?.profit)}</span></div>
                                     <div className='preview--body-item'>Payment Status <span className={`status status--${item?.paymentStatus}`}><p><GoDotFill /> {item?.paymentStatus}</p></span></div>
                                     <div className='preview--body-item'>
@@ -327,17 +485,18 @@ function OrderItem() {
                                             <span className={`status status--draft`}><p><GoDotFill /> none</p></span>
                                         )}
                                     </div>
+                                    {item?.paymentStatus !== "paid" && (
+                                        <div className='preview--body-item'>
+                                            Set Payment status: 
+                                            <span className='preview--body-value actions'>
+                                                <button className={item?.paymentStatus == "paid" ? "paid" : ""} onClick={() => handleTogglePaymentStatus("paid")}>Paid</button>
+                                                <button className={item?.paymentStatus == "partially" ? "partially" : ""} onClick={() => handleTogglePaymentStatus("partially")}>Partially</button>
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
-
-                            <div className="card form">
-                                <div className="section--heading">
-                                    <h2>Delivery Details</h2>
-                                    <Line border={1.4} where="Top" value="1rem" />
-                                </div>
-
-                            </div>
                         </div>
                     </div>
                 </div>

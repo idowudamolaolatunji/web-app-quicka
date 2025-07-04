@@ -5,7 +5,7 @@ import { GoDotFill } from 'react-icons/go';
 import Spinner from '../../../components/spinner/MainSpinner';
 import CustomAlert from '../../../components/layout/CustomAlert';
 import BackButton from '../../../components/button/BackButton';
-import { TbCashRegister } from 'react-icons/tb';
+import { ImEyeBlocked, ImEye } from 'react-icons/im';
 import { formatDateSince, formatNumber, truncateString } from '../../../utils/helper';
 import { RiDeleteBin5Line, RiEdit2Fill } from 'react-icons/ri';
 import { BiChevronDown } from 'react-icons/bi';
@@ -16,14 +16,35 @@ import { useWindowSize } from 'react-use';
 import Delete from '../../../components/modal/Delete';
 import ErrorComponent from '../../../components/layout/ErrorComponent';
 import { Gallery, Item } from 'react-photoswipe-gallery';
+import empty_product from "../../../assets/images/dummy_items/empty_product.png";
+import { PiShareFatFill } from 'react-icons/pi';
+import SimpleModal from '../../../components/modal/SimpleModal';
+import { AiOutlineClose } from 'react-icons/ai';
+import { ShareSocial } from 'react-share-social';
 
+const BASE_API_URL = import.meta.env.VITE_API_URL;
+
+const shareModalstyle = {
+    root: {
+        marginTop: "1.5rem",
+        background: "transparent",
+        padding: "0",
+        fontFamily: "inherit",
+        color: "#333"
+    },
+    copyContainer: {
+        border: "none",
+        background: "#eee",
+        color: "#444"
+    },
+}
 
 function ProductItem() {
     const title = "product"
     const { id } = useParams();
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const { currency } = useAuthContext();
+    const { currency, store, headers } = useAuthContext();
     const { handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreProducts } = useFetchedContext();
     
     ////////////////////////////////////////////////////
@@ -31,7 +52,8 @@ function ProductItem() {
     const [response, setResponse] = useState({ status: null, message: null });
     const [error, setError] = useState("");
     const [item, setItem] = useState(null);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showModal, setShowModal] = useState({ delete: false, share: false });
+    const [showMoreActions, setShowMoreActions] = useState(false);
     ////////////////////////////////////////////////////
     const [curImageIndex, setCurImageIndex] = useState(0);
     const colorSpelling = ["color", "colour", "colors", "colours"];
@@ -61,6 +83,19 @@ function ProductItem() {
     }, [id]);
 
 
+    async function handleToggleStatus() {
+        try {
+            setItem({ ...item, status: item?.status == "published" ? "unpublished" : "published" });
+            const url = `${BASE_API_URL}/products/toggle-status/${id}`;
+            const res = await fetch(url, { method: "PATCH", headers });
+            const data = await res.json();
+            setItem(data?.data?.product);
+            handleFetchMyStoreProducts();
+        } catch (err) {
+            setResponse({ message: "Error!", response: "error" })
+        }
+    }
+
     // DELETE FUNCTION
     async function deleteItem() {
         try {
@@ -71,7 +106,7 @@ function ProductItem() {
             
             setTimeout(function() {
                 navigate(-1)
-                setShowDeleteModal(false);
+                setShowModal({ ...showModal, delete: false });
             }, 1000)
         } catch (err) {
             console.log(err);
@@ -91,12 +126,26 @@ function ProductItem() {
 
     return (
         <React.Fragment>
-            {showDeleteModal && (
+            {showModal.delete && (
                 <Delete
                     title={`"Product"`}
-                    close={setShowDeleteModal} 
+                    close={() => setShowModal({ ...showModal, delete: false })} 
                     fn={deleteItem}
                 />
+            )}
+
+            {showModal.share && (
+                <SimpleModal
+                    title="Share Product Link" icon={<AiOutlineClose />}
+                    customstyle={{ minHeight: "20rem", height: "25rem" }}
+                    setClose={() => setShowModal({ ...showModal, share: false })}
+                >
+                    <ShareSocial
+                        url={`https://${store?.storeUrl}/products/${item?.slug}`}
+                        socialTypes={['facebook','twitter','whatsapp','linkedin', "telegram", "email"]}
+                        style={shareModalstyle}
+                    />
+                </SimpleModal>
             )}
 
             {(response.message || response.status) && (
@@ -142,11 +191,26 @@ function ProductItem() {
                             <button className="page__section-top-btn" onClick={() => navigate("edit")} style={{ fontWeight: "600", color: "#444" }}>
                                 <RiEdit2Fill size={20} /> {width > 800 ? "Edit Item" : "Edit"}
                             </button>
-                            <button className="page__section-top-btn add" onClick={() => setShowDeleteModal(true)} style={{ fontWeight: "600", color: "#444" }}>
+                            <button className="page__section-top-btn add" onClick={() => setShowModal({ ...showModal, delete: true })} style={{ fontWeight: "600", color: "#444" }}>
                                 <RiDeleteBin5Line size={20} />
                             </button>
-                            <span className="page__section--action" onMouseLeave={() => {}}>
-                                <button onClick={() => {}} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
+                            <span className="page__section--action" onMouseLeave={() => setShowMoreActions(false)}>
+                                <button onClick={() => setShowMoreActions(!showMoreActions)} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
+
+                                {showMoreActions && (
+                                    <ul className="page__section--dropdown">
+                                        <li onClick={handleToggleStatus}>
+                                            <span>
+                                                {item?.status == "published" ? <ImEyeBlocked /> : <ImEye />}
+                                            </span>
+                                            {item?.status == "published" ? 'Unpublish' : 'Publish'}
+                                        </li>
+
+                                        <li onClick={() => setShowModal({ ...showModal, share: true })}>
+                                            <span><PiShareFatFill /></span> Share Link
+                                        </li>
+                                    </ul>
+                                )}
                             </span>
                         </span>
                     </div>
@@ -213,7 +277,7 @@ function ProductItem() {
                                             alt={item?.name}
                                         >
                                             {({ ref, open }) => (
-                                                <img src={item?.images[curImageIndex]?.url?.replace("q_80", "q_50")} ref={ref} onClick={open} alt={`${item?.name} image ${curImageIndex + 1}`} />
+                                                <img src={!item?.images[0]?.url ? empty_product : item?.images[curImageIndex]?.url?.replace("q_80", "q_50")} ref={ref} onClick={open} alt={`${item?.name} image ${curImageIndex + 1}`} className='main--img' />
                                             )}
                                         </Item>
 

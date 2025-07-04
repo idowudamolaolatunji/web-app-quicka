@@ -11,15 +11,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ErrorComponent from '../../components/layout/ErrorComponent';
 
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear, subDays, subMonths, subWeeks, subYears, subQuarters, startOfQuarter, endOfQuarter } from 'date-fns';
+import "./analytics.css";
 
-import ProductsAnalytics from './analyticsComponents/ProductsAnalytics';
-import SalesAnalytics from './analyticsComponents/SalesAnalytics';
-import CustomersAnalytics from './analyticsComponents/CustomersAnalytics';
-import TransactionsAnalytics from './analyticsComponents/TransactionsAnalytics';
-import CampaignsAnalytics from './analyticsComponents/CampaignsAnalytics';
-import WebsiteTrafficAnalytics from './analyticsComponents/WebsiteTrafficAnalytics';
+import ProductsAnalytics from './analyticsSections/ProductsAnalytics';
+import SalesAnalytics from './analyticsSections/SalesAnalytics';
+import CustomersAnalytics from './analyticsSections/CustomersAnalytics';
+import TransactionsAnalytics from './analyticsSections/TransactionsAnalytics';
+import WebsiteTrafficAnalytics from './analyticsSections/WebsiteTrafficAnalytics';
 import { useAuthContext } from '../../context/AuthContext';
-import ComingSoon from '../../components/layout/ComingSoon';
 
 
 function index() {
@@ -160,7 +159,7 @@ function index() {
     
 
     return (
-        <>
+        <React.Fragment>
             {loading && <Spinner />}
 
             <div className='page__section--heading analytics--heading'>
@@ -206,7 +205,7 @@ function index() {
 
             {errorType && <ErrorComponent customStyle={{ padding: "10rem 2rem 6rem" }} />}
 
-            {/* {!errorType && (
+            {!errorType && (
                 <div className="analytics--container">
                     {activeTab == "sales" && <SalesAnalytics dateRange={dateRange} />}
                     {activeTab == "website-traffic" && <WebsiteTrafficAnalytics dateRange={dateRange} />}
@@ -214,10 +213,10 @@ function index() {
                     {activeTab == "customers" && <CustomersAnalytics dateRange={dateRange} />}
                     {activeTab == "transactions" && <TransactionsAnalytics dateRange={dateRange} />}
                 </div>
-            )} */}
+            )}
 
-            <ComingSoon feature="Analytics" action={false} />
-        </>
+            {/* <ComingSoon feature="Analytics" action={false} /> */}
+        </React.Fragment>
     )
 }
 

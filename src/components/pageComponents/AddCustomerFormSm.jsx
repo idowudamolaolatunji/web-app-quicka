@@ -114,7 +114,7 @@ export default function AddCustomerFormSm({ close }) {
 
         const { countryCode, dialCode, phoneNumber, phone, email, firstname, lastname, description, instagram, tiktok, snapchat } = customerData;
         const contact = { countryCode, dialCode, phoneNumber, phone, email };
-        const shippingAddress = { country: country[0] };
+        const addressDetails = { country: country[0] };
         const socials = { instagram, tiktok, snapchat };
 
         const formData = new FormData();
@@ -122,7 +122,7 @@ export default function AddCustomerFormSm({ close }) {
         formData.append('lastname', lastname);
         formData.append('description', description);
         formData.append('contact', JSON.stringify(contact));
-        formData.append('shippingAddress', JSON.stringify(shippingAddress));
+        formData.append('addressDetails', JSON.stringify(addressDetails));
         formData.append('socials', JSON.stringify(socials));
 
         // MAKE REQUEST

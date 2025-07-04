@@ -13,7 +13,6 @@ export default function OverviewChart({ period }) {
     const { orders } = useFetchedContext();
     
     const isData = orders?.length > 0 ? true : false;
-    // const completedOrders = orders?.filter(order => order.orderStatus == "completed");
     const completedOrders = orders?.filter(order => order.paymentStatus == "paid" && order.orderStatus != "canceled");
     const currency = store?.currency?.symbol;
 

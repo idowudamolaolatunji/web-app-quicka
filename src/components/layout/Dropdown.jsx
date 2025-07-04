@@ -69,7 +69,7 @@ function Dropdown({ handleToggle, setLoading, setResponse }) {
 
             <Link className={`dropdown--item ${pathname.includes("/tutorials") ? "is-active" : ""}`} to="/dashboard/tutorials"><MdOutlinePlayLesson /> Tutorials</Link>
             <Link className={`dropdown--item ${pathname.includes("/settings") ? "is-active" : ""}`} to="/dashboard/settings"><IoSettingsOutline /> Settings</Link>
-            <Link className={`dropdown--item ${pathname.includes("/referrals") ? "is-active" : ""}`} to="/dashboard/referrals"><IoMegaphoneOutline /> Referrals</Link>
+            {/* <Link className={`dropdown--item ${pathname.includes("/referrals") ? "is-active" : ""}`} to="/dashboard/referrals"><IoMegaphoneOutline /> Referrals</Link> */}
 
             {(width < 600 && store?.storeOnboardCompleted && checkConnection == "online") && (
                 <div className="dropdown--item" onClick={handleReloadApp}><SlReload />Reload app</div>

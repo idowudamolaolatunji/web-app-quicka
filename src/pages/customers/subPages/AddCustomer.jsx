@@ -183,8 +183,8 @@ export default function AddCustomer({ close, isModal }) {
                         dialCode: fetchedItem?.contact?.dialCode || "",
                         countryCode: fetchedItem?.contact?.countryCode || "",
                         description: fetchedItem?.description || "",
-                        address: fetchedItem?.shippingAddress?.address || "",
-                        zipCode: fetchedItem?.shippingAddress?.zipCode || "",
+                        address: fetchedItem?.addressDetails?.address || "",
+                        zipCode: fetchedItem?.addressDetails?.zipCode || "",
                         instagram: fetchedItem?.socials?.instagram || "",
                         tiktok: fetchedItem?.socials?.tiktok || "",
                         snapchat: fetchedItem?.socials?.snapchat || "",
@@ -198,7 +198,7 @@ export default function AddCustomer({ close, isModal }) {
                     setChecked(fetchedItem?.image?.url ? true : false);
                     setCustomerImage({ preview: fetchedItem?.image?.url, file: null });
 
-                    const { country, state, city } = fetchedItem?.shippingAddress;
+                    const { country, state, city } = fetchedItem?.addressDetails;
 
                     setCountry(country ? [country] : []);
                     setState(state ? [state] : []);
@@ -264,7 +264,7 @@ export default function AddCustomer({ close, isModal }) {
 
         const { countryCode, dialCode, phoneNumber, phone, email, address, zipCode, firstname, lastname, description, instagram, tiktok, snapchat } = customerData;
         const contact = { countryCode, dialCode, phoneNumber, phone, email };
-        const shippingAddress = { address, zipCode, country: country[0], state: state[0], city: city[0] }
+        const addressDetails = { address, zipCode, country: country[0], state: state[0], city: city[0] }
         const socials = { instagram, tiktok, snapchat };
         
 
@@ -279,7 +279,7 @@ export default function AddCustomer({ close, isModal }) {
             formData.append('lastname', lastname);
             formData.append('description', description);
             formData.append('contact', JSON.stringify(contact));
-            formData.append('shippingAddress', JSON.stringify(shippingAddress));
+            formData.append('addressDetails', JSON.stringify(addressDetails));
             formData.append('socials', JSON.stringify(socials));
             if(customerImage.file) {
                 formData.append("image", customerImage.file);

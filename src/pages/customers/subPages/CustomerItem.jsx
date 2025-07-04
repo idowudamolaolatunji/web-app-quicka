@@ -25,6 +25,7 @@ import Empty from '../../../components/layout/Empty';
 import moment from 'moment';
 import { TbCashRegister } from 'react-icons/tb';
 import ErrorComponent from '../../../components/layout/ErrorComponent';
+import empty_product from "../../../assets/images/dummy_items/empty_product.png";
 
 
 export default function CustomerItem() {
@@ -35,7 +36,7 @@ export default function CustomerItem() {
     const { currency } = useAuthContext();
     const { orders, handleFetchOneItem, handleDeleteOneItem, handleFetchMyStoreCustomers } = useFetchedContext();
     const avatar = "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png"
-    const purchaseHistoryData =  orders.filter(order => order.customer._id === id) || [];
+    const purchaseHistoryData =  orders.filter(order => order?.customer?._id === id) || [];
 
     const purchaseHistoryColumns = [
         {
@@ -206,7 +207,7 @@ export default function CustomerItem() {
         window.scrollTo(0, 0);
         document.title = `Quicka - Customer Details: ${item?.firstname || "Loading.."} | Business Management Tool for SME's`;
 
-        const countryName = String(item?.shippingAddress?.country?.name)?.toLowerCase();
+        const countryName = String(item?.addressDetails?.country?.name)?.toLowerCase();
         const flagUrl = findFlagUrlByCountryName(countryName);
         setFlagUrl(flagUrl)
     }, [item]);
@@ -277,14 +278,11 @@ export default function CustomerItem() {
 
                         <span className='page__section--btns'>
                             <button className="page__section-top-btn" onClick={() => navigate("edit")} style={{ fontWeight: "600", color: "#444" }}>
-                                <RiEdit2Fill size={20} />
+                                Edit Details<RiEdit2Fill size={20} />
                             </button>
                             <button className="page__section-top-btn add" onClick={() => setShowDeleteModal(true)} style={{ fontWeight: "600", color: "#444" }}>
-                                <RiDeleteBin5Line size={20} />
+                                Delete <RiDeleteBin5Line size={20} />
                             </button>
-                            <span className="page__section--action" onMouseLeave={() => {}}>
-                                <button onClick={() => {}} className="page__section-top-btn more">More Actions <BiChevronDown /></button>
-                            </span>
                         </span>
                     </div>
 
@@ -348,7 +346,7 @@ export default function CustomerItem() {
                                         <span className="insights-item-title">Most Purchsed Item</span>
                                         {purchaseHistoryData?.length > 0 ? (
                                             <div className="insights-item-product" onClick={() => navigate(`/dashboard/products/${mostBoughtItem?.productId}`)} style={{ cursor: "pointer" }}>
-                                                <img src={mostBoughtItem?.image} alt={mostBoughtItem?.name} />
+                                                <img src={mostBoughtItem?.image ? mostBoughtItem?.image : empty_product} alt={mostBoughtItem?.name} />
                                                 <span>
                                                     <p className='insights-item-value'>{width < 450 ? truncateString(mostBoughtItem?.name, 20) : mostBoughtItem?.name}</p>
                                                     <span className='flex-align-center' style={{ flexWrap: "wrap" }}>
@@ -419,18 +417,18 @@ export default function CustomerItem() {
                                 <div className="item__preview--customer">
                                     <span className="item--box">
                                         <span className="box--icon" style={{ width: "3rem" }}><PiMapPinArea /></span>
-                                        <p className="box--text">{item?.shippingAddress?.address || "Address Not Selected"}</p>
+                                        <p className="box--text">{item?.addressDetails?.address || "Address Not Selected"}</p>
                                     </span>
                                     <span className="item--box">
-                                        <span className="box--icon" style={{ width: "2.6rem", padding: "0 .28rem" }}><img src={flagUrl} alt={item?.shippingAddress?.country?.name} /></span>
-                                        <p className="box--text">{item?.shippingAddress?.country?.name}</p>
+                                        <span className="box--icon" style={{ width: "2.6rem", padding: "0 .28rem" }}><img src={flagUrl} alt={item?.addressDetails?.country?.name} /></span>
+                                        <p className="box--text">{item?.addressDetails?.country?.name}</p>
                                     </span>
                                 </div>
 
                                 <div className="item__preview--summary payment">
-                                    <div className='preview--body-item'>State <span className='preview--body-value'>{item?.shippingAddress?.state?.name ? `${item?.shippingAddress?.state?.name} (${item?.shippingAddress?.state?.iso2})` : "--"} </span></div>
-                                    <div className='preview--body-item'>City <span className='preview--body-value value'>{item?.shippingAddress?.city?.name || "--"}</span></div>
-                                    <div className='preview--body-item'>Zipcode <span className='preview--body-value value'>{item?.shippingAddress?.zipCode || "--"}</span></div>
+                                    <div className='preview--body-item'>State <span className='preview--body-value'>{item?.addressDetails?.state?.name ? `${item?.addressDetails?.state?.name} (${item?.addressDetails?.state?.iso2})` : "--"} </span></div>
+                                    <div className='preview--body-item'>City <span className='preview--body-value value'>{item?.addressDetails?.city?.name || "--"}</span></div>
+                                    {item?.addressDetails?.zipCode && <div className='preview--body-item'>Zipcode <span className='preview--body-value value'>{item?.addressDetails?.zipCode || "--"}</span></div>}
                                 </div>
                             </div>
                         </div>

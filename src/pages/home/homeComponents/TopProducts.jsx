@@ -55,11 +55,11 @@ function ProductFigure({ product }) {
     )
 }
 
-function TopProducts() {
+export default function TopProducts() {
     const { width } = useWindowSize();
-    const { orders, products, error, errorType } = useFetchedContext();
+    const { orders, products, error } = useFetchedContext();
     /////////////////////////////////////////////////
-    const [period, setPeriod] = useState("this-month");
+    const [period, setPeriod] = useState("all-time");
 
     const threshold = 3;
     const amountToShow = 5;
@@ -91,16 +91,7 @@ function TopProducts() {
         }
     }
 
-    // const getTopSellingProducts = function() {
-    //     return products
-    //         ?.filter(product => product.soldAmount >= threshold)
-    //         ?.sort((a, b) => b.soldAmount - a.soldAmount)
-    //         ?.slice(0, amountToShow)
-    //     ;
-    // }
-
     const topItems = lookupTopProductByDuration(period);
-    // const topItems = getTopSellingProducts();
     const itemLength = topItems?.length
 
     return (
@@ -120,20 +111,20 @@ function TopProducts() {
                 )}
 
                 {((!topItems || itemLength < 1) && hasNoError) && (
-                    <Empty text={`best selling product yet, this ${period}!`} />
+                    <Empty text={`best selling product yet${period !== "all-time" ? ", "+period?.split("-").join(" ") : ""}!`} />
                 )}
 
                 {itemLength > 0 && topItems?.map(product => (
                     <ProductFigure product={product} key={product._id} />
                 ))}
 
-                <span style={{ marginTop: "1.5rem" }}>
-                    <Info text="Only (5) products that has sold more than 3 items will be shown" />
-                </span>
+                {hasNoError && (
+                    <span style={{ marginTop: "1.5rem" }}>
+                        <Info text="Only (5) products that has sold more than 3 items will be shown" />
+                    </span>
+                )}
             </div>
 
         </div>
     )
 }
-
-export default TopProducts

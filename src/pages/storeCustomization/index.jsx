@@ -122,8 +122,7 @@ function index() {
                         <p>Feature-rich <strong>premium<MdOutlineWorkspacePremium style={{ fontSize: "1.8rem", marginBottom: "-.48rem" }} /></strong>templates&mdash; with effortless and easy customization.</p>
                     </div>
 
-                    <div className="theme--grid">
-
+                    {/* <div className="theme--grid">
                         <figure className={`theme__figure custom--display ${template == "modern" ? "active" : ""}`}>
                             <div className={`theme__figure--display ${template == "modern" ? "active" : ""}`}>
                                 <button className='theme__figure--btn' onClick={() => navigate("customize?theme=modern")}>Customize</button>
@@ -142,8 +141,9 @@ function index() {
                             </figcaption>
                         </figure>
                        
-                        {/* more premuim to come here.. */}
-                    </div>
+                    </div> */}
+
+                    <ComingSoon feature="Premium Theme" action={false} />
                 </div>
 
 

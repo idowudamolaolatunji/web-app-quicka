@@ -1,7 +1,5 @@
 import React from 'react'
 import SalesOverview from './SalesOverview'
-// import RecentOrders from './RecentOrders'
-// import QuickActions from './QuickActions';
 import HomeInsightContainer from './HomeInsightContainer';
 import TopSalesChannels from './TopSalesChannels'
 import VisitorOverview from './VisitorOverview'

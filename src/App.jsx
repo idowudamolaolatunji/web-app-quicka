@@ -39,6 +39,7 @@ import Analytics from './pages/analytics';
 import ProductItem from './pages/products/subPages/ProductItem';
 import OrderItem from './pages/orders/subPages/OrderItem';
 import CustomerItem from './pages/customers/subPages/CustomerItem';
+import SupplierItem from './pages/suppliers/subPages/SupplierItem';
 import Promotions from './pages/promotions';
 import DiscountItem from './pages/promotions/subPages/DiscountItem';
 import CouponItem from './pages/promotions/subPages/CouponItem';
@@ -116,6 +117,7 @@ function App() {
                     <Route path='/dashboard/products/:id' element={<ProductItem />}></Route>
                     <Route path='/dashboard/orders/:id' element={<OrderItem />}></Route>
                     <Route path='/dashboard/customers/:id' element={<CustomerItem />}></Route>
+                    <Route path='/dashboard/suppliers/:id' element={<SupplierItem />}></Route>
 
                     <Route path='/dashboard/campaigns' element={<Campaigns />}></Route>
                     <Route path='/dashboard/campaigns/run' element={<RunCampaign />}></Route>

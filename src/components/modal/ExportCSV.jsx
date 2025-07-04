@@ -5,7 +5,7 @@ import { CgSoftwareDownload } from 'react-icons/cg'
 import { SiMinutemailer } from 'react-icons/si'
 import { useAuthContext } from '../../context/AuthContext'
 import { Link } from 'react-router-dom'
-import { LuCheckCircle } from 'react-icons/lu'
+import { FiCheckCircle } from 'react-icons/fi';
 import { validateExportCsvInput } from '../../utils/validationHelper'
 import CustomAlert from '../layout/CustomAlert'
 
@@ -99,7 +99,7 @@ function ExportCSV({ title, data, setClose }) {
                                 {!hasConvert && (
                                     <Link to='/dashboard/subscription' className='upgrade--link'
                                         style={{ color: "brown", padding: 0, backgroundColor: "transparent", fontSize: "1.3rem", textTransform: "capitalize", fontWeight: "600", marginLeft: ".4rem" }}>
-                                        Try upgrading <LuCheckCircle />
+                                        Try upgrading <FiCheckCircle />
                                     </Link>
                                 )}
                             </span>
@@ -119,7 +119,8 @@ function ExportCSV({ title, data, setClose }) {
 
                     <div className='modal--others'>
                         <span>or just</span>
-                        <button onClick={handleDownloadExport}>Download <CgSoftwareDownload /></button>
+                        {/* <button onClick={handleDownloadExport}>Download <CgSoftwareDownload /></button> */}
+                        <button onClick={() => {}}>Download <CgSoftwareDownload /></button>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,8 @@ import { formatNumber } from '../../../utils/helper'
 import { useAuthContext } from '../../../context/AuthContext';
 import { useDataContext } from '../../../context/DataContext';
 
-function HomeProgressCard({ title, icon, value, upTrend, percent, days }) {
+
+function HomeProgressCard({ title, icon, value, upTrend, percent, days, loader }) {
     const { store } = useAuthContext();
     const { homeInsightPeriod } = useDataContext();
     const currency = store?.currency?.symbol;
@@ -20,7 +21,7 @@ function HomeProgressCard({ title, icon, value, upTrend, percent, days }) {
         </div>
 
         <div className='prog-figure-bottom'>
-            <span className='prog-figure-value'>{currency}{formatNumber(value, 2)}</span>
+            <span className='prog-figure-value'>{loader ? "Loading..." : `${currency}${formatNumber(value, 2)}`}</span>
             <div className='prog-figure-info'>
                 {period == "all-time" ? (
                     <React.Fragment>

@@ -103,7 +103,7 @@ function index() {
         },
         {
             name: "Location",
-            selector: row => `${row?.shippingAddress?.state?.name ? row?.shippingAddress?.state?.name + ", " : ""} ${row?.shippingAddress?.country?.name}`
+            selector: row => `${row?.addressDetails?.state?.name ? row?.addressDetails?.state?.name + ", " : ""} ${row?.addressDetails?.country?.name}`
         },
         {
             name: "Date Added",

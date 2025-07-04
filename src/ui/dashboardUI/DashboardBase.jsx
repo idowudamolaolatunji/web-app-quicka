@@ -20,7 +20,7 @@ function DashboardBase({ children }) {
     const { pathname } = useLocation();
     const { user, store } = useAuthContext() ;
     const { isMenuCollapsed } = useDataContext();
-    const { rateExceeded, internetError, generalError } = useFetchedContext();
+    const { rateExceeded, internetError } = useFetchedContext();
     
     const internetStatus = useCheckInternetConnection();
     const showOnboardFloater = (
@@ -44,7 +44,6 @@ function DashboardBase({ children }) {
                 <section className='content--block' style={width <= 600 ? { paddingBottom: "8rem"} : {}}>
                     {rateExceeded && <TooManyRequestError />}
                     {(internetStatus == "offline" || internetError) && <InternetConnectionError />}
-                    {generalError && <GeneralFetchError />}
 
                     {children}
                     

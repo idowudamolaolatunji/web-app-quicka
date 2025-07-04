@@ -266,6 +266,9 @@
     border-bottom: none;
 	padding-bottom: 1.8rem;
 }
+.payment .preview--body-item:last-child {
+    padding-bottom: 0;
+}
 .preview--body-value {
 	color: #333;
 }
@@ -273,7 +276,43 @@
 .preview--figure .preview--body-value {
     line-height: 1.4;
 }
-
+.preview--body-value.actions {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    flex-wrap: wrap;
+}
+.preview--body-value.actions button {
+    padding: .4rem;
+    border-radius: .4rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    border: 1px solid var(--color-brand-100);
+    background-color: #f9f9f9;
+    transition: all .3s;
+}
+.preview--body-value.actions .paid,
+.preview--body-value.actions .delivered {
+    background-color: #d7ecd1b7;
+	color: #008001;
+    border: 1px solid #008001;
+}
+.preview--body-value.actions .unpaid,
+.preview--body-value.actions .returned {
+    background-color: #ff9797b7;
+	color: #ff0000;
+    border: 1px solid #ff0000;
+}
+.preview--body-value.actions .partially,
+.preview--body-value.actions .in-transit,
+.preview--body-value.actions .processing {
+    background-color: #eef1ff;
+	color: #655dbb;
+    border: 1px solid #655dbb;
+}
+.preview--body-value.actions button:hover {
+    transform: scale(1.02);
+}
 
 .details .form--element span {
     width: 105%;
